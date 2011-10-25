@@ -1,0 +1,64 @@
+33
+SOAR_ID 0
+SOAR_ID 1
+SOAR_ID 2
+SOAR_ID 3
+ENUMERATION 4 1 state
+ENUMERATION 5 1 nil
+ENUMERATION 6 1 sbolt
+SOAR_ID 7
+SOAR_ID 8
+INT_RANGE 9 0 0
+SOAR_ID 10
+SOAR_ID 11
+INT_RANGE 12 0 0
+STRING 13
+SOAR_ID 14
+FLOAT_RANGE 15 0.0 0.0
+FLOAT_RANGE 17 0.0 0.0
+FLOAT_RANGE 16 0.0 0.0
+STRING 19
+STRING 18
+ENUMERATION 21 2 complete error
+SOAR_ID 20
+FLOAT_RANGE 23 0.0 0.0
+SOAR_ID 22
+FLOAT_RANGE 25 0.0 0.0
+FLOAT_RANGE 24 0.0 0.0
+ENUMERATION 27 2 open closed
+ENUMERATION 26 0
+STRING 29
+SOAR_ID 28
+SOAR_ID 31
+STRING 30
+SOAR_ID 32
+29
+8 object 10
+31 attribute 32
+0 io 1
+22 x 23
+0 type 4
+0 superstate 5
+3 command 20
+14 y 16
+32 value 19
+2 objects 8
+14 x 15
+0 name 6
+20 action 28
+22 y 24
+1 input-link 2
+11 sensible 31
+28 key 29
+20 status 21
+1 output-link 3
+20 gripper 27
+28 value 30
+32 key 18
+20 destination 22
+10 id 12
+14 t 17
+2 sensibles 11
+22 t 25
+10 position 14
+10 nounjective 13
