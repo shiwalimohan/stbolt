@@ -1,5 +1,10 @@
 package edu.umich.sbolt;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +14,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.Action;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
@@ -31,6 +45,13 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
     
     private Timer timer;
     private TimerTask timerTask;
+    
+    private boolean running;
+    
+    private JFrame chatFrame;
+    private JTextArea chatArea;
+    private JTextField chatField;
+    private List<String> chatMessages;
 
     // Identifiers for input link
 
@@ -60,11 +81,15 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
         kernel = Kernel.CreateKernelInNewThread();
         agent = kernel.CreateAgent(agentName);
+        if (agent == null)
+        {
+            throw new IllegalStateException("Kernel created null agent");
+        }
         agent.AddOutputHandler("command", this, null);
 
-        // Set up input link and start running Soar.
+        // Set up input link.
         initInputLink();
-        
+
         // Start broadcasting
         timerTask = new TimerTask()
         {
@@ -75,8 +100,33 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
             }
         };
         
+        running = false;
+        
+        // Set up chat frame
+        initChatFrame();
+    }
+    
+    public void start()
+    {
+        if (running)
+        {
+            return;
+        }
+        running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
+        agent.RunSelfForever();
+    }
+    
+    public void stop()
+    {
+        if (!running)
+        {
+            return;
+        }
+        running = false;
+        agent.StopSelf();
+        timer.cancel();
     }
 
     private void initInputLink()
@@ -84,6 +134,71 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         Identifier il = agent.GetInputLink();
         observationsId = il.CreateIdWME("objects");
         sensiblesId = il.CreateIdWME("sensibles");
+    }
+    
+    private void initChatFrame()
+    {
+        chatMessages = new ArrayList<String>();
+        chatFrame = new JFrame("SBolt");
+        chatArea = new JTextArea();
+        JScrollPane pane = new JScrollPane(chatArea);
+        chatField = new JTextField();
+        JButton button = new JButton("Send Message");
+        button.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                sendUserChat(chatField.getText());
+                chatField.setText("");
+                chatField.requestFocus();
+            }
+        });
+        
+        JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chatField, button);
+        JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane, pane2);
+        
+        pane1.setDividerLocation(200);
+        pane2.setDividerLocation(450);
+        
+        chatFrame.add(pane1);
+        chatFrame.setSize(600, 300);
+        chatField.getRootPane().setDefaultButton(button);
+    }
+    
+    public void showFrame()
+    {
+        chatFrame.setVisible(true);
+    }
+    
+    public void hideFrame()
+    {
+        chatFrame.setVisible(false);
+    }
+    
+    private void sendUserChat(String message)
+    {
+        addChatMessage(message);
+    }
+    
+    private void sendSoarChat(String message)
+    {
+        addChatMessage(message);
+    }
+    
+    private void addChatMessage(String message)
+    {
+        chatMessages.add(message);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < chatMessages.size(); ++i)
+        {
+            sb.append(chatMessages.get(i));
+            if (i + 1 < chatMessages.size())
+            {
+                sb.append('\n');
+            }
+        }
+        chatArea.setText(sb.toString());
     }
 
     @Override
@@ -290,7 +405,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
     public static void main(String[] args)
     {
-        new SBolt("abolt-perceptions", "SBolt");
+        SBolt sbolt = new SBolt("abolt-perceptions", "SBolt");
+        sbolt.showFrame();
+        // sbolt.start();
     }
 
 }
