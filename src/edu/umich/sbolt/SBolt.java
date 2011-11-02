@@ -32,6 +32,7 @@ import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.Kernel;
 import sml.WMElement;
+import sun.security.util.Debug;
 import april.lcmtypes.object_data_t;
 import april.lcmtypes.observations_t;
 import april.lcmtypes.robot_command_t;
@@ -39,18 +40,25 @@ import april.lcmtypes.robot_command_t;
 public class SBolt implements LCMSubscriber, OutputEventInterface
 {
     private LCM lcm;
+
     private Kernel kernel;
+
     private Agent agent;
+
     private robot_command_t command;
-    
+
     private Timer timer;
+
     private TimerTask timerTask;
-    
+
     private boolean running;
-    
+
     private JFrame chatFrame;
+
     private JTextArea chatArea;
+
     private JTextField chatField;
+
     private List<String> chatMessages;
 
     // Identifiers for input link
@@ -66,6 +74,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
     public SBolt(String channel, String agentName)
     {
+
         // Initialize instance variables
         observationsMap = new HashMap<Integer, Identifier>();
         try
@@ -85,7 +94,11 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         {
             throw new IllegalStateException("Kernel created null agent");
         }
+        Boolean loadResult = agent.LoadProductions("agent/simple_agent.soar");
+
         agent.AddOutputHandler("command", this, null);
+        agent.AddOutputHandler("message", this, null);
+        System.out.println(kernel.GetListenerPort());
 
         // Set up input link.
         initInputLink();
@@ -96,16 +109,16 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
             @Override
             public void run()
             {
-                SBolt.this.broadcastLcmCommand();
+                // SBolt.this.broadcastLcmCommand();
             }
         };
-        
+
         running = false;
-        
+
         // Set up chat frame
         initChatFrame();
     }
-    
+
     public void start()
     {
         if (running)
@@ -117,7 +130,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         timer.schedule(timerTask, 1000, 500);
         agent.RunSelfForever();
     }
-    
+
     public void stop()
     {
         if (!running)
@@ -135,7 +148,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         observationsId = il.CreateIdWME("objects");
         sensiblesId = il.CreateIdWME("sensibles");
     }
-    
+
     private void initChatFrame()
     {
         chatMessages = new ArrayList<String>();
@@ -154,38 +167,40 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
                 chatField.requestFocus();
             }
         });
-        
-        JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chatField, button);
-        JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane, pane2);
-        
+
+        JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                chatField, button);
+        JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane,
+                pane2);
+
         pane1.setDividerLocation(200);
         pane2.setDividerLocation(450);
-        
+
         chatFrame.add(pane1);
         chatFrame.setSize(600, 300);
         chatField.getRootPane().setDefaultButton(button);
     }
-    
+
     public void showFrame()
     {
         chatFrame.setVisible(true);
     }
-    
+
     public void hideFrame()
     {
         chatFrame.setVisible(false);
     }
-    
+
     private void sendUserChat(String message)
     {
         addChatMessage(message);
     }
-    
+
     private void sendSoarChat(String message)
     {
         addChatMessage(message);
     }
-    
+
     private void addChatMessage(String message)
     {
         chatMessages.add(message);
@@ -308,7 +323,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
                 String[] pair = token.split("=");
                 if (pair.length != 2)
                 {
-                    throw new IllegalStateException("Choked on parsing sensible message.");
+                    throw new IllegalStateException(
+                            "Choked on parsing sensible message.");
                 }
                 String key = pair[0];
                 String value = pair[1];
@@ -320,38 +336,111 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
     }
 
     @Override
-    public void outputEventHandler(Object data, String agentName, String attributeName, WMElement wme)
+    public void outputEventHandler(Object data, String agentName,
+            String attributeName, WMElement wme)
     {
         if (!(wme.IsJustAdded() && wme.IsIdentifier()))
         {
             return;
         }
-        Identifier id = wme.ConvertToIdentifier();
+
+        if (wme.GetAttribute().equals("command"))
+        {
+            processOutputLinkCommand(wme.ConvertToIdentifier());
+        }
+        else if (wme.GetAttribute().equals("message"))
+        {
+            processOutputLinkMessage(wme.ConvertToIdentifier());
+        }
+    }
+
+    private void processOutputLinkMessage(Identifier messageId)
+    {
+        if (messageId.GetNumberChildren() == 0)
+        {
+            // System.out.println("No children of message");
+            return;
+        }
+
+        String message = "";
+        WMElement wordsWME = messageId.FindByAttribute("words", 0);
+        if (wordsWME == null || !wordsWME.IsIdentifier())
+        {
+            return;
+        }
+        Identifier currentWordId = wordsWME.ConvertToIdentifier();
+
+        // Follows the linked list down until it can't find the 'rest' attribute
+        // of a WME
+        while (currentWordId != null)
+        {
+            Identifier nextWordId = null;
+            for (int i = 0; i < currentWordId.GetNumberChildren(); i++)
+            {
+                WMElement child = currentWordId.GetChild(i);
+                if (child.GetAttribute().equals("first-word"))
+                {
+                    String currentWord = child.GetValueAsString();
+                    if (message == "")
+                    {
+                        message = currentWord;
+                    }
+                    else
+                    {
+                        message += " " + currentWord;
+                    }
+                }
+                else if (child.GetAttribute().equals("rest")
+                        && child.IsIdentifier())
+                {
+                    nextWordId = child.ConvertToIdentifier();
+                }
+            }
+            currentWordId = nextWordId;
+        }
+
+        if (message != "")
+        {
+            message += ".";
+            addChatMessage(message);
+        }
+
+    }
+
+    private void processOutputLinkCommand(Identifier commandId)
+    {
+        if(commandId.GetNumberChildren() == 0){
+            return;
+        }
+        
         StringBuffer actionBuf = new StringBuffer();
 
         double x = 0.0;
         double y = 0.0;
         double t = 10.0;
-        
+
         boolean gripperOpen = true;
 
-        int numChildren = id.GetNumberChildren();
+        int numChildren = commandId.GetNumberChildren();
         for (int i = 0; i < numChildren; ++i)
         {
-            WMElement child = id.GetChild(i);
+            WMElement child = commandId.GetChild(i);
+
             if (child.GetAttribute().equals("action"))
             {
                 Identifier actionId = child.ConvertToIdentifier();
                 WMElement keyWme = actionId.FindByAttribute("key", 0);
                 if (keyWme == null)
                 {
-                    throw new IllegalStateException("Command has action with no key");
+                    throw new IllegalStateException(
+                            "Command has action with no key");
                 }
                 String key = keyWme.GetValueAsString();
                 WMElement valueWme = actionId.FindByAttribute("value", 0);
                 if (valueWme == null)
                 {
-                    throw new IllegalStateException("Command has action with no value");
+                    throw new IllegalStateException(
+                            "Command has action with no value");
                 }
                 String value = valueWme.GetValueAsString();
                 actionBuf.append(key + "=" + value + ",");
@@ -364,7 +453,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
                 WMElement tWme = destinationId.FindByAttribute("t", 0);
                 if (xWme == null || yWme == null || tWme == null)
                 {
-                    throw new IllegalStateException("Command has destination WME missing x, y, or t");
+                    throw new IllegalStateException(
+                            "Command has destination WME missing x, y, or t");
                 }
                 x = xWme.ConvertToFloatElement().GetValue();
                 y = yWme.ConvertToFloatElement().GetValue();
@@ -382,32 +472,34 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         if (command.action.length() > 0)
         {
             // Remove trailing comma
-            command.action = command.action.substring(0, command.action.length() - 1);
+            command.action = command.action.substring(0,
+                    command.action.length() - 1);
         }
         command.dest = new double[] { x, y, t };
         command.gripper_open = gripperOpen;
         setLcmCommand(command);
     }
-    
+
     private void setLcmCommand(robot_command_t command)
     {
         this.command = command;
     }
-    
+
     private void broadcastLcmCommand()
     {
         synchronized (command)
         {
-            if (command == null) return;
+            if (command == null)
+                return;
             lcm.publish("sbolt-commands", command);
         }
     }
 
     public static void main(String[] args)
     {
-        SBolt sbolt = new SBolt("abolt-perceptions", "SBolt");
+        SBolt sbolt = new SBolt("abolt-perceptions", "sbolt");
         sbolt.showFrame();
-        // sbolt.start();
+        sbolt.start();
     }
 
 }
