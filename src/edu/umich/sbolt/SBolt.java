@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,15 +30,18 @@ import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
+import sml.Agent.RunEventInterface;
 import sml.Identifier;
 import sml.Kernel;
+import sml.smlRunEventId;
 import sml.WMElement;
 import sun.security.util.Debug;
 import april.lcmtypes.object_data_t;
 import april.lcmtypes.observations_t;
 import april.lcmtypes.robot_command_t;
 
-public class SBolt implements LCMSubscriber, OutputEventInterface
+public class SBolt implements LCMSubscriber, OutputEventInterface,
+        RunEventInterface
 {
     private LCM lcm;
 
@@ -63,6 +67,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
     // Identifiers for input link
 
+    // The most recent observations_t received
+    private observations_t currentObservation;
+
     // Root identifier for all object oberservations
     private Identifier observationsId;
 
@@ -72,8 +79,18 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
     // Root identifier for all sensible observations
     private Identifier sensiblesId;
 
+    // Root identifier for all messages the robot recieves
+    private Identifier messagesId;
+
+    // A counter that is used for the id for each message
+    private int messageIdNum;
+
+    // A queue of the messages received since the last input phase
+    private List<String> chatMessageQueue;
+
     public SBolt(String channel, String agentName)
     {
+        currentObservation = null;
 
         // Initialize instance variables
         observationsMap = new HashMap<Integer, Identifier>();
@@ -98,6 +115,16 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
         agent.AddOutputHandler("command", this, null);
         agent.AddOutputHandler("message", this, null);
+
+        // !!! Important !!!
+        // We set AutoCommit to false, and only commit inside of the event
+        // handler
+        // for the RunEvent right before the next Input Phase
+        // Otherwise the system would apparently hang on a commit
+        kernel.SetAutoCommit(false);
+        agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
+                this, null);
+
         System.out.println(kernel.GetListenerPort());
 
         // Set up input link.
@@ -147,10 +174,14 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         Identifier il = agent.GetInputLink();
         observationsId = il.CreateIdWME("objects");
         sensiblesId = il.CreateIdWME("sensibles");
+        messagesId = il.CreateIdWME("messages");
+        agent.Commit();
     }
 
     private void initChatFrame()
     {
+        messageIdNum = 100;
+        chatMessageQueue = new ArrayList<String>();
         chatMessages = new ArrayList<String>();
         chatFrame = new JFrame("SBolt");
         chatArea = new JTextArea();
@@ -193,6 +224,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
     private void sendUserChat(String message)
     {
+        chatMessageQueue.add(message);
         addChatMessage(message);
     }
 
@@ -229,15 +261,32 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
             e.printStackTrace();
             return;
         }
-
-        updateInputLink(obs);
+        currentObservation = obs;
     }
 
-    private void updateInputLink(observations_t obs)
+    /********************************************************************
+     * InputLink Handling
+     *******************************************************************/
+    
+    // Called right before the Agent's Input Phase,
+    // Update the Input Link Here
+    public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
+        updateInputLinkWorld();
+        updateInputLinkMessages();
+        agent.Commit();
+    }
+
+    private void updateInputLinkWorld()
+    {
+        if (currentObservation == null)
+        {
+            return;
+        }
+
         // Create a set of all the ids of all observations.
         Set<Integer> obsIds = new HashSet<Integer>();
-        for (object_data_t objData : obs.observations)
+        for (object_data_t objData : currentObservation.observations)
         {
             obsIds.add(objData.id);
         }
@@ -260,7 +309,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
         // For each observation, either update it if it exists or create it if
         // it doesn't.
-        for (object_data_t obj : obs.observations)
+        for (object_data_t obj : currentObservation.observations)
         {
             int id = obj.id;
             Identifier obsId = null;
@@ -314,7 +363,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
             child.DestroyWME();
         }
 
-        for (String sensibleStr : obs.sensibles)
+        for (String sensibleStr : currentObservation.sensibles)
         {
             Identifier sensibleId = sensiblesId.CreateIdWME("sensible");
             String[] tokens = sensibleStr.split(",");
@@ -335,6 +384,22 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
         }
     }
 
+    private void updateInputLinkMessages()
+    {
+        for (String message : chatMessageQueue)
+        {
+            // Put a new message onto the input link
+            // Use messageIdNum for the id
+            
+            messageIdNum++;
+        }
+        chatMessageQueue.clear();
+    }
+
+    /********************************************************************
+     * OutputLink Handling
+     *******************************************************************/
+    
     @Override
     public void outputEventHandler(Object data, String agentName,
             String attributeName, WMElement wme)
@@ -409,10 +474,11 @@ public class SBolt implements LCMSubscriber, OutputEventInterface
 
     private void processOutputLinkCommand(Identifier commandId)
     {
-        if(commandId.GetNumberChildren() == 0){
+        if (commandId.GetNumberChildren() == 0)
+        {
             return;
         }
-        
+
         StringBuffer actionBuf = new StringBuffer();
 
         double x = 0.0;
