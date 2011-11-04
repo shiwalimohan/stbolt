@@ -389,7 +389,6 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         for (String message : chatMessageQueue)
         {
             String[] words = message.split(" ");  
-            int count = 0;
                
             Identifier mId = messagesId.CreateIdWME("message");
             Identifier rest = mId.CreateIdWME("words");
@@ -397,14 +396,10 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
              
             for (String w : words)  
             {  
-               count++;
                rest.CreateStringWME("first-word", w);
                
-               // Do not add rest on last word
-               if (count != words.length)
-                   rest = rest.CreateIdWME("rest");
+               rest = rest.CreateIdWME("rest");
             } 
-            
 	                
             messageIdNum++;
         }
