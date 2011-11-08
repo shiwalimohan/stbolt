@@ -436,9 +436,6 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         else if (wme.GetAttribute().equals("message"))
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
-        } else {
-            String name = wme.GetAttribute();
-            System.out.println(name);
         }
         
         if(agent.IsCommitRequired()){
@@ -501,7 +498,6 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     private void processOutputLinkCommand(Identifier commandId)
     {
-        System.out.println(commandId.GetNumberChildren());
         if (commandId == null || commandId.GetNumberChildren() == 0)
         {
             return;
