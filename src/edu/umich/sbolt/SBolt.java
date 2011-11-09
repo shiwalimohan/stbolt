@@ -134,7 +134,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
         
-        agent.SpawnDebugger(kernel.GetListenerPort(), (new SoarProperties()).getPrefix());
+        //agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
 
         // Set up input link.
         initInputLink();
@@ -164,7 +164,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
-        agent.RunSelf(1);
+        agent.RunSelfForever();
     }
 
     public void stop()
@@ -283,7 +283,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
-        updateInputLinkWorld();
+        //updateInputLinkWorld();
         updateInputLinkMessages();
         agent.Commit();
     }
