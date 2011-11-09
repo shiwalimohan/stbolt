@@ -37,6 +37,7 @@ import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
 import sml.Agent.RunEventInterface;
+import sml.FloatElement;
 import sml.Identifier;
 import sml.Kernel;
 import sml.smlRunEventId;
@@ -445,17 +446,23 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     private void processOutputLinkMessage(Identifier messageId)
     {
+        if(messageId == null){
+            return;
+        }
         if (messageId.GetNumberChildren() == 0)
         {
-            // System.out.println("No children of message");
-            return;
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message has no children");
         }
 
         String message = "";
         WMElement wordsWME = messageId.FindByAttribute("words", 0);
         if (wordsWME == null || !wordsWME.IsIdentifier())
         {
-            return;
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message has no words attribute");
         }
         Identifier currentWordId = wordsWME.ConvertToIdentifier();
 
@@ -487,13 +494,16 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
             currentWordId = nextWordId;
         }
-
-        if (message != "")
-        {
-            message += ".";
-            addChatMessage(message);
+        
+        if(message == ""){
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message was empty");   
         }
-
+        
+        message += ".";
+        addChatMessage(message);
+        messageId.CreateStringWME("status", "complete");
     }
 
     private void processOutputLinkCommand(Identifier commandId)
@@ -544,10 +554,15 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                         "Command has destination WME missing x, y, or t");
             }
             
-            x = xWme.ConvertToFloatElement().GetValue();
-            y = yWme.ConvertToFloatElement().GetValue();
-            t = tWme.ConvertToFloatElement().GetValue();
-            
+            try{
+                x = Double.valueOf(xWme.GetValueAsString());
+                y = Double.valueOf(yWme.GetValueAsString());
+                t = Double.valueOf(tWme.GetValueAsString());
+            } catch (Exception e){
+                destId.CreateStringWME("status", "error");
+                throw new IllegalStateException(
+                        "Command has an invalid x, y, or t float");
+            }
         }
         
         command.dest = new double[] { x, y, t };
