@@ -1,4 +1,4 @@
-47
+55
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -44,46 +44,59 @@ STRING 43
 SOAR_ID 40
 SOAR_ID 41
 STRING 46
+SOAR_ID 47
 ENUMERATION 44 2 complete error
 SOAR_ID 45
-40
-37 words 38
-14 x 15
-22 y 24
-28 key 29
-20 status 21
-8 object 10
-20 action 28
-45 first-word 46
-20 destination 22
-0 type 4
-37 id 39
-10 position 14
-41 status 44
-31 attribute 32
-1 input-link 2
-0 io 1
-14 y 16
-41 words 45
-32 key 18
-2 sensibles 11
-3 message 41
-32 value 19
-0 superstate 5
-33 message 37
-28 value 30
-38 rest 38
-20 gripper 27
-22 x 23
-3 command 20
-0 name 6
-22 t 25
-14 t 17
-38 first-word 35
+STRING 51
+STRING 50
+SOAR_ID 49
+ENUMERATION 48 2 open close
+STRING 54
+ENUMERATION 53 2 complete error
+ENUMERATION 52 2 complete error
+45
+28 pair 49
 10 nounjective 13
+22 x 23
+47 status 21
+22 status 53
+22 None 54
+14 y 16
 37 time 42
-10 id 12
-1 output-link 3
+20 destination 22
+1 input-link 2
+8 object 10
+28 status 52
+37 words 38
+10 position 14
+49 value 51
+14 x 15
+0 type 4
+45 first-word 46
+32 value 19
+38 rest 38
+20 gripper 47
+49 key 50
 2 messages 33
+0 name 6
 11 sensible 31
+2 sensibles 11
+20 action 28
+0 io 1
+33 message 37
+41 words 45
+3 message 41
 45 rest 45
+47 perform 48
+32 key 18
+31 attribute 32
+14 t 17
+41 status 44
+22 y 24
+37 id 39
+22 t 25
+1 output-link 3
+38 first-word 35
+0 superstate 5
+3 command 20
+10 id 12

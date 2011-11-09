@@ -9,13 +9,11 @@ sp {propose*init-puppet
 sp {apply*init-puppet
    (state <s> ^superstate nil
               ^operator <o>
-              ^io.input-link <in>
-              ^io.output-link <out>)
+              ^io.input-link <in>)
    (<o> ^name init-puppet)
 -->
    (<s> ^name puppet
         ^inbox <inbox>)
-   (<out> ^command <c>)
    (<inbox> ^input-link <in>
             ^custom <custom>)
    (<custom> ^messages <msgs>)
@@ -45,9 +43,48 @@ sp {apply*init-puppet
    (<w32> ^first-word gripper)
    (<m4> ^id 4
           ^words <w41>)
-   (<w41> ^first-word closed
+   (<w41> ^first-word close
          ^rest <w42>)
    (<w42> ^first-word gripper)
+}
+
+### Remove completed commands and message
+### We do this during any operator application
+sp {apply*remove-message
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<out> ^message <m>)
+   (<m> ^status << complete error >>)
+-->
+   (<out> ^message <m> -)
+}
+
+sp {apply*remove-command*sub
+   (state <s> ^operator <o>
+              ^io.output-link.command <command>)
+   (<command> ^{<sub-command> << action gripper destination >>} <sub>)
+   (<sub> ^status << complete error >>)
+-->
+   (<command> ^<sub-command> <sub> -)
+}
+
+sp {apply*remove-command
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<out> ^command <command>)
+   -{(<command> ^<att> <a>)
+     (<a> -^status <st>)}
+-->
+   (<out> ^command <command> -)
+}
+
+sp {apply*remove-processed-message
+   (state <s> ^name puppet
+              ^processed <msgID>
+              ^operator <o>
+             -^inbox.<folder>.messages.message.id <msgID>)
+-->
+   (<s> ^processed <msgID> -)
 }
 
 ### goto
@@ -74,14 +111,14 @@ sp {propose*goto
 
 sp {apply*goto
    (state <s> ^name puppet
-              ^io.output-link.command <command>
+              ^io.output-link <out>
               ^operator <o>)
    (<o> ^name goto
         ^message <msgID>
         ^x <x> ^y <y> ^t <t>)
 -->
    (<s> ^processed <msgID>)
-   (<command> ^destination <d>)
+   (<out> ^command.destination <d>)
    (<d> ^x <x> ^y <y> ^t <t>)
 }
 
@@ -104,6 +141,43 @@ sp {apply*goto*send-message
    (<w5> ^first-word <t>)
 }
 
+
+### stop
+sp {propose*stop
+   (state <s> ^name puppet
+             -^processed <msgID>
+              ^inbox.<folder>.messages.message <msg>)
+   (<msg> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word stop)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name stop
+        ^message <msgID>)
+}
+
+sp {apply*stop
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name stop
+        ^message <msgID>)
+-->
+   (<s> ^processed <msgID>)
+   (<out> ^command.destination.None 0)
+}
+
+
+sp {apply*stop*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name stop)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word stopping)
+}
+
 ### change-gripper
 
 sp {propose*change-gripper
@@ -112,7 +186,7 @@ sp {propose*change-gripper
               ^inbox.<folder>.messages.message <msg>)
    (<msg> ^id <msgID>
           ^words <w1>)
-   (<w1> ^first-word {<gripper-state> << open closed >>}
+   (<w1> ^first-word {<gripper-state> << open close >>}
          ^rest <w2>)
    (<w2> ^first-word gripper)
 -->
@@ -124,14 +198,14 @@ sp {propose*change-gripper
 
 sp {apply*change-gripper
    (state <s> ^name puppet
-              ^io.output-link.command <command>
+              ^io.output-link <out>
               ^operator <o>)
    (<o> ^name change-gripper
         ^message <msgID>
         ^gripper-state <gripper-state>)
 -->
    (<s> ^processed <msgID>)
-   (<command> ^gripper <gripper-state>)
+   (<out> ^command.gripper.perform <gripper-state>)
 }
 
 
@@ -178,7 +252,7 @@ sp {propose*perform-action
 
 sp {apply*perform-action
    (state <s> ^name puppet
-              ^io.output-link.command <command>
+              ^io.output-link <out>
               ^operator <o>)
    (<o> ^name perform-action
         ^message <msgID>
@@ -186,10 +260,11 @@ sp {apply*perform-action
         ^state <new-state>)
 -->
    (<s> ^processed <msgID>)
-   (<command> ^action <a1> <a2>)
-   (<a1> ^key name
+   (<out> ^command.action <a>)
+   (<a> ^pair <p1> <p2>)
+   (<p1> ^key name
          ^value <object>)
-   (<a2> ^key state
+   (<p2> ^key state
          ^value <new-state>)
 }
 

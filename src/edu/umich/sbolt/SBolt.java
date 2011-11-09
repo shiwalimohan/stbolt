@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,12 +29,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.umich.soar.SoarProperties;
+
 import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
 import sml.Agent.RunEventInterface;
+import sml.FloatElement;
 import sml.Identifier;
 import sml.Kernel;
 import sml.smlRunEventId;
@@ -97,13 +104,15 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         try
         {
             lcm = new LCM();
-            lcm.subscribe("abolt_observations", this);
+            lcm.subscribe(channel, this);
         }
         catch (IOException e)
         {
             e.printStackTrace();
             System.exit(1);
         }
+        command = new robot_command_t();
+        command.action = "";
 
         kernel = Kernel.CreateKernelInNewThread();
         agent = kernel.CreateAgent(agentName);
@@ -124,8 +133,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         kernel.SetAutoCommit(false);
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
-
-        System.out.println(kernel.GetListenerPort());
+        
+        agent.SpawnDebugger(kernel.GetListenerPort(), (new SoarProperties()).getPrefix());
 
         // Set up input link.
         initInputLink();
@@ -136,7 +145,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             @Override
             public void run()
             {
-                // SBolt.this.broadcastLcmCommand();
+                SBolt.this.broadcastLcmCommand();
             }
         };
 
@@ -155,7 +164,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
-        agent.RunSelfForever();
+        agent.RunSelf(1);
     }
 
     public void stop()
@@ -184,6 +193,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         chatMessageQueue = new ArrayList<String>();
         chatMessages = new ArrayList<String>();
         chatFrame = new JFrame("SBolt");
+        
         chatArea = new JTextArea();
         JScrollPane pane = new JScrollPane(chatArea);
         chatField = new JTextField();
@@ -214,6 +224,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     public void showFrame()
     {
+        chatFrame.setDefaultCloseOperation(chatFrame.EXIT_ON_CLOSE);
         chatFrame.setVisible(true);
     }
 
@@ -427,21 +438,31 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
         }
+        
+        if(agent.IsCommitRequired()){
+            agent.Commit();
+        }
     }
 
     private void processOutputLinkMessage(Identifier messageId)
     {
+        if(messageId == null){
+            return;
+        }
         if (messageId.GetNumberChildren() == 0)
         {
-            // System.out.println("No children of message");
-            return;
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message has no children");
         }
 
         String message = "";
         WMElement wordsWME = messageId.FindByAttribute("words", 0);
         if (wordsWME == null || !wordsWME.IsIdentifier())
         {
-            return;
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message has no words attribute");
         }
         Identifier currentWordId = wordsWME.ConvertToIdentifier();
 
@@ -473,29 +494,24 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
             currentWordId = nextWordId;
         }
-
-        if (message != "")
-        {
-            message += ".";
-            addChatMessage(message);
+        
+        if(message == ""){
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Message was empty");   
         }
-
+        
+        message += ".";
+        addChatMessage(message);
+        messageId.CreateStringWME("status", "complete");
     }
 
     private void processOutputLinkCommand(Identifier commandId)
     {
-        if (commandId.GetNumberChildren() == 0)
+        if (commandId == null || commandId.GetNumberChildren() == 0)
         {
             return;
         }
-
-        StringBuffer actionBuf = new StringBuffer();
-
-        double x = 0.0;
-        double y = 0.0;
-        double t = 10.0;
-
-        boolean gripperOpen = true;
 
         int numChildren = commandId.GetNumberChildren();
         for (int i = 0; i < numChildren; ++i)
@@ -504,76 +520,144 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
             if (child.GetAttribute().equals("action"))
             {
-                Identifier actionId = child.ConvertToIdentifier();
-                WMElement keyWme = actionId.FindByAttribute("key", 0);
-                if (keyWme == null)
-                {
-                    throw new IllegalStateException(
-                            "Command has action with no key");
-                }
-                String key = keyWme.GetValueAsString();
-                WMElement valueWme = actionId.FindByAttribute("value", 0);
-                if (valueWme == null)
-                {
-                    throw new IllegalStateException(
-                            "Command has action with no value");
-                }
-                String value = valueWme.GetValueAsString();
-                actionBuf.append(key + "=" + value + ",");
+                processActionCommand(child.ConvertToIdentifier());
             }
             else if (child.GetAttribute().equals("destination"))
             {
-                Identifier destinationId = child.ConvertToIdentifier();
-                WMElement xWme = destinationId.FindByAttribute("x", 0);
-                WMElement yWme = destinationId.FindByAttribute("y", 0);
-                WMElement tWme = destinationId.FindByAttribute("t", 0);
-                if (xWme == null || yWme == null || tWme == null)
-                {
-                    throw new IllegalStateException(
-                            "Command has destination WME missing x, y, or t");
-                }
-                x = xWme.ConvertToFloatElement().GetValue();
-                y = yWme.ConvertToFloatElement().GetValue();
-                t = tWme.ConvertToFloatElement().GetValue();
+                processDestinationCommand(child.ConvertToIdentifier());
             }
             else if (child.GetAttribute().equals("gripper"))
             {
-                String value = child.GetValueAsString();
-                gripperOpen = !value.equals("closed");
+                processGripperCommand(child.ConvertToIdentifier());
+            }
+        }
+    }
+    
+    private void processDestinationCommand(Identifier destId){
+        if(destId == null){
+            return;
+        }
+        
+        double x = 0.0;
+        double y = 0.0;
+        double t = 10.0;    //Set to 10 to ignore destination
+        
+        if(destId.FindByAttribute("None", 0) == null){
+            WMElement xWme = destId.FindByAttribute("x", 0);
+            WMElement yWme = destId.FindByAttribute("y", 0);
+            WMElement tWme = destId.FindByAttribute("t", 0);
+            
+            if (xWme == null || yWme == null || tWme == null)
+            {
+                destId.CreateStringWME("status", "error");
+                throw new IllegalStateException(
+                        "Command has destination WME missing x, y, or t");
+            }
+            
+            try{
+                x = Double.valueOf(xWme.GetValueAsString());
+                y = Double.valueOf(yWme.GetValueAsString());
+                t = Double.valueOf(tWme.GetValueAsString());
+            } catch (Exception e){
+                destId.CreateStringWME("status", "error");
+                throw new IllegalStateException(
+                        "Command has an invalid x, y, or t float");
+            }
+        }
+        
+        command.dest = new double[] { x, y, t };
+        destId.CreateStringWME("status", "complete");
+    }
+    
+    private void processActionCommand(Identifier actionId){
+        if(actionId == null){
+            return;
+        }
+
+        StringBuffer actionBuf = new StringBuffer();
+        
+        int pairCounter = 0;
+        for(int i = 0; i < actionId.GetNumberChildren(); i++){
+            WMElement childWME = actionId.GetChild(i);
+            if(childWME.GetAttribute().equals("pair")){
+                Identifier pairId = childWME.ConvertToIdentifier();
+                if(pairId == null){
+                    continue;
+                }
+                
+                //Get key of pair
+                WMElement keyWME = pairId.FindByAttribute("key", 0);
+                if (keyWME == null || keyWME.GetValueAsString().length() == 0)
+                {
+                    actionId.CreateStringWME("status", "error");
+                    throw new IllegalStateException(
+                            "Action has a pair with no key");
+                }
+                String key = keyWME.GetValueAsString();
+                
+                //Get value of pair
+                WMElement valueWME = pairId.FindByAttribute("value", 0);
+                if (valueWME == null || valueWME.GetValueAsString().length() == 0)
+                {
+                    actionId.CreateStringWME("status", "error");
+                    throw new IllegalStateException(
+                            "Action has a pair with no value");
+                }
+                String value = valueWME.GetValueAsString();
+                
+                actionBuf.append(key + "=" + value + ",");
+                pairCounter++;
             }
         }
 
-        robot_command_t command = new robot_command_t();
-        command.action = actionBuf.toString();
-        if (command.action.length() > 0)
-        {
-            // Remove trailing comma
-            command.action = command.action.substring(0,
-                    command.action.length() - 1);
+        if(pairCounter == 0){
+            actionId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Action is empty");
         }
-        command.dest = new double[] { x, y, t };
-        command.gripper_open = gripperOpen;
-        setLcmCommand(command);
-    }
 
-    private void setLcmCommand(robot_command_t command)
-    {
-        this.command = command;
+        command.action = actionBuf.toString();
+        command.action = command.action.substring(0,
+                command.action.length() - 1);
+        actionId.CreateStringWME("status", "complete");
+    }
+    
+    private void processGripperCommand(Identifier gripperId){
+        if(gripperId == null){
+            return;
+        }
+        
+        WMElement performWME = gripperId.FindByAttribute("perform", 0);
+        if(performWME == null){
+            gripperId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Gripper command does not have a perform WME");
+            
+        }
+        
+        String gripperAction = performWME.GetValueAsString();
+        if(!gripperAction.equals("open") && !gripperAction.equals("close")){
+            gripperId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Gripper command is not 'open' or 'close'");
+        }
+        
+        command.gripper_open = gripperAction.equals("open");
+        gripperId.CreateStringWME("status", "complete");
     }
 
     private void broadcastLcmCommand()
-    {
+    {           
+        if (command == null)
+        {
+            return;
+        }
         synchronized (command)
         {
-            if (command == null)
-                return;
-            lcm.publish("sbolt-commands", command);
+            lcm.publish("sbolt_commands", command);
         }
     }
 
     public static void main(String[] args)
     {
-        SBolt sbolt = new SBolt("abolt-perceptions", "sbolt");
+        SBolt sbolt = new SBolt("abolt_observations", "sbolt");
         sbolt.showFrame();
         sbolt.start();
     }
