@@ -115,7 +115,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
         agent.AddOutputHandler("command", this, null);
         agent.AddOutputHandler("message", this, null);
-
+        
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event
         // handler
@@ -129,7 +129,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
         // Set up input link.
         initInputLink();
-
+        agent.SpawnDebugger(kernel.GetListenerPort(), "/home/jkirk/sandbox/");
         // Start broadcasting
         timerTask = new TimerTask()
         {
