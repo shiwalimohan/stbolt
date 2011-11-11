@@ -134,6 +134,7 @@ public class LCMTester implements LCMSubscriber
         blueCylinderObj.nounjective = new String[blueCylinderObj.nj_len];
 
         lightSwitch = new HashMap<String, String>();
+        lightSwitch.put("id", "100");
         lightSwitch.put("name", "switch");
         lightSwitch.put("x", "20");
         lightSwitch.put("y", "20");

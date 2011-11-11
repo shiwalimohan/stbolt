@@ -76,12 +76,14 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     // The most recent observations_t received
     private observations_t currentObservation;
+    
+    private observations_t lastObservation;
 
-    // Root identifier for all object oberservations
-    private Identifier observationsId;
-
-    // Maps observation IDs onto their object-oberservation identifiers
+    // Maps observation IDs onto their sensibles identifiers
     private Map<Integer, Identifier> observationsMap;
+
+    // Maps sensible IDs onto their sensibles identifier
+    private Map<Integer, Identifier> sensiblesMap;
 
     // Root identifier for all sensible observations
     private Identifier sensiblesId;
@@ -95,12 +97,16 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     // A queue of the messages received since the last input phase
     private List<String> chatMessageQueue;
 
+    private static Integer INVALID_ID = -1;
+    
+    private enum ValueType{ INTEGER, DOUBLE, STRING };
+
     public SBolt(String channel, String agentName)
     {
         currentObservation = null;
+        lastObservation = null;
 
         // Initialize instance variables
-        observationsMap = new HashMap<Integer, Identifier>();
         try
         {
             lcm = new LCM();
@@ -133,8 +139,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         kernel.SetAutoCommit(false);
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
-        
-        //agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
+
+         agent.SpawnDebugger(kernel.GetListenerPort(),
+         System.getenv().get("SOAR_HOME"));
 
         // Set up input link.
         initInputLink();
@@ -180,10 +187,13 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     private void initInputLink()
     {
+        observationsMap = new HashMap<Integer, Identifier>();
+        sensiblesMap = new HashMap<Integer, Identifier>();
+
         Identifier il = agent.GetInputLink();
-        observationsId = il.CreateIdWME("objects");
         sensiblesId = il.CreateIdWME("sensibles");
         messagesId = il.CreateIdWME("messages");
+        il.CreateStringWME("int", "1");
         agent.Commit();
     }
 
@@ -193,7 +203,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         chatMessageQueue = new ArrayList<String>();
         chatMessages = new ArrayList<String>();
         chatFrame = new JFrame("SBolt");
-        
+
         chatArea = new JTextArea();
         JScrollPane pane = new JScrollPane(chatArea);
         chatField = new JTextField();
@@ -278,120 +288,244 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     /********************************************************************
      * InputLink Handling
      *******************************************************************/
-    
+
     // Called right before the Agent's Input Phase,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
-        //updateInputLinkWorld();
+        if(lastObservation != currentObservation){
+            processSensibles();
+            processObservations();
+            lastObservation = currentObservation;
+        }
+            
         updateInputLinkMessages();
-        agent.Commit();
+        if(agent.IsCommitRequired()){
+            agent.Commit();
+        }
     }
 
-    private void updateInputLinkWorld()
+    private void processSensibles()
     {
         if (currentObservation == null)
         {
             return;
         }
-
-        // Create a set of all the ids of all observations.
-        Set<Integer> obsIds = new HashSet<Integer>();
-        for (object_data_t objData : currentObservation.observations)
+        Set<Integer> observationSensibles = new HashSet<Integer>();
+        Map<String, String> sensibleKeyVals = new HashMap<String, String>();
+        
+        //For each sensible, split the string into key,val pairs and update the input-link
+        for (String sensible : currentObservation.sensibles)
         {
-            obsIds.add(objData.id);
-        }
+            sensibleKeyVals.clear();
+            String[] keyValPairs = sensible.split(",");
 
-        // Remove observation wmes that aren't currently being observed.
-        List<Integer> toRemove = new ArrayList<Integer>();
-        for (Integer key : observationsMap.keySet())
-        {
-            if (!obsIds.contains(key))
+            Integer id = INVALID_ID;
+            for (String keyValPair : keyValPairs)
             {
-                toRemove.add(key);
-            }
-        }
-        for (Integer key : toRemove)
-        {
-            Identifier identifier = observationsMap.get(key);
-            identifier.DestroyWME();
-            observationsMap.remove(key);
-        }
-
-        // For each observation, either update it if it exists or create it if
-        // it doesn't.
-        for (object_data_t obj : currentObservation.observations)
-        {
-            int id = obj.id;
-            Identifier obsId = null;
-            if (observationsMap.containsKey(id))
-            {
-                obsId = observationsMap.get(id);
-                int numChildren = obsId.GetNumberChildren();
-                List<WMElement> wmesToRemove = new ArrayList<WMElement>();
-                for (int i = 0; i < numChildren; ++i)
+                String[] keyVal = keyValPair.split("=");
+                if (keyVal.length < 2)
                 {
-                    WMElement childWme = obsId.GetChild(i);
-                    if (childWme.GetAttribute().equals("id"))
+                    continue;
+                }
+
+                sensibleKeyVals.put(keyVal[0], keyVal[1]);
+                if (keyVal[0].toLowerCase().equals("id"))
+                {
+                    try
                     {
+                        id = Integer.parseInt(keyVal[1]);
                         continue;
                     }
-                    wmesToRemove.add(obsId.GetChild(i));
+                    catch (Exception e)
+                    {
+                        // Not a valid id
+                        id = INVALID_ID;
+                        break;
+                    }
                 }
-                for (WMElement wme : wmesToRemove)
-                {
-                    wme.DestroyWME();
-                }
+            }
+
+            if (id == INVALID_ID)
+            {
+                // That sensible string does not have an id key
+                continue;
+            }
+
+            observationSensibles.add(id); 
+            
+            // Find the sensible Identifier in the sensiblesMap, create a new
+            // Identifier if needed
+            Identifier sensibleId = null;
+            if (sensiblesMap.containsKey(id))
+            {
+                sensibleId = sensiblesMap.get(id);
             }
             else
             {
-                obsId = observationsId.CreateIdWME("object");
-                observationsMap.put(id, obsId);
-                obsId.CreateIntWME("id", id);
+                sensibleId = sensiblesId.CreateIdWME("sensible");
+                sensiblesMap.put(id, sensibleId);
             }
-            for (String nounjective : obj.nounjective)
+            updateSensibleOnInputLink(sensibleId, sensibleKeyVals);
+        }
+        
+        Set<Integer> sensiblesToRemove = new HashSet<Integer>();
+        //Remove sensibles not in the new observation
+        for(Integer id : sensiblesMap.keySet()){
+            if(!observationSensibles.contains(id)){
+                sensiblesToRemove.add(id);
+            }
+        }
+        for(Integer id : sensiblesToRemove){
+            sensiblesMap.get(id).DestroyWME();
+            sensiblesMap.remove(id);
+        }
+    }
+
+    private void updateSensibleOnInputLink(Identifier sensibleId, Map<String, String> keyValPairs)
+    {
+        Set<String> existingKeys = new HashSet<String>(); // Set of keys already
+                                                          // on the WME
+
+        // Update each attribute on the sensible
+        for (int i = 0; i < sensibleId.GetNumberChildren(); i++)
+        {
+            WMElement attributeWME = sensibleId.GetChild(i);
+            if (!attributeWME.GetAttribute().equals("attribute")
+                    || !attributeWME.IsIdentifier())
             {
-                obsId.CreateStringWME("nounjective", nounjective);
+                continue;
             }
-            Identifier positionId = obsId.CreateIdWME("position");
-            positionId.CreateFloatWME("x", obj.pos[0]);
-            positionId.CreateFloatWME("y", obj.pos[1]);
-            positionId.CreateFloatWME("t", obj.pos[2]);
+            Identifier attributeId = attributeWME.ConvertToIdentifier();
+
+            WMElement keyWME = attributeId.FindByAttribute("key", 0);
+            if (keyWME == null)
+            {
+                //Attribute does not have a key, error
+                continue;
+            }
+
+            String keyString = keyWME.GetValueAsString();
+            if (keyValPairs.containsKey(keyString))
+            {
+                //That key still exists, update if necessary
+                updateValueAttribute(attributeId, keyValPairs.get(keyString));
+                existingKeys.add(keyString);
+            }
+            else
+            {
+                attributeId.DestroyWME();
+            }
         }
 
-        // Remove all sensible WMEs and replace them with new ones
-        List<WMElement> sensiblesToRemove = new ArrayList<WMElement>();
-        for (int i = 0; i < observationsId.GetNumberChildren(); ++i)
+        //Create new attribute WMEs for keys not already on the sensible WME
+        for (Map.Entry<String, String> keyValPair : keyValPairs.entrySet())
         {
-            WMElement child = sensiblesId.GetChild(i);
-            if (child.GetAttribute().equals("sensible"))
+            if (existingKeys.contains(keyValPair.getKey()))
             {
-                sensiblesToRemove.add(child);
+                continue;
             }
-        }
-        for (WMElement child : sensiblesToRemove)
-        {
-            child.DestroyWME();
+            Identifier attributeId = sensibleId.CreateIdWME("attribute");
+            attributeId.CreateStringWME("key", String.valueOf(keyValPair.getKey()));
+            updateValueAttribute(attributeId, keyValPair.getValue());
         }
 
-        for (String sensibleStr : currentObservation.sensibles)
-        {
-            Identifier sensibleId = sensiblesId.CreateIdWME("sensible");
-            String[] tokens = sensibleStr.split(",");
-            for (String token : tokens)
-            {
-                String[] pair = token.split("=");
-                if (pair.length != 2)
-                {
-                    throw new IllegalStateException(
-                            "Choked on parsing sensible message.");
-                }
-                String key = pair[0];
-                String value = pair[1];
-                Identifier attribute = sensibleId.CreateIdWME("attribute");
-                attribute.CreateStringWME("key", key);
-                attribute.CreateStringWME("value", value);
+    }
+    
+    private void updateValueAttribute(Identifier element, String value){
+        String valueType = getValueTypeOfString(value);
+        WMElement valueWME = element.FindByAttribute("value", 0);
+
+        if(valueWME != null && !valueType.equals(valueWME.GetValueType())){
+            System.out.println(valueWME.GetValueType());
+            valueWME.DestroyWME();
+            valueWME = null;
+        }
+        
+        
+        if(valueWME == null){
+            if(valueType.equals("int")){
+                element.CreateIntWME("value", Integer.parseInt(value));
+            } else if(valueType.equals("double")){
+                element.CreateFloatWME("value", Double.parseDouble(value));
+            } else {
+                element.CreateStringWME("value", value);
             }
+            return;
+        }
+        
+        if(valueWME.GetValueType().equals("int")){
+            valueWME.ConvertToIntElement().Update(Integer.parseInt(value));
+        } else if(valueWME.GetValueType().equals("double")){
+            valueWME.ConvertToFloatElement().Update(Double.parseDouble(value));
+        } else {
+            valueWME.ConvertToStringElement().Update(value);
+        }
+        
+    }
+    
+    private String getValueTypeOfString(String s){
+        try{
+            Integer.parseInt(s);
+            return "int";
+        } catch (NumberFormatException e){
+            try {
+                Double.parseDouble(s);
+                return "double";
+            } catch (NumberFormatException e2){
+                return "string";
+            }
+        }
+    }
+
+    private void processObservations()
+    {
+        if (currentObservation == null)
+        {
+            return;
+        }
+        Set<Integer> curObservations  = new HashSet<Integer>();
+        Map<String, String> observationKeyVals = new HashMap<String, String>();
+        
+        //For each observation, split the string into key,val pairs and update the input-link
+        for (object_data_t observation : currentObservation.observations)
+        {
+            curObservations.add(observation.id);
+            
+            observationKeyVals.clear();
+            observationKeyVals.put("id", String.valueOf(observation.id));
+            observationKeyVals.put("x", String.valueOf(observation.pos[0]));
+            observationKeyVals.put("y", String.valueOf(observation.pos[1]));
+            observationKeyVals.put("t", String.valueOf(observation.pos[2]));
+            for(String nounjective : observation.nounjective){
+                observationKeyVals.put(nounjective, "nounjective");
+            }
+
+            // Find the observation Identifier in the observationsMap, 
+            //create a new Identifier if needed
+            Identifier observationId = null;
+            if (observationsMap.containsKey(observation.id))
+            {
+                observationId = observationsMap.get(observation.id);
+            }
+            else
+            {
+                observationId = sensiblesId.CreateIdWME("sensible");
+                observationsMap.put(observation.id, observationId);
+            }
+            updateSensibleOnInputLink(observationId, observationKeyVals);
+        }
+        
+        Set<Integer> observationsToRemove = new HashSet<Integer>();
+        //Remove observations not in the currentObservation
+        for(Integer id : observationsMap.keySet()){
+            if(!curObservations.contains(id)){
+                observationsToRemove.add(id);
+            }
+        }
+        for(Integer id : observationsToRemove){
+            observationsMap.get(id).DestroyWME();
+            observationsMap.remove(id);
         }
     }
 
@@ -399,19 +533,19 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     {
         for (String message : chatMessageQueue)
         {
-            String[] words = message.split(" ");  
-               
+            String[] words = message.split(" ");
+
             Identifier mId = messagesId.CreateIdWME("message");
             Identifier rest = mId.CreateIdWME("words");
             mId.CreateIntWME("id", messageIdNum);
-             
-            for (String w : words)  
-            {  
-               rest.CreateStringWME("first-word", w);
-               
-               rest = rest.CreateIdWME("rest");
-            } 
-	                
+
+            for (String w : words)
+            {
+                rest.CreateStringWME("first-word", w);
+
+                rest = rest.CreateIdWME("rest");
+            }
+
             messageIdNum++;
         }
         chatMessageQueue.clear();
@@ -420,7 +554,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     /********************************************************************
      * OutputLink Handling
      *******************************************************************/
-    
+
     @Override
     public void outputEventHandler(Object data, String agentName,
             String attributeName, WMElement wme)
@@ -438,22 +572,24 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
         }
-        
-        if(agent.IsCommitRequired()){
+
+        if (agent.IsCommitRequired())
+        {
             agent.Commit();
         }
     }
 
     private void processOutputLinkMessage(Identifier messageId)
     {
-        if(messageId == null){
+        if (messageId == null)
+        {
             return;
         }
+
         if (messageId.GetNumberChildren() == 0)
         {
             messageId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Message has no children");
+            throw new IllegalStateException("Message has no children");
         }
 
         String message = "";
@@ -461,8 +597,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         if (wordsWME == null || !wordsWME.IsIdentifier())
         {
             messageId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Message has no words attribute");
+            throw new IllegalStateException("Message has no words attribute");
         }
         Identifier currentWordId = wordsWME.ConvertToIdentifier();
 
@@ -476,15 +611,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 WMElement child = currentWordId.GetChild(i);
                 if (child.GetAttribute().equals("first-word"))
                 {
-                    String currentWord = child.GetValueAsString();
-                    if (message == "")
-                    {
-                        message = currentWord;
-                    }
-                    else
-                    {
-                        message += " " + currentWord;
-                    }
+                    message += child.GetValueAsString() + " ";
                 }
                 else if (child.GetAttribute().equals("rest")
                         && child.IsIdentifier())
@@ -494,15 +621,15 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
             currentWordId = nextWordId;
         }
-        
-        if(message == ""){
+
+        if (message == "")
+        {
             messageId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Message was empty");   
+            throw new IllegalStateException("Message was empty");
         }
-        
+
         message += ".";
-        addChatMessage(message);
+        addChatMessage(message.substring(0, message.length() - 1));
         messageId.CreateStringWME("status", "complete");
     }
 
@@ -532,87 +659,108 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
         }
     }
-    
-    private void processDestinationCommand(Identifier destId){
-        if(destId == null){
+
+    /**
+     * Takes a destination command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processDestinationCommand(Identifier destId)
+    {
+        if (destId == null)
+        {
             return;
         }
-        
+
         double x = 0.0;
         double y = 0.0;
-        double t = 10.0;    //Set to 10 to ignore destination
-        
-        if(destId.FindByAttribute("None", 0) == null){
+        double t = 0.0;
+
+        if (destId.FindByAttribute("None", 0) != null)
+        {
+            t = 10.0; // set t to 10 to ignore destination (stop)
+        }
+        else
+        {
             WMElement xWme = destId.FindByAttribute("x", 0);
             WMElement yWme = destId.FindByAttribute("y", 0);
             WMElement tWme = destId.FindByAttribute("t", 0);
-            
+
             if (xWme == null || yWme == null || tWme == null)
             {
                 destId.CreateStringWME("status", "error");
                 throw new IllegalStateException(
                         "Command has destination WME missing x, y, or t");
             }
-            
-            try{
+
+            try
+            {
                 x = Double.valueOf(xWme.GetValueAsString());
                 y = Double.valueOf(yWme.GetValueAsString());
                 t = Double.valueOf(tWme.GetValueAsString());
-            } catch (Exception e){
+            }
+            catch (Exception e)
+            {
                 destId.CreateStringWME("status", "error");
                 throw new IllegalStateException(
                         "Command has an invalid x, y, or t float");
             }
         }
-        
+
         command.dest = new double[] { x, y, t };
         destId.CreateStringWME("status", "complete");
     }
-    
-    private void processActionCommand(Identifier actionId){
-        if(actionId == null){
+
+    /**
+     * Takes an action command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processActionCommand(Identifier actionId)
+    {
+        if (actionId == null)
+        {
             return;
         }
 
         StringBuffer actionBuf = new StringBuffer();
-        
-        int pairCounter = 0;
-        for(int i = 0; i < actionId.GetNumberChildren(); i++){
+
+        int numPairs = 0;
+        for (int i = 0; i < actionId.GetNumberChildren(); i++)
+        {
             WMElement childWME = actionId.GetChild(i);
-            if(childWME.GetAttribute().equals("pair")){
-                Identifier pairId = childWME.ConvertToIdentifier();
-                if(pairId == null){
-                    continue;
-                }
-                
-                //Get key of pair
-                WMElement keyWME = pairId.FindByAttribute("key", 0);
-                if (keyWME == null || keyWME.GetValueAsString().length() == 0)
-                {
-                    actionId.CreateStringWME("status", "error");
-                    throw new IllegalStateException(
-                            "Action has a pair with no key");
-                }
-                String key = keyWME.GetValueAsString();
-                
-                //Get value of pair
-                WMElement valueWME = pairId.FindByAttribute("value", 0);
-                if (valueWME == null || valueWME.GetValueAsString().length() == 0)
-                {
-                    actionId.CreateStringWME("status", "error");
-                    throw new IllegalStateException(
-                            "Action has a pair with no value");
-                }
-                String value = valueWME.GetValueAsString();
-                
-                actionBuf.append(key + "=" + value + ",");
-                pairCounter++;
+            if (!(childWME.GetAttribute().equals("pair") && childWME
+                    .IsIdentifier()))
+            {
+                continue;
             }
+            Identifier pairId = childWME.ConvertToIdentifier();
+
+            // Get key of pair
+            WMElement keyWME = pairId.FindByAttribute("key", 0);
+            if (keyWME == null || keyWME.GetValueAsString().length() == 0)
+            {
+                actionId.CreateStringWME("status", "error");
+                throw new IllegalStateException("Action has a pair with no key");
+            }
+            String key = keyWME.GetValueAsString();
+
+            // Get value of pair
+            WMElement valueWME = pairId.FindByAttribute("value", 0);
+            if (valueWME == null || valueWME.GetValueAsString().length() == 0)
+            {
+                actionId.CreateStringWME("status", "error");
+                throw new IllegalStateException(
+                        "Action has a pair with no value");
+            }
+            String value = valueWME.GetValueAsString();
+
+            actionBuf.append(key + "=" + value + ",");
+            numPairs++;
         }
 
-        if(pairCounter == 0){
+        if (numPairs == 0)
+        {
             actionId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Action is empty");
+            throw new IllegalStateException("Action has no pairs");
         }
 
         command.action = actionBuf.toString();
@@ -620,31 +768,44 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 command.action.length() - 1);
         actionId.CreateStringWME("status", "complete");
     }
-    
-    private void processGripperCommand(Identifier gripperId){
-        if(gripperId == null){
+
+    /**
+     * Takes a gripper command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processGripperCommand(Identifier gripperId)
+    {
+        if (gripperId == null)
+        {
             return;
         }
-        
+
         WMElement performWME = gripperId.FindByAttribute("perform", 0);
-        if(performWME == null){
+        if (performWME == null)
+        {
             gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Gripper command does not have a perform WME");
-            
+            throw new IllegalStateException(
+                    "Gripper command does not have a perform WME");
+
         }
-        
+
         String gripperAction = performWME.GetValueAsString();
-        if(!gripperAction.equals("open") && !gripperAction.equals("close")){
+        if (!gripperAction.equals("open") && !gripperAction.equals("close"))
+        {
             gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Gripper command is not 'open' or 'close'");
+            throw new IllegalStateException(
+                    "Gripper command is not 'open' or 'close'");
         }
-        
+
         command.gripper_open = gripperAction.equals("open");
         gripperId.CreateStringWME("status", "complete");
     }
 
+    /**
+     * Sends out the robot_command_t command via LCM
+     */
     private void broadcastLcmCommand()
-    {           
+    {
         if (command == null)
         {
             return;
