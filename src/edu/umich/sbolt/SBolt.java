@@ -76,7 +76,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     // The most recent observations_t received
     private observations_t currentObservation;
-    
+
     private observations_t lastObservation;
 
     // Maps observation IDs onto their sensibles identifiers
@@ -98,8 +98,12 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     private List<String> chatMessageQueue;
 
     private static Integer INVALID_ID = -1;
-    
-    private enum ValueType{ INTEGER, DOUBLE, STRING };
+
+    private static String INTEGER_VAL = "int";
+
+    private static String DOUBLE_VAL = "double";
+
+    private static String STRING_VAL = "string";
 
     public SBolt(String channel, String agentName)
     {
@@ -140,8 +144,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
 
-         agent.SpawnDebugger(kernel.GetListenerPort(),
-         System.getenv().get("SOAR_HOME"));
+        agent.SpawnDebugger(kernel.GetListenerPort(),
+                System.getenv().get("SOAR_HOME"));
 
         // Set up input link.
         initInputLink();
@@ -293,28 +297,38 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
-        if(lastObservation != currentObservation){
+        // Only does an update if a new observation was recieved
+        if (lastObservation != currentObservation)
+        {
             processSensibles();
             processObservations();
             lastObservation = currentObservation;
         }
-            
+
         updateInputLinkMessages();
-        if(agent.IsCommitRequired()){
+        if (agent.IsCommitRequired())
+        {
             agent.Commit();
         }
     }
 
+    /**
+     * Updates the input-link using the sensibles on the currentObservation
+     */
     private void processSensibles()
     {
         if (currentObservation == null)
         {
             return;
         }
+        // Id's of sensibles in the current observation
         Set<Integer> observationSensibles = new HashSet<Integer>();
+
+        // Stores the keyValue pairs for each sensible
         Map<String, String> sensibleKeyVals = new HashMap<String, String>();
-        
-        //For each sensible, split the string into key,val pairs and update the input-link
+
+        // For each sensible, split the string into key,val pairs and update the
+        // input-link
         for (String sensible : currentObservation.sensibles)
         {
             sensibleKeyVals.clear();
@@ -326,6 +340,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 String[] keyVal = keyValPair.split("=");
                 if (keyVal.length < 2)
                 {
+                    // Note a valid key-val pair, must be "key=value"
                     continue;
                 }
 
@@ -352,10 +367,10 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 continue;
             }
 
-            observationSensibles.add(id); 
-            
-            // Find the sensible Identifier in the sensiblesMap, create a new
-            // Identifier if needed
+            observationSensibles.add(id);
+
+            // Find the sensible Identifier in the sensiblesMap,
+            // create a new Identifier if needed
             Identifier sensibleId = null;
             if (sensiblesMap.containsKey(id))
             {
@@ -368,21 +383,88 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
             updateSensibleOnInputLink(sensibleId, sensibleKeyVals);
         }
-        
+
+        // Remove sensibles not in the new observation
         Set<Integer> sensiblesToRemove = new HashSet<Integer>();
-        //Remove sensibles not in the new observation
-        for(Integer id : sensiblesMap.keySet()){
-            if(!observationSensibles.contains(id)){
+        for (Integer id : sensiblesMap.keySet())
+        {
+            if (!observationSensibles.contains(id))
+            {
                 sensiblesToRemove.add(id);
             }
         }
-        for(Integer id : sensiblesToRemove){
+        for (Integer id : sensiblesToRemove)
+        {
             sensiblesMap.get(id).DestroyWME();
             sensiblesMap.remove(id);
         }
     }
 
-    private void updateSensibleOnInputLink(Identifier sensibleId, Map<String, String> keyValPairs)
+    /**
+     * Updates the input-link using the observations on the currentObservation
+     */
+    private void processObservations()
+    {
+        if (currentObservation == null)
+        {
+            return;
+        }
+        Set<Integer> curObservations = new HashSet<Integer>();
+        Map<String, String> observationKeyVals = new HashMap<String, String>();
+
+        // For each observation, build up a list of key value pairs then update
+        // the input-link
+        for (object_data_t observation : currentObservation.observations)
+        {
+            curObservations.add(observation.id);
+
+            observationKeyVals.clear();
+            observationKeyVals.put("id", String.valueOf(observation.id));
+            observationKeyVals.put("x", String.valueOf(observation.pos[0]));
+            observationKeyVals.put("y", String.valueOf(observation.pos[1]));
+            observationKeyVals.put("t", String.valueOf(observation.pos[2]));
+            for (String nounjective : observation.nounjective)
+            {
+                observationKeyVals.put(nounjective, "nounjective");
+            }
+
+            // Find the observation Identifier in the observationsMap,
+            // create a new Identifier if needed
+            Identifier observationId = null;
+            if (observationsMap.containsKey(observation.id))
+            {
+                observationId = observationsMap.get(observation.id);
+            }
+            else
+            {
+                observationId = sensiblesId.CreateIdWME("sensible");
+                observationsMap.put(observation.id, observationId);
+            }
+            updateSensibleOnInputLink(observationId, observationKeyVals);
+        }
+
+        // Remove observations not in the currentObservation
+        Set<Integer> observationsToRemove = new HashSet<Integer>();
+        for (Integer id : observationsMap.keySet())
+        {
+            if (!curObservations.contains(id))
+            {
+                observationsToRemove.add(id);
+            }
+        }
+        for (Integer id : observationsToRemove)
+        {
+            observationsMap.get(id).DestroyWME();
+            observationsMap.remove(id);
+        }
+    }
+
+    /**
+     * Updates the given identifier (assumed to be input-link.sensibles.sensible)
+     * by making sure the identifier has exactly the given key-value pairs
+     */
+    private void updateSensibleOnInputLink(Identifier sensibleId,
+            Map<String, String> keyValPairs)
     {
         Set<String> existingKeys = new HashSet<String>(); // Set of keys already
                                                           // on the WME
@@ -401,14 +483,14 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             WMElement keyWME = attributeId.FindByAttribute("key", 0);
             if (keyWME == null)
             {
-                //Attribute does not have a key, error
+                // Attribute does not have a key, error
                 continue;
             }
 
             String keyString = keyWME.GetValueAsString();
             if (keyValPairs.containsKey(keyString))
             {
-                //That key still exists, update if necessary
+                // That key still exists, update if necessary
                 updateValueAttribute(attributeId, keyValPairs.get(keyString));
                 existingKeys.add(keyString);
             }
@@ -418,7 +500,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
         }
 
-        //Create new attribute WMEs for keys not already on the sensible WME
+        // Create new attribute WMEs for keys not already on the sensible WME
         for (Map.Entry<String, String> keyValPair : keyValPairs.entrySet())
         {
             if (existingKeys.contains(keyValPair.getKey()))
@@ -426,106 +508,84 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 continue;
             }
             Identifier attributeId = sensibleId.CreateIdWME("attribute");
-            attributeId.CreateStringWME("key", String.valueOf(keyValPair.getKey()));
+            attributeId.CreateStringWME("key",
+                    String.valueOf(keyValPair.getKey()));
             updateValueAttribute(attributeId, keyValPair.getValue());
         }
-
     }
-    
-    private void updateValueAttribute(Identifier element, String value){
+
+    /**
+     * Updates the given Identifier so that it becomes:
+     * <element> ^value <value>, and is of the appropriate type
+     */
+    private void updateValueAttribute(Identifier element, String value)
+    {
         String valueType = getValueTypeOfString(value);
         WMElement valueWME = element.FindByAttribute("value", 0);
 
-        if(valueWME != null && !valueType.equals(valueWME.GetValueType())){
-            System.out.println(valueWME.GetValueType());
+        if (valueWME != null && !valueType.equals(valueWME.GetValueType()))
+        {
+            //Need to change the type of the WMElement
             valueWME.DestroyWME();
             valueWME = null;
         }
-        
-        
-        if(valueWME == null){
-            if(valueType.equals("int")){
+
+        if (valueWME == null)
+        {
+            //Create a new value WME of the appropriate type
+            if (valueType.equals(INTEGER_VAL))
+            {
                 element.CreateIntWME("value", Integer.parseInt(value));
-            } else if(valueType.equals("double")){
+            }
+            else if (valueType.equals(DOUBLE_VAL))
+            {
                 element.CreateFloatWME("value", Double.parseDouble(value));
-            } else {
+            }
+            else
+            {
                 element.CreateStringWME("value", value);
             }
             return;
         }
-        
-        if(valueWME.GetValueType().equals("int")){
+
+        //Otherwise, update the WME using the given value
+        if (valueWME.GetValueType().equals(INTEGER_VAL))
+        {
             valueWME.ConvertToIntElement().Update(Integer.parseInt(value));
-        } else if(valueWME.GetValueType().equals("double")){
+        }
+        else if (valueWME.GetValueType().equals(DOUBLE_VAL))
+        {
             valueWME.ConvertToFloatElement().Update(Double.parseDouble(value));
-        } else {
+        }
+        else
+        {
             valueWME.ConvertToStringElement().Update(value);
         }
-        
-    }
-    
-    private String getValueTypeOfString(String s){
-        try{
-            Integer.parseInt(s);
-            return "int";
-        } catch (NumberFormatException e){
-            try {
-                Double.parseDouble(s);
-                return "double";
-            } catch (NumberFormatException e2){
-                return "string";
-            }
-        }
+
     }
 
-    private void processObservations()
+    /**
+     * Returns the type of the given string, 
+     * can be either INTEGER_VAL, DOUBLE_VAL, or STRING_VAL
+     */
+    private String getValueTypeOfString(String s)
     {
-        if (currentObservation == null)
+        try
         {
-            return;
+            Integer.parseInt(s);
+            return INTEGER_VAL;
         }
-        Set<Integer> curObservations  = new HashSet<Integer>();
-        Map<String, String> observationKeyVals = new HashMap<String, String>();
-        
-        //For each observation, split the string into key,val pairs and update the input-link
-        for (object_data_t observation : currentObservation.observations)
+        catch (NumberFormatException e)
         {
-            curObservations.add(observation.id);
-            
-            observationKeyVals.clear();
-            observationKeyVals.put("id", String.valueOf(observation.id));
-            observationKeyVals.put("x", String.valueOf(observation.pos[0]));
-            observationKeyVals.put("y", String.valueOf(observation.pos[1]));
-            observationKeyVals.put("t", String.valueOf(observation.pos[2]));
-            for(String nounjective : observation.nounjective){
-                observationKeyVals.put(nounjective, "nounjective");
-            }
-
-            // Find the observation Identifier in the observationsMap, 
-            //create a new Identifier if needed
-            Identifier observationId = null;
-            if (observationsMap.containsKey(observation.id))
+            try
             {
-                observationId = observationsMap.get(observation.id);
+                Double.parseDouble(s);
+                return DOUBLE_VAL;
             }
-            else
+            catch (NumberFormatException e2)
             {
-                observationId = sensiblesId.CreateIdWME("sensible");
-                observationsMap.put(observation.id, observationId);
+                return STRING_VAL;
             }
-            updateSensibleOnInputLink(observationId, observationKeyVals);
-        }
-        
-        Set<Integer> observationsToRemove = new HashSet<Integer>();
-        //Remove observations not in the currentObservation
-        for(Integer id : observationsMap.keySet()){
-            if(!curObservations.contains(id)){
-                observationsToRemove.add(id);
-            }
-        }
-        for(Integer id : observationsToRemove){
-            observationsMap.get(id).DestroyWME();
-            observationsMap.remove(id);
         }
     }
 
