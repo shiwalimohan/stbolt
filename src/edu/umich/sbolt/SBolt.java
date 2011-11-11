@@ -284,7 +284,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
-        //updateInputLinkWorld();
+        updateInputLinkWorld();
         updateInputLinkMessages();
         agent.Commit();
     }
@@ -365,6 +365,11 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         for (int i = 0; i < observationsId.GetNumberChildren(); ++i)
         {
             WMElement child = sensiblesId.GetChild(i);
+            if (child == null)
+            {
+                continue;
+            }
+            
             if (child.GetAttribute().equals("sensible"))
             {
                 sensiblesToRemove.add(child);
