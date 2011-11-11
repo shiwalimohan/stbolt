@@ -134,7 +134,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
         
-        agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
+        //agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
 
 
         // Set up input link.
@@ -400,20 +400,25 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     {
         for (String message : chatMessageQueue)
         {
-            String[] words = message.split(" ");  
+            String[] c = message.split(" and ");
+            for (String m : c)
+            {
+                
+                String[] words = m.split(" ");
                
-            Identifier mId = messagesId.CreateIdWME("message");
-            Identifier rest = mId.CreateIdWME("words");
-            mId.CreateIntWME("id", messageIdNum);
+                Identifier mId = messagesId.CreateIdWME("message");
+                Identifier rest = mId.CreateIdWME("words");
+                mId.CreateIntWME("id", messageIdNum);
              
-            for (String w : words)  
-            {  
-               rest.CreateStringWME("first-word", w);
+                for (String w : words)  
+                {  
+                    rest.CreateStringWME("first-word", w);
                
-               rest = rest.CreateIdWME("rest");
-            } 
+                    rest = rest.CreateIdWME("rest");
+                } 
 	                
-            messageIdNum++;
+                messageIdNum++;
+            }
         }
         chatMessageQueue.clear();
     }
