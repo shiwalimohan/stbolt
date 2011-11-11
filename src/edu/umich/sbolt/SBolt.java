@@ -304,7 +304,6 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             processObservations();
             lastObservation = currentObservation;
         }
-
         updateInputLinkMessages();
         if (agent.IsCommitRequired())
         {
@@ -460,8 +459,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     }
 
     /**
-     * Updates the given identifier (assumed to be input-link.sensibles.sensible)
-     * by making sure the identifier has exactly the given key-value pairs
+     * Updates the given identifier (assumed to be
+     * input-link.sensibles.sensible) by making sure the identifier has exactly
+     * the given key-value pairs
      */
     private void updateSensibleOnInputLink(Identifier sensibleId,
             Map<String, String> keyValPairs)
@@ -515,8 +515,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     }
 
     /**
-     * Updates the given Identifier so that it becomes:
-     * <element> ^value <value>, and is of the appropriate type
+     * Updates the given Identifier so that it becomes: <element> ^value
+     * <value>, and is of the appropriate type
      */
     private void updateValueAttribute(Identifier element, String value)
     {
@@ -525,14 +525,14 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
         if (valueWME != null && !valueType.equals(valueWME.GetValueType()))
         {
-            //Need to change the type of the WMElement
+            // Need to change the type of the WMElement
             valueWME.DestroyWME();
             valueWME = null;
         }
 
         if (valueWME == null)
         {
-            //Create a new value WME of the appropriate type
+            // Create a new value WME of the appropriate type
             if (valueType.equals(INTEGER_VAL))
             {
                 element.CreateIntWME("value", Integer.parseInt(value));
@@ -548,7 +548,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             return;
         }
 
-        //Otherwise, update the WME using the given value
+        // Otherwise, update the WME using the given value
         if (valueWME.GetValueType().equals(INTEGER_VAL))
         {
             valueWME.ConvertToIntElement().Update(Integer.parseInt(value));
@@ -565,8 +565,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     }
 
     /**
-     * Returns the type of the given string, 
-     * can be either INTEGER_VAL, DOUBLE_VAL, or STRING_VAL
+     * Returns the type of the given string, can be either INTEGER_VAL,
+     * DOUBLE_VAL, or STRING_VAL
      */
     private String getValueTypeOfString(String s)
     {
@@ -593,20 +593,25 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     {
         for (String message : chatMessageQueue)
         {
-            String[] words = message.split(" ");
-
-            Identifier mId = messagesId.CreateIdWME("message");
-            Identifier rest = mId.CreateIdWME("words");
-            mId.CreateIntWME("id", messageIdNum);
-
-            for (String w : words)
+            String[] c = message.split(" and ");
+            for (String m : c)
             {
-                rest.CreateStringWME("first-word", w);
-
-                rest = rest.CreateIdWME("rest");
+                
+                String[] words = m.split(" ");
+               
+                Identifier mId = messagesId.CreateIdWME("message");
+                Identifier rest = mId.CreateIdWME("words");
+                mId.CreateIntWME("id", messageIdNum);
+             
+                for (String w : words)  
+                {  
+                    rest.CreateStringWME("first-word", w);
+               
+                    rest = rest.CreateIdWME("rest");
+                } 
+	                
+                messageIdNum++;
             }
-
-            messageIdNum++;
         }
         chatMessageQueue.clear();
     }
