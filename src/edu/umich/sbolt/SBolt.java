@@ -134,7 +134,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
         
-        //agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
+        agent.SpawnDebugger(kernel.GetListenerPort(), System.getenv().get("SOAR_HOME"));
 
 
         // Set up input link.
