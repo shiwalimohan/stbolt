@@ -88,7 +88,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     // Root identifier for all sensible observations
     private Identifier sensiblesId;
 
-    // Root identifier for all messages the robot recieves
+    // Root identifier for all messages the robot receives
     private Identifier messagesId;
 
     // A counter that is used for the id for each message
@@ -591,17 +591,35 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
     private void updateInputLinkMessages()
     {
+        // if new message(s), remove all current messages on input link first
+        if (!chatMessageQueue.isEmpty())
+        {
+            for (int i = 0; i < messagesId.GetNumberChildren(); i++)
+            {
+                WMElement childWME = messagesId.GetChild(i);
+                if (!(childWME.GetAttribute().equals("message") && childWME
+                        .IsIdentifier()))
+                {
+                    continue;
+                }
+                Identifier mId = childWME.ConvertToIdentifier();
+                mId.DestroyWME();
+            }
+        }
+        
         for (String message : chatMessageQueue)
         {
+            
             String[] c = message.split(" and ");
             for (String m : c)
             {
                 
                 String[] words = m.split(" ");
-               
+                
                 Identifier mId = messagesId.CreateIdWME("message");
                 Identifier rest = mId.CreateIdWME("words");
                 mId.CreateIntWME("id", messageIdNum);
+                mId.CreateIntWME("time", System.currentTimeMillis());
              
                 for (String w : words)  
                 {  
