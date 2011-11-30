@@ -42,7 +42,6 @@ import sml.Identifier;
 import sml.Kernel;
 import sml.smlRunEventId;
 import sml.WMElement;
-import sun.security.util.Debug;
 import april.lcmtypes.object_data_t;
 import april.lcmtypes.observations_t;
 import april.lcmtypes.robot_command_t;
