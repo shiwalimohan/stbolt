@@ -1,33 +1,34 @@
 sp {goto*propose*goto
-   (state <s> ^name goto)
+   (state <s> ^desired <d>)
+   (<d> ^type goto
+       -^status << complete error >>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name goto)
 }
 
 sp {goto*elaborate*goto-operator*x*y
-   (state <s> ^name goto
-              ^desired <d>
+   (state <s> ^desired <d>
               ^operator <o> +)
-   (<d> ^x <x> ^y <y>)
+   (<d> ^type goto
+        ^x <x> ^y <y>)
    (<o> ^name goto)
 -->
    (<o> ^x <x> ^y <y>)
 }
 
 sp {goto*elaborate*goto-operator*t
-   (state <s> ^name goto
-              ^desired <d>
+   (state <s> ^desired <d>
               ^operator <o> +)
-   (<d> ^t <t>)
+   (<d> ^type goto
+        ^t <t>)
    (<o> ^name goto)
 -->
    (<o> ^t <t>)
 }
 
 sp {goto*apply*goto*no-t
-   (state <s> ^top-state.io.output-link <out>
-			  ^name goto
+   (state <s> ^io.output-link <out>
               ^operator <o>)
    (<o> ^name goto
         ^x <x> ^y <y> -^t)
@@ -37,8 +38,7 @@ sp {goto*apply*goto*no-t
 }
 
 sp {goto*apply*goto*with-t
-   (state <s> ^name goto
-     		  ^top-state.io.output-link <out>
+   (state <s> ^io.output-link <out>
               ^operator <o>)
    (<o> ^name goto
         ^x <x> ^y <y> ^t <t>)
@@ -48,10 +48,8 @@ sp {goto*apply*goto*with-t
 }
 
 sp {goto*distance-left
-   (state <s> ^name goto
-              ^top-state <top>
+   (state <s> ^io.input-link.sensibles.sensible <sens>
               ^desired <d>)
-   (<top> ^io.input-link.sensibles.sensible <sens>)
    (<sens> ^attribute <name-att>
            ^attribute <x-att>
            ^attribute <y-att>)
@@ -66,10 +64,9 @@ sp {goto*distance-left
 }
 
 sp {goto*mark-complete
-   (state <s> ^name goto
-              ^superstate <ss>
-              ^distance-left < 0.0001)
-   (<ss> ^instructions <i>)
+   (state <s> ^desired <d>
+              ^distance-left < 0.0001) # Probably should be tweaked
+   (<d> ^type goto)
 -->
-   (<i> ^status complete)
+   (<d> ^status complete)
 }

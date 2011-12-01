@@ -1,0 +1,6 @@
+sp {elaborate*io
+   (state <s> ^superstate <ss>)
+   (<ss> ^io <io>)
+-->
+   (<s> ^io <io>)
+}
