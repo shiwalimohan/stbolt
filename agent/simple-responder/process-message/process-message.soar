@@ -13,11 +13,9 @@ sp {propose*process-message
 sp {apply*process-message*remove*old-desired
    (state <s> ^name responder
               ^operator <o>
-              ^desired <old-des>
-              ^desired <new-des>)
+              ^desired <old-des>)
    (<o> ^name process-message
         ^message <msgID>)
-   (<new-des> ^message <msgID>)
    (<old-des> ^message <> <msgID>)
 -->
    (<s> ^desired <old-des> -)
