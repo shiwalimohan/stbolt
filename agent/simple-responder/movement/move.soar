@@ -1,0 +1,29 @@
+sp {move*propose*move
+   (state <s> ^name move
+              ^desired <d>)
+   (<d> ^direction <dir>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name move
+        ^direction <dir>)
+}
+
+sp {move*apply*move
+   (state <s> ^name move
+     		  ^top-state.io.output-link <out>
+              ^operator <o>)
+   (<o> ^name move
+        ^direction <dir>)
+-->
+   (<out> ^command.move <m>)
+   (<m> ^direction <dir>)
+}
+
+sp {move*mark-complete
+   (state <s> ^name move
+              ^superstate <ss>
+              ^operator.name move)
+   (<ss> ^instructions <i>)
+-->
+   (<i> ^status complete)
+}

@@ -1,0 +1,11 @@
+# If the no-change impasse arose because it was trying to follow-instructions,
+#	The name of the substate is the type of instructions indicated
+sp {elaborate*name*no-change-impasse
+   (state <s> ^attribute operator
+              ^impasse no-change
+              ^superstate.operator <o>)
+   (<o> ^name follow-instructions
+        ^type <type>)
+-->
+   (<s> ^name <type>)
+}

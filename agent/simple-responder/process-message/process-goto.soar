@@ -1,0 +1,65 @@
+sp {apply*process-message*goto*1
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.messages.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word goto
+         ^rest <w2>)
+   (<w2> ^first-word <place>
+         -^rest.first-word)
+-->
+   (<s> ^instructions <i>)
+   (<i> ^type goto
+        ^message <msgID>
+        ^place <place>)
+}
+
+sp {apply*process-message*goto*2
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.messages.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word goto
+         ^rest <w2>)
+   (<w2> ^first-word <x>
+         ^rest <w3>)
+   (<w3> ^first-word <y>
+         -^rest.first-word)
+-->
+   (<s> ^instructions <i>)
+   (<i> ^type goto
+        ^message <msgID>
+        ^x <x>
+        ^y <y>)
+}
+
+sp {apply*process-message*goto*3
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.messages.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word goto
+         ^rest <w2>)
+   (<w2> ^first-word <x>
+         ^rest <w3>)
+   (<w3> ^first-word <x>
+         ^rest <w4>)
+   (<w4> ^first-word <t>
+         -^rest.first-word)
+-->
+   (<s> ^instructions <i>)
+   (<i> ^type goto
+        ^message <msgID>
+        ^x <x>
+        ^y <y>
+        ^t <t>)
+}

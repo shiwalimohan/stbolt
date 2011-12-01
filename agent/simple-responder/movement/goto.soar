@@ -1,0 +1,75 @@
+sp {goto*propose*goto
+   (state <s> ^name goto)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name goto)
+}
+
+sp {goto*elaborate*goto-operator*x*y
+   (state <s> ^name goto
+              ^desired <d>
+              ^operator <o> +)
+   (<d> ^x <x> ^y <y>)
+   (<o> ^name goto)
+-->
+   (<o> ^x <x> ^y <y>)
+}
+
+sp {goto*elaborate*goto-operator*t
+   (state <s> ^name goto
+              ^desired <d>
+              ^operator <o> +)
+   (<d> ^t <t>)
+   (<o> ^name goto)
+-->
+   (<o> ^t <t>)
+}
+
+sp {goto*apply*goto*no-t
+   (state <s> ^top-state.io.output-link <out>
+			  ^name goto
+              ^operator <o>)
+   (<o> ^name goto
+        ^x <x> ^y <y> -^t)
+-->
+   (<out> ^command.destination <d>)
+   (<d> ^x <x> ^y <y> ^t 0)
+}
+
+sp {goto*apply*goto*with-t
+   (state <s> ^name goto
+     		  ^top-state.io.output-link <out>
+              ^operator <o>)
+   (<o> ^name goto
+        ^x <x> ^y <y> ^t <t>)
+-->
+   (<out> ^command.destination <d>)
+   (<d> ^x <x> ^y <y> ^t <t>)
+}
+
+sp {goto*distance-left
+   (state <s> ^name goto
+              ^top-state <top>
+              ^desired <d>)
+   (<top> ^io.input-link.sensibles.sensible <sens>)
+   (<sens> ^attribute <name-att>
+           ^attribute <x-att>
+           ^attribute <y-att>)
+   (<name-att> ^key name ^value robot)
+   (<x-att> ^key x ^value <curX>)
+   (<y-att> ^key y ^value <curY>)
+   (<d> ^x <goalX> ^y <goalY>)
+-->
+   # Straight line distance from current position to goal squared
+   (<s> ^distance-left (+ (* (- <goalX> <curX>) (- <goalX> <curX>)) 
+   						  (* (- <goalY> <curY>) (- <goalY> <curY>))))
+}
+
+sp {goto*mark-complete
+   (state <s> ^name goto
+              ^superstate <ss>
+              ^distance-left < 0.0001)
+   (<ss> ^instructions <i>)
+-->
+   (<i> ^status complete)
+}

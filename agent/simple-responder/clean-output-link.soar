@@ -1,0 +1,31 @@
+### Remove completed commands and message
+### We do this during any operator application
+sp {apply*remove-message
+   (state <s> ^operator <o>
+              ^top-state.io.output-link <out>)
+   (<out> ^message <m>)
+   (<m> ^status << complete error >>)
+-->
+   (<out> ^message <m> -)
+}
+
+# If the command has a sub command with a marked status, remove it
+sp {apply*remove-command*sub
+   (state <s> ^operator <o>
+              ^top-state.io.output-link.command <command>)
+   (<command> ^{<sub-command> << action gripper destination >>} <sub>)
+   (<sub> ^status << complete error >>)
+-->
+   (<command> ^<sub-command> <sub> -)
+}
+
+# If all the sub-commands for a command are removed, remove it too
+sp {apply*remove-command
+   (state <s> ^operator <o>
+              ^top-state.io.output-link <out>)
+   (<out> ^command <command>)
+   -{(<command> ^<att> <a>)
+     (<a> -^status <st>)}
+-->
+   (<out> ^command <command> -)
+}

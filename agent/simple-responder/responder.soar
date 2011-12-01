@@ -1,0 +1,23 @@
+pushd elaborations
+source desired.soar
+source op-no-change-name.soar
+source top-state.soar
+popd
+
+pushd movement
+source goto.soar
+source move.soar
+source turn.soar
+popd
+
+pushd process-message
+source process-goto.soar
+source process-message.soar
+source process-move.soar
+source process-turn.soar
+popd
+
+source clean-output-link.soar
+source follow-instructions.soar
+source init-responder.soar
+source wait.soar

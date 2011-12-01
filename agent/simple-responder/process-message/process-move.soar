@@ -1,0 +1,18 @@
+sp {apply*process-message*move*1
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.messages.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word move
+         ^rest <w2>)
+   (<w2> ^first-word {<dir> << forward backward >>}
+         -^rest.first-word)
+-->
+   (<s> ^instructions <i>)
+   (<i> ^type move
+        ^message <msgID>
+        ^direction <dir>)
+}

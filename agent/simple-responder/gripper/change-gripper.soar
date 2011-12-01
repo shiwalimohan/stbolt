@@ -1,0 +1,29 @@
+sp {turn*propose*turn
+   (state <s> ^name turn
+              ^desired <d>)
+   (<d> ^direction <dir>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name turn
+        ^direction <dir>)
+}
+
+sp {turn*apply*turn
+   (state <s> ^name turn
+     		  ^top-state.io.output-link <out>
+              ^operator <o>)
+   (<o> ^name turn
+        ^direction <dir>)
+-->
+   (<out> ^command.turn <m>)
+   (<m> ^direction <dir>)
+}
+
+sp {turn*mark-complete
+   (state <s> ^name turn
+              ^superstate <ss>
+              ^operator.name turn)
+   (<ss> ^instructions <i>)
+-->
+   (<i> ^status complete)
+}

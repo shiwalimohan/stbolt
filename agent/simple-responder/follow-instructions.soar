@@ -1,0 +1,13 @@
+# For the current instructions an operator is proposed which 
+#	will cause a no-change impasse for processing in a substate
+# The name of this operator is the type of the instructions
+sp {propose*follow-instructions
+   (state <s> ^name responder
+              ^instructions <i>)
+   (<i> ^type <type>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name follow-instructions
+        ^type <type>)
+}

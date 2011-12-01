@@ -1,0 +1,15 @@
+sp {propose*init-responder
+   (state <s> ^superstate nil
+             -^name )
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name init-responder)
+}
+
+sp {apply*init-responder
+   (state <s> ^superstate nil
+              ^operator <o>)
+   (<o> ^name init-responder)
+-->
+   (<s> ^name responder)
+}
