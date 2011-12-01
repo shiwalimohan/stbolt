@@ -43,9 +43,10 @@ import sml.Kernel;
 import sml.smlRunEventId;
 import sml.WMElement;
 import sun.security.util.Debug;
-import april.lcmtypes.object_data_t;
-import april.lcmtypes.observations_t;
-import april.lcmtypes.robot_command_t;
+
+import abolt.lcmtypes.object_data_t;
+import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_command_t;
 
 public class SBolt implements LCMSubscriber, OutputEventInterface,
         RunEventInterface
@@ -104,6 +105,12 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     private static String DOUBLE_VAL = "double";
 
     private static String STRING_VAL = "string";
+    
+    private Map<String, Integer> sensibleIds;
+    
+    private int nextSensibleId;
+    
+    
 
     public SBolt(String channel, String agentName)
     {
@@ -130,8 +137,11 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         {
             throw new IllegalStateException("Kernel created null agent");
         }
-        Boolean loadResult = agent.LoadProductions("agent/simple_agent.soar");
-
+        Boolean loadResult = agent.LoadProductions("agent/simple-responder/responder.soar");
+        
+        sensibleIds = new HashMap<String, Integer>();
+        nextSensibleId = 1000;
+        
         agent.AddOutputHandler("command", this, null);
         agent.AddOutputHandler("message", this, null);
 
@@ -175,7 +185,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
-        agent.RunSelfForever();
+        agent.RunSelf(1);
     }
 
     public void stop()
@@ -328,8 +338,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
 
         // For each sensible, split the string into key,val pairs and update the
         // input-link
-        for (String sensible : currentObservation.sensibles)
+        for (String sensible : currentObservation.sensables)
         {
+            sensible = sensible.toLowerCase();
             sensibleKeyVals.clear();
             String[] keyValPairs = sensible.split(",");
 
@@ -343,8 +354,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                     continue;
                 }
 
-                sensibleKeyVals.put(keyVal[0], keyVal[1]);
-                if (keyVal[0].toLowerCase().equals("id"))
+                if (keyVal[0].equals("id"))
                 {
                     try
                     {
@@ -357,13 +367,32 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                         id = INVALID_ID;
                         break;
                     }
+                } else if(keyVal[0].equals("robot_pos")){
+                    sensibleKeyVals.put("name", "robot");
+                    keyVal[1] = keyVal[1].substring(1, keyVal[1].length() - 1);
+                    String[] params = keyVal[1].split(" ");
+                    sensibleKeyVals.put("x", params[0]);
+                    sensibleKeyVals.put("y", params[1]);
+                    sensibleKeyVals.put("t", params[2]);
+                } else {
+                    sensibleKeyVals.put(keyVal[0], keyVal[1]);
                 }
             }
 
             if (id == INVALID_ID)
             {
                 // That sensible string does not have an id key
-                continue;
+                if(sensibleKeyVals.containsKey("name")){
+                    String name = sensibleKeyVals.get("name");
+                    if(sensibleIds.containsKey(name)){
+                        id = sensibleIds.get(name);
+                    } else {
+                        sensibleIds.put(name, nextSensibleId);
+                        nextSensibleId++;
+                    }
+                } else {
+                    continue;
+                }
             }
 
             observationSensibles.add(id);
@@ -422,7 +451,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             observationKeyVals.put("x", String.valueOf(observation.pos[0]));
             observationKeyVals.put("y", String.valueOf(observation.pos[1]));
             observationKeyVals.put("t", String.valueOf(observation.pos[2]));
-            for (String nounjective : observation.nounjective)
+            for (String nounjective : observation.nounjectives)
             {
                 observationKeyVals.put(nounjective, "nounjective");
             }
@@ -491,7 +520,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             if (keyValPairs.containsKey(keyString))
             {
                 // That key still exists, update if necessary
-                updateValueAttribute(attributeId, keyValPairs.get(keyString));
+                updateWME(attributeId, "value", keyValPairs.get(keyString));
                 existingKeys.add(keyString);
             }
             else
@@ -510,18 +539,17 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             Identifier attributeId = sensibleId.CreateIdWME("attribute");
             attributeId.CreateStringWME("key",
                     String.valueOf(keyValPair.getKey()));
-            updateValueAttribute(attributeId, keyValPair.getValue());
+            updateWME(attributeId, "value", keyValPair.getValue());
         }
     }
 
     /**
-     * Updates the given Identifier so that it becomes: <element> ^value
+     * Updates the given Identifier so that it becomes: <identifier> ^<attribute>
      * <value>, and is of the appropriate type
      */
-    private void updateValueAttribute(Identifier element, String value)
-    {
+    private void updateWME(Identifier identifier, String attribute, String value){
         String valueType = getValueTypeOfString(value);
-        WMElement valueWME = element.FindByAttribute("value", 0);
+        WMElement valueWME = identifier.FindByAttribute(attribute, 0);
 
         if (valueWME != null && !valueType.equals(valueWME.GetValueType()))
         {
@@ -535,15 +563,15 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             // Create a new value WME of the appropriate type
             if (valueType.equals(INTEGER_VAL))
             {
-                element.CreateIntWME("value", Integer.parseInt(value));
+                identifier.CreateIntWME(attribute, Integer.parseInt(value));
             }
             else if (valueType.equals(DOUBLE_VAL))
             {
-                element.CreateFloatWME("value", Double.parseDouble(value));
+                identifier.CreateFloatWME(attribute, Double.parseDouble(value));
             }
             else
             {
-                element.CreateStringWME("value", value);
+                identifier.CreateStringWME(attribute, value);
             }
             return;
         }
@@ -561,8 +589,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         {
             valueWME.ConvertToStringElement().Update(value);
         }
-
     }
+
 
     /**
      * Returns the type of the given string, can be either INTEGER_VAL,
@@ -623,7 +651,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
              
                 for (String w : words)  
                 {  
-                    rest.CreateStringWME("first-word", w);
+                    updateWME(rest, "first-word", w);
                
                     rest = rest.CreateIdWME("rest");
                 } 
@@ -895,13 +923,13 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         }
         synchronized (command)
         {
-            lcm.publish("sbolt_commands", command);
+            lcm.publish("ROBOT_COMMAND", command);
         }
     }
 
     public static void main(String[] args)
     {
-        SBolt sbolt = new SBolt("abolt_observations", "sbolt");
+        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
         sbolt.showFrame();
         sbolt.start();
     }

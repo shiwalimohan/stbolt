@@ -33,9 +33,9 @@ import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 
-import april.lcmtypes.object_data_t;
-import april.lcmtypes.observations_t;
-import april.lcmtypes.robot_command_t;
+import abolt.lcmtypes.object_data_t;
+import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_command_t;
 
 public class LCMTester implements LCMSubscriber
 {
@@ -122,7 +122,7 @@ public class LCMTester implements LCMSubscriber
         redCylinder.put("color", "red");
         redCylinderObj = new object_data_t();
         redCylinderObj.nj_len = 1;
-        redCylinderObj.nounjective = new String[redCylinderObj.nj_len];
+        redCylinderObj.nounjectives = new String[redCylinderObj.nj_len];
 
         blueCylinder = new Hashtable<String, String>();
         blueCylinder.put("id", "11");
@@ -131,7 +131,7 @@ public class LCMTester implements LCMSubscriber
         blueCylinder.put("color", "blue");
         blueCylinderObj = new object_data_t();
         blueCylinderObj.nj_len = 1;
-        blueCylinderObj.nounjective = new String[blueCylinderObj.nj_len];
+        blueCylinderObj.nounjectives = new String[blueCylinderObj.nj_len];
 
         lightSwitch = new HashMap<String, String>();
         lightSwitch.put("id", "100");
@@ -159,7 +159,7 @@ public class LCMTester implements LCMSubscriber
         observations.nobs = 2;
         observations.observations = new object_data_t[observations.nobs];
         observations.nsens = 2;
-        observations.sensibles = new String[observations.nobs];
+        observations.sensables = new String[observations.nobs];
     }
 
     public void start()
@@ -296,7 +296,7 @@ public class LCMTester implements LCMSubscriber
         redCylinderObj.pos[0] = Double.valueOf(redCylinder.get("x"));
         redCylinderObj.pos[1] = Double.valueOf(redCylinder.get("y"));
         redCylinderObj.pos[2] = 0;
-        redCylinderObj.nounjective[0] = redCylinder.get("color");
+        redCylinderObj.nounjectives[0] = redCylinder.get("color");
 
         blueCylinderObj.utime = timerCount;
         blueCylinderObj.id = Integer.valueOf(blueCylinder.get("id"));
@@ -304,7 +304,7 @@ public class LCMTester implements LCMSubscriber
         blueCylinderObj.pos[1] = Double.valueOf(blueCylinder.get("y"));
         blueCylinderObj.pos[2] = 0;
         blueCylinderObj.nj_len = 1;
-        blueCylinderObj.nounjective[0] = blueCylinder.get("color");
+        blueCylinderObj.nounjectives[0] = blueCylinder.get("color");
 
         String robotString = "";
         for (Entry<String, String> keyValPair : robot.entrySet())
@@ -320,9 +320,9 @@ public class LCMTester implements LCMSubscriber
 
         observations.observations[0] = redCylinderObj;
         observations.observations[1] = blueCylinderObj;
-        observations.sensibles[0] = robotString.substring(0,
+        observations.sensables[0] = robotString.substring(0,
                 robotString.length() - 1);
-        observations.sensibles[1] = switchString.substring(0,
+        observations.sensables[1] = switchString.substring(0,
                 switchString.length() - 1);
         observations.utime = timerCount;
 
