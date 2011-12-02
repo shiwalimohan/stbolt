@@ -1,17 +1,9 @@
 package edu.umich.sbolt;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,8 +12,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.Action;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -29,55 +19,41 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import edu.umich.soar.SoarProperties;
-
 import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
 import sml.Agent.RunEventInterface;
-import sml.FloatElement;
 import sml.Identifier;
 import sml.Kernel;
-import sml.smlRunEventId;
 import sml.WMElement;
-import sun.security.util.Debug;
-
+import sml.smlRunEventId;
 import abolt.lcmtypes.object_data_t;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
+import edu.umich.sbolt.controller.GamepadController;
+import edu.umich.soar.SoarProperties;
 
-public class SBolt implements LCMSubscriber, OutputEventInterface,
-        RunEventInterface
+public class SBolt implements LCMSubscriber, OutputEventInterface, RunEventInterface
 {
     private LCM lcm;
-
     private Kernel kernel;
-
     private Agent agent;
-
     private robot_command_t command;
-
     private Timer timer;
-
     private TimerTask timerTask;
-
     private boolean running;
-
     private JFrame chatFrame;
-
     private JTextArea chatArea;
-
     private JTextField chatField;
-
     private List<String> chatMessages;
+    private GamepadController gamepadController;
 
     // Identifiers for input link
 
     // The most recent observations_t received
     private observations_t currentObservation;
-
     private observations_t lastObservation;
 
     // Maps observation IDs onto their sensibles identifiers
@@ -99,18 +75,11 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
     private List<String> chatMessageQueue;
 
     private static Integer INVALID_ID = -1;
-
     private static String INTEGER_VAL = "int";
-
     private static String DOUBLE_VAL = "double";
-
     private static String STRING_VAL = "string";
-    
     private Map<String, Integer> sensibleIds;
-    
     private int nextSensibleId;
-    
-    
 
     public SBolt(String channel, String agentName)
     {
@@ -137,11 +106,12 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         {
             throw new IllegalStateException("Kernel created null agent");
         }
-        Boolean loadResult = agent.LoadProductions("agent/simple-responder/responder.soar");
         
+        Boolean loadResult = agent.LoadProductions("agent/simple-responder/responder.soar");
+
         sensibleIds = new HashMap<String, Integer>();
         nextSensibleId = 1000;
-        
+
         agent.AddOutputHandler("command", this, null);
         agent.AddOutputHandler("message", this, null);
 
@@ -151,11 +121,9 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         // for the RunEvent right before the next Input Phase
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
-        agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
-                this, null);
+        agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
 
-        agent.SpawnDebugger(kernel.GetListenerPort(),
-                System.getenv().get("SOAR_HOME"));
+        agent.SpawnDebugger(kernel.GetListenerPort(), new SoarProperties().getPrefix());
 
         // Set up input link.
         initInputLink();
@@ -185,6 +153,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
+        gamepadController = new GamepadController(0.0, 0.0, 0.0);
         agent.RunSelf(1);
     }
 
@@ -233,10 +202,8 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             }
         });
 
-        JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                chatField, button);
-        JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane,
-                pane2);
+        JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chatField, button);
+        JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane, pane2);
 
         pane1.setDividerLocation(200);
         pane2.setDividerLocation(450);
@@ -367,14 +334,23 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                         id = INVALID_ID;
                         break;
                     }
-                } else if(keyVal[0].equals("robot_pos")){
+                }
+                else if (keyVal[0].equals("robot_pos"))
+                {
                     sensibleKeyVals.put("name", "robot");
                     keyVal[1] = keyVal[1].substring(1, keyVal[1].length() - 1);
                     String[] params = keyVal[1].split(" ");
                     sensibleKeyVals.put("x", params[0]);
                     sensibleKeyVals.put("y", params[1]);
                     sensibleKeyVals.put("t", params[2]);
-                } else {
+                    
+                    double x = Double.parseDouble(params[0]);
+                    double y = Double.parseDouble(params[1]);
+                    double t = Double.parseDouble(params[2]);
+                    gamepadController.updateLocation(x, y, t);
+                }
+                else
+                {
                     sensibleKeyVals.put(keyVal[0], keyVal[1]);
                 }
             }
@@ -382,15 +358,21 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             if (id == INVALID_ID)
             {
                 // That sensible string does not have an id key
-                if(sensibleKeyVals.containsKey("name")){
+                if (sensibleKeyVals.containsKey("name"))
+                {
                     String name = sensibleKeyVals.get("name");
-                    if(sensibleIds.containsKey(name)){
+                    if (sensibleIds.containsKey(name))
+                    {
                         id = sensibleIds.get(name);
-                    } else {
+                    }
+                    else
+                    {
                         sensibleIds.put(name, nextSensibleId);
                         nextSensibleId++;
                     }
-                } else {
+                }
+                else
+                {
                     continue;
                 }
             }
@@ -492,8 +474,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
      * input-link.sensibles.sensible) by making sure the identifier has exactly
      * the given key-value pairs
      */
-    private void updateSensibleOnInputLink(Identifier sensibleId,
-            Map<String, String> keyValPairs)
+    private void updateSensibleOnInputLink(Identifier sensibleId, Map<String, String> keyValPairs)
     {
         Set<String> existingKeys = new HashSet<String>(); // Set of keys already
                                                           // on the WME
@@ -502,8 +483,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         for (int i = 0; i < sensibleId.GetNumberChildren(); i++)
         {
             WMElement attributeWME = sensibleId.GetChild(i);
-            if (!attributeWME.GetAttribute().equals("attribute")
-                    || !attributeWME.IsIdentifier())
+            if (!attributeWME.GetAttribute().equals("attribute") || !attributeWME.IsIdentifier())
             {
                 continue;
             }
@@ -537,17 +517,17 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 continue;
             }
             Identifier attributeId = sensibleId.CreateIdWME("attribute");
-            attributeId.CreateStringWME("key",
-                    String.valueOf(keyValPair.getKey()));
+            attributeId.CreateStringWME("key", String.valueOf(keyValPair.getKey()));
             updateWME(attributeId, "value", keyValPair.getValue());
         }
     }
 
     /**
-     * Updates the given Identifier so that it becomes: <identifier> ^<attribute>
-     * <value>, and is of the appropriate type
+     * Updates the given Identifier so that it becomes: <identifier>
+     * ^<attribute> <value>, and is of the appropriate type
      */
-    private void updateWME(Identifier identifier, String attribute, String value){
+    private void updateWME(Identifier identifier, String attribute, String value)
+    {
         String valueType = getValueTypeOfString(value);
         WMElement valueWME = identifier.FindByAttribute(attribute, 0);
 
@@ -591,7 +571,6 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         }
     }
 
-
     /**
      * Returns the type of the given string, can be either INTEGER_VAL,
      * DOUBLE_VAL, or STRING_VAL
@@ -625,8 +604,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             for (int i = 0; i < messagesId.GetNumberChildren(); i++)
             {
                 WMElement childWME = messagesId.GetChild(i);
-                if (!(childWME.GetAttribute().equals("message") && childWME
-                        .IsIdentifier()))
+                if (!(childWME.GetAttribute().equals("message") && childWME.IsIdentifier()))
                 {
                     continue;
                 }
@@ -634,28 +612,28 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 mId.DestroyWME();
             }
         }
-        
+
         for (String message : chatMessageQueue)
         {
-            
+
             String[] c = message.split(" and ");
             for (String m : c)
             {
-                
+
                 String[] words = m.split(" ");
-                
+
                 Identifier mId = messagesId.CreateIdWME("message");
                 Identifier rest = mId.CreateIdWME("words");
                 mId.CreateIntWME("id", messageIdNum);
                 mId.CreateIntWME("time", System.currentTimeMillis());
-             
-                for (String w : words)  
-                {  
+
+                for (String w : words)
+                {
                     updateWME(rest, "first-word", w);
-               
+
                     rest = rest.CreateIdWME("rest");
-                } 
-	                
+                }
+
                 messageIdNum++;
             }
         }
@@ -667,8 +645,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
      *******************************************************************/
 
     @Override
-    public void outputEventHandler(Object data, String agentName,
-            String attributeName, WMElement wme)
+    public void outputEventHandler(Object data, String agentName, String attributeName, WMElement wme)
     {
         if (!(wme.IsJustAdded() && wme.IsIdentifier()))
         {
@@ -724,8 +701,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
                 {
                     message += child.GetValueAsString() + " ";
                 }
-                else if (child.GetAttribute().equals("rest")
-                        && child.IsIdentifier())
+                else if (child.GetAttribute().equals("rest") && child.IsIdentifier())
                 {
                     nextWordId = child.ConvertToIdentifier();
                 }
@@ -799,8 +775,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             if (xWme == null || yWme == null || tWme == null)
             {
                 destId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Command has destination WME missing x, y, or t");
+                throw new IllegalStateException("Command has destination WME missing x, y, or t");
             }
 
             try
@@ -812,12 +787,12 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             catch (Exception e)
             {
                 destId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Command has an invalid x, y, or t float");
+                throw new IllegalStateException("Command has an invalid x, y, or t float");
             }
         }
 
         command.dest = new double[] { x, y, t };
+        gamepadController.setTarget(x, y, t);
         destId.CreateStringWME("status", "complete");
     }
 
@@ -838,8 +813,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         for (int i = 0; i < actionId.GetNumberChildren(); i++)
         {
             WMElement childWME = actionId.GetChild(i);
-            if (!(childWME.GetAttribute().equals("pair") && childWME
-                    .IsIdentifier()))
+            if (!(childWME.GetAttribute().equals("pair") && childWME.IsIdentifier()))
             {
                 continue;
             }
@@ -859,8 +833,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
             if (valueWME == null || valueWME.GetValueAsString().length() == 0)
             {
                 actionId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Action has a pair with no value");
+                throw new IllegalStateException("Action has a pair with no value");
             }
             String value = valueWME.GetValueAsString();
 
@@ -875,8 +848,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         }
 
         command.action = actionBuf.toString();
-        command.action = command.action.substring(0,
-                command.action.length() - 1);
+        command.action = command.action.substring(0, command.action.length() - 1);
         actionId.CreateStringWME("status", "complete");
     }
 
@@ -895,8 +867,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         if (performWME == null)
         {
             gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Gripper command does not have a perform WME");
+            throw new IllegalStateException("Gripper command does not have a perform WME");
 
         }
 
@@ -904,8 +875,7 @@ public class SBolt implements LCMSubscriber, OutputEventInterface,
         if (!gripperAction.equals("open") && !gripperAction.equals("close"))
         {
             gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Gripper command is not 'open' or 'close'");
+            throw new IllegalStateException("Gripper command is not 'open' or 'close'");
         }
 
         command.gripper_open = gripperAction.equals("open");
