@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.umich.sbolt.controller.RobotPositionListener;
+
 import sml.Agent;
 import sml.Agent.RunEventInterface;
 import sml.Identifier;
@@ -58,6 +60,7 @@ public class InputLinkHandler implements RunEventInterface
 
     private static String STRING_VAL = "string";
     
+    private List<RobotPositionListener> positionListeners = new ArrayList<RobotPositionListener>();
     
     public InputLinkHandler(SBolt sbolt){
         observationsMap = new HashMap<Integer, Identifier>();
@@ -79,6 +82,11 @@ public class InputLinkHandler implements RunEventInterface
         
         sbolt.getAgent().RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
+    }
+    
+    public void addRobotPositionListener(RobotPositionListener listener) 
+    {
+        positionListeners.add(listener);
     }
     
     public void addMessage(String message){
@@ -164,6 +172,20 @@ public class InputLinkHandler implements RunEventInterface
                     sensibleKeyVals.put("x", params[0]);
                     sensibleKeyVals.put("y", params[1]);
                     sensibleKeyVals.put("t", params[2]);
+                    for (RobotPositionListener listener : positionListeners)
+                    {
+                        try
+                        {
+                            double x = Double.valueOf(params[0]);
+                            double y = Double.valueOf(params[1]);
+                            double t = Double.valueOf(params[2]);
+                            listener.robotPositionChanged(x, y, t);
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
                 } else {
                     sensibleKeyVals.put(keyVal[0], keyVal[1]);
                 }
