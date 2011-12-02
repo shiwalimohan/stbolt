@@ -9,16 +9,16 @@ sp {propose*process-message
         ^message <msgID>)
 }
 
-# When processing a new message, the old instructions are removed
-sp {apply*process-message*remove*old-instructions
+# When processing a new message, the old desired is removed
+sp {apply*process-message*remove*old-desired
    (state <s> ^name responder
               ^operator <o>
-              ^instructions <i>)
+              ^desired <old-des>)
    (<o> ^name process-message
         ^message <msgID>)
-   (<i> ^message <> <msgID>)
+   (<old-des> ^message <> <msgID>)
 -->
-   (<s> ^instructions <i> -)
+   (<s> ^desired <old-des> -)
 }
 
 # Once a message has been processed a processed flag is added
@@ -33,10 +33,9 @@ sp {apply*process-message*mark-processed
 
 # If a message has been removed from the input-link the processed flag is removed
 sp {remove*processed
-   (state <s> ^top-state <top>
-              ^operator <o>)
-   (<top> -^io.input-link.messages.message.id <msgID>
-           ^processed <msgID>)
+   (state <s> -^io.input-link.messages.message.id <msgID>
+               ^processed <msgID>
+              	^operator <o>)
 -->
-   (<top> ^processed <msgID> -)
+   (<s> ^processed <msgID> -)
 }

@@ -11,8 +11,8 @@ sp {apply*process-message*goto*1
    (<w2> ^first-word <place>
          -^rest.first-word)
 -->
-   (<s> ^instructions <i>)
-   (<i> ^type goto
+   (<s> ^desired <d>)
+   (<d> ^type goto
         ^message <msgID>
         ^place <place>)
 }
@@ -32,8 +32,8 @@ sp {apply*process-message*goto*2
    (<w3> ^first-word <y>
          -^rest.first-word)
 -->
-   (<s> ^instructions <i>)
-   (<i> ^type goto
+   (<s> ^desired <d>)
+   (<d> ^type goto
         ^message <msgID>
         ^x <x>
         ^y <y>)
@@ -56,8 +56,8 @@ sp {apply*process-message*goto*3
    (<w4> ^first-word <t>
          -^rest.first-word)
 -->
-   (<s> ^instructions <i>)
-   (<i> ^type goto
+   (<s> ^desired <d>)
+   (<d> ^type goto
         ^message <msgID>
         ^x <x>
         ^y <y>
