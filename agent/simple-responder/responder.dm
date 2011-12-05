@@ -1,4 +1,4 @@
-77
+100
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -51,93 +51,146 @@ STRING 51
 STRING 50
 SOAR_ID 49
 ENUMERATION 48 2 open close
-SOAR_ID 55
+ENUMERATION 55 1 stove
 STRING 54
 ENUMERATION 53 2 complete error
 ENUMERATION 52 2 complete error
-SOAR_ID 59
+ENUMERATION 59 1 clock
 SOAR_ID 58
-ENUMERATION 57 2 forward backward
-ENUMERATION 56 2 complete error
-ENUMERATION 63 2 complete error
-SOAR_ID 62
-ENUMERATION 61 2 right left
-ENUMERATION 60 2 complete error
-FLOAT_RANGE 68 -180.0 180.0
-FLOAT_RANGE 69 -100.0 100.0
-ENUMERATION 70 2 complete error
-SOAR_ID 71
-SOAR_ID 64
-FLOAT_RANGE 65 -180.0 180.0
-ENUMERATION 66 2 complete error
-SOAR_ID 67
-ENUMERATION 76 2 complete error
-FLOAT_RANGE 72 -100.0 100.0
-ENUMERATION 73 2 complete error
-SOAR_ID 74
-INT_RANGE 75 0 0
-64
-20 gripper 47
-38 rest 38
-20 set-heading 64
-55 direction 57
-22 None 54
-1 output-link 3
-2 messages 33
-10 nounjective 13
-22 x 23
-28 pair 49
-20 set-velocity 67
-1 input-link 2
-37 id 39
-33 message 37
-67 linear-velocity 69
-14 x 15
-64 status 66
-20 destination 22
-31 attribute 32
-41 words 45
-55 status 56
-2 sensibles 11
-22 t 25
+ENUMERATION 57 1 pantry
+SOAR_ID 56
+SOAR_ID 63
+ENUMERATION 62 3 medium large small
+ENUMERATION 61 3 cube round cylinder
+ENUMERATION 60 5 red green black beige tan
+ENUMERATION 68 2 off on
+ENUMERATION 69 1 green
+ENUMERATION 70 1 cube
+ENUMERATION 71 1 large
+FLOAT_RANGE 64 0.0 0.0
+FLOAT_RANGE 65 0.0 0.0
+FLOAT_RANGE 66 0.0 0.0
+ENUMERATION 67 2 closed open
+SOAR_ID 76
+ENUMERATION 77 1 chicken
+ENUMERATION 78 1 raw
+ENUMERATION 79 1 dirty
+ENUMERATION 72 1 stocked
+SOAR_ID 73
+ENUMERATION 74 1 light-switch
+ENUMERATION 75 2 on off
+SOAR_ID 85
+ENUMERATION 84 1 none
+STRING 87
+INT_RANGE 86 0 0
+ENUMERATION 81 0
+ENUMERATION 80 0
+STRING 83
+STRING 82
+STRING 93
+FLOAT_RANGE 92 0.0 0.0
+FLOAT_RANGE 95 0.0 0.0
+ENUMERATION 94 1 robot
+SOAR_ID 89
+SOAR_ID 88
+FLOAT_RANGE 91 0.0 0.0
+FLOAT_RANGE 90 0.0 0.0
+INT_RANGE 98 0 0
+INT_RANGE 99 0 0
+SOAR_ID 96
+INT_RANGE 97 0 0
+94
+56 door 67
+38 next 38
 0 name 6
-3 command 20
-74 status 76
-41 status 44
-38 first-word 35
-8 object 10
-3 message 41
-10 position 14
-71 distance 72
-58 direction 61
-14 y 16
-10 id 12
-20 remove-message 74
-47 perform 48
-0 type 4
-47 status 21
-74 message-id 75
-49 value 51
-22 y 24
-49 key 50
-45 first-word 46
-0 superstate 5
-67 status 70
-32 value 19
-62 status 63
 45 rest 45
-67 angular-velocity 68
-11 sensible 31
-0 io 1
-20 stop 62
-22 status 53
-20 action 28
-20 set-linear-movement 71
-71 status 73
-58 status 60
+1 input-link 2
+10 id 12
+2 self 88
+89 t 92
+58 location 63
+31 door 67
+11 object 73
+56 shape 61
+88 battery 95
+31 size 62
+58 shape 61
+73 size 62
+14 y 16
+88 name 94
+20 gripper 47
+22 status 21
+3 command 20
+88 pose 89
+56 color 60
+3 message 41
+47 perform 48
+0 superstate 5
 37 words 38
-64 yaw 65
-32 key 18
-14 t 17
-28 status 52
+31 color 60
+85 message-id 86
+58 size 62
+11 object 58
+11 object 76
+31 cooking 68
+73 color 60
+73 location 63
+22 y 24
 37 time 42
+56 location 63
+58 color 60
+20 remove-message 85
+63 x 64
+56 name 57
+0 io 1
+32 value 19
+20 destination 22
+96 steps 99
+38 word 35
+47 status 21
+76 name 77
+22 t 25
+96 milliseconds 98
+76 cooked-state 78
+56 size 62
+49 target 50
+2 message 37
+1 output-link 3
+11 object 56
+10 position 14
+73 toggle 75
+20 action 28
+37 from 87
+76 shape 61
+37 id 39
+63 z 66
+10 nounjective 13
+31 shape 61
+14 x 15
+58 name 59
+11 object 31
+96 seconds 97
+56 fullness 72
+2 objects 11
+28 status 21
+63 y 65
+31 name 55
+8 object 10
+76 color 60
+45 first-word 46
+2 time 96
+31 location 63
+28 verb 83
+76 clean-state 79
+41 status 21
+32 key 18
+73 name 74
+28 noun 82
+49 argument 51
+0 type 4
+41 words 45
+14 t 17
+89 x 90
+89 y 91
+85 status 21
+22 x 23

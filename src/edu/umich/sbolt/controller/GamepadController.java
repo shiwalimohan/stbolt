@@ -97,7 +97,7 @@ public class GamepadController implements RobotPositionListener, RobotDestinatio
             // Case 2: We're pointing toward the target. Move forward.
             double targetTheta = Math.atan2(dy, dx);
             double dt = deltaTheta(location[2], targetTheta);
-            System.out.println("Target theta: " + targetTheta + ", location: " + location[2] + ", dt: " + dt + ", diff: " + (targetTheta - location[2]));
+            // System.out.println("Target theta: " + targetTheta + ", location: " + location[2] + ", dt: " + dt + ", diff: " + (targetTheta - location[2]));
             if (Math.abs(dt) < TARGET_MOVING_ANGLE_THRESHOLD)
             {
                 speed[0] = -dt / 2.0;

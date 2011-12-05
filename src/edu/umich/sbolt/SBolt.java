@@ -29,8 +29,9 @@ public class SBolt implements LCMSubscriber
     private OutputLinkHandler outputLinkHandler;
     
     private ChatFrame chatFrame;
+    
     private GamepadController gamepadController;
-
+    
     public SBolt(String channel, String agentName)
     {
         // LCM Channel, listen for observations_t
