@@ -12,11 +12,11 @@ sp {apply*remove-message
 # If the command has a sub command with a marked status, remove it
 sp {apply*remove-command*sub
    (state <s> ^operator <o>
-              ^top-state.io.output-link.command <command>)
-   (<command> ^{<sub-command> << action gripper destination >>} <sub>)
+              ^top-state.io.output-link <out>)
+   (<out> ^{<sub-command> << action goto stop send-message destination >>} <sub>)
    (<sub> ^status << complete error >>)
 -->
-   (<command> ^<sub-command> <sub> -)
+   (<out> ^<sub-command> <sub> -)
 }
 
 # If all the sub-commands for a command are removed, remove it too

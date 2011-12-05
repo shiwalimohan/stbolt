@@ -15,7 +15,7 @@ sp {turn*apply*turn
    (<o> ^name turn
         ^direction <dir>)
 -->
-   (<out> ^command.turn <m>)
+   (<out> ^turn <m>)
    (<m> ^direction <dir>)
 }
 

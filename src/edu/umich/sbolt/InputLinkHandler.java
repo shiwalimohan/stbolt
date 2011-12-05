@@ -508,6 +508,15 @@ public class InputLinkHandler implements RunEventInterface
         }
     }
     
+    //get identifier for object
+    public Identifier getIdentifier(String s)
+    {
+        Integer i = objectIds.get(s);
+        if (i == null)
+            return null;
+        return objectsMap.get(i);
+    }
+    
     private void updateMessages(){
         WMElement message = inputLinkId.FindByAttribute("message", 0);
         

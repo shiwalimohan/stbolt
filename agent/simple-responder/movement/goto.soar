@@ -7,6 +7,15 @@ sp {goto*propose*goto
    (<o> ^name goto)
 }
 
+sp {stop*propose*stop
+   (state <s> ^desired <d>)
+   (<d> ^type stop
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name stop)
+}
+
 sp {goto*elaborate*goto-operator*x*y
    (state <s> ^desired <d>
               ^operator <o> +)
@@ -16,6 +25,17 @@ sp {goto*elaborate*goto-operator*x*y
 -->
    (<o> ^x <x> ^y <y>)
 }
+
+sp {goto*elaborate*goto-operator*place
+   (state <s> ^desired <d>
+              ^operator <o> +)
+   (<d> ^type goto
+        ^place <place>)
+   (<o> ^name goto)
+-->
+   (<o> ^place <place>)
+}
+
 
 sp {goto*elaborate*goto-operator*t
    (state <s> ^desired <d>
@@ -27,13 +47,31 @@ sp {goto*elaborate*goto-operator*t
    (<o> ^t <t>)
 }
 
+sp {goto*apply*goto*place
+   (state <s> ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name stop)
+-->
+   (<out> ^stop <d>)
+}
+
+sp {goto*apply*goto*place
+   (state <s> ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name goto
+        ^place <place>)
+-->
+   (<out> ^goto <d>)
+   (<d> ^place <place>)
+}
+
 sp {goto*apply*goto*no-t
    (state <s> ^io.output-link <out>
               ^operator <o>)
    (<o> ^name goto
         ^x <x> ^y <y> -^t)
 -->
-   (<out> ^command.destination <d>)
+   (<out> ^destination <d>)
    (<d> ^x <x> ^y <y> ^t 0)
 }
 
@@ -43,14 +81,14 @@ sp {goto*apply*goto*with-t
    (<o> ^name goto
         ^x <x> ^y <y> ^t <t>)
 -->
-   (<out> ^command.destination <d>)
+   (<out> ^destination <d>)
    (<d> ^x <x> ^y <y> ^t <t>)
 }
 
 sp {goto*distance-left
-   (state <s> ^io.input-link.self <sens>
+   (state <s> ^io.input-link.self <self>
               ^desired <d>)
-   (<sens> ^name robot
+   (<self> ^name robot
            ^pose.x <curX>
            ^pose.y <curY>)
    (<d> ^x <goalX> ^y <goalY>)
@@ -62,8 +100,15 @@ sp {goto*distance-left
 
 sp {goto*mark-complete
    (state <s> ^desired <d>
-              ^distance-left < 0.0001) # Probably should be tweaked
+              ^distance-left < 0.01) # Probably should be tweaked
    (<d> ^type goto)
+-->
+   (<d> ^status complete)
+}
+
+sp {goto*mark-complete
+   (state <s> ^desired <d>)
+   (<d> ^type stop)
 -->
    (<d> ^status complete)
 }

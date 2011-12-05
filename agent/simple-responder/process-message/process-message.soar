@@ -1,7 +1,7 @@
 # When a new message is recieved it proposes process-message to handle it
 sp {propose*process-message
    (state <s> ^name responder
-              ^io.input-link.messages.message.id <msgID>
+              ^io.input-link.message.id <msgID>
              -^processed <msgID>)
 -->
    (<s> ^operator <o> + > =)
@@ -33,7 +33,7 @@ sp {apply*process-message*mark-processed
 
 # If a message has been removed from the input-link the processed flag is removed
 sp {remove*processed
-   (state <s> -^io.input-link.messages.message.id <msgID>
+   (state <s> -^io.input-link.message.id <msgID>
                ^processed <msgID>
               	^operator <o>)
 -->

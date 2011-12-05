@@ -2,6 +2,7 @@ package edu.umich.sbolt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
@@ -18,13 +19,13 @@ public class OutputLinkHandler implements OutputEventInterface
     
     public OutputLinkHandler(SBolt sbolt){
         this.sbolt = sbolt;
-        this.sbolt.getAgent().AddOutputHandler("command", this, null);
-        //this.sbolt.getAgent().AddOutputHandler("stop", this, null);
+        this.sbolt.getAgent().AddOutputHandler("stop", this, null);
         //this.sbolt.getAgent().AddOutputHandler("get-object", this, null);
-        //this.sbolt.getAgent().AddOutputHandler("goto", this, null);
+        this.sbolt.getAgent().AddOutputHandler("goto", this, null);
         //this.sbolt.getAgent().AddOutputHandler("drop-object", this, null);
-        //this.sbolt.getAgent().AddOutputHandler("send-message", this, null);
-        this.sbolt.getAgent().AddOutputHandler("message", this, null);
+        this.sbolt.getAgent().AddOutputHandler("send-message", this, null);
+        this.sbolt.getAgent().AddOutputHandler("action", this, null);
+        this.sbolt.getAgent().AddOutputHandler("destination", this, null);
         command = new robot_command_t();
         command.action = "";
     }
@@ -46,14 +47,26 @@ public class OutputLinkHandler implements OutputEventInterface
             return;
         }
 
-        if (wme.GetAttribute().equals("command"))
+        if (wme.GetAttribute().equals("goto"))
         {
-            processOutputLinkCommand(wme.ConvertToIdentifier());
+            processGoto(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("message"))
+        else if (wme.GetAttribute().equals("action"))
+        {
+            processActionCommand(wme.ConvertToIdentifier());
+        }
+	else if (wme.GetAttribute().equals("send-message"))
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
         }
+	else if (wme.GetAttribute().equals("destination"))
+        {
+	    processDestinationCommand(wme.ConvertToIdentifier());
+        }
+	else if (wme.GetAttribute().equals("stop"))
+	{
+	    processStopCommand(wme.ConvertToIdentifier());
+	}
 
         if (this.sbolt.getAgent().IsCommitRequired())
         {
@@ -75,8 +88,7 @@ public class OutputLinkHandler implements OutputEventInterface
         }
 
         String message = "";
-        //WMElement wordsWME = messageId.FindByAttribute("first", 0);
-        WMElement wordsWME = messageId.FindByAttribute("words", 0);
+        WMElement wordsWME = messageId.FindByAttribute("first", 0);
         if (wordsWME == null || !wordsWME.IsIdentifier())
         {
             messageId.CreateStringWME("status", "error");
@@ -92,11 +104,11 @@ public class OutputLinkHandler implements OutputEventInterface
             for (int i = 0; i < currentWordId.GetNumberChildren(); i++)
             {
                 WMElement child = currentWordId.GetChild(i);
-                if (child.GetAttribute().equals("first-word"))
+                if (child.GetAttribute().equals("word"))
                 {
                     message += child.GetValueAsString() + " ";
                 }
-                else if (child.GetAttribute().equals("rest")
+                else if (child.GetAttribute().equals("next")
                         && child.IsIdentifier())
                 {
                     nextWordId = child.ConvertToIdentifier();
@@ -193,6 +205,99 @@ public class OutputLinkHandler implements OutputEventInterface
         command.dest = new double[] { x, y, t };
         destId.CreateStringWME("status", "complete");
         
+        for (RobotDestinationListener listener : destinationListeners) {
+            listener.robotDestinationChanged(x, y, t);
+        }
+    }
+    
+    /**
+     * Takes a stop command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processStopCommand(Identifier stopId)
+    {
+        if (stopId == null)
+        {
+            return;
+        }
+        command.dest = null;
+    }
+
+    /**
+     * Takes a goto command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processGoto(Identifier gotoId)
+    {
+        if (gotoId == null)
+        {
+            return;
+        }
+
+        double x = 0.0;
+        double y = 0.0;
+        double t = 0.0;
+
+        //find the place in the inputlink map of objects
+        //better way?
+        InputLinkHandler input = sbolt.getInputLink();
+
+        WMElement placeWme = gotoId.FindByAttribute("place", 0);
+
+        if (placeWme == null)
+        {
+            gotoId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Command has destination missing");
+        }
+        String s = placeWme.GetValueAsString();
+        Identifier objectId = input.getIdentifier(s);
+
+        if (objectId== null)
+        {
+            gotoId.CreateStringWME("status", "error");
+            //should not be hard error
+            throw new IllegalStateException(
+                    "Command has unknown destination missing");
+        }
+        /* input link data map missrepresented currently
+            WMElement destWME = objectId.FindByAttribute("location", 0);
+
+            if (destWME== null || !destWME.IsIdentifier())
+            {
+                gotoId.CreateStringWME("status", "error");
+                throw new IllegalStateException("Message has no first attribute");
+            }
+            Identifier destId= destWME.ConvertToIdentifier();
+         */
+        WMElement xWme = objectId.FindByAttribute("x", 0);
+        WMElement yWme = objectId.FindByAttribute("y", 0);
+        WMElement tWme = objectId.FindByAttribute("t", 0);
+
+        if (xWme == null || yWme == null || tWme == null)
+        {
+            gotoId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Command has destination WME missing x, y, or t");
+        }
+
+        try
+        {
+            x = Double.valueOf(xWme.GetValueAsString());
+            y = Double.valueOf(yWme.GetValueAsString());
+            t = Double.valueOf(tWme.GetValueAsString());
+        }
+        catch (Exception e)
+        {
+            gotoId.CreateStringWME("status", "error");
+            throw new IllegalStateException(
+                    "Command has an invalid x, y, or t float");
+        }
+
+
+        command.dest = new double[] { x, y, t };
+        gotoId.CreateStringWME("status", "complete");
+
         for (RobotDestinationListener listener : destinationListeners) {
             listener.robotDestinationChanged(x, y, t);
         }
