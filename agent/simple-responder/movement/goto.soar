@@ -48,11 +48,11 @@ sp {goto*apply*goto*with-t
 }
 
 sp {goto*distance-left
-   (state <s> ^io.input-link.sensibles.sensible <sens>
+   (state <s> ^io.input-link.self <sens>
               ^desired <d>)
    (<sens> ^name robot
-           ^x <curX>
-           ^y <curY>)
+           ^pose.x <curX>
+           ^pose.y <curY>)
    (<d> ^x <goalX> ^y <goalY>)
 -->
    # Straight line distance from current position to goal squared

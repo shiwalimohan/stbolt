@@ -42,7 +42,7 @@ sp {apply*process-message*goto*2
 sp {apply*process-message*goto*3
    (state <s> ^name responder
               ^operator <o>
-              ^io.input-link.messages.message <message>)
+              ^io.input-link.message <message>)
    (<o> ^name process-message
         ^message <msgID>)
    (<message> ^id <msgID>

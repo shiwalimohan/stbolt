@@ -115,7 +115,8 @@ public class OutputLinkHandler implements OutputEventInterface
         sbolt.getChatFrame().addMessage(message.substring(0, message.length() - 1));
         messageId.CreateStringWME("status", "complete");
     }
-
+   
+    
     private void processOutputLinkCommand(Identifier commandId)
     {
         if (commandId == null || commandId.GetNumberChildren() == 0)
