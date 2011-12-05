@@ -1,35 +1,14 @@
 package edu.umich.sbolt;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 import sml.Agent;
-import sml.Agent.OutputEventInterface;
-import sml.Agent.RunEventInterface;
-import sml.Identifier;
 import sml.Kernel;
-import sml.WMElement;
-import sml.smlRunEventId;
-import abolt.lcmtypes.object_data_t;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.controller.GamepadController;
@@ -52,7 +31,7 @@ public class SBolt implements LCMSubscriber
     private ChatFrame chatFrame;
     
     private GamepadController gamepadController;
-
+    
     public SBolt(String channel, String agentName)
     {
         // LCM Channel, listen for observations_t
@@ -83,21 +62,21 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        agent.SpawnDebugger(kernel.GetListenerPort(),
-                System.getenv().get("SOAR_HOME"));
+        agent.SpawnDebugger(kernel.GetListenerPort(), new SoarProperties().getPrefix());
         
+        gamepadController = new GamepadController(0.0, 0.0, 0.0);
         
         // Setup InputLink
         inputLinkHandler = new InputLinkHandler(this);
+        inputLinkHandler.addRobotPositionListener(gamepadController);
         
         // Setup OutputLink
         outputLinkHandler = new OutputLinkHandler(this);
+        outputLinkHandler.addRobotDestinationListener(gamepadController);
         
         // Setup ChatFrame
         chatFrame = new ChatFrame(this);
         
-
-
         // Start broadcasting
         timerTask = new TimerTask()
         {
@@ -137,7 +116,7 @@ public class SBolt implements LCMSubscriber
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
-        gamepadController = new GamepadController(0.0, 0.0, 0.0);
+        gamepadController.start();
         agent.RunSelf(1);
     }
 
@@ -155,10 +134,12 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
+        if (inputLinkHandler == null) return;
         observations_t obs = null;
         try
         {
             obs = new observations_t(ins);
+            inputLinkHandler.updateObservation(obs);
         }
         catch (IOException e)
         {

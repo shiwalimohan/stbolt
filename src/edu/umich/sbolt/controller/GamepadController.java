@@ -13,7 +13,7 @@ import april.util.TimeUtil;
  * @author miller
  * 
  */
-public class GamepadController
+public class GamepadController implements RobotPositionListener, RobotDestinationListener
 {
     private LCM lcm = LCM.getSingleton();
     private double[] speed = new double[2]; // rotation, acceleration
@@ -28,7 +28,7 @@ public class GamepadController
         {
             while (true)
             {
-                TimeUtil.sleep(50);
+                TimeUtil.sleep(100);
                 gamepad_t gp = new gamepad_t();
                 gp.naxes = 6; // for compatability -- we only use the last two
                 gp.axes = new double[gp.naxes];
@@ -38,7 +38,7 @@ public class GamepadController
                     gp.utime = TimeUtil.utime();
                     gp.axes[4] = speed[0];
                     gp.axes[5] = speed[1];
-                    gp.buttons = eStop ? 0 : 1;
+                    gp.buttons = eStop || target == null ? 0 : 1;
                 }
                 lcm.publish("GAMEPAD", gp);
             }
@@ -50,20 +50,26 @@ public class GamepadController
         location[0] = x;
         location[1] = y;
         location[2] = theta;
-        new Thread(lcmRunnable).start();
+    }
+    
+    private double deltaTheta(double from, double to) {
+        double ret = to - from;
+        if (ret < Math.PI) ret += 2.0 * Math.PI;
+        if (ret > Math.PI) ret -= 2.0 * Math.PI;
+        return ret;
     }
     
     private static double TARGET_DISTANCE_THRESHOLD = 0.1;
-    private static double TARGET_ANGLE_THRESHOLD = 0.4;
-    private static double TARGET_MOVING_ANGLE_THRESHOLD = 0.4;
+    private static double TARGET_ANGLE_THRESHOLD = 0.1;
+    private static double TARGET_MOVING_ANGLE_THRESHOLD = 0.2;
 
-    public void updateLocation(double x, double y, double theta)
+    public void robotPositionChanged(double x, double y, double t)
     {
         synchronized (this)
         {
             location[0] = x;
             location[1] = y;
-            location[2] = theta;
+            location[2] = t;
             if (target == null) return;
             
             // Update speed to get toward the target.
@@ -75,31 +81,36 @@ public class GamepadController
             if (distance < TARGET_DISTANCE_THRESHOLD)
             {
                 speed[1] = 0.0;
-                double dt = (((target[2] - location[2]) + Math.PI) % (Math.PI * 2.0)) - Math.PI;
+                double dt = deltaTheta(location[2], target[2]);
                 if (Math.abs(dt) < TARGET_ANGLE_THRESHOLD)
                 {
                     speed[0] = 0.0;
                     target = null;
                     return;
                 }
-                speed[0] = dt < 0 ? -1 : 1;
+                speed[0] = -dt / 2.0;
+                if (speed[0] < -1.0) speed[0] = -1.0;
+                if (speed[0] > 1.0) speed[0] = 1.0;
                 return;
             }
             
             // Case 2: We're pointing toward the target. Move forward.
             double targetTheta = Math.atan2(dy, dx);
-            double dt = (((targetTheta - location[2]) + Math.PI) % (Math.PI * 2.0)) - Math.PI;
+            double dt = deltaTheta(location[2], targetTheta);
+            System.out.println("Target theta: " + targetTheta + ", location: " + location[2] + ", dt: " + dt + ", diff: " + (targetTheta - location[2]));
             if (Math.abs(dt) < TARGET_MOVING_ANGLE_THRESHOLD)
             {
-                speed[0] = 0.0;
-                speed[1] = -1.0;
+                speed[0] = -dt / 2.0;
+                if (speed[0] < -1.0) speed[0] = -1.0;
+                if (speed[0] > 1.0) speed[0] = 1.0;
+                speed[1] = -1.0 + Math.abs(speed[0]);
                 return;
             }
             
-            // Case 3: rotate to face the target.
-            speed[0] = dt;
-            if (dt < -1.0) dt = -1.0;
-            if (dt > 1.0) dt = 1.0;
+            // Case 3: just rotate to face the target.
+            speed[0] = -dt / 2.0;
+            if (speed[0] < -1.0) speed[0] = -1.0;
+            if (speed[0] > 1.0) speed[0] = 1.0;
             speed[1] = 0.0;
             return;
         }
@@ -131,11 +142,16 @@ public class GamepadController
         }
     }
     
-    public void setTarget(double x, double y, double theta)
+    public void robotDestinationChanged(double x, double y, double t)
     {
         synchronized (this)
         {
-            target = new double[] {x, y, theta};
+            target = new double[] {x, y, t};
         }
+    }
+
+    public void start()
+    {
+        new Thread(lcmRunnable).start();
     }
 }

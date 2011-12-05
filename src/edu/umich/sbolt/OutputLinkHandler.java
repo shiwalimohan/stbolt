@@ -1,16 +1,20 @@
 package edu.umich.sbolt;
 
-import abolt.lcmtypes.robot_command_t;
-import sml.Agent;
+import java.util.ArrayList;
+import java.util.List;
+
+import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.WMElement;
-import sml.Agent.OutputEventInterface;
+import abolt.lcmtypes.robot_command_t;
+import edu.umich.sbolt.controller.RobotDestinationListener;
 
 public class OutputLinkHandler implements OutputEventInterface
 {
     
     private SBolt sbolt;
     private robot_command_t command;
+    private List<RobotDestinationListener> destinationListeners = new ArrayList<RobotDestinationListener>();
     
     public OutputLinkHandler(SBolt sbolt){
         this.sbolt = sbolt;
@@ -18,6 +22,10 @@ public class OutputLinkHandler implements OutputEventInterface
         this.sbolt.getAgent().AddOutputHandler("message", this, null);
         command = new robot_command_t();
         command.action = "";
+    }
+    
+    public void addRobotDestinationListener(RobotDestinationListener listener) {
+        destinationListeners.add(listener);
     }
     
     public robot_command_t getCommand(){
@@ -177,6 +185,10 @@ public class OutputLinkHandler implements OutputEventInterface
 
         command.dest = new double[] { x, y, t };
         destId.CreateStringWME("status", "complete");
+        
+        for (RobotDestinationListener listener : destinationListeners) {
+            listener.robotDestinationChanged(x, y, t);
+        }
     }
 
     /**

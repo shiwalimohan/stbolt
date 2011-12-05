@@ -1,4 +1,4 @@
-87
+100
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -81,92 +81,116 @@ ENUMERATION 74 1 light-switch
 ENUMERATION 75 2 on off
 SOAR_ID 85
 ENUMERATION 84 1 none
+STRING 87
 INT_RANGE 86 0 0
 ENUMERATION 81 0
 ENUMERATION 80 0
 STRING 83
 STRING 82
-83
-37 words 38
+STRING 93
+FLOAT_RANGE 92 0.0 0.0
+FLOAT_RANGE 95 0.0 0.0
+ENUMERATION 94 1 robot
+SOAR_ID 89
+SOAR_ID 88
+FLOAT_RANGE 91 0.0 0.0
+FLOAT_RANGE 90 0.0 0.0
+INT_RANGE 98 0 0
+INT_RANGE 99 0 0
+SOAR_ID 96
+INT_RANGE 97 0 0
+94
 56 door 67
-58 size 62
-3 command 20
-14 x 15
-31 size 62
-49 argument 51
-32 value 19
-2 sensibles 11
-73 toggle 75
-11 sensible 76
-76 name 77
-11 sensible 73
-45 rest 45
-38 rest 38
-0 superstate 5
-56 location 63
-76 color 60
-22 t 25
-11 sensible 56
-85 message-id 86
-58 shape 61
-73 color 60
-76 clean-state 79
-41 words 45
-14 y 16
-20 destination 22
-58 name 59
-0 io 1
-1 input-link 2
-22 x 23
+38 next 38
 0 name 6
-56 color 60
-47 status 21
-10 position 14
-56 shape 61
-10 nounjective 13
-2 messages 33
-22 y 24
-3 message 41
-33 message 37
+45 rest 45
+1 input-link 2
 10 id 12
-14 t 17
-47 perform 48
-73 size 62
-31 location 63
-56 size 62
+2 self 88
+89 t 92
 58 location 63
-11 sensible 58
-8 object 10
-63 y 65
-1 output-link 3
-49 target 50
-32 key 18
 31 door 67
-28 status 21
-41 status 21
+11 object 73
+56 shape 61
+88 battery 95
+31 size 62
+58 shape 61
+73 size 62
+14 y 16
+88 name 94
 20 gripper 47
-31 shape 61
-63 z 66
-31 cooking 68
-76 cooked-state 78
-28 noun 82
-37 id 39
-56 fullness 72
-73 name 74
-31 color 60
-58 color 60
-28 verb 83
-38 first-word 35
-0 type 4
 22 status 21
-76 shape 61
-20 action 28
-31 name 55
-45 first-word 46
-11 sensible 31
+3 command 20
+88 pose 89
+56 color 60
+3 message 41
+47 perform 48
+0 superstate 5
+37 words 38
+31 color 60
+85 message-id 86
+58 size 62
+11 object 58
+11 object 76
+31 cooking 68
+73 color 60
 73 location 63
-85 status 21
+22 y 24
 37 time 42
-56 name 57
+56 location 63
+58 color 60
 20 remove-message 85
 63 x 64
+56 name 57
+0 io 1
+32 value 19
+20 destination 22
+96 steps 99
+38 word 35
+47 status 21
+76 name 77
+22 t 25
+96 milliseconds 98
+76 cooked-state 78
+56 size 62
+49 target 50
+2 message 37
+1 output-link 3
+11 object 56
+10 position 14
+73 toggle 75
+20 action 28
+37 from 87
+76 shape 61
+37 id 39
+63 z 66
+10 nounjective 13
+31 shape 61
+14 x 15
+58 name 59
+11 object 31
+96 seconds 97
+56 fullness 72
+2 objects 11
+28 status 21
+63 y 65
+31 name 55
+8 object 10
+76 color 60
+45 first-word 46
+2 time 96
+31 location 63
+28 verb 83
+76 clean-state 79
+41 status 21
+32 key 18
+73 name 74
+28 noun 82
+49 argument 51
+0 type 4
+41 words 45
+14 t 17
+89 x 90
+89 y 91
+85 status 21
+22 x 23
