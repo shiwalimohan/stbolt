@@ -19,6 +19,11 @@ public class OutputLinkHandler implements OutputEventInterface
     public OutputLinkHandler(SBolt sbolt){
         this.sbolt = sbolt;
         this.sbolt.getAgent().AddOutputHandler("command", this, null);
+        //this.sbolt.getAgent().AddOutputHandler("stop", this, null);
+        //this.sbolt.getAgent().AddOutputHandler("get-object", this, null);
+        //this.sbolt.getAgent().AddOutputHandler("goto", this, null);
+        //this.sbolt.getAgent().AddOutputHandler("drop-object", this, null);
+        //this.sbolt.getAgent().AddOutputHandler("send-message", this, null);
         this.sbolt.getAgent().AddOutputHandler("message", this, null);
         command = new robot_command_t();
         command.action = "";
@@ -70,11 +75,12 @@ public class OutputLinkHandler implements OutputEventInterface
         }
 
         String message = "";
+        //WMElement wordsWME = messageId.FindByAttribute("first", 0);
         WMElement wordsWME = messageId.FindByAttribute("words", 0);
         if (wordsWME == null || !wordsWME.IsIdentifier())
         {
             messageId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Message has no words attribute");
+            throw new IllegalStateException("Message has no first attribute");
         }
         Identifier currentWordId = wordsWME.ConvertToIdentifier();
 
