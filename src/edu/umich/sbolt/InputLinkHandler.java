@@ -19,22 +19,22 @@ import abolt.lcmtypes.observations_t;
 public class InputLinkHandler implements RunEventInterface
 {
     // Gives ID numbers to a sensible based on its name
-    private Map<String, Integer> sensibleIds;
+    private Map<String, Integer> objectIds;
     
     // number to start assigning sensible IDs with
-    private int nextSensibleId;
+    private int nextObjectId;
     
     // Maps observation IDs onto their sensibles identifiers
     private Map<Integer, Identifier> observationsMap;
 
     // Maps sensible IDs onto their sensibles identifier
-    private Map<Integer, Identifier> sensiblesMap;
+    private Map<Integer, Identifier> objectsMap;
 
     // Root identifier for all sensible observations
-    private Identifier sensiblesId;
+    private Identifier objectsId;
 
     // Root identifier for all messages the robot receives
-    private Identifier messagesId;
+    private Identifier inputLinkId;
     
     // The most recent observations_t received
     private observations_t currentObservation;
@@ -42,11 +42,12 @@ public class InputLinkHandler implements RunEventInterface
     // The observation used in the last input-link update
     private observations_t lastObservation;
     
+    private String latestMessage;
+    
+    private int latestMessageId;
+    
     // A counter that is used for the id for each message
     private int messageIdNum;
-
-    // A queue of the messages received since the last input phase
-    private List<String> chatMessageQueue;
     
     // Indicates an invalid ID number
     private static Integer INVALID_ID = -1;
@@ -61,33 +62,41 @@ public class InputLinkHandler implements RunEventInterface
     
     public InputLinkHandler(SBolt sbolt){
         observationsMap = new HashMap<Integer, Identifier>();
-        sensiblesMap = new HashMap<Integer, Identifier>();
+        objectsMap = new HashMap<Integer, Identifier>();
 
-        sensibleIds = new HashMap<String, Integer>();
-        nextSensibleId = 1000;
+        objectIds = new HashMap<String, Integer>();
+        nextObjectId = 1000;
         
-        Identifier il = sbolt.getAgent().GetInputLink();
-        sensiblesId = il.CreateIdWME("sensibles");
-        messagesId = il.CreateIdWME("messages");
+        inputLinkId = sbolt.getAgent().GetInputLink();
+        objectsId = inputLinkId.CreateIdWME("objects");
         sbolt.getAgent().Commit();
 
         currentObservation = null;
         lastObservation = null;
         
         messageIdNum = 100;
-        chatMessageQueue = new ArrayList<String>();
+        latestMessage = "";
+        latestMessageId = INVALID_ID;
         
         sbolt.getAgent().RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
                 this, null);
     }
     
     public void addMessage(String message){
-        chatMessageQueue.add(message);
-    }
-    
-    public void removeMessage(int id){
+        messageIdNum++;
+        latestMessage = message;
+        latestMessageId = messageIdNum;
         
     }
+    
+    public void removeMessage(int idToRemove){
+        if(idToRemove == latestMessageId){
+            latestMessage = "";
+            latestMessageId = INVALID_ID;
+        }
+    }
+    
+    
     
     public void updateObservation(observations_t observation){
         currentObservation = observation;
@@ -104,7 +113,7 @@ public class InputLinkHandler implements RunEventInterface
             processObservations();
             lastObservation = currentObservation;
         }
-        updateInputLinkMessages();
+        processMessages();
         if (agent.IsCommitRequired())
         {
             agent.Commit();
@@ -174,11 +183,11 @@ public class InputLinkHandler implements RunEventInterface
                 // That sensible string does not have an id key
                 if(sensibleKeyVals.containsKey("name")){
                     String name = sensibleKeyVals.get("name");
-                    if(sensibleIds.containsKey(name)){
-                        id = sensibleIds.get(name);
+                    if(objectIds.containsKey(name)){
+                        id = objectIds.get(name);
                     } else {
-                        sensibleIds.put(name, nextSensibleId);
-                        nextSensibleId++;
+                        objectIds.put(name, nextObjectId);
+                        nextObjectId++;
                     }
                 } else {
                     continue;
@@ -190,21 +199,21 @@ public class InputLinkHandler implements RunEventInterface
             // Find the sensible Identifier in the sensiblesMap,
             // create a new Identifier if needed
             Identifier sensibleId = null;
-            if (sensiblesMap.containsKey(id))
+            if (objectsMap.containsKey(id))
             {
-                sensibleId = sensiblesMap.get(id);
+                sensibleId = objectsMap.get(id);
             }
             else
             {
-                sensibleId = sensiblesId.CreateIdWME("sensible");
-                sensiblesMap.put(id, sensibleId);
+                sensibleId = objectsId.CreateIdWME("sensible");
+                objectsMap.put(id, sensibleId);
             }
             updateSensibleOnInputLink(sensibleId, sensibleKeyVals);
         }
 
         // Remove sensibles not in the new observation
         Set<Integer> sensiblesToRemove = new HashSet<Integer>();
-        for (Integer id : sensiblesMap.keySet())
+        for (Integer id : objectsMap.keySet())
         {
             if (!observationSensibles.contains(id))
             {
@@ -213,8 +222,8 @@ public class InputLinkHandler implements RunEventInterface
         }
         for (Integer id : sensiblesToRemove)
         {
-            sensiblesMap.get(id).DestroyWME();
-            sensiblesMap.remove(id);
+            objectsMap.get(id).DestroyWME();
+            objectsMap.remove(id);
         }
     }
 
@@ -255,7 +264,7 @@ public class InputLinkHandler implements RunEventInterface
             }
             else
             {
-                observationId = sensiblesId.CreateIdWME("sensible");
+                observationId = objectsId.CreateIdWME("sensible");
                 observationsMap.put(observation.id, observationId);
             }
             updateSensibleOnInputLink(observationId, observationKeyVals);
@@ -285,51 +294,30 @@ public class InputLinkHandler implements RunEventInterface
     private void updateSensibleOnInputLink(Identifier sensibleId,
             Map<String, String> keyValPairs)
     {
-        Set<String> existingKeys = new HashSet<String>(); // Set of keys already
-                                                          // on the WME
+        Set<Identifier> attributesToDestroy = new HashSet<Identifier>();
 
         // Update each attribute on the sensible
         for (int i = 0; i < sensibleId.GetNumberChildren(); i++)
         {
             WMElement attributeWME = sensibleId.GetChild(i);
-            if (!attributeWME.GetAttribute().equals("attribute")
-                    || !attributeWME.IsIdentifier())
+            if (!attributeWME.IsIdentifier())
             {
                 continue;
             }
             Identifier attributeId = attributeWME.ConvertToIdentifier();
-
-            WMElement keyWME = attributeId.FindByAttribute("key", 0);
-            if (keyWME == null)
-            {
-                // Attribute does not have a key, error
-                continue;
-            }
-
-            String keyString = keyWME.GetValueAsString();
-            if (keyValPairs.containsKey(keyString))
-            {
-                // That key still exists, update if necessary
-                updateWME(attributeId, "value", keyValPairs.get(keyString));
-                existingKeys.add(keyString);
-            }
-            else
-            {
-                attributeId.DestroyWME();
+            String attribute = attributeId.GetAttribute();
+            
+            if(!keyValPairs.containsKey(attribute)){
+                attributesToDestroy.add(attributeId);
             }
         }
-
-        // Create new attribute WMEs for keys not already on the sensible WME
-        for (Map.Entry<String, String> keyValPair : keyValPairs.entrySet())
-        {
-            if (existingKeys.contains(keyValPair.getKey()))
-            {
-                continue;
-            }
-            Identifier attributeId = sensibleId.CreateIdWME("attribute");
-            attributeId.CreateStringWME("key",
-                    String.valueOf(keyValPair.getKey()));
-            updateWME(attributeId, "value", keyValPair.getValue());
+        
+        for(Map.Entry<String, String> keyValPair : keyValPairs.entrySet()){
+            updateWME(sensibleId, keyValPair.getKey(), keyValPair.getValue());
+        }
+        
+        for(Identifier attributeId : attributesToDestroy){
+            attributeId.DestroyWME();
         }
     }
 
@@ -406,49 +394,46 @@ public class InputLinkHandler implements RunEventInterface
             }
         }
     }
-
-    private void updateInputLinkMessages()
-    {
-        // if new message(s), remove all current messages on input link first
-        if (!chatMessageQueue.isEmpty())
-        {
-            for (int i = 0; i < messagesId.GetNumberChildren(); i++)
-            {
-                WMElement childWME = messagesId.GetChild(i);
-                if (!(childWME.GetAttribute().equals("message") && childWME
-                        .IsIdentifier()))
-                {
-                    continue;
-                }
-                Identifier mId = childWME.ConvertToIdentifier();
-                mId.DestroyWME();
+    
+    private void processMessages(){
+        WMElement message = inputLinkId.FindByAttribute("message", 0);
+        
+        // If no latest message, remove the existing message (if there) and quit
+        if(latestMessageId == INVALID_ID){
+            if(message != null){
+                message.DestroyWME();
             }
+            return;
         }
         
-        for (String message : chatMessageQueue)
-        {
-            
-            String[] c = message.split(" and ");
-            for (String m : c)
-            {
-                
-                String[] words = m.split(" ");
-                
-                Identifier mId = messagesId.CreateIdWME("message");
-                Identifier rest = mId.CreateIdWME("words");
-                mId.CreateIntWME("id", messageIdNum);
-                mId.CreateIntWME("time", System.currentTimeMillis());
-             
-                for (String w : words)  
-                {  
-                    updateWME(rest, "first-word", w);
-               
-                    rest = rest.CreateIdWME("rest");
-                } 
-                    
-                messageIdNum++;
+        // If the message has changed remove the old one
+        if(message != null){
+            Identifier messageId = message.ConvertToIdentifier();
+            WMElement idId = messageId.FindByAttribute("id", 0);
+            if(idId != null){
+                String currentId = idId.GetValueAsString();
+                if(currentId.equals(latestMessageId)){
+                    //Message hasn't changed
+                    return;
+                }
             }
+            message.DestroyWME();
         }
-        chatMessageQueue.clear();
+        
+        //Add the new message
+        String[] words = latestMessage.split(" ");
+        
+        Identifier mId = inputLinkId.CreateIdWME("message");
+        Identifier rest = mId.CreateIdWME("words");
+        mId.CreateIntWME("id", latestMessageId);
+        mId.CreateIntWME("time", System.currentTimeMillis());
+        mId.CreateStringWME("from", "user");
+     
+        for(int i = 0; i < words.length; i++){
+            updateWME(rest, "word", words[i]);
+            if(i != words.length - 1){
+                rest = rest.CreateIdWME("next");
+            }
+        }  
     }
 }
