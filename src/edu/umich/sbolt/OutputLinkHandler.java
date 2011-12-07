@@ -224,7 +224,7 @@ public class OutputLinkHandler implements OutputEventInterface
         }
         */
         String action = "NAME=0,HELD=TRUE";
-        command.action = action;//actionBuf.toString();
+        command.action = action;
         getId.CreateStringWME("status", "complete");
     }
 
@@ -245,7 +245,7 @@ public class OutputLinkHandler implements OutputEventInterface
         */
         
         String action = "NAME=0,HELD=FALSE";
-        command.action = action;//actionBuf.toString();
+        command.action = action;
         dropId.CreateStringWME("status", "complete");
     }
     
@@ -302,49 +302,6 @@ public class OutputLinkHandler implements OutputEventInterface
             return;
         }
         
-        /*
-        StringBuffer actionBuf = new StringBuffer();
-
-        int numPairs = 0;
-        for (int i = 0; i < actionId.GetNumberChildren(); i++)
-        {
-            WMElement childWME = actionId.GetChild(i);
-            if (!(childWME.GetAttribute().equals("pair") && childWME
-                    .IsIdentifier()))
-            {
-                continue;
-            }
-            Identifier pairId = childWME.ConvertToIdentifier();
-
-            // Get key of pair
-            WMElement keyWME = pairId.FindByAttribute("key", 0);
-            if (keyWME == null || keyWME.GetValueAsString().length() == 0)
-            {
-                actionId.CreateStringWME("status", "error");
-                throw new IllegalStateException("Action has a pair with no key");
-            }
-            String key = keyWME.GetValueAsString();
-
-            // Get value of pair
-            WMElement valueWME = pairId.FindByAttribute("value", 0);
-            if (valueWME == null || valueWME.GetValueAsString().length() == 0)
-            {
-                actionId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Action has a pair with no value");
-            }
-            String value = valueWME.GetValueAsString();
-
-            actionBuf.append(key + "=" + value + ",");
-            numPairs++;
-        }
-
-        if (numPairs == 0)
-        {
-            actionId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Action has no pairs");
-        }
-*/
         WMElement nameWME = actionId.FindByAttribute("name", 0);
         if (nameWME == null || nameWME.GetValueAsString().length() == 0)
         {
@@ -369,7 +326,7 @@ public class OutputLinkHandler implements OutputEventInterface
         }
         String value = valueWME.GetValueAsString();
         String action = "NAME=" + name + "," + attribute + "=" + value;
-        command.action = action;//actionBuf.toString();
+        command.action = action.toUpperCase();//actionBuf.toString();
         
         actionId.CreateStringWME("status", "complete");
     }
