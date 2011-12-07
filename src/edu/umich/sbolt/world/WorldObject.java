@@ -83,15 +83,15 @@ public class WorldObject implements InputLinkElement
     }
     
     // Accessors
-    public synchronized String getName(){
+    public String getName(){
         return name;
     }
     
-    public synchronized Integer getId(){
+    public Integer getId(){
         return id;
     }
     
-    public synchronized Location getLocation(){
+    public Location getLocation(){
         return location;
     }
     

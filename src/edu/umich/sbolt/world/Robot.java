@@ -43,16 +43,8 @@ public class Robot extends WorldObject
             lastLocation = new Location();
         }
         
-        if(lastLocation.dist2(location) < .00001){
-            double dTheta = Math.abs(location.t - lastLocation.t);
-            if(dTheta > Math.PI){
-                dTheta = Math.abs(dTheta - 2 * Math.PI);
-            }
-            if(dTheta < .001){
-                attributes.put("stopped", "true");
-            } else {
-                attributes.put("stopped", "false");
-            }
+        if(lastLocation.dist2(location) < .00001 && lastLocation.dTheta(location) < .001){
+            attributes.put("stopped", "true");
         } else {
             attributes.put("stopped", "false");
         }
