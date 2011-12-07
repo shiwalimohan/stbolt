@@ -46,7 +46,7 @@ public class Messages implements InputLinkElement
         messageId.CreateStringWME("from", "user");
      
         for(int i = 0; i < words.length; i++){
-            WorkingMemoryUtil.updateStringWME(rest, "word", words[i]);
+            WorkingMemoryUtil.updateWME(rest, "word", words[i]);
             if(i != words.length - 1){
                 rest = rest.CreateIdWME("next");
             }

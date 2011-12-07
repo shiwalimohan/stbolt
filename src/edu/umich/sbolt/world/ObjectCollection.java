@@ -16,13 +16,13 @@ public class ObjectCollection implements InputLinkElement
 {
     private Identifier objectsId;
     
-    private Map<Integer, Object> objects;
+    private Map<Integer, WorldObject> objects;
     
     private boolean hasChanged;
     
     public ObjectCollection(){
         objectsId = null;
-        objects = new HashMap<Integer, Object>();
+        objects = new HashMap<Integer, WorldObject>();
         hasChanged = false;
     }
     
@@ -34,7 +34,7 @@ public class ObjectCollection implements InputLinkElement
             objectsId = parentIdentifier.CreateIdWME("objects");
         }
         
-        for(Object object : objects.values()){
+        for(WorldObject object : objects.values()){
             object.updateInputLink(objectsId);
         }
         hasChanged = false;
@@ -55,9 +55,9 @@ public class ObjectCollection implements InputLinkElement
         
         for(object_data_t objectData : observation.observations){
             observedIds.add(objectData.id);
-            Object object = objects.get(objectData.id);
+            WorldObject object = objects.get(objectData.id);
             if(object == null){
-                object = new Object(objectData);
+                object = new WorldObject(objectData);
                 objects.put(objectData.id, object);
             } else {
                 object.newObjectData(objectData);
@@ -70,16 +70,16 @@ public class ObjectCollection implements InputLinkElement
                 continue;
             }
             
-            String name = Object.getSensableName(sensable);
+            String name = WorldObject.getSensableName(sensable);
             if(name == null){
                 continue;
             }
             
             Integer id = ObjectIdManager.Manager.getId(name);
             observedIds.add(id);
-            Object object = objects.get(id);
+            WorldObject object = objects.get(id);
             if(object == null){
-                object = new Object(sensable);
+                object = new WorldObject(sensable);
                 objects.put(id, object);
             } else {
                 object.newSensableString(sensable);
@@ -99,11 +99,11 @@ public class ObjectCollection implements InputLinkElement
         }
     }
     
-    public synchronized Object getObject(Integer id){
+    public synchronized WorldObject getObject(Integer id){
         return objects.get(id);
     }
     
-    public synchronized Object getObject(String name){
+    public synchronized WorldObject getObject(String name){
         Integer id = ObjectIdManager.Manager.getId(name);
         return objects.get(id);
     }

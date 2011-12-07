@@ -1,17 +1,20 @@
 pushd elaborations
+source complete.soar
 source io.soar
+source output.soar
 source top-state.soar
 popd
 
 pushd movement
 source goto.soar
+source process-goto.soar
+source process-stop.soar
+source stop.soar
 popd
 
 pushd process-message
-source process-goto.soar
 source process-message.soar
 popd
 
-source clean-output-link.soar
 source init-responder.soar
 source wait.soar

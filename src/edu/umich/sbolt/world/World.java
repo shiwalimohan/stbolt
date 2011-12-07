@@ -89,11 +89,11 @@ public class World implements InputLinkElement
         return robot;
     }
     
-    public synchronized Object getObject(Integer id){
+    public synchronized WorldObject getObject(Integer id){
         return objects.getObject(id);
     }
     
-    public synchronized Object getObject(String name){
+    public synchronized WorldObject getObject(String name){
         return objects.getObject(name);
     }
     

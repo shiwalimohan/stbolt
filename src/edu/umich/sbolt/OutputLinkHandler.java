@@ -9,6 +9,8 @@ import sml.Identifier;
 import sml.WMElement;
 import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.controller.RobotDestinationListener;
+import edu.umich.sbolt.world.Location;
+import edu.umich.sbolt.world.WorldObject;
 
 public class OutputLinkHandler implements OutputEventInterface
 {
@@ -233,15 +235,9 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
-
-        double x = 0.0;
-        double y = 0.0;
-        double t = 0.0;
-
+        
+        
         //find the place in the inputlink map of objects
-        //better way?
-        InputLinkHandler input = sbolt.getInputLink();
-
         WMElement placeWme = gotoId.FindByAttribute("place", 0);
 
         if (placeWme == null)
@@ -250,9 +246,21 @@ public class OutputLinkHandler implements OutputEventInterface
             throw new IllegalStateException(
                     "Command has destination missing");
         }
-        String s = placeWme.GetValueAsString();
-        Identifier objectId = null; //input.getIdentifier(s);
-        // EDIT BY AARON, needs to be changed to relect the changes in world
+        String name = placeWme.GetValueAsString();
+        
+        WorldObject place = sbolt.getWorld().getObject(name);
+        if(place == null){
+            gotoId.CreateStringWME("status", "error");
+            return;
+        }
+        Location placeLoc = place.getLocation();
+
+        double x = placeLoc.x;
+        double y = placeLoc.y;
+        double t = placeLoc.t;
+        
+        /*
+        
 
         if (objectId== null)
         {
@@ -270,7 +278,7 @@ public class OutputLinkHandler implements OutputEventInterface
                 throw new IllegalStateException("Message has no first attribute");
             }
             Identifier destId= destWME.ConvertToIdentifier();
-         */
+         *//*
         WMElement xWme = objectId.FindByAttribute("x", 0);
         WMElement yWme = objectId.FindByAttribute("y", 0);
         WMElement tWme = objectId.FindByAttribute("t", 0);
@@ -294,7 +302,7 @@ public class OutputLinkHandler implements OutputEventInterface
             throw new IllegalStateException(
                     "Command has an invalid x, y, or t float");
         }
-
+*/
 
         command.dest = new double[] { x, y, t };
         gotoId.CreateStringWME("status", "complete");
