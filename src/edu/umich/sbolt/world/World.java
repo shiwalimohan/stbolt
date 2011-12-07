@@ -85,23 +85,23 @@ public class World implements InputLinkElement
         messages.addMessage(message);
     }
     
-    public synchronized Robot getRobot(){
+    public Robot getRobot(){
         return robot;
     }
     
-    public synchronized WorldObject getObject(Integer id){
+    public WorldObject getObject(Integer id){
         return objects.getObject(id);
     }
     
-    public synchronized WorldObject getObject(String name){
+    public WorldObject getObject(String name){
         return objects.getObject(name);
     }
     
-    public synchronized long getTime(){
+    public long getTime(){
         return worldTime.getMicroseconds();
     }
     
-    public synchronized int getSteps(){
+    public int getSteps(){
         return worldTime.getSteps();
     }
     
