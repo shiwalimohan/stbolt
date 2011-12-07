@@ -1,0 +1,10 @@
+
+sp {stop*propose*stop
+   (state <s> ^desired <d>)
+   (<d> ^stopped <stopped>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name stop
+        ^actions.stop <stopped>)
+}
