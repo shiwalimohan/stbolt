@@ -3,6 +3,8 @@ package edu.umich.sbolt;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
@@ -12,6 +14,7 @@ import sml.Kernel;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.controller.GamepadController;
+import edu.umich.sbolt.world.World;
 import edu.umich.soar.SoarProperties;
 
 public class SBolt implements LCMSubscriber
@@ -29,6 +32,8 @@ public class SBolt implements LCMSubscriber
     private OutputLinkHandler outputLinkHandler;
     
     private ChatFrame chatFrame;
+    
+    private World world;
     
     private GamepadController gamepadController;
     
@@ -66,9 +71,11 @@ public class SBolt implements LCMSubscriber
         
         gamepadController = new GamepadController(0.0, 0.0, 0.0);
         
+        world = new World();
+        world.addRobotPositionListener(gamepadController);
+        
         // Setup InputLink
-        inputLinkHandler = new InputLinkHandler(this);
-        inputLinkHandler.addRobotPositionListener(gamepadController);
+        inputLinkHandler = new InputLinkHandler(world, this);
         
         // Setup OutputLink
         outputLinkHandler = new OutputLinkHandler(this);
@@ -106,6 +113,10 @@ public class SBolt implements LCMSubscriber
     public OutputLinkHandler getOutputLink(){
         return outputLinkHandler;
     }
+    
+    public World getWorld(){
+        return world;
+    }
 
     public void start()
     {
@@ -139,7 +150,7 @@ public class SBolt implements LCMSubscriber
         try
         {
             obs = new observations_t(ins);
-            inputLinkHandler.updateObservation(obs);
+            world.newObservation(obs);
         }
         catch (IOException e)
         {
@@ -167,6 +178,7 @@ public class SBolt implements LCMSubscriber
 
     public static void main(String[] args)
     {
+        
         SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
         sbolt.start();
     }

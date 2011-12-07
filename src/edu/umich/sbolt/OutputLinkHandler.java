@@ -251,7 +251,8 @@ public class OutputLinkHandler implements OutputEventInterface
                     "Command has destination missing");
         }
         String s = placeWme.GetValueAsString();
-        Identifier objectId = input.getIdentifier(s);
+        Identifier objectId = null; //input.getIdentifier(s);
+        // EDIT BY AARON, needs to be changed to relect the changes in world
 
         if (objectId== null)
         {
