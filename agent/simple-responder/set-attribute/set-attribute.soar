@@ -1,0 +1,37 @@
+sp {propose*set-attribute
+   (state <s> ^desired <d>)
+   (<d> ^set-attribute <sa>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name set-attribute
+        ^actions.action <sa>)
+}
+
+sp {elaborate*desired*complete*set-attribute*name
+   (state <s> ^name responder
+              ^io.input-link.objects.object <obj>
+              ^desired <d>)
+   (<d> ^set-attribute <sa>)
+   (<sa> ^name <name>
+         ^attribute <att>
+         ^value <value>)
+   (<obj> ^name <name>
+          ^<att> <value>)
+-->
+   (<d> ^status complete)
+}
+
+sp {elaborate*desired*complete*set-attribute*id
+   (state <s> ^name responder
+              ^io.input-link.objects.object <obj>
+              ^desired <d>)
+   (<d> ^set-attribute <sa>)
+   (<sa> ^name <name>
+         ^attribute <att>
+         ^value <value>)
+   (<obj> ^id <name>
+          ^<att> <value>)
+-->
+   (<d> ^status complete)
+}
