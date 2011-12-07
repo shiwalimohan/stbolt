@@ -18,5 +18,10 @@ pushd process-message
 source process-message.soar
 popd
 
+pushd set-attribute
+source process-set.soar
+source set-attribute.soar
+popd
+
 source init-responder.soar
 source wait.soar
