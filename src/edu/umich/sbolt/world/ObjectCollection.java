@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import abolt.lcmtypes.object_data_t;
 import abolt.lcmtypes.observations_t;
 import sml.Identifier;
-import sun.misc.Regexp;
 
 /**
  * Represents the collection of objects in the world, and adds them to the input link
