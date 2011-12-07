@@ -1,0 +1,19 @@
+sp {grab*propose*grab
+   (state <s> ^desired <d>)
+   (<d> ^grabbed <grabbed>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name grab-object
+        ^actions.grab-object <grabbed>)
+}
+
+sp {drop*propose*drop
+   (state <s> ^desired <d>)
+   (<d> ^dropped <dropped>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name drop-object
+        ^actions.drop-object <dropped>)
+}
