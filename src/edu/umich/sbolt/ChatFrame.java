@@ -73,7 +73,7 @@ public class ChatFrame extends JFrame{
     }
 
     private void sendSoarMessage(String message){
-        sbolt.getInputLink().addMessage(message);
+        sbolt.getWorld().newMessage(message);
     }
     
     public void showFrame()

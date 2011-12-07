@@ -1,147 +1,43 @@
-sp {goto*propose*goto
+sp {goto*propose*goto*location
    (state <s> ^desired <d>)
-   (<d> ^type goto
+   (<d> ^location <loc>
        -^status << complete error >>)
+   (<loc> ^x <x> ^y <y>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name goto)
-}
-
-sp {stop*propose*stop
-   (state <s> ^desired <d>)
-   (<d> ^type stop
-       -^status << complete error >>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name stop)
-}
-
-sp {grab*propose*grab
-   (state <s> ^desired <d>)
-   (<d> ^type grab-object
-       -^status << complete error >>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name grab-object)
-}
-
-sp {drop*propose*drop
-   (state <s> ^desired <d>)
-   (<d> ^type drop-object
-       -^status << complete error >>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name drop-object)
-}
-
-sp {goto*elaborate*goto-operator*x*y
-   (state <s> ^desired <d>
-              ^operator <o> +)
-   (<d> ^type goto
-        ^x <x> ^y <y>)
-   (<o> ^name goto)
--->
-   (<o> ^x <x> ^y <y>)
-}
-
-sp {goto*elaborate*goto-operator*place
-   (state <s> ^desired <d>
-              ^operator <o> +)
-   (<d> ^type goto
-        ^place <place>)
-   (<o> ^name goto)
--->
-   (<o> ^place <place>)
-}
-
-
-sp {goto*elaborate*goto-operator*t
-   (state <s> ^desired <d>
-              ^operator <o> +)
-   (<d> ^type goto
-        ^t <t>)
-   (<o> ^name goto)
--->
-   (<o> ^t <t>)
-}
-
-sp {stop*apply*stop
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
-   (<o> ^name stop)
--->
-   (<out> ^stop <d>)
-}
-sp {grab*apply*grab
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
-   (<o> ^name grab-object)
--->
-   (<out> ^grab-object <d>)
-}
-
-sp {drop*apply*drop
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
-   (<o> ^name drop-object)
--->
-   (<out> ^drop-object <d>)
-}
-
-sp {goto*apply*goto*place
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
    (<o> ^name goto
-        ^place <place>)
--->
-   (<out> ^goto <d>)
-   (<d> ^place <place>)
+        ^actions.destination <dest>)
+   (<dest> ^x <x> ^y <y>)
 }
 
-sp {goto*apply*goto*no-t
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
+sp {goto*propose*goto*place
+   (state <s> ^desired <d>)
+   (<d> ^place <place>
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
    (<o> ^name goto
-        ^x <x> ^y <y> -^t)
--->
-   (<out> ^destination <d>)
-   (<d> ^x <x> ^y <y> ^t 0)
+        ^actions.goto.place <place>)
 }
 
-sp {goto*apply*goto*with-t
-   (state <s> ^io.output-link <out>
-              ^operator <o>)
+
+sp {goto*elaborate*destination*with-t
+   (state <s> ^desired.location.t <t>
+              ^operator <o> +)
    (<o> ^name goto
-        ^x <x> ^y <y> ^t <t>)
+        ^actions.destination <dest>)
 -->
-   (<out> ^destination <d>)
-   (<d> ^x <x> ^y <y> ^t <t>)
+   (<dest> ^t <t>)
 }
 
-sp {goto*distance-left
-   (state <s> ^io.input-link.self <self>
-              ^desired <d>)
-   (<self> ^name robot
-           ^pose.x <curX>
-           ^pose.y <curY>)
-   (<d> ^x <goalX> ^y <goalY>)
+sp {goto*elaborate*destination*no-t
+   (state <s> -^desired.location.t
+               ^io.input-link.self.location.t <t>
+              ^operator <o> +)
+   (<o> ^name goto
+        ^actions.destination <dest>)
 -->
-   # Straight line distance from current position to goal squared
-   (<s> ^distance-left (+ (* (- <goalX> <curX>) (- <goalX> <curX>)) 
-   						  (* (- <goalY> <curY>) (- <goalY> <curY>))))
+   (<dest> ^t <t>)
 }
 
-sp {goto*mark-complete
-   (state <s> ^desired <d>
-              ^distance-left < 0.01) # Probably should be tweaked
-   (<d> ^type goto)
--->
-   (<d> ^status complete)
-}
 
-#sp {stop*mark-complete
-#   (state <s> ^desired <d>)
-#   (<d> ^type stop)
-#-->
-#   (<d> ^status complete)
-#}

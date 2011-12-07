@@ -1,0 +1,47 @@
+sp {apply*process-message*stop
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^word stop
+         -^next)
+-->
+   (<s> ^desired <d>)
+   (<d> ^stopped <stopped>
+        ^message <msgID>)
+}
+
+sp {apply*process-message*grab
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^word grab
+         -^next)
+-->
+   (<s> ^desired <d>)
+   (<d> ^type grab-object
+        ^message <msgID>)
+}
+
+sp {apply*process-message*drop
+   (state <s> ^name responder
+              ^operator <o>
+              ^io.input-link.message <message>)
+   (<o> ^name process-message
+        ^message <msgID>)
+   (<message> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^word drop
+         -^next)
+-->
+   (<s> ^desired <d>)
+   (<d> ^type drop-object
+        ^message <msgID>)
+}
