@@ -2,24 +2,35 @@ package edu.umich.sbolt.world;
 
 import sml.Identifier;
 import sml.WMElement;
-
+/**
+ * Represents the latest message from the user on the input link
+ * 
+ * @author mininger
+ * 
+ */
 public class Messages implements InputLinkElement
 {
+    // Identifier of the message on the input link
     private Identifier messageId;
 
+    // Latest message received
     private String latestMessage;
     
+    // Id of the latest message received
     private int latestMessageId;
     
-    private final Integer INVALID_ID = -1;
-    
+    // True if a new message was received since the last update
     private Boolean messageChanged;
     
+    // Reference to the world (used to get the time)
     private World world;
+    
+    // Represents an invalid id, or that no message is on the input-link
+    private final Integer INVALID_ID = -1;
     
     public Messages(World world){
         latestMessage = "";
-        latestMessageId = 1;   
+        latestMessageId = INVALID_ID;   
         messageChanged = false;
         this.world = world;
     }
