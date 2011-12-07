@@ -8,7 +8,9 @@ popd
 pushd movement
 source goto.soar
 source process-goto.soar
+source process-grab.soar
 source process-stop.soar
+source grab.soar
 source stop.soar
 popd
 

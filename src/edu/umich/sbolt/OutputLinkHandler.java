@@ -137,34 +137,6 @@ public class OutputLinkHandler implements OutputEventInterface
         sbolt.getChatFrame().addMessage(message.substring(0, message.length() - 1));
         messageId.CreateStringWME("status", "complete");
     }
-   
-    
-    private void processOutputLinkCommand(Identifier commandId)
-    {
-        if (commandId == null || commandId.GetNumberChildren() == 0)
-        {
-            return;
-        }
-
-        int numChildren = commandId.GetNumberChildren();
-        for (int i = 0; i < numChildren; ++i)
-        {
-            WMElement child = commandId.GetChild(i);
-
-            if (child.GetAttribute().equals("action"))
-            {
-                processActionCommand(child.ConvertToIdentifier());
-            }
-            else if (child.GetAttribute().equals("destination"))
-            {
-                processDestinationCommand(child.ConvertToIdentifier());
-            }
-            else if (child.GetAttribute().equals("gripper"))
-            {
-                processGripperCommand(child.ConvertToIdentifier());
-            }
-        }
-    }
 
     /**
      * Takes a destination command on the output link given as an identifier and
@@ -237,7 +209,7 @@ public class OutputLinkHandler implements OutputEventInterface
         stopId.CreateStringWME("status", "complete");
     }
     /**
-     * Takes a stop command on the output link given as an identifier and
+     * Takes a grab-object command on the output link given as an identifier and
      * uses it to update the internal robot_command_t command
      */
     private void processGetObjectCommand(Identifier getId)
@@ -254,7 +226,7 @@ public class OutputLinkHandler implements OutputEventInterface
     }
 
     /**
-     * Takes a stop command on the output link given as an identifier and
+     * Takes a drop-object command on the output link given as an identifier and
      * uses it to update the internal robot_command_t command
      */
     private void processDropObjectCommand(Identifier dropId)
@@ -304,51 +276,6 @@ public class OutputLinkHandler implements OutputEventInterface
         double y = placeLoc.y;
         double t = placeLoc.t;
         
-        /*
-        
-
-        if (objectId== null)
-        {
-            gotoId.CreateStringWME("status", "error");
-            //should not be hard error
-            throw new IllegalStateException(
-                    "Command has unknown destination missing");
-        }
-        /* input link data map missrepresented currently
-            WMElement destWME = objectId.FindByAttribute("location", 0);
-
-            if (destWME== null || !destWME.IsIdentifier())
-            {
-                gotoId.CreateStringWME("status", "error");
-                throw new IllegalStateException("Message has no first attribute");
-            }
-            Identifier destId= destWME.ConvertToIdentifier();
-         *//*
-        WMElement xWme = objectId.FindByAttribute("x", 0);
-        WMElement yWme = objectId.FindByAttribute("y", 0);
-        WMElement tWme = objectId.FindByAttribute("t", 0);
-
-        if (xWme == null || yWme == null || tWme == null)
-        {
-            gotoId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Command has destination WME missing x, y, or t");
-        }
-
-        try
-        {
-            x = Double.valueOf(xWme.GetValueAsString());
-            y = Double.valueOf(yWme.GetValueAsString());
-            t = Double.valueOf(tWme.GetValueAsString());
-        }
-        catch (Exception e)
-        {
-            gotoId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Command has an invalid x, y, or t float");
-        }
-*/
-
         command.dest = new double[] { x, y, t };
         gotoId.CreateStringWME("status", "complete");
 
@@ -416,35 +343,4 @@ public class OutputLinkHandler implements OutputEventInterface
         actionId.CreateStringWME("status", "complete");
     }
 
-    /**
-     * Takes a gripper command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
-     */
-    private void processGripperCommand(Identifier gripperId)
-    {
-        if (gripperId == null)
-        {
-            return;
-        }
-
-        WMElement performWME = gripperId.FindByAttribute("perform", 0);
-        if (performWME == null)
-        {
-            gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Gripper command does not have a perform WME");
-
-        }
-
-        String gripperAction = performWME.GetValueAsString();
-        if (!gripperAction.equals("open") && !gripperAction.equals("close"))
-        {
-            gripperId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Gripper command is not 'open' or 'close'");
-        }
-
-        command.gripper_open = gripperAction.equals("open");
-        gripperId.CreateStringWME("status", "complete");
-    }
 }

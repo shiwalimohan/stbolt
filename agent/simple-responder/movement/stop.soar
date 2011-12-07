@@ -8,21 +8,3 @@ sp {stop*propose*stop
    (<o> ^name stop
         ^actions.stop <stopped>)
 }
-
-sp {grab*propose*grab
-   (state <s> ^desired <d>)
-   (<d> ^type grab-object
-       -^status << complete error >>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name grab-object)
-}
-
-sp {drop*propose*drop
-   (state <s> ^desired <d>)
-   (<d> ^type drop-object
-       -^status << complete error >>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name drop-object)
-}
