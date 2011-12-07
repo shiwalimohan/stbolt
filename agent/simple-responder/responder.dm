@@ -1,4 +1,4 @@
-107
+108
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -104,9 +104,10 @@ INT_RANGE 99 0 0
 SOAR_ID 96
 INT_RANGE 97 0 0
 ENUMERATION 106 2 complete error
+STRING 107
 SOAR_ID 104
 ENUMERATION 105 2 complete error
-100
+101
 63 y 65
 0 io 1
 11 object 56
@@ -134,6 +135,7 @@ ENUMERATION 105 2 complete error
 3 grab-object 104
 88 name 94
 56 shape 61
+28 name 107
 11 object 76
 103 status 106
 31 name 55
@@ -166,7 +168,7 @@ ENUMERATION 105 2 complete error
 45 word 46
 88 battery 95
 3 destination 22
-28 object 82
+28 attribute 82
 89 y 91
 76 clean-state 79
 41 status 21
