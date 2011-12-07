@@ -1,4 +1,4 @@
-103
+107
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -96,106 +96,114 @@ SOAR_ID 88
 FLOAT_RANGE 91 0.0 0.0
 FLOAT_RANGE 90 0.0 0.0
 SOAR_ID 102
+SOAR_ID 103
 SOAR_ID 100
 STRING 101
 INT_RANGE 98 0 0
 INT_RANGE 99 0 0
 SOAR_ID 96
 INT_RANGE 97 0 0
-96
-3 action 28
-58 size 62
-1 input-link 2
-31 color 60
-37 id 39
-28 value 83
-56 fullness 72
-49 target 50
-32 key 18
-73 size 62
-73 color 60
-3 goto 100
-58 location 63
-49 argument 51
-14 x 15
-3 send-message 41
-31 shape 61
-31 door 67
-56 name 57
-31 size 62
-0 superstate 5
-63 x 64
-56 size 62
-76 shape 61
-37 words 38
-28 status 21
-10 nounjective 13
-56 color 60
-96 seconds 97
-63 z 66
-56 location 63
-89 x 90
-102 status 21
-2 self 88
-58 shape 61
-47 perform 48
-76 clean-state 79
-14 y 16
-88 name 94
-28 object 82
-0 type 4
-73 location 63
-56 door 67
-31 name 55
-0 name 6
-2 objects 11
-11 object 31
-45 word 46
-58 name 59
+ENUMERATION 106 2 complete error
+SOAR_ID 104
+ENUMERATION 105 2 complete error
+100
 63 y 65
-32 value 19
-22 status 21
-38 next 38
-100 status 21
-41 status 21
-100 place 101
-8 object 10
-88 pose 89
-76 name 77
-10 id 12
-96 milliseconds 98
-22 t 25
-96 steps 99
-89 t 92
-89 y 91
-37 from 87
-73 toggle 75
-2 message 37
-20 remove-message 85
-76 cooked-state 78
-58 color 60
-3 destination 22
-11 object 58
 0 io 1
-76 color 60
-73 name 74
-38 word 35
-3 stop 102
 11 object 56
-20 gripper 47
-22 x 23
-11 object 73
-31 cooking 68
-22 y 24
-31 location 63
 85 message-id 86
-14 t 17
-2 time 96
-88 battery 95
-10 position 14
-1 output-link 3
-41 first 45
+3 drop-object 103
+11 object 31
+58 location 63
+76 name 77
+58 shape 61
+3 action 28
+37 from 87
+31 cooking 68
+104 status 105
+28 status 21
 37 time 42
+56 fullness 72
+56 door 67
+20 gripper 47
+11 object 73
+73 toggle 75
+2 time 96
+63 x 64
+22 y 24
+0 name 6
+3 grab-object 104
+88 name 94
 56 shape 61
-45 next 45
 11 object 76
+103 status 106
+31 name 55
+1 output-link 3
+31 shape 61
+2 message 37
+10 nounjective 13
+38 word 35
+76 shape 61
+8 object 10
+20 remove-message 85
+56 location 63
+37 id 39
+58 size 62
+100 place 101
+56 size 62
+31 location 63
+45 next 45
+0 type 4
+96 seconds 97
+49 target 50
+88 pose 89
+14 y 16
+10 position 14
+76 cooked-state 78
+2 objects 11
+89 t 92
+73 location 63
+37 words 38
+45 word 46
+88 battery 95
+3 destination 22
+28 object 82
+89 y 91
+76 clean-state 79
+41 status 21
+22 status 21
+14 x 15
+96 steps 99
+56 color 60
+63 z 66
+1 input-link 2
+3 stop 102
+73 size 62
+96 milliseconds 98
+32 value 19
+32 key 18
+58 color 60
+3 send-message 41
+73 name 74
+56 name 57
+76 color 60
+0 superstate 5
+49 argument 51
+10 id 12
+31 size 62
+73 color 60
+14 t 17
+47 perform 48
+31 door 67
+102 status 21
+41 first 45
+58 name 59
+22 x 23
+22 t 25
+100 status 21
+3 goto 100
+28 value 83
+31 color 60
+89 x 90
+2 self 88
+38 next 38
+11 object 58

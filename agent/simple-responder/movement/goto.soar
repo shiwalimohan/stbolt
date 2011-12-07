@@ -16,6 +16,24 @@ sp {stop*propose*stop
    (<o> ^name stop)
 }
 
+sp {grab*propose*grab
+   (state <s> ^desired <d>)
+   (<d> ^type grab-object
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name grab-object)
+}
+
+sp {drop*propose*drop
+   (state <s> ^desired <d>)
+   (<d> ^type drop-object
+       -^status << complete error >>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name drop-object)
+}
+
 sp {goto*elaborate*goto-operator*x*y
    (state <s> ^desired <d>
               ^operator <o> +)
@@ -47,12 +65,27 @@ sp {goto*elaborate*goto-operator*t
    (<o> ^t <t>)
 }
 
-sp {goto*apply*goto*place
+sp {stop*apply*stop
    (state <s> ^io.output-link <out>
               ^operator <o>)
    (<o> ^name stop)
 -->
    (<out> ^stop <d>)
+}
+sp {grab*apply*grab
+   (state <s> ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name grab-object)
+-->
+   (<out> ^grab-object <d>)
+}
+
+sp {drop*apply*drop
+   (state <s> ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name drop-object)
+-->
+   (<out> ^drop-object <d>)
 }
 
 sp {goto*apply*goto*place
@@ -106,9 +139,9 @@ sp {goto*mark-complete
    (<d> ^status complete)
 }
 
-sp {goto*mark-complete
-   (state <s> ^desired <d>)
-   (<d> ^type stop)
--->
-   (<d> ^status complete)
-}
+#sp {stop*mark-complete
+#   (state <s> ^desired <d>)
+#   (<d> ^type stop)
+#-->
+#   (<d> ^status complete)
+#}

@@ -20,7 +20,7 @@ public class GamepadController implements RobotPositionListener, RobotDestinatio
     private boolean eStop = false;
     private double[] location = new double[3]; // xyt
     private double[] target = null; // xyt
-
+    private boolean action = false;
     private Runnable lcmRunnable = new Runnable()
     {
         @Override
@@ -38,7 +38,13 @@ public class GamepadController implements RobotPositionListener, RobotDestinatio
                     gp.utime = TimeUtil.utime();
                     gp.axes[4] = speed[0];
                     gp.axes[5] = speed[1];
-                    gp.buttons = eStop || target == null ? 0 : 1;
+                    if (action)
+                    {
+                        gp.buttons = 2;
+                        action = false;
+                    }
+                    else
+                        gp.buttons = eStop || target == null ? 0 : 1;
                 }
                 lcm.publish("GAMEPAD", gp);
             }
@@ -123,6 +129,14 @@ public class GamepadController implements RobotPositionListener, RobotDestinatio
             this.eStop = eStop;
         }
     }
+    
+    public void setAction(boolean action)
+    {
+        synchronized (this)
+        {
+            this.action = action;
+        }
+    }
 
     public void setRotationSpeed(double rotation)
     {
@@ -146,6 +160,8 @@ public class GamepadController implements RobotPositionListener, RobotDestinatio
     {
         synchronized (this)
         {
+          //implicit that estop is turned off on goto/destination change
+            this.eStop = false;
             target = new double[] {x, y, t};
         }
     }

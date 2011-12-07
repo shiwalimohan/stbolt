@@ -20,9 +20,9 @@ public class OutputLinkHandler implements OutputEventInterface
     public OutputLinkHandler(SBolt sbolt){
         this.sbolt = sbolt;
         this.sbolt.getAgent().AddOutputHandler("stop", this, null);
-        //this.sbolt.getAgent().AddOutputHandler("get-object", this, null);
+        this.sbolt.getAgent().AddOutputHandler("grab-object", this, null);
         this.sbolt.getAgent().AddOutputHandler("goto", this, null);
-        //this.sbolt.getAgent().AddOutputHandler("drop-object", this, null);
+        this.sbolt.getAgent().AddOutputHandler("drop-object", this, null);
         this.sbolt.getAgent().AddOutputHandler("send-message", this, null);
         this.sbolt.getAgent().AddOutputHandler("action", this, null);
         this.sbolt.getAgent().AddOutputHandler("destination", this, null);
@@ -55,18 +55,26 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             processActionCommand(wme.ConvertToIdentifier());
         }
-	else if (wme.GetAttribute().equals("send-message"))
+        else if (wme.GetAttribute().equals("send-message"))
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
         }
-	else if (wme.GetAttribute().equals("destination"))
+        else if (wme.GetAttribute().equals("destination"))
         {
-	    processDestinationCommand(wme.ConvertToIdentifier());
+            processDestinationCommand(wme.ConvertToIdentifier());
         }
-	else if (wme.GetAttribute().equals("stop"))
-	{
-	    processStopCommand(wme.ConvertToIdentifier());
-	}
+        else if (wme.GetAttribute().equals("stop"))
+        {
+            processStopCommand(wme.ConvertToIdentifier());
+        }
+        else if (wme.GetAttribute().equals("grab-object"))
+        {
+            processGetObjectCommand(wme.ConvertToIdentifier());
+        }
+        else if (wme.GetAttribute().equals("drop-object"))
+        {
+            processDropObjectCommand(wme.ConvertToIdentifier());
+        }
 
         if (this.sbolt.getAgent().IsCommitRequired())
         {
@@ -220,9 +228,46 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
-        command.dest = null;
+        //command.dest = null;
+        for (RobotDestinationListener listener : destinationListeners) {
+            listener.setEStop(true);
+        }
+        stopId.CreateStringWME("status", "complete");
+    }
+    /**
+     * Takes a stop command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processGetObjectCommand(Identifier getId)
+    {
+        if (getId == null)
+        {
+            return;
+        }
+        
+        for (RobotDestinationListener listener : destinationListeners) {
+            listener.setAction(true);
+        }
+        getId.CreateStringWME("status", "complete");
     }
 
+    /**
+     * Takes a stop command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command
+     */
+    private void processDropObjectCommand(Identifier dropId)
+    {
+        if (dropId == null)
+        {
+            return;
+        }
+        
+        for (RobotDestinationListener listener : destinationListeners) {
+            listener.setAction(true);
+        }
+        dropId.CreateStringWME("status", "complete");
+    }
+    
     /**
      * Takes a goto command on the output link given as an identifier and
      * uses it to update the internal robot_command_t command
@@ -294,7 +339,8 @@ public class OutputLinkHandler implements OutputEventInterface
                     "Command has an invalid x, y, or t float");
         }
 
-
+        
+        
         command.dest = new double[] { x, y, t };
         gotoId.CreateStringWME("status", "complete");
 
