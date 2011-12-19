@@ -1,0 +1,24 @@
+sp {comprehend*propose*create-object
+   (state <s> ^name comprehend
+             -^object <obj>
+              ^superstate.operator <ss-op>)
+   (<ss-op> ^name comprehend
+        	^id <id>)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name create-object
+        ^id <id>)
+}
+
+# Create the beginning object structure to start working on in the substate
+sp {comprehend*apply*create-object
+   (state <s> ^name comprehend
+              ^operator <o>)
+   (<o> ^name create-object
+        ^id <id>)
+-->
+   (<s> ^object <obj>)
+   (<obj> ^id <id>
+          ^mapping <mapping>
+          ^location <location>)
+}

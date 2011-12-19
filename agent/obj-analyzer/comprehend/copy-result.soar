@@ -1,0 +1,22 @@
+# copy-result
+# When nothing more can be done to comprehend the object, it copies the result
+#   to the superstate (will retract the comprehend operator)
+
+sp {comprehend*propose*copy-result
+   (state <s> ^name comprehend
+             -^object.mapping.att-val-pair.{<< att val >>}.needs-retrieval true)
+-->
+   (<s> ^operator <o> + <)
+   (<o> ^name copy-result)
+}
+
+sp {comprehend*apply*copy-result
+   (state <s> ^name comprehend
+              ^superstate <ss>
+              ^operator.name copy-result
+              ^object <obj>)
+-->
+   (<ss> ^object <obj>)
+   (<obj> ^changed true)
+}
+              

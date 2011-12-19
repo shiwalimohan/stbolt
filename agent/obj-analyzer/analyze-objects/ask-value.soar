@@ -1,0 +1,49 @@
+sp {analyze-objects*propose*ask-value
+   (state <s> ^name analyze-objects
+              ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.external
+             -^val.external)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name ask-value
+        ^type external
+        ^object <obj>
+        ^att-val-pair <av-pair>)
+}
+
+sp {analyze-objects*apply*ask-value
+   (state <s> ^name analyze-objects
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name ask-value
+        ^object <obj>
+        ^att-val-pair.att.external <external-att>)
+   (<obj> ^id <id>)
+-->
+   (<out> ^send-message.first <w1>)
+   (<w1> ^word What
+         ^next <w2>)
+   (<w2> ^word <external-att>
+         ^next <w3>)
+   (<w3> ^word is
+         ^next <w4>)
+   (<w4> ^word object
+         ^next <w5>)
+   (<w5> ^word <id>)
+}
+
+sp {analyze-objects*apply*create*current-question
+   (state <s> ^name analyze-objects
+              ^top-state <top>
+              ^operator <o>)
+   (<o> ^name ask-value
+        ^object <obj>
+        ^att-val-pair <av-pair>)
+-->
+   (<top> ^current-question <cq>)
+   (<cq> ^type ask-value
+         ^object <obj>
+         ^att-val-pair <av-pair>)
+}
+         

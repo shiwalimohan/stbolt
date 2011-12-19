@@ -1,6 +1,9 @@
 package edu.umich.sbolt.world;
 
+import sml.FloatElement;
 import sml.Identifier;
+import sml.IntElement;
+import sml.StringElement;
 import sml.WMElement;
 
 /**
@@ -51,7 +54,10 @@ public class WorkingMemoryUtil
         if (valueWME == null){
             identifier.CreateFloatWME(attribute, value);
         } else if(valueWME.GetValueType().equals(FLOAT_VAL)){
-            valueWME.ConvertToFloatElement().Update(value);;
+            FloatElement floatWME = valueWME.ConvertToFloatElement();
+            if(floatWME.GetValue() != value){
+                floatWME.Update(value);
+            }
         } else {
             valueWME.DestroyWME();
             identifier.CreateFloatWME(attribute, value);
@@ -68,7 +74,10 @@ public class WorkingMemoryUtil
         if (valueWME == null){
             identifier.CreateIntWME(attribute, value);
         } else if(valueWME.GetValueType().equals(INTEGER_VAL)){
-            valueWME.ConvertToIntElement().Update(value);
+            IntElement intWME = valueWME.ConvertToIntElement();
+            if(intWME.GetValue() != value){
+                intWME.Update(value);
+            }
         } else {
             valueWME.DestroyWME();
             identifier.CreateIntWME(attribute, value);
@@ -85,7 +94,10 @@ public class WorkingMemoryUtil
         if (valueWME == null){
             identifier.CreateStringWME(attribute, value);
         } else if(valueWME.GetValueType().equals(STRING_VAL)){
-            valueWME.ConvertToStringElement().Update(value);
+            StringElement stringWME = valueWME.ConvertToStringElement();
+            if(!stringWME.GetValue().equals(value)){
+                stringWME.Update(value);
+            }
         } else {
             valueWME.DestroyWME();
             identifier.CreateStringWME(attribute, value);

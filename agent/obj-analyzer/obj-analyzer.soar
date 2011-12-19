@@ -1,0 +1,23 @@
+smem --set learning on
+
+pushd analyze-objects
+source analyze-objects_source.soar
+popd
+
+pushd comprehend
+source comprehend_source.soar
+popd
+
+pushd elaborations
+source elaborations_source.soar
+popd
+
+pushd process-message
+source process-message_source.soar
+popd
+
+
+source init-obj-analyzer.soar
+source learn-val.soar
+source remove-stored.soar
+source wait.soar

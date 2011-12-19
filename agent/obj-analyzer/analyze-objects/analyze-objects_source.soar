@@ -1,0 +1,5 @@
+source analyze-objects.soar
+source ask-value.soar
+source elaborations.soar
+source mark-changed-false.soar
+source preferences.soar

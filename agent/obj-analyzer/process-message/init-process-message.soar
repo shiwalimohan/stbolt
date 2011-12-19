@@ -1,0 +1,24 @@
+sp {process-message*propose*init-process-message
+   (state <s> ^name process-message
+             -^message)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name init-process-message)
+}
+
+sp {process-message*apply*init-process-message*message
+   (state <s> ^name process-message
+              ^io.input-link.message <msg>
+              ^operator.name init-process-message)
+-->
+   (<s> ^message <msg>)
+}
+
+sp {process-message*apply*init-process-message*current-question
+   (state <s> ^name process-message
+              ^operator.name init-process-message
+              ^top-state.current-question <cq>)
+-->
+   (<s> ^current-question <cq>)
+}
+

@@ -1,0 +1,5 @@
+source io.soar
+source object-location.soar
+source output.soar
+source substate-name.soar
+source top-state.soar

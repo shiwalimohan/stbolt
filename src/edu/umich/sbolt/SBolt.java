@@ -58,7 +58,8 @@ public class SBolt implements LCMSubscriber
         {
             throw new IllegalStateException("Kernel created null agent");
         }
-        agent.LoadProductions("agent/simple-responder/responder.soar");
+        //agent.LoadProductions("agent/simple-responder/responder.soar");
+        agent.LoadProductions("agent/obj-analyzer/obj-analyzer.soar");
 
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event

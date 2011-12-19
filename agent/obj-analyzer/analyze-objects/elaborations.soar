@@ -1,0 +1,6 @@
+sp {analyze-objects*elaborate*object
+   (state <s> ^name analyze-objects
+              ^superstate.object <obj>)
+-->
+   (<s> ^object <obj>)
+}

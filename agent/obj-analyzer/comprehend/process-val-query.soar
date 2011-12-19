@@ -1,0 +1,80 @@
+# process-val-query
+#   When the results from a value query are ready this operator processes them
+
+# Knows a query is processed if there is a success or failure result
+sp {comprehend*propose*process-val-query
+   (state <s> ^name comprehend
+              ^smem <smem>)
+   (<smem> ^command.query <query>
+           ^result.{<< success failure >>} <query>)
+   (<query> ^type value)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name process-val-query
+        ^query <query>)
+}
+
+# Success - adds the retrieved external value associated with the internal one
+sp {comprehend*apply*process-val-query*success
+   (state <s> ^name comprehend
+              ^operator <o>
+              ^smem <smem>
+              ^object.mapping.att-val-pair.val <value>)
+   (<o> ^name process-val-query
+        ^query <query>)
+   (<smem> ^command <cmd>
+           ^result <result>)
+   (<cmd> ^query <query>)
+   (<result> ^success <query>
+             ^retrieved <retrieved>)
+   (<retrieved> ^internal <internal-val>
+                ^external <external-val>)
+   (<value> ^internal <internal-val>
+                ^needs-retrieval true)
+-->
+   (<cmd> ^query <query> -)
+   (<value> ^external <external-val>
+                ^needs-retrieval true -)
+}
+
+# If we know both the external attribute and value, we can add it to the 
+#    internal conceptual view of the object
+sp {comprehend*apply*process-val-query*success*add*att-val
+   (state <s> ^name comprehend
+              ^operator <o>
+              ^smem.result <result>
+              ^object <obj>)
+   (<o> ^name process-val-query
+        ^query <query>)
+   (<result> ^success <query>
+             ^retrieved <retrieved>)
+   (<retrieved> ^internal <internal-val>
+                ^external <external-val>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^val.internal <internal-val>
+              ^att.external <external-att>)
+-->
+   (<obj> ^<external-att> <external-val>)
+}
+              
+
+# Failure - does not add an external value attribute
+sp {comprehend*apply*process-val-query*failure
+   (state <s> ^name comprehend
+              ^operator <o>
+              ^smem <smem>
+              ^object.mapping.att-val-pair.val <value>)
+   (<o> ^name process-val-query
+        ^query <query>)
+   (<smem> ^command <cmd>
+           ^result <result>)
+   (<cmd> ^query <query>)
+   (<result> ^failure <query>)
+   (<query> ^internal <internal-val>)
+   (<value> ^internal <internal-val>
+                ^needs-retrieval true)
+-->
+   (<cmd> ^query <query> -)
+   (<value> ^needs-retrieval true -)
+}
+   

@@ -1,0 +1,28 @@
+sp {process-message*propose*process-ask-value
+   (state <s> ^name process-message
+             -^processed <id>
+              ^current-question.type ask-value)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name process-ask-value)
+}
+
+sp {process-message*apply*process-ask-value
+   (state <s> ^name process-message
+              ^operator.name process-ask-value
+              ^message.words.word <response>
+              ^current-question.att-val-pair.val.internal <internal-val>
+              ^top-state <top>)
+-->
+   (<top> ^learned-val <v>)
+   (<v> ^internal <internal-val>
+        ^external <response>)
+}
+
+sp {process-message*apply*process-ask-value*mark-processed
+   (state <s> ^name process-message
+              ^message.id <msgID>
+              ^operator.name process-ask-value)
+-->
+   (<s> ^processed <msgID>)
+}
