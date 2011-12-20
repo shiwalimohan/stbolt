@@ -1,0 +1,122 @@
+sp {analyze-objects*propose*same-unknown-att
+   (state <s> ^name analyze-objects
+              ^object <obj1>
+              ^object {<obj2> <> <obj1>})
+   (<obj1> ^mapping.unknown-att <att>
+          -^mapping.unknown-att <> <att>)
+   (<obj2> ^mapping.unknown-att <att>
+          -^mapping.unknown-att <> <att>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name same-unknown-att
+        ^type external
+        ^first <obj1>
+        ^object <obj1>
+        ^object <obj2>
+        ^unknown-att <att>)
+}
+
+sp {analyze-objects*apply*same-unknown-att*differ
+   (state <s> ^name analyze-objects
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name same-unknown-att
+        ^first <obj1>
+        ^object {<obj2> <> <obj1>}
+        ^unknown-att <att>)
+   (<obj1> ^id <id1>
+           ^mapping.att-val-pair <av-pair1>)
+   (<av-pair1> ^att.internal <att>
+               ^val.internal <val1>)
+   (<obj2> ^id <id2>
+           ^mapping.att-val-pair <av-pair2>)
+   (<av-pair2> ^att.internal <att>
+               ^val.internal <> <val1>)
+-->
+   (<out> ^send-message.first <w1>)
+   (<w1> ^word What
+         ^next <w2>)
+   (<w2> ^word attribute
+         ^next <w3>)
+   (<w3> ^word do
+         ^next <w4>)
+   (<w4> ^word <id1>
+         ^next <w5>)
+   (<w5> ^word and
+         ^next <w6>)
+   (<w6> ^word <id2>
+         ^next <w7>)
+   (<w7> ^word differ
+         ^next <w8>)
+   (<w8> ^word in)
+}
+
+sp {analyze-objects*apply*same-unknown-att*same
+   (state <s> ^name analyze-objects
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name same-unknown-att
+        ^first <obj1>
+        ^object {<obj2> <> <obj1>}
+        ^unknown-att <att>)
+   (<obj1> ^id <id1>
+           ^mapping.att-val-pair <av-pair1>)
+   (<av-pair1> ^att.internal <att>
+               ^val.internal <val1>)
+   (<obj2> ^id <id2>
+           ^mapping.att-val-pair <av-pair2>)
+   (<av-pair2> ^att.internal <att>
+               ^val.internal <val1>)
+-->
+   (<out> ^send-message.first <w1>)
+   (<w1> ^word What
+         ^next <w2>)
+   (<w2> ^word attribute
+         ^next <w3>)
+   (<w3> ^word do
+         ^next <w4>)
+   (<w4> ^word <id1>
+         ^next <w5>)
+   (<w5> ^word and
+         ^next <w6>)
+   (<w6> ^word <id2>
+         ^next <w7>)
+   (<w7> ^word have
+         ^next <w8>)
+   (<w8> ^word in
+         ^next <w9>)
+   (<w9> ^word common)
+}
+
+sp {analyze-objects*apply*same-unknown-att*list*exceptions
+   (state <s> ^name analyze-objects
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name same-unknown-att
+        ^first <obj1>
+        ^object {<obj2> <> <obj1>}
+        ^unknown-att <unknown-att>)
+   (<obj1> ^mapping.att-val-pair.att <att>)
+   (<att> ^internal {<common-att> <> <unknown-att>}
+          ^external <external-att>)
+   (<obj2> ^mapping.att-val-pair.att.internal <common-att>)
+-->
+   (<out> ^send-message.first <w1>)
+   (<w1> ^word ignore
+         ^next <w2>)
+   (<w2> ^word <external-att>)
+}
+
+
+sp {analyze-objects*apply*same-unknown-att*create*current-question
+   (state <s> ^name analyze-objects
+              ^top-state <top>
+              ^operator <o>)
+   (<o> ^name same-unknown-att
+        ^unknown-att <att>)
+-->
+   (<top> ^current-question <cq>)
+   (<cq> ^type same-unknown-att
+         ^unknown-att <att>)
+}
+         

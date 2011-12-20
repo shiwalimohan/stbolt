@@ -1,0 +1,24 @@
+sp {create-object*propose*init-create-object
+   (state <s> ^name create-object
+             -^object <obj>
+              ^superstate.operator <ss-op>)
+   (<ss-op> ^name create-object
+        	^id <id>)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name init-create-object
+        ^id <id>)
+}
+
+# Create the beginning object structure to start working on in the substate
+sp {create-object*apply*init-create-object
+   (state <s> ^name create-object
+              ^operator <o>)
+   (<o> ^name init-create-object
+        ^id <id>)
+-->
+   (<s> ^object <obj>)
+   (<obj> ^id <id>
+          ^mapping <mapping>
+          ^location <location>)
+}

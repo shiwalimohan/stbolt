@@ -1,0 +1,29 @@
+# retrieve-att
+#   If a retrieval hasn't yet been tried for that attribute, it queries smem
+
+sp {create-object*propose*retrieve-att
+   (state <s> ^name create-object
+              ^smem.command <cmd>
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att <att-node>)
+   (<att-node> ^internal <att>
+               ^needs-retrieval true)
+   (<cmd> -^query.internal <att>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name retrieve-att
+        ^att <att>)
+}
+
+sp {create-object*apply*retrieve-att
+   (state <s> ^name create-object
+              ^smem.command <cmd>
+              ^operator <o>)
+   (<o> ^name retrieve-att
+        ^att <internal-att>)
+-->
+   (<cmd> ^query <q>)
+   (<q> ^type attribute
+        ^internal <internal-att>
+        ^external <external-att>)
+}

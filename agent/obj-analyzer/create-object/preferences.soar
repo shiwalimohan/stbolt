@@ -1,0 +1,30 @@
+# If a query result exists then give it a best preference so it is processed immediately
+sp {elaborate*process-query*best-preference
+   (state <s> ^name create-object
+              ^operator <o1> +)
+   (<o1> ^name << process-att-query process-val-query >>)
+-->
+   (<s> ^operator <o1> >)
+}
+
+# Prefer copying an attribute-value from the input-link over retrieving information
+sp {prefer*copy-att-val*over*retrieve
+   (state <s> ^name create-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name copy-att-val)
+   (<o2> ^name << retrieve-att retrieve-val >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# Prefer retrieving an attribute over a value
+sp {prefer*retrieve-att*over*retrieve-val
+   (state <s> ^name create-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name retrieve-att)
+   (<o2> ^name retrieve-val)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

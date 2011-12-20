@@ -1,0 +1,9 @@
+sp {propose*create-object
+   (state <s> ^name obj-analyzer
+              ^io.input-link.objects.object.id <id>
+             -^object.id <id>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name create-object
+        ^id <id>)
+}
