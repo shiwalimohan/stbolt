@@ -1,9 +1,0 @@
-sp {apply*remove-stored
-   (state <s> ^operator <o>
-              ^smem <smem>)
-   (<smem> ^command <cmd>
-           ^result.success <a>)
-   (<cmd> ^store <a>)
--->
-   (<cmd> ^store <a> -)
-}

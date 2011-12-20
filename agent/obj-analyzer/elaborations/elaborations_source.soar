@@ -1,6 +1,0 @@
-source io.soar
-source mappings.soar
-source object-location.soar
-source output.soar
-source substate-name.soar
-source top-state.soar

@@ -1,8 +1,0 @@
-sp {propose*analyze-objects
-   (state <s> ^name obj-analyzer
-              ^object <obj>)
-   (<obj> ^changed true)
--->
-   (<s> ^operator <o> + = <)
-   (<o> ^name analyze-objects)
-}
