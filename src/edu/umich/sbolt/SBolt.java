@@ -1,5 +1,6 @@
 package edu.umich.sbolt;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,8 +59,14 @@ public class SBolt implements LCMSubscriber
         {
             throw new IllegalStateException("Kernel created null agent");
         }
-        //agent.LoadProductions("agent/simple-responder/responder.soar");
-        agent.LoadProductions("agent/obj-analyzer/obj-analyzer.soar");
+        
+        File f = new File("agent/obj-analyzer/obj-analyzer.soar");
+        if(f.exists()) { 
+            agent.LoadProductions("agent/obj-analyzer/obj-analyzer.soar");
+        } else {
+            agent.LoadProductions("agent/simple-responder/responder.soar");
+        }
+        
 
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event
