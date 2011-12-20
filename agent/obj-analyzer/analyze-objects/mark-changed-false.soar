@@ -5,7 +5,7 @@ sp {analyze-objects*propose*mark-changed-false
    -{(<s> ^operator <o> +)
    (<o> ^object <obj>)}
 -->
-   (<s> ^operator <o> + = >)
+   (<s> ^operator <o> + = <)
    (<o> ^name mark-changed-false)
 }
 

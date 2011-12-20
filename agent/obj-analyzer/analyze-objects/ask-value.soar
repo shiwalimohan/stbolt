@@ -1,7 +1,8 @@
 sp {analyze-objects*propose*ask-value
    (state <s> ^name analyze-objects
               ^object <obj>)
-   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<obj> ^mapping.att-val-pair <av-pair>
+          ^changed true)
    (<av-pair> ^att.external
              -^val.external)
 -->
