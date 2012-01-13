@@ -10,6 +10,7 @@ import sml.WMElement;
 import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.controller.RobotDestinationListener;
 import edu.umich.sbolt.world.Location;
+import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
 
 public class OutputLinkHandler implements OutputEventInterface
@@ -21,13 +22,12 @@ public class OutputLinkHandler implements OutputEventInterface
     
     public OutputLinkHandler(SBolt sbolt){
         this.sbolt = sbolt;
-        this.sbolt.getAgent().AddOutputHandler("stop", this, null);
-        this.sbolt.getAgent().AddOutputHandler("grab-object", this, null);
-        this.sbolt.getAgent().AddOutputHandler("goto", this, null);
-        this.sbolt.getAgent().AddOutputHandler("drop-object", this, null);
-        this.sbolt.getAgent().AddOutputHandler("send-message", this, null);
-        this.sbolt.getAgent().AddOutputHandler("action", this, null);
-        this.sbolt.getAgent().AddOutputHandler("destination", this, null);
+        String[] outputHandlerStrings = {"stop", "grab-object", "goto", "drop-object", 
+                "send-message", "action", "destination", "query"};
+        for(String outputHandlerString : outputHandlerStrings){
+            this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this, null);
+        }
+        
         command = new robot_command_t();
         command.action = "";
     }
@@ -48,6 +48,7 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
+        System.out.println(wme.GetAttribute());
 
         if (wme.GetAttribute().equals("goto"))
         {
@@ -76,6 +77,8 @@ public class OutputLinkHandler implements OutputEventInterface
         else if (wme.GetAttribute().equals("drop-object"))
         {
             processDropObjectCommand(wme.ConvertToIdentifier());
+        } else if(wme.GetAttribute().equals("query")){
+            processQueryCommand(wme.ConvertToIdentifier());
         }
 
         if (this.sbolt.getAgent().IsCommitRequired())
@@ -329,6 +332,22 @@ public class OutputLinkHandler implements OutputEventInterface
         command.action = action.toUpperCase();//actionBuf.toString();
         
         actionId.CreateStringWME("status", "complete");
+    }
+    
+    private void processQueryCommand(Identifier queryId){
+        String type = WorkingMemoryUtil.getAttributeString(queryId,  "type", "Query does not have ^type");
+        if(type.equals("attribute-value")){
+            processQueryAttributeValue(queryId);
+        }
+    }
+    
+    private void processQueryAttributeValue(Identifier queryId){
+        String attribute = WorkingMemoryUtil.getAttributeString(queryId, "attribute", "Query does not have ^attribute");
+        String object = WorkingMemoryUtil.getAttributeString(queryId, "object", "Query does not have ^object");
+
+        String message = "What is the " + attribute + " of " + object + "?";
+        sbolt.getChatFrame().addMessage(message);
+        queryId.CreateStringWME("status", "complete");
     }
 
 }

@@ -139,4 +139,21 @@ public class WorkingMemoryUtil
             }
         }
     }
+    
+    public static String getAttributeString(Identifier id, String attribute){
+        WMElement wme = id.FindByAttribute(attribute, 0);
+        if(wme == null || wme.GetValueAsString().length() == 0){
+            return null;
+        }
+        return wme.GetValueAsString();
+    }
+    
+    public static String getAttributeString(Identifier id, String attribute, String errorMessage){
+        WMElement wme = id.FindByAttribute(attribute, 0);
+        if(wme == null || wme.GetValueAsString().length() == 0){
+            id.CreateStringWME("status", "error");
+            throw new IllegalStateException(errorMessage);
+        }
+        return wme.GetValueAsString();
+    }
 }
