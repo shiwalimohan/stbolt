@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 import edu.umich.sbolt.InputLinkHandler;
-import edu.umich.sbolt.controller.RobotPositionListener;
 
 import abolt.lcmtypes.observations_t;
 import sml.Identifier;
 
-public class World implements InputLinkElement
+public class World implements IInputLinkElement
 {
     
     private Identifier parentId;
@@ -24,12 +23,12 @@ public class World implements InputLinkElement
     
     private Messages messages;
     
-    private Set<InputLinkElement> inputLinkElements;
-    private List<RobotPositionListener> positionListeners = new ArrayList<RobotPositionListener>();
+    private PointedObject pointedObject;
     
+    private Set<IInputLinkElement> inputLinkElements;
     
     public World(){
-        inputLinkElements = new HashSet<InputLinkElement>();
+        inputLinkElements = new HashSet<IInputLinkElement>();
         
         objects = new ObjectCollection();
         
@@ -39,16 +38,19 @@ public class World implements InputLinkElement
         
         messages = new Messages(this);
         
+        pointedObject = new PointedObject(-1);
+        
         inputLinkElements.add(objects);
         inputLinkElements.add(worldTime);
         inputLinkElements.add(messages);
+        inputLinkElements.add(pointedObject);
     }
     
 
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
-        for(InputLinkElement element : inputLinkElements){
+        for(IInputLinkElement element : inputLinkElements){
             element.updateInputLink(parentIdentifier);
         }
     }
@@ -56,7 +58,7 @@ public class World implements InputLinkElement
     @Override
     public synchronized void destroy()
     {
-        for(InputLinkElement element : inputLinkElements){
+        for(IInputLinkElement element : inputLinkElements){
             element.destroy();
         }
     }
@@ -64,21 +66,18 @@ public class World implements InputLinkElement
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
         for(String sensable : observation.sensables){
-            if(sensable.toLowerCase().contains("robot_pos")){
+            if(Robot.IsRobotSensable(sensable)){
                 if(robot == null){
                     robot = new Robot(sensable);
                     inputLinkElements.add(robot);
                 } else {
                     robot.newSensableString(sensable);
                 }
-                Location loc = robot.getLocation();
-                for(RobotPositionListener listener : positionListeners){
-                    listener.robotPositionChanged(loc.x, loc.y, loc.t);
-                }
                 break;
             }
         }
         worldTime.newObservation(observation);
+        pointedObject.setObjectID(observation.click_id);
     }
     
     public synchronized void newMessage(String message){
@@ -89,12 +88,12 @@ public class World implements InputLinkElement
         return robot;
     }
     
-    public WorldObject getObject(Integer id){
-        return objects.getObject(id);
+    public int getPointedObjectID(){
+        return pointedObject.getObjectID();
     }
     
-    public WorldObject getObject(String name){
-        return objects.getObject(name);
+    public WorldObject getObject(Integer id){
+        return objects.getObject(id);
     }
     
     public long getTime(){
@@ -103,11 +102,5 @@ public class World implements InputLinkElement
     
     public int getSteps(){
         return worldTime.getSteps();
-    }
-    
-    
-    public void addRobotPositionListener(RobotPositionListener listener) 
-    {
-        positionListeners.add(listener);
     }
 }

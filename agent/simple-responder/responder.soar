@@ -5,23 +5,14 @@ source output.soar
 source top-state.soar
 popd
 
-pushd movement
+pushd commands
 source goto.soar
-source process-goto.soar
-source process-grab.soar
-source process-stop.soar
-source grab.soar
-source stop.soar
-popd
-
-pushd process-message
-source process-message.soar
-popd
-
-pushd set-attribute
-source process-set.soar
+source pick-up.soar
+source point.soar
+source put-down.soar
 source set-attribute.soar
 popd
 
+source process-message.soar
 source init-responder.soar
 source wait.soar

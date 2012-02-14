@@ -3,7 +3,7 @@ package edu.umich.sbolt.world;
 import abolt.lcmtypes.observations_t;
 import sml.Identifier;
 
-public class WorldTime implements InputLinkElement
+public class WorldTime implements IInputLinkElement
 {
     private long startTime = 0;
     

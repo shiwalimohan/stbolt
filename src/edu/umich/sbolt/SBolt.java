@@ -14,31 +14,35 @@ import sml.Agent;
 import sml.Kernel;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
-import edu.umich.sbolt.controller.GamepadController;
+import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
+import edu.umich.sbolt.world.WorldObject;
 import edu.umich.soar.SoarProperties;
 
 public class SBolt implements LCMSubscriber
-        
+
 {
     private LCM lcm;
+
     private Kernel kernel;
+
     private Agent agent;
+
     private Timer timer;
+
     private TimerTask timerTask;
+
     private boolean running;
 
     private InputLinkHandler inputLinkHandler;
-    
+
     private OutputLinkHandler outputLinkHandler;
-    
+
     private ChatFrame chatFrame;
-    
+
     private World world;
-    
-    private GamepadController gamepadController;
-    
-    public SBolt(String channel, String agentName)
+
+    public SBolt(String channel, String agentName, String agentSource)
     {
         // LCM Channel, listen for observations_t
         try
@@ -59,14 +63,13 @@ public class SBolt implements LCMSubscriber
         {
             throw new IllegalStateException("Kernel created null agent");
         }
-        
-        File f = new File("agent/obj-analyzer/obj-analyzer.soar");
-        if(f.exists()) { 
-            agent.LoadProductions("agent/obj-analyzer/obj-analyzer.soar");
-        } else {
-            agent.LoadProductions("agent/simple-responder/responder.soar");
+
+        String objAnalyzerSource = "agent/obj-analyzer/obj-analyzer/obj-analyzer.soar";
+        if ((new File(objAnalyzerSource)).exists())
+        {
+            //agentSource = objAnalyzerSource;
         }
-        
+        agent.LoadProductions(agentSource);
 
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event
@@ -75,23 +78,20 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        agent.SpawnDebugger(kernel.GetListenerPort(), new SoarProperties().getPrefix());
-        
-        gamepadController = new GamepadController(0.0, 0.0, 0.0);
-        
+        agent.SpawnDebugger(kernel.GetListenerPort(),
+                new SoarProperties().getPrefix());
+
         world = new World();
-        world.addRobotPositionListener(gamepadController);
-        
+
         // Setup InputLink
         inputLinkHandler = new InputLinkHandler(world, this);
-        
+
         // Setup OutputLink
         outputLinkHandler = new OutputLinkHandler(this);
-        outputLinkHandler.addRobotDestinationListener(gamepadController);
-        
+
         // Setup ChatFrame
         chatFrame = new ChatFrame(this);
-        
+
         // Start broadcasting
         timerTask = new TimerTask()
         {
@@ -105,24 +105,29 @@ public class SBolt implements LCMSubscriber
         running = false;
         chatFrame.showFrame();
     }
-    
-    public Agent getAgent(){
+
+    public Agent getAgent()
+    {
         return agent;
     }
-    
-    public ChatFrame getChatFrame(){
+
+    public ChatFrame getChatFrame()
+    {
         return chatFrame;
     }
-    
-    public InputLinkHandler getInputLink(){
+
+    public InputLinkHandler getInputLink()
+    {
         return inputLinkHandler;
     }
-    
-    public OutputLinkHandler getOutputLink(){
+
+    public OutputLinkHandler getOutputLink()
+    {
         return outputLinkHandler;
     }
-    
-    public World getWorld(){
+
+    public World getWorld()
+    {
         return world;
     }
 
@@ -135,7 +140,6 @@ public class SBolt implements LCMSubscriber
         running = true;
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
-        gamepadController.start();
         agent.RunSelf(1);
     }
 
@@ -153,7 +157,8 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
-        if (inputLinkHandler == null) return;
+        if (inputLinkHandler == null)
+            return;
         observations_t obs = null;
         try
         {
@@ -167,7 +172,6 @@ public class SBolt implements LCMSubscriber
         }
     }
 
- 
     /**
      * Sends out the robot_command_t command via LCM
      */
@@ -186,8 +190,8 @@ public class SBolt implements LCMSubscriber
 
     public static void main(String[] args)
     {
-        
-        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
+        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt",
+                "agent/simple-responder/responder.soar");
         sbolt.start();
     }
 

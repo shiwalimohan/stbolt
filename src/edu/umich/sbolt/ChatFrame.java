@@ -12,21 +12,23 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ChatFrame extends JFrame{
-    
+public class ChatFrame extends JFrame
+{
+
     private JTextArea chatArea;
-    
+
     private JTextField chatField;
-    
+
     private List<String> chatMessages;
-    
+
     private SBolt sbolt;
-    
-    public ChatFrame(SBolt sbolt){
+
+    public ChatFrame(SBolt sbolt)
+    {
         super("SBolt");
-        
+
         this.sbolt = sbolt;
-        
+
         chatMessages = new ArrayList<String>();
 
         chatArea = new JTextArea();
@@ -57,8 +59,9 @@ public class ChatFrame extends JFrame{
         this.setSize(600, 300);
         this.getRootPane().setDefaultButton(button);
     }
-    
-    public void addMessage(String message){
+
+    public void addMessage(String message)
+    {
         chatMessages.add(message);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < chatMessages.size(); ++i)
@@ -72,10 +75,11 @@ public class ChatFrame extends JFrame{
         chatArea.setText(sb.toString());
     }
 
-    private void sendSoarMessage(String message){
+    private void sendSoarMessage(String message)
+    {
         sbolt.getWorld().newMessage(message);
     }
-    
+
     public void showFrame()
     {
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);

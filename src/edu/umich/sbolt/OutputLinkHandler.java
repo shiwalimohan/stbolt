@@ -1,45 +1,57 @@
 package edu.umich.sbolt;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.WMElement;
 import abolt.lcmtypes.robot_command_t;
-import edu.umich.sbolt.controller.RobotDestinationListener;
-import edu.umich.sbolt.world.Location;
+import edu.umich.sbolt.world.Robot;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
 
 public class OutputLinkHandler implements OutputEventInterface
 {
-    
+
     private SBolt sbolt;
+
     private robot_command_t command;
-    private List<RobotDestinationListener> destinationListeners = new ArrayList<RobotDestinationListener>();
-    
-    public OutputLinkHandler(SBolt sbolt){
+
+    public OutputLinkHandler(SBolt sbolt)
+    {
         this.sbolt = sbolt;
-        String[] outputHandlerStrings = {"stop", "grab-object", "goto", "drop-object", 
-                "send-message", "action", "destination", "query"};
-        for(String outputHandlerString : outputHandlerStrings){
-            this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this, null);
+        String[] outputHandlerStrings = { "goto", "action", "pick-up",
+                "put-down", "point", "send-message", "query" };
+        for (String outputHandlerString : outputHandlerStrings)
+        {
+            this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
+                    null);
         }
-        
+
         command = new robot_command_t();
         command.action = "";
     }
-    
-    public void addRobotDestinationListener(RobotDestinationListener listener) {
-        destinationListeners.add(listener);
-    }
-    
-    public robot_command_t getCommand(){
+
+    public robot_command_t getCommand()
+    {
+        if (command.updateDest)
+        {
+            // Check to see if we've reached our destination and turn off
+            // updateDest flag
+            Robot robot = sbolt.getWorld().getRobot();
+            double x = robot.getPose().getX();
+            double y = robot.getPose().getY();
+            double z = robot.getPose().getZ();
+            double delta = (x - command.dest[0]) * (x - command.dest[0])
+                    + (y - command.dest[1]) * (y - command.dest[1])
+                    + (z - command.dest[2]) * (z - command.dest[2]);
+            if (delta < .01)
+            {
+                command.updateDest = false;
+            }
+        }
         return command;
     }
-    
+
     @Override
     public void outputEventHandler(Object data, String agentName,
             String attributeName, WMElement wme)
@@ -62,22 +74,20 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             processOutputLinkMessage(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("destination"))
+        else if (wme.GetAttribute().equals("pick-up"))
         {
-            processDestinationCommand(wme.ConvertToIdentifier());
+            processPickUpCommand(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("stop"))
+        else if (wme.GetAttribute().equals("put-down"))
         {
-            processStopCommand(wme.ConvertToIdentifier());
+            processPutDownCommand(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("grab-object"))
+        else if (wme.GetAttribute().equals("point"))
         {
-            processGetObjectCommand(wme.ConvertToIdentifier());
+            processPointCommand(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("drop-object"))
+        else if (wme.GetAttribute().equals("query"))
         {
-            processDropObjectCommand(wme.ConvertToIdentifier());
-        } else if(wme.GetAttribute().equals("query")){
             processQueryCommand(wme.ConvertToIdentifier());
         }
 
@@ -137,124 +147,77 @@ public class OutputLinkHandler implements OutputEventInterface
         }
 
         message += ".";
-        sbolt.getChatFrame().addMessage(message.substring(0, message.length() - 1));
+        sbolt.getChatFrame().addMessage(
+                message.substring(0, message.length() - 1));
         messageId.CreateStringWME("status", "complete");
     }
 
     /**
-     * Takes a destination command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
+     * Takes a pick-up command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command. Expects pick-up
+     * ^object-id [int]
      */
-    private void processDestinationCommand(Identifier destId)
+    private void processPickUpCommand(Identifier pickUpId)
     {
-        if (destId == null)
+        if (pickUpId == null)
         {
             return;
         }
+        String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pickUpId,
+                "object-id", "pick-up does not have an ^object-id attribute");
 
-        double x = 0.0;
-        double y = 0.0;
-        double t = 0.0;
-
-        if (destId.FindByAttribute("None", 0) != null)
-        {
-            t = 10.0; // set t to 10 to ignore destination (stop)
-        }
-        else
-        {
-            WMElement xWme = destId.FindByAttribute("x", 0);
-            WMElement yWme = destId.FindByAttribute("y", 0);
-            WMElement tWme = destId.FindByAttribute("t", 0);
-
-            if (xWme == null || yWme == null || tWme == null)
-            {
-                destId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Command has destination WME missing x, y, or t");
-            }
-
-            try
-            {
-                x = Double.valueOf(xWme.GetValueAsString());
-                y = Double.valueOf(yWme.GetValueAsString());
-                t = Double.valueOf(tWme.GetValueAsString());
-            }
-            catch (Exception e)
-            {
-                destId.CreateStringWME("status", "error");
-                throw new IllegalStateException(
-                        "Command has an invalid x, y, or t float");
-            }
-        }
-
-        command.dest = new double[] { x, y, t };
-        destId.CreateStringWME("status", "complete");
-        
-        for (RobotDestinationListener listener : destinationListeners) {
-            listener.robotDestinationChanged(x, y, t);
-        }
-    }
-    
-    /**
-     * Takes a stop command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
-     */
-    private void processStopCommand(Identifier stopId)
-    {
-        if (stopId == null)
-        {
-            return;
-        }
-        //command.dest = null;
-        for (RobotDestinationListener listener : destinationListeners) {
-            listener.setEStop(true);
-        }
-        stopId.CreateStringWME("status", "complete");
-    }
-    /**
-     * Takes a grab-object command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
-     */
-    private void processGetObjectCommand(Identifier getId)
-    {
-        if (getId == null)
-        {
-            return;
-        }
-        /*
-        for (RobotDestinationListener listener : destinationListeners) {
-            listener.setAction(true);
-        }
-        */
-        String action = "NAME=0,HELD=TRUE";
+        String action = String.format("ID=%d,GRAB=%d", sbolt.getWorld()
+                .getRobot().getId(), Integer.parseInt(objectIdStr));
         command.action = action;
-        getId.CreateStringWME("status", "complete");
+        pickUpId.CreateStringWME("status", "complete");
     }
 
     /**
-     * Takes a drop-object command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
+     * Takes a put-down command on the output link given as an identifier and
+     * uses it to update the internal robot_command_t command Expects put-down
+     * ^location <loc> <loc> ^x [float] ^y [float] ^z [float]
      */
-    private void processDropObjectCommand(Identifier dropId)
+    private void processPutDownCommand(Identifier putDownId)
     {
-        if (dropId == null)
+        if (putDownId == null)
         {
             return;
         }
-        /*
-        for (RobotDestinationListener listener : destinationListeners) {
-            listener.setAction(true);
-        }
-        */
         
-        String action = "NAME=0,HELD=FALSE";
+        WMElement locationWME = putDownId.FindByAttribute("location", 0);
+        if(locationWME == null){
+            putDownId.CreateStringWME("status", "error");
+            return;
+        }
+        
+        String action;
+        if(locationWME.IsIdentifier()){
+            Identifier locationId = WorkingMemoryUtil.getIdentifierOfAttribute(
+                    putDownId, "location",
+                    "put-down does not have a ^location identifier");
+            double x = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                    locationId, "x",
+                    "put-down.location does not have an ^x attribute"));
+            double y = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                    locationId, "y",
+                    "put-down.location does not have an ^y attribute"));
+            double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                    locationId, "z",
+                    "put-down.location does not have an ^z attribute"));
+
+            action = String.format("ID=%d,DROP=[%f %f %f]", sbolt.getWorld()
+                    .getRobot().getId(), x, y, z);
+        } else {
+            action = String.format("ID=%d,GRAB=-1", sbolt.getWorld().getRobot().getId());
+        }
+        
         command.action = action;
-        dropId.CreateStringWME("status", "complete");
+        putDownId.CreateStringWME("status", "complete");
     }
-    
+
     /**
-     * Takes a goto command on the output link given as an identifier and
-     * uses it to update the internal robot_command_t command
+     * Takes a goto command on the output link given as an identifier and uses
+     * it to update the internal robot_command_t command
      */
     private void processGoto(Identifier gotoId)
     {
@@ -262,36 +225,23 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
-        
-        
-        //find the place in the inputlink map of objects
-        WMElement placeWme = gotoId.FindByAttribute("place", 0);
 
-        if (placeWme == null)
-        {
-            gotoId.CreateStringWME("status", "error");
-            throw new IllegalStateException(
-                    "Command has destination missing");
-        }
-        String name = placeWme.GetValueAsString();
-        
-        WorldObject place = sbolt.getWorld().getObject(name);
-        if(place == null){
-            gotoId.CreateStringWME("status", "error");
-            return;
-        }
-        Location placeLoc = place.getLocation();
+        Identifier locationId = WorkingMemoryUtil.getIdentifierOfAttribute(
+                gotoId, "location",
+                "put-down does not have a ^location identifier");
+        double x = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                locationId, "x",
+                "put-down.location does not have an ^x attribute"));
+        double y = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                locationId, "y",
+                "put-down.location does not have an ^y attribute"));
+        double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+                locationId, "z",
+                "put-down.location does not have an ^z attribute"));
 
-        double x = placeLoc.x;
-        double y = placeLoc.y;
-        double t = placeLoc.t;
-        
-        command.dest = new double[] { x, y, t };
+        command.dest = new double[] { x, y, z, 0, 0, 0 };
+        command.updateDest = true;
         gotoId.CreateStringWME("status", "complete");
-
-        for (RobotDestinationListener listener : destinationListeners) {
-            listener.robotDestinationChanged(x, y, t);
-        }
     }
 
     /**
@@ -304,49 +254,141 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
-        
-        WMElement nameWME = actionId.FindByAttribute("name", 0);
-        if (nameWME == null || nameWME.GetValueAsString().length() == 0)
-        {
-            actionId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Action has a pair with no key");
-        }
-        String name = nameWME.GetValueAsString();
-        
-        WMElement attributeWME = actionId.FindByAttribute("attribute", 0);
-        if (attributeWME == null || attributeWME.GetValueAsString().length() == 0)
-        {
-            actionId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Action has a pair with no key");
-        }
-        String attribute = attributeWME.GetValueAsString();
-        
-        WMElement valueWME = actionId.FindByAttribute("value", 0);
-        if (valueWME == null || valueWME.GetValueAsString().length() == 0)
-        {
-            actionId.CreateStringWME("status", "error");
-            throw new IllegalStateException("Action has a pair with no key");
-        }
-        String value = valueWME.GetValueAsString();
-        String action = "NAME=" + name + "," + attribute + "=" + value;
-        command.action = action.toUpperCase();//actionBuf.toString();
-        
+
+        String id = WorkingMemoryUtil.getValueOfAttribute(actionId, "id",
+                "action does not have an ^id attribute");
+        String attribute = WorkingMemoryUtil.getValueOfAttribute(actionId,
+                "attribute", "action does not have an ^attribute attribute");
+        String value = WorkingMemoryUtil.getValueOfAttribute(actionId, "value",
+                "action does not have a ^value attribute");
+
+        String action = String.format("ID=%s,%s=%s", id, attribute, value);
+        command.action = action.toUpperCase();
+
         actionId.CreateStringWME("status", "complete");
     }
-    
-    private void processQueryCommand(Identifier queryId){
-        String type = WorkingMemoryUtil.getAttributeString(queryId,  "type", "Query does not have ^type");
-        if(type.equals("attribute-value")){
+
+    private void processPointCommand(Identifier pointId)
+    {
+        if (pointId == null)
+        {
+            return;
+        }
+        String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pointId,
+                "object-id", "point does not have an ^object-id attribute");
+
+        String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
+                .getRobot().getId(), Integer.parseInt(objectIdStr));
+        command.action = action;
+        pointId.CreateStringWME("status", "complete");
+    }
+
+    private void processQueryCommand(Identifier queryId)
+    {
+        String type = WorkingMemoryUtil.getValueOfAttribute(queryId, "type",
+                "Query does not have ^type");
+        if (type.equals("attribute-value"))
+        {
             processQueryAttributeValue(queryId);
         }
+        else if (type.equals("differs-from-group"))
+        {
+            processQueryDiffersFromGroup(queryId);
+        }
+        else if (type.equals("shared-att-val"))
+        {
+            processQuerySharedAttVal(queryId);
+        }
     }
-    
-    private void processQueryAttributeValue(Identifier queryId){
-        String attribute = WorkingMemoryUtil.getAttributeString(queryId, "attribute", "Query does not have ^attribute");
-        String object = WorkingMemoryUtil.getAttributeString(queryId, "object", "Query does not have ^object");
+
+    private void processQueryAttributeValue(Identifier queryId)
+    {
+        String attribute = WorkingMemoryUtil.getValueOfAttribute(queryId,
+                "attribute", "Query does not have ^attribute");
+        String object = WorkingMemoryUtil.getValueOfAttribute(queryId,
+                "object", "Query does not have ^object");
 
         String message = "What is the " + attribute + " of " + object + "?";
         sbolt.getChatFrame().addMessage(message);
+        queryId.CreateStringWME("status", "complete");
+    }
+
+    private void processQueryDiffersFromGroup(Identifier queryId)
+    {
+        String differentObject = WorkingMemoryUtil.getValueOfAttribute(queryId,
+                "different-obj", "Query does not have ^different-obj");
+        List<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
+                queryId, "exception");
+        List<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
+                queryId, "group-obj");
+
+        String exceptionStr = "";
+        if (exceptions.size() > 0)
+        {
+            exceptionStr = "Other than " + exceptions.get(0);
+            for (int i = 1; i < exceptions.size(); i++)
+            {
+                exceptionStr += ", " + exceptions.get(1);
+            }
+            exceptionStr += "; ";
+        }
+
+        String message;
+        if (groupObjs.size() == 1)
+        {
+            message = "in what attribute do " + groupObjs.get(0) + " and "
+                    + differentObject + " differ?";
+        }
+        else
+        {
+            message = "what attribute do objects ";
+            for (String obj : groupObjs)
+            {
+                message += obj + ", ";
+            }
+            message = message.substring(0, message.length() - 2);
+            message += " have in common that is different than object "
+                    + differentObject + "?";
+        }
+        sbolt.getChatFrame().addMessage(exceptionStr + message);
+        queryId.CreateStringWME("status", "complete");
+    }
+
+    private void processQuerySharedAttVal(Identifier queryId)
+    {
+        List<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
+                queryId, "exception");
+        List<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
+                queryId, "group-obj");
+
+        String exceptionStr = "";
+        if (exceptions.size() > 0)
+        {
+            exceptionStr = "Other than " + exceptions.get(0);
+            for (int i = 1; i < exceptions.size(); i++)
+            {
+                exceptionStr += ", " + exceptions.get(1);
+            }
+            exceptionStr += "; ";
+        }
+
+        String message;
+        if (groupObjs.size() == 1)
+        {
+            message = "what attribute does " + groupObjs.get(0) + " have?";
+        }
+        else
+        {
+            message = "what attribute do objects ";
+            for (String obj : groupObjs)
+            {
+                message += obj + ", ";
+            }
+            message = message.substring(0, message.length() - 2);
+            message += " have in common?";
+        }
+
+        sbolt.getChatFrame().addMessage(exceptionStr + message);
         queryId.CreateStringWME("status", "complete");
     }
 

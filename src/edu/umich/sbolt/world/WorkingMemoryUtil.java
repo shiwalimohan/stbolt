@@ -1,5 +1,8 @@
 package edu.umich.sbolt.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sml.FloatElement;
 import sml.Identifier;
 import sml.IntElement;
@@ -148,12 +151,32 @@ public class WorkingMemoryUtil
         return wme.GetValueAsString();
     }
     
-    public static String getAttributeString(Identifier id, String attribute, String errorMessage){
+    public static Identifier getIdentifierOfAttribute(Identifier id, String attribute, String errorMessage){
         WMElement wme = id.FindByAttribute(attribute, 0);
-        if(wme == null || wme.GetValueAsString().length() == 0){
+        if(wme == null || !wme.IsIdentifier()){
             id.CreateStringWME("status", "error");
             throw new IllegalStateException(errorMessage);
         }
-        return wme.GetValueAsString();
+        return wme.ConvertToIdentifier();
+    }
+    
+    public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage){
+        String attString = getAttributeString(id, attribute);
+        if(attString == null){
+            id.CreateStringWME("status", "error");
+            throw new IllegalStateException(errorMessage);
+        }
+        return attString;
+    }
+    
+    public static List<String> getAllValuesOfAttribute(Identifier id, String attribute){
+        List<String> attStrings = new ArrayList<String>();
+        for(int index = 0; index < id.GetNumberChildren(); index++){
+            WMElement wme = id.GetChild(index);
+            if(wme.GetAttribute().equals(attribute)){
+                attStrings.add(wme.GetValueAsString());
+            }
+        }
+        return attStrings;
     }
 }

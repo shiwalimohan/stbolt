@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.umich.sbolt.controller.RobotPositionListener;
 import edu.umich.sbolt.world.World;
 
 import sml.Agent;
@@ -23,16 +22,17 @@ public class InputLinkHandler implements RunEventInterface
 {
     // Root identifier for all messages the robot receives
     private Identifier inputLinkId;
-       
+
     private World world;
-    
-    public InputLinkHandler(World world, SBolt sbolt){
-        
+
+    public InputLinkHandler(World world, SBolt sbolt)
+    {
+
         inputLinkId = sbolt.getAgent().GetInputLink();
-        
-        sbolt.getAgent().RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE,
-                this, null);
-        
+
+        sbolt.getAgent().RegisterForRunEvent(
+                smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
+
         this.world = world;
     }
 
@@ -41,7 +41,7 @@ public class InputLinkHandler implements RunEventInterface
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
         world.updateInputLink(inputLinkId);
-        
+
         if (agent.IsCommitRequired())
         {
             agent.Commit();

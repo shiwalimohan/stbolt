@@ -8,7 +8,7 @@ import sml.WMElement;
  * @author mininger
  * 
  */
-public class Messages implements InputLinkElement
+public class Messages implements IInputLinkElement
 {
     // Identifier of the message on the input link
     private Identifier messageId;

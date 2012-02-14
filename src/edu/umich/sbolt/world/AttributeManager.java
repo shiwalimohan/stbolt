@@ -20,8 +20,8 @@ public class AttributeManager
     
     public AttributeManager(){
         attributes = new HashMap<String, String>();
-        addAttribute("color", "red,green,black,beige,tan");
-        addAttribute("shape", "cube,round,cylinder");
+        addAttribute("color", "red,green,black,beige,tan,blue,gray");
+        addAttribute("shape", "cube,sphere,cylinder");
         addAttribute("size", "small,medium,large");
         addAttribute("cooked-state", "raw,cooked");
         addAttribute("clean-state", "dirty,clean");

@@ -18,7 +18,7 @@ import sml.Identifier;
  * @author mininger
  * 
  */
-public class ObjectCollection implements InputLinkElement
+public class ObjectCollection implements IInputLinkElement
 {
     // Root Identifier to add objects to
     private Identifier objectsId;
@@ -55,6 +55,9 @@ public class ObjectCollection implements InputLinkElement
     public synchronized void destroy()
     {
         if(objectsId != null){
+            for(WorldObject object : objects.values()){
+                object.destroy();
+            }
             objectsId.DestroyWME();
             objectsId = null;
         }
@@ -78,19 +81,17 @@ public class ObjectCollection implements InputLinkElement
         // update each object from the sensables
         for(String sensable : observation.sensables){
             sensable = sensable.toLowerCase();
-            if(sensable.contains("robot_pos")){
+            if(Robot.IsRobotSensable(sensable)){
                 //Ignore the robot sensable
                 continue;
             }
             
-            String name = WorldObject.getSensableName(sensable);
-            if(name == null){
+            Integer id = Integer.parseInt(WorldObject.getSensableId(sensable));
+            if(id == null){
                 continue;
             }
-            
-            Integer id = ObjectIdManager.Manager.getId(name);
-            observedIds.add(id);
             WorldObject object = objects.get(id);
+            observedIds.add(id);
             if(object == null){
                 object = new WorldObject(sensable);
                 objects.put(id, object);
@@ -114,11 +115,6 @@ public class ObjectCollection implements InputLinkElement
     }
     
     public synchronized WorldObject getObject(Integer id){
-        return objects.get(id);
-    }
-    
-    public synchronized WorldObject getObject(String name){
-        Integer id = ObjectIdManager.Manager.getId(name);
         return objects.get(id);
     }
 }

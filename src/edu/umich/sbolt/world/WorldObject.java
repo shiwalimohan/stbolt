@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.umich.sbolt.InputLinkHandler;
-import edu.umich.sbolt.controller.RobotPositionListener;
 
 import abolt.lcmtypes.object_data_t;
 import sml.Identifier;
@@ -22,32 +21,30 @@ import sml.WMElement;
  * @author mininger
  * 
  */
-public class WorldObject implements InputLinkElement
+public class WorldObject implements IInputLinkElement
 {
-    public static String getSensableName(String sensable){
-        // Matches against name=NAME followed by a comma, whitespace, or end of string
-        // Assumes NAME consists of letters and underscores
-        Pattern p = Pattern.compile("name=(\\p{Alpha}|_)+(,|\\s|\\Z)");
+    public static String getSensableId(String sensable){
+        // Matches against id=ID followed by a comma, whitespace, or end of string
+        // Assumes ID consists of numbers
+        sensable = sensable.toLowerCase();
+        Pattern p = Pattern.compile("id=(\\p{Digit})+(,|\\s|\\Z)");
         Matcher m = p.matcher(sensable);
         if(!m.find()){
             return null;
         }
-        // m.group() returns a string like "name=NAME,"
-        // we trim, then split to get the actual NAME
-        String[] name = m.group().trim().split("(name=)|,");
-        if(name.length < 2){
+        // m.group() returns a string like "id=ID,"
+        // we trim, then split to get the actual ID
+        String[] id = m.group().trim().split("(id=)|,");
+        if(id.length < 2){
             return null;
         }
         //Note that the first element will be the empty string, we want the second
-        return name[1];
+        return id[1];
     }
     
     
     // Root identifier for the object
     protected Identifier objectId;
-    
-    // Identifier for the location WME
-    protected Identifier locationId;
     
     // Name of the object (may be empty if not named)
     protected String name;
@@ -55,8 +52,8 @@ public class WorldObject implements InputLinkElement
     // Id of the object 
     protected Integer id;
     
-    // Location of the object in x,y,t
-    protected Location location;
+    // Pose of the object
+    protected Pose pose;
     
     // Attributes, value pairs of the object
     protected Map<String, String> attributes;
@@ -74,11 +71,10 @@ public class WorldObject implements InputLinkElement
     
     private void initMembers(){
         objectId = null;
-        locationId = null;
         
         name = "";
-        id = ObjectIdManager.INVALID_ID;
-        location = new Location();
+        id = -1;
+        pose = new Pose();
         attributes = new HashMap<String, String>();
     }
     
@@ -91,8 +87,8 @@ public class WorldObject implements InputLinkElement
         return id;
     }
     
-    public Location getLocation(){
-        return location;
+    public Pose getPose(){
+        return pose;
     }
     
     public synchronized String getValue(String attribute){
@@ -107,12 +103,9 @@ public class WorldObject implements InputLinkElement
     {
         if(objectId == null){
             objectId = parentIdentifier.CreateIdWME("object");
-            locationId = objectId.CreateIdWME("location");
         } 
-
-        WorkingMemoryUtil.updateFloatWME(locationId, "x", location.x);
-        WorkingMemoryUtil.updateFloatWME(locationId, "y", location.y);
-        WorkingMemoryUtil.updateFloatWME(locationId, "t", location.t);
+        
+        pose.updateInputLink(objectId);
         
         // Children of the object 
         Set<WMElement> elementsToDestroy = new HashSet<WMElement>();
@@ -121,7 +114,7 @@ public class WorldObject implements InputLinkElement
         {
             WMElement attributeWME = objectId.GetChild(i);
             String attribute = attributeWME.GetAttribute();
-            if(attribute.equals("location")){
+            if(attribute.equals("pose")){
                 continue;
             }
             
@@ -156,15 +149,6 @@ public class WorldObject implements InputLinkElement
         
         for (String keyValPair : keyValPairs)
         {
-            if(keyValPair.startsWith("[")){
-                //Processing location information
-                String[] pose = (keyValPair.substring(1, keyValPair.length() - 1)).split(" ");
-                location.x = Double.parseDouble(pose[0]);
-                location.y = Double.parseDouble(pose[1]);
-                location.t = Double.parseDouble(pose[2]);
-                continue;
-            }
-            
             String[] keyVal = keyValPair.split("=");
             if (keyVal.length < 2)
             {
@@ -177,18 +161,15 @@ public class WorldObject implements InputLinkElement
                 id = Integer.parseInt(keyVal[1]);
             } else if(keyVal[0].equals("name")){
                 name = keyVal[1];
-            } 
+            } else if(keyVal[0].equals("pose")){
+                pose.updateWithString(keyVal[1]);
+                continue;
+            }
             newAttributes.add(keyVal[0]);
             attributes.put(keyVal[0], keyVal[1]);
         }
 
-        if (id == ObjectIdManager.INVALID_ID)
-        {
-            if(!name.isEmpty()){
-                id = ObjectIdManager.Manager.getId(name);
-            }
-        }
-        if (id != ObjectIdManager.INVALID_ID){
+        if (id != -1){
             newAttributes.add("id");
             attributes.put("id", id.toString());
         }
@@ -200,9 +181,7 @@ public class WorldObject implements InputLinkElement
         Set<String> newAttributes = new HashSet<String>();
         
         id = objectData.id;
-        location.x = objectData.pos[0];
-        location.y = objectData.pos[1];
-        location.t = objectData.pos[2];
+        pose.updateWithArray(objectData.pos);
         
         attributes.put("id", String.valueOf(objectData.id));
         newAttributes.add("id");

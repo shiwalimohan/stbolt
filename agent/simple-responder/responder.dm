@@ -1,4 +1,4 @@
-108
+146
 SOAR_ID 0
 SOAR_ID 1
 SOAR_ID 2
@@ -103,109 +103,173 @@ INT_RANGE 98 0 0
 INT_RANGE 99 0 0
 SOAR_ID 96
 INT_RANGE 97 0 0
+FLOAT_RANGE 110 0.0 0.0
+FLOAT_RANGE 111 0.0 0.0
+INT_RANGE 108 0 0
+FLOAT_RANGE 109 0.0 0.0
 ENUMERATION 106 2 complete error
 STRING 107
 SOAR_ID 104
 ENUMERATION 105 2 complete error
-101
-63 y 65
-0 io 1
-11 object 56
-85 message-id 86
-3 drop-object 103
-11 object 31
-58 location 63
-76 name 77
-58 shape 61
-3 action 28
-37 from 87
-31 cooking 68
-104 status 105
-28 status 21
-37 time 42
-56 fullness 72
-56 door 67
-20 gripper 47
-11 object 73
-73 toggle 75
-2 time 96
-63 x 64
-22 y 24
-0 name 6
-3 grab-object 104
-88 name 94
-56 shape 61
-28 name 107
-11 object 76
-103 status 106
-31 name 55
-1 output-link 3
-31 shape 61
-2 message 37
-10 nounjective 13
-38 word 35
-76 shape 61
-8 object 10
-20 remove-message 85
-56 location 63
+FLOAT_RANGE 119 0.0 0.0
+FLOAT_RANGE 118 0.0 0.0
+SOAR_ID 117
+STRING 116
+SOAR_ID 115
+SOAR_ID 114
+INT_RANGE 113 0 0
+INT_RANGE 112 0 0
+ENUMERATION 127 3 cylinder sphere cube
+ENUMERATION 126 3 small medium large
+ENUMERATION 125 11 red orange yellow green blue purple gray brown black white tan
+INT_RANGE 124 0 0
+FLOAT_RANGE 123 0.0 0.0
+FLOAT_RANGE 122 0.0 0.0
+FLOAT_RANGE 121 0.0 0.0
+FLOAT_RANGE 120 0.0 0.0
+SOAR_ID 137
+FLOAT_RANGE 136 0.0 0.0
+SOAR_ID 139
+INT_RANGE 138 0 0
+SOAR_ID 141
+FLOAT_RANGE 140 0.0 0.0
+FLOAT_RANGE 143 0.0 0.0
+FLOAT_RANGE 142 0.0 0.0
+INT_RANGE 129 0 0
+SOAR_ID 128
+SOAR_ID 131
+SOAR_ID 130
+SOAR_ID 133
+SOAR_ID 132
+FLOAT_RANGE 135 0.0 0.0
+FLOAT_RANGE 134 0.0 0.0
+FLOAT_RANGE 144 0.0 0.0
+ENUMERATION 145 2 complete error
+127
+22 t 25
+56 name 57
+22 x 23
 37 id 39
-58 size 62
-100 place 101
-56 size 62
-31 location 63
-45 next 45
-0 type 4
-96 seconds 97
-49 target 50
+115 pose 117
+76 shape 61
+117 y 119
+76 clean-state 79
 88 pose 89
-14 y 16
+117 pitch 122
+73 location 63
+31 shape 61
+56 color 60
+63 y 65
+58 size 62
+76 name 77
+10 nounjective 13
+0 io 1
+37 from 87
+11 object 115
+117 x 118
+28 name 107
+115 name 116
+2 time 96
+0 superstate 5
+8 object 10
+139 status 145
+31 door 67
+100 status 21
+133 z 136
+2 pointed-object 108
+89 roll 109
+14 t 17
+32 value 19
+133 x 134
+115 id 124
+117 yaw 123
+76 color 60
+0 type 4
+73 color 60
+41 status 21
+2 self 88
+128 object-id 129
+137 status 145
+88 bolt_robot 94
+3 pick-up 128
+22 y 24
+96 steps 99
+20 remove-message 85
+22 status 21
+117 roll 121
+1 output-link 3
+88 grabbed-object 113
+100 place 101
+104 status 105
+56 door 67
+47 perform 48
+0 name 6
+117 z 120
+3 put-down 130
+3 goto 139
+38 word 35
+20 gripper 47
+102 status 21
+10 id 12
 10 position 14
+31 location 63
+115 shape 127
+63 x 64
+89 y 91
+38 next 38
+103 status 106
+73 size 62
+73 name 74
+115 color 125
+141 y 143
+85 message-id 86
+56 shape 61
+88 battery 95
+56 location 63
+41 first 45
+1 input-link 2
+141 z 144
+141 x 142
+37 words 38
+28 attribute 82
+89 x 90
+96 seconds 97
+28 value 83
+73 toggle 75
+58 shape 61
+63 z 66
+130 status 145
+96 milliseconds 98
 76 cooked-state 78
 2 objects 11
-89 t 92
-73 location 63
-37 words 38
-45 word 46
-88 battery 95
-3 destination 22
-28 attribute 82
-89 y 91
-76 clean-state 79
-41 status 21
-22 status 21
-14 x 15
-96 steps 99
-56 color 60
-63 z 66
-1 input-link 2
-3 stop 102
-73 size 62
-96 milliseconds 98
-32 value 19
-32 key 18
-58 color 60
-3 send-message 41
-73 name 74
-56 name 57
-76 color 60
-0 superstate 5
 49 argument 51
-10 id 12
+128 status 145
+49 target 50
+2 message 37
+56 fullness 72
+3 action 28
+56 size 62
+58 location 63
+133 y 135
+139 location 141
+31 cooking 68
+3 send-message 41
+14 y 16
+130 location 133
+31 name 55
+32 key 18
+45 word 46
+37 time 42
+89 pitch 110
+45 next 45
+89 yaw 111
+3 point 137
+88 pointing-at 112
 31 size 62
-73 color 60
-14 t 17
-47 perform 48
-31 door 67
-102 status 21
-41 first 45
+115 size 126
+137 object-id 138
 58 name 59
-22 x 23
-22 t 25
-100 status 21
-3 goto 100
-28 value 83
+28 status 21
+14 x 15
 31 color 60
-89 x 90
-2 self 88
-38 next 38
-11 object 58
+58 color 60

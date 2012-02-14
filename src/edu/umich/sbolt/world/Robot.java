@@ -7,19 +7,19 @@ public class Robot extends WorldObject
 {
     private boolean hasChanged;
     
-    private Location lastLocation;
+    public static boolean IsRobotSensable(String s){
+        return s.toLowerCase().contains("name=bolt_robot");
+    }
 
     public Robot(object_data_t object)
     {
         super(object);
         hasChanged = true;
-        lastLocation = new Location();
     }
     
     public Robot(String sensable){
         super(sensable);
         hasChanged = true;
-        lastLocation = new Location();
     }
 
     @Override
@@ -27,7 +27,6 @@ public class Robot extends WorldObject
     {
         if(objectId == null){
             objectId = parentIdentifier.CreateIdWME("self");
-            locationId = objectId.CreateIdWME("location");
         } 
         if(hasChanged){
             super.updateInputLink(parentIdentifier);
@@ -37,20 +36,10 @@ public class Robot extends WorldObject
     
     @Override
     public synchronized void newSensableString(String sensable){
-        super.newSensableString(sensable.toLowerCase().replace("robot_pos=", ""));
-        
-        if(lastLocation == null){
-            lastLocation = new Location();
-        }
-        
-        if(lastLocation.dist2(location) < .00001 && lastLocation.dTheta(location) < .001){
-            attributes.put("stopped", "true");
-        } else {
-            attributes.put("stopped", "false");
-        }
-        
-        
-        lastLocation.set(location);
+        sensable = sensable.toLowerCase();
+        sensable = sensable.replace("grab", "grabbed-object");
+        sensable = sensable.replace("point", "pointing-at");
+        super.newSensableString(sensable);
         hasChanged = true;
     }
 

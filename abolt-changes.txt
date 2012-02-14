@@ -1,6 +1,6 @@
 Changes made to abolt:
 
-1. Change sensingRange of all sensables to where they can be sensed anywhere (set to 2?)
+1. Change sensingRange of all sensables to where they can be sensed anywhere (2 seems to be sufficient)
 
 2. Add information to the robot's sensable to indicate when it is holding an object
 
@@ -14,7 +14,7 @@ Changes made to abolt:
     }
     sensList.add(robotInfo);
     
-3. Update a SimBoltObject so that its position is added to object_data_t
+3. Update a SimBoltObject so that its position is reported in object_data_t
 
 	Add the following method to SimBoltObject interface:
 		public double[] getPosition();
