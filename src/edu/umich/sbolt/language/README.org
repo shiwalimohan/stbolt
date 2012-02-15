@@ -1,0 +1,23 @@
+* Tags
+Following linguistic tags have been used for POS tagging and grammar.
+| noun         | =NN=  | block, table |
+| adjective    | =JJ=  | red, large   |
+| verb         | =VB=  | put          |
+| preposition  | =PP=  | on           |
+| determiner   | =DT=  | the, a       |
+| sentence     | =SEN= |              |
+| verb-command | =VBC= |              |
+  
+
+* Grammar
+Following grammar is supported by this package. Typical regex
+operators apply.
+
+: SEN => VBC | GS | PS | RS
+: VBC => (VB OBJ) | (V OBJ PP OBJ)
+: GS => goal of VBC is (REL)*
+: PS => VBC if (REL)*
+: RS => REL
+: OBJ => DT? JJ* NN
+: REL => OBJ is PP OBJ
+
