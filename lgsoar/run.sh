@@ -1,0 +1,4 @@
+# to get this from Eclipse, run it, go to debug perspective, click on the java
+# command and it will be in properties
+
+/usr/lib/jvm/java-6-sun-1.6.0.26/bin/java -Dfile.encoding=UTF-8 -classpath /opt/bolt/stbolt/lgsoar/src:/usr/lib/eclipse/dropins/jdt/plugins/org.junit_4.8.2.v4_8_2_v20110321-1705/junit.jar:/usr/lib/eclipse/dropins/jdt/plugins/org.hamcrest.core_1.1.0.jar:/opt/bolt/soar/share/java:/opt/bolt/soar/share/java/sml.jar:/opt/bolt/soar/share/java/soar-smljava-9.3.1.jar:/opt/bolt/soar/share/java/swt.jar:/opt/bolt/soar/share/java/jcommon-1.0.10.jar:/opt/bolt/soar/share/java/jfreechart-1.0.6.jar:/opt/bolt/soar/share/java/jfreechart-1.0.6-swt.jar:/opt/bolt/soar/share/java/swtgraphics2d.jar:/opt/bolt/soar/share/java/commons-logging-1.1.1.jar:/opt/bolt/soar/share/java/log4j-1.2.15.jar:/opt/bolt/soar/share/java/soar-debugger-api-9.3.1.jar:/opt/bolt/soar/share/java/soar-debugger-9.3.1.jar edu.byu.lgsoar.en.app.SingleParse -source soarcode/lg93init.soar

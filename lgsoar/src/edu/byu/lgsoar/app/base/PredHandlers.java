@@ -60,7 +60,7 @@ public class PredHandlers {
 		
 				predList = predList + argument;
 				
-				System.out.println("added pred: " + argument + " pl " + predList);
+				//System.out.println("added pred: " + argument + " pl " + predList);
 
 				return "";
 			}
@@ -88,7 +88,8 @@ public class PredHandlers {
 
 		            String cmd = "add-wme " + ioWME + " predicate |" + key + "|";
 		            kernel.ExecuteCommandLine(cmd, agentName);
-		            System.out.println("called " + cmd);
+		            //System.out.println("called " + cmd);
+		            System.out.println(key);
 		        }
 						
 				return "";

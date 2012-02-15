@@ -28,14 +28,19 @@ public class SingleParse extends SoarApplication{
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
-		//Display.DEBUG = true;
 		SingleParse sp = new SingleParse();
 		sp.setAgentName(Constants.getProperty("AGENT_NAME"));
-		sp.init();
-		sp.registerEvents();
-		sp.setGraphing(true);
-		sp.debugger();
-		sp.shutdown();
+		if (args.length >= 2) {
+			sp.runHeadlessWithFile(args[1]);
+		}		
+		else {
+			sp.init();
+			sp.registerEvents();
+			sp.setGraphing(true);
+			sp.debugger();
+			sp.shutdown();
+		}
+
 	}
 
 }

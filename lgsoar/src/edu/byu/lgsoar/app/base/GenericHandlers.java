@@ -28,10 +28,6 @@ public class GenericHandlers {
 		return new Kernel.AgentEventInterface() {
 			@Override
 			public void agentEventHandler(int eventID, Object data, String agentName) {
-				System.out.println("Creating new graphers for " + agentName);
-				GraphUtils.addGrapher("syntax");
-				GraphUtils.addGrapher("semantics");
-				GraphUtils.addGrapher("arset");
 				GraphUtils.addGrapher("drs");
 			}
 		};

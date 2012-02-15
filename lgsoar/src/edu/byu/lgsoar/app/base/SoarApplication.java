@@ -7,6 +7,7 @@ import sml.Kernel.RhsFunctionInterface;
 import sml.smlAgentEventId;
 import sml.smlPrintEventId;
 import sml.smlSystemEventId;
+import edu.byu.lgsoar.en.app.EnHandlers;
 import edu.byu.lgsoar.graph.GraphUtils;
 import edu.byu.lgsoar.utils.Constants;
 import edu.byu.lgsoar.utils.Debugger;
@@ -42,6 +43,8 @@ public class SoarApplication {
 	private long graphCallback;
 	private long initGrapherCallback;
 	private long[] printCallbacks = new long[4];
+
+	
 	/**
 	 * Creates kernel and agent, if currently null, initializes Jaws and adds 
 	 * graphing handlers, if graphing is set to true. Also creates language
@@ -219,31 +222,10 @@ public class SoarApplication {
 		return kernel;
 	}
 	
-	/**
-	 * Sets the kernel's semantic memory database
-	 * @param path path of the semantic memory database to use
-	 */
-//	public void setSemDatabase(String path){
-//		smDB = path;
-//		kernel.ExecuteCommandLine("smem --set path " + smDB, agent.GetAgentName());
-//		if(smDB != null)
-//			kernel.ExecuteCommandLine("smem --set learning on", agent.GetAgentName());
-//	}
-	/**
-	 * 
-	 * @return path of the semantic memory database currently being used
-	 */
-//	public String getSemDatabase(){
-//		return smDB;
-//	}
 
 	public void setGraphing(boolean g) {
 		graphing = g;
 		if(graphing){
-			GraphUtils.addGrapher("syntax");
-			GraphUtils.addGrapher("semantics");
-			// SBW added
-			GraphUtils.addGrapher("arset");
 			GraphUtils.addGrapher("drs");
 			initGrapherCallback = addAgentEventHandler(GenericHandlers.initGrapher(), smlAgentEventId.smlEVENT_BEFORE_AGENT_REINITIALIZED);
 			if(getAgent() != null){
@@ -291,6 +273,24 @@ public class SoarApplication {
 		return currentSentence;
 	}
 	
+	public void runHeadlessWithFile(String filename) {
+		kernel = Kernel.CreateKernelInCurrentThread();
+		agent = kernel.CreateAgent("LGSoar");
+		addRHShandler("readsentence",EnHandlers.getStringFromFile());
+		addRHShandler("popword", EnHandlers.popword());
+		addRHShandler("getpid", GenericHandlers.getPid());
+		addRHShandler("gettempfile", GenericHandlers.getTempFile());
+		addRHShandler("getlgparse", EnHandlers.callLGParser());
+		
+		addRHShandler("predclose", PredHandlers.predClose());
+		addRHShandler("predinit", PredHandlers.predInit());
+		addRHShandler("collect_pred", PredHandlers.collectPred());
+		addRHShandler("output_preds", PredHandlers.outputPreds());
+		setGraphing(false);
+		agent.ExecuteCommandLine("source " + filename);
+		agent.RunSelf(1000);
+	}
+	
 ////////PRIVATE METHODS////////
 
 	private void makeKernel(){
@@ -312,15 +312,7 @@ public class SoarApplication {
 		}
 		//because we ALWAYS use it
 		agent.ExecuteCommandLine("alias matches ms");
+
 	}
-//	private void makeLanguageWme(){
-////		if(language != null){
-////			System.err.println(agent.ExecuteCommandLine("add-wme S1 ^language *"));
-////			if(agent.HadError())
-////				System.err.println(agent.GetLastErrorDescription());
-////			String latestWME = Miscellaneous.getLastWME("S1", agentName, kernel);
-////			System.err.println(latestWME);
-////			System.err.println(agent.ExecuteCommandLine("add-wme " + latestWME + "^name " + language));
-////		}
-//	}
+
 }

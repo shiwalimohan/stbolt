@@ -47,7 +47,6 @@ public class Grapher extends JFrame{
 	private int widthDiff = 40;
 	
 	public Grapher(String title){
-		System.out.println("grapher init!");
 		setVisible(true);
 
 		setTitle(title);
@@ -75,7 +74,6 @@ public class Grapher extends JFrame{
 	 * @param fileName Name of file to be displayed.
 	 */
     public void display(String fileName){
-    	System.out.println("display");
     	//steal focus the first time an image is displayed
     	if(!new File(fileName).exists())
     		new Exception("Error- file doesn't exist: " + fileName).printStackTrace();
