@@ -1,0 +1,6 @@
+NOUN: block table
+ADJECTIVE: red large
+VERB: put
+DETERMINER: a the
+PREPOSITION: on
+ATTRIBUTES: color

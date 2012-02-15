@@ -1,6 +1,11 @@
 package edu.umich.sbolt.language;
 
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,28 +27,46 @@ public class BOLTDictionary {
 	private String prepositionTag = "PP";
 
 
-	public BOLTDictionary(){
-	//	System.out.println(string);
-		noun = new HashSet();
-		noun.add("block");
-		noun.add("table");
-		
-		adjective = new HashSet();
-		adjective.add("red");
-		
-		determiner = new HashSet();
-		determiner.add("a");
-		determiner.add("the");
-		
-		preposition = new HashSet();
-		preposition.add("on");
-		
-		verb = new HashSet();
-		verb.add("put");
+	public BOLTDictionary(String filepath){
+		noun = new HashSet<String>();
+		adjective = new HashSet<String>();
+		determiner = new HashSet<String>();
+		preposition = new HashSet<String>();
+		verb = new HashSet<String>();
+		 try {
+			BufferedReader in = new BufferedReader(new FileReader(filepath));
+			String line;
+			while((line = in.readLine()) != null) {
+				String[] group = line.split(":");
+				String[] words = group[1].split(" ");
+				if(group[0].equals("NOUN")) 
+					fillSet(noun,words);
+				if(group[0].equals("ADJECTIVE")) 
+					fillSet(adjective,words);
+				if(group[0].equals("VERB")) 
+					fillSet(verb,words);
+				if(group[0].equals("DETERMINER")) 
+					fillSet(determiner,words);
+				if(group[0].equals("PREPOSITION")) 
+					fillSet(preposition,words);
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
+	private void fillSet(Set<String> POSset, String[] words) {
+		for(int i = 0; i < words.length; i++)
+			POSset.add(words[i]);
+	}
+
 	private boolean isNoun(String string){
-		System.out.println("word " + string);
+	//	System.out.println("word " + string);
 		if (noun.contains(string))
 			return true;
 		return false;
