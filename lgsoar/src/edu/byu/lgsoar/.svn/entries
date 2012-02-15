@@ -1,0 +1,77 @@
+9
+
+dir
+807
+http://humdev.byu.edu/svn/repos/xnlsoar1/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar
+http://humdev.byu.edu/svn/repos/xnlsoar1
+
+
+
+2012-02-14T05:43:58.203811Z
+791
+PSSTwrite
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+594f4ac3-e0ee-48e9-a706-317c1b261526
+
+app
+dir
+
+en
+dir
+
+graph
+dir
+
+overview.html
+file
+
+
+
+
+2012-02-14T05:59:30.454000Z
+6097b3eb507a62896215358ada0c22ed
+2011-12-04T00:55:35.220856Z
+679
+PSSTwrite
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+156
+
+test
+dir
+
+utils
+dir
+

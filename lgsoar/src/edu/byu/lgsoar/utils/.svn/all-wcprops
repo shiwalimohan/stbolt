@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils
+END
+Constants.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Constants.java
+END
+Stats.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Stats.java
+END
+Miscellaneous.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/repos/xnlsoar1/!svn/ver/830/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Miscellaneous.java
+END
+Constants.class
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Constants.class
+END
+Stats.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Stats.class
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/package-info.java
+END
+FileIO.class
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/FileIO.class
+END
+FileIO.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/FileIO.java
+END
+Debugger.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/edu/byu/lgsoar/utils/Debugger.java
+END
