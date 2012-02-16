@@ -1,0 +1,13 @@
+# some LG-Soar productions modify the words output by the parser,
+# but those are architectural (created by add-wme) so Soar 9 won't let
+# the old values be removed
+
+# workaround by elaborating a copy
+
+sp {elaborate*dearchitecturify-lg-output-word
+   (state <s> ^superstate nil
+              ^io.lgsentence.words.word <wd>)
+   (<wd> ^lg-wvalue <wval>) # java code modified to call them these
+-->
+   (<wd> ^wvalue <wval>)
+}
