@@ -37,12 +37,6 @@ source elaborations_source.soar
 popd
 
 
-pushd object-elaborations
-source object-elaborations_source.soar
-# Contains elaborations performed on objects
-popd
-
-
 pushd process-message
 source process-message_source.soar
 # When a new message is recieved it proposes process-message to handle it

@@ -1,7 +1,0 @@
-big
-bad bug
-bag
-bigger
-boogy
-$HOME
-/home/mininger

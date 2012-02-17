@@ -1,7 +1,0 @@
-# Contains elaborations performed on objects
-
-source mappings.soar
-# Elaborates the mapping with unknown values and unknown attributes
-
-source object-location.soar
-# Elaborates the location of the object from the input link
