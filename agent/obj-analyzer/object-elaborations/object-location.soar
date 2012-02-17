@@ -1,0 +1,12 @@
+# Elaborates the location of the object from the input link
+sp {elaborate*object*location
+   (state <s> ^object <obj>
+              ^io.input-link.objects.object <il-obj>)
+   (<obj> ^id <id>
+          ^location <loc>)
+   (<il-obj> ^id <id>
+             ^location <il-loc>)
+   (<il-loc> ^x <x> ^y <y> ^t <t>)
+-->
+   (<loc> ^x <x> ^y <y> ^t <t>)
+}

@@ -1,0 +1,15 @@
+sp {propose*complete-find-value-group
+   (state <s> ^name find-value-group)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-find-value-group)
+}
+
+sp {apply*complete-find-value-group
+   (state <s> ^name find-value-group
+              ^operator.name complete-find-value-group
+              ^superstate <ss>
+              ^value <val>)
+-->
+   (<ss> ^processed-val <val>)
+}

@@ -1,0 +1,17 @@
+# attribute-value
+#	Query for an unknown value for a known attribute
+
+sp {elaborate*ask-query*attribute-value
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>)
+   (<q> ^type attribute-value
+        ^object.id <id>
+        ^att-val-pair.att.internal <internal-att>)
+-->
+   (<oq> ^type attribute-value
+        ^attribute <internal-att>
+        ^object <id>)
+}

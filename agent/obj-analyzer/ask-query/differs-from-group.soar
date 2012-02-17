@@ -1,0 +1,42 @@
+# differs-from-group
+#	Query for an object that differs from a group of objects in some way
+
+# Basic query structure
+sp {elaborate*ask-query*differs-from-group
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>)
+   (<q> ^type differs-from-group
+        ^different-obj.id <id>)
+-->
+   (<oq> ^type differs-from-group
+         ^different-obj <id>)
+}
+
+# Adds group-obj(s) to query structure
+sp {elaborate*ask-query*differs-from-group*group-obj
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>)
+   (<q> ^type differs-from-group
+        ^group-obj.id <id>)
+-->
+   (<oq> ^group-obj <id>)
+}
+
+# Adds exception(s) to query structure
+sp {elaborate*ask-query*differs-from-group*exception
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>)
+   (<q> ^type differs-from-group
+        ^exception <att>)
+-->
+   (<oq> ^exception <att>)
+}

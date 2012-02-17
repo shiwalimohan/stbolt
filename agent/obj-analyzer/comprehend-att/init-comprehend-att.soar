@@ -1,0 +1,30 @@
+sp {propose*init-comprehend-att
+   (state <s> ^name comprehend-att
+             -^att-to-comp 
+              ^superstate.operator <ss-o>)
+   (<ss-o> ^attribute <att>)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name init-comprehend-att
+        ^attribute <att>)
+}
+
+sp {apply*init-comprehend-att*attribute
+   (state <s> ^name comprehend-att
+              ^operator <o>)
+   (<o> ^name init-comprehend-att
+        ^attribute <att>)
+-->
+   (<s> ^att-to-comp <att>)
+}
+
+sp {apply*init-comprehend-att*objects
+   (state <s> ^name comprehend-att
+              ^operator <o>
+              ^superstate.object <obj>)
+   (<o> ^name init-comprehend-att
+        ^attribute <att>)
+   (<obj> ^mapping.att-val-pair.att.internal <att>)
+-->
+   (<s> ^object <obj>)
+}

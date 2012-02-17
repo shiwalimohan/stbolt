@@ -1,0 +1,26 @@
+sp {query-object*propose*init-query-object
+   (state <s> ^name query-object
+             -^query
+              ^superstate.operator.object <obj>)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name init-query-object
+        ^object <obj>)
+}
+
+sp {query-object*apply*init-query-object
+   (state <s> ^name query-object
+              ^operator <o>)
+   (<o> ^name init-query-object
+        ^object <obj>)
+-->
+   (<s> ^query <obj>)
+}
+
+sp {query-object*apply*init-query-object*copy*object
+   (state <s> ^name query-object
+              ^operator.name init-query-object
+              ^top-state.object <obj>)
+-->
+   (<s> ^object <obj>)
+}

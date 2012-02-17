@@ -1,0 +1,78 @@
+smem --set learning on
+
+source init-obj-analyzer.soar
+# Initializes obj-analyzer and adds knowledge to semantic memory
+
+source wait.soar
+# Basic wait operator when no operators are proposed
+
+
+source remove-stored.soar
+# Automatically removes store commands to smem
+
+
+pushd ask-query
+ source ask-query_source.soar
+#	If there is a query structure on the top state and no current-query
+#		this operator will ask the query by creating a structure on the output link
+popd
+
+pushd comprehend-att
+ source comprehend-att_source.soar
+popd
+
+
+pushd create-object
+source create-object_source.soar
+#	When an object comes in on the input link this operator
+#		creates a working memory representation of that object
+#	It also uses semantic memory to match internal terms for attributes and values
+#		to external words if it has that knowledge
+popd
+
+
+pushd elaborations
+source elaborations_source.soar
+# Contains basic elaborations used across obj-analyzer
+popd
+
+
+pushd object-elaborations
+source object-elaborations_source.soar
+# Contains elaborations performed on objects
+popd
+
+
+pushd process-message
+source process-message_source.soar
+# When a new message is recieved it proposes process-message to handle it
+#	Based on the type of message expected different operators will handle it
+popd
+
+
+pushd query-object
+source query-object_source.soar
+popd
+
+source attribute-value.soar
+# If there is an object with a known attribute and unknown value then 
+#	the user is asked what that value is
+
+source learn-att.soar
+# learn-att
+# proposed when a structure is placed on the top-state that 
+#	contains information about a learned attribute
+# <s> ^learned-att <la>
+# <la> ^internal 'word'
+#	   ^external 'word'
+
+source learn-val.soar
+# learn-val
+# proposed when a structure is placed on the top-state that 
+#	contains information about a learned value
+# <s> ^learned-val <lv>
+# <lv> ^internal 'word'
+#	   ^external 'word'
+
+source preferences.soar
+# create-object > ask-query > learn-att = learn-val > attribute-val > comprehend-att

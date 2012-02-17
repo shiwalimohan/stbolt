@@ -1,0 +1,23 @@
+sp {att-rel-info*elaborate*object
+   (state <s> ^name att-rel-info
+              ^message.fields.relation.object.specifier this
+              ^io.input-link.pointed-object <obj-id>
+              ^top-state.object <obj>)
+   (<obj> ^id <obj-id>)
+-->
+   (<s> ^object <obj>)
+}
+
+sp {att-rel-info*elaborate*adjective
+   (state <s> ^name att-rel-info
+              ^message.fields.relation.term <adj>)
+-->
+   (<s> ^adjective <adj>)
+}
+
+sp {att-rel-info*elaborate*object-name
+   (state <s> ^name att-rel-info
+              ^message.fields.relation.object.word <obj-name>)
+-->
+   (<s> ^object-name <obj-name>)
+}

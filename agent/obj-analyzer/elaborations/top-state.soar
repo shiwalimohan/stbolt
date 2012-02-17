@@ -1,0 +1,14 @@
+# elaborates the top-state onto substates
+
+sp {elaborate*top-state*top-state
+  (state <s> ^name obj-analyzer)
+-->
+  (<s> ^top-state <s>)
+}
+
+sp {elaborate*substate*top-state
+   (state <s> ^superstate <ss>)
+   (<ss> ^top-state <top>)
+-->
+   (<s> ^top-state <top>)
+}

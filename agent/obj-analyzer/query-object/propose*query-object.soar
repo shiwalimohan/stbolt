@@ -1,0 +1,11 @@
+#sp {propose*query-object
+#   (state <s> ^name obj-analyzer
+#             -^query-match)
+#-->
+#   (<s> ^operator <o> + <)
+#   (<o> ^name query-object
+#        ^object <obj>)
+#   (<obj> ^name block
+#          ^adjective blue
+#          ^adjective medium)
+#}

@@ -1,0 +1,37 @@
+# If there is an object with a known attribute and unknown value then 
+#	the user is asked what that value is
+
+sp {propose*attribute-value-query
+   (state <s> ^name obj-analyzer
+              ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.external <external-att>
+             -^val.external)
+   -{(<s> ^query <q2>)
+     (<q2> ^type attribute-value
+           ^att-val-pair <av-pair>)}
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name attribute-value-query
+        ^query <q>)
+   (<q> ^type attribute-value
+        ^object <obj>
+        ^att-val-pair <av-pair>)
+}
+
+# Puts a query structure on the top-state
+sp {apply*attribute-value-query
+   (state <s> ^name obj-analyzer
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name attribute-value-query
+        ^query <q>)
+   (<q> ^object <obj>
+        ^att-val-pair <av-pair>)
+-->
+   (<s> ^query <q2>)
+   (<q2> ^type attribute-value
+         ^object <obj>
+         ^att-val-pair <av-pair>)
+}
+         

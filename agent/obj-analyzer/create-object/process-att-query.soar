@@ -1,0 +1,88 @@
+# process-att-query
+#   When the results from an attribute query are ready this operator processes them
+
+# Knows a query is processed if there is a success or failure result
+sp {create-object*propose*process-att-query
+   (state <s> ^name create-object
+              ^smem <smem>)
+   (<smem> ^command.query <query>
+           ^result.{<< success failure >>} <query>)
+   (<query> ^type attribute)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name process-att-query
+        ^query <query>)
+}
+
+# Success - adds the retrieved external attribute associated with the internal one
+sp {create-object*apply*process-att-query*success
+   (state <s> ^name create-object
+              ^operator <o>
+              ^smem <smem>
+              ^object.mapping.att-val-pair.att <attribute>)
+   (<o> ^name process-att-query
+        ^query <query>)
+   (<smem> ^command <cmd>
+           ^result <result>)
+   (<cmd> ^query <query>)
+   (<result> ^success <query>
+             ^retrieved <retrieved>)
+   (<retrieved> ^internal <internal-att>
+                ^external <external-att>)
+   (<attribute> ^internal <internal-att>
+                ^needs-retrieval true)
+-->
+   (<cmd> ^query <query> -)
+   (<attribute> ^external <external-att>
+                ^needs-retrieval true -)
+}
+
+# Failure - does not add an external attribute
+sp {create-object*apply*process-att-query*failure
+   (state <s> ^name create-object
+              ^operator <o>
+              ^smem <smem>
+              ^object.mapping.att-val-pair.att <attribute>)
+   (<o> ^name process-att-query
+        ^query <query>)
+   (<smem> ^command <cmd>
+           ^result <result>)
+   (<cmd> ^query <query>)
+   (<result> ^failure <query>)
+   (<query> ^internal <internal-att>)
+   (<attribute> ^internal <internal-att>
+                ^needs-retrieval true)
+-->
+   (<cmd> ^query <query> -)
+   (<attribute> ^needs-retrieval true -)
+}
+
+# Failure - mark the attribute unprocessed
+sp {create-object*apply*process-att-query*failure*mark*unprocessed
+   (state <s> ^name create-object
+              ^operator <o>
+              ^smem <smem>
+              ^superstate.attributes <atts>)
+   (<o> ^name process-att-query
+        ^query <query>)
+   (<smem> ^result.failure <query>)
+   (<query> ^internal <internal-att>)
+-->
+   (<atts> ^unprocessed <internal-att>)
+}
+
+# Failure - unmark the attribute processed
+sp {create-object*apply*process-att-query*failure*unmark*processed
+   (state <s> ^name create-object
+              ^operator <o>
+              ^smem <smem>
+              ^superstate.attributes <atts>)
+   (<o> ^name process-att-query
+        ^query <query>)
+   (<smem> ^result.failure <query>)
+   (<query> ^internal <internal-att>)
+   (<atts> ^processed <internal-att>)
+-->
+   (<atts> ^processed <internal-att> -)
+}
+   

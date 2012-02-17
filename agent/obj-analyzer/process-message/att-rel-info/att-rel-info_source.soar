@@ -1,0 +1,8 @@
+source propose*att-rel-info.soar
+source init-att-rel-info.soar
+source elaborations.soar
+
+source modify-object.soar
+
+source preferences.soar
+source complete-att-rel-info.soar

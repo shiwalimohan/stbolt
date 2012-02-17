@@ -1,0 +1,9 @@
+sp {process-message*propose*recognition-question
+   (state <s> ^name process-message
+             -^processed
+              ^message <m>)
+   (<m> ^type recognition-question)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name recognition-question)
+}

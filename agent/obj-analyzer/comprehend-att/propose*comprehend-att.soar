@@ -1,0 +1,19 @@
+sp {propose*comprehend-att
+   (state <s> ^name obj-analyzer
+              ^attributes.unprocessed <att>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name comprehend-att
+        ^attribute <att>)
+}
+
+sp {elaborate*comprehend-att*objects
+   (state <s> ^name analyze-objects
+              ^operator <o> +
+              ^object <obj>)
+   (<o> ^name comprehend-att
+        ^attribute <att>)
+   (<obj> ^mapping.att-val-pair.att.internal <att>)
+-->
+   (<o> ^object <obj>)
+}

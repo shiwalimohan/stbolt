@@ -1,0 +1,13 @@
+sp {recognition-question*propose*query-object
+   (state <s> ^name recognition-question
+              ^superstate.message.fields.object <obj>
+             -^query-match)
+   (<obj> ^word <word>
+          ^adjective <adj>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name query-object
+        ^object <q-obj>)
+   (<q-obj> ^name <word>
+            ^adjective <adj>)
+}

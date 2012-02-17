@@ -1,0 +1,9 @@
+sp {process-message*propose*att-rel-info
+   (state <s> ^name process-message
+             -^processed
+              ^message <m>)
+   (<m> ^type attribute-relation-info)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name att-rel-info)
+}

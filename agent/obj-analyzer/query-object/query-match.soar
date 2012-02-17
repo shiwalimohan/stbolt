@@ -1,0 +1,42 @@
+sp {query-object*propose*query-match
+   (state <s> ^name query-object
+              ^query <q>
+              ^object <obj>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name query-match
+        ^match <obj>)
+}
+
+sp {query-object*reject*query-match*missing-adjective
+   (state <s> ^name query-object
+              ^query <q>
+              ^operator <o> +)
+   (<o> ^name query-match
+        ^match.desc <desc>)
+   (<q> ^adjective <adj>)
+   (<desc> -^<att> <adj>)
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {query-object*apply*query-match
+   (state <s> ^name query-object
+              ^operator <o>
+              ^superstate <ss>)
+   (<o> ^name query-match
+        ^match <obj>)
+-->
+   (<ss> ^query-match <obj>)
+}
+
+sp {query-object*apply*query-match*name-object
+   (state <s> ^name query-object
+              ^operator <o>
+              ^query <q>)
+   (<q> ^name <name>)
+   (<o> ^name query-match
+        ^match <obj>)
+-->
+   (<obj> ^name <name>)
+}

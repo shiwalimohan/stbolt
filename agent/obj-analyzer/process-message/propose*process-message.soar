@@ -1,0 +1,96 @@
+# When a new message is recieved it proposes process-message to handle it
+sp {elaborate*nl*input-link*message*attribute
+   (state <s> ^name obj-analyzer
+              ^io.input-link.message <msg>
+              ^nl.input-link <nl-il>)
+   (<msg> ^words <w1>)
+   (<w1> ^word att
+         ^next <w2>)
+   (<w2> ^word <att>)
+-->
+   (<nl-il> ^message <m>)
+   (<m> ^originator mentor
+        ^type bare-attribute-response
+        ^fields <f>)
+   (<f> ^attribute <att>)
+}
+
+sp {elaborate*nl*input-link*message*value
+   (state <s> ^name obj-analyzer
+              ^io.input-link.message <msg>
+              ^nl.input-link <nl-il>)
+   (<msg> ^words <w1>)
+   (<w1> ^word the
+         ^next <w2>)
+   (<w2> ^word <att>
+         ^next <w3>)
+   (<w3> ^word <val>)
+-->
+   (<nl-il> ^message <m>)
+   (<m> ^originator mentor
+        ^type bare-value-response
+        ^fields <f>)
+   (<f> ^attribute <att>
+        ^value <val>)
+}
+
+sp {elaborate*nl*input-link*message*adj
+   (state <s> ^name obj-analyzer
+              ^io.input-link.message <msg>
+              ^nl.input-link <nl-il>)
+   (<msg> ^words <w1>)
+   (<w1> ^word this
+         ^next <w2>)
+   (<w2> ^word is
+         ^next <w3>)
+   (<w3> ^word a
+         ^next <w4>)
+   (<w4> ^word <adj>
+         ^next <w5>)
+   (<w5> ^word <name>)
+-->
+   (<nl-il> ^message <m>)
+   (<m> ^originator mentor
+        ^type attribute-relation-info
+        ^fields <f>)
+   (<f> ^relation <rel>)
+   (<rel> ^word IS
+          ^object <obj>
+          ^term <adj>)
+   (<obj> ^word <name>
+          ^specifier this)
+}
+
+sp {elaborate*nl*input-link*message*recognition-question
+   (state <s> ^name obj-analyzer
+              ^io.input-link.message <msg>
+              ^nl.input-link <nl-il>)
+   (<msg> ^words <w1>)
+   (<w1> ^word which
+         ^next <w2>)
+   (<w2> ^word is
+         ^next <w3>)
+   (<w3> ^word the
+         ^next <w4>)
+   (<w4> ^word <adj>
+         ^next <w5>)
+   (<w5> ^word <name>)
+-->
+   (<nl-il> ^message <m>)
+   (<m> ^originator mentor
+        ^type recognition-question
+        ^fields <f>)
+   (<f> ^object <obj>)
+   (<obj> ^word <name>
+          ^adjective <adj>)
+}
+   
+sp {propose*process-message
+   (state <s> ^name obj-analyzer
+              ^nl.input-link.message <msg>
+             -^processed <msg>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name process-message
+        ^message <msg>)
+}

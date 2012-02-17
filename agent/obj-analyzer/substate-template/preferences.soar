@@ -1,0 +1,10 @@
+# Prefer any operator over the complete-XXX operator
+sp {prefer*all*over*complete-XXX
+   (state <s> ^name XXX
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name <> complete-XXX)
+   (<o2> ^name complete-XXX)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

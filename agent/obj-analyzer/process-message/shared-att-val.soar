@@ -1,0 +1,44 @@
+#	Query for a group of objects that share a common attribute
+#	process-shared-att-val operator
+#		Associates the word with the unknown attribute and learns it
+
+# handles messages responding to shared-att-val queries
+sp {process-message*propose*process-shared-att-val
+   (state <s> ^name process-message
+             -^superstate.learned-att.internal <internal-att>
+              ^current-query.query <q>)
+   (<q> ^type shared-att-val
+         ^internal-att <internal-att>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name process-shared-att-val)
+}
+
+# learns the attribute given in the message
+sp {process-message*apply*process-shared-att-val
+   (state <s> ^name process-message
+              ^operator.name process-shared-att-val
+              ^message <msg>
+              ^current-query.query.internal-att <internal-att>
+              ^top-state <top>)
+  	(<msg> ^type bare-attribute-response
+      		^fields.attribute <response>)
+-->
+   (<top> ^learned-att <a>)
+   (<a> ^internal <internal-att>
+        ^external <response>)
+}
+
+# removes other queries asking for the same attribute
+sp {process-message*apply*process-shared-att-val*remove*similar*queries
+   (state <s> ^name process-message
+              ^current-query.query <q>
+              ^superstate <ss>)
+   (<q> ^type shared-att-val
+        ^internal-att <att>)
+   (<ss> ^query {<query2> <> <q>})
+   (<query2> ^type << shared-att-val differs-from-group >>
+             ^internal-att <att>)
+-->
+   (<ss> ^query <query2> -)
+}
