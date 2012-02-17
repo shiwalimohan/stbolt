@@ -1,0 +1,365 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar
+END
+DISNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/DISNode.java
+END
+MyRandom.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/MyRandom.java
+END
+PPInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPInfo.java
+END
+Connector.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Connector.java
+END
+PPData.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPData.java
+END
+Cms.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Cms.java
+END
+PPLinkset.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPLinkset.java
+END
+WordFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/WordFile.java
+END
+Disjunct.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Disjunct.java
+END
+Linkage.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Linkage.java
+END
+Sublinkage.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Sublinkage.java
+END
+CNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/CNode.java
+END
+ListOfLinks.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ListOfLinks.java
+END
+CONNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/CONNode.java
+END
+Constituent.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Constituent.java
+END
+ParseInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ParseInfo.java
+END
+StartingLinkAndDomain.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/StartingLinkAndDomain.java
+END
+DTreeLeaf.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/DTreeLeaf.java
+END
+parser.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/829/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/parser.java
+END
+ImageNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ImageNode.java
+END
+LinksetSet.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/LinksetSet.java
+END
+XNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/XNode.java
+END
+TConnector.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/TConnector.java
+END
+DictNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/DictNode.java
+END
+XTableConnector.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/XTableConnector.java
+END
+PPLabelNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPLabelNode.java
+END
+Dictionary.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/808/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Dictionary.java
+END
+LabelNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/LabelNode.java
+END
+LinksToPatch.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/LinksToPatch.java
+END
+PatchElement.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PatchElement.java
+END
+GlobalBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/GlobalBean.java
+END
+PPLexTable.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPLexTable.java
+END
+ParseSet.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ParseSet.java
+END
+Clause.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Clause.java
+END
+DISList.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/DISList.java
+END
+ParseOptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ParseOptions.java
+END
+Word.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Word.java
+END
+LinksetNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/LinksetNode.java
+END
+PPLinksetNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPLinksetNode.java
+END
+MatchNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/MatchNode.java
+END
+Resources.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Resources.java
+END
+Domain.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Domain.java
+END
+VDALCostModel.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/VDALCostModel.java
+END
+Sentence.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Sentence.java
+END
+PPNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPNode.java
+END
+CList.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/CList.java
+END
+AndData.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/AndData.java
+END
+CONList.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/CONList.java
+END
+TableConnector.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/TableConnector.java
+END
+PPKnowledge.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPKnowledge.java
+END
+Exp.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Exp.java
+END
+PPRule.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/PPRule.java
+END
+DTypeList.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/DTypeList.java
+END
+ExpList.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ExpList.java
+END
+Link.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Link.java
+END
+ConnectorSet.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ConnectorSet.java
+END
+AndList.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/AndList.java
+END
+ParseChoice.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/ParseChoice.java
+END
+LinkageInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/LinkageInfo.java
+END
+Postprocessor.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/repos/xnlsoar1/!svn/ver/807/trunk/LG-Soar-2.0.0/src/net/sf/jlinkgrammar/Postprocessor.java
+END
