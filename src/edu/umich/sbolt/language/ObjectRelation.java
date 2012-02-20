@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import sml.Agent;
 import sml.Identifier;
 
 
@@ -39,10 +40,11 @@ public class ObjectRelation implements LinguisticEntity{
 
 
 	@Override
-	public Identifier translateToSoarSpeak(Map<String, Object> tagsToWords,
-			Identifier messageId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void translateToSoarSpeak(Identifier id) {
+		Identifier relId = id.CreateIdWME("object-relation");
+		relId.CreateStringWME("word", preposition);
+		object1.translateToSoarSpeak(relId);
+		object2.translateToSoarSpeak(relId);
 	}
 	
 }

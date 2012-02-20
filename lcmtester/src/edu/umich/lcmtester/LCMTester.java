@@ -256,10 +256,10 @@ public class LCMTester implements LCMSubscriber
         }
         
         Boolean gripper_open = (robot.get("gripper") == "open");
-        if(gripper_open != command.gripper_open){
+     /*   if(gripper_open != command.gripper_open){
             robot.put("gripper", (command.gripper_open ? "open" : "closed"));
             this.addMessageToLog("Gripper is now " + robot.get("gripper"));
-        }
+        }SM: commented only for testing*/ 
         
         
         if(command.action != ""){

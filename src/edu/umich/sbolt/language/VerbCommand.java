@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import sml.Agent;
 import sml.Identifier;
 
 public class VerbCommand implements LinguisticEntity{
@@ -12,13 +13,18 @@ public class VerbCommand implements LinguisticEntity{
 	private String preposition = null;
 	private LingObject secondObject = null;
 
-	@Override
-	public Identifier translateToSoarSpeak(Map<String, Object> tagsToWords, Identifier messageId) {
-		return null;
-	
+	public void translateToSoarSpeak(Identifier messageId){
+		Identifier verbId = messageId.CreateIdWME("verb-command");
+		verbId.CreateStringWME("word", verb);
+		if(directObject != null)
+			directObject.translateToSoarSpeak(verbId);
+		if(preposition != null){
+			Identifier prepId = verbId.CreateIdWME("preposition");
+			prepId.CreateStringWME("word", preposition);
+			secondObject.translateToSoarSpeak(prepId);
+		}
 	}
 
-	@Override
 	public void extractLinguisticComponents(String string, Map tagsToWords) {
 		Pattern p = Pattern.compile("VB\\d*");
 		Matcher m = p.matcher(string);

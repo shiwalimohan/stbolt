@@ -1,5 +1,7 @@
 package edu.umich.sbolt.world;
 
+import edu.umich.sbolt.language.BOLTDictionary;
+import edu.umich.sbolt.language.Parser;
 import sml.Identifier;
 import sml.WMElement;
 /**
@@ -28,6 +30,8 @@ public class Messages implements IInputLinkElement
     // Represents an invalid id, or that no message is on the input-link
     private final Integer INVALID_ID = -1;
     
+    private BOLTDictionary dictionary = new BOLTDictionary("src/edu/umich/sbolt/language/dictionary.txt"); 
+    
     public Messages(World world){
         latestMessage = "";
         latestMessageId = INVALID_ID;   
@@ -47,10 +51,15 @@ public class Messages implements IInputLinkElement
             messageId.DestroyWME();
         }
         
-        //Add the new message
-        String[] words = latestMessage.split(" ");
         
         messageId = parentIdentifier.CreateIdWME("message");
+        Parser.getSoarSpeak(latestMessage, dictionary, messageId);
+        
+        
+        //Add the new message
+   /*     String[] words = latestMessage.split(" ");
+        
+        
         Identifier rest = messageId.CreateIdWME("words");
         messageId.CreateIntWME("id", latestMessageId);
         messageId.CreateIntWME("time", world.getTime());
@@ -61,7 +70,7 @@ public class Messages implements IInputLinkElement
             if(i != words.length - 1){
                 rest = rest.CreateIdWME("next");
             }
-        }  
+        }*/  
         
         messageChanged = false;
     }
