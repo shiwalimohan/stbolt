@@ -4,15 +4,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import sml.Agent;
 import sml.Identifier;
 
 public class Sentence implements LinguisticEntity{
 	private String type = null;
 	private LinguisticEntity component;
 
-	public Identifier translateToSoarSpeak(Map<String, Object>tagsToWords, Identifier messageId) {
-		Identifier id = component.translateToSoarSpeak(tagsToWords, messageId);
-		return null;
+	public void translateToSoarSpeak(Identifier messageId) {
+		component.translateToSoarSpeak(messageId);
 	}
 
 	@Override

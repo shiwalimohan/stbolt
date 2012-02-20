@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import sml.Agent;
 import sml.Identifier;
 import sml.Kernel;
 
@@ -69,9 +70,9 @@ public class Parser {
 	}
 	
 	//Get Soar structure
-	public Identifier traslateToSoarSpeak(Identifier messageId, String tagString){
-		Identifier id = ((Sentence) tagsToWords.get(tagString)).translateToSoarSpeak(tagsToWords, messageId);
-		return id;
+	public void traslateToSoarSpeak(Identifier messageId, String tagString){
+		//System.out.println("Translating sentence");
+		((Sentence) tagsToWords.get(tagString)).translateToSoarSpeak(messageId);
 	}
 
 	public static void getSoarSpeak(String latestMessage, BOLTDictionary dictionary, Identifier messageId) {

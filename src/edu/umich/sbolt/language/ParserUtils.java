@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class ParserUtils {
 	
-	public static String extractObject(String tagString, Map<String, Object> tagsToWords, int Counter) {
+	public String extractObject(String tagString, Map<String, Object> tagsToWords, int Counter) {
 		Pattern regex = Pattern.compile("(DT\\d* )?(JJ\\d* )*(NN\\d*)");
 		String tag = "OBJ";
 		Matcher m = regex.matcher(tagString);
@@ -25,7 +25,7 @@ public class ParserUtils {
 		return tagString;
 	}
 	
-	public static String extractObjectRelation(String tagString, Map<String, Object> tagsToWords, int Counter){
+	public   String extractObjectRelation(String tagString, Map<String, Object> tagsToWords, int Counter){
 		Pattern regex = Pattern.compile("(OBJ\\d* )(is\\d* )(PP\\d* )(OBJ\\d*)");
 		String tag = "REL";
 		Matcher m = regex.matcher(tagString);
@@ -45,7 +45,7 @@ public class ParserUtils {
 		return tagString;
 	}
 	
-	public static String extractSentence(String tagString, Map<String, Object> tagsToWords, int Counter){
+	public   String extractSentence(String tagString, Map<String, Object> tagsToWords, int Counter){
 		Pattern regex = Pattern.compile("(VBC\\d*)|(GS\\d*)|(PS\\d*)|(REL\\d*)");
 		String tag = "SEN";
 		Matcher m = regex.matcher(tagString);
@@ -65,7 +65,7 @@ public class ParserUtils {
 		return tagString;
 	}
 	
-	public static String extractVerbCommand(String tagString, Map<String, Object> tagsToWords, int Counter) {
+	public   String extractVerbCommand(String tagString, Map<String, Object> tagsToWords, int Counter) {
 		Pattern regex = Pattern.compile("((VB\\d* )(OBJ\\d* )(PP\\d* )(OBJ\\d*))|((VB\\d* )(OBJ\\d*))|(VB\\d*)");
 		String tag = "VBC";
 		Matcher m = regex.matcher(tagString);

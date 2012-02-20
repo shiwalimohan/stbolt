@@ -2,6 +2,7 @@ package edu.umich.sbolt.language;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.*;
@@ -40,7 +41,18 @@ public class LingObject implements LinguisticEntity {
 	}
 	
 	@Override
-	public Identifier translateToSoarSpeak(Map<String, Object> tagsToWords, Identifier MessageId) {
-		return null;
+	public void translateToSoarSpeak(Identifier id) {
+		Identifier objectId = id.CreateIdWME("object");
+	    objectId.CreateStringWME("word", noun);
+		if (determiner != null){
+			objectId.CreateStringWME("determiner", determiner);
+		}
+		if (adjective != null){
+			String adj;
+			Iterator itr = adjective.iterator();
+			while (itr.hasNext()){
+				objectId.CreateStringWME("adjective", itr.next().toString());
+			}
+		}
 	}
 }
