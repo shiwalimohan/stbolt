@@ -143,12 +143,12 @@ public class WorkingMemoryUtil
         }
     }
     
-    public static String getAttributeString(Identifier id, String attribute){
+    public static Identifier getIdentifierOfAttribute(Identifier id, String attribute){
         WMElement wme = id.FindByAttribute(attribute, 0);
-        if(wme == null || wme.GetValueAsString().length() == 0){
+        if(wme == null || !wme.IsIdentifier()){
             return null;
         }
-        return wme.GetValueAsString();
+        return wme.ConvertToIdentifier();
     }
     
     public static Identifier getIdentifierOfAttribute(Identifier id, String attribute, String errorMessage){
@@ -159,9 +159,18 @@ public class WorkingMemoryUtil
         }
         return wme.ConvertToIdentifier();
     }
+
+    public static String getValueOfAttribute(Identifier id, String attribute){
+        WMElement wme = id.FindByAttribute(attribute, 0);
+        if(wme == null || wme.GetValueAsString().length() == 0){
+            return null;
+        }
+        return wme.GetValueAsString();
+    }
+    
     
     public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage){
-        String attString = getAttributeString(id, attribute);
+        String attString = getValueOfAttribute(id, attribute);
         if(attString == null){
             id.CreateStringWME("status", "error");
             throw new IllegalStateException(errorMessage);

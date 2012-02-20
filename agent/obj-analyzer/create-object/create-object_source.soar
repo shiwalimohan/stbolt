@@ -15,17 +15,15 @@ source copy-att-val.soar
 #   Copies each attribute/value pair from the input link into the
 #     internal representation of that object
 
-source retrieve-att.soar
+source lookup-att.soar
+# lookup-att
 #   If a retrieval hasn't yet been tried for that attribute, it queries smem
-
-source retrieve-val.soar
-#   If a retrieval hasn't yet been tried for that value, it queries smem
-
-source process-att-query.soar
 #   When the results from an attribute query to SM are ready this operator processes them
 #		by updating the internal representation with the matching
 
-source process-val-query.soar
+source lookup-val.soar
+# lookup-val
+#   If a retrieval hasn't yet been tried for that value, it queries smem
 #   When the results from a value query to SM are ready this operator processes them
 #		by updating the internal representation with the matching
 

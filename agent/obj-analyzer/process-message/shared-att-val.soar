@@ -6,7 +6,8 @@
 sp {process-message*propose*process-shared-att-val
    (state <s> ^name process-message
              -^superstate.learned-att.internal <internal-att>
-              ^current-query.query <q>)
+              ^current-query.query <q>
+              ^message.type bare-attribute-response)
    (<q> ^type shared-att-val
          ^internal-att <internal-att>)
 -->

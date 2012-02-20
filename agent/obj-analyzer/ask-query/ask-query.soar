@@ -13,7 +13,8 @@ sp {propose*ask-query
    (<s> ^operator <o> + = >)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^output-query <oq>
+        ^fields <f>)
 }
 
 sp {apply*ask-query*put-on-output-link
@@ -21,9 +22,12 @@ sp {apply*ask-query*put-on-output-link
               ^io.output-link <out>
               ^operator <o>)
    (<o> ^name ask-query
-        ^output-query <oq>)
+        ^output-query <oq>
+        ^fields <f>)
 -->
    (<out> ^query <oq>)
+   (<oq> ^fields <f>
+         ^originator agent)
 }
 
 sp {apply*ask-query*mark*current-query

@@ -4,33 +4,50 @@
 #		Associates the word with the unknown value and learns it
 # 	Also removes obsolete queries from the top-state
 
-
-# handles messages responding to type-of-value queries
-sp {process-message*propose*process-type-of-value
+# when the type-of-value is received it looks to see if it knows it from smem
+sp {process-message*propose*lookup-att
    (state <s> ^name process-message
-             -^superstate.learned-val.internal <internal-val>
-              ^current-query.query <q>)
-   (<q> ^type type-of-value
-         ^value <val>)
+             -^internal-att
+              ^current-query.query.type type-of-value
+              ^message <m>)
+   (<m> ^type bare-attribute-response
+        ^fields.attribute <external-att>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name process-type-of-value)
+   (<o> ^name lookup-att
+        ^external <external-att>)
 }
 
-# Learns the attribute of that value
-sp {process-message*apply*process-type-of-value
+sp {process-message*apply*lookup-att*success*mark-internal-att
    (state <s> ^name process-message
-              ^operator.name process-type-of-value
-              ^message <msg>
-              ^current-query.query.att-val-pair.val.internal <internal-val>
+              ^operator <o>
+              ^current-query.query.value <external-val>)
+   (<o> ^name lookup-att
+        ^internal {<internal-att> <> failure}
+        ^external <external-att>)
+-->
+   (<s> ^internal-att <internal-att>)
+}
+
+sp {process-message*apply*lookup-att*success*learn-val
+   (state <s> ^name process-message
+              ^operator <o>
+              ^current-query.query.value <external-val>
               ^top-state <top>)
-   (<msg> ^type bare-value-response
-          ^fields.value <response>)
+   (<o> ^name lookup-att
+        ^internal {<internal-att> <> failure}
+        ^external <external-att>)
+   (<top> ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>
+          ^desc.unknown <external-val>)
+   (<av-pair> ^att.internal <internal-att>
+              ^val.internal <internal-val>)
 -->
    (<top> ^learned-val <v>)
    (<v> ^internal <internal-val>
-        ^external <response>)
+        ^external <external-val>)
 }
+
 
 # Removes other queries that ask for the same value
 sp {process-message*apply*process-type-of-value*remove*similar*queries
@@ -38,10 +55,10 @@ sp {process-message*apply*process-type-of-value*remove*similar*queries
               ^current-query.query <q>
               ^superstate <ss>)
    (<q> ^type type-of-value
-        ^att-val-pair.val.internal <val>)
+        ^value <val>)
    (<ss> ^query {<query2> <> <q>})
    (<query2> ^type type-of-value
-             ^att-val-pair.val.internal <val>)
+             ^value <val>)
 -->
    (<ss> ^query <query2> -)
 }

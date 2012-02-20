@@ -8,7 +8,8 @@
 sp {process-message*propose*process-attribute-value
    (state <s> ^name process-message
              -^superstate.learned-val.internal <internal-val>
-              ^current-query.query <q>)
+              ^current-query.query <q>
+              ^message.type bare-value-response)
    (<q> ^type attribute-value
          ^att-val-pair.val.internal <internal-val>)
 -->

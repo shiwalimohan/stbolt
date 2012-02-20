@@ -20,19 +20,19 @@ sp {att-rel-info*apply*modify-object*unknown
    (state <s> ^name att-rel-info
               ^operator.name modify-object
               ^adjective <adj>
-              ^object <obj>)
-   (<obj> -^<att> <adj>)
+              ^object.desc <desc>)
+   (<desc> -^<att> <adj>)
 -->
-   (<obj> ^unknown <adj>)
+   (<desc> ^unknown <adj>)
 }
 
 sp {att-rel-info*apply*modify-object*ask-query
    (state <s> ^name att-rel-info
               ^operator.name modify-object
               ^adjective <adj>
-              ^object <obj>
+              ^object.desc <desc>
               ^top-state <top>)
-   (<obj> -^<att> <adj>)
+   (<desc> -^<att> <adj>)
 -->
    (<top> ^query <q>)
    (<q> ^type type-of-value

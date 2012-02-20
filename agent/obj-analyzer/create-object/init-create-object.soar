@@ -25,5 +25,7 @@ sp {create-object*apply*init-create-object
    (<obj> ^id <id>
           ^pose <pose>
           ^desc <desc>
+          ^external-desc <e-desc>
+          ^comparisons <comp>
           ^mapping <mapping>)
 }

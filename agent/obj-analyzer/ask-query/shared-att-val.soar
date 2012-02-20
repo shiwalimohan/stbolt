@@ -11,8 +11,7 @@ sp {elaborate*ask-query*shared-att-val
    (<q> ^type shared-att-val
         ^internal-att <att>)
 -->
-   (<oq> ^type shared-att-val
-         ^internal-att <att>)
+   (<oq> ^type common-attribute-question)
 }
 
 # Adds group-obj(s) to query structure
@@ -21,11 +20,11 @@ sp {elaborate*ask-query*shared-att-val*group-obj
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^fields <f>)
    (<q> ^type shared-att-val
-        ^group-obj.id <id>)
+        ^group-obj.external-desc <external-desc>)
 -->
-   (<oq> ^group-obj <id>)
+   (<f> ^similar <external-desc>)
 }
 
 # Adds exception(s) to query structure
@@ -34,9 +33,9 @@ sp {elaborate*ask-query*shared-att-val*exception
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^fields <f>)
    (<q> ^type shared-att-val
         ^exception <att>)
 -->
-   (<oq> ^exception <att>)
+   (<f> ^exception <att>)
 }

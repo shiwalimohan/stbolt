@@ -36,6 +36,10 @@ source elaborations_source.soar
 # Contains basic elaborations used across obj-analyzer
 popd
 
+pushd object-elaborations
+source object-elaborations_source.soar
+popd
+
 
 pushd process-message
 source process-message_source.soar
@@ -44,8 +48,38 @@ source process-message_source.soar
 popd
 
 
-pushd query-object
-source query-object_source.soar
+pushd find-object
+source find-object_source.soar
+popd
+
+pushd lookup-att
+source lookup-att_source.soar
+# Looks up an attribute from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-att
+#		^internal <internal-att>
+#		^external <external-att>
+# NOTE: you should only have one of the above ^internal or ^external attributes
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
+popd
+
+pushd lookup-val
+source lookup-val_source.soar
+# Looks up a value from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-val
+#		^internal <internal-val>
+#		^external <external-val>
+# NOTE: you should only have one of the above ^internal or ^external values
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
 popd
 
 source attribute-value.soar

@@ -4,12 +4,10 @@
 sp {propose*attribute-value-query
    (state <s> ^name obj-analyzer
               ^object <obj>)
-   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<obj> ^mapping.att-val-pair <av-pair>
+          ^unique true)
    (<av-pair> ^att.external <external-att>
              -^val.external)
-   -{(<s> ^query <q2>)
-     (<q2> ^type attribute-value
-           ^att-val-pair <av-pair>)}
 -->
    (<s> ^operator <o> + =)
    (<o> ^name attribute-value-query

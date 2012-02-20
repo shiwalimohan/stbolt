@@ -34,7 +34,8 @@ sp {process-message*apply*complete-process-message*remove*old*id
 sp {process-message*apply*complete-process-message*remove*old*current-query
    (state <s> ^name process-message
               ^operator.name complete-process-message
-              ^top-state <top>)
+              ^top-state <top>
+              ^message.type << bare-attribute-response bare-value-response >>)
    (<top> ^current-query <cq>)
    (<cq> ^query <q>)
 -->

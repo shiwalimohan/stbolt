@@ -1,6 +1,6 @@
 sp {recognition-question*propose*complete-recognition-question
    (state <s> ^name recognition-question
-              ^query-match <obj>)
+              ^object-match <obj>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name complete-recognition-question

@@ -6,12 +6,14 @@ sp {elaborate*ask-query*attribute-value
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^output-query <oq>
+        ^fields <f>)
    (<q> ^type attribute-value
-        ^object.id <id>
-        ^att-val-pair.att.internal <internal-att>)
+        ^object.external-desc <external-desc>
+        ^att-val-pair.att.external <external-att>)
 -->
-   (<oq> ^type attribute-value
-        ^attribute <internal-att>
-        ^object <id>)
+   (<oq> ^type attribute-question)
+   (<f> ^relation <rel>)
+   (<rel> ^word <external-att>
+          ^p1 <external-desc>)
 }

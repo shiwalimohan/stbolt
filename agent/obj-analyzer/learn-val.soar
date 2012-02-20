@@ -37,14 +37,12 @@ sp {apply*learn-val*update*object
         ^learned-val <lv>)
    (<lv> ^internal <internal-val>
          ^external <external-val>)
-   (<obj> ^desc <desc>
-          ^mapping.att-val-pair <av-pair>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
    (<av-pair> ^val <val>
               ^att.external <external-att>)
    (<val> ^internal <internal-val>)
 -->
    (<obj> ^changed true)
-   (<desc> ^<external-att> <external-val>)
    (<val> ^external <external-val>)
 }
 
@@ -62,11 +60,11 @@ sp {apply*learn-val*remove*learned-val
 sp {apply*learn-val*remove*unknown
    (state <s> ^name obj-analyzer
               ^operator <o>
-              ^object <obj>)
+              ^object.desc <desc>)
    (<o> ^name learn-val
-        ^learned-val <lv>)
-   (<obj> ^unknown <lv>)
+        ^learned-val.external <value>)
+   (<desc> ^unknown <value>)
 -->
-   (<obj> ^unknown <lv> -)
+   (<desc> ^unknown <value> -)
 }
               

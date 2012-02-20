@@ -29,6 +29,8 @@ source shared-att-val.soar
 #	process-shared-att-val operator
 #		Associates the word with the unknown attribute and learns it
 
+source type-of-value.soar
+
 pushd att-rel-info
 source att-rel-info_source.soar
 popd

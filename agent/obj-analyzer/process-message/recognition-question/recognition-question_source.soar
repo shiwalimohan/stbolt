@@ -1,3 +1,3 @@
 source propose*recognition-question.soar
-source query-object.soar
+source find-object.soar
 source complete-recognition-question.soar

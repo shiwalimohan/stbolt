@@ -7,12 +7,13 @@ sp {elaborate*ask-query*differs-from-group
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^output-query <oq>
+        ^fields <f>)
    (<q> ^type differs-from-group
-        ^different-obj.id <id>)
+        ^different-obj.external-desc <external-desc>)
 -->
-   (<oq> ^type differs-from-group
-         ^different-obj <id>)
+   (<oq> ^type different-attribute-question)
+   (<f> ^different <external-desc>)
 }
 
 # Adds group-obj(s) to query structure
@@ -21,11 +22,11 @@ sp {elaborate*ask-query*differs-from-group*group-obj
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^fields <f>)
    (<q> ^type differs-from-group
-        ^group-obj.id <id>)
+        ^group-obj.external-desc <external-desc>)
 -->
-   (<oq> ^group-obj <id>)
+   (<f> ^similar <external-desc>)
 }
 
 # Adds exception(s) to query structure
@@ -34,9 +35,9 @@ sp {elaborate*ask-query*differs-from-group*exception
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^fields <f>)
    (<q> ^type differs-from-group
         ^exception <att>)
 -->
-   (<oq> ^exception <att>)
+   (<f> ^exception <att>)
 }

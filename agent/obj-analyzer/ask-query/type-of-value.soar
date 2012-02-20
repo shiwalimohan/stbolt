@@ -6,10 +6,11 @@ sp {elaborate*ask-query*type-of-value
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
-        ^output-query <oq>)
+        ^output-query <oq>
+        ^fields <f>)
    (<q> ^type type-of-value
         ^value <v>)
 -->
-   (<oq> ^type type-of-value
-         ^value <v>)
+   (<oq> ^type attribute-question)
+   (<f> ^value <v>)
 }
