@@ -23,7 +23,7 @@ source differs-from-group.soar
 source shared-att-val.soar
 #	Query for a group of objects that share a common attribute
 
-source type-of-value.soar
+#source type-of-value.soar
 #	Query for the attribute of a known value
 
 

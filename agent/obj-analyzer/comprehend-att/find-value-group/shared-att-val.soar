@@ -39,6 +39,16 @@ sp {find-value-group*elaborate*shared-att-val*exception
    (<q> ^exception <external-att>)
 }
 
+sp {find-value-group*reject*shared-att-val*not-unique
+   (state <s> ^name find-value-group
+              ^operator <o> +)
+   (<o> ^name shared-att-val
+        ^query <q>)
+   (<q> ^group-obj.unique false)
+-->
+   (<s> ^operator <o> -)
+}
+
 sp {find-value-group*apply*shared-att-val*mark-compared
    (state <s> ^name find-value-group
               ^operator <o>

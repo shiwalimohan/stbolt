@@ -12,8 +12,8 @@ sp {elaborate*ask-query*attribute-value
         ^object.external-desc <external-desc>
         ^att-val-pair.att.external <external-att>)
 -->
-   (<oq> ^type attribute-question)
-   (<f> ^relation <rel>)
+   (<oq> ^type value-question)
+   (<f> ^attribute-relation <rel>)
    (<rel> ^word <external-att>
-          ^p1 <external-desc>)
+          ^object1 <external-desc>)
 }

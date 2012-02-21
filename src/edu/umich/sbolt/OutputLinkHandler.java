@@ -10,6 +10,7 @@ import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.world.Robot;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
+import edu.umich.sbolt.language.AgentMessageParser;
 
 public class OutputLinkHandler implements OutputEventInterface
 {
@@ -289,19 +290,10 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         String type = WorkingMemoryUtil.getValueOfAttribute(queryId, "type",
                 "Query does not have ^type");
-        if (type.equals("attribute-value"))
-        {
-            processQueryAttributeValue(queryId);
-        }
-        else if (type.equals("differs-from-group"))
-        {
-            processQueryDiffersFromGroup(queryId);
-        }
-        else if (type.equals("shared-att-val"))
-        {
-            processQuerySharedAttVal(queryId);
-        } else if(type.equals("type-of-value")){
-            processQueryTypeOfValue(queryId);
+        String message = "";
+        message = AgentMessageParser.translateAgentMessage(queryId);
+        if(!message.equals("")){
+            sbolt.getChatFrame().addMessage(message);
         }
     }
 

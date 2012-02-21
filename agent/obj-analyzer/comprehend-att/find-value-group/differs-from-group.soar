@@ -27,6 +27,8 @@ sp {find-value-group*elaborate*differs-from-group*group-obj
    (<q> ^group-obj <obj>)
 }
 
+
+
 sp {find-value-group*elaborate*differs-from-group*exception
    (state <s> ^name find-value-group
               ^operator <o> +
@@ -43,6 +45,16 @@ sp {find-value-group*elaborate*differs-from-group*exception
               ^val.internal <> <val>)
 -->
    (<q> ^exception <external-att>)
+}
+
+sp {find-value-group*reject*differs-from-group*not-unique
+   (state <s> ^name find-value-group
+              ^operator <o> +)
+   (<o> ^name differs-from-group
+        ^query <q>)
+   (<q> ^{<< group-obj different-obj >>}.unique false)
+-->
+   (<s> ^operator <o> -)
 }
 
 # If there is another unknown attribute (different from att-to-comp)

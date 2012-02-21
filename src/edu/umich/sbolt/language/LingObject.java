@@ -120,6 +120,6 @@ public class LingObject extends LinguisticEntity {
         for(Iterator<String> i = adjective.iterator(); i.hasNext(); ){
             adjString += i.next() + " ";
         }        
-        return String.format("the %s %s", adjString, noun);
+        return String.format("the %s%s", adjString, noun);
     }
 }

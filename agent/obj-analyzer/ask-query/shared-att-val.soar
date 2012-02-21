@@ -1,17 +1,36 @@
 # shared-att-val
 #	Query for a group of objects that share a common attribute
 
-# Basic query structure
-sp {elaborate*ask-query*shared-att-val
+# Basic query structure for common-attribute-question
+# Requires that there are more than 1 group-obj
+sp {elaborate*ask-query*shared-att-val*multiple
    (state <s> ^name obj-analyzer
               ^operator <o>)
    (<o> ^name ask-query
         ^query <q>
         ^output-query <oq>)
    (<q> ^type shared-att-val
-        ^internal-att <att>)
+        ^internal-att <att>
+        ^group-obj <obj1>
+        ^group-obj <> <obj1>)
 -->
    (<oq> ^type common-attribute-question)
+}
+
+# Basic query structure for attribute-presence-question
+# Requires that there is only 1 group-obj
+sp {elaborate*ask-query*shared-att-val*one
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>)
+   (<q> ^type shared-att-val
+        ^internal-att <att>
+        ^group-obj <obj1>
+        -^group-obj <> <obj1>)
+-->
+   (<oq> ^type attribute-presence-question)
 }
 
 # Adds group-obj(s) to query structure
@@ -24,8 +43,9 @@ sp {elaborate*ask-query*shared-att-val*group-obj
    (<q> ^type shared-att-val
         ^group-obj.external-desc <external-desc>)
 -->
-   (<f> ^similar <external-desc>)
+   (<f> ^object <external-desc>)
 }
+
 
 # Adds exception(s) to query structure
 sp {elaborate*ask-query*shared-att-val*exception
