@@ -10,7 +10,7 @@ import sml.Identifier;
 
 
 // will parse only positive predicates for now
-public class ObjectRelation implements LinguisticEntity{
+public class ObjectRelation extends LinguisticEntity{
 	String preposition;
 	private LingObject object1;
 	private LingObject object2;
@@ -34,17 +34,15 @@ public class ObjectRelation implements LinguisticEntity{
 		if(m.find()){
 			object2 = (LingObject) tagsToWords.get(m.group());
 		}
-		
-		
 	}
 
 
 	@Override
-	public void translateToSoarSpeak(Identifier id) {
-		Identifier relId = id.CreateIdWME("object-relation");
+	public void translateToSoarSpeak(Identifier id, String connectingString) {
+		Identifier relId = id.CreateIdWME(connectingString);
 		relId.CreateStringWME("word", preposition);
-		object1.translateToSoarSpeak(relId);
-		object2.translateToSoarSpeak(relId);
+		object1.translateToSoarSpeak(relId, "object1");
+		object2.translateToSoarSpeak(relId, "object2");
 	}
 	
 }

@@ -56,7 +56,7 @@ public class Parser {
 
 	//parse linguistic elements from the POS tagString.
 	public String getParse() {
-		ParserUtils util = new ParserUtils();
+		ParserUtil util = new ParserUtil();
 		System.out.println("Sentence POS: " + tagString);
 		tagString = util.extractObject(tagString, tagsToWords, Counter);
 		System.out.println("Parsed objects: " + tagString);
@@ -64,6 +64,10 @@ public class Parser {
 		System.out.println("Parsed relations: " + tagString);
 		tagString = util.extractVerbCommand(tagString, tagsToWords, Counter);
 		System.out.println("Parsed verb-command: " + tagString);
+		tagString = util.extractGoalInfo(tagString, tagsToWords, Counter);
+		System.out.println("Parsed goal: " + tagString);
+		tagString = util.extractProposalInfo(tagString, tagsToWords, Counter);
+		System.out.println("Parsed proposal: " + tagString);
 		tagString = util.extractSentence(tagString, tagsToWords, Counter);
 		System.out.println("Parsed sentence: " + tagString);
 		return tagString;
@@ -72,7 +76,7 @@ public class Parser {
 	//Get Soar structure
 	public void traslateToSoarSpeak(Identifier messageId, String tagString){
 		//System.out.println("Translating sentence");
-		((Sentence) tagsToWords.get(tagString)).translateToSoarSpeak(messageId);
+		((Sentence) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
 	}
 
 	public static void getSoarSpeak(String latestMessage, BOLTDictionary dictionary, Identifier messageId) {

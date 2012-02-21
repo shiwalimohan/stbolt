@@ -5,7 +5,7 @@ import java.util.Map;
 import sml.Agent;
 import sml.Identifier;
 
-public interface LinguisticEntity {
-	public void extractLinguisticComponents(String string, Map tagsToWords);
-	public void translateToSoarSpeak(Identifier id);
+public abstract class LinguisticEntity {
+	public abstract void extractLinguisticComponents(String string, Map tagsToWords);
+	public abstract void translateToSoarSpeak(Identifier id, String connectingString);
 }

@@ -7,21 +7,21 @@ import java.util.regex.Pattern;
 import sml.Agent;
 import sml.Identifier;
 
-public class VerbCommand implements LinguisticEntity{
+public class VerbCommand extends LinguisticEntity{
 	private String verb = null;
 	private LingObject directObject = null;
 	private String preposition = null;
 	private LingObject secondObject = null;
 
-	public void translateToSoarSpeak(Identifier messageId){
-		Identifier verbId = messageId.CreateIdWME("verb-command");
+	public void translateToSoarSpeak(Identifier messageId, String connectingString){
+		Identifier verbId = messageId.CreateIdWME(connectingString);
 		verbId.CreateStringWME("word", verb);
 		if(directObject != null)
-			directObject.translateToSoarSpeak(verbId);
+			directObject.translateToSoarSpeak(verbId,"direct-object");
 		if(preposition != null){
 			Identifier prepId = verbId.CreateIdWME("preposition");
 			prepId.CreateStringWME("word", preposition);
-			secondObject.translateToSoarSpeak(prepId);
+			secondObject.translateToSoarSpeak(prepId,"object");
 		}
 	}
 

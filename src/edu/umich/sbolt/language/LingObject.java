@@ -10,7 +10,7 @@ import java.util.regex.*;
 import sml.*;
 
 
-public class LingObject implements LinguisticEntity {
+public class LingObject extends LinguisticEntity {
 	private String determiner = null;
 	private Set<String> adjective;
 	private String noun;
@@ -41,8 +41,8 @@ public class LingObject implements LinguisticEntity {
 	}
 	
 	@Override
-	public void translateToSoarSpeak(Identifier id) {
-		Identifier objectId = id.CreateIdWME("object");
+	public void translateToSoarSpeak(Identifier id, String connectingString) {
+		Identifier objectId = id.CreateIdWME(connectingString);
 	    objectId.CreateStringWME("word", noun);
 		if (determiner != null){
 			objectId.CreateStringWME("determiner", determiner);
