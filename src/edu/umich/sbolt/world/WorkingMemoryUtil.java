@@ -1,7 +1,9 @@
 package edu.umich.sbolt.world;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import sml.FloatElement;
 import sml.Identifier;
@@ -143,12 +145,29 @@ public class WorkingMemoryUtil
         }
     }
     
-    public static String getAttributeString(Identifier id, String attribute){
+    public static String getValueOfAttribute(Identifier id, String attribute){
         WMElement wme = id.FindByAttribute(attribute, 0);
         if(wme == null || wme.GetValueAsString().length() == 0){
             return null;
         }
         return wme.GetValueAsString();
+    }
+    
+    public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage){
+        String attString = getValueOfAttribute(id, attribute);
+        if(attString == null){
+            id.CreateStringWME("status", "error");
+            throw new IllegalStateException(errorMessage);
+        }
+        return attString;
+    }
+
+    public static Identifier getIdentifierOfAttribute(Identifier id, String attribute){
+        WMElement wme = id.FindByAttribute(attribute, 0);
+        if(wme == null || !wme.IsIdentifier()){
+            return null;
+        }
+        return wme.ConvertToIdentifier();
     }
     
     public static Identifier getIdentifierOfAttribute(Identifier id, String attribute, String errorMessage){
@@ -160,17 +179,8 @@ public class WorkingMemoryUtil
         return wme.ConvertToIdentifier();
     }
     
-    public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage){
-        String attString = getAttributeString(id, attribute);
-        if(attString == null){
-            id.CreateStringWME("status", "error");
-            throw new IllegalStateException(errorMessage);
-        }
-        return attString;
-    }
-    
-    public static List<String> getAllValuesOfAttribute(Identifier id, String attribute){
-        List<String> attStrings = new ArrayList<String>();
+    public static Set<String> getAllValuesOfAttribute(Identifier id, String attribute){
+        Set<String> attStrings = new HashSet<String>();
         for(int index = 0; index < id.GetNumberChildren(); index++){
             WMElement wme = id.GetChild(index);
             if(wme.GetAttribute().equals(attribute)){

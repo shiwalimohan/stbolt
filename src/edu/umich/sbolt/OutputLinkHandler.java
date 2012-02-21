@@ -1,6 +1,8 @@
 package edu.umich.sbolt;
 
 import java.util.List;
+import java.util.Set;
+
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.WMElement;
@@ -317,26 +319,26 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         String differentObject = WorkingMemoryUtil.getValueOfAttribute(queryId,
                 "different-obj", "Query does not have ^different-obj");
-        List<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
+        Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
                 queryId, "exception");
-        List<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
+        Set<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
                 queryId, "group-obj");
 
         String exceptionStr = "";
         if (exceptions.size() > 0)
         {
-            exceptionStr = "Other than " + exceptions.get(0);
-            for (int i = 1; i < exceptions.size(); i++)
-            {
-                exceptionStr += ", " + exceptions.get(1);
+            exceptionStr = "Other than ";
+            for(String exception : exceptions){
+                exceptionStr += exception + ", ";
             }
+            exceptionStr = exceptionStr.substring(0, exceptionStr.length() - 2);
             exceptionStr += "; ";
         }
 
         String message;
         if (groupObjs.size() == 1)
         {
-            message = "in what attribute do " + groupObjs.get(0) + " and "
+            message = "in what attribute do " + groupObjs.iterator().next() + " and "
                     + differentObject + " differ?";
         }
         else
@@ -356,26 +358,26 @@ public class OutputLinkHandler implements OutputEventInterface
 
     private void processQuerySharedAttVal(Identifier queryId)
     {
-        List<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
+        Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(
                 queryId, "exception");
-        List<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
+        Set<String> groupObjs = WorkingMemoryUtil.getAllValuesOfAttribute(
                 queryId, "group-obj");
 
         String exceptionStr = "";
         if (exceptions.size() > 0)
         {
-            exceptionStr = "Other than " + exceptions.get(0);
-            for (int i = 1; i < exceptions.size(); i++)
-            {
-                exceptionStr += ", " + exceptions.get(1);
+            exceptionStr = "Other than ";
+            for(String exception : exceptions){
+                exceptionStr += exception + ", ";
             }
+            exceptionStr = exceptionStr.substring(0, exceptionStr.length() - 2);
             exceptionStr += "; ";
         }
 
         String message;
         if (groupObjs.size() == 1)
         {
-            message = "what attribute does " + groupObjs.get(0) + " have?";
+            message = "what attribute does " + groupObjs.iterator().next() + " have?";
         }
         else
         {

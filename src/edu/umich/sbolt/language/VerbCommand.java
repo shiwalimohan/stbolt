@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.world.WorkingMemoryUtil;
+
 import sml.Agent;
 import sml.Identifier;
 
@@ -12,7 +14,49 @@ public class VerbCommand extends LinguisticEntity{
 	private LingObject directObject = null;
 	private String preposition = null;
 	private LingObject secondObject = null;
+	
 
+    public String getVerb()
+    {
+        return verb;
+    }
+
+    public void setVerb(String verb)
+    {
+        this.verb = verb;
+    }
+
+    public LingObject getDirectObject()
+    {
+        return directObject;
+    }
+
+    public void setDirectObject(LingObject directObject)
+    {
+        this.directObject = directObject;
+    }
+
+    public String getPreposition()
+    {
+        return preposition;
+    }
+
+    public void setPreposition(String preposition)
+    {
+        this.preposition = preposition;
+    }
+
+    public LingObject getSecondObject()
+    {
+        return secondObject;
+    }
+
+    public void setSecondObject(LingObject secondObject)
+    {
+        this.secondObject = secondObject;
+    }
+	
+	
 	public void translateToSoarSpeak(Identifier messageId, String connectingString){
 		Identifier verbId = messageId.CreateIdWME(connectingString);
 		verbId.CreateStringWME("word", verb);
@@ -46,5 +90,24 @@ public class VerbCommand extends LinguisticEntity{
 		if(m.find()){
 			secondObject = (LingObject) tagsToWords.get(m.group());
 		}
+	}
+	
+	public static VerbCommand createFromSoarSpeak(Identifier id, String name){
+        if(id == null){
+            return null;
+        }
+        Identifier verbId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        if(verbId == null){
+            return null;
+        }
+	    VerbCommand verbCommand = new VerbCommand();
+	    verbCommand.verb = WorkingMemoryUtil.getValueOfAttribute(verbId, "word");
+        verbCommand.directObject = LingObject.createFromSoarSpeak(verbId, "direct-object");
+        Identifier prepositionId = WorkingMemoryUtil.getIdentifierOfAttribute(verbId, "preposition");
+        if(prepositionId != null){
+            verbCommand.preposition = WorkingMemoryUtil.getValueOfAttribute(prepositionId, "word");
+            verbCommand.secondObject = LingObject.createFromSoarSpeak(prepositionId, "object");
+        }
+	    return verbCommand;
 	}
 }

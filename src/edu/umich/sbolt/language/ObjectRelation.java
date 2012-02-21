@@ -5,15 +5,43 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.world.WorkingMemoryUtil;
+
 import sml.Agent;
 import sml.Identifier;
 
 
 // will parse only positive predicates for now
 public class ObjectRelation extends LinguisticEntity{
-	String preposition;
+	private String preposition;
 	private LingObject object1;
 	private LingObject object2;
+	
+	public String getPreposition(){
+	    return preposition;
+	}
+	public void setPreposition(String preposition){
+	    this.preposition = preposition;
+	}
+	
+    public LingObject getObject1()
+    {
+        return object1;
+    }
+    public void setObject1(LingObject object1)
+    {
+        this.object1 = object1;
+    }
+    
+    public LingObject getObject2()
+    {
+        return object2;
+    }
+    public void setObject2(LingObject object2)
+    {
+        this.object2 = object2;
+    }
+	
 
 	@Override
 	public void extractLinguisticComponents(String string, Map tagsToWords) {
@@ -45,4 +73,22 @@ public class ObjectRelation extends LinguisticEntity{
 		object2.translateToSoarSpeak(relId, "object2");
 	}
 	
+    public static ObjectRelation createFromSoarSpeak(Identifier id, String name)
+    {
+        if(id == null){
+            return null;
+        }
+        Identifier relationId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        if(relationId == null){
+            return null;
+        }
+        ObjectRelation objectRelation = new ObjectRelation();
+        objectRelation.preposition = WorkingMemoryUtil.getValueOfAttribute(relationId, "word");
+        
+        objectRelation.object1 = LingObject.createFromSoarSpeak(relationId, "object1");
+        objectRelation.object2 = LingObject.createFromSoarSpeak(relationId, "object2");
+        
+        return objectRelation;
+    }
+
 }
