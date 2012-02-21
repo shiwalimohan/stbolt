@@ -7,23 +7,24 @@ partially implemented.
 Following words can be recognized. The dictionary can be extended by
 simply adding to the list in the [[https://github.com/shiwalimohan/sbolt/blob/master/src/edu/umich/sbolt/language/dictionary.txt][file]].  
 
-NOUN: block table
-ADJECTIVE: red large
-VERB: put
-DETERMINER: a the
-PREPOSITION: on
-ATTRIBUTE: color
+: NOUN: block table 
+: ADJECTIVE: red large
+: VERB: put
+: DETERMINER: a the
+: PREPOSITION: on
+: ATTRIBUTE: color
 
 * Tags
 Following linguistic tags have been used for POS tagging and grammar.
-| noun         | =NN=  | block, table |
-| adjective    | =JJ=  | red, large   |
-| verb         | =VB=  | put          |
-| preposition  | =PP=  | on           |
-| determiner   | =DT=  | the, a       |
-| sentence     | =SEN= |              |
-| verb-command | =VBC= |              |
-| object       | =OBJ= |              |
+| noun          | =NN=  | block, table                                                        |
+| adjective     | =JJ=  | red, large                                                          |
+| verb          | =VB=  | put                                                                 |
+| preposition   | =PP=  | on                                                                  |
+| determiner    | =DT=  | the, a                                                              |
+| sentence      | =SEN= |                                                                     |
+| verb-command  | =VBC= | put a red block on the table                                        |
+| object        | =OBJ= | a red block, the table                                              |
+| goal-info     | =GS=  | goal of put a red block on the table is a red block is on the table |
   
 
 * Grammar
