@@ -144,6 +144,7 @@ public class WorkingMemoryUtil
             }
         }
     }
+   
     
     public static String getValueOfAttribute(Identifier id, String attribute){
         WMElement wme = id.FindByAttribute(attribute, 0);
@@ -168,7 +169,7 @@ public class WorkingMemoryUtil
             return null;
         }
         return wme.ConvertToIdentifier();
-    }
+    }    
     
     public static Identifier getIdentifierOfAttribute(Identifier id, String attribute, String errorMessage){
         WMElement wme = id.FindByAttribute(attribute, 0);

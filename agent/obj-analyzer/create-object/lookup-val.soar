@@ -1,0 +1,40 @@
+# lookup-val
+#   If a retrieval hasn't yet been tried for that value, it queries smem
+
+sp {create-object*propose*lookup-val
+   (state <s> ^name create-object
+              ^object.mapping.att-val-pair.val <val-node>)
+   (<val-node> ^internal <val>
+               ^needs-retrieval true)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name lookup-val
+        ^internal <val>)
+}
+
+# Remove the needs-retrieval flag from the value
+sp {create-object*apply*lookup-val*remove*needs-retrieval
+   (state <s> ^name create-object
+              ^operator <o>
+              ^object.mapping.att-val-pair.val <val-node>)
+   (<o> ^name lookup-val
+        ^external <external-val>
+        ^internal <internal-val>)
+   (<val-node> ^internal <internal-val>
+               ^needs-retrieval true)
+-->
+   (<val-node> ^needs-retrieval true -)
+}
+
+# Successful lookup - add external word to the value
+sp {create-object*apply*lookup-val*success
+   (state <s> ^name create-object
+              ^operator <o>
+              ^object.mapping.att-val-pair.val <val-node>)
+   (<o> ^name lookup-val
+        ^internal <internal-val>
+        ^external {<external-val> <> failure})
+   (<val-node> ^internal <internal-val>)
+-->
+   (<val-node> ^external <external-val>)
+}

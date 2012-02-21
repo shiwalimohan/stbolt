@@ -1,0 +1,28 @@
+# Looks up a value from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-val
+#		^internal <internal-val>
+#		^external <external-val>
+# NOTE: you should only have one of the above ^internal or ^external values
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
+
+source elaborations.soar
+# creates the query structure on the substate
+# query has 2 values, internal and external
+# by leaving one off the lookup-val operator it will cause that one to be
+#	searched for in smem
+
+source smem-val-query.soar
+# smem-val-query
+#   Queries smem for the matching value
+
+source complete-lookup-val.soar
+# Fetches the query result and adds the result to the superstate lookup-val operator
+# If successful, adds the found word to the operator
+# If failure, adds the word 'failure' to the operator
+# Example for trying to find an external value color
+#	 Success: adds ^external color, Failure: adds ^external failure

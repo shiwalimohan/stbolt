@@ -1,0 +1,64 @@
+# type-of-value
+#	Query for the attribute of a known value
+#	process-type-of-value operator
+#		Associates the word with the unknown value and learns it
+# 	Also removes obsolete queries from the top-state
+
+# when the type-of-value is received it looks to see if it knows it from smem
+sp {process-message*propose*lookup-att
+   (state <s> ^name process-message
+             -^internal-att
+              ^current-query.query.type type-of-value
+              ^message <m>)
+   (<m> ^type bare-attribute-response
+        ^fields.attribute <external-att>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name lookup-att
+        ^external <external-att>)
+}
+
+sp {process-message*apply*lookup-att*success*mark-internal-att
+   (state <s> ^name process-message
+              ^operator <o>
+              ^current-query.query.value <external-val>)
+   (<o> ^name lookup-att
+        ^internal {<internal-att> <> failure}
+        ^external <external-att>)
+-->
+   (<s> ^internal-att <internal-att>)
+}
+
+sp {process-message*apply*lookup-att*success*learn-val
+   (state <s> ^name process-message
+              ^operator <o>
+              ^current-query.query.value <external-val>
+              ^top-state <top>)
+   (<o> ^name lookup-att
+        ^internal {<internal-att> <> failure}
+        ^external <external-att>)
+   (<top> ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>
+          ^desc.unknown <external-val>)
+   (<av-pair> ^att.internal <internal-att>
+              ^val.internal <internal-val>)
+-->
+   (<top> ^learned-val <v>)
+   (<v> ^internal <internal-val>
+        ^external <external-val>)
+}
+
+
+# Removes other queries that ask for the same value
+sp {process-message*apply*process-type-of-value*remove*similar*queries
+   (state <s> ^name process-message
+              ^current-query.query <q>
+              ^superstate <ss>)
+   (<q> ^type type-of-value
+        ^value <val>)
+   (<ss> ^query {<query2> <> <q>})
+   (<query2> ^type type-of-value
+             ^value <val>)
+-->
+   (<ss> ^query <query2> -)
+}

@@ -1,0 +1,85 @@
+sp {find-value-group*propose*differs-from-group
+   (state <s> ^name find-value-group
+              ^att-to-comp <att>
+              ^value <val>
+              ^superstate.object <obj>
+             -^compared <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.internal <att>
+              ^val.internal <> <val>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name differs-from-group
+        ^object <obj>
+        ^query <q>)
+   (<q> ^type differs-from-group
+        ^different-obj <obj>
+        ^internal-att <att>)
+}
+
+sp {find-value-group*elaborate*differs-from-group*group-obj
+   (state <s> ^name find-value-group
+              ^operator <o> +
+              ^object <obj>)
+   (<o> ^name differs-from-group
+        ^query <q>)
+-->
+   (<q> ^group-obj <obj>)
+}
+
+sp {find-value-group*elaborate*differs-from-group*exception
+   (state <s> ^name find-value-group
+              ^operator <o> +
+              ^common-av-pair <common-av-pair>
+              ^att-to-comp <att-to-comp>)
+   (<common-av-pair> ^type known
+                     ^att {<att> <> <att-to-comp>}
+                     ^val <val>)
+   (<o> ^name differs-from-group
+        ^object.mapping.att-val-pair <av-pair>
+        ^query <q>)
+   (<av-pair> ^att.internal <att>
+              ^att.external <external-att>
+              ^val.internal <> <val>)
+-->
+   (<q> ^exception <external-att>)
+}
+
+# If there is another unknown attribute (different from att-to-comp)
+# That all the objects share a common value for and this compared-object differs on, 
+# then Reject the operator, because the case is ambiguous
+sp {find-value-group*reject*differs-from-group
+   (state <s> ^name find-value-group
+              ^operator <o> +
+              ^common-av-pair <common-av-pair>
+              ^att-to-comp <att-to-comp>)
+   (<common-av-pair> ^type unknown
+                     ^att {<att> <> <att-to-comp>}
+                     ^val <val>)
+   (<o> ^name differs-from-group
+        ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.internal <att>
+              ^val.internal <> <val>)
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {find-value-group*apply*differs-from-group*mark-compared
+   (state <s> ^name find-value-group
+              ^operator <o>)
+   (<o> ^name differs-from-group
+        ^object <obj>)
+-->
+   (<s> ^compared <obj>)
+}
+
+sp {find-value-group*apply*differs-from-group*create-query
+   (state <s> ^name find-value-group
+              ^operator <o>
+              ^top-state <top>)
+   (<o> ^name differs-from-group
+        ^query <q>)
+-->
+   (<top> ^query <q>)
+}
+   

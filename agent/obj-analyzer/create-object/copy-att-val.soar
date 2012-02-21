@@ -1,0 +1,37 @@
+# copy-att-val
+#   Copies each attribute/value pair from the input link into the
+#     internal representation of that object
+
+sp {create-object*propose*copy-att-val
+   (state <s> ^name create-object
+              ^io.input-link <in>
+              ^object <obj>)
+   (<in> ^objects.object <il-obj>)
+   (<il-obj> ^id <id>
+             ^{<att> <> id <> name <> pose} <val>)
+   (<obj> ^id <id>
+         -^mapping.att-val-pair.att.internal <att>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name copy-att-val
+        ^att <att>
+        ^val <val>)
+}
+
+# Creates the new att-val-pair structure on the object
+sp {create-object*apply*copy-att-val
+   (state <s> ^name create-object
+              ^object.mapping <map>
+              ^operator <o>)
+   (<o> ^name copy-att-val
+        ^att <att>
+        ^val <val>)
+-->
+   (<map> ^att-val-pair <avp>)
+   (<avp> ^att <att-node>
+          ^val <val-node>)
+   (<att-node> ^internal <att>
+               ^needs-retrieval true)
+   (<val-node> ^internal <val>
+               ^needs-retrieval true)
+}

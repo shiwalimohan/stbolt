@@ -1,0 +1,38 @@
+sp {find-value-group*elaborate*common-av-pair
+   (state <s> ^name find-value-group
+              ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.internal <att>
+              ^val.internal <val>)
+   -{(<s> ^object.mapping.att-val-pair <av-pair2>)
+     (<av-pair2> ^att.internal <att>
+                ^val.internal <> <val>)}
+-->
+   (<s> ^common-av-pair <avp>)
+   (<avp> ^att <att>
+          ^val <val>)
+}
+
+sp {find-value-group*elaborate*common-av-pair*type*known
+   (state <s> ^name find-value-group
+              ^common-av-pair <common-av-pair>
+              ^object <obj>)
+   (<common-av-pair> ^att <att>)
+   (<obj> ^mapping.att-val-pair.att <attribute>)
+   (<attribute> ^internal <att>
+                ^external <external>)
+-->
+   (<common-av-pair> ^type known)
+}
+
+sp {find-value-group*elaborate*common-av-pair*type*unknown
+   (state <s> ^name find-value-group
+              ^common-av-pair <common-av-pair>
+              ^object <obj>)
+   (<common-av-pair> ^att <att>)
+   (<obj> ^mapping.att-val-pair.att <attribute>)
+   (<attribute> ^internal <att>
+                -^external)
+-->
+   (<common-av-pair> ^type unknown)
+}

@@ -1,0 +1,47 @@
+#	Query for an unknown value for a known attribute
+#	process-attribute-value operator
+#		Associates the word with the unknown value and learns it
+# 	Also removes obsolete queries from the top-state
+
+
+# handles messages responding to attribute-value queries
+sp {process-message*propose*process-attribute-value
+   (state <s> ^name process-message
+             -^superstate.learned-val.internal <internal-val>
+              ^current-query.query <q>
+              ^message.type bare-value-response)
+   (<q> ^type attribute-value
+         ^att-val-pair.val.internal <internal-val>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name process-attribute-value)
+}
+
+# Learns the value for that attribute
+sp {process-message*apply*process-attribute-value
+   (state <s> ^name process-message
+              ^operator.name process-attribute-value
+              ^message <msg>
+              ^current-query.query.att-val-pair.val.internal <internal-val>
+              ^top-state <top>)
+   (<msg> ^type bare-value-response
+          ^fields.value <response>)
+-->
+   (<top> ^learned-val <v>)
+   (<v> ^internal <internal-val>
+        ^external <response>)
+}
+
+# Removes other queries that ask for the same value
+sp {process-message*apply*process-attribute-value*remove*similar*queries
+   (state <s> ^name process-message
+              ^current-query.query <q>
+              ^superstate <ss>)
+   (<q> ^type attribute-value
+        ^att-val-pair.val.internal <val>)
+   (<ss> ^query {<query2> <> <q>})
+   (<query2> ^type attribute-value
+             ^att-val-pair.val.internal <val>)
+-->
+   (<ss> ^query <query2> -)
+}

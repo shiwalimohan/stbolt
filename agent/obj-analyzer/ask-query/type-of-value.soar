@@ -1,0 +1,16 @@
+# type-of-value
+#	Query for the attribute of a known value
+
+sp {elaborate*ask-query*type-of-value
+   (state <s> ^name obj-analyzer
+              ^operator <o>)
+   (<o> ^name ask-query
+        ^query <q>
+        ^output-query <oq>
+        ^fields <f>)
+   (<q> ^type type-of-value
+        ^value <v>)
+-->
+   (<oq> ^type attribute-question)
+   (<f> ^value <v>)
+}

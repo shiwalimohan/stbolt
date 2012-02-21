@@ -1,0 +1,50 @@
+# elaborations
+# creates the query structure on the substate
+# query has 2 values, internal and external
+# by leaving one off the lookup-val operator it will cause that one to be
+#	searched for in smem
+
+
+# Put the query structure on the substate
+sp {lookup-val*elaborate*add-query
+   (state <s> ^name lookup-val)
+-->
+   (<s> ^query <q>)
+}
+
+
+# If there is an internal value on the superstate operator, add it to the query
+sp {lookup-val*elaborate*internal
+   (state <s> ^name lookup-val
+              ^query <q>
+              ^superstate.operator.internal <internal-val>)
+-->
+   (<q> ^internal <internal-val>)
+}
+
+# If there is no internal value on the superstate operator, create a placeholder
+sp {lookup-val*elaborate*no-internal
+   (state <s> ^name lookup-val
+              ^query <q>
+              -^superstate.operator.internal)
+-->
+   (<q> ^internal <internal-val>)
+}
+
+# If there is an external value on the superstate operator, add it to the query
+sp {lookup-val*elaborate*external
+   (state <s> ^name lookup-val
+              ^query <q>
+              ^superstate.operator.external <external-val>)
+-->
+   (<q> ^external <external-val>)
+}
+
+# If there is no external value on the superstate operator, create a placeholder
+sp {lookup-val*apply*init-lookup-val*no-external
+   (state <s> ^name lookup-val
+              ^query <q>
+              -^superstate.operator.external)
+-->
+   (<q> ^external <external-val>)
+}

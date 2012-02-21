@@ -1,0 +1,16 @@
+# This operator is always proposed but using preferences it is always the last choice
+# When no other operators exist
+sp {propose*complete-XXX
+   (state <s> ^name XXX)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-XXX)
+}
+
+sp {apply*complete-XXX
+   (state <s> ^name XXX
+              ^operator.name complete-XXX
+              ^superstate <ss>)
+-->
+   # Do whatever you need to when the substate processing is finished
+}

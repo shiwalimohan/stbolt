@@ -66,10 +66,10 @@ public class SBolt implements LCMSubscriber
             throw new IllegalStateException("Kernel created null agent");
         }
 
-        String objAnalyzerSource = "agent/obj-analyzer/obj-analyzer/obj-analyzer.soar";
+        String objAnalyzerSource = "agent/obj-analyzer/obj-analyzer.soar";
         if ((new File(objAnalyzerSource)).exists())
         {
-            //agentSource = objAnalyzerSource;
+            agentSource = objAnalyzerSource;
         }
         agent.LoadProductions(agentSource);
 

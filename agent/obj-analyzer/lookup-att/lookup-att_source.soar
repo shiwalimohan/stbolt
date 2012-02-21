@@ -1,0 +1,28 @@
+# Looks up an attribute from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-att
+#		^internal <internal-att>
+#		^external <external-att>
+# NOTE: you should only have one of the above ^internal or ^external attributes
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
+
+source elaborations.soar
+# creates the query structure on the substate
+# query has 2 attributes, internal and external
+# by leaving one off the lookup-att operator it will cause that one to be
+#	searched for in smem
+
+source smem-att-query.soar
+# smem-att-query
+#   Queries smem for the matching attribute
+
+source complete-lookup-att.soar
+# Fetches the query result and adds the result to the superstate lookup-att operator
+# If successful, adds the found word to the operator
+# If failure, adds the word 'failure' to the operator
+# Example for trying to find an external attribute color
+#	 Success: adds ^external color, Failure: adds ^external failure

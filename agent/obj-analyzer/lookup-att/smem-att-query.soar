@@ -1,0 +1,25 @@
+# smem-att-query
+#   Queries smem for the matching attribute
+
+sp {lookup-att*propose*smem-att-query
+   (state <s> ^name lookup-att
+              ^query.internal <internal-att>
+              ^query.external <external-att>
+              -^smem.command.query.type attribute)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name smem-att-query)
+}
+
+sp {lookup-att*apply*smem-att-query
+   (state <s> ^name lookup-att
+              ^operator.name smem-att-query
+              ^query.internal <internal-att>
+              ^query.external <external-att>
+              ^smem.command <cmd>)
+-->
+   (<cmd> ^query <q>)
+   (<q> ^type attribute
+        ^internal <internal-att>
+        ^external <external-att>)
+}

@@ -1,0 +1,10 @@
+#	Gives complete-process-message a worst preference
+sp {process-message*perfer*any*over*complete-process-message
+   (state <s> ^name process-message
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name complete-process-message)
+   (<o2> ^name <> complete-process-message)
+-->
+   (<s> ^operator <o1> < <o2>)
+}

@@ -1,0 +1,66 @@
+# lookup-att
+#   If a retrieval hasn't yet been tried for that attribute, it queries smem
+
+sp {create-object*propose*lookup-att
+   (state <s> ^name create-object
+              ^object.mapping.att-val-pair.att <att-node>)
+   (<att-node> ^internal <att>
+               ^needs-retrieval true)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name lookup-att
+        ^internal <att>)
+}
+
+# Remove the needs-retrieval flag from the attribute
+sp {create-object*apply*lookup-att*remove*needs-retrieval
+   (state <s> ^name create-object
+              ^operator <o>
+              ^object.mapping.att-val-pair.att <att-node>)
+   (<o> ^name lookup-att
+        ^external <external-att>
+        ^internal <internal-att>)
+   (<att-node> ^internal <internal-att>
+               ^needs-retrieval true)
+-->
+   (<att-node> ^needs-retrieval true -)
+}
+
+# Successful lookup - add external word to the attribute
+sp {create-object*apply*lookup-att*success
+   (state <s> ^name create-object
+              ^operator <o>
+              ^object.mapping.att-val-pair.att <att-node>)
+   (<o> ^name lookup-att
+        ^internal <internal-att>
+        ^external {<external-att> <> failure})
+   (<att-node> ^internal <internal-att>)
+-->
+   (<att-node> ^external <external-att>)
+}
+
+# Failure - mark the attribute unprocessed
+sp {create-object*apply*lookup-att*failure*mark*unprocessed
+   (state <s> ^name create-object
+              ^operator <o>
+              ^superstate.attributes <atts>)
+   (<o> ^name lookup-att
+        ^internal <internal-att>
+        ^external failure)
+-->
+   (<atts> ^unprocessed <internal-att>)
+}
+
+# Failure - unmark the attribute processed
+sp {create-object*apply*lookup-att*failure*unmark*processed
+   (state <s> ^name create-object
+              ^operator <o>
+              ^superstate.attributes <atts>)
+   (<o> ^name lookup-att
+        ^internal <internal-att>
+        ^external failure)
+   (<atts> ^processed <internal-att>)
+-->
+   (<atts> ^processed <internal-att> -)
+}
+   

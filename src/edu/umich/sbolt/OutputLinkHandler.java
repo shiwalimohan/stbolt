@@ -300,6 +300,8 @@ public class OutputLinkHandler implements OutputEventInterface
         else if (type.equals("shared-att-val"))
         {
             processQuerySharedAttVal(queryId);
+        } else if(type.equals("type-of-value")){
+            processQueryTypeOfValue(queryId);
         }
     }
 
@@ -391,6 +393,16 @@ public class OutputLinkHandler implements OutputEventInterface
         }
 
         sbolt.getChatFrame().addMessage(exceptionStr + message);
+        queryId.CreateStringWME("status", "complete");
+    }
+    
+    private void processQueryTypeOfValue(Identifier queryId)
+    {
+        String value = WorkingMemoryUtil.getValueOfAttribute(queryId,
+                "value", "Query does not have ^value");
+
+        String message = String.format("What type of attribute does %s describe?", value);
+        sbolt.getChatFrame().addMessage(message);
         queryId.CreateStringWME("status", "complete");
     }
 
