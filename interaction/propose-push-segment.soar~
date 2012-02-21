@@ -1,0 +1,15 @@
+## if the conversation stack is empty, and there is an unresolved tie, and it is in the topstate, prompt instructor for more information, or further action. Unless there is a relevant operator is proposed on the topstate, the agent is not pursuing any intention/goal. intention ^category none
+
+sp {propose*change-in-conversation-state-scenario1
+   (state <s> ^task <t>
+   	      ^conversation-stack <cs>)
+   (<cs> ^segment none)
+   (<t> ^category none
+   	^progress <tp>)
+   (<tp> ^status.type unresolved-tie)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name push-segment-stack
+   	 ^initiator agent
+	 ^purpose-type get-further-instruction) 
+}

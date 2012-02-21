@@ -1,0 +1,77 @@
+#### apply push-segment on the conversation.stack
+### substate to apply push-segment on the conversation.stack
+
+### add present-id from epmem to be able to do lookup during the explanation phase
+
+sp {push-segment*dont-learn
+   (state <s> ^name push-segment)
+-->
+   (dont-learn <s>)
+}
+   
+sp {push-segment*create-segment
+   (state <s> ^name push-segment
+   	      ^superstate <ss>
+	      ^epmem.present-id <eid>)
+   (<ss> ^operator <sop>
+   	 ^conversation.stack.segment <prev-segment>)
+   (<prev-segment> ^id <id>)
+   (<sop> ^name push-segment
+   	  ^initiator <init>
+	  ^purpose-type <type>
+	  ^purpose-satisfaction <sat>)
+-->
+   (<s> ^segment <seg>)
+   (<seg> ^initiator <init>
+    	  ^purpose <p>
+	  ^id ( + <id> 1)
+	  ^next <prev-segment>
+	  ^epmem-id <eid>)
+   (<p> ^type <type>
+   	^satisfaction <new-sat>)
+}
+
+sp {push-segment*create-satisfaction
+   (state <s> ^name push-segment
+   	      ^superstate.operator <op>)
+   (<op> ^name push-segment
+	 ^purpose-satisfaction <sat>)
+   (<s> ^segment <seg>)
+   (<seg> ^purpose <p>)
+   (<p> ^satisfaction <new-sat>)
+   (<sat> ^<arg> <val>)
+-->
+   (<new-sat> ^<arg> <val>)
+}
+
+sp {push-segment*propose*mark-as-success
+   (state <s> ^name push-segment
+	      ^segment <seg>
+	      ^superstate.operator <sop>)
+   (<sop> ^name push-segment)
+   (<seg> ^purpose.satisfaction <seg-ps>)
+   (<seg-ps> ^<arg> <val>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name mark-as-success
+   	 ^category conversation-stack
+   	 ^superoperator <sop>)
+
+}
+
+sp {push-segment*apply*mark-as-success
+   (state <s> ^name push-segment
+   	      ^operator <op>
+	      ^segment <seg>
+	      ^superstate <ss>)
+   (<ss> ^conversation.stack <cs>)
+   (<cs> ^segment <prev-segment>)
+   (<op> ^name mark-as-success
+   	 ^superoperator <sop>)
+-->
+   (<ss> ^success-operator <sop>)
+   (<cs> ^segment <seg>
+   	 ^segment <prev-segment> -)
+   (<seg> ^next <prev-segment>)
+}
+

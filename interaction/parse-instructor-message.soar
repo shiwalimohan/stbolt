@@ -1,0 +1,26 @@
+# psuedo-parsing of natural language is done in the java code. will be replaced later by lg-soar and related soar code. for now, the parse-message operator copies the instructor message onto the topstate for to decouple it from the environment supplied input.
+
+
+
+sp {topstate*propose*parse-message
+   (state <s> ^io.input-link.instructor-messages.message <ims>
+   	      ^topstate <s>)
+   -->
+   (<s> ^operator <op> +)
+   (<op> ^name parse-message
+   	 ^category communication
+   	 ^message <ims>)
+}
+
+
+sp {topstate*apply*parse-message
+   (state <s> ^operator <op>
+   	      ^io.output-link <ol>)
+   (<op> ^name parse-message
+   	 ^message <ims>)
+   (<ims> ^id <rm-id>)
+-->
+   (<s> ^instructor-message <ims>)
+   (<ol> ^remove-instructor-message <rm>)
+   (<rm> ^id <rm-id>)
+}

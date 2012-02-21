@@ -1,0 +1,14 @@
+### the agent maintains a conversation state
+## initialized at agent initialization
+
+sp {topstate*apply*init*conversation-manager
+   (state <s> ^operator <op>)
+   (<op> ^name initialize-agent)
+-->
+   (<s> ^conversation <conv>)
+   (<conv> ^stack <cs>)
+   (<conv> ^expectation <expec>)
+   (<cs> ^segment <seg>)
+   (<seg> ^id 0
+   	  ^purpose none)
+}

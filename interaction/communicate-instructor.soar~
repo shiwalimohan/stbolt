@@ -1,0 +1,52 @@
+### communicate with the instructor
+
+
+### if the agent wants to initiate a conversation, and the purpose of the dialog is to elicit an action/fact out of human
+
+sp {top-state*propose*communicate
+   (state <s> ^topstate <s>
+   	      -^io.input-link.instructor-message.message <message>
+	      ^conversation-stack <cs>)
+   (<cs> ^purpose <p>)
+   (<p> ^initiator agent
+   	^purpose-type elicit-action-fact)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name communicate
+   	 ^category communication
+	 ^string next-action-fact)
+}
+
+sp {communicate*elaborate*query
+   (state <s> ^name communicate
+   	      ^superstate.operator <sop>)
+   (<sop> ^name communicate
+   	  ^string next-action-fact)
+-->
+   (<s> ^string next-action-fact)
+}
+
+sp {communicate*propose*put-on-oplink
+   (state <s> ^name communicate
+   	      ^string <string>
+	      -^io.input-link.instructor-messages.message <ins>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name put-on-oplink
+   	 ^information <string>)
+}
+
+sp {communicate*apply*put-on-oplink
+   (state <s> ^name communicate
+   	      ^operator <op> 
+	      ^io.output-link <ol>
+	      ^superstate <ss>)
+   (<op> ^name put-on-oplink
+   	 ^string <string>)
+-->
+   (<ol> ^agent-messages <am>)
+   (<am> ^message <message>)
+   (<message> ^string <string>
+   	      ^next nil)
+}
+	 

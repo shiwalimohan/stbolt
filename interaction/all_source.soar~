@@ -1,0 +1,7 @@
+source communicate-instructor.soar
+source push-segment.soar
+source parse-instructor-message.soar
+source pop-segment.soar
+source resolve-stack.soar
+source associate-purpose-instructor-message.soar
+source elaborate-dialog-expectation.soar
