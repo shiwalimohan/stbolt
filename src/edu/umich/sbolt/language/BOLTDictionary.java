@@ -35,6 +35,7 @@ public class BOLTDictionary {
 		determiner = new HashSet<String>();
 		preposition = new HashSet<String>();
 		verb = new HashSet<String>();
+		attribute = new HashSet<String>();
 		 try {
 			BufferedReader in = new BufferedReader(new FileReader(filepath));
 			String line;
@@ -52,7 +53,7 @@ public class BOLTDictionary {
 				if(group[0].equals("PREPOSITION")) 
 					fillSet(preposition,words);
 				if(group[0].equals("ATTRIBUTE")) 
-					fillSet(preposition,words);
+					fillSet(attribute,words);
 			}
 			
 		} catch (FileNotFoundException e) {
