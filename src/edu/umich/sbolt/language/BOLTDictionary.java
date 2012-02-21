@@ -18,6 +18,7 @@ public class BOLTDictionary {
 	private Set<String> verb;
 	private Set<String> determiner;
 	private Set<String> preposition;
+	private Set<String> attribute;
 	
 	// relevant pos tags 
 	private String nounTag = "NN";
@@ -25,6 +26,7 @@ public class BOLTDictionary {
 	private String verbTag = "VB";
 	private String determinerTag = "DT";
 	private String prepositionTag = "PP";
+	private String attributeTag = "AT";
 
 
 	public BOLTDictionary(String filepath){
@@ -48,6 +50,8 @@ public class BOLTDictionary {
 				if(group[0].equals("DETERMINER")) 
 					fillSet(determiner,words);
 				if(group[0].equals("PREPOSITION")) 
+					fillSet(preposition,words);
+				if(group[0].equals("ATTRIBUTE")) 
 					fillSet(preposition,words);
 			}
 			
@@ -96,6 +100,12 @@ public class BOLTDictionary {
 		return false;
 	}
 	
+	private boolean isAttribute(String string){
+		if (attribute.contains(string))
+			return true;
+		return false;
+	}
+	
 	public String getTag(String string){
 		String tag;
 		if (isNoun(string)) return nounTag;
@@ -103,6 +113,7 @@ public class BOLTDictionary {
 		if (isVerb(string)) return verbTag;
 		if (isDeterminer(string)) return determinerTag;
 		if (isPreposition(string)) return prepositionTag;
+		if (isAttribute(string)) return attributeTag;
 		// return the string back for words that appear verbatim in the MIISI document
 		return string;
 	}

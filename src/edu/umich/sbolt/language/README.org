@@ -1,3 +1,19 @@
+This code accepts a natural language sentence from the
+instructor/mentor and converts it into a Soar readable parse
+(described in the MIISI document). The grammar (in MIISI) is only
+partially implemented. 
+
+* Dictionary 
+Following words can be recognized. The dictionary can be extended by
+simply adding to the list in the [[https://github.com/shiwalimohan/sbolt/blob/master/src/edu/umich/sbolt/language/dictionary.txt][file]].  
+
+NOUN: block table
+ADJECTIVE: red large
+VERB: put
+DETERMINER: a the
+PREPOSITION: on
+ATTRIBUTE: color
+
 * Tags
 Following linguistic tags have been used for POS tagging and grammar.
 | noun         | =NN=  | block, table |
@@ -7,17 +23,17 @@ Following linguistic tags have been used for POS tagging and grammar.
 | determiner   | =DT=  | the, a       |
 | sentence     | =SEN= |              |
 | verb-command | =VBC= |              |
+| object       | =OBJ= |              |
   
 
 * Grammar
 Following grammar is supported by this package. Typical regex
 operators apply.
 
-: SEN => VBC | GS | PS | RS
-: VBC => (VB OBJ) | (V OBJ PP OBJ)
+: SEN => VBC | GS | REL | PS
 : GS => goal of VBC is (REL)*
 : PS => VBC if (REL)*
-: RS => REL
-: OBJ => DT? JJ* NN
+: VBC => (VB) | (VB OBJ) | (VB OBJ PP OBJ)
 : REL => OBJ is PP OBJ
+: OBJ => DT? JJ* NN
 
