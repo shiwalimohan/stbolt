@@ -26,7 +26,6 @@ public class ParserUtil {
 	}
 	
 	public String extractObjectRelation(String tagString, Map<String, Object> tagsToWords, int Counter){
-		System.out.println("in extractObjectRelation");
 		Pattern regex = Pattern.compile("(OBJ\\d* )(is\\d* )(PP\\d* )(OBJ\\d*)");
 		String tag = "REL";
 		Matcher m = regex.matcher(tagString);

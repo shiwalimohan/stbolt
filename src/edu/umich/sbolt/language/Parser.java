@@ -57,19 +57,19 @@ public class Parser {
 	//parse linguistic elements from the POS tagString.
 	public String getParse() {
 		ParserUtil util = new ParserUtil();
-		System.out.println("Sentence POS: " + tagString);
+//		System.out.println("Sentence POS: " + tagString);
 		tagString = util.extractObject(tagString, tagsToWords, Counter);
-		System.out.println("Parsed objects: " + tagString);
+//		System.out.println("Parsed objects: " + tagString);
 		tagString = util.extractObjectRelation(tagString, tagsToWords, Counter);
-		System.out.println("Parsed relations: " + tagString);
+//		System.out.println("Parsed relations: " + tagString);
 		tagString = util.extractVerbCommand(tagString, tagsToWords, Counter);
-		System.out.println("Parsed verb-command: " + tagString);
+//		System.out.println("Parsed verb-command: " + tagString);
 		tagString = util.extractGoalInfo(tagString, tagsToWords, Counter);
-		System.out.println("Parsed goal: " + tagString);
+//		System.out.println("Parsed goal: " + tagString);
 		tagString = util.extractProposalInfo(tagString, tagsToWords, Counter);
-		System.out.println("Parsed proposal: " + tagString);
+//		System.out.println("Parsed proposal: " + tagString);
 		tagString = util.extractSentence(tagString, tagsToWords, Counter);
-		System.out.println("Parsed sentence: " + tagString);
+//		System.out.println("Parsed sentence: " + tagString);
 		return tagString;
 	}
 	

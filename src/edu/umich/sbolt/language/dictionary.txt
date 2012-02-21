@@ -1,6 +1,6 @@
-NOUN: block table
-ADJECTIVE: red large
-VERB: put
+NOUN: block table ball pantry
+ADJECTIVE: red large blue small
+VERB: put get 
 DETERMINER: a the
-PREPOSITION: on
-ATTRIBUTE: color
+PREPOSITION: on in from
+ATTRIBUTE: color size
