@@ -6,3 +6,7 @@ bin/
 #### emacs 
 *~
 #*
+
+
+### java log files
+*.log
