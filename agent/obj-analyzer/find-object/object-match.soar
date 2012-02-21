@@ -1,0 +1,65 @@
+sp {find-object*propose*object-match
+   (state <s> ^name find-object
+              ^description <desc>
+              ^object <obj>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name object-match
+        ^match <obj>)
+}
+
+sp {find-object*reject*object-match*missing-adjective
+   (state <s> ^name find-object
+              ^description <desc>
+              ^operator <o> +)
+   (<o> ^name object-match
+        ^match.desc <obj-desc>)
+   (<desc> ^adjective <adj>)
+   (<obj-desc> -^<att> <adj>)
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {find-object*prefer*name-match
+   (state <s> ^name find-object
+              ^operator <o1> +
+              ^operator <o2> +
+              ^description.name <name>)
+   (<o1> ^name object-match
+        ^match.name <name>)
+   (<o2> ^name object-match
+        -^match.name)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {find-object*reject*if*wrong-name
+   (state <s> ^name find-object
+              ^operator <o> +
+              ^description.name <name>)
+   (<o> ^name object-match
+        ^match.name {<name2> <> <name>})
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {find-object*apply*object-match
+   (state <s> ^name find-object
+              ^operator <o>
+              ^superstate <ss>)
+   (<o> ^name object-match
+        ^match <obj>)
+-->
+   (<ss> ^object-match <obj>)
+}
+
+sp {find-object*apply*object-match*name-object
+   (state <s> ^name find-object
+              ^operator <o>
+              ^description <desc>)
+   (<desc> ^name <name>)
+   (<o> ^name object-match
+        ^match <obj>)
+-->
+   (<obj> ^name <name>)
+}

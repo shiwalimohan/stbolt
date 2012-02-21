@@ -1,0 +1,39 @@
+sp {elaborate*different*name
+   (state <s> ^name obj-analyzer
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> ^name <name>
+          ^comparisons <comp>)
+   (<obj2> -^name <name>)
+-->
+   (<comp> ^different <obj2>)
+}
+
+sp {elaborate*different*missing-adj
+   (state <s> ^name obj-analyzer
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> ^name <name>
+          ^comparisons <comp>
+          ^desc.<att> <adj>)
+   (<obj2> -^desc.<att2> <adj>)
+-->
+   (<comp> ^different <obj2>)
+}
+
+sp {elaborate*unique*false
+   (state <s> ^name obj-analyzer
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> -^comparisons.different <obj2>)
+-->
+   (<obj> ^unique false)
+}
+
+sp {elaborate*unique*true
+   (state <s> ^name obj-analyzer
+              ^object <obj>)
+   (<obj> -^unique false)
+-->
+   (<obj> ^unique true)
+}
