@@ -24,25 +24,13 @@ public class LingObject extends LinguisticEntity {
 	public String getDeterminer(){
 	    return determiner;
 	}
-	public void setDeterminer(String determiner){
-	    this.determiner = determiner;
-	}
 	
 	public Set<String> getAdjectives(){
 	    return adjective;
 	}
-	public void addAdjective(String adj){
-	    adjective.add(adj);
-	}
-	public void removeAdjective(String adj){
-	    adjective.remove(adj);
-	}
 	
 	public String getNoun(){
 	    return noun;
-	}
-	public void setNoun(String noun){
-	    this.noun = noun;
 	}
 	
 	public void extractLinguisticComponents(String string, Map tagsToWords){

@@ -21,19 +21,10 @@ public class VerbCommand extends LinguisticEntity{
         return verb;
     }
 
-    public void setVerb(String verb)
-    {
-        this.verb = verb;
-    }
 
     public LingObject getDirectObject()
     {
         return directObject;
-    }
-
-    public void setDirectObject(LingObject directObject)
-    {
-        this.directObject = directObject;
     }
 
     public String getPreposition()
@@ -41,20 +32,11 @@ public class VerbCommand extends LinguisticEntity{
         return preposition;
     }
 
-    public void setPreposition(String preposition)
-    {
-        this.preposition = preposition;
-    }
-
     public LingObject getSecondObject()
     {
         return secondObject;
     }
 
-    public void setSecondObject(LingObject secondObject)
-    {
-        this.secondObject = secondObject;
-    }
 	
 	
 	public void translateToSoarSpeak(Identifier messageId, String connectingString){

@@ -20,26 +20,15 @@ public class ObjectRelation extends LinguisticEntity{
 	public String getPreposition(){
 	    return preposition;
 	}
-	public void setPreposition(String preposition){
-	    this.preposition = preposition;
-	}
 	
     public LingObject getObject1()
     {
         return object1;
     }
-    public void setObject1(LingObject object1)
-    {
-        this.object1 = object1;
-    }
     
     public LingObject getObject2()
     {
         return object2;
-    }
-    public void setObject2(LingObject object2)
-    {
-        this.object2 = object2;
     }
 	
 
