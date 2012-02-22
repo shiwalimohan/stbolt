@@ -53,9 +53,9 @@ public class Messages implements IInputLinkElement
         
         
         messageId = parentIdentifier.CreateIdWME("message");
-        //Parser.getSoarSpeak(latestMessage, dictionary, messageId);
+        Parser.getSoarSpeak(latestMessage, dictionary, messageId);
         
-        
+        /*
         //Add the new message
         String[] words = latestMessage.split(" ");
         
@@ -70,7 +70,7 @@ public class Messages implements IInputLinkElement
             if(i != words.length - 1){
                 rest = rest.CreateIdWME("next");
             }
-        } 
+        } */
         
         messageChanged = false;
     }
