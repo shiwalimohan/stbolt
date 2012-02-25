@@ -16,17 +16,19 @@ ATTRIBUTE: color size shape
 
 * Tags
 Following linguistic tags have been used for POS tagging and grammar.
-| noun            | =NN=  | block, table                                                        |
-| adjective       | =JJ=  | red, large                                                          |
-| verb            | =VB=  | put                                                                 |
-| preposition     | =PP=  | on                                                                  |
-| determiner      | =DT=  | the, a                                                              |
-| object          | =OBJ= | a red large block, the table                                        |
-| verb-command    | =VBC= | put a red block on the table                                        |
-| object-relation | =REL= | a large block is on the table                                       |
-| goal-info       | =GS=  | goal of put a red block on the table is a red block is on the table |
-| proposal-info   | =PS=  | put if a red block is on the table                                  |
-| sentence        | =SEN= |                                                                     |
+| noun            		| =NN=  	| block table ball pantry cylinder                        				|
+| adjective       		| =JJ=  	| red green blue gray large medium small round square       			|
+| attribute				| =AT=		| color size shape														|
+| verb            		| =VB=  	| put                                                                 	|
+| preposition     		| =PP=  	| on                                                                  	|
+| determiner      		| =DT=  	| the, a                                                              	|
+| object          		| =OBJ= 	| a red large block, the table                                        	|
+| verb-command    		| =VBC= 	| put a red block on the table                                        	|
+| object-relation 		| =REL= 	| a large block is on the table                                       	|
+| goal-info       		| =GS=  	| goal of put a red block on the table is a red block is on the table 	|
+| proposal-info   		| =PS=  	| put if a red block is on the table                                  	|
+| object-identification	| =OBJID= 	| this is a round red cylinder										  	|
+| sentence        		| =SEN= 	|                                                                     	|
   
 
 * Grammar

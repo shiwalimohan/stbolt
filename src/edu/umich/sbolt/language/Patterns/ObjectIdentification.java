@@ -1,9 +1,10 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.language.LinguisticEntity;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 
 import sml.Agent;
@@ -18,9 +19,11 @@ public class ObjectIdentification extends LinguisticEntity{
     }
     
     public void translateToSoarSpeak(Identifier messageId, String connectingString){
-        Identifier objectId = messageId.CreateIdWME(connectingString);
+        messageId.CreateStringWME("type", "object-identification");
+        messageId.CreateStringWME("originator", "mentor");
+        Identifier fieldsId = messageId.CreateIdWME("fields");
         if(object != null){
-            object.translateToSoarSpeak(objectId,"object");
+            object.translateToSoarSpeak(fieldsId,"object");
         }
     }
 

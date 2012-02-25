@@ -1,10 +1,11 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.language.LinguisticEntity;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 
 import sml.Agent;

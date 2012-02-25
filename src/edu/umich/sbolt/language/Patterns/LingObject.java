@@ -1,4 +1,4 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.*;
 
+import edu.umich.sbolt.language.LinguisticEntity;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 
 import sml.*;
@@ -17,10 +18,6 @@ public class LingObject extends LinguisticEntity {
 	private String determiner = null;
 	private Set<String> adjective;
 	private String noun;
-	
-	LingObject (){
-		
-	}
 	
 	public String getDeterminer(){
 	    return determiner;

@@ -5,7 +5,7 @@
      	<Pattern name="NAME">
 			<Regex>REGULAR_EXPRESSION</Regex>		Java regular expression for the pattern to match
 			<Tag>TAG_STRING</Tag>					Tag to refer to this pattern by
-			<EntityType>ENTITY_TYPE</EntityType>	Name of this pattern (should correspond to a LinguisticEntity)
+			<EntityType>ENTITY_TYPE</EntityType>	Name of this pattern used by EntityFactory (should correspond to a LinguisticEntity)
 		</Pattern>	
 -->
 <Grammar>
@@ -39,8 +39,23 @@
 		<Tag>OBJID</Tag>
 		<EntityType>ObjectIdentification</EntityType>
 	</Pattern>
+	<Pattern name="BareAttributeResponse">
+		<Regex>(DT\d* )(attribute\d* )(AT\d*)</Regex>
+		<Tag>BAR</Tag>
+		<EntityType>BareAttributeResponse</EntityType>
+	</Pattern>	
+	<Pattern name="BareValueResponse">
+		<Regex>(DT\d* )(AT\d* )(JJ\d*)</Regex>
+		<Tag>BVR</Tag>
+		<EntityType>BareValueResponse</EntityType>
+	</Pattern>
+	<Pattern name="RecognitionQuestion">
+		<Regex>(which\d* )(is\d* )(OBJ\d*)</Regex>
+		<Tag>RQ</Tag>
+		<EntityType>RecognitionQuestion</EntityType>
+	</Pattern>
 	<Pattern name="Sentence">
-		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)|(OBJID\d*)</Regex>
+		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)</Regex>
 		<Tag>SEN</Tag>
 		<EntityType>Sentence</EntityType>
 	</Pattern>

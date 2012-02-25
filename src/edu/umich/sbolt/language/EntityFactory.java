@@ -1,5 +1,7 @@
 package edu.umich.sbolt.language;
 
+import edu.umich.sbolt.language.Patterns.*;
+
 public class EntityFactory
 {
     public static LinguisticEntity createEntity(String entityType){
@@ -17,6 +19,12 @@ public class EntityFactory
             return new VerbCommand();
         } else if(entityType.equals(ObjectIdentification.TYPE)){
             return new ObjectIdentification();
+        } else if(entityType.equals(BareAttributeResponse.TYPE)){
+            return new BareAttributeResponse();
+        } else if(entityType.equals(BareValueResponse.TYPE)){
+            return new BareValueResponse();
+        } else if(entityType.equals(RecognitionQuestion.TYPE)){
+            return new RecognitionQuestion();
         } else {
             return null;
         }

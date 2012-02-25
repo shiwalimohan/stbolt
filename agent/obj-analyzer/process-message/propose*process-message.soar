@@ -34,33 +34,6 @@ sp {elaborate*nl*input-link*message*value
         ^value <val>)
 }
 
-sp {elaborate*nl*input-link*message*adj
-   (state <s> ^name obj-analyzer
-              ^io.input-link.message <msg>
-              ^nl.input-link <nl-il>)
-   (<msg> ^words <w1>)
-   (<w1> ^word this
-         ^next <w2>)
-   (<w2> ^word is
-         ^next <w3>)
-   (<w3> ^word a
-         ^next <w4>)
-   (<w4> ^word <adj>
-         ^next <w5>)
-   (<w5> ^word <name>)
--->
-   (<nl-il> ^message <m>)
-   (<m> ^originator mentor
-        ^type attribute-relation-info
-        ^fields <f>)
-   (<f> ^relation <rel>)
-   (<rel> ^word IS
-          ^object <obj>
-          ^term <adj>)
-   (<obj> ^word <name>
-          ^specifier this)
-}
-
 sp {elaborate*nl*input-link*message*recognition-question
    (state <s> ^name obj-analyzer
               ^io.input-link.message <msg>

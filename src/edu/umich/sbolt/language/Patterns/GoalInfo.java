@@ -1,4 +1,4 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import java.util.regex.*;
+
+import edu.umich.sbolt.language.LinguisticEntity;
 
 import sml.Identifier;
 

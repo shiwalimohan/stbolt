@@ -92,7 +92,6 @@ public class Parser {
 	
     public void getSoarSpeak(String latestMessage, Identifier messageId) {
         this.languageSentence = latestMessage;
-        System.out.println(latestMessage);
         tagsToWords = new LinkedHashMap();
         mapTagToWord();
         this.tagString = getPOSTagString();
@@ -125,11 +124,7 @@ public class Parser {
 	public String getParse() {
 		ParserUtil util = new ParserUtil();
 		for(EntityPattern pattern : entityPatterns){
-		    System.out.println(pattern.entityType);
-            System.out.println(tagString);
 		    tagString = util.extractPattern(pattern, tagString, tagsToWords);
-            System.out.println(tagString);
-            System.out.println(tagsToWords);
 		}
 		/*
 //		System.out.println("Sentence POS: " + tagString);
@@ -152,8 +147,6 @@ public class Parser {
 	//Get Soar structure
 	public void traslateToSoarSpeak(Identifier messageId, String tagString){
 		//System.out.println("Translating sentence");
-	    Object o = tagsToWords.get(tagString);
-	    Sentence s = (Sentence)o;
-		((Sentence) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
+		((LinguisticEntity) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
 	}
 }

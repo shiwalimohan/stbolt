@@ -1,8 +1,10 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import edu.umich.sbolt.language.LinguisticEntity;
 
 import sml.Agent;
 import sml.Identifier;
@@ -45,12 +47,5 @@ public class Sentence extends LinguisticEntity{
 			type = "proposal-info";
 			component = (ProposalInfo)tagsToWords.get(m.group());
 		}
-
-        p = Pattern.compile("OBJID\\d*");
-        m = p.matcher(string);
-        if(m.find()){
-            type = "object-identification";
-            component = (ObjectIdentification)tagsToWords.get(m.group());
-        }
 	}
 }

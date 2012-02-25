@@ -2,6 +2,7 @@ package edu.umich.sbolt.language;
 
 import java.util.Set;
 
+import edu.umich.sbolt.language.Patterns.LingObject;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import sml.Identifier;
 
