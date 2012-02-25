@@ -1,6 +1,6 @@
-NOUN: block table ball pantry
-ADJECTIVE: red large blue small
+NOUN: block table ball pantry cylinder
+ADJECTIVE: red green blue gray large medium small round square
 VERB: put get 
 DETERMINER: a the
 PREPOSITION: on in from
-ATTRIBUTE: color size
+ATTRIBUTE: color size shape

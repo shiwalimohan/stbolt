@@ -10,6 +10,7 @@ import sml.Agent;
 import sml.Identifier;
 
 public class VerbCommand extends LinguisticEntity{
+    public static String TYPE = "VerbCommand";
 	private String verb = null;
 	private LingObject directObject = null;
 	private String preposition = null;

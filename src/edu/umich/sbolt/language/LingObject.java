@@ -13,6 +13,7 @@ import sml.*;
 
 
 public class LingObject extends LinguisticEntity {
+    public static String TYPE = "LingObject";
 	private String determiner = null;
 	private Set<String> adjective;
 	private String noun;

@@ -1,6 +1,6 @@
 sp {propose*comprehend-att
    (state <s> ^name obj-analyzer
-              ^attributes.unprocessed <att>)
+              ^needs-analyzed true)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name comprehend-att

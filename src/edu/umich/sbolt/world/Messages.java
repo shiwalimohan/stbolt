@@ -32,11 +32,14 @@ public class Messages implements IInputLinkElement
     
     private BOLTDictionary dictionary = new BOLTDictionary("src/edu/umich/sbolt/language/dictionary.txt"); 
     
+    private Parser parser;
+    
     public Messages(World world){
         latestMessage = "";
         latestMessageId = INVALID_ID;   
         messageChanged = false;
         this.world = world;
+        parser = new Parser(dictionary);
     }
 
 
@@ -53,7 +56,7 @@ public class Messages implements IInputLinkElement
         
         
         messageId = parentIdentifier.CreateIdWME("message");
-        Parser.getSoarSpeak(latestMessage, dictionary, messageId);
+        parser.getSoarSpeak(latestMessage, messageId);
         
         /*
         //Add the new message

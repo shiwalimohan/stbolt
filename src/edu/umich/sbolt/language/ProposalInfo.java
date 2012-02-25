@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import sml.Identifier;
 
 public class ProposalInfo extends LinguisticEntity{
+    public static String TYPE = "ProposalInfo";
 	private VerbCommand verbCommand;
 	private Set<ObjectRelation> objectRelation;
 

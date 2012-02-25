@@ -13,6 +13,7 @@ import sml.Identifier;
 
 // will parse only positive predicates for now
 public class ObjectRelation extends LinguisticEntity{
+    public static String TYPE = "ObjectRelation";
 	private String preposition;
 	private LingObject object1;
 	private LingObject object2;

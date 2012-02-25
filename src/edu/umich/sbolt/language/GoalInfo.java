@@ -10,8 +10,10 @@ import java.util.regex.*;
 import sml.Identifier;
 
 public class GoalInfo extends LinguisticEntity{
+    public static String TYPE = "GoalInfo";
 	private VerbCommand verbCommand;
 	private Set<ObjectRelation> objectRelation;
+
 	
 	public void extractLinguisticComponents(String string, Map tagsToWords) {
 		

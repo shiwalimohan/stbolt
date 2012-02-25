@@ -8,6 +8,7 @@ import sml.Agent;
 import sml.Identifier;
 
 public class Sentence extends LinguisticEntity{
+    public static String TYPE = "Sentence";
 	private String type = null;
 	private LinguisticEntity component;
 
@@ -44,6 +45,12 @@ public class Sentence extends LinguisticEntity{
 			type = "proposal-info";
 			component = (ProposalInfo)tagsToWords.get(m.group());
 		}
-		
+
+        p = Pattern.compile("OBJID\\d*");
+        m = p.matcher(string);
+        if(m.find()){
+            type = "object-identification";
+            component = (ObjectIdentification)tagsToWords.get(m.group());
+        }
 	}
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Grammar for sbolt 
+     Extend the grammar by adding a new Pattern element
+     Template:
+     	<Pattern name="NAME">
+			<Regex>REGULAR_EXPRESSION</Regex>		Java regular expression for the pattern to match
+			<Tag>TAG_STRING</Tag>					Tag to refer to this pattern by
+			<EntityType>ENTITY_TYPE</EntityType>	Name of this pattern (should correspond to a LinguisticEntity)
+		</Pattern>	
+-->
+<Grammar>
+	<Pattern name="LingObject">
+		<Regex>(DT\d* )?(JJ\d* )*(NN\d*)</Regex>
+		<Tag>OBJ</Tag>
+		<EntityType>LingObject</EntityType>
+	</Pattern>	
+	<Pattern name="ObjectRelation">
+		<Regex>(OBJ\d* )(is\d* )(PP\d* )(OBJ\d*)</Regex>
+		<Tag>REL</Tag>
+		<EntityType>ObjectRelation</EntityType>
+	</Pattern>	
+	<Pattern name="VerbCommand">
+		<Regex>((VB\d* )(OBJ\d* )(PP\d* )(OBJ\d*))|((VB\d* )(OBJ\d*))|(VB\d*)</Regex>
+		<Tag>VBC</Tag>
+		<EntityType>VerbCommand</EntityType>
+	</Pattern>	
+	<Pattern name="GoalInfo">
+		<Regex>(goal\d* )(of\d* )(VBC\d* )(is\d* )(REL\d*\s*)+</Regex>
+		<Tag>GS</Tag>
+		<EntityType>GoalInfo</EntityType>
+	</Pattern>	
+	<Pattern name="ProposalInfo">
+		<Regex>(VBC\d* )(if\d* )(REL\d*\s*)+</Regex>
+		<Tag>PS</Tag>
+		<EntityType>ProposalInfo</EntityType>
+	</Pattern>	
+	<Pattern name="ObjectIdentification">
+		<Regex>(this\d* )(is\d* )(OBJ\d*)</Regex>
+		<Tag>OBJID</Tag>
+		<EntityType>ObjectIdentification</EntityType>
+	</Pattern>
+	<Pattern name="Sentence">
+		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)|(OBJID\d*)</Regex>
+		<Tag>SEN</Tag>
+		<EntityType>Sentence</EntityType>
+	</Pattern>
+</Grammar>

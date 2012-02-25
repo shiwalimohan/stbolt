@@ -20,10 +20,14 @@ sp {att-rel-info*apply*modify-object*unknown
    (state <s> ^name att-rel-info
               ^operator.name modify-object
               ^adjective <adj>
-              ^object.desc <desc>)
-   (<desc> -^<att> <adj>)
+              ^object <obj>)
+   (<obj> -^desc.<att> <adj>
+           ^mapping <map>)
 -->
-   (<desc> ^unknown <adj>)
+   (<map> ^att-val-pair <av-pair>)
+   (<av-pair> ^att <att>
+              ^val <val>)
+   (<val> ^external <adj>)
 }
 
 sp {att-rel-info*apply*modify-object*ask-query
