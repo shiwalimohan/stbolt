@@ -1,6 +1,6 @@
-NOUN: block table ball pantry cylinder
+NOUN: block table ball pantry cylinder stove dishwasher
 ADJECTIVE: red green blue gray large medium small round square
-VERB: put get go
-DETERMINER: a the
+VERB: put get go pick
+DETERMINER: a the that
 PREPOSITION: on in from to
 ATTRIBUTE: color size shape
