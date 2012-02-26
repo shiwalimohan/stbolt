@@ -146,7 +146,6 @@ public class Parser {
 	
 	//Get Soar structure
 	public void traslateToSoarSpeak(Identifier messageId, String tagString){
-		//System.out.println("Translating sentence");
 		((LinguisticEntity) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
 	}
 }
