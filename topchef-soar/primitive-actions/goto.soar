@@ -1,0 +1,12 @@
+### propose goto for all known locations
+sp {propose*goto*locations
+   (state <s> ^location.pose <lp>)
+   (<lp> ^x <x>
+   	^y <y> 
+	^z <z>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name goto
+   	^actions.goto.location <loc>)
+   (<loc> ^x <x> ^y <y> ^z <z>)
+}

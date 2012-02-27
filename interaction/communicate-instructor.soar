@@ -6,7 +6,7 @@
 sp {top-state*propose*communicate*case1
    (state <s> ^topstate <s>
    	      -^io.input-link.instructor-messages.message <message>
-	      ^conversation.stack <cs>)
+	      ^interaction.stack <cs>)
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
    	  ^initiator agent)
@@ -23,7 +23,7 @@ sp {top-state*propose*communicate*case1
 sp {top-state*propose*communicate*case2
    (state <s> ^topstate <s>
    	      -^io.input-link.instructor-messages.message <message>
-	      ^conversation.stack <cs>)
+	      ^interaction.stack <cs>)
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
    	  ^initiator agent)
@@ -41,7 +41,7 @@ sp {top-state*propose*communicate*case2
 sp {top-state*retract*communicate
    (state <s> ^topstate <s>
    	      ^operator <op>
-	      ^conversation.stack <cs>)
+	      ^interaction.stack <cs>)
    (<cs> ^segment <seg>)
    (<seg> ^purpose.conveyed true)
    (<op> ^name communicate)
@@ -52,7 +52,7 @@ sp {top-state*retract*communicate
 ### mark a purpose conveyed true, if it has been succesfully communicated
 sp {topstate*apply*communicate
    (state <s> ^operator <op> 
-   	      ^conversation.stack <cs>)
+   	      ^interaction.stack <cs>)
    (<cs> ^segment.purpose <pur>)
    (<op> ^name communicate
    	 ^status success)

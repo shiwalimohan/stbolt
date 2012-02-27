@@ -1,0 +1,10 @@
+### propose put-down at current location for a grabbed object
+
+sp {propose*put-down*current-location
+   (state <s> ^self.grabbed-object <id>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name put-down
+   	 ^actions.put-down.location current)
+}
+

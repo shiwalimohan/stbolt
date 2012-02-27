@@ -1,0 +1,11 @@
+### propose pick-up for all known objects if the robot is in their vicinity, limiting the functionality of robot pick-up a little bit
+
+sp {propose*pickup*objects
+   (state <s> ^object <obj>)
+   (<obj> ^id <id>
+   	  ^close-by yes)
+ -->
+   (<s> ^operator <op> +)
+   (<op> ^name pick-up-object
+   	 ^actions.pick-up.object-id <id>)
+}

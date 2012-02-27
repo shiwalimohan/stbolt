@@ -1,0 +1,3 @@
+source elaborate-locations.soar
+source in-vicinity.soar
+source default.soar
