@@ -60,10 +60,25 @@ public class VerbCommand extends LinguisticEntity{
 			verb = tagsToWords.get(m.group()).toString();
 		}
 		
-		p = Pattern.compile("PP\\d*");
-		m = p.matcher(string);
-		if(m.find()){
-			preposition = tagsToWords.get(m.group()).toString();
+		
+		Pattern pp = Pattern.compile("PP\\d* OBJ\\d*");
+		Matcher mp = pp.matcher(string);
+		if (mp.find()){
+			StringBuffer sb = new StringBuffer();
+			String ppstring = mp.group().toString();
+			p = Pattern.compile("PP\\d*");
+			m = p.matcher(ppstring);
+			if(m.find()){
+				preposition = tagsToWords.get(m.group()).toString();
+			}
+			p = Pattern.compile("OBJ\\d*");
+			m = p.matcher(ppstring);
+			if(m.find()){
+				secondObject = (LingObject) tagsToWords.get(m.group());
+			}
+			mp.appendReplacement(sb,"PPH");
+			mp.appendTail(sb);
+			string = sb.toString();
 		}
 		
 		p = Pattern.compile("OBJ\\d*");
@@ -71,9 +86,7 @@ public class VerbCommand extends LinguisticEntity{
 		if(m.find()){
 			directObject = (LingObject) tagsToWords.get(m.group());
 		}
-		if(m.find()){
-			secondObject = (LingObject) tagsToWords.get(m.group());
-		}
+	
 	}
 	
 	public static VerbCommand createFromSoarSpeak(Identifier id, String name){
