@@ -1,5 +1,5 @@
-#### apply push-segment on the conversation.stack
-### substate to apply push-segment on the conversation.stack
+#### apply push-segment on the interaction.stack
+### substate to apply push-segment on the interaction.stack
 
 ### add present-id from epmem to be able to do lookup during the explanation phase
 
@@ -14,7 +14,7 @@ sp {push-segment*create-segment
    	      ^superstate <ss>
 	      ^epmem.present-id <eid>)
    (<ss> ^operator <sop>
-   	 ^conversation.stack.segment <prev-segment>)
+   	 ^interaction.stack.segment <prev-segment>)
    (<prev-segment> ^id <id>)
    (<sop> ^name push-segment
    	  ^initiator <init>
@@ -54,7 +54,7 @@ sp {push-segment*propose*mark-as-success
 -->
    (<s> ^operator <op> + =)
    (<op> ^name mark-as-success
-   	 ^category conversation-stack
+   	 ^category interaction-stack
    	 ^superoperator <sop>)
 
 }
@@ -64,7 +64,7 @@ sp {push-segment*apply*mark-as-success
    	      ^operator <op>
 	      ^segment <seg>
 	      ^superstate <ss>)
-   (<ss> ^conversation.stack <cs>)
+   (<ss> ^interaction.stack <cs>)
    (<cs> ^segment <prev-segment>)
    (<op> ^name mark-as-success
    	 ^superoperator <sop>)

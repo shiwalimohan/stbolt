@@ -1,4 +1,4 @@
-sp {apply*init-agent*topchef-soar
+sp {apply*init-agent*topchef-soark
    (state <s> ^operator <op>)
    (<op> ^name init-agent)
 -->

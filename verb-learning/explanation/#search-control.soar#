@@ -1,0 +1,174 @@
+#### search control for the selection space
+
+### seach only along the given situated example paths provided by the instructor
+#### -- query episodic memory for an 
+
+sp {walk-on-epmem
+   (state <s> ^name selection
+   	      ^superstate.superstate.next-id <mem-id>
+	      -^next-id <nid>)
+--> 
+   (<s> ^operator <op> + >)
+   (<op> ^name get-next-occurence
+   	 ^after-id <mem-id>)
+}
+
+sp {selection*retrieve*next-action
+   (state <s> ^name selection
+   	      ^superstate.superstate.next-id <mem-id>
+	      ^epmem.command <ecomm>
+	      ^learning-operator <verb-name>
+   	      ^next-id <nid>)
+-->
+   (<ecomm> ^query <q>)
+   (<q> ^conversation.stack.segment <top>
+   	^instructor-message.information <info>)
+   (<top> ^purpose.satisfaction.action-event.verb <subaction>
+	  ^next <next-segment>)
+   (<next-segment> ^purpose.satisfaction.action-event.verb <verb-name>)
+   (<ecomm> ^before <nid>
+   	    ^after <mem-id>)
+}
+
+
+sp {selection*prefer*action*from*retrieved*episode
+   (state <s> ^name selection
+   	      ^epmem.result.retrieved <ret>
+	      ^operator <op> +)
+   (<op> ^name evaluate-operator
+   	 ^superoperator <sop>)
+   (<ret> ^instructor-message.information.verb <verb-name>)
+   (<sop> ^name <verb-name>)
+-->
+   (<s> ^operator <op> >)
+}
+   
+
+#####################-------get-next-occurence--------------------########################
+
+
+sp {get-next-occurence*elaborate*begin-id
+   (state <s> ^name get-next-occurence
+   	      ^superstate.operator <sop>)
+   (<sop> ^name get-next-occurence
+   	  ^after-id <mem-id>)
+-->
+   (<s> ^after-id <mem-id>)
+   (dont-learn <s>)
+}
+
+
+### set the before-id as the current-id
+sp {get-next-occurence*propose*set-before-id
+   (state <s> ^name get-next-occurence
+   	      -^before-id <any>)
+  -->
+   (<s> ^operator <op> + >)
+   (<op> ^name set-before-id)
+}
+
+sp {get-next-occurence*apply*set-before-id
+   (state <s> ^operator <op> 
+   	      ^name get-next-occurence
+	      ^epmem.present-id <pid>)
+   (<op> ^name set-before-id)
+-->
+   (<s> ^before-id <pid>
+   	^last-before-id <pid>)
+}
+   	      
+
+sp {get-next-occurence*query*epmem
+   (state <s> ^name get-next-occurence
+   	      ^epmem.command <ecomm>
+	      ^learning-operator <verb-name>
+	      ^after-id <aid>
+	      ^before-id <bid>
+	      -^failed-query <q>)
+-->
+  (<s> ^operator <op> + >)
+  (<op> ^name find-episode
+  	^after-id <aid>
+	^before-id <bid>
+	^learning-operator <verb-name>)
+}
+
+
+sp {get-next-occurence*write-result-superstate
+   (state <s> ^superstate <ss>
+   	      ^failed-query <q>
+	      ^last-before-id <bid>)
+-->
+   (<ss> ^next-id <bid>)
+}
+
+
+
+#####################-------find-episode--------------------######################## 
+### given a set of before-id, after-id, learning-operator, find episode, if no such episode exist; return failure
+
+sp {find-episode*elaborate*state
+   (state <s> ^name find-episode
+   	      ^superstate.operator <sop>)
+   (<sop> ^name find-episode
+   	  ^after-id <aid>
+	  ^before-id <bid>
+	  ^learning-operator <verb-name>)
+-->
+   (<s> ^after-id <aid>
+   	^before-id <bid>
+	^learning-operator <verb-name>)
+   (dont-learn <s>)
+}
+
+sp {find-episode*cue-epmem
+   (state <s> ^name find-episode
+   	      ^after-id <aid>
+	      ^before-id <bid>
+	      ^learning-operator <verb-name>
+	      ^epmem.command <ecomm>)
+-->
+  (<ecomm> ^query <q>) 
+  (<q> ^conversation.stack.segment <top>)
+  (<top> ^purpose <p>)
+  (<p> ^type environmental-actions
+       ^satisfaction <ps>)
+  (<ps> ^action-event.verb <verb-name>)
+  (<ecomm> ^before <bid>
+  	   ^after <aid>)
+}
+
+sp {find-episode*failure
+   (state <s> ^name find-episode
+   	      ^epmem.result <eres>
+	      ^superstate <ss>)
+   (<eres> ^failure <query>)
+-->
+   (<ss> ^failed-query <query>)
+}
+
+sp {find-episode*failure*2
+   (state <s> ^name find-episode
+   	      ^epmem.result.memory-id <mid>
+	      ^superstate <ss>
+	      ^after-id <mid>)
+-->
+   (<ss> ^failed-query <mid>)
+}
+
+sp {find-episode*success
+   (state <s> ^name find-episode
+   	      ^epmem.result <eres>
+	      ^superstate <ss>
+	      ^after-id <aid>)
+   (<ss> ^before-id <bid>
+   	 ^last-before-id <lbid>)
+   (<eres> ^retrieved <ret>
+   	   ^memory-id <id> > <aid>)
+-->
+   (<ss> ^before-id <bid> -
+   	 ^before-id <id>
+	 ^last-before-id <bid>
+	 ^last-before-id <lbid> -)
+}
+

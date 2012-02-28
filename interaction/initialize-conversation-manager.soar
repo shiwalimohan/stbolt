@@ -3,7 +3,7 @@
 
 sp {topstate*apply*init*conversation-manager
    (state <s> ^operator <op>)
-   (<op> ^name initialize-agent)
+   (<op> ^name init-agent)
 -->
    (<s> ^interaction <conv>)
    (<conv> ^stack <cs>)

@@ -5,6 +5,7 @@ sp {propose*put-down*current-location
 -->
    (<s> ^operator <op> +)
    (<op> ^name put-down
-   	 ^actions.put-down.location current)
+   	 ^actions.put-down.location current
+	 ^category primitive-action)
 }
 

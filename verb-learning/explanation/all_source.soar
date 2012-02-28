@@ -1,0 +1,3 @@
+source explanation.soar
+source new-search-control.soar
+source detect-goal.soar

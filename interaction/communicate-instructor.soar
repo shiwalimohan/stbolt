@@ -18,7 +18,7 @@ sp {top-state*propose*communicate*case1
 	 ^string next-instruction)}
 
 
-### case 2: if the agent wants to initiate a conversation, and the purpose of the dialog is to to get the next subaction
+### case 2: if the agent wants to initiate a interaction, and the purpose of the dialog is to to get the next subaction
 
 sp {top-state*propose*communicate*case2
    (state <s> ^topstate <s>
@@ -89,8 +89,7 @@ sp {communicate*apply*put-on-oplink
    (<op> ^name put-on-oplink
    	 ^information <string>)
 -->
-   (<ol> ^agent-messages <am>)
-   (<am> ^message <message>)
+   (<ol> ^send-message <message>)
    (<message> ^string <string>
    	      ^next nil)
    (dont-learn <s>)
@@ -100,8 +99,7 @@ sp {communicate*set*status*success
    (state <s> ^name communicate
    	      ^io.output-link <ol>
 	      ^superstate.operator <sop>)
-   (<ol> ^agent-messages <am>)
-   (<am> ^message <message>)
+   (<ol> ^send-message <message>)
 -->
   (<sop> ^status success)
 }
@@ -128,13 +126,13 @@ sp {preference*communicate*sub-primitive-actions
 }
 
 
-### setting preferences wrt conversation-stack operators
+### setting preferences wrt interaction-stack operators
 
-sp {preference*communicate*conversation-stack
+sp {preference*communicate*interaction-stack
    (state <s> ^operator <op1> +
    	      ^operator <op2> +)
    (<op1> ^category communication)
-   (<op2> ^category conversation-stack)
+   (<op2> ^category interaction-stack)
 -->
    (<s> ^operator <op1> < <op2>)
 }

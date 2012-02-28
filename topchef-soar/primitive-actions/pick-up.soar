@@ -7,5 +7,6 @@ sp {propose*pickup*objects
  -->
    (<s> ^operator <op> +)
    (<op> ^name pick-up-object
-   	 ^actions.pick-up.object-id <id>)
+   	 ^actions.pick-up.object-id <id>
+	 ^category primitive-action)
 }
