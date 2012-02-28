@@ -5,7 +5,7 @@
 # handles messages responding to differs-from-group queries
 sp {process-message*propose*process-differs-from-group
    (state <s> ^name process-message
-             -^superstate.learned-att.internal <internal-att>
+             -^learned-att.internal <internal-att>
               ^current-query.query <q>
               ^message.type bare-attribute-response)
    (<q> ^type differs-from-group
@@ -20,26 +20,25 @@ sp {process-message*apply*process-differs-from-group
    (state <s> ^name process-message
               ^operator.name process-differs-from-group
               ^message <msg>
-              ^current-query.query.internal-att <internal-att>
-              ^top-state <top>)
+              ^current-query.query.internal-att <internal-att>)
    (<msg> ^type bare-attribute-response
           ^fields.attribute <response>)
 -->
-   (<top> ^learned-att <a>)
+   (<s> ^learned-att <a>)
    (<a> ^internal <internal-att>
         ^external <response>)
 }
 
 # removes other queries asking for the same attribute
-sp {process-message*apply*process-differs-from-group*remove*similar*queries
-   (state <s> ^name process-message
-              ^current-query.query <q>
-              ^superstate <ss>)
+sp {process-message*apply*learn-att*remove*differs-from-group
+   (state <s> ^operator <o>
+              ^top-state <top>)
+   (<o> ^name learn-att
+        ^learned-att.internal <internal-att>)
+   (<top> ^query {<q> <> <current-query>}
+          ^current-query.query <current-query>)
    (<q> ^type differs-from-group
-        ^internal-att <att>)
-   (<ss> ^query {<query2> <> <q>})
-   (<query2> ^type << differs-from-group shared-att-val >>
-             ^internal-att <att>)
+        ^internal-att <internal-att>)
 -->
-   (<ss> ^query <query2> -)
+   (<top> ^query <q> -)
 }

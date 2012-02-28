@@ -126,21 +126,6 @@ public class Parser {
 		for(EntityPattern pattern : entityPatterns){
 		    tagString = util.extractPattern(pattern, tagString, tagsToWords);
 		}
-		/*
-//		System.out.println("Sentence POS: " + tagString);
-		tagString = util.extractObject(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed objects: " + tagString);
-		tagString = util.extractObjectRelation(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed relations: " + tagString);
-		tagString = util.extractVerbCommand(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed verb-command: " + tagString);
-		tagString = util.extractGoalInfo(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed goal: " + tagString);
-		tagString = util.extractProposalInfo(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed proposal: " + tagString);
-		tagString = util.extractSentence(tagString, tagsToWords, Counter);
-//		System.out.println("Parsed sentence: " + tagString);
- * */
 		return tagString;
 	}
 	

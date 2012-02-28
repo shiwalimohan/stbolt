@@ -86,21 +86,29 @@ source attribute-value.soar
 # If there is an object with a known attribute and unknown value then 
 #	the user is asked what that value is
 
-source learn-att.soar
+pushd learn-att
+source learn-att_source.soar
+popd
 # learn-att
-# proposed when a structure is placed on the top-state that 
-#	contains information about a learned attribute
-# <s> ^learned-att <la>
+# Expects an operator proposal on any state which looks like:
+# <s> ^operator <o>
+# <o> ^name learn-att
+#     ^learned-att <la>
 # <la> ^internal 'word'
 #	   ^external 'word'
 
+source learn-att.soar
+# Proposes learn-att if there is a learned-att structure on the top state
+
 source learn-val.soar
 # learn-val
-# proposed when a structure is placed on the top-state that 
-#	contains information about a learned value
-# <s> ^learned-val <lv>
+# Expects an operator proposal on any state which looks like:
+# <s> ^operator <o>
+# <o> ^name learn-val
+#     ^learned-val <lv>
 # <lv> ^internal 'word'
 #	   ^external 'word'
 
 source preferences.soar
-# create-object > ask-query > learn-att = learn-val > attribute-val > comprehend-att
+# Preferences for top level operators
+# create-object > ask-query > process-message > comprehend-att > attribute-value

@@ -1,6 +1,6 @@
 # Learn the attribute
-sp {top-statee*propose*learn-att
-   (state <s> ^name obj-analyzer
+sp {process-message*propose*learn-att
+   (state <s> ^name process-message
               ^learned-att <la>)
    (<la> -^learned true)
 -->

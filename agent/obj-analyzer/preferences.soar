@@ -1,5 +1,5 @@
 # Preferences for top level operators
-# create-object > ask-query > learn-att = learn-val > attribute-value-query > comprehend-att
+# create-object > ask-query > learn-att > process-message > comprehend-att > attribute-value
 
 # Rank 1: create-object
 sp {elaborate*pref-rank*create-object
@@ -10,29 +10,29 @@ sp {elaborate*pref-rank*create-object
    (<o> ^pref-rank 1)
 }
 
-# Rank 2: process-message
-sp {elaborate*pref-rank*process-message
+# Rank 2: ask-query
+sp {elaborate*pref-rank*ask-query
    (state <s> ^name obj-analyzer
               ^operator <o> +)
-   (<o> ^name process-message)
+   (<o> ^name ask-query)
 -->
    (<o> ^pref-rank 2)
 }
 
-# Rank 3: learn-att or learn-val
-sp {elaborate*pref-rank*learn-att*learn-val
+# Rank 3: learn-att
+sp {elaborate*pref-rank*learn-att
    (state <s> ^name obj-analyzer
               ^operator <o> +)
-   (<o> ^name << learn-att learn-val >> )
+   (<o> ^name learn-att)
 -->
    (<o> ^pref-rank 3)
 }
 
-# Rank 4: attribute-value
-sp {elaborate*pref-rank*attribute-value-query
+# Rank 4: process-message
+sp {elaborate*pref-rank*process-message
    (state <s> ^name obj-analyzer
               ^operator <o> +)
-   (<o> ^name attribute-value-query)
+   (<o> ^name process-message)
 -->
    (<o> ^pref-rank 4)
 }
@@ -44,6 +44,15 @@ sp {elaborate*pref-rank*comprehend-att
    (<o> ^name comprehend-att)
 -->
    (<o> ^pref-rank 5)
+}
+
+# Rank 6: attribute-value
+sp {elaborate*pref-rank*attribute-value-query
+   (state <s> ^name obj-analyzer
+              ^operator <o> +)
+   (<o> ^name attribute-value-query)
+-->
+   (<o> ^pref-rank 6)
 }
 
 # Prefer a lower rank to a higher one

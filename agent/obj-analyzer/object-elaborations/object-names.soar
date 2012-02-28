@@ -1,0 +1,27 @@
+sp {elaborate*blockd
+   (state <s> ^object <obj>)
+   (<obj> ^id 1)
+-->
+   (<obj> ^name blockd)
+}
+
+sp {elaborate*blockc
+   (state <s> ^object <obj>)
+   (<obj> ^id 2)
+-->
+   (<obj> ^name blockc)
+}
+
+sp {elaborate*blockb
+   (state <s> ^object <obj>)
+   (<obj> ^id 3)
+-->
+   (<obj> ^name blockb)
+}
+
+sp {elaborate*blocka
+   (state <s> ^object <obj>)
+   (<obj> ^id 4)
+-->
+   (<obj> ^name blocka)
+}

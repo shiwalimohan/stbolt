@@ -8,18 +8,10 @@ sp {propose*complete-comprehend-att
 sp {apply*complete-comprehend-att
    (state <s> ^name comprehend-att
               ^operator.name complete-comprehend-att
+              ^att-type <att-type>
               ^att-to-comp <att>
-              ^superstate.attributes <atts>)
+              ^superstate <ss>)
 -->
-   (<atts> ^processed <att>)
+   (<ss> ^processed.<att-type> <att>)
 }
 
-sp {apply*complete-comprehend-att*remove*unprocessed-att
-   (state <s> ^name comprehend-att
-              ^operator.name complete-comprehend-att
-              ^att-to-comp <att>
-              ^superstate.attributes <atts>)
-   (<atts> ^unprocessed <att>)
--->
-   (<atts> ^unprocessed <att> -)
-}

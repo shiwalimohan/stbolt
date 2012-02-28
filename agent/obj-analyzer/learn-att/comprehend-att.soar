@@ -1,0 +1,14 @@
+sp {learn-att*propose*comprehend-att
+   (state <s> ^name learn-att
+              ^stored true
+             -^processed.<att-type> <attribute>
+              ^top-state.object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att-type {<< internal external >> <att-type>}
+              ^att.<att-type> <attribute>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name comprehend-att
+        ^attribute <attribute>
+        ^type <att-type>)
+}

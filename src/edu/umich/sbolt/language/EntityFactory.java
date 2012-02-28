@@ -25,6 +25,8 @@ public class EntityFactory
             return new BareValueResponse();
         } else if(entityType.equals(RecognitionQuestion.TYPE)){
             return new RecognitionQuestion();
+        } else if(entityType.equals(DescriptionRequest.TYPE)){
+            return new DescriptionRequest();
         } else {
             return null;
         }

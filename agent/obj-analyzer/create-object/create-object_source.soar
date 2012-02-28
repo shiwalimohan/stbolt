@@ -27,10 +27,14 @@ source lookup-val.soar
 #   When the results from a value query to SM are ready this operator processes them
 #		by updating the internal representation with the matching
 
+source comprehend-att.soar
+# If this is the only create-object operator left, 
+# then run comprehend-att to analyze the new object
+
 source preferences.soar
 #	Organizes preferences so that the order of operators is as follows:
-#	init-create-object, copy-att-val, retrieve-att then process-att-query, 
-#				retrieve-val then process-val-query, complete-create-object
+# 	Preferences for create-object operators
+# 	copy-att-val > lookup-att > lookup-val > comprehend-att > complete-create-object
 
 source complete-create-object.soar
 # 	When nothing more can be done to create the object, it copies the result

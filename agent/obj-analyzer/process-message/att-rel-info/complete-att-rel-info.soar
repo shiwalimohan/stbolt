@@ -13,3 +13,14 @@ sp {att-rel-info*apply*complete-att-rel-info
 -->
    (<ss> ^processed <m>)
 }
+
+sp {att-rel-info*apply*complete-att-rel-info*query
+   (state <s> ^name att-rel-info
+              ^operator.name complete-att-rel-info
+              ^object.desc.unknown <adj>
+              ^top-state <top>)
+-->
+   (<top> ^query <q>)
+   (<q> ^type type-of-value
+        ^value <adj>)
+}

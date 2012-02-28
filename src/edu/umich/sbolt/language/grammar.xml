@@ -54,6 +54,11 @@
 		<Tag>RQ</Tag>
 		<EntityType>RecognitionQuestion</EntityType>
 	</Pattern>
+	<Pattern name="DescriptionRequest">
+		<Regex>(describe\d* )(this\d*)</Regex>
+		<Tag>DR</Tag>
+		<EntityType>DescriptionRequest</EntityType>
+	</Pattern>
 	<Pattern name="Sentence">
 		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)</Regex>
 		<Tag>SEN</Tag>

@@ -11,8 +11,14 @@ source init-process-message.soar
 # Initializes the structures on the process-message substate
 #	Copies a message id and the current-query if one exists
 
-# Different types of messages to handle
+source learn-att.soar
+# Learns an attribute when a query response gives the answer
 
+source learn-val.soar
+# Learns a value when a query response gives the answer
+
+
+# Different types of messages to handle
 
 source attribute-value.soar
 #	Query for an unknown value for a known attribute
@@ -30,6 +36,9 @@ source shared-att-val.soar
 #		Associates the word with the unknown attribute and learns it
 
 source type-of-value.soar
+
+source description-request.soar
+# Returns the description of the object currently being pointed to
 
 pushd att-rel-info
 source att-rel-info_source.soar

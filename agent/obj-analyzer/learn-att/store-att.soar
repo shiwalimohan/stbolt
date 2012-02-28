@@ -1,0 +1,31 @@
+# Stores the attribute matching into smem
+sp {learn-att*propose*store-att
+   (state <s> ^name learn-att
+             -^stored
+              ^learned-att <la>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name store-att
+        ^learned-att <la>)
+}
+
+# Stores the learned attribute in semantic memory
+sp {learn-att*apply*store-att*update*smem
+   (state <s> ^name store-att
+              ^operator <o>
+              ^smem.command <smem-cmd>)
+   (<o> ^name store-att
+        ^learned-att <la>)
+   (<la> ^internal <internal-att>
+         ^external <external-att>)
+-->
+   (<smem-cmd> ^store <att>)
+   (<att> ^type attribute ^internal <internal-att> ^external <external-att>)
+} 
+
+sp {learn-att*apply*store-att*mark*stored
+   (state <s> ^name learn-att
+              ^operator.name store-att)
+-->
+   (<s> ^stored true)
+}

@@ -10,7 +10,7 @@ sp {propose*ask-query
               ^query <q>
              -^current-query)
 -->
-   (<s> ^operator <o> + = >)
+   (<s> ^operator <o> + =)
    (<o> ^name ask-query
         ^query <q>
         ^output-query <oq>
