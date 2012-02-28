@@ -17,12 +17,12 @@ sp {push-segment*create-segment
    	 ^interaction.stack.segment <prev-segment>)
    (<prev-segment> ^id <id>)
    (<sop> ^name push-segment
-   	  ^initiator <init>
+   	  ^originator <init>
 	  ^purpose-type <type>
 	  ^purpose-satisfaction <sat>)
 -->
    (<s> ^segment <seg>)
-   (<seg> ^initiator <init>
+   (<seg> ^originator <init>
     	  ^purpose <p>
 	  ^id ( + <id> 1)
 	  ^next <prev-segment>

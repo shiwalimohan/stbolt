@@ -6,3 +6,6 @@ source resolve-stack.soar
 source associate-purpose-instructor-message.soar
 source elaborate-dialog-expectation.soar
 source initialize-conversation-manager.soar
+source preferences.soar
+source elaborations.soar
+source nl.soar

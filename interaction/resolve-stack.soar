@@ -18,7 +18,7 @@ sp {propose*push-segment*case-1
 -->
    (<s> ^operator <op> +)
    (<op> ^name push-segment
-   	 ^initiator agent	
+   	 ^originator agent	
 	 ^purpose-type get-further-instruction
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
@@ -71,7 +71,7 @@ sp {propose*push-segment*interaction-stack*case*4
    -->
    (<s> ^operator <op> +)
    (<op> ^name push-segment
-   	 ^initiator instructor
+   	 ^originator instructor
 	 ^purpose-type environmental-action
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
@@ -123,7 +123,7 @@ sp {propse*push-segment*case-6
 -->
    (<s> ^operator <op> +)
    (<op> ^name push-segment
-   	 ^initiator agent
+   	 ^originator agent
 	 ^purpose-type get-next-subaction
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
@@ -143,7 +143,7 @@ sp {propose*push-segment*interaction-stack*case*7
    -->
    (<s> ^operator <op> +)
    (<op> ^name push-segment
-   	 ^initiator instructor
+   	 ^originator instructor
 	 ^purpose-type explanation
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
@@ -210,7 +210,7 @@ sp {propose*push-segment*interaction-stack*case*10
 -->
    (<s> ^operator <op> +)
    (<op> ^name push-segment
-   	 ^initiator instructor
+   	 ^originator instructor
 	 ^purpose-type question-fact
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)

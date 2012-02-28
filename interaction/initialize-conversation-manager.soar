@@ -11,4 +11,7 @@ sp {topstate*apply*init*conversation-manager
    (<cs> ^segment <seg>)
    (<seg> ^id 0
    	  ^purpose none)
+   (<s> ^nl <snl>) 
+   (<snl> ^input-link <snl-il>
+   	  ^output-link <snl-ol>)
 }

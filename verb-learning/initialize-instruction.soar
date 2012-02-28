@@ -15,4 +15,4 @@ sp {topstate*apply*init*instruction
 	  ^next none
 	  ^last-performed-action none)
    (dont-learn <s>)
-  }
+}

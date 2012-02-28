@@ -1,15 +1,13 @@
 ### communicate with the instructor
-
-
 ### case 1: if the agent wants to initiate a conversation, and the purpose of the dialog is to elicit an action/fact out of human
 
 sp {top-state*propose*communicate*case1
    (state <s> ^topstate <s>
-   	      -^io.input-link.instructor-messages.message <message>
+   	      -^nl.input-link.message <message>
 	      ^interaction.stack <cs>)
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
-   	  ^initiator agent)
+   	  ^originator agent)
    (<p> ^type get-further-instruction)
 -->
    (<s> ^operator <op> +)
@@ -22,11 +20,11 @@ sp {top-state*propose*communicate*case1
 
 sp {top-state*propose*communicate*case2
    (state <s> ^topstate <s>
-   	      -^io.input-link.instructor-messages.message <message>
+   	      -^nl.input-link.message <message>
 	      ^interaction.stack <cs>)
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
-   	  ^initiator agent)
+   	  ^originator agent)
    (<p> ^type get-next-subaction)
 -->
    (<s> ^operator <op> +)
@@ -69,29 +67,29 @@ sp {communicate*elaborate*query
    (<s> ^string <string>)
 }
 
-sp {communicate*propose*put-on-oplink
+sp {communicate*propose*put-on-nl-oplink
    (state <s> ^name communicate
    	      ^string <string>
-	      -^io.input-link.instructor-messages.message <ins>)
+	      -^communicated <string>)
 -->
    (<s> ^operator <op> +)
-   (<op> ^name put-on-oplink
+   (<op> ^name put-on-nl-oplink
    	 ^category communication
-	 ^kind non-atomic
    	 ^information <string>)
 }
 
-sp {communicate*apply*put-on-oplink
+sp {communicate*apply*put-on-nl-oplink
    (state <s> ^name communicate
    	      ^operator <op> 
-	      ^io.output-link <ol>
+	      ^nl.output-link <ol>
 	      ^superstate.operator <sop>)
-   (<op> ^name put-on-oplink
+   (<op> ^name put-on-nl-oplink
    	 ^information <string>)
 -->
-   (<ol> ^send-message <message>)
-   (<message> ^string <string>
+   (<ol> ^message <message>)
+   (<message> ^first.word <string>
    	      ^next nil)
+   (<s> ^communicated <string>)
    (dont-learn <s>)
 }
 
@@ -104,35 +102,3 @@ sp {communicate*set*status*success
   (<sop> ^status success)
 }
 	
-
-### setting preferences wrt primitive actions
-
-sp {preference*communicate*actions
-   (state <s> ^operator <op1> +
-   	      ^operator <op2> +) 
-   (<op2> ^category communication)
-   (<op1> ^category primitive-action)
--->
-   (<s> ^operator <op2> > <op1>)
-}
-
-sp {preference*communicate*sub-primitive-actions
-   (state <s> ^operator <op1> +
-   	      ^operator <op2> +) 
-   (<op2> ^category communication)
-   (<op1> ^category sub-primitive-action)
--->
-   (<s> ^operator <op2> > <op1>)
-}
-
-
-### setting preferences wrt interaction-stack operators
-
-sp {preference*communicate*interaction-stack
-   (state <s> ^operator <op1> +
-   	      ^operator <op2> +)
-   (<op1> ^category communication)
-   (<op2> ^category interaction-stack)
--->
-   (<s> ^operator <op1> < <op2>)
-}

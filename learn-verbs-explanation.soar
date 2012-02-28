@@ -24,3 +24,24 @@ sp {apply*init-agent
 -->
    (<s> ^topstate <s>)
 }
+
+## Elaborate a state as non-atomic/atomic if the operator proposed in superstate in non-atomic/atomic
+
+sp {elaborate*atomicity
+   (state <s> ^superstate.operator <sop>)
+   (<sop> ^kind <atom>)
+-->
+   (<s> ^kind <atom>)
+}
+
+
+
+## The wait operator which gets selected when an action is executing 
+sp {top-state*propose*wait
+    (state <s> ^choices none ^kind non-atomic)
+   -{ (<s> ^operator <o*1>)
+      (<o*1> ^name wait)}
+    -->
+    (<s> ^operator <q> + >)
+    (<q> ^name wait +)
+}
