@@ -64,8 +64,9 @@ public class World implements IInputLinkElement
     }
     
     public void destroyMessage(Integer id){
-    	if (messages.getIdNumber() == id)
+    	if (messages.getIdNumber() == id){
     		messages.destroy();
+    	}
     	else return;
     }
     

@@ -113,7 +113,7 @@ public class OutputLinkHandler implements OutputEventInterface
 			return;
 		}
 		
-		sbolt.getWorld().destroyMessage(Integer.getInteger(messageId.ConvertToIntElement().toString()));
+		sbolt.getWorld().destroyMessage(Integer.parseInt(messageId.FindByAttribute("id", 0).GetValueAsString()));
 		messageId.CreateStringWME("status", "complete");
 		
 	}
