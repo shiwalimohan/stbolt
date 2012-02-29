@@ -63,6 +63,12 @@ public class World implements IInputLinkElement
         }
     }
     
+    public void destroyMessage(Integer id){
+    	if (messages.getIdNumber() == id)
+    		messages.destroy();
+    	else return;
+    }
+    
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
         for(String sensable : observation.sensables){
