@@ -9,6 +9,17 @@ sp {elaborate*object-description
    (<desc> ^<external-att> <external-val>)
 }
 
+sp {elaborate*object-description*unknown-att
+   (state <s> ^name obj-analyzer
+              ^object <obj>)
+   (<obj> ^desc <desc>
+          ^mapping.att-val-pair <av-pair>)
+   (<av-pair> -^att.external
+              ^val.external <external-val>)
+-->
+   (<desc> ^unknown <external-val>)
+}
+
 sp {elaborate*object-external-description*adj
    (state <s> ^name obj-analyzer
               ^object <obj>)

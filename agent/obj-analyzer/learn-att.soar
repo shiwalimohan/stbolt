@@ -1,82 +1,10 @@
-# learn-att
-# proposed when a structure is placed on the top-state that 
-#	contains information about a learned attribute
-# <s> ^learned-att <la>
-# <la> ^internal 'word'
-#	   ^external 'word'
-
-sp {propose*learn-att
+# Learn the attribute
+sp {top-statee*propose*learn-att
    (state <s> ^name obj-analyzer
               ^learned-att <la>)
+   (<la> -^learned true)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> +)
    (<o> ^name learn-att
         ^learned-att <la>)
 }
-
-# Stores the learned attribute in semantic memory
-sp {apply*learn-att*update*smem
-   (state <s> ^name obj-analyzer
-              ^operator <o>
-              ^smem.command <smem-cmd>)
-   (<o> ^name learn-att
-        ^learned-att <la>)
-   (<la> ^internal <internal-att>
-         ^external <external-att>)
--->
-   (<smem-cmd> ^store <att>)
-   (<att> ^type attribute ^internal <internal-att> ^external <external-att>)
-}
-
-# Updates all objects that have that attribute with the external representation
-sp {apply*learn-att*update*object
-   (state <s> ^name obj-analyzer
-              ^operator <o>
-              ^object <obj>)
-   (<o> ^name learn-att
-        ^learned-att <la>)
-   (<la> ^internal <internal-att>
-         ^external <external-att>)
-   (<obj> ^mapping.att-val-pair.att <att>)
-   (<att> ^internal <internal-att>)
--->
-   (<obj> ^changed true)
-   (<att> ^external <external-att>)
-}
-
-# Removes the learned-att from the top-state
-sp {apply*learn-att*remove*learned-att
-   (state <s> ^name obj-analyzer
-              ^operator <o>
-              ^learned-att <la>)
-   (<o> ^name learn-att
-        ^learned-att <la>)
--->
-   (<s> ^learned-att <la> -)
-}
-
-# Removes that attribute from the attributes list on the top state
-sp {apply*learn-att*remove*from*attributes
-   (state <s> ^name obj-analyzer
-              ^operator <o>
-              ^attributes <atts>)
-   (<o> ^name learn-att
-        ^learned-att.internal <la>)
-   (<atts> ^<processed> <la>)
--->
-   (<atts> ^<processed> <la> -)
-}
-
-# Marks all other attributes unprocessed
-sp {apply*learn-att*make*atts*unprocessed
-   (state <s> ^name obj-analyzer
-              ^operator <o>
-              ^attributes <atts>)
-   (<o> ^name learn-att
-        ^learned-att.internal <> <att>)
-   (<atts> ^processed <att>) 
--->
-   (<atts> ^processed <att> -
-           ^unprocessed <att>)
-}   
-              

@@ -1,0 +1,15 @@
+sp {propose*complete-learn-att
+   (state <s> ^name learn-att
+              ^learned-att <la>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name complete-learn-att)
+}
+
+sp {apply*complete-learn-att
+   (state <s> ^name learn-att
+              ^operator.name complete-learn-att
+              ^learned-att <la>)
+-->
+   (<la> ^learned true)
+}

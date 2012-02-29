@@ -1,10 +1,11 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.language.LinguisticEntity;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 
 import sml.Agent;
@@ -13,6 +14,7 @@ import sml.Identifier;
 
 // will parse only positive predicates for now
 public class ObjectRelation extends LinguisticEntity{
+    public static String TYPE = "ObjectRelation";
 	private String preposition;
 	private LingObject object1;
 	private LingObject object2;

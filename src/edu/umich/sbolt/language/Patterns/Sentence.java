@@ -1,13 +1,16 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.language.LinguisticEntity;
+
 import sml.Agent;
 import sml.Identifier;
 
 public class Sentence extends LinguisticEntity{
+    public static String TYPE = "Sentence";
 	private String type = null;
 	private LinguisticEntity component;
 
@@ -44,6 +47,5 @@ public class Sentence extends LinguisticEntity{
 			type = "proposal-info";
 			component = (ProposalInfo)tagsToWords.get(m.group());
 		}
-		
 	}
 }

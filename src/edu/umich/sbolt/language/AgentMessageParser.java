@@ -2,6 +2,7 @@ package edu.umich.sbolt.language;
 
 import java.util.Set;
 
+import edu.umich.sbolt.language.Patterns.LingObject;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import sml.Identifier;
 
@@ -21,8 +22,10 @@ public class AgentMessageParser
             message = translateCommonAttributeQuestion(fieldsId);
         } else if(type.equals("attribute-presence-question")){
             message = translateAttributePresenceQuestion(fieldsId);
-        } else if(type.equals("attribute-question")){
+        } else if(type.equals("type-of-value")){
             message = translateAttributeQuestion(fieldsId);
+        } else if(type.equals("description")){
+            message = translateDescription(fieldsId);
         }
         return message;
     }
@@ -30,10 +33,10 @@ public class AgentMessageParser
     private static String translateDifferentAttributeQuestion(Identifier id){
         Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(id, "exception");
         String exceptionStr = getExceptionString(exceptions);
-        LingObject similarObject = LingObject.createFromSoarSpeak(id, "similar-object");
-        Set<LingObject> differentObjects = LingObject.createAllFromSoarSpeak(id, "different-object");
-        String message = String.format("How does %s differ from ", similarObject.toString());
-        for(LingObject obj : differentObjects){
+        LingObject differentObject = LingObject.createFromSoarSpeak(id, "different-object");
+        Set<LingObject> similarObjects = LingObject.createAllFromSoarSpeak(id, "similar-object");
+        String message = String.format("How does %s differ from ", differentObject.toString());
+        for(LingObject obj : similarObjects){
             message += obj.toString() + "; ";
         }
         return exceptionStr + message;
@@ -87,5 +90,7 @@ public class AgentMessageParser
         return exceptionStr;
     }
     
-
+    private static String translateDescription(Identifier id){
+        return LingObject.createFromSoarSpeak(id, "object").toString();
+    }
 }

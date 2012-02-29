@@ -39,7 +39,7 @@ sp {create-object*apply*lookup-att*success
    (<att-node> ^external <external-att>)
 }
 
-# Failure - mark the attribute unprocessed
+# Failure - mark new attribute unprocessed
 sp {create-object*apply*lookup-att*failure*mark*unprocessed
    (state <s> ^name create-object
               ^operator <o>
@@ -47,20 +47,25 @@ sp {create-object*apply*lookup-att*failure*mark*unprocessed
    (<o> ^name lookup-att
         ^internal <internal-att>
         ^external failure)
+   (<atts> -^att.internal <internal-att>)
 -->
-   (<atts> ^unprocessed <internal-att>)
+   (<atts> ^att <att>)
+   (<att> ^internal <internal-att>
+          ^processed false)
 }
 
-# Failure - unmark the attribute processed
+# Failure - mark existing attribute unprocessed
 sp {create-object*apply*lookup-att*failure*unmark*processed
    (state <s> ^name create-object
               ^operator <o>
-              ^superstate.attributes <atts>)
+              ^superstate.attributes.att <att>)
    (<o> ^name lookup-att
         ^internal <internal-att>
         ^external failure)
-   (<atts> ^processed <internal-att>)
+   (<att> ^internal <internal-att>
+           ^processed true)
 -->
-   (<atts> ^processed <internal-att> -)
+   (<att> ^processed true - 
+          ^processed false)
 }
    

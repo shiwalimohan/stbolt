@@ -1,40 +1,47 @@
+# Preferences for create-object operators
+# copy-att-val > lookup-att > lookup-val > comprehend-att > complete-create-object
 
-# If a query result exists then give it a best preference so it is processed immediately
-sp {elaborate*process-query*best-preference
+# Rank 1: create-object
+sp {create-object*elaborate*pref-rank*copy-att-val
    (state <s> ^name create-object
-              ^operator <o1> +)
-   (<o1> ^name << process-att-query process-val-query >>)
+              ^operator <o> +)
+   (<o> ^name copy-att-val)
 -->
-   (<s> ^operator <o1> >)
+   (<o> ^pref-rank 1)
 }
 
-# Only performs complete-create-object when nothing is left to do
-sp {elaborate*complete-create-object*worst-preference
+# Rank 2: lookup-att
+sp {create-object*elaborate*pref-rank*lookup-att
    (state <s> ^name create-object
-              ^operator <o1> +)
-   (<o1> ^name complete-create-object)
+              ^operator <o> +)
+   (<o> ^name lookup-att)
 -->
-   (<s> ^operator <o1> <)
+   (<o> ^pref-rank 2)
 }
 
-# Prefer copying an attribute-value from the input-link over retrieving information
-sp {prefer*copy-att-val*over*retrieve
+# Rank 3: lookup-val
+sp {create-object*elaborate*pref-rank*lookup-val
    (state <s> ^name create-object
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name copy-att-val)
-   (<o2> ^name << retrieve-att retrieve-val >>)
+              ^operator <o> +)
+   (<o> ^name lookup-val)
 -->
-   (<s> ^operator <o1> > <o2>)
+   (<o> ^pref-rank 3)
 }
 
-# Prefer retrieving an attribute over a value
-sp {prefer*retrieve-att*over*retrieve-val
+# Rank 4: comprehend-att
+sp {create-object*elaborate*pref-rank*comprehend-att
    (state <s> ^name create-object
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name retrieve-att)
-   (<o2> ^name retrieve-val)
+              ^operator <o> +)
+   (<o> ^name comprehend-att)
 -->
-   (<s> ^operator <o1> > <o2>)
+   (<o> ^pref-rank 4)
+}
+
+# Rank 5: complete-create-object
+sp {create-object*elaborate*pref-rank*complete-create-object
+   (state <s> ^name create-object
+              ^operator <o> +)
+   (<o> ^name complete-create-object)
+-->
+   (<o> ^pref-rank 5)
 }

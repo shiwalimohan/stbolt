@@ -16,28 +16,6 @@ sp {att-rel-info*apply*modify-object*name
    (<obj> ^name <name>)
 }
 
-sp {att-rel-info*apply*modify-object*unknown
-   (state <s> ^name att-rel-info
-              ^operator.name modify-object
-              ^adjective <adj>
-              ^object.desc <desc>)
-   (<desc> -^<att> <adj>)
--->
-   (<desc> ^unknown <adj>)
-}
-
-sp {att-rel-info*apply*modify-object*ask-query
-   (state <s> ^name att-rel-info
-              ^operator.name modify-object
-              ^adjective <adj>
-              ^object.desc <desc>
-              ^top-state <top>)
-   (<desc> -^<att> <adj>)
--->
-   (<top> ^query <q>)
-   (<q> ^type type-of-value
-        ^value <adj>)
-}
 
 sp {att-rel-info*apply*modify-object*mark-modified
    (state <s> ^name att-rel-info

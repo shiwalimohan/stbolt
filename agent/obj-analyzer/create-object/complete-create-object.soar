@@ -4,7 +4,7 @@
 
 sp {create-object*propose*complete-create-object
    (state <s> ^name create-object
-             -^object.mapping.att-val-pair.{<< att val >>}.needs-retrieval true)
+              ^object <obj>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name complete-create-object)
@@ -17,6 +17,5 @@ sp {create-object*apply*complete-create-object
               ^object <obj>)
 -->
    (<ss> ^object <obj>)
-   (<obj> ^changed true)
 }
               

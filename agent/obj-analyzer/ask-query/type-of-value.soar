@@ -11,6 +11,6 @@ sp {elaborate*ask-query*type-of-value
    (<q> ^type type-of-value
         ^value <v>)
 -->
-   (<oq> ^type attribute-question)
+   (<oq> ^type type-of-value)
    (<f> ^value <v>)
 }

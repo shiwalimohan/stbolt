@@ -1,4 +1,4 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,11 +7,15 @@ import java.util.Set;
 
 import java.util.regex.*;
 
+import edu.umich.sbolt.language.LinguisticEntity;
+
 import sml.Identifier;
 
 public class GoalInfo extends LinguisticEntity{
+    public static String TYPE = "GoalInfo";
 	private VerbCommand verbCommand;
 	private Set<ObjectRelation> objectRelation;
+
 	
 	public void extractLinguisticComponents(String string, Map tagsToWords) {
 		

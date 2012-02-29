@@ -1,4 +1,4 @@
-package edu.umich.sbolt.language;
+package edu.umich.sbolt.language.Patterns;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,9 +7,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umich.sbolt.language.LinguisticEntity;
+
 import sml.Identifier;
 
 public class ProposalInfo extends LinguisticEntity{
+    public static String TYPE = "ProposalInfo";
 	private VerbCommand verbCommand;
 	private Set<ObjectRelation> objectRelation;
 
