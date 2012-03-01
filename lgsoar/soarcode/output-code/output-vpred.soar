@@ -2,7 +2,7 @@
 ###################### these output terms for verbal external and internal arguments
 # output the external and internal argument (if it exists) for the verb
 sp {global*apply*processing-complete*output*ext/int*arg
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name processing-complete 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -12,13 +12,14 @@ sp {global*apply*processing-complete*output*ext/int*arg
    -^annotation in-n-n)
 -->
    (<thisroleval> ^annotation pred-dumped +)
-   (exec collect_pred <thisnucval> |(| <thisroleval> |)|)
+   #(exec collect_pred <thisnucval> |(| <thisroleval> |)|)
+   (<fp> ^predicate (concat <thisnucval> |(| <thisroleval> |)|))
 #   (write (crlf) ext/int-arg: <thisnucval> |(| <thisroleval> |)|)
 }
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
 sp {global*apply*processing-complete*output*int*pred-adj
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name processing-complete 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -29,13 +30,14 @@ sp {global*apply*processing-complete*output*int*pred-adj
 -->
    (<thisroleval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie 
-   (exec collect_pred <thisnucval> |(| <thesubject> |)|)
+   #(exec collect_pred <thisnucval> |(| <thesubject> |)|)
+   (<fp> ^predicate (concat <thisnucval> |(| <thesubject> |)|))
 #   (write (crlf) int*pred-adj: <thisnucval> |(| <thesubject> |)|)
 }
 
 # intransitive predicate terms
 sp {global*apply*processing-complete*output*predicate-itrx
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name processing-complete 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -43,14 +45,15 @@ sp {global*apply*processing-complete*output*predicate-itrx
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<idea> ^annotation pred-dumped + ^annotation intransitive +)
-   (exec collect_pred <nucval> |(| <extval> |)|)
+   (<fp> ^predicate (concat <nucval> |(| <extval> |)|))
+   #(exec collect_pred <nucval> |(| <extval> |)|)
 #   (write (crlf) predicate-itrx: | | <nucval> |(| <extval> |)|)
 }
 
 
 # transitive predicate terms
 sp {global*apply*processing-complete*output*predicate-trx
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name processing-complete 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -60,7 +63,8 @@ sp {global*apply*processing-complete*output*predicate-trx
    (<extval> ^annotation pred-dumped +)
    (<intval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped + ^annotation transitive +)
-   (exec collect_pred <nucval> |(| <extval> |,| <intval> |)|)
+   (<fp> ^predicate (concat <nucval> |(| <extval> |,| <intval> |)|))
+   #(exec collect_pred <nucval> |(| <extval> |,| <intval> |)|)
 #   (write (crlf) predicate-trx: | | <nucval> |(| <extval> |,| <intval> |)|)
 }
 
@@ -68,7 +72,7 @@ sp {global*apply*processing-complete*output*predicate-trx
 
 # ditransitive predicates
 sp {global*apply*processing-complete*output*predicate-ditrx
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name processing-complete 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -81,7 +85,8 @@ sp {global*apply*processing-complete*output*predicate-ditrx
    (<intval> ^annotation pred-dumped +)
    (<int2val> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +)
-   (exec collect_pred <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|)
+   (<fp> ^predicate (concat <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|))
+   #(exec collect_pred <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|)
 #   (write (crlf) predicate-ditrx: | | <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|)
 }
 

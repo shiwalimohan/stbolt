@@ -32,7 +32,7 @@ import edu.byu.lgsoar.utils.Debugger;
  * @author Nathan Glenn
  *
  */
-public class SoarApplication {
+public class SoarApplication implements PrintEventInterface {
 	private Agent agent = null;
 	private Kernel kernel = null;
 	private String smDB = null;
@@ -273,7 +273,7 @@ public class SoarApplication {
 		return currentSentence;
 	}
 	
-	public void runHeadlessWithFile(String filename) {
+	public void runHeadlessWithFile(String filename, boolean debug) {
 		kernel = Kernel.CreateKernelInCurrentThread();
 		agent = kernel.CreateAgent("LGSoar");
 		addRHShandler("readsentence",EnHandlers.getStringFromFile());
@@ -287,8 +287,16 @@ public class SoarApplication {
 		addRHShandler("collect_pred", PredHandlers.collectPred());
 		addRHShandler("output_preds", PredHandlers.outputPreds());
 		setGraphing(false);
+		//addSMLprintHandlers(this);
+		
+		if (debug) {
+			debugger();
+		}
 		agent.ExecuteCommandLine("source " + filename);
 		agent.RunSelf(1000);
+		if (agent.GetDecisionCycleCounter() > 990) {
+			System.out.println("Agent reached dc " + agent.GetDecisionCycleCounter() + ", terminating.");
+		}
 	}
 	
 ////////PRIVATE METHODS////////
@@ -313,6 +321,15 @@ public class SoarApplication {
 		//because we ALWAYS use it
 		agent.ExecuteCommandLine("alias matches ms");
 
+		addSMLprintHandlers(this);
+
+	}
+
+	@Override
+	public void printEventHandler(int eventID, Object data, Agent agent,
+			String message) {
+		// remove first character, which is an extraneous newline
+		System.out.println(message.substring(1, message.length()));
 	}
 
 }

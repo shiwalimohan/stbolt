@@ -31,7 +31,11 @@ public class SingleParse extends SoarApplication{
 		SingleParse sp = new SingleParse();
 		sp.setAgentName(Constants.getProperty("AGENT_NAME"));
 		if (args.length >= 2) {
-			sp.runHeadlessWithFile(args[1]);
+			boolean debug = false;
+			if (args.length >= 3 && args[2].equals("--debug")) {
+				debug = true;
+			}
+			sp.runHeadlessWithFile(args[1], debug);
 		}		
 		else {
 			sp.init();

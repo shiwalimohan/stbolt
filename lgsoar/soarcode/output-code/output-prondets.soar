@@ -1,7 +1,7 @@
 # dumps feature values (definite or indefinite)
 # The man kicked a bottle.
 sp {global*apply*processing-complete*cligdump*feature-feature
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets>)
+   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name processing-complete)
@@ -12,7 +12,8 @@ sp {global*apply*processing-complete*cligdump*feature-feature
    (<pointer> ^nuc <nounvalue>)
 -->
    (<pointer> ^feat-dumped <feavalue> +)
-   (exec collect_pred <feavalue> |(| <pointer> |)|)
+ #  (exec collect_pred <feavalue> |(| <pointer> |)|)
+   (<fp> ^predicate (concat <feavalue> |(| <pointer> |)|))
  #  (write (crlf) feature-feature: | | <feavalue> |(| <pointer> |)|)
 }
 

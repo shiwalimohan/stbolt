@@ -1,13 +1,48 @@
-# some LG-Soar productions modify the words output by the parser,
-# but those are architectural (created by add-wme) so Soar 9 won't let
-# the old values be removed
+# these productions replace sentence2input.soar for the simplified version
+# in that case, the sentence comes in on input-link already parsed
 
-# workaround by elaborating a copy
-
-sp {elaborate*dearchitecturify-lg-output-word
-   (state <s> ^superstate nil
-              ^io.lgsentence.words.word <wd>)
-   (<wd> ^lg-wvalue <wval>) # java code modified to call them these
+sp {top-state*lg*init
+  (state <s> ^superstate nil
+             ^io <io>
+             ^io.input-link.lg <lg>)
 -->
-   (<wd> ^wvalue <wval>)
+  (<io> ^lgsentence <lg>)
+
+   ## attributes for old code not yet updated
+   (<s> ^analysis <ana> + ^proto-DRS <pdrs> +)
+   
+   ## trigger a refresh of the output
+   (<s> ^predoutput-refresh yes +)
+   (<s> ^final-predicates <fp>)
 }
+
+sp {elaborate*clear-output
+  :o-support
+   (state <s> ^superstate nil ^type state ^io <io> ^predoutput-refresh yes)
+   (<io> ^output-preds <ops>)
+-->
+   (<io> ^output-preds <ops> -)
+   (<s> ^predoutput-refresh yes -)
+}
+
+sp {global*apply*processing-complete*graph
+    :o-support
+    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io>)
+        (<o> ^name processing-complete ^annotation preds-output)
+       (<refsets> ^refs <refs>)
+        (<refs> ^count <count>)
+         (<io> ^lgsentence <anylgio> ^output-preds <iop>)
+         -->
+         (<o> ^complete?x yes +)
+         (<refsets> ^refs <refs> -)
+         (<s> ^halt immediately +)
+     }
+
+sp {elaborate*report-predicate
+   (state <s> ^superstate nil
+              ^final-predicates.predicate <p>)
+-->
+   (write (crlf) <p>)
+}
+     
+    

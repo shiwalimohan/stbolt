@@ -1,17 +1,12 @@
 package com.soartech.bolt;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.regex.Pattern;
 
 import net.sf.jlinkgrammar.Linkage;
 import net.sf.jlinkgrammar.Sentence;
 
 import sml.Agent;
+import sml.Identifier;
 import sml.smlPrintEventId;
 import sml.Agent.PrintEventInterface;
 import sml.Kernel;
@@ -59,19 +54,17 @@ public class SoarRunner implements PrintEventInterface {
 			kernel = Kernel.CreateKernelInCurrentThread();
 		}
 		agent = kernel.CreateAgent("LGSoar");
-		kernel.AddRhsFunction("readsentence", readSentence(), this);
-		kernel.AddRhsFunction("getlgparse", callLGParser(), this);
-		kernel.AddRhsFunction("predclose", predClose(), this);
-		kernel.AddRhsFunction("predinit", predInit(), this);
-		kernel.AddRhsFunction("collect_pred", collectPred(), this);
-		kernel.AddRhsFunction("output_preds", outputPreds(), this);
 
-		if (!silent) {
-			agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+		if (silent) {
+			agent.ExecuteCommandLine("watch 0");
 		}
 		
+		
 		agent.LoadProductions(lgSoarLoaderPath, debug);
-
+		agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+		
+		loadSentenceOnInput();
+			
 		if (debug) {
 			try {
 				SWTApplication swtApp = new SWTApplication();
@@ -94,127 +87,29 @@ public class SoarRunner implements PrintEventInterface {
 	@Override
 	public void printEventHandler(int eventID, Object data, Agent agent,
 			String message) {
-		// remove first character, which is an extraneous newline
-		System.out.println(message.substring(1, message.length()));		
+		// remove extraneous newline
+		message = message.substring(1, message.length());
+	
+		String[] lines = message.split("\n");
+		for (int i=0; i<lines.length; i++) {
+			// filter out "the agent halted." messages
+			if (!lines[i].endsWith("halted.")) {
+				System.out.println(lines[i]);
+			}
+		}
 	}
 	
-	public static Kernel.RhsFunctionInterface readSentence(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-				return sentence;
-			}
-		};
-	}
-	
-	
-	private static String predList = "";
-	private static HashMap<String,String> hm=new HashMap<String,String>();
-
-	public static Kernel.RhsFunctionInterface predClose(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-				predList = predList + argument;
-
-				return "";
-			}
-		};
-	}
-	
-	public static Kernel.RhsFunctionInterface predInit(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-
-				predList = "";
-				hm.clear();
-				
-				return "";
-			}
-		};
-	}
-	
-	
-
-	public static Kernel.RhsFunctionInterface collectPred(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-
-		        hm.put(argument, "t");
-		
-				predList = predList + argument;
-				
-				return "";
-			}
-		};
-	}
-	
-	public static Kernel.RhsFunctionInterface outputPreds(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-
-				Kernel kernel = ((SoarRunner) data).kernel;
-				
-				String ioWME = argument;
-				
-				
-		        Set s=hm.entrySet();
-		        Iterator it=s.iterator();
-
-		        while(it.hasNext())
-		        {
-		            Map.Entry m =(Map.Entry)it.next();
-		            String key= (String) m.getKey();
-
-		            String cmd = "add-wme " + ioWME + " predicate |" + key + "|";
-		            kernel.ExecuteCommandLine(cmd, agentName);
-		            System.out.println(key);
-		        }
-						
-				return "";
-			}
-		};
-	}
-	private static String lgsentWME;
-	private static String agName;
-	
-	public static Kernel.RhsFunctionInterface callLGParser(){
-		return new Kernel.RhsFunctionInterface() {
-			@Override
-			public String rhsFunctionHandler(int eventID, Object data,
-					String agentName, String functionName, String argument) {
-				
-				agName = agentName;
-				
-				int space1 = argument.indexOf(" ");
-				lgsentWME = argument.substring(0, space1);
-				String lgIn = argument.substring(space1+1);
-				String[] argsx2 = {lgIn};
-				
-				try {
-					net.sf.jlinkgrammar.parser.doIt(argsx2);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				return "success";
-			}
-		};
+	private void loadSentenceOnInput() {
+		try {
+			net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// called from parser.java
-	public static void loadLinkage (Linkage thisLinkage, Sentence sent) {
-		
-        int     rWordIndex;
+	public static void loadLinkage(Linkage thisLinkage, Sentence sent) {
+		int     rWordIndex;
         int     lWordIndex;
         String  linkLabel;
         
@@ -227,12 +122,15 @@ public class SoarRunner implements PrintEventInterface {
         thisLinkage.linkage_set_current_sublinkage(0);
         int numLinks = thisLinkage.linkage_get_num_links();
         
+        // make a root lg-input WME
+        Identifier lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
+        
         // make a wme for the count
-        kernel.ExecuteCommandLine("add-wme " + lgsentWME + " count 0", agName);
+        agent.CreateIntWME(lgInputRoot, "count", 0);
         	
         // make a wme for the words
-        kernel.ExecuteCommandLine("add-wme " + lgsentWME + " words *", agName);
-        String wordsWME = getLastWME(lgsentWME, agName, kernel);
+        Identifier wordsWME = agent.CreateIdWME(lgInputRoot, "words");
+        
         int numWords = sent.sentence_length();
         // now load the words
         for (int wordx = 0; wordx < numWords; wordx++) {
@@ -242,17 +140,14 @@ public class SoarRunner implements PrintEventInterface {
             if (wordval.equals(".")) {
             	wordval = "|.|";
             }
-            kernel.ExecuteCommandLine("add-wme " + wordsWME + " word *", agName);
-            String latestWME = getLastWME(wordsWME, agName, kernel);
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " wcount " + wordx, agName); 
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " lg-wvalue " + wordval, agName); 
+            Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
+            agent.CreateIntWME(wordWME, "wcount", wordx);
+            agent.CreateStringWME(wordWME, "wvalue", wordval);
         }
-        
-        // DWL: we had tokens in the old code, but they don't work in the java version; we're not really using them anyway         
-    
+            
         // make a wme for the links
-        kernel.ExecuteCommandLine("add-wme " + lgsentWME + " links *", agName);
-        String linksWME = getLastWME(lgsentWME, agName, kernel);
+        Identifier linksWME = agent.CreateIdWME(lgInputRoot, "links");
+        
         // now load the links
         for (int linkIndex = 0; linkIndex < numLinks; linkIndex++) {
             rWordIndex = thisLinkage.linkage_get_link_rword(linkIndex);
@@ -266,36 +161,16 @@ public class SoarRunner implements PrintEventInterface {
             lsubtype = lsubtype.replaceAll(pattern, "$2");
             
             // add ^link information for this link
-            kernel.ExecuteCommandLine("add-wme " + linksWME + " link *", agName);
-            String latestWME = getLastWME(linksWME, agName, kernel);
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " lvalue " + linkLabel, agName);
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " lwleft " + lWordIndex, agName);
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " lwright " + rWordIndex, agName);            
-            kernel.ExecuteCommandLine("add-wme " + latestWME + " ltype " + ltype, agName);
+            Identifier linkWME = agent.CreateIdWME(linksWME, "link");
+                        
+            agent.CreateStringWME(linkWME, "lvalue", linkLabel);
+            agent.CreateIntWME(linkWME, "lwleft", lWordIndex);
+            agent.CreateIntWME(linkWME, "lwright", rWordIndex);
+            agent.CreateStringWME(linkWME, "ltype", ltype);
+           
             if (lsubtype.length() > 0) {
-                kernel.ExecuteCommandLine("add-wme " + latestWME + " ltypesub " + lsubtype, agName);	
+                agent.CreateStringWME(linkWME, "ltypesub", lsubtype);
             }
         }		
-	}
-	public static String getLastWME(String thiswme, String agentName, Kernel kernel) {
-		// do a WME print
-		String wmedump = kernel.ExecuteCommandLine("p -d 0 -i " + thiswme, agentName);
-		String[] temp = wmedump.split("\\n");
-	    Pattern p2 = Pattern.compile("[\\s]+");
-	    //sort the elements by timestamp
-		TreeMap<Integer,String> wmeTimeStamps = new TreeMap<Integer,String>();
-		for(int i = 0; i < temp.length; i++) {
-			// parse out the timestamps and wmeID's
-			String tempStr = temp[i];
-	        String[] tempStrs = p2.split(tempStr);
-	        String timeStamp = tempStrs[0].substring(1,tempStrs[0].length() - 1);
-	        int timeStampInt = Integer.parseInt(timeStamp); 
-	        String wmeId = tempStrs[3].substring(0,tempStrs[3].length() - 1);
-
-	        wmeTimeStamps.put(timeStampInt, wmeId);
-		}
-		// get the value of the max timestamp (i.e. the latest one, just created)
-		String latestWME = wmeTimeStamps.get(wmeTimeStamps.lastKey());
-		return latestWME;
 	}
 }

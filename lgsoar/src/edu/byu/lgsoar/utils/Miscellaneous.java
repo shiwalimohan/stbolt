@@ -51,7 +51,7 @@ public class Miscellaneous {
 	 * words, period at the end).
 	 */
 	public static String toString(@SuppressWarnings("rawtypes") Queue queue){
-		System.out.println("Stringing queue: " + queue.toString());
+		//System.out.println("Stringing queue: " + queue.toString());
 		Object[] sa = queue.toArray();
 		
 		StringBuffer buf = new StringBuffer("\"");

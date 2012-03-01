@@ -7,8 +7,8 @@ learn --off
 #### CHANGE THIS FOR YOUR MACHINE!!
 pushd /opt/bolt/stbolt/lgsoar/
 
-echo \n"Loading LG parser interface..."
-source soarcode/sentence2input.soar
+#echo \n"Loading LG parser interface..."
+#source soarcode/sentence2input.soar
 
 #load the refSoar productions
 echo \n"Loading RefSoar..."
