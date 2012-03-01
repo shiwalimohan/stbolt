@@ -216,9 +216,9 @@ public class parser {
             // Normally you loop over linkages; here we only choose the first
             
             // SBW removed for lgsoar-simple
-            //Linkage myLinkage = new Linkage(0, sent, opts);
+            Linkage myLinkage = new Linkage(0, sent, opts);
 
-            //EnHandlers.loadLinkage(myLinkage, sent);
+            SoarRunner.loadLinkage(myLinkage, sent);
             return;
         }
     }
