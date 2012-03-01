@@ -1,4 +1,4 @@
-source initialize-instruction.soar
+source initialize-verb-learning.soar
 source execute-purpose.soar
 #pushd ./explanation
 #source all_source.soar
