@@ -388,7 +388,7 @@ sp {global*apply*processing-complete*links
 
 sp {global*apply*processing-complete*links
     :o-support
-    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io> ^runtimeinfo.tempfile <tfile>)
+    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io> )
    -{ (<s> ^anaphor <a*2>)
       (<a*2> ^centers <c*1>)
       (<c*1> ^center <c*2>)
@@ -424,21 +424,6 @@ sp {global*apply*processing-complete*links
 #    (exec perlmkgviz)
 #    (<s> ^halt immediately +)
    (<o> ^annotation preds-output +)
-}
-
-sp {global*apply*processing-complete*graph
-    :o-support
-    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io> ^runtimeinfo.tempfile <tfile>)
-    (<o> ^name processing-complete ^annotation preds-output)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<io> ^lgsentence <anylgio> ^output-preds <iop>)
-    -->
-    (<o> ^complete?x yes +)
-    (<refsets> ^refs <refs> -)
-    (cmd command-to-file <tfile> print --depth 2 <iop>)
-    (exec perlmkgviz)
-    (<s> ^halt immediately +)
 }
 
 

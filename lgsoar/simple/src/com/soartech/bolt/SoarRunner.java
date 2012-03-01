@@ -16,7 +16,7 @@ import edu.umich.soar.debugger.SWTApplication;
 
 public class SoarRunner implements PrintEventInterface {
 	public static String dictionaryPath = "/opt/bolt/stbolt/lgsoar/data/link";
-	private static String lgSoarLoaderPath = "/opt/bolt/stbolt/lgsoar/soarcode/lg93init.soar";
+	private static String lgSoarLoaderPath = "/opt/bolt/stbolt/lgsoar/soarcode/simple-init.soar";
 	
 	private static Agent agent = null;
 	private static Kernel kernel = null;

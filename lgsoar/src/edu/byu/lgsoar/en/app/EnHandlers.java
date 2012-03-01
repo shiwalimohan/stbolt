@@ -151,7 +151,7 @@ public class EnHandlers {
             kern.ExecuteCommandLine("add-wme " + wordsWME + " word *", agName);
             String latestWME = Miscellaneous.getLastWME(wordsWME, agName, kern);
             kern.ExecuteCommandLine("add-wme " + latestWME + " wcount " + wordx, agName); 
-            kern.ExecuteCommandLine("add-wme " + latestWME + " lg-wvalue " + wordval, agName); 
+            kern.ExecuteCommandLine("add-wme " + latestWME + " wvalue " + wordval, agName); 
         }
         
         // DWL: we had tokens in the old code, but they don't work in the java version; we're not really using them anyway         
