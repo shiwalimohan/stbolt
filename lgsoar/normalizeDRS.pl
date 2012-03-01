@@ -3,8 +3,8 @@
 @DRS = ();
 foreach $line (<>) {
 	chomp $line;
-	if ($line =~/\(.*\)/) {
-		push @DRS, $line;
+	if ($line =~/(\S+\(.*\))/) {
+		push @DRS, $1;
 	}
 }
 

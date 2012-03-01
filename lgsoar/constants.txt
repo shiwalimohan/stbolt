@@ -20,9 +20,9 @@ DISPLAY_GRAPHS=true
 GRAPH_WME_NUM=1= //0 for no numbers in your trees, 1 for numbers. 1 is better for debugging, 0 is prettier.
 DEBUG_GRAPHING=true= //causes all graphs to be saved in a directory structure in your temp directory
 
-GRAPH_SYNTAX=true
-GRAPH_SEMANTICS=true
-GRAPH_ARSET=true
+GRAPH_SYNTAX=false
+GRAPH_SEMANTICS=false
+GRAPH_ARSET=false
 GRAPH_DRS=true
 
 LGP_DATA_DIR=/opt/bolt/stbolt/lgsoar/data/link

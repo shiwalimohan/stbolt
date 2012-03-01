@@ -5,7 +5,7 @@ excise --all
 learn --off
 
 #### CHANGE THIS FOR YOUR MACHINE!!
-pushd /opt/bolt/lgsoar/LG-Soar-2.0.0/
+pushd /opt/bolt/stbolt/lgsoar/
 
 echo \n"Loading LG parser interface..."
 source soarcode/sentence2input.soar
@@ -36,6 +36,8 @@ source soarcode/output-code/output-imperative.soar
 source soarcode/output-code/output-prondets.soar
 
 source soarcode/lgsentenceparse.soar
+
+source soarcode/lg-soartech-extra.soar
 popd
 
 # one productions that needs to be cleaned up

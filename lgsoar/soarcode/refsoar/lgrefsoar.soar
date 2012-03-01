@@ -865,7 +865,8 @@ sp	{anaphor*propose*resolve*I-me*as*first
 sp	{anaphor*propose*resolve*I-me*as*unidentified-speaker
 	(state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
 	(<ana-ref> ^center <ana-center> -^strong-binding -^pointer
-			   ^head.wvalue << I me >>)
+			   ^head.wvalue << I me >>
+     -^head.individual-identified)
 	(<ante-center> ^blocked? no ^kind first ^ccount <ccount> ^ref nil)
 -->
 	(<s> ^operator <o> +)
@@ -949,15 +950,52 @@ sp	{anaphor*apply*resolve*special-fill
 	(<ana-ref> ^special empty -)
 	(<o> ^complete?x yes +)}
 
-sp	{anaphor*apply*unidentified
+sp	{anaphor*apply*unidentified*oppart
 	(state <s> ^operator <o> ^next-unidentified-individual <number>)
 	(<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> ^complete? no)
 	(<ana-ref> ^head <head>)
 	(<head> ^wvalue <wvalue>)
 -->
-	(<head> ^wvalue <wvalue> - <number> +)
-	(<s> ^next-unidentified-individual <number> - (+ <number> 1) +)
 	(<o> ^complete?x yes +)}
+
+  #SBW 
+
+sp	{anaphor*apply*unidentified*statepart
+	(state <s> ^operator <o> ^next-unidentified-individual <number>)
+	(<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> ^complete? no)
+	(<ana-ref> ^head <head>)
+	(<head> ^wvalue <wvalue>)
+-->
+   (<head> ^individual-identified true)
+#   (<head> ^wvalue <wvalue> -)
+#   (<head> ^wvalue <number>)
+   (<s> ^next-unidentified-individual <number> -)
+   (<s> ^unlatched-next-unidentified-individual (+ <number> 1))
+}
+
+sp {anaphor*propose*mark-individual-identified
+   (state <s> ^unlatched-next-unidentified-individual <uli>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name mark-individual-identified)
+}
+
+sp {anaphor*apply*mark-individual-identified
+   (state <s> ^operator.name mark-individual-identified
+              ^unlatched-next-unidentified-individual <uli>)
+-->
+   (<s> ^next-unidentified-individual <uli>
+        ^unlatched-next-unidentified-individual <uli> -)
+}
+
+sp {anaphor*prefer*mark-individual-identified
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name mark-individual-identified)
+   (<o2> ^name << resolve add-arg >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
 
 sp	{anaphor*apply*pos-resolve
 	(state <s> ^operator <o> ^refsets.refs <refs>)
