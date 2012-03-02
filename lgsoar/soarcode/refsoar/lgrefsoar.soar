@@ -889,6 +889,7 @@ sp	{anaphor*propose*resolve*ellipsis*as*verb
 	(state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
 	(<ana-ref> ^center <ana-center> ^head.wvalue nil -^pointer)
 	(<ante-center> ^blocked? no ^kind verb ^ccount <ccount> ^ref <ante-ref>)
+   (<ante-ref> ^pointer <any>) # SBW
 -->
 	(<s> ^operator <o> +)
 	(<o> ^name resolve ^kind verb-ellipsis ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>

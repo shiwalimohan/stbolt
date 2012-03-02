@@ -15,54 +15,54 @@ if ($#ARGV >= 0) {
 	# derived from the 1/27/12 ppt emailed from Craig Schlenoff
 	# This is an <adj?> <noun>.
 	["This is a red block.",
-		"this(N2) red(N2) DEF(N2) is(N2,ball)",
+		"",
 		1],
 	["This is a block.", 
-		"this(N2) DEF(N2) is(N2,block)",
+		"",
 		1],
 	["This is a ball.", 
-		"this(N2) DEF(N2) is(N2,ball)",
+		"",
 		1],
 	["That is a block.", 
-		"that(N2) DEF(N2) is(N2,block)",
+		"",
 		2],
 	["This is a yellow block.", 
-		"this(N2) yellow(N2) DEF(N2) is(N2,block)",
+		"",
 		1],
 	["That is a red ball.", 
-		"red(N2) DEF(N2) is(N2,red)",
+		"",
 		2],
 	# These are <adj?> <noun>.
 	["These are blue blocks.", 
-		"these(N2) blue(N2) are(N2,blocks)",
+		"blocks(N2) blue(N2) these(N2)",
 		1],	
 	["These are blocks.", 
-		"these(N2) are(N2,blocks)",
+		"blocks(N2) these(N2)",
 		1],
-	["Those are red balls.", 
-		"red(N2) those(N2) are(N2,balls)",
+	["Those are yellow blocks.", 
+		"blocks(N2) those(N2) yellow(N2)",
 		2],
 	# The <adj?> <noun> is <spatial relation> the <adj?> <noun>.
 	["The red ball is left of the blue block.",
-		"left-of(N3,N6) is(N3,ball) DEF(N3) blue(N6) DEF(N6) red(N3) is(N6,block)",
+		"",
 		1],
 	["The red ball is left of that blue block.",
-		"left-of(N3,N6) is(N3,ball) DEF(N3) blue(N6) DEF(N6) red(N3) is(N6,block) that(N6)",
+		"",
 		2],
 	["The block is right of the ball.",
-		"is(N2,block) DEF(N2) DEF(N4) is(N4,ball) above(N2,N4)",
+		"",
 		1],
 	["The ball is on the table.",
-		"on(N2,N4) table(N4) DEF(N2) is(N2,ball) DEF(N4)",
+		"DEF(N2) DEF(N4) ball(N2) on(N2,N4) table(N4)",
 		1],
 	["The red block is on the blue block.",
-		"on(N3,N6) is(N3,block) DEF(N3) blue(N6) DEF(N6) red(N3) is(N6,block)",
+	 "DEF(N3) DEF(N6) block(N3) block(N6) blue(N6) on(N3,N6) red(N3)",
 		1],
 	["The yellow ball is behind the white ball.",
-		"is(N3,ball) DEF(N3) DEF(N6) behind(N3,N6) white(N6) is(N6,ball) yellow(N3)",
+		"DEF(N3) DEF(N6) ball(N3) ball(N6) behind(N3,N6) white(N6) yellow(N3)",
 		1],
 	["That purple block is in front of the ball.",
-		"is(N3,block) in-front-of(N3,N5) DEF(N5) that(N3) DEF(N3) purple(N3) is(N5,ball))",
+		"",
 		2],
 	# Which is the <adj?> <noun>?
 	["Which is the yellow block?",
@@ -79,22 +79,22 @@ if ($#ARGV >= 0) {
 		2],	
 	# Describe this object? (with pointing)
 	["Describe this object.",
-		"",
+	 "DEF(N3) HEARER(N4) describe(N4,N3) object(N3)",
 		1],	
 	["Describe this.",
-		"",
+		"HEARER(N4) describe(N4,N3) this(N3)",
 		2],	
 	["Describe this block.",
-		"",
+		"DEF(N3) HEARER(N4) block(N3) describe(N4,N3)",
 		2],	
 	["Describe that object.",
-		"",
+		"DEF(N3) HEARER(N4) describe(N4,N3) object(N3)",
 		2],	
 	["Describe the object.",
-		"",
+		"DEF(N3) HEARER(N4) describe(N4,N3) object(N3)",
 		2],	
 	["Describe the ball.",
-		"",
+		"DEF(N3) HEARER(N4) ball(N3) describe(N4,N3)",
 		2],	
 	# What is this? (with pointing)
 	["What is this?",
@@ -138,13 +138,13 @@ if ($#ARGV >= 0) {
 
 	## verb sentences
 	["Pick up the ball.",
-		"",
+		"DEF(N3) HEARER(N4) ball(N3) pick(N4,N3)",
 		1],	
 	["Pick up the red ball.",
-		"",
+	 "DEF(N4) HEARER(N5) ball(N4) pick(N5,N4) red(N4)",
 		1],	
 	["Put the block on the table.",
-		"",
+		"DEF(N3) DEF(N4) HEARER(N5) block(N3) on(put,N4) put(N5,N3) table(N4)",
 		1],	
 	["Put the block on top of the table.",
 		"",
@@ -154,13 +154,13 @@ if ($#ARGV >= 0) {
 		2],	
 
 	["You are done.",
-		"",
+		"done(N2) you(N2)",
 		1],	
-	["That is all.",
-		"",
-		2],	
+	["You moved the red block to the table.",
+		"DEF(N5) DEF(N6) block(N5) moved(N2,N5) red(N5) table(N6) to(moved,N6) you(N2)",
+		1],
 	["The action is complete.",
-		"",
+		"action(N2) complete(N2)",
 		2],	
 );
 
@@ -174,6 +174,9 @@ for ($i=0; $i<=$#sentences; $i++) {
 		$maxPriority = $sentences[$i][2];
 	}
 }
+
+$passCount = 0;
+$failCount = 0;
 
 PRIORITY:
 for ($p=$minPriority; $p <= $maxPriority; $p++) {
@@ -190,20 +193,27 @@ for ($p=$minPriority; $p <= $maxPriority; $p++) {
 		$correctDRS = $sentences[$i][1];
 
 		print "test sentence: $sentence\n";
-		@output = `./run.sh "$sentence" --silent`;
+		@output = `./run.sh "$sentence"`;
 
-		$outDRS = `echo "@output" | ./normalizeDRS.pl`;;
+		$outDRS = `echo "@output" | ./normalizeDRS.pl`;
+		chomp $outDRS;
 		
-		if ($outDRS eq $correctDRS) {
+		if ($outDRS eq $correctDRS and $outDRS ne "") {
 			print "PASSED: $correctDRS\n";
+			$passCount++;
 		}
 		else {
 			print "FAILED:\n";	
-			print "\texpected $correctDRS\n";
-			print "\tgot $outDRS\n";
-			print "Full LGSoar output:\n";
-			print @output;
+			print "\texpected [$correctDRS]\n";
+			print "\tgot [$outDRS]\n";
+#			print "Full LGSoar output:\n";
+#			print @output;
+			$failCount++;
 		}
 		print "********************\n";
 	}
 }
+
+$total = $passCount + $failCount;
+
+print "passed $passCount of $total tests.\n";

@@ -266,10 +266,10 @@ sp {|Activate*create*space|
     (<refs> ^count 0 +)
     (<a> ^acount 1 + ^centers <centers> + ^unblock? no + ^merge <merge> +
            ^cascades <cascs> +)
-    (<cascs> ^records <records> + ^ante-off-set nil +)
+    (<cascs> ^records <records> + ^ante-off-set none + ^ana-off-set none)
     (<merge> ^temp nil + ^replace nil +)
     (<centers> ^center <null-center> +)
-    (<null-center> ^ccount 0 + ^ref nil + ^blocked? no + ^kind first +
+    (<null-center> ^ccount 0 + ^ref none + ^blocked? no + ^kind first +
            ^kind second + ^kind third +
            ^kind verb + )
     (<p> ^name lgsoar-input +)
