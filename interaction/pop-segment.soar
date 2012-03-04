@@ -8,7 +8,7 @@ sp {pop-segment*dont-learn
 }
 
 sp {apply*pop-segment
-   (state <s> ^conversation.stack <cs>
+   (state <s> ^interaction.stack <cs>
    	      ^operator <op>)
    (<cs> ^segment <top-segment>)
    (<op> ^name pop-segment

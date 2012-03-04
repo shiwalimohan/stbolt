@@ -1,0 +1,11 @@
+#### wait-for-instructor if a purpose is conveyed
+
+sp {propose*wait-for-instructor
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment.purpose <p>)
+   (<p> ^conveyed true)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name wait-for-instructor
+   	 ^kind non-atomic)
+}

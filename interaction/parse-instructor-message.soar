@@ -3,7 +3,7 @@
 
 
 sp {topstate*propose*parse-message
-   (state <s> ^io.input-link.instructor-messages.message <ims>
+   (state <s> ^nl.input-link.message <ims>
    	      ^topstate <s>)
    -->
    (<s> ^operator <op> +)
@@ -15,12 +15,11 @@ sp {topstate*propose*parse-message
 
 sp {topstate*apply*parse-message
    (state <s> ^operator <op>
-   	      ^io.output-link <ol>)
+   	      ^nl.input-link <il>)
    (<op> ^name parse-message
    	 ^message <ims>)
-   (<ims> ^id <rm-id>)
+   (<il> ^message <ims>)
 -->
    (<s> ^instructor-message <ims>)
-   (<ol> ^remove-instructor-message <rm>)
-   (<rm> ^id <rm-id>)
+   (<il> ^message <ims> -)
 }

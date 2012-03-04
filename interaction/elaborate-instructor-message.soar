@@ -1,0 +1,11 @@
+sp {topstate*elaborate*instructor-message
+   (state <s> ^topstate <ts>
+   	      ^instructor-message <ms>)
+   (<ms> ^verb-command <any>)
+  -->
+   (<ms> ^event-type verb-command)
+   (<ms> ^information <any>)
+}
+
+
+   

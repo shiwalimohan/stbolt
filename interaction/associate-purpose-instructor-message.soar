@@ -6,7 +6,7 @@
 sp {elaborate*instructor-message*purpose*case1
    (state <s> ^topstate <s>
    	      ^instructor-message <m>)
-   (<m> ^event-type action-command)
+   (<m> ^event-type verb-command)
 -->
    (<m> ^purpose <p>)
    (<p> ^type environmental-action

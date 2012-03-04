@@ -22,7 +22,7 @@ sp {propose*push-segment*case-1
 	 ^purpose-type get-further-instruction
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
-   (<ps> ^dialog-event action-command)
+   (<ps> ^dialog-event verb-command)
 }
 	 
 
@@ -113,7 +113,7 @@ sp {propose*pop-segment*interaction-stack*case*5
 
 ### case 6 *lacks selection knowledge (application knowledge) of a composite operator*:
 sp {propse*push-segment*case-6
-   (state <s> ^task <t>
+   (state <s> ^task <t> 
    	      ^interaction.stack <cs>)
    (<t> ^information <info>
    	^progress <tp>)
@@ -127,7 +127,7 @@ sp {propse*push-segment*case-6
 	 ^purpose-type get-next-subaction
 	 ^purpose-satisfaction <ps>
 	 ^category interaction-stack)
-   (<ps> ^dialog-event action-command
+   (<ps> ^dialog-event verb-command
    	 ^dialog-event successful-completion)
 }
 

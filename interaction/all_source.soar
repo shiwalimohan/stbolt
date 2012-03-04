@@ -9,3 +9,5 @@ source initialize-conversation-manager.soar
 source preferences.soar
 source elaborations.soar
 source nl.soar
+source wait-for-instructor.soar
+source elaborate-instructor-message.soar

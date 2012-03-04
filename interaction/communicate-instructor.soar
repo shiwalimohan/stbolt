@@ -8,7 +8,8 @@ sp {top-state*propose*communicate*case1
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
    	  ^originator agent)
-   (<p> ^type get-further-instruction)
+   (<p> ^type get-further-instruction
+   	-^conveyed true)
 -->
    (<s> ^operator <op> +)
    (<op> ^name communicate
@@ -55,7 +56,7 @@ sp {topstate*apply*communicate
    (<op> ^name communicate
    	 ^status success)
 -->
-   (<pur> ^conveyed truel)
+   (<pur> ^conveyed true)
 }
 
 sp {communicate*elaborate*query
