@@ -5,24 +5,24 @@
 
 sp {prefer*instructed*action*new    
    (state <s> ^operator <op> +
-   	      ^conversation.stack.segment <top>)
+   	      ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
    (<p> ^type environmental-action
    	^satisfaction <ps>)
    (<ps> ^action-event <info>)
-   (<info> ^verb <verb-name>
+   (<info> ^word <verb-name>
    	   ^arguments <args>)
    (<op> ^name <verb-name>)
 -->
    (<s> ^operator <op> >)
    (<op> ^consider-purpose <p>)
 }
-
+ 
 
 sp {prefer*instructed*action*arg-values
    (state <s> ^operator <op> +
-   	      ^conversation.stack.segment <top>)
+   	      ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
    (<p> ^type environmental-action
@@ -66,7 +66,7 @@ sp {prefer*instructor*action
 ### if the instructed action is a completely new operator that the agent has never seen before, make a simple assumption that the instructor is trying to teach a new operator. Propose that operator with the highest preference
 
 sp {propose*instructed*action
-   (state <s> ^conversation.stack.segment <top>)
+   (state <s> ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
    (<p> ^type environmental-action
@@ -81,7 +81,7 @@ sp {propose*instructed*action
    
    
 sp {elaborate*instructed*action
-   (state <s> ^conversation.stack.segment <top>
+   (state <s> ^interaction.stack.segment <top>
    	      ^operator <op>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
@@ -100,7 +100,7 @@ sp {elaborate*instructed*action
 
 ### if the top of the segment is a question from the instructor, propose an operator that replies to it
 sp {propose*operator*answer*question
-   (state <s> ^conversation.stack.segment <top>)
+   (state <s> ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
    (<p> ^type question-fact
@@ -114,21 +114,4 @@ sp {propose*operator*answer*question
 
 
 
-### -------------------------------------- preferences-------------------------------------
-sp {prefer*insturcted*action*primitive-action
-   (state <s> ^operator <op1> +
-   	      ^operator <op2> +)
-   (<op1> ^category new-environmental-action)
-   (<op2> ^category primitive-action)
--->
-   (<s> ^operator <op1> > <op2>)
-}
 
-sp {prefer*insturcted*action*sub*primitive-action
-   (state <s> ^operator <op1> +
-   	      ^operator <op2> +)
-   (<op1> ^category new-environmental-action)
-   (<op2> ^category sub-primitive-action)
--->
-   (<s> ^operator <op1> > <op2>)
-}

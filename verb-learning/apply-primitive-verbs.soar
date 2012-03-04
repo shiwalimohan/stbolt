@@ -1,0 +1,52 @@
+sp {prefer*instructed*action*goto
+   (state <s> ^operator <op> +
+   	      ^interaction.stack.segment <top>)
+   (<top> ^originator instructor
+   	  ^purpose <p>)
+   (<p> ^type environmental-action
+   	^satisfaction <ps>)
+   (<ps> ^action-event <info>)
+   (<info> ^word go
+   	   ^preposition.object.word <loc-name>)
+   (<op> ^name goto
+   	 ^location <loc-name>)
+-->
+   (<s> ^operator <op> >)
+   (<op> ^executed-purpose <p>)
+}
+
+sp {prefer*instructed*action*pickup
+   (state <s> ^operator <op> +
+   	      ^interaction.stack.segment <top>
+	      ^object <obj>)
+   (<obj> ^shape <obj-name>
+   	  ^id <obj-id>)
+   (<top> ^originator instructor
+   	  ^purpose <p>)
+   (<p> ^type environmental-action
+   	^satisfaction <ps>)
+   (<ps> ^action-event <info>)
+   (<info> ^word pick
+   	   ^preposition.object.word <obj-name>)
+   (<op> ^name pick-up-object
+   	 ^actions.pick-up.object-id <obj-id>)
+-->
+   (<s> ^operator <op> >)
+   (<op> ^executed-purpose <p>)
+}
+
+sp {prefer*instructed*action*putdown
+   (state <s> ^operator <op> +
+   	      ^interaction.stack.segment <top>)
+   (<top> ^originator instructor
+   	  ^purpose <p>)
+   (<p> ^type environmental-action
+   	^satisfaction <ps>)
+   (<ps> ^action-event <info>)
+   (<info> ^word put
+   	   ^preposition.word down)
+   (<op> ^name pick-down)
+-->
+   (<s> ^operator <op> >)
+   (<op> ^executed-purpose <p>)
+}
