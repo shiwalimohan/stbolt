@@ -9,22 +9,6 @@ sp {global*propose*processing-complete
 }
 
 
-
-
-sp {halt*didnt-complete
-  (state <s9> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s8> ^type state)
-  (state <s8> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s7> ^type state)
-  (state <s7> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s6> ^type state)
-  (state <s6> ^attribute operator ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s1> ^type state)
-  (state <s1> ^superstate nil)
--->
-  (halt)
-}
-
 sp {realize*apply*ref*as*new-idea
    :o-support
 	(state <s> ^operator <o> ^model <m>)
@@ -39,28 +23,6 @@ sp {realize*apply*ref*as*new-idea
 }
 
 ## nothing from prep-prods.soar
-
-## from productions1fix.soar
-
-
-
-sp {global*apply*processing-complete
-  :o-support
-	(state <s> ^operator <o> ^count <count> ^refsets <refsets>)
-	(<refsets> ^refs <refs>)
-	(<refs> ^count <count>)
-	(<o> ^name processing-complete)
-
-       # all var's must be accounted for and output
-      -{(<s> ^model.idea <idea>)
-	(<idea> -^annotation pred-dumped ^aug <anyaug>)}
-       # all feats must be accounted for and output
-       -{(<s> ^anaphor.centers.center.ref <theref>)
-	(<theref> ^pointer <ptr> ^desc.feature <any>)
-	(<ptr> -^annotation feat-dumped)}
--->
-	(<refsets> ^refs <refs> -)
-	(<s> ^halt immediately)}
 
 ## from conjprods.soar
 
@@ -303,30 +265,6 @@ sp	{clause*propose*recognize-quantification-number-phrases
 
 ## from newfoo4.soar
 
-sp {global*apply*processing-complete*links
-  :o-support
-    (state <s> ^count <count> ^operator <o> ^refsets <refsets> ^io <i*1>)
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> ^annotation compound-head-dumped -^annotation nc-dump-complete)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> -^annotation pred-dumped ^aug <anyaug>)}
-   -{ (<s> ^anaphor <a*1>)
-      (<a*1> ^centers <c*1>)
-      (<c*1> ^center <c*2>)
-      (<c*2> ^ref <theref>)
-      (<theref> ^pointer <ptr> ^desc <d*1>)
-      (<ptr> -^annotation feat-dumped)
-      (<d*1> ^feature <any>)}
-    (<o> ^name processing-complete)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<i*1> ^lgsentence <anylgio>)
-    -->
-    (<refsets> ^refs <refs> -)
-    (<s> ^halt immediately +)
-}
 # new test so nc collection terminates before halting
 
 
@@ -352,34 +290,6 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*use-arg
     (<s> ^operator <preferred> > <deferred>)
 }
 
-sp {global*apply*processing-complete*links
-	:o-support
-    (state <s> ^count <count> 
-    ^operator <o> ^refsets <refsets> ^io.lgsentence <anylgio>)
-    (<o> ^name processing-complete)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> ^annotation compound-head-dumped -^annotation nc-dump-complete)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^quant <q>)
-      (<q> -^annotation quant-dumped)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> ^annotation in-n-n -^annotation << nc-nonhead-dumped compound-head-dumped >> )}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> ^annotation pred-prep -^annotation pred-dumped ^aug <anyaug>)}
-   -{ (<s> ^anaphor.centers.center.ref <theref>)
-     (<theref> ^pointer <ptr> ^desc.feature <thefeat>)
-      (<ptr> -^feat-dumped <anyfoo>)
-    }
-    -->
-    (<refsets> ^refs <refs> -)
-    (<s> ^halt immediately +)
-}
 
 sp {global*apply*processing-complete*links
     :o-support
@@ -413,24 +323,6 @@ sp {global*apply*processing-complete*links
 
     (<io> ^output-preds <out> +)
     (exec output_preds | | <out>)
-#    (<refsets> ^refs <refs> -)
-#    (cmd command-to-file <tfile> print --depth 30 i1)
-#    (exec perlmkgviz)
-#    (<s> ^halt immediately +)
    (<o> ^annotation preds-output +)
 }
 
-
-
-
-# this loops on cannot
-sp {anaphor*propose*expand-contraction*to*can-not
-  (state <s> ^bar baz666)
--->
-  (write zzz)
-}
-excise anaphor*propose*expand-contraction*to*can-not
-
-
-
- 

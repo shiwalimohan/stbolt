@@ -31,7 +31,7 @@ sp	{Link*apply*anaphor-set-antecedent
 	(<o> ^name set-antecedent ^antecedent <u> ^complete? no)
 -->
 	(<s> ^antecedent <ante> - <u> +)
-	(<o> ^complete?x yes +)}
+}
 
 # anaphor-find-antecedent
 
@@ -54,4 +54,4 @@ sp	{Link*apply*anaphor-find-antecedent
 	(<d> ^cond <equ> +)
 	(<equ> ^kind equ ^left-side <u> ^right-side <ante>)
 	(<a> ^find-antecedent <u> +)
-	(<o> ^complete?x yes +)}
+}

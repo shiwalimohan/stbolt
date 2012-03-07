@@ -48,7 +48,7 @@ sp {promote*apply*direct-promotion
    (<o> ^name basic ^imain <imain> ^aug <aug> ^iarg <iarg>)
 -->
    (<imain> ^<aug> <iarg> +)
-   (<o> ^complete?x yes +)}
+}
 
 ## feature promotion
 
@@ -88,4 +88,4 @@ sp {promote*apply*feature-promotion
    (<o> ^name feature ^priority 70 ^imain <imain> ^aug <aug> ^feature <feature> ^complete? no)
 -->
    (<imain> ^<aug> <feature>)
-   (<o> ^complete?x yes +)}
+}

@@ -35,11 +35,6 @@ source soarcode/output-code/output-vpred.soar
 source soarcode/output-code/output-imperative.soar
 source soarcode/output-code/output-prondets.soar
 
-source soarcode/lgsentenceparse.soar
-
 source soarcode/lg-soartech-extra.soar
 popd
 
-# one productions that needs to be cleaned up
-excise global*apply*processing-complete
- 

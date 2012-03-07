@@ -55,7 +55,7 @@ sp	{Link*fail*apply*S*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*S*linkage*cause*right-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -66,7 +66,7 @@ sp	{Link*fail*apply*S*linkage*cause*right-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # O-linkage application productions
 
@@ -89,7 +89,7 @@ sp	{Link*fail*apply*O*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*O*linkage*cause*left-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -100,7 +100,7 @@ sp	{Link*fail*apply*O*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # D-linkage application productions
 
@@ -124,7 +124,7 @@ sp	{Link*fail*apply*D*linkage*cause*left-needs*det-cond
 -->
 	(<a> ^build-det-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*D*linkage*cause*right-needs*dref
    :o-support
@@ -136,7 +136,7 @@ sp	{Link*fail*apply*D*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # I-linkage application productions
 
@@ -160,7 +160,7 @@ sp	{Link*fail*apply*I*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*I*linkage*cause*right-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -171,7 +171,7 @@ sp	{Link*fail*apply*I*linkage*cause*right-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # N-linkage application productions
 
@@ -193,7 +193,7 @@ sp	{Link*fail*apply*N*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # B-linkage application productions
 
@@ -216,7 +216,7 @@ sp	{Link*fail*apply*B*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*B*linkage*cause*right-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -227,7 +227,7 @@ sp	{Link*fail*apply*B*linkage*cause*right-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # C-linkage application productions
 
@@ -250,7 +250,7 @@ sp	{Link*fail*apply*C*linkage*cause*left-needs*subconj-cond
 -->
 	(<a> ^build-subconj-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*C*linkage*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a>)
@@ -261,7 +261,7 @@ sp	{Link*fail*apply*C*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # CO-linkage application productions
 
@@ -284,7 +284,7 @@ sp	{Link*fail*apply*CO*linkage*cause*left-needs*opening-cond
 -->
 	(<a> ^build-opening-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*CO*linkage*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a>)
@@ -295,7 +295,7 @@ sp	{Link*fail*apply*CO*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # E-linkage application productions
 
@@ -319,7 +319,7 @@ sp	{Link*fail*apply*E*linkage*cause*left-needs*adv-cond
 -->
 	(<a> ^build-adv-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*E*linkage*cause*right-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -330,7 +330,7 @@ sp	{Link*fail*apply*E*linkage*cause*right-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # EB-linkage application productions
 
@@ -354,7 +354,7 @@ sp	{Link*fail*apply*EB*linkage*cause*right-needs*adv-cond
 -->
 	(<a> ^build-adv-cond <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*EB*linkage*cause*left-needs*verbal-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -365,7 +365,7 @@ sp	{Link*fail*apply*EB*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # YS and YP-linkage application productions
 
@@ -388,7 +388,7 @@ sp	{Link*fail*apply*YS-YP*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # TM-linkage application productions
 
@@ -427,7 +427,7 @@ sp	{Link*fail*apply*TM*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*TM*linkage*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a>)
@@ -438,7 +438,7 @@ sp	{Link*fail*apply*TM*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # TY-linkage application productions
 
@@ -477,7 +477,7 @@ sp	{Link*fail*apply*TY*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*TY*linkage*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a>)
@@ -488,7 +488,7 @@ sp	{Link*fail*apply*TY*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # MV and OF-linkage application productions
 
@@ -513,7 +513,7 @@ sp	{Link*fail*apply*MV-OF*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # M and MX-linkage application productions
 
@@ -557,7 +557,7 @@ sp	{Link*fail*apply*MX-M*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*MX-M*linkage*modifier-has-no-other-links*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a> ^io.lgsentence <cs>)
@@ -572,7 +572,7 @@ sp	{Link*fail*apply*MX-M*linkage*modifier-has-no-other-links*cause*right-needs*d
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 # ON and IN-linkage application productions
 
@@ -611,7 +611,7 @@ sp	{Link*fail*apply*J*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*J*linkage*cause*left-needs*prep-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -622,7 +622,7 @@ sp	{Link*fail*apply*J*linkage*cause*left-needs*prep-cond
 -->
 	(<a> ^build-prep-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # JT-linkage application productions
 
@@ -645,7 +645,7 @@ sp	{Link*fail*apply*JT*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*JT*linkage*cause*left-needs*prep-cond
 	(state <s> ^operator <o> ^analysis <a>)
@@ -656,7 +656,7 @@ sp	{Link*fail*apply*JT*linkage*cause*left-needs*prep-cond
 -->
 	(<a> ^build-prep-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # P-linkage application productions
 
@@ -681,7 +681,7 @@ sp	{Link*fail*apply*P*linkage*cause*left-needs*verbal-cond
 -->
 	(<a> ^build-verbal-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # L-linkage application productions
 
@@ -706,7 +706,7 @@ sp	{Link*fail*apply*L*linkage*cause*left-needs*det-cond
 -->
 	(<a> ^build-det-cond <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 # G-linkage application productions
 
@@ -790,7 +790,7 @@ sp	{Link*fail*apply*G*linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*G*linkage*cause*right-needs*dref
 	(state <s> ^operator <o> ^analysis <a>)
@@ -801,16 +801,7 @@ sp	{Link*fail*apply*G*linkage*cause*right-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <lr>)
-	(<o> ^complete?x yes +)}
-
-# generic linkage completion marking operator
-
-sp	{Link*apply*linkage
-	(state <s> ^operator <o> ^analysis <a>)
-	(<o> ^name linkage ^complete? no ^link <link>)
-	(<a> ^link <link>)
--->
-	(<o> ^complete?x yes +)}
+}
 
 
 ## Special Linkage Rules
@@ -842,7 +833,7 @@ sp	{Link*fail*apply*person-MG-of-JG-place*special-linkage*cause*left-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <ll>)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{Link*fail*apply*person-MG-of-JG-place*special-linkage*cause*mod-needs*dref
 	(state <s> ^operator <o> ^analysis <a> ^io.lgsentence <cs>)
@@ -857,8 +848,7 @@ sp	{Link*fail*apply*person-MG-of-JG-place*special-linkage*cause*mod-needs*dref
 -->
 	(<a> ^build-dref <new> +)
 	(<new> ^wcount <mod>)
-	(<o> ^complete?x yes +)}
-
+}
 
 ## operator tie resolutions
 # prefer first linkage under lexical ordering
