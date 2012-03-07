@@ -24,11 +24,11 @@ sp	{Link*propose*anaphor-set-antecedent*simple-clause-structure
   	(<verb-cond-old> ^kind verbal-pred ^subj <ante>)}
 -->
 	(<s> ^operator <o> + )
-	(<o> ^name set-antecedent ^antecedent <u> ^complete? no ^ordering -2)}
+	(<o> ^name set-antecedent ^antecedent <u>  ^ordering -2)}
 
 sp	{Link*apply*anaphor-set-antecedent
 	(state <s> ^operator <o> ^antecedent <ante>)
-	(<o> ^name set-antecedent ^antecedent <u> ^complete? no)
+	(<o> ^name set-antecedent ^antecedent <u> )
 -->
 	(<s> ^antecedent <ante> - <u> +)
 }
@@ -45,11 +45,11 @@ sp	{Link*propose*anaphor-find-antecedent
 	(<a> -^find-antecedent <u>)
 -->
 	(<s> ^operator <o> + >)
-	(<o> ^name find-antecedent ^anaphor <u> ^ordering -1 ^complete? no)}
+	(<o> ^name find-antecedent ^anaphor <u> ^ordering -1 )}
 
 sp	{Link*apply*anaphor-find-antecedent
 	(state <s> ^operator <o> ^antecedent <ante> ^DRS <d> ^analysis <a>)
-	(<o> ^name find-antecedent ^anaphor <u> ^complete? no)
+	(<o> ^name find-antecedent ^anaphor <u> )
 -->
 	(<d> ^cond <equ> +)
 	(<equ> ^kind equ ^left-side <u> ^right-side <ante>)

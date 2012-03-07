@@ -24,12 +24,12 @@ sp	{Link*propose*build-dref
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-dref ^word <word> ^build-dref <build-dref> ^wcount <pos>
-        ^complete? no)}
+        )}
 
 sp	{Link*apply*build-dref
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-dref ^word <word> ^build-dref <build-dref> ^wcount <pos>
-        ^complete? no)
+        )
    (<word> ^wvalue <value>)
 -->
    (<build-dref> ^dref <u> ^nominal-cond <cond>)
@@ -49,12 +49,12 @@ sp	{Link*propose*build-verbal-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-verbal-cond ^verb <verb> ^wcount <pos>
-        ^build-verbal-cond <build-verbal-cond> ^complete? no)}
+        ^build-verbal-cond <build-verbal-cond> )}
 
 sp	{Link*apply*build-verbal-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-verbal-cond ^verb <verb> ^wcount <pos>
-        ^build-verbal-cond <build-verbal-cond> ^complete? no)
+        ^build-verbal-cond <build-verbal-cond> )
 -->
    (<build-verbal-cond> ^verbal-cond <cond>)
    (<d> ^cond <cond> +)
@@ -73,12 +73,12 @@ sp	{Link*propose*build-det-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-det-cond ^det <det> ^wcount <pos>
-        ^build-det-cond <build-det-cond> ^complete? no)}
+        ^build-det-cond <build-det-cond> )}
 
 sp	{Link*apply*build-det-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-det-cond ^det <det> ^wcount <pos>
-        ^build-det-cond <build-det-cond> ^complete? no)
+        ^build-det-cond <build-det-cond> )
 -->
    (<build-det-cond> ^det-cond <cond>)
    (<d> ^cond <cond> +)
@@ -96,12 +96,12 @@ sp	{Link*propose*build-subconj-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-subconj-cond ^subconj <subconj> ^wcount <pos>
-        ^build-subconj-cond <build-subconj-cond> ^complete? no)}
+        ^build-subconj-cond <build-subconj-cond> )}
 
 sp	{Link*apply*build-subconj-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-subconj-cond ^subconj <subconj> ^wcount <pos>
-        ^build-subconj-cond <build-subconj-cond> ^complete? no)
+        ^build-subconj-cond <build-subconj-cond> )
 -->
    (<build-subconj-cond> ^subconj-cond <cond>)
    (<d> ^cond <cond> +)
@@ -119,12 +119,12 @@ sp	{Link*propose*build-opening-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-opening-cond ^opening <opening> ^wcount <pos>
-        ^build-opening-cond <build-opening-cond> ^complete? no)}
+        ^build-opening-cond <build-opening-cond> )}
 
 sp	{Link*apply*build-opening-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-opening-cond ^opening <opening> ^wcount <pos>
-        ^build-opening-cond <build-opening-cond> ^complete? no)
+        ^build-opening-cond <build-opening-cond> )
 -->
    (<build-opening-cond> ^opening-cond <cond>)
    (<d> ^cond <cond> + )
@@ -142,12 +142,12 @@ sp	{Link*propose*build-adv-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-adv-cond ^adv <adv> ^wcount <pos>
-        ^build-adv-cond <build-adv-cond> ^complete? no)}
+        ^build-adv-cond <build-adv-cond> )}
 
 sp	{Link*apply*build-adv-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-adv-cond ^adv <adv> ^wcount <pos>
-        ^build-adv-cond <build-adv-cond> ^complete? no)
+        ^build-adv-cond <build-adv-cond> )
 -->
    (<build-adv-cond> ^adv-cond <cond>)
    (<d> ^cond <cond> + )
@@ -165,12 +165,12 @@ sp	{Link*propose*build-prep-cond
 -->
    (<s> ^operator <o> +)
    (<o> ^name build-prep-cond ^prep <prep> ^wcount <pos>
-        ^build-prep-cond <build-prep-cond> ^complete? no)}
+        ^build-prep-cond <build-prep-cond> )}
 
 sp	{Link*apply*build-prep-cond
    (state <s> ^operator <o> ^protoDRS <d>)
    (<o> ^name build-prep-cond ^prep <prep> ^wcount <pos>
-        ^build-prep-cond <build-prep-cond> ^complete? no)
+        ^build-prep-cond <build-prep-cond> )
 -->
    (<build-prep-cond> ^prep-cond <cond>)
    (<d> ^cond <cond> +)

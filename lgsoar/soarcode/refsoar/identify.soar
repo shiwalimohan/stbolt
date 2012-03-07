@@ -26,12 +26,12 @@ sp	{Link*propose*identify-pos-pro
     (<pos-cond> ^kind pos-s ^loc <pos>)}
 -->
    (<s> ^operator <o> +)
-   (<o> ^name identify-pos-pro ^pos-pro <pos-pro> ^ordering <pos>
-        ^complete no)}
+   (<o> ^name identify-pos-pro ^pos-pro <pos-pro> ^ordering <pos>)
+}
 
 sp	{Link*apply*identify-pos-pro
    (state <s> ^operator <o> ^protoDRS <pd>)
-   (<o> ^name identify-pos-pro ^pos-pro <pos-pro> ^complete no)
+   (<o> ^name identify-pos-pro ^pos-pro <pos-pro>) 
    (<pos-pro> ^wcount <pos> ^wvalue <value>)
 -->
    (<pd> ^dref <u> + ^cond <pos-cond> + <nom-cond> +)
@@ -53,12 +53,12 @@ sp	{Link*propose*identify-noun-modifying-verb
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-noun-modifying-verb ^cond <verb-cond> ^rel-obj <u>
-        ^ordering <pos> ^complete no)}
+        ^ordering <pos>)}
 
 sp	{Link*apply*identify-noun-modifying-verb
    (state <s> ^operator <o>)
    (<o> ^name identify-noun-modifying-verb ^cond <verb-cond> ^rel-obj <u>
-        ^ordering <pos> ^complete no)
+        ^ordering <pos>)
 -->
    (<verb-cond> ^rel-obj <u> +)
 }
@@ -73,12 +73,12 @@ sp	{Link*propose*identify-relative-intrans-verb
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-relative-intrans-verb ^cond <cond> ^rel-obj <u>
-        ^ordering <pos> ^complete no)}
+        ^ordering <pos>)}
 
 sp	{Link*apply*identify-relative-intrans-verb
    (state <s> ^operator <o>)
    (<o> ^name identify-relative-intrans-verb ^cond <cond> ^rel-obj <u>
-        ^ordering <pos> ^complete no)
+        ^ordering <pos>)
 -->
    (<cond> ^subj <u> +)
 }
@@ -96,12 +96,12 @@ sp	{Link*propose*identify-be-complement*prep
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-be-complement ^cond <verb-cond> ^modifier <prep>
-        ^ordering <pos> ^complete no ^type prep)}
+        ^ordering <pos> ^type prep)}
 
 sp	{Link*apply*identify-be-complement*prep
    (state <s> ^operator <o>)
    (<o> ^name identify-be-complement ^cond <verb-cond> ^modifier <prep>
-        ^ordering <pos> ^complete no ^type prep)
+        ^ordering <pos> ^type prep)
 -->
    (<verb-cond> ^modifier <prep> +)
 }
@@ -118,12 +118,12 @@ sp	{Link*propose*identify-be-complement*verb
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-be-complement ^complement <complement-cond>
-        ^type verb ^ordering <pos> ^complete no)}
+        ^type verb ^ordering <pos>)}
 
 sp	{Link*apply*identify-be-complement*verb
    (state <s> ^operator <o> ^DRS <d> ^analysis <a>)
    (<o> ^name identify-be-complement ^complement <complement-cond>
-        ^type verb ^ordering <pos> ^complete no)
+        ^type verb ^ordering <pos>)
    (<complement-cond> ^verb <verb>)
    (<verb> ^wvalue <wvalue>)
 -->
@@ -146,7 +146,7 @@ sp	{Link*propose*identify-noun-modifying-of
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-noun-modifying-of ^cond <noun-cond> ^of-spec <obj>
-        ^ordering <pos> ^complete? no)}
+        ^ordering <pos> )}
 
 sp	{Link*apply*identify-noun-modifying-of
    (state <s> ^operator <o> ^DRS <d>)
@@ -159,7 +159,7 @@ sp	{Link*apply*identify-noun-modifying-of
 sp	{Link*fail*apply*identify-noun-modifying-of*cause*needs*transfer-obj-dref
    (state <s> ^operator <o> ^analysis <a>)
    (<o> ^name identify-noun-modifying-of ^cond <noun-cond> ^of-spec <obj>
-        ^complete? no)
+        )
    (<a> -^transfer-dref <obj>)
 -->
    (<a> ^transfer-dref <obj> +)

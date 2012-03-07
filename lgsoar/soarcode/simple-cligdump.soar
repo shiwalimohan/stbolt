@@ -5,7 +5,7 @@ sp {global*propose*processing-complete
 	(state <s> ^io.total-sentences <total> ^count <total>)
 -->
 	(<s> ^operator <o> + >)
-	(<o> ^name processing-complete ^priority 0 ^complete? no) 
+	(<o> ^name processing-complete ^priority 0 ) 
 }
 
 
@@ -54,7 +54,7 @@ sp {interpret*propose*P*as*internal
 	(<s> ^operator <o> +)
 	(<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
 		 ^kind single ^order <main-count> ^level-two-order <int-count>
-		 ^complete? no)
+		 )
 }
 
 
@@ -69,7 +69,7 @@ sp {global*propose*find-root
 					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS >>)
 -->
 	(<s> ^operator <o> + >)
-	(<o> ^name find-root ^priority 170 ^new <new> ^complete? no)
+	(<o> ^name find-root ^priority 170 ^new <new> )
 }
 
 
@@ -88,7 +88,7 @@ sp {|interpret*propose*AN*as*noun-auging-noun|
     (<o> ^name add-arg + ^priority 150 + ^main <main> + ^aug aug +
            ^arg <arg> + ^link <link> + ^kind single-side +
            ^order <main-count> + ^level-two-order <arg-count> +
-           ^complete? no +)
+            +)
 }
 
 
@@ -107,7 +107,7 @@ sp {|interpret*propose*A*as*adj-auging-noun|
     (<o> ^name add-arg + ^priority 150 + ^main <main> + ^aug aug1 + 
            ^arg <arg> + ^link <link> + ^kind single-side +
            ^order <main-count> + ^level-two-order <arg-count> +
-           ^complete? no +)
+            +)
 }
 
 ## nothing from numbers.soar for now
@@ -126,7 +126,7 @@ sp {interpret*propose*D*as*negative-description
 -->
 	(<s> ^operator <o> +)
 	(<o> ^name add-arg ^priority 170 ^main <main> ^aug desc ^arg <desc> ^link <link>
-		 ^kind constant ^order <neg-desc-count> ^level-two-order <main-count> ^complete? no)
+		 ^kind constant ^order <neg-desc-count> ^level-two-order <main-count> )
 	(<desc> ^word <neg-desc> ^feature neg)
 }
 

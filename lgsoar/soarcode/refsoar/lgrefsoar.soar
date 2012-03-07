@@ -516,12 +516,12 @@ sp {global*propose*start-next-sentence
    (<sss> ^superstate nil -^io.total-sentences <count> ^count <count>)
 -->
    (<sss> ^operator <o> + >)
-   (<o> ^name start-next-sentence ^priority 0 ^count <count> ^complete? no)}
+   (<o> ^name start-next-sentence ^priority 0 ^count <count> )}
 
 sp	{global*apply*start-next-sentence
   :o-support
    (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
-   (<o> ^name start-next-sentence ^count <count> ^complete? no)
+   (<o> ^name start-next-sentence ^count <count> )
 -->
    (<a> ^unblock? no - general +)
    (<s> ^root <root> - 0 +)
@@ -549,12 +549,12 @@ sp	{global*propose*return-to-nil
    (<ref> ^return-to-nil ^head.wcount <wcount>)
 -->
    (<ss> ^operator <o> +)
-   (<o> ^name return-to-nil ^order <wcount> ^ref <ref> ^complete? no)}
+   (<o> ^name return-to-nil ^order <wcount> ^ref <ref> )}
 
 sp	{global*apply*return-to-nil*if-refs-not-marked-complete
    (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count> -^complete?)
-   (<o> ^name return-to-nil ^ref <ref> ^complete? no)
+   (<refs> ^count <count>)# -^complete?)
+   (<o> ^name return-to-nil ^ref <ref> )
    (<ref> ^return-to-nil <rcount> ^head <head>)
    (<head> ^wcount <wcount>)
    (<word> ^return <wcount>)
@@ -566,20 +566,20 @@ sp	{global*apply*return-to-nil*if-refs-not-marked-complete
    (<ref> ^special empty +)
 }
 
-sp	{global*apply*return-to-nil*if-refs-marked-complete
-   (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count> ^complete?)
-   (<o> ^name return-to-nil ^ref <ref> ^complete? no)
-   (<ref> ^return-to-nil <rcount> ^head <head>)
-   (<head> ^wcount <wcount>)
-   (<word> ^return <wcount>)
--->
-   (<head> ^wcount <wcount> - <rcount> +)
-   (<word> ^return <wcount> -)
-   (<word> ^wcount <wcount>)
-   (<ref> ^return-to-nil <rcount> -)
-   (<ref> ^special empty +)
-}
+# sp	{global*apply*return-to-nil*if-refs-marked-complete
+#    (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
+#    (<refs> ^count <count> ^complete?)
+#    (<o> ^name return-to-nil ^ref <ref> )
+#    (<ref> ^return-to-nil <rcount> ^head <head>)
+#    (<head> ^wcount <wcount>)
+#    (<word> ^return <wcount>)
+# -->
+#    (<head> ^wcount <wcount> - <rcount> +)
+#    (<word> ^return <wcount> -)
+#    (<word> ^wcount <wcount>)
+#    (<ref> ^return-to-nil <rcount> -)
+#    (<ref> ^special empty +)
+# }
 
 
 ## Preference Rules
@@ -650,11 +650,11 @@ sp	{anaphor*propose*expand-contraction*to*can-not
 -->
    (<s> ^operator <o> +)
    (<o> ^name expand-contraction ^priority 205 ^word <cont> ^order <wcount> ^new-wvalue-left can
-        ^new-wvalue-right not ^ltype N ^complete? no)}
+        ^new-wvalue-right not ^ltype N )}
 
 sp	{anaphor*apply*expand-contraction
    (state <s> ^operator <o> ^count <count> ^io.lgsentence <cs>)
-   (<o> ^name expand-contraction ^word <cont> ^order <wcount> ^complete? no
+   (<o> ^name expand-contraction ^word <cont> ^order <wcount> 
         ^new-wvalue-left <new-wvalue-left> ^new-wvalue-right <new-wvalue-right> ^ltype <ltype>)
    (<cs> ^count <count> ^links <links> ^words <words>)
    (<words> ^word <cont>)
@@ -678,7 +678,7 @@ sp	{anaphor*propose*add-elliptical-verb-syntax*for-expected-I-link
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-elliptical-verb-syntax ^priority 205 ^word <infl> ^ltype I
-        ^order <wcount> ^complete? no)}
+        ^order <wcount> )}
 
 sp	{anaphor*apply*add-elliptical-verb-syntax
   :o-support
@@ -701,7 +701,7 @@ sp	{anaphor*propose*unblock-center*general
    (<center> ^blocked? yes ^ccount <ccount>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name unblock-center ^priority 210 ^center <center> ^order <ccount> ^complete? no)}
+   (<o> ^name unblock-center ^priority 210 ^center <center> ^order <ccount> )}
 
 sp	{anaphor*apply*unblock-center
   :o-support
@@ -718,7 +718,7 @@ sp	{anaphor*propose*unblocking-finished
    (<a> -^unblock? no)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name unblocking-finished ^priority 209 ^complete? no)}
+   (<o> ^name unblocking-finished ^priority 209 )}
 
 sp	{anaphor*apply*unblocking-finished
   :o-support
@@ -737,7 +737,7 @@ sp	{anaphor*propose*add-verb-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind verb ^ref <ref> ^new-acount (+ <acount> 1)
-     ^complete? no)}
+     )}
 
 sp	{anaphor*propose*add-first-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
@@ -745,7 +745,7 @@ sp	{anaphor*propose*add-first-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind first ^ref <ref> ^new-acount (+ <acount> 1)
-     ^complete? no)}
+     )}
 
 
 sp	{anaphor*propose*add-second-center
@@ -754,7 +754,7 @@ sp	{anaphor*propose*add-second-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind second ^ref <ref> ^new-acount (+ <acount> 1)
-     ^complete? no)}
+     )}
 
 sp	{anaphor*propose*add-third-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
@@ -762,12 +762,12 @@ sp	{anaphor*propose*add-third-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind third ^ref <ref> ^new-acount (+ <acount> 1)
-     ^complete? no)}
+     )}
 
 sp	{anaphor*apply*add-center
     :o-support
    (state <s> ^operator <o> ^anaphor <a>)
-   (<o> ^name add-center ^kind <kind> ^ref <ref> ^new-acount <new-acount> ^complete? no)
+   (<o> ^name add-center ^kind <kind> ^ref <ref> ^new-acount <new-acount> )
    (<a> ^acount <acount> ^centers <centers>)
 -->
    (<a> ^acount <acount> - <new-acount> +)
@@ -782,7 +782,7 @@ sp	{anaphor*propose*add-third-center*out-of-order
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center-out-of-order ^priority 203 ^kind third ^ref <ref>
-        ^out-acount (- <acount> 1.5) ^complete? no)}
+        ^out-acount (- <acount> 1.5) )}
 
 sp	{anaphor*propose*add-first-center*out-of-order
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
@@ -790,13 +790,13 @@ sp	{anaphor*propose*add-first-center*out-of-order
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center-out-of-order ^priority 203 ^kind first ^ref <ref>
-        ^out-acount (- <acount> 1.5) ^complete? no)}
+        ^out-acount (- <acount> 1.5) )}
 
 sp	{anaphor*apply*add-center*out-of-order
   :o-support
    (state <s> ^operator <o> ^anaphor <a>)
    (<o> ^name add-center-out-of-order ^kind <kind> ^ref <ref> ^out-acount <out-acount>
-        ^complete? no)
+        )
    (<a> ^centers <centers>)
 -->
    (<centers> ^center <center> +)
@@ -817,7 +817,7 @@ sp	{anaphor*propose*resolve*I-me*as*first
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pronoun ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*I-me*as*unidentified-speaker
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
@@ -828,7 +828,7 @@ sp	{anaphor*propose*resolve*I-me*as*unidentified-speaker
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind unidentified ^priority 201 ^ana-ref <ana-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*he-she-him-her*as*third
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
@@ -840,7 +840,7 @@ sp	{anaphor*propose*resolve*he-she-him-her*as*third
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pronoun ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*ellipsis*as*verb
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
@@ -850,7 +850,7 @@ sp	{anaphor*propose*resolve*ellipsis*as*verb
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind verb-ellipsis ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*it*as*phrase
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
@@ -860,7 +860,7 @@ sp	{anaphor*propose*resolve*it*as*phrase
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind phrase-ellipsis ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*his-her-its*as*third*when-coref-with-blocked-pos
    (state <s> ^refsets.refs.ref <ana-ref> {<> <ante-ref> <pos-ref>}
@@ -871,7 +871,7 @@ sp	{anaphor*propose*resolve*his-her-its*as*third*when-coref-with-blocked-pos
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pos ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^pos-ref <pos-ref> ^order (- <ccount>) ^complete? no)}
+        ^pos-ref <pos-ref> ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*my*as*third*when-coref-with-blocked-pos
    (state <s> ^refsets.refs.ref <ana-ref> {<> <ante-ref> <pos-ref>}
@@ -882,7 +882,7 @@ sp	{anaphor*propose*resolve*my*as*third*when-coref-with-blocked-pos
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pos ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^pos-ref <pos-ref> ^order (- <ccount>) ^complete? no)}
+        ^pos-ref <pos-ref> ^order (- <ccount>) )}
 
 sp	{anaphor*propose*resolve*special-empty*as*special-fill
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
@@ -893,13 +893,13 @@ sp	{anaphor*propose*resolve*special-empty*as*special-fill
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind special-fill ^priority 51 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
-        ^order (- <ccount>) ^complete? no)}
+        ^order (- <ccount>) )}
 
 # application
 
 sp	{anaphor*apply*resolve*special-fill
    (state <s> ^operator <o>)
-   (<o> ^name resolve ^kind special-fill ^ana-ref <ana-ref> ^ante-ref <ante-ref> ^complete? no)
+   (<o> ^name resolve ^kind special-fill ^ana-ref <ana-ref> ^ante-ref <ante-ref> )
    (<ante-ref> ^head.wvalue <new-wvalue>)
    (<ana-ref> ^head <head>)
    (<head> ^wvalue <old-wvalue>)
@@ -910,7 +910,7 @@ sp	{anaphor*apply*resolve*special-fill
 
 sp	{anaphor*apply*unidentified*oppart
    (state <s> ^operator <o> ^next-unidentified-individual <number>)
-   (<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> ^complete? no)
+   (<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> )
    (<ana-ref> ^head <head>)
    (<head> ^wvalue <wvalue>)
 -->
@@ -920,7 +920,7 @@ sp	{anaphor*apply*unidentified*oppart
 
 sp	{anaphor*apply*unidentified*statepart
    (state <s> ^operator <o> ^next-unidentified-individual <number>)
-   (<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> ^complete? no)
+   (<o> ^name resolve ^kind unidentified ^ana-ref <ana-ref> )
    (<ana-ref> ^head <head>)
    (<head> ^wvalue <wvalue>)
 -->
@@ -1107,7 +1107,7 @@ sp	{anaphor*propose*rip
 -->
    (<s> ^operator <o> +)
    (<o> ^name rip ^priority 204 ^ref <ref> ^aug <aug> ^replace <replace>
-        ^order <count> ^level-two-order <wcount> ^complete? no)}
+        ^order <count> ^level-two-order <wcount> )}
 
 sp	{anaphor*apply*rip
   :o-support
@@ -1129,7 +1129,7 @@ sp	{anaphor*propose*cascade*into-river
 -->
    (<s> ^operator <o> +)
    (<o> ^name cascade ^priority 203 ^kind into-river ^river <arg>
-        ^order <count> ^level-two-order <wcount> ^complete? no)}
+        ^order <count> ^level-two-order <wcount> )}
 
 sp	{anaphor*apply*cascade*into-river
    (state <s> ^count <count> ^operator <o> ^anaphor.cascades <cascs>
@@ -1155,7 +1155,7 @@ sp	{anaphor*propose*cascage*dried-up
 -->
    (<s> ^operator <o> +)
    (<o> ^name cascade ^priority 202 ^kind dried-up ^river <casc>
-        ^order <wcount> ^complete? no)}
+        ^order <wcount> )}
 
 sp	{anaphor*apply*cascage*dried-up
    (state <s> ^operator <o> ^anaphor <anaphor>)
@@ -1180,7 +1180,7 @@ sp	{anaphor*propose*merge
 -->
    (<s> ^operator <o> +)
    (<o> ^name merge ^priority 201 ^ref <ref> ^aug <aug> ^temp <temp> ^replace <replace>
-        ^order <count> ^level-two-order <wcount> ^complete? no)}
+        ^order <count> ^level-two-order <wcount> )}
 
 sp	{anaphor*apply*merge
    (state <s> ^operator <o>)
@@ -1196,12 +1196,12 @@ sp	{anaphor*propose*clean-up-merge
    (<merge> -^replace nil)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name clean-up-merge ^priority 200 ^complete? no)}
+   (<o> ^name clean-up-merge ^priority 200 )}
 
 sp	{anaphor*apply*clean-up-merge
    (state <s> ^operator <o> ^anaphor <anaphor>)
    (<anaphor> ^merge <old-merge>)
-   (<o> ^name clean-up-merge ^complete? no)
+   (<o> ^name clean-up-merge )
 -->
    (<anaphor> ^merge <old-merge> - <merge> +)
    (<merge> ^temp nil ^replace nil)
@@ -1216,7 +1216,7 @@ sp	{anaphor*propose*remove-non-elliptically-included-semantics*ext
 -->
    (<s> ^operator <o> +)
    (<o> ^name remove-non-elliptically-included-semantics ^priority 210 ^replace <replace>
-        ^aug ext ^arg <ext> ^merge <merge> ^complete? no)}
+        ^aug ext ^arg <ext> ^merge <merge> )}
 
 sp	{anaphor*propose*remove-non-elliptically-included-semantics*int-with-no-ext
    (state <s> ^anaphor.merge <merge>)
@@ -1225,7 +1225,7 @@ sp	{anaphor*propose*remove-non-elliptically-included-semantics*int-with-no-ext
 -->
    (<s> ^operator <o> +)
    (<o> ^name remove-non-elliptically-included-semantics ^priority 205 ^replace <replace>
-        ^aug int ^arg <int> ^merge <merge> ^complete? no)}
+        ^aug int ^arg <int> ^merge <merge> )}
 
 sp	{anaphor*apply*remove-non-elliptically-included-semantics
    (state <s> ^operator <o>)
@@ -1243,7 +1243,7 @@ sp	{anaphor*propose*remove-center
    (<ref> ^head.wcount <wcount> ^remove center)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name remove-center ^priority 150 ^ref <ref> ^order <wcount> ^complete? no)}
+   (<o> ^name remove-center ^priority 150 ^ref <ref> ^order <wcount> )}
 
 sp	{anaphor*apply*remove-center
    (state <s> ^operator <o>)

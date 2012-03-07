@@ -20,7 +20,7 @@ sp {realize*propose*ref*as*new-idea
 -->
    (<s> ^operator <o> +)
    (<o> ^name new-idea ^priority 20 ^ref <ref>
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 ## realize as coref
 # def-desc
@@ -34,7 +34,7 @@ sp {realize*propose*def-desc-ref*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind general
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realize*apply*general-coref
    (state <s> ^operator <o>)
@@ -52,7 +52,7 @@ sp {realize*propose*binding*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind remove-binding
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realize*apply*remove-binding
    (state <s> ^operator <o>)
@@ -73,7 +73,7 @@ sp {realize*propose*sloppy-binding*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ana-ref> ^idea <ante-idea> ^kind remove-sloppy-binding
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realive*apply*remove-sloppy-binding
    (state <s> ^operator <o>)

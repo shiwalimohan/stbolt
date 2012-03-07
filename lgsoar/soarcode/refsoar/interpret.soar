@@ -25,7 +25,7 @@ sp {interpret*propose*give-root-ref
 -->
    (<s> ^operator <o> +)
    (<o> ^name give-root-ref ^priority 160 ^root-word <root-word> ^sentence <cs>
-        ^order <root-count> ^complete? no)}
+        ^order <root-count> )}
 
 sp {interpret*apply*give-root-ref
     :o-support
@@ -51,7 +51,7 @@ sp	{interpret*propose*S*as*external
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count>
-   	 ^complete? no)}
+   	 )}
 
 sp {interpret*propose*O*as*internal
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -63,7 +63,7 @@ sp {interpret*propose*O*as*internal
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
    	 ^kind single ^order <main-count> ^level-two-order <int-count>
-   	 ^complete? no)}
+   	 )}
 
 sp {interpret*propose*S-P*as*passive
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -76,7 +76,7 @@ sp {interpret*propose*S-P*as*passive
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <S-link>
-   	 ^kind single ^order <int-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind single ^order <int-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*S-I*as*inflected
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -89,7 +89,7 @@ sp {interpret*propose*S-I*as*inflected
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <S-link>
-   	 ^kind single ^order <ext-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
 	
 sp {interpret*propose*D*as*definite-description
    (state <s> 
@@ -104,7 +104,7 @@ sp {interpret*propose*D*as*definite-description
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
-   	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> ^complete? no)
+   	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
    (<desc> ^word <def-desc> ^feature DEF)
  }
 
@@ -119,7 +119,7 @@ sp {interpret*propose*D*as*indefinite-description
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
-   	 ^kind constant ^order <indef-desc-count> ^level-two-order <main-count> ^complete? no)
+   	 ^kind constant ^order <indef-desc-count> ^level-two-order <main-count> )
    (<desc> ^word <indef-desc> ^feature INDEF)}
 
 sp {interpret*propose*D*as*possessive
@@ -131,7 +131,7 @@ sp {interpret*propose*D*as*possessive
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug pos ^arg <pos-pro> ^link <link>
-   	 ^kind single ^order <pos-pro-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind single ^order <pos-pro-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*I*as*inflection
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -142,7 +142,7 @@ sp {interpret*propose*I*as*inflection
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug infl ^arg <wvalue> ^link <link>
-   	 ^kind constant ^order <infl-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind constant ^order <infl-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*E*as*mode
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -153,7 +153,7 @@ sp {interpret*propose*E*as*mode
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug mode ^arg <wvalue> ^link <link>
-   	 ^kind constant ^order <mode-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind constant ^order <mode-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*I/N*as*negation
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -166,7 +166,7 @@ sp {interpret*propose*I/N*as*negation
 -->
 	(<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug neg ^arg not ^link <N-link>
-   	 ^kind constant ^order <neg-count> ^level-two-order <main-count> ^complete? no)}
+   	 ^kind constant ^order <neg-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*MV-J*as*preposition
    (state <s> ^count <count> ^io.lgsentence <cs>)
@@ -180,7 +180,7 @@ sp {interpret*propose*MV-J*as*preposition
    (<s> ^operator <o> +)
    (write (crlf) interpret*propose*MV-J*as*preposition)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug <aug> ^arg <prep-obj> ^link <MV-link>
-   	 ^kind single ^order <main-count> ^level-two-order <prep-count> ^complete? no)}
+   	 ^kind single ^order <main-count> ^level-two-order <prep-count> )}
  
 
 sp {interpret*propose*AN*as*noun-auging-noun
@@ -192,7 +192,7 @@ sp {interpret*propose*AN*as*noun-auging-noun
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug aug ^arg <arg> ^link <link>
-   	 ^kind single-side ^order <main-count> ^level-two-order <arg-count> ^complete? no)}
+   	 ^kind single-side ^order <main-count> ^level-two-order <arg-count> )}
    	 
 
 # applications
@@ -201,7 +201,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant
   :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant
-       ^complete? no)
+       )
    (<main> ^ref <main-ref>)
 -->
    (<main-ref> ^<aug> <cons-arg> +)
@@ -215,7 +215,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
   :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant 
-       ^complete? no)
+       )
    (<main> ^ref <main-ref>)
    (<cons-arg> ^feature <fval> ^word <wval>)
 -->
@@ -228,7 +228,7 @@ sp {interpret*apply*single-side-add-arg
   :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single-side
-   	 ^complete? no)
+   	 )
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
@@ -243,7 +243,7 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
    :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single
-   	 ^complete? no)
+   	 )
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
@@ -258,7 +258,7 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
 sp {interpret*apply*single-add-arg*if*arg-has-ref
    (state <s> ^operator <o> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single
-       ^complete? no)
+       )
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> ^ref <arg-ref>)
