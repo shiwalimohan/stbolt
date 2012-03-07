@@ -36,7 +36,7 @@ sp {interpret*apply*give-root-ref
    (<refs> ^ref <ref> +)
    (<root-word> ^ref <ref>)
    (<ref> ^head <root-word> ^rooted-in <cs>)
-   (<o> ^complete?x yes +)}
+}
 
 ## add-arg
 # proposals
@@ -206,7 +206,6 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant
 -->
    (<main-ref> ^<aug> <cons-arg> +)
    (<link> ^handled-as <aug> +)
-   (<o> ^complete?x yes +)
    }
 excise interpret*apply*single-add-arg*if*arg-is-constant
 ## soar9 problem: substructure under <cons-arg> loses o-support and disappears; adding it explicitly fixes the problem
@@ -223,7 +222,6 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
    (<main-ref> ^<aug> <dfoo> +)
    (<dfoo> ^feature <fval> + ^word <wval> +)
    (<link> ^handled-as <aug> +)
-   (<o> ^complete?x yes +)
    }
 
 sp {interpret*apply*single-side-add-arg
@@ -240,8 +238,7 @@ sp {interpret*apply*single-side-add-arg
    (<arg-ref> ^head <arg> ^center nil)
    (<arg> ^ref <arg-ref>)
    (<link> ^handled-as <aug>)
-   (<o> ^complete?x yes +)}
-
+}
 sp {interpret*apply*single-add-arg*if*arg-requires-ref
    :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
@@ -256,7 +253,7 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
    (<arg-ref> ^head <arg>)
    (<arg> ^ref <arg-ref>)
    (<link> ^handled-as <aug>)
-   (<o> ^complete?x yes +)}
+}
 
 sp {interpret*apply*single-add-arg*if*arg-has-ref
    (state <s> ^operator <o> ^refsets.refs <refs>)
@@ -268,5 +265,4 @@ sp {interpret*apply*single-add-arg*if*arg-has-ref
 -->
    (<main-ref> ^<aug> <arg-ref> +)
    (<link> ^handled-as <aug>)
-   (<o> ^complete?x yes +)
 }

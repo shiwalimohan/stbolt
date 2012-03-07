@@ -33,7 +33,6 @@ sp {global*apply*processing-complete*graph
         (<refs> ^count <count>)
          (<io> ^lgsentence <anylgio> ^output-preds <iop>)
          -->
-         (<o> ^complete?x yes +)
          (<refsets> ^refs <refs> -)
          (<s> ^halt immediately +)
      }

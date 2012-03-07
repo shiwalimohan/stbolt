@@ -567,10 +567,9 @@ sp	{global*propose*find-root
 sp	{global*apply*find-root
     :o-support
 	(state <s> ^operator <o> ^root <old>)
-	(<o> ^name find-root ^new <new> -^complete?x)
+	(<o> ^name find-root ^new <new>)# -^complete?x)
 -->
-	(<s> ^root <old> - <new> +)
-	(<o> ^complete?x yes +)}
+	(<s> ^root <old> - <new> +)}
 	
 	
 ## return-to-nil
@@ -595,10 +594,9 @@ sp	{global*apply*return-to-nil*if-refs-not-marked-complete
 	(<head> ^wcount <wcount> - <rcount> +)
 	(<word> ^return <wcount> -)
 	(<word> ^wcount <wcount>)
-	(<refs> ^complete?x yes)
 	(<ref> ^return-to-nil <rcount> -)
 	(<ref> ^special empty +)
-	(<o> ^complete?x yes +)}
+}
 
 sp	{global*apply*return-to-nil*if-refs-marked-complete
 	(state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
@@ -613,7 +611,7 @@ sp	{global*apply*return-to-nil*if-refs-marked-complete
 	(<word> ^wcount <wcount>)
 	(<ref> ^return-to-nil <rcount> -)
 	(<ref> ^special empty +)
-	(<o> ^complete?x yes +)}
+}
 
 
 ## Preference Rules
@@ -645,15 +643,6 @@ sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
 	(<s> ^operator <preferred> > <deferred>)}
 
 	
-## Terminate operators
-
-sp	{global*terminate*operator
-	(state <s> ^operator <o>)
-	(<o> ^complete?x yes)
--->
-	(<o> ^annotationDWL terminate-me +)
-	}
-
 ## Halt
 
 sp	{global*halt

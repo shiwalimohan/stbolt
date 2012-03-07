@@ -36,7 +36,6 @@ sp {realize*apply*ref*as*new-idea
 #	(<new> ^wcount <wccount>)
 	(<new> ^nuc <nuc> ^wcount <wcount> +)
 	(<ref> ^pointer <new>)
-	(<o> ^complete?x yes +)
 }
 
 ## nothing from prep-prods.soar
@@ -60,7 +59,6 @@ sp {global*apply*processing-complete
 	(<theref> ^pointer <ptr> ^desc.feature <any>)
 	(<ptr> -^annotation feat-dumped)}
 -->
-	(<o> ^complete?x yes +)
 	(<refsets> ^refs <refs> -)
 	(<s> ^halt immediately)}
 
@@ -246,7 +244,6 @@ sp {global*apply*processing-complete*nolinks
     (<refsets> ^refs <refs>)
     (<refs> ^count <count>)
     -->
-    (<o> ^complete?x yes)
 #    (<s> ^badsentence yes +)
     (write (crlf) (exec flagbadsentence))
     (<refsets> ^refs <refs> -)
@@ -327,7 +324,6 @@ sp {global*apply*processing-complete*links
     (<refs> ^count <count>)
     (<i*1> ^lgsentence <anylgio>)
     -->
-    (<o> ^complete?x yes +)
     (<refsets> ^refs <refs> -)
     (<s> ^halt immediately +)
 }
@@ -381,7 +377,6 @@ sp {global*apply*processing-complete*links
       (<ptr> -^feat-dumped <anyfoo>)
     }
     -->
-    (<o> ^complete?x yes +)
     (<refsets> ^refs <refs> -)
     (<s> ^halt immediately +)
 }
@@ -418,7 +413,6 @@ sp {global*apply*processing-complete*links
 
     (<io> ^output-preds <out> +)
     (exec output_preds | | <out>)
-#    (<o> ^complete?x yes +)
 #    (<refsets> ^refs <refs> -)
 #    (cmd command-to-file <tfile> print --depth 30 i1)
 #    (exec perlmkgviz)

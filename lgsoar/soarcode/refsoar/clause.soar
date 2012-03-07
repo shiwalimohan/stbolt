@@ -49,8 +49,7 @@ sp {clause*apply*recognize-phrase
 -->
    (<clauses> ^clause <clause> +)
    (<clause> ^count <count> + ^main-S <main-S> + ^<aug> <arg> +)
-   (<link> ^handled-as <wvalue> +)
-   (<o> ^complete?x yes +)}
+   (<link> ^handled-as <wvalue> +)}
 
 ### recognize-main-verb
 ### these involve either TH or CO
@@ -89,8 +88,7 @@ sp {clause*apply*recognize-main-verb
    (<clause> ^count <count> ^main-S.wcount <main-S-count>)
 -->
    (<clause> ^main <main> +)
-   (<o> ^complete?x yes +)}
-
+}
 
 ### recognize-introductory-verb
 ### these are for a tensed pre-matrix dependent clause
