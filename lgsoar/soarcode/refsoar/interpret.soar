@@ -21,14 +21,16 @@
 sp {interpret*propose*give-root-ref
    (state <s>  ^io.lgsentence <cs> ^count <count> ^root <root>)
    (<cs> ^count <count> ^words.word <root-word>)
-   (<root-word> ^wcount <root> -^ref -^hidden ref)
+   (<root-word> ^wcount <root> -^ref -^hidden ref ^wvalue <value>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name give-root-ref ^priority 160 ^root-word <root-word> ^sentence <cs>
-        ^order <root-count> )}
+        ^order <root-count> 
+        ^debug-info (concat |adding a reference for root "| <value> |"|))
+}
 
 sp {interpret*apply*give-root-ref
-    :o-support
+ #   :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name give-root-ref ^root-word <root-word>  ^sentence <cs>)
@@ -178,7 +180,6 @@ sp {interpret*propose*MV-J*as*preposition
    (<J-link> ^ltype J ^lwleft <prep-count> ^lwright <prep-obj-count>)
 -->
    (<s> ^operator <o> +)
-   (write (crlf) interpret*propose*MV-J*as*preposition)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug <aug> ^arg <prep-obj> ^link <MV-link>
    	 ^kind single ^order <main-count> ^level-two-order <prep-count> )}
  
@@ -198,7 +199,7 @@ sp {interpret*propose*AN*as*noun-auging-noun
 # applications
 
 sp {interpret*apply*single-add-arg*if*arg-is-constant
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant
        )
@@ -212,7 +213,7 @@ excise interpret*apply*single-add-arg*if*arg-is-constant
 
     
 sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
-  :o-support
+#  :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant 
        )
@@ -225,7 +226,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
    }
 
 sp {interpret*apply*single-side-add-arg
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single-side
    	 )
@@ -240,7 +241,7 @@ sp {interpret*apply*single-side-add-arg
    (<link> ^handled-as <aug>)
 }
 sp {interpret*apply*single-add-arg*if*arg-requires-ref
-   :o-support
+ #  :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single
    	 )

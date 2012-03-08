@@ -43,5 +43,44 @@ sp {elaborate*report-predicate
 -->
    (write (crlf) <p>)
 }
+
+sp {elaborate*proposed*add-arg*debug-info
+  (state <s> ^operator <o> +
+             ^io.lgsentence.words <wd>)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^link <link>
+       ^kind <kind>)
+  (<main> ^wvalue <wval>)
+  (<link> ^ltype <ltype>
+          ^lwleft <left> ^lwright <right>)
+  (<wd> ^word <wleft> ^word <wright>)
+  (<wleft> ^wcount <left> ^wvalue <leftword>)
+  (<wright> ^wcount <right> ^wvalue <rightword>)
+-->
+  (<o> ^debug-info (concat |adding "| <wval> |" as | <aug> |, kind | <kind> | due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|))
+}
+
+sp {elaborate*proposed*add-arg*debug-info*side
+  (state <s> ^operator <o> +)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^arg.wvalue <wval>
+       -^arg.ref
+       ^link <link>
+       ^kind << single single-side >>)
+  (<link> ^ltype <ltype>)
+-->
+  (<o> ^debug-info (concat |side effect: new ref from "|<wval>|" added|))
+}
+
      
-    
+sp {apply*any*print-debug-info
+   (state <s> ^operator <o>)
+   (<o> ^name <any>
+        ^debug-info <info>)
+-->
+   (write (crlf) (concat |        | <info>))
+}

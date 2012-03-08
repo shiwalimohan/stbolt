@@ -115,7 +115,7 @@ sp	{Link*apply*D*linkage
 	(<a> ^link <link> +)} 	
 
 sp	{Link*fail*apply*D*linkage*cause*left-needs*det-cond
-   :o-support
+ #  :o-support
 	(state <s> ^operator <o> ^analysis <a>)
 	(<o> ^name linkage ^ltype D ^lwright <lr> ^lwleft <ll> ^link <link>
 		 )
@@ -127,7 +127,7 @@ sp	{Link*fail*apply*D*linkage*cause*left-needs*det-cond
 }
 
 sp	{Link*fail*apply*D*linkage*cause*right-needs*dref
-   :o-support
+ #  :o-support
 	(state <s> ^operator <o> ^analysis <a>)
 	(<o> ^name linkage ^ltype D ^lwright <lr> ^lwleft <ll> ^link <link>
 		 )

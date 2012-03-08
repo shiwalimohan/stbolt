@@ -62,7 +62,7 @@ sp	{Activate*create*space
 -->
    (<s> ^problem-space <p> ^refsets <refsets> ^model <m> ^count 0 ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1)
-   (<io> ^total-sentences 2)
+   (<io> ^total-sentences 1)
    (<refsets> ^refs <refs> +)
    (<refs> ^count 0)
    (<a> ^acount 1 ^centers <centers> ^unblock? no ^merge <merge> ^cascades <cascs>)
@@ -71,7 +71,8 @@ sp	{Activate*create*space
    (<centers> ^center <null-center> +)
    (<null-center> ^ccount 0 ^ref nil ^blocked? no
                   ^kind first +, second +, third +, verb +)
-   (<p> ^name lgsoar-input)}
+   (<p> ^name lgsoar-input)
+}
 
 # test cases
 
@@ -519,7 +520,7 @@ sp {global*propose*start-next-sentence
    (<o> ^name start-next-sentence ^priority 0 ^count <count> )}
 
 sp	{global*apply*start-next-sentence
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
    (<o> ^name start-next-sentence ^count <count> )
 -->
@@ -533,7 +534,7 @@ sp	{global*apply*start-next-sentence
 
 
 sp	{global*apply*find-root
-    :o-support
+  #  :o-support
    (state <s> ^operator <o> ^root <old>)
    (<o> ^name find-root ^new <new>)
 -->
@@ -681,7 +682,7 @@ sp	{anaphor*propose*add-elliptical-verb-syntax*for-expected-I-link
         ^order <wcount> )}
 
 sp	{anaphor*apply*add-elliptical-verb-syntax
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^io.lgsentence <cs>)
    (<o> ^name add-elliptical-verb-syntax ^word <word> ^ltype <ltype> ^order <wcount>)
    (<cs> ^count <count> ^links <links> ^words <words>)
@@ -698,13 +699,15 @@ sp	{anaphor*propose*unblock-center*general
    (state <s> ^anaphor <a>)
    (<a> ^centers <centers> ^unblock? general)
    (<centers> ^center <center>)
-   (<center> ^blocked? yes ^ccount <ccount>)
+   (<center> ^blocked? yes ^ccount <ccount> ^ref.head.wvalue <word>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name unblock-center ^priority 210 ^center <center> ^order <ccount> )}
+   (<o> ^name unblock-center ^priority 210 ^center <center> ^order <ccount>
+        ^debug-info (concat |unblocking center for word "| <word> |"|))
+}
 
 sp	{anaphor*apply*unblock-center
-  :o-support
+ # :o-support
    (state <s> ^operator <o>)
    (<o> ^name unblock-center ^center <center>)
 -->
@@ -721,7 +724,7 @@ sp	{anaphor*propose*unblocking-finished
    (<o> ^name unblocking-finished ^priority 209 )}
 
 sp	{anaphor*apply*unblocking-finished
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^anaphor <a>)
    (<o> ^name unblocking-finished)
    (<a> ^unblock? {<> no <not-no>})
@@ -733,39 +736,44 @@ sp	{anaphor*apply*unblocking-finished
 
 sp	{anaphor*propose*add-verb-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> ^rooted-in <something> -^center)
+   (<ref> ^rooted-in <something> -^center ^head.wvalue <wval>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind verb ^ref <ref> ^new-acount (+ <acount> 1)
-     )}
+        ^debug-info (concat |adding verb center for reference from "| <wval> |"|))
+}
 
 sp	{anaphor*propose*add-first-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> ^head.wvalue << I me mine >> -^center)
+   (<ref> ^head.wvalue {<< I me mine >> <wval>} -^center)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind first ^ref <ref> ^new-acount (+ <acount> 1)
-     )}
+        ^debug-info (concat |adding first-person center for reference from "| <wval> |"|))
+}
 
 
 sp	{anaphor*propose*add-second-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> ^head.wvalue << you yours >> -^center)
+   (<ref> ^head.wvalue {<< you yours >> <wval>} -^center)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind second ^ref <ref> ^new-acount (+ <acount> 1)
-     )}
+        ^debug-info (concat |adding second-person center for reference from "| <wval> |"|))
+}
 
 sp	{anaphor*propose*add-third-center
    (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> -^rooted-in -^head.wvalue << I me my mine you your yours its his her >> -^center)
+   (<ref> -^rooted-in -^head.wvalue << I me my mine you your yours its his her >> -^center
+           ^head.wvalue <wval>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind third ^ref <ref> ^new-acount (+ <acount> 1)
-     )}
+        ^debug-info (concat |adding third-person center for reference from "| <wval> |"|))
+}
 
 sp	{anaphor*apply*add-center
-    :o-support
+  #  :o-support
    (state <s> ^operator <o> ^anaphor <a>)
    (<o> ^name add-center ^kind <kind> ^ref <ref> ^new-acount <new-acount> )
    (<a> ^acount <acount> ^centers <centers>)
@@ -793,7 +801,7 @@ sp	{anaphor*propose*add-first-center*out-of-order
         ^out-acount (- <acount> 1.5) )}
 
 sp	{anaphor*apply*add-center*out-of-order
-  :o-support
+#  :o-support
    (state <s> ^operator <o> ^anaphor <a>)
    (<o> ^name add-center-out-of-order ^kind <kind> ^ref <ref> ^out-acount <out-acount>
         )
@@ -1101,16 +1109,18 @@ sp	{anaphor*propose*rip
    (<anaphor> ^acount <acount> ^merge <merge> ^cascades.records <records>)
    (<merge> ^temp <temp> ^replace <replace>)
    (<refs> ^count <count> ^ref <ref>)
-   (<ref> ^{<> pos <aug>} <replace> ^head.wcount <wcount> -^special)
+   (<ref> ^{<> pos <aug>} <replace> ^head.wcount <wcount> -^special ^head.wvalue <wval>)
   -{(<records> ^record <record>)
     (<record> ^ref <replace> ^cascaded-at <acount>)}
 -->
    (<s> ^operator <o> +)
    (<o> ^name rip ^priority 204 ^ref <ref> ^aug <aug> ^replace <replace>
-        ^order <count> ^level-two-order <wcount> )}
+        ^order <count> ^level-two-order <wcount>
+        ^debug-info (concat |removing aug ^| <aug> | | <replace> | from reference from "| <wval> |"|))
+}
 
 sp	{anaphor*apply*rip
-  :o-support
+ # :o-support
    (state <s> ^operator <o>)
    (<o> ^name rip ^ref <ref> ^aug <aug> ^replace <replace>)
 -->

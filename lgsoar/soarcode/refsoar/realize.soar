@@ -16,11 +16,13 @@
 sp {realize*propose*ref*as*new-idea
    (state <s> ^count <count> ^refsets.refs <refs>)
    (<refs> ^count <count> ^ref <ref>)
-   (<ref> ^head.wcount <wcount> -^pointer -^sloppy-binding)
+   (<ref> ^head.wcount <wcount> -^pointer -^sloppy-binding ^head.wvalue <val>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name new-idea ^priority 20 ^ref <ref>
-   	 ^order <wcount> )}
+   	 ^order <wcount> 
+     ^debug-info (concat |realizing reference from "| <val> |" as new idea|))
+}
 
 ## realize as coref
 # def-desc

@@ -40,7 +40,7 @@ sp {clause*propose*recognize-introductory-phrase
         ^order <conj-count> + ^level-two-order <main-S-count> +  +)}
 
 sp {clause*apply*recognize-phrase
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses <clauses>)
    (<o> ^name recognize-phrase ^main-S <main-S> ^<< that conj >> <arg> ^link <link>
         )
@@ -82,7 +82,7 @@ sp {clause*propose*recognize-main-verb*if-main-carries-infl
         ^order <main-S-count> ^level-two-order <main-count> )}
 
 sp {clause*apply*recognize-main-verb
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses.clause <clause>)
    (<o> ^name recognize-main-verb ^main <main>  ^order <main-S-count>)
    (<clause> ^count <count> ^main-S.wcount <main-S-count>)
@@ -132,7 +132,7 @@ sp {clause*propose*recognize-introductory-verb*if-intro-does-not-carry-infl
         ^order <conj-count> ^level-two-order <intro-count> )}
 
 sp {clause*apply*recognize-introductory-verb*if-intro-does-not-carry-infl
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses.clause <clause>)
    (<o> ^name recognize-introductory-verb ^intro <intro> -^fix ^order <conj-count> )
    (<clause> ^count <count> ^<< that conj >>.wcount <conj-count>)

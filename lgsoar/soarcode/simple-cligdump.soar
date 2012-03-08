@@ -10,7 +10,6 @@ sp {global*propose*processing-complete
 
 
 sp {realize*apply*ref*as*new-idea
-   :o-support
 	(state <s> ^operator <o> ^model <m>)
 	(<o> ^name new-idea ^ref <ref>)
 	(<ref> ^head <head>)
@@ -62,14 +61,16 @@ sp {interpret*propose*P*as*internal
 sp {global*propose*find-root
 	(state <s> ^count <count> ^io.lgsentence <cs> ^root <old>)
 	(<cs> ^count <count> ^links.link <link> ^words.word <child> <parent>)
-	(<child> ^wcount <old>)
-	(<parent> ^wcount <new>)
+	(<child> ^wcount <old> ^wvalue <oldVal>)
+	(<parent> ^wcount <new> ^wvalue <newVal>)
 	(<link> ^lwleft <old> ^lwright <new>)
-	(<link> ^ltype << AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
-					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS >>)
+	(<link> ^ltype {<< AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
+					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS |S*b| >> <type>})
+            # SBW added S*b for "This is a block."
 -->
 	(<s> ^operator <o> + >)
-	(<o> ^name find-root ^priority 170 ^new <new> )
+	(<o> ^name find-root ^priority 170 ^new <new> 
+       ^debug-info (concat |found root of | <type> | link from "| <oldVal> |" to "| <newVal> |"|))
 }
 
 
@@ -213,27 +214,6 @@ sp {global*apply*processing-complete*nolinks
 }
 
 
-
-sp {|Activate*create*space|
-    (state <s> ^superstate nil ^io <io>)
-    -->
-    (<s> ^problem-space <p> + ^refsets <refsets> + ^model <m> + ^count 0 +
-           ^root 0 + ^anaphor <a> + ^clauses <clauses> +
-           ^next-unidentified-individual 1 +)
-    (<io> ^total-sentences 2 +)
-    (<refsets> ^refs <refs> +)
-    (<refs> ^count 0 +)
-    (<a> ^acount 1 + ^centers <centers> + ^unblock? no + ^merge <merge> +
-           ^cascades <cascs> +)
-    (<cascs> ^records <records> + ^ante-off-set none + ^ana-off-set none)
-    (<merge> ^temp nil + ^replace nil +)
-    (<centers> ^center <null-center> +)
-    (<null-center> ^ccount 0 + ^ref none + ^blocked? no + ^kind first +
-           ^kind second + ^kind third +
-           ^kind verb + )
-    (<p> ^name lgsoar-input +)
-}
-
 # from /export/home/ctustiso/lgsoar_files/numbers2.soar
 sp	{clause*propose*recognize-quantification-number-phrases
 	(state <s> ^count <count> ^io <io> ^model <model> ^operator <o>)
@@ -292,7 +272,7 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*use-arg
 
 
 sp {global*apply*processing-complete*links
-    :o-support
+  :o-support
     (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io> )
    -{ (<s> ^anaphor <a*2>)
       (<a*2> ^centers <c*1>)
