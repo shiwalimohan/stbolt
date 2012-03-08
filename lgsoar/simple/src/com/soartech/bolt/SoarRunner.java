@@ -148,13 +148,21 @@ public class SoarRunner implements PrintEventInterface {
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(lgInputRoot, "links");
         
+        String noStarsPattern = "\\*";
+        String pattern = "([A-Z]+)([a-z]*)";
+        
         // now load the links
         for (int linkIndex = 0; linkIndex < numLinks; linkIndex++) {
             rWordIndex = thisLinkage.linkage_get_link_rword(linkIndex);
             lWordIndex = thisLinkage.linkage_get_link_lword(linkIndex);
             linkLabel = thisLinkage.linkage_get_link_label(linkIndex);
            
-            String pattern = "([A-Z]+)([a-z]*)";
+            // SBW 3/8/12
+            // remove all *'s from the link names
+            // these indicate "any subtype in this position"
+            // not sure what to do with them, but they definitely shouldn't be stuck to the main type
+            linkLabel = linkLabel.replaceAll(noStarsPattern, "");
+            
             String ltype = linkLabel;
             ltype = ltype.replaceAll(pattern, "$1");
             String lsubtype = linkLabel;
