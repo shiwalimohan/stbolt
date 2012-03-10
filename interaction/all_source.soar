@@ -1,6 +1,6 @@
 source communicate-instructor.soar
 source push-segment.soar
-source parse-instructor-message.soar
+source copy-instructor-message.soar
 source pop-segment.soar
 source resolve-stack.soar
 source associate-purpose-instructor-message.soar
@@ -10,4 +10,3 @@ source preferences.soar
 source elaborations.soar
 source nl.soar
 source wait-for-instructor.soar
-source elaborate-instructor-message.soar
