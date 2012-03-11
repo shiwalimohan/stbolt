@@ -1,47 +1,55 @@
-* Events
+* Terminology
+** Interaction stack
+The stack maintains the context of interaction between the agent and
+the instructor. Both the agent and instructor can introduce new
+'topics' in to the interaction. 
+** Events
 An event is anything that changes the state of the environment,
 interaction or agent's knowledge. Following events are pertinents to
 this project.
-** action
+*** action
 an action event can be an =external-action=: the agent causes the
 environment to change, or an =internal-action=: the agent causes the
 hypothetical/imagined/simulated state to change.
 
-** dialog
+*** dialog
 a dialog event causes the state of the interaction to change. Dialog
 events are described in the MIISI document.
 
-** learning
+*** learning
 a learning event changes the knowledge of the agent. It can belong to
 following categories.
-*** verb
+**** verb
 - explanation: learn a new action by chunking
-*** object
+**** object
 - attribute-category: learn a the category of an attribute word; example: red
   is a color.
 - object-attribute: learn an attribute for an object
 - ie-mapping: learn a mapping between an internal and external
   attribute
 
-* Segment
-A set of contiguous events that have a purpose. It is defined by the
-following fields.
+** Segment
+A segment is a set of events that have a common purpose. The
+interaction stack maintains all the 'open' segments, ie, the segments
+whose purpose has not been satisfied yet. 
 
-** Purpose
+A segment is defined by the following fields. 
+
+*** Purpose
 Purpose of segments are defined by the following fields.
-*** Type
+**** Type
 A purpose can be of following types. 
-**** Instructor purpose
+***** Instructor purpose
 - execute-action
 - gather-information
-**** Agent purpose
+***** Agent purpose
 - gather-information
-*** Satisfaction
+**** Satisfaction
 An open segment on the interaction stack generates a set of events
 that should occur for the purpose of that segment to be satisfied,
 thereby ending the segment and removing it from the interaction stack.
 
-** Expectation
+*** Expectation
 An open segment generates a set of expected events. If an event occurs
 that is not in the set of expectations, it is considered an
 interrupting event and handled accordingly. (It is related to
