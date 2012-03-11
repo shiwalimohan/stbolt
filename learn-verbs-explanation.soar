@@ -10,6 +10,8 @@ pushd ./interaction
 source all_source.soar
 popd
 
+source default.soar
+
 
 sp {propose*init-agent
    (state <s> -^name

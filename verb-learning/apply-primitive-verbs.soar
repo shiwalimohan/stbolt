@@ -1,3 +1,5 @@
+### break the operator-tie between all the primitive actions. assign highest preference to the operator that corresponds to the supplied verb command.
+
 sp {prefer*instructed*action*goto
    (state <s> ^operator <op> +
    	      ^interaction.stack.segment <top>)
