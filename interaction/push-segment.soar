@@ -18,16 +18,16 @@ sp {push-segment*create-segment
    (<prev-segment> ^id <id>)
    (<sop> ^name push-segment
    	  ^originator <init>
-	  ^purpose-type <type>
-	  ^purpose-satisfaction <sat>)
+	  ^purpose <p>)
+   (<p> ^type <type>)
 -->
    (<s> ^segment <seg>)
    (<seg> ^originator <init>
-    	  ^purpose <p>
+    	  ^purpose <np>
 	  ^id ( + <id> 1)
 	  ^next <prev-segment>
 	  ^epmem-id <eid>)
-   (<p> ^type <type>
+   (<np> ^type <type>
    	^satisfaction <new-sat>)
 }
 
@@ -35,7 +35,7 @@ sp {push-segment*create-satisfaction
    (state <s> ^name push-segment
    	      ^superstate.operator <op>)
    (<op> ^name push-segment
-	 ^purpose-satisfaction <sat>)
+	 ^purpose.satisfaction <sat>)
    (<s> ^segment <seg>)
    (<seg> ^purpose <p>)
    (<p> ^satisfaction <new-sat>)

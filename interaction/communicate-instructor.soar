@@ -8,31 +8,13 @@ sp {top-state*propose*communicate*case1
    (<cs> ^segment <seg>)
    (<seg> ^purpose <p>
    	  ^originator agent)
-   (<p> ^type get-further-instruction
+   (<p> ^type <ptype>
    	-^conveyed true)
 -->
    (<s> ^operator <op> +)
    (<op> ^name communicate
    	 ^category communication
-	 ^string next-instruction)}
-
-
-### case 2: if the agent wants to initiate a interaction, and the purpose of the dialog is to to get the next subaction
-
-sp {top-state*propose*communicate*case2
-   (state <s> ^topstate <s>
-   	      -^nl.input-link.message <message>
-	      ^interaction.stack <cs>)
-   (<cs> ^segment <seg>)
-   (<seg> ^purpose <p>
-   	  ^originator agent)
-   (<p> ^type get-next-subaction)
--->
-   (<s> ^operator <op> +)
-   (<op> ^name communicate
-   	 ^category communication
-	 ^string next-subaction)}
-
+	 ^string <ptype>)}
 
 
 ### if a communicate operator is proposed for a purpose that has been marked conveyed true, retract the proposal
