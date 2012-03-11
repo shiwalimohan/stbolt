@@ -12,8 +12,8 @@ sp {topstate*operator-tie*propose*write-unresolved-tie-topstate
 
 ### unresolved-tie application
 
-sp {operator-tie*apply*write-unresolved-tie-topstate
-   (state <s> ^operator <op>
+sp {operator-tie*apply*write-unresolved-tie-topstate*old
+   (state <s> ^operatorr <op>
 	      ^superstate <top>
 	      ^topstate <top>)
    (<top> ^task <ts>)
@@ -27,8 +27,8 @@ sp {operator-tie*apply*write-unresolved-tie-topstate
    (<tps> ^type unresolved-tie)
 }
 
-sp {operator-tie*apply*write-unresolved-ties-no-topstate
-   (state <s> ^superstate <ss>
+sp {operator-tie*apply*write-unresolved-ties-no-topstate*old
+   (state <s> ^superstater <ss>
    	      ^topstate <top> <> <ss>
 	      ^operator <op>)
    (<top> ^task <ts>)
@@ -41,6 +41,32 @@ sp {operator-tie*apply*write-unresolved-ties-no-topstate
    	   ^name <ssname>)
    (<prog> ^status <tps>)
    (<tps> ^type unresolved-tie)
+}
+
+
+### new
+
+sp {operator-tie*apply*write-unresolved-tie-topstate
+   (state <s> ^operator <op>
+	      ^superstate <top>
+	      ^topstate <top>)
+   (<top> ^status <status>)
+   (<op> ^name indicate-unresolved-tie)
+-->
+   (<status> ^type unresolved-tie
+   	     ^state-name topstate)
+}
+
+sp {operator-tie*apply*write-unresolved-ties-no-topstate
+   (state <s> ^superstate <ss>
+   	      ^topstate <top> <> <ss>
+	      ^operator <op>)
+   (<top> ^status <status>)
+   (<op> ^name indicate-unresolved-tie)
+   (<ss> ^name <ssname>)
+-->
+   (<status> ^type unresolved-tie
+   	     ^state-name <ssname>)
 }
 	      
  

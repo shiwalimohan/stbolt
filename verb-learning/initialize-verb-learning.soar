@@ -8,11 +8,6 @@ sp {topstate*apply*init*instruction
    (state <s> ^operator <op>)
    (<op> ^name init-agent)
 -->
-   (<s> ^state-stack <iss>
-	^task <t>)
-   (<iss> ^current <cs>)
-   (<cs> ^name <sname>
-	  ^next none
-	  ^last-performed-action none)
+   (<s> ^status <stat>)
    (dont-learn <s>)
 }

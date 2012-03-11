@@ -3,12 +3,12 @@
 
 #### temp for new primitive-actions grab-missile and align-tank
 
-sp {prefer*instructed*action*new    
+sp {prefer*instructed*action*new
    (state <s> ^operator <op> +
    	      ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
-   (<p> ^type environmental-action
+   (<p> ^type external-action
    	^satisfaction <ps>)
    (<ps> ^action-event <info>)
    (<info> ^word <verb-name>
@@ -25,7 +25,7 @@ sp {prefer*instructed*action*arg-values
    	      ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
-   (<p> ^type environmental-action
+   (<p> ^type external-action
    	^satisfaction <ps>)
    (<ps> ^action-event <info>)
    (<info> ^verb <verb-name>
@@ -69,14 +69,14 @@ sp {propose*instructed*action
    (state <s> ^interaction.stack.segment <top>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
-   (<p> ^type environmental-action
+   (<p> ^type external-action
    	^satisfaction <ps>)
    (<ps> ^action-event <info>)
    (<info> ^verb <verb-name> <> move <> turn <> radar <> grab-missile <> align-tank <> fire-missile)
 -->
    (<s> ^operator <op> +)  
    (<op> ^name <verb-name>
-   	 ^category new-environmental-action)
+   	 ^category new-external-action)
 }
    
    
@@ -85,7 +85,7 @@ sp {elaborate*instructed*action
    	      ^operator <op>)
    (<top> ^initiator instructor
    	  ^purpose <p>)
-   (<p> ^type environmental-action
+   (<p> ^type external-action
    	^satisfaction <ps>)
    (<ps> ^action-event <info>)
    (<info> ^verb <verb-name>
