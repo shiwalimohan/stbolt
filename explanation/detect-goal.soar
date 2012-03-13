@@ -1,0 +1,10 @@
+### write a rule to detect goal
+
+sp {new-operator*detect*goal
+   (state <s> ^desired <d>
+   	      ^<arg> <val>)
+   (<d> ^<arg> <val>)
+-->
+   (<s> ^success <d>)
+}
+   
