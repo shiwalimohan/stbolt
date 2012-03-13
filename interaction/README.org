@@ -55,3 +55,14 @@ that is not in the set of expectations, it is considered an
 interrupting event and handled accordingly. (It is related to
 sub-segments in collaborative discourse theory, needs further experimentation)
 
+* Integration with Language system
+The integration is through an augmentation: =nl= at the
+topstate. =nl.input-link.message= points to the parse of the message
+provided by the instructor. It is written-to by the natural language
+system (nl.soar+java package in the simulator implements a psuedo-nl
+system) and read and deleted by the interaction
+system. =nl.output-link.message= is written-to by the interaction
+system and read/deleted by the nl system. 
+
+
+
