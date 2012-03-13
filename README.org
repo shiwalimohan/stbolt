@@ -8,8 +8,8 @@ Soar agents for BOLT project at UMichigan.
   put-down,
 - =verb-learning=: integrates domain actions with interaction;
   implements learning new actions by chunking
-- =topchef-soar=: random primitive actions
-- =learn-verbs-explanation=: interaction, verb-learning, and domain
+- =topchef-soar.soar=: random primitive actions
+- =verb-execution.soar=: interaction, verb-learning, and domain
   primitive-actions
 
 
