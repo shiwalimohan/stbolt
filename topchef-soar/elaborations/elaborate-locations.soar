@@ -1,31 +1,33 @@
-### elaborate locations
+### if an object is within some distance of the robot, mark it as close-by
 
-sp {elaborate*locations
-   (state <s> ^io.input-link <il>)
-   (<il> ^objects.object <obj>)
-   (<obj> ^name << dishwasher stove pantry >>)
--->
-   (<s> ^location <obj>)
-}
-
-
-### elaborate objects
-sp {elaborate*objects
-   (state <s> ^io.input-link <il>)
-   (<il> ^objects.object <obj>)
-   (<obj> -^name << dishwasher stove pantry >>)
--->
-   (<s> ^object <obj>)
-}
-
-### elaborate self
-sp {elaborate*self
-   (state <s> ^io.input-link <il>)
-   (<il> ^self <self>)
+sp {elaborate*location*distx
+   (state <s> ^location <loc>
+   	      ^self.pose.x <selfx>)
+   (<loc> ^pose <p>)
+   (<p> ^x <locx>)
  -->
-   (<s> ^self <self>)
+   (<p> ^distx (- <selfx> <locx>))
 }
 
-### elaborate object
+sp {elaborate*location*disty
+   (state <s> ^location <loc>
+   	      ^self.pose.y <selfy>)
+   (<loc> ^pose <p>)
+   (<p> ^y <locy>)
+ -->
+   (<p> ^disty (- <selfy> <locy>))
+}
 
- 
+
+sp {elaborate*location*close
+   (state <s> ^location <loc>
+   	      -^self.grabbed-location <id>)
+   (<loc> ^pose <locp>
+   	  ^id <id>)
+   (<locp> ^distx < 0.25
+   	  ^distx > -0.25
+	  ^disty < 0.25
+	  ^disty > -0.25)
+-->
+   (<loc> ^contains yes)
+}

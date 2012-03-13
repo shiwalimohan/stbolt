@@ -1,2 +1,3 @@
+source elaborate-components.soar
+source elaborate-objects.soar
 source elaborate-locations.soar
-source in-vicinity.soar
