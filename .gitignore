@@ -1,4 +1,14 @@
-### emacs
+.classpath
+.settings
+bin/
+lgsoar/.classpath
+lgsoar/bin/
+
+
+#### emacs 
 *~
-\#*
-\.*
+#*
+
+
+### java log files
+*.log
