@@ -1,0 +1,18 @@
+sp {all*elaborate-state-name
+   (state <s> ^superstate.operator.name <name>)
+-->
+   (<s> ^name <name>)
+}
+
+sp {all*elaborate-state-top-state
+   (state <s> ^superstate.topstate <ts>)
+-->
+   (<s> ^topstate <ts>)
+}
+
+sp {all*elaborate*io
+   (state <s> ^superstate.io <io>
+   	      -^name explain)
+-->
+   (<s> ^io <io>)
+}
