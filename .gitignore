@@ -2,6 +2,7 @@
 .settings
 bin/
 sbolt.properties
+lgsoar/.classpath
 
 
 #### emacs 
