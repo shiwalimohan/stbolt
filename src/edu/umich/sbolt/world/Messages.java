@@ -19,7 +19,7 @@ public class Messages implements IInputLinkElement
     private String latestMessage;
     
     // Id of the latest message received
-    private int latestMessageId;
+    private static int latestMessageId;
     
     // True if a new message was received since the last update
     private Boolean messageChanged;
@@ -32,8 +32,13 @@ public class Messages implements IInputLinkElement
     
     private BOLTDictionary dictionary = new BOLTDictionary("src/edu/umich/sbolt/language/dictionary.txt"); 
     
+
+    private int messageNumber;
+  
+
     private Parser parser;
     
+
     public Messages(World world){
         latestMessage = "";
         latestMessageId = INVALID_ID;   
@@ -56,25 +61,9 @@ public class Messages implements IInputLinkElement
         
         
         messageId = parentIdentifier.CreateIdWME("message");
-        parser.getSoarSpeak(latestMessage, messageId);
-        
-        /*
-        //Add the new message
-        String[] words = latestMessage.split(" ");
-        
-        
-        Identifier rest = messageId.CreateIdWME("words");
+        messageNumber = latestMessageId;
         messageId.CreateIntWME("id", latestMessageId);
-        messageId.CreateIntWME("time", world.getTime());
-        messageId.CreateStringWME("from", "user");
-     
-        for(int i = 0; i < words.length; i++){
-            WorkingMemoryUtil.updateWME(rest, "word", words[i]);
-            if(i != words.length - 1){
-                rest = rest.CreateIdWME("next");
-            }
-        } */
-        
+        parser.getSoarSpeak(latestMessage, messageId);
         messageChanged = false;
     }
 
@@ -92,5 +81,9 @@ public class Messages implements IInputLinkElement
         latestMessageId++;
         latestMessage = message;
         messageChanged = true;
+    }
+    
+    public Integer getIdNumber(){
+    	return messageNumber;
     }
 }

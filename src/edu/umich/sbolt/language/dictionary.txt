@@ -2,5 +2,5 @@ NOUN: block table ball pantry cylinder stove dishwasher blocka blockb blockc blo
 ADJECTIVE: red green blue gray large medium small round square
 VERB: put get go pick
 DETERMINER: a the that
-PREPOSITION: on in from to
+PREPOSITION: on in from to up down
 ATTRIBUTE: color size shape

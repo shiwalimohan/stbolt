@@ -23,7 +23,7 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         this.sbolt = sbolt;
         String[] outputHandlerStrings = { "goto", "action", "pick-up",
-                "put-down", "point", "send-message", "query" };
+                "put-down", "point", "send-message", "query", "remove-message"};
         for (String outputHandlerString : outputHandlerStrings)
         {
             this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
@@ -93,6 +93,10 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             processQueryCommand(wme.ConvertToIdentifier());
         }
+        else if (wme.GetAttribute().equals("remove-message"))
+        {
+        	processRemoveMesageCommand(wme.ConvertToIdentifier());
+        }
 
         if (this.sbolt.getAgent().IsCommitRequired())
         {
@@ -100,7 +104,21 @@ public class OutputLinkHandler implements OutputEventInterface
         }
     }
 
-    private void processOutputLinkMessage(Identifier messageId)
+   
+
+	private void processRemoveMesageCommand(Identifier messageId) {
+		
+		if (messageId == null)
+		{
+			return;
+		}
+		
+		sbolt.getWorld().destroyMessage(Integer.parseInt(messageId.FindByAttribute("id", 0).GetValueAsString()));
+		messageId.CreateStringWME("status", "complete");
+		
+	}
+
+	private void processOutputLinkMessage(Identifier messageId)
     {
         if (messageId == null)
         {

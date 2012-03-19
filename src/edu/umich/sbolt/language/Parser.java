@@ -131,13 +131,6 @@ public class Parser {
 	
 	//Get Soar structure
 	public void traslateToSoarSpeak(Identifier messageId, String tagString){
-		LinguisticEntity li = (LinguisticEntity)tagsToWords.get(tagString);
-		if (li != null) {
-			li.translateToSoarSpeak(messageId, null);
-		}
-		else {
-			System.out.println("ERROR: no LinguisticEntity for " + tagString);
-		}
-		//((LinguisticEntity) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
+		((LinguisticEntity) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
 	}
 }
