@@ -17,8 +17,8 @@ import java.io.IOException;
 //import java.io.InputStream;
 import java.io.PrintStream;
 
-import edu.byu.lgsoar.en.app.EnHandlers;
-import edu.byu.lgsoar.utils.Constants;
+import com.soartech.bolt.SoarRunner;
+
 
 /**
  * This class is meant to be a bean type interface to link grammar.  All the
@@ -121,7 +121,7 @@ public class parser {
         }
 
         
-    	String lgpDataDir = Constants.getProperty("LGP_DATA_DIR");
+    	String lgpDataDir = SoarRunner.dictionaryPath;
     	
         if (!pp_on && post_process_knowledge_file != null)
             print_usage(arg[0]);
@@ -214,9 +214,11 @@ public class parser {
             /* DWL deleted lots of stuff... */
             
             // Normally you loop over linkages; here we only choose the first
+            
+            // SBW removed for lgsoar-simple
             Linkage myLinkage = new Linkage(0, sent, opts);
 
-            EnHandlers.loadLinkage(myLinkage, sent);
+            SoarRunner.loadLinkage(myLinkage, sent);
             return;
         }
     }

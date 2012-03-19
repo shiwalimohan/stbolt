@@ -20,11 +20,11 @@ sp {clause*propose*recognize-that-phrase
    (<that> ^wcount <that-count>)
    (<link> ^ltype TH ^lwleft <main-S-count> ^lwright <that-count> -^handled-as)
   -{(<clauses> ^clause <clause> ^that)
-     (<clause> ^count <count>)}
+    (<clause> ^count <count>)}
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-phrase ^priority 230 + ^main-S <main-S>  + ^that <that> + ^link <link> +
-   	 ^order <that-count> + ^level-two-order <main-S-main-count> + ^complete? no +)}
+        ^order <that-count> + ^level-two-order <main-S-main-count> +  +)}
 
 sp {clause*propose*recognize-introductory-phrase
    (state <s> ^count <count> ^io.lgsentence <cs> ^clauses <clauses>)
@@ -33,24 +33,23 @@ sp {clause*propose*recognize-introductory-phrase
    (<conj> ^wcount <conj-count>)
    (<link> ^ltype CO ^lwleft <conj-count> ^lwright <main-S-count> -^handled-as)
   -{(<clauses> ^clause <clause> ^conj)
-     (<clause> ^count <count>)}
+    (<clause> ^count <count>)}
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-phrase + ^priority 230 + ^main-S <main-S> + ^conj <conj> + ^link <link> +
-   	 ^order <conj-count> + ^level-two-order <main-S-count> + ^complete? no +)}
+        ^order <conj-count> + ^level-two-order <main-S-count> +  +)}
 
 sp {clause*apply*recognize-phrase
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses <clauses>)
    (<o> ^name recognize-phrase ^main-S <main-S> ^<< that conj >> <arg> ^link <link>
-   	 ^complete? no)
+        )
    (<o> ^<aug> <arg>)
    (<arg> ^wvalue <wvalue>)
 -->
    (<clauses> ^clause <clause> +)
    (<clause> ^count <count> + ^main-S <main-S> + ^<aug> <arg> +)
-   (<link> ^handled-as <wvalue> +)
-   (<o> ^complete?x yes +)}
+   (<link> ^handled-as <wvalue> +)}
 
 ### recognize-main-verb
 ### these involve either TH or CO
@@ -66,7 +65,7 @@ sp {clause*propose*recognize-main-verb*if-main-does-not-carry-infl
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-main-verb ^priority 230 ^main <main>
-   	 ^order <main-S-count> ^level-two-order <main-count> ^complete? no)}
+        ^order <main-S-count> ^level-two-order <main-count> )}
 
 sp {clause*propose*recognize-main-verb*if-main-carries-infl
    (state <s> ^count <count> ^io.lgsentence <cs> ^clauses.clause <clause>)
@@ -80,17 +79,16 @@ sp {clause*propose*recognize-main-verb*if-main-carries-infl
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-main-verb ^priority 230 ^main <main>
-   	 ^order <main-S-count> ^level-two-order <main-count> ^complete? no)}
+        ^order <main-S-count> ^level-two-order <main-count> )}
 
 sp {clause*apply*recognize-main-verb
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses.clause <clause>)
-   (<o> ^name recognize-main-verb ^main <main> ^complete? no ^order <main-S-count>)
+   (<o> ^name recognize-main-verb ^main <main>  ^order <main-S-count>)
    (<clause> ^count <count> ^main-S.wcount <main-S-count>)
 -->
    (<clause> ^main <main> +)
-   (<o> ^complete?x yes +)}
-
+}
 
 ### recognize-introductory-verb
 ### these are for a tensed pre-matrix dependent clause
@@ -105,16 +103,16 @@ sp {clause*propose*recognize-introductory-verb-fix*if-intro-carries-infl
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-introductory-verb-fix + ^priority 235 + ^intro <infl> + ^fix <intro> +
-   	 ^order <infl-count> + ^level-two-order <intro-count> + ^complete? no +)}
-       
+        ^order <infl-count> + ^level-two-order <intro-count> +  +)}
+
 sp {clause*apply*recognize-introductory-verb-fix*if-intro-carries-infl
    (state <s> ^operator <o> ^count <count> ^clauses.clause <clause>)
-   (<o> ^name recognize-introductory-verb-fix ^intro <infl> ^fix <intro> ^complete? no)
+   (<o> ^name recognize-introductory-verb-fix ^intro <infl> ^fix <intro> )
    (<clause> ^count <count> ^intro <infl>)
 -->
    (<clause> ^intro <infl> - <intro> +)
    (<clause> ^fixed verb)
-   (<o> ^complete?x yes +)}
+}
 
 ### recognize-introductory-verb
 ### these are for an untensed pre-matrix dependent clause
@@ -131,16 +129,16 @@ sp {clause*propose*recognize-introductory-verb*if-intro-does-not-carry-infl
 -->
    (<s> ^operator <o> +)
    (<o> ^name recognize-introductory-verb ^priority 230 ^intro <intro>
-   	 ^order <conj-count> ^level-two-order <intro-count> ^complete? no)}
+        ^order <conj-count> ^level-two-order <intro-count> )}
 
 sp {clause*apply*recognize-introductory-verb*if-intro-does-not-carry-infl
-  :o-support
+ # :o-support
    (state <s> ^operator <o> ^count <count> ^clauses.clause <clause>)
-   (<o> ^name recognize-introductory-verb ^intro <intro> -^fix ^order <conj-count> ^complete? no)
+   (<o> ^name recognize-introductory-verb ^intro <intro> -^fix ^order <conj-count> )
    (<clause> ^count <count> ^<< that conj >>.wcount <conj-count>)
 -->
    (<clause> ^intro <intro> +)
-   (<o> ^complete?x yes +)}
+}
 
 ## hide-main-verb
 
@@ -154,12 +152,12 @@ sp {clause*propose*hide-main-verb
 -->
    (<s> ^operator <o> +)
    (<o> ^name hide-main-verb + ^priority 230 + ^main <main> + ^aug <conj-wvalue> + ^arg <intro> + ^refs <refs> +
-   	 ^clause <clause> + ^order <intro-count> + ^level-two-order <main-count> + ^complete? no +)}
+        ^clause <clause> + ^order <intro-count> + ^level-two-order <main-count> +  +)}
 
 sp {clause*apply*hide-main-verb
    (state <s> ^operator <o>)
    (<o> ^name hide-main-verb ^main <main> ^aug <aug> ^arg <arg> ^refs <refs> ^clause <clause>
-   	 ^complete? no)
+        )
    (<main> ^ref <main-ref>)
 -->
    (<main-ref> ^<aug> <arg-ref> +)
@@ -170,13 +168,13 @@ sp {clause*apply*hide-main-verb
    (<refs> ^ref <arg-ref> +)
    (<arg-ref> ^head <arg> ^rooted-in <main>)
    (<arg> ^ref <arg-ref>)
-   (<o> ^complete?x yes +)}
+}
 
 ## handle-that-clause
 
 sp {clause*propose*handle-that-clause
    (state <s> ^count <count> ^refsets.refs <refs> ^clauses.clause <clause>)
-   (<refs> ^ref <ref> -^complete?)
+   (<refs> ^ref <ref>)# -^complete?)
    (<clause> ^count <count> ^intro <intro> ^main-S <main> ^that <that>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<intro> ^wcount <intro-count>)
@@ -184,12 +182,12 @@ sp {clause*propose*handle-that-clause
 -->
    (<s> ^operator <o> +)
    (<o> ^name handle-that-clause ^priority 10 ^main <main> ^arg <intro> ^refs <refs>
-   	 ^clause <clause> ^order <main-count> ^level-two-order <intro-count> ^complete? no)}
+        ^clause <clause> ^order <main-count> ^level-two-order <intro-count> )}
 
 sp {clause*apply*handle-that-clause
    (state <s> ^operator <o>)
    (<o> ^name handle-that-clause ^main <main> ^arg <arg> ^refs <refs> ^clause <clause>
-   	 ^complete? no)
+        )
    (<main> ^ref <main-ref>)
 -->
    (<main-ref> ^aug <arg-ref> +)
@@ -197,7 +195,7 @@ sp {clause*apply*handle-that-clause
    (<refs> ^ref <arg-ref> +)
    (<arg-ref> ^head <arg> ^that <main>)
    (<arg> ^ref <arg-ref>)
-   (<o> ^complete?x yes +)}
+}
 
 ## free-bindings
 
@@ -207,11 +205,11 @@ sp {clause*propose*free-bindings
    (<clause> ^count <count> -^unblocked centers ^ref <ref> -^free bindings -^that)
 -->
    (<ss> ^operator <o> + >)
-   (<o> ^name free-bindings + ^priority 0 + ^clause <clause> + ^complete? no +)}
+   (<o> ^name free-bindings + ^priority 0 + ^clause <clause> +  +)}
 
 sp {clause*apply*free-bindings
    (state <s> ^operator <o> ^refsets.refs <refs> ^anaphor <a>)
-   (<o> ^name free-bindings ^clause <clause> ^complete? no)
+   (<o> ^name free-bindings ^clause <clause> )
    (<clause> ^count <count> ^main <main> ^ref <ref>)
    (<refs> ^count <count>)
    (<main> ^hidden ref)
@@ -221,5 +219,4 @@ sp {clause*apply*free-bindings
    (<main> ^hidden ref -)
    (<main> ^ref <ref> +)
    (<clause> ^free bindings +) 
-   (<o> ^complete?x yes +)
 }

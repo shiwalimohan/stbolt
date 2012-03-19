@@ -16,23 +16,13 @@
 sp {realize*propose*ref*as*new-idea
    (state <s> ^count <count> ^refsets.refs <refs>)
    (<refs> ^count <count> ^ref <ref>)
-   (<ref> ^head.wcount <wcount> -^pointer -^sloppy-binding)
+   (<ref> ^head.wcount <wcount> -^pointer -^sloppy-binding ^head.wvalue <val>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name new-idea ^priority 20 ^ref <ref>
-   	 ^order <wcount> ^complete? no)}
-
-sp {realize*apply*ref*as*new-idea
-   :o-support
-   (state <s> ^operator <o> ^model <m>)
-   (<o> ^name new-idea ^ref <ref>)
-   (<ref> ^head <head>)
-   (<head> ^wvalue <nuc>)
--->
-   (<m> ^idea <new> +)
-   (<new> ^nuc <nuc>)
-   (<ref> ^pointer <new>)
-   (<o> ^complete?x yes +)}
+   	 ^order <wcount> 
+     ^debug-info (concat |realizing reference from "| <val> |" as new idea|))
+}
 
 ## realize as coref
 # def-desc
@@ -46,14 +36,14 @@ sp {realize*propose*def-desc-ref*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind general
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realize*apply*general-coref
    (state <s> ^operator <o>)
    (<o> ^name coref ^ref <ref> ^idea <idea> ^kind general)
 -->
    (<ref> ^pointer <idea>)
-   (<o> ^complete?x yes +)}
+}
 
 # binding
 
@@ -64,7 +54,7 @@ sp {realize*propose*binding*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind remove-binding
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realize*apply*remove-binding
    (state <s> ^operator <o>)
@@ -72,7 +62,7 @@ sp {realize*apply*remove-binding
 -->
    (<ref> ^pointer <idea>)
    (<ref> ^binding <idea> -)
-   (<o> ^complete?x yes +)}
+}
 
 # sloppy-binding
 
@@ -85,7 +75,7 @@ sp {realize*propose*sloppy-binding*as*coref
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ana-ref> ^idea <ante-idea> ^kind remove-sloppy-binding
-   	 ^order <wcount> ^complete? no)}
+   	 ^order <wcount> )}
 
 sp {realive*apply*remove-sloppy-binding
    (state <s> ^operator <o>)
@@ -94,4 +84,4 @@ sp {realive*apply*remove-sloppy-binding
 -->
    (<ref> ^pointer <idea>)
    (<ref> ^sloppy-binding <to> -)
-   (<o> ^complete?x yes +)}
+}

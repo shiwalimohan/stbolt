@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.StringTokenizer;
 
-import edu.byu.lgsoar.en.app.EnHandlers;
-import edu.byu.lgsoar.utils.Constants;
+import com.soartech.bolt.SoarRunner;
+
 
 /**
  * This is one of the core classes of the link grammar.  It associates a dictionary 
@@ -1620,7 +1620,7 @@ public class Dictionary {
         }
         
 //        fulldictpath = "C:/lonz/projects/lgsoar/lgsoar9/lgsoar9x/data/link";
-    	fulldictpath = Constants.getProperty("LGP_DATA_DIR");
+    	fulldictpath = SoarRunner.dictionaryPath;
         completename = fulldictpath + "/" + filename;
 //        System.out.println("Calling dictopen: " + completename + "\n");
         File f = new File(completename);

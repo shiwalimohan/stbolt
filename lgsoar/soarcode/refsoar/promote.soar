@@ -17,38 +17,42 @@ sp {promote*propose*direct-promotion
    #^count <count> 
    ^refsets.refs <refs> ^model <m>)
    (<refs> ^count <count> ^ref <main> <arg>)
-   (<main> ^pointer <imain> ^head.wcount <main-wcount>)
-   (<arg> ^pointer <iarg> ^head.wcount <arg-wcount>)
+   (<main> ^pointer <imain> ^head.wcount <main-wcount> ^head.wvalue <main-wval>)
+   (<arg> ^pointer <iarg> ^head.wcount <arg-wcount> ^head.wvalue <arg-wval>)
    (<imain> -^<aug> <iarg>)
    # this is different than the indirect case
    (<main> ^<aug> <arg>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name basic ^priority 70 ^imain <imain> ^aug <aug> ^iarg <iarg>
-   	 ^order <arg-wcount> ^level-two-order <main-wcount> ^complete? no)}
+   	 ^order <arg-wcount> ^level-two-order <main-wcount> 
+     ^debug-info (concat |directly promoting: idea for "|<main-wval>|" gets a | <aug> | of "| <arg-wval> |"|))
+}
 
 sp {promote*propose*indirect-promotion
    (state <s> 
    #^count <count> 
    ^refsets.refs <refs> ^model <m>)
    (<refs> ^count <count> ^ref <main> <arg>)
-   (<main> ^pointer <imain> ^head.wcount <main-wcount>)
-   (<arg> ^pointer <iarg> ^head.wcount <arg-wcount>)
+   (<main> ^pointer <imain> ^head.wcount <main-wcount> ^head.wvalue <main-wval>)
+   (<arg> ^pointer <iarg> ^head.wcount <arg-wcount> ^head.wvalue <arg-wval>)
    (<imain> -^aug <iarg>)
    # this is different than the direct case
    (<iarg> ^{<> aug <aug>} <imain>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name basic ^priority 60 ^imain <imain> ^aug aug ^iarg <iarg>
-   	 ^order <arg-wcount> ^level-two-order <main-wcount> ^complete? no)}
+   	 ^order <arg-wcount> ^level-two-order <main-wcount> 
+     ^debug-info (concat |indirectly promoting: idea for "|<main-wval>|" gets an aug of "| <arg-wval> |"|))
+}
 
 sp {promote*apply*direct-promotion
-   :o-support
+ #  :o-support
    (state <s> ^operator <o>)
    (<o> ^name basic ^imain <imain> ^aug <aug> ^iarg <iarg>)
 -->
    (<imain> ^<aug> <iarg> +)
-   (<o> ^complete?x yes +)}
+}
 
 ## feature promotion
 
@@ -60,7 +64,7 @@ sp {promote*propose*feature-promotion*infl
 -->
    (<s> ^operator <o> +)
    (<o> ^name feature ^priority 70 ^imain <imain> ^aug infl ^feature <feature>
-   	 ^order <main-wcount> ^level-two-order 0 ^complete? no)}
+   	 ^order <main-wcount> ^level-two-order 0 )}
 
 sp {promote*propose*feature-promotion*neg
    (state <s> ^count <count> ^refsets.refs <refs> ^model <m>)
@@ -70,7 +74,7 @@ sp {promote*propose*feature-promotion*neg
 -->
    (<s> ^operator <o> +)
    (<o> ^name feature ^priority 70 ^imain <imain> ^aug neg ^feature not
-   	 ^order <main-wcount> ^level-two-order 1 ^complete? no)}
+   	 ^order <main-wcount> ^level-two-order 1 )}
 
 sp {promote*propose*feature-promotion*mode
    (state <s> ^count <count> ^refsets.refs <refs> ^model <m>)
@@ -80,12 +84,12 @@ sp {promote*propose*feature-promotion*mode
 -->
    (<s> ^operator <o> +)
    (<o> ^name feature ^priority 70 ^imain <imain> ^aug mode ^feature <mode>
-   	 ^order <main-wcount> ^level-two-order 2 ^complete? no)}
+   	 ^order <main-wcount> ^level-two-order 2 )}
 
 sp {promote*apply*feature-promotion
-  :o-support
+#  :o-support
    (state <s> ^operator <o>)
-   (<o> ^name feature ^priority 70 ^imain <imain> ^aug <aug> ^feature <feature> ^complete? no)
+   (<o> ^name feature ^priority 70 ^imain <imain> ^aug <aug> ^feature <feature> )
 -->
    (<imain> ^<aug> <feature>)
-   (<o> ^complete?x yes +)}
+}

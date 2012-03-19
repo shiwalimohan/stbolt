@@ -11,7 +11,7 @@ GV_DIR=/usr/bin
 
 //This must already exist. This is where the graphing files will be stored.
 //It must end in the path separator character ("/")
-TEMP_DIR=/opt/bolt/lgsoar/temp/
+TEMP_DIR=/opt/bolt/lgsoar-temp
 
 //default behavior for all SoarApplications
 GRAPHING=true
@@ -25,6 +25,6 @@ GRAPH_SEMANTICS=false
 GRAPH_ARSET=false
 GRAPH_DRS=true
 
-LGP_DATA_DIR=/opt/bolt/lgsoar/LG-Soar-2.0.0/data/link
+LGP_DATA_DIR=/opt/bolt/stbolt/lgsoar/data/link
 
 
