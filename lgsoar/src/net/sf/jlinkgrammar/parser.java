@@ -17,7 +17,7 @@ import java.io.IOException;
 //import java.io.InputStream;
 import java.io.PrintStream;
 
-import com.soartech.bolt.SoarRunner;
+import com.soartech.bolt.LGSupport;
 
 
 /**
@@ -121,7 +121,7 @@ public class parser {
         }
 
         
-    	String lgpDataDir = SoarRunner.dictionaryPath;
+    	String lgpDataDir = LGSupport.dictionaryPath;
     	
         if (!pp_on && post_process_knowledge_file != null)
             print_usage(arg[0]);
@@ -218,7 +218,7 @@ public class parser {
             // SBW removed for lgsoar-simple
             Linkage myLinkage = new Linkage(0, sent, opts);
 
-            SoarRunner.loadLinkage(myLinkage, sent);
+            LGSupport.loadLinkage(myLinkage, sent);
             return;
         }
     }

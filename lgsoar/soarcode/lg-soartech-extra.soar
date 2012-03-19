@@ -1,13 +1,17 @@
 # these productions replace sentence2input.soar for the simplified version
 # in that case, the sentence comes in on input-link already parsed
 
-sp {top-state*lg*init
+sp {top-state*lg*init*sentence
   (state <s> ^superstate nil
              ^io <io>
-             ^io.input-link.lg <lg>)
+             ^io.input-link.lg.sentence <sent>)
 -->
-  (<io> ^lgsentence <lg>)
+  (<io> ^lgsentence <sent>)
+}
 
+sp {top-state*lg*init
+   (state <s> ^superstate nil)
+-->
    ## attributes for old code not yet updated
    (<s> ^analysis <ana> + ^proto-DRS <pdrs> +)
    
