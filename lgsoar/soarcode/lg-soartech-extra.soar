@@ -1,0 +1,86 @@
+# these productions replace sentence2input.soar for the simplified version
+# in that case, the sentence comes in on input-link already parsed
+
+sp {top-state*lg*init
+  (state <s> ^superstate nil
+             ^io <io>
+             ^io.input-link.lg <lg>)
+-->
+  (<io> ^lgsentence <lg>)
+
+   ## attributes for old code not yet updated
+   (<s> ^analysis <ana> + ^proto-DRS <pdrs> +)
+   
+   ## trigger a refresh of the output
+   (<s> ^predoutput-refresh yes +)
+   (<s> ^final-predicates <fp>)
+}
+
+sp {elaborate*clear-output
+  :o-support
+   (state <s> ^superstate nil ^type state ^io <io> ^predoutput-refresh yes)
+   (<io> ^output-preds <ops>)
+-->
+   (<io> ^output-preds <ops> -)
+   (<s> ^predoutput-refresh yes -)
+}
+
+sp {global*apply*processing-complete*graph
+    :o-support
+    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io>)
+        (<o> ^name processing-complete ^annotation preds-output)
+       (<refsets> ^refs <refs>)
+        (<refs> ^count <count>)
+         (<io> ^lgsentence <anylgio> ^output-preds <iop>)
+         -->
+         (<refsets> ^refs <refs> -)
+         (<s> ^halt immediately +)
+     }
+
+sp {elaborate*report-predicate
+   (state <s> ^superstate nil
+              ^final-predicates.predicate <p>)
+-->
+   (write (crlf) <p>)
+}
+
+sp {elaborate*proposed*add-arg*debug-info
+  (state <s> ^operator <o> +
+             ^io.lgsentence.words <wd>)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^link <link>
+       ^kind <kind>)
+  (<main> ^wvalue <wval>)
+  (<link> ^ltype <ltype>
+          ^lwleft <left> ^lwright <right>)
+  (<wd> ^word <wleft> ^word <wright>)
+  (<wleft> ^wcount <left> ^wvalue <leftword>)
+  (<wright> ^wcount <right> ^wvalue <rightword>)
+-->
+  (<o> ^debug-info (concat |adding "| <wval> |" as | <aug> |, kind | <kind> | due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|))
+}
+
+sp {elaborate*proposed*add-arg*debug-info*side
+  (state <s> ^operator <o> +)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^arg.wvalue <wval>
+       -^arg.ref
+       ^link <link>
+       ^kind << single single-side >>)
+  (<link> ^ltype <ltype>)
+-->
+  (<o> ^debug-info (concat |side effect: new ref from "|<wval>|" added|))
+}
+
+     
+sp {apply*any*print-debug-info
+   (state <s> ^operator <o>)
+   (<o> ^name <any>
+        ^debug-info <info>)
+-->
+   (write (crlf) (concat |        | <info>))
+}
