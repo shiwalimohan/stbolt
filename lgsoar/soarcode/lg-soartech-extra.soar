@@ -1,8 +1,18 @@
+# this will eventually be replaced by something more sophisticated
+
+sp {top-state*elaborate*lg-problem-space
+   (state <s> ^superstate nil
+              ^io.input-link.lg.sentence <any>)
+-->
+   (<s> ^problem-space lgsoar)
+}
+
 # these productions replace sentence2input.soar for the simplified version
 # in that case, the sentence comes in on input-link already parsed
 
 sp {top-state*lg*init*sentence
   (state <s> ^superstate nil
+             ^problem-space lgsoar
              ^io <io>
              ^io.input-link.lg.sentence <sent>)
 -->

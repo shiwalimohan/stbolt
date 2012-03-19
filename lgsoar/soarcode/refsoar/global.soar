@@ -1,0 +1,157 @@
+
+# File: global.soar
+# Author: William Taysom
+# Version 2.0: July 24, 2001
+# Created: July 6, 2001
+#
+# Operators:	start-next-sentence (0), processing-complete (0), find-root (205),
+#				return-to-nil
+# Preference:	prefer*operator-with-highest-priority, prefer*operator-with-lowest-order
+# Other:		terminate*operator, halt
+#
+# TO DO:
+#
+
+## start-next-sentence
+
+# SBW 3/19/2012
+# - changed to act with a single snc, not two levels (that doesn't happen with
+# the wait operator)
+# - changed to only propose when another, unhandled, sentence exists
+# - split to another operator, wrap-up, for when another sentence doesn't exist
+sp {global*propose*start-next-sentence
+   (state <s> ^impasse no-change ^superstate <ss>)
+   (<ss> ^superstate nil ^io.lgsentence.count { <next-count> > <count> } ^count <count>)
+-->
+   (<ss> ^operator <o> + >)
+   (<o> ^name start-next-sentence ^priority 0 ^count <count>)
+}
+
+sp	{global*apply*start-next-sentence
+   (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
+   (<o> ^name start-next-sentence ^count <count> )
+-->
+   (<a> ^unblock? no - general +)
+   (<s> ^root <root> - 0 +)
+   (<s> ^count <count> - (+ 1 <count>))
+   (<refsets> ^refs <refs> +)
+   (<refs> ^count (+ 1 <count>))
+}
+
+sp {global*propose*wrap-up
+   (state <s> ^impasse no-change ^superstate <ss>)
+   (<ss> ^superstate nil 
+         ^anaphor.unblock? no
+         ^io.lgsentence <any> 
+         -^io.lgsentence.count { <next-count> > <count> } ^count <count>)
+-->
+   (<ss> ^operator <o> + >)
+   (<o> ^name wrap-up ^priority 0 ^count <count>)
+}
+
+sp	{global*apply*wrap-up
+   (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
+   (<o> ^name wrap-up ^count <count> )
+-->
+   (<a> ^unblock? no - general +)
+   (<s> ^root <root> - 0 +)
+   (<s> ^count <count> - (+ 1 <count>))
+   (<refsets> ^refs <refs> +)
+   (<refs> ^count (+ 1 <count>))
+}
+
+
+sp	{global*apply*find-root
+  #  :o-support
+   (state <s> ^operator <o> ^root <old>)
+   (<o> ^name find-root ^new <new>)
+-->
+   (<s> ^root <old> - <new> +)}
+
+
+## return-to-nil
+
+sp	{global*propose*return-to-nil
+   (state <s> ^superstate <ss>)
+   (<ss> ^count <count> ^refsets.refs <refs>)
+   (<refs> ^count <count> ^ref <ref>)
+   (<ref> ^return-to-nil ^head.wcount <wcount>)
+-->
+   (<ss> ^operator <o> +)
+   (<o> ^name return-to-nil ^order <wcount> ^ref <ref> )}
+
+sp	{global*apply*return-to-nil*if-refs-not-marked-complete
+   (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
+   (<refs> ^count <count>)# -^complete?)
+   (<o> ^name return-to-nil ^ref <ref> )
+   (<ref> ^return-to-nil <rcount> ^head <head>)
+   (<head> ^wcount <wcount>)
+   (<word> ^return <wcount>)
+-->
+   (<head> ^wcount <wcount> - <rcount> +)
+   (<word> ^return <wcount> -)
+   (<word> ^wcount <wcount>)
+   (<ref> ^return-to-nil <rcount> -)
+   (<ref> ^special empty +)
+}
+
+# sp	{global*apply*return-to-nil*if-refs-marked-complete
+#    (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
+#    (<refs> ^count <count> ^complete?)
+#    (<o> ^name return-to-nil ^ref <ref> )
+#    (<ref> ^return-to-nil <rcount> ^head <head>)
+#    (<head> ^wcount <wcount>)
+#    (<word> ^return <wcount>)
+# -->
+#    (<head> ^wcount <wcount> - <rcount> +)
+#    (<word> ^return <wcount> -)
+#    (<word> ^wcount <wcount>)
+#    (<ref> ^return-to-nil <rcount> -)
+#    (<ref> ^special empty +)
+# }
+
+
+## Preference Rules
+# Prefer operator with highest priority
+
+sp	{global*prefer*operator-with-highest-priority
+   (state <s> ^operator <deferred> + <preferred> +)
+   (<deferred> ^priority <def-priority>)
+   (<preferred> ^priority <pref-priority> > <def-priority>)
+-->
+   (<s> ^operator <preferred> > <deferred>)}
+
+# Prefer operator with lowest linear order if priority is equal
+
+sp	{global*prefer*operator-with-lowest-order*if-priority-is-equal
+   (state <s> ^operator <deferred> + <preferred> +)
+   (<deferred> ^priority <priority> ^order <last>)
+   (<preferred> ^priority <priority> ^order <first> < <last>)
+-->
+   (<s> ^operator <preferred> > <deferred>)}
+
+# Prefer operator with lowest lexical (level 2) order if (level 1) order is equal
+
+sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
+   (state <s> ^operator <deferred> + <preferred> +)
+   (<deferred> ^priority <priority> ^order <order> ^level-two-order <last>)
+   (<preferred> ^priority <priority> ^order <order> ^level-two-order <first> < <last>)
+-->
+   (<s> ^operator <preferred> > <deferred>)}
+
+
+## Halt
+
+sp	{global*halt
+   (state <s> ^halt immediately)
+-->
+   (halt)
+}
+# sp {global*propose*start-next-sentence
+#   (state <s> ^impasse no-change ^superstate <ss>)
+#   (<ss> ^superstate <sss>)
+#   (<sss> ^superstate nil -^io.total-sentences <count> ^count <count>)
+# -->
+#   (<sss> ^operator <o> + >)
+#   (<o> ^name start-next-sentence ^priority 0 ^count <count> )}
+

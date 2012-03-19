@@ -9,16 +9,16 @@ import sml.Identifier;
 
 public class LGSupport {
 	private static Agent agent;
-	public static String dictionaryPath = "/opt/bolt/stbolt/lgsoar/data/link";
-	private static String lgSoarLoaderPath = "/opt/bolt/stbolt/lgsoar/soarcode/simple-init.soar";
+	public static String dictionaryPath = ""; //"/opt/bolt/stbolt/lgsoar/data/link";
+	//private static String lgSoarLoaderPath = "/opt/bolt/stbolt/lgsoar/soarcode/simple-init.soar";
 	private static Identifier lgInputRoot;
 	private static int sentenceCount = 0;
 	
-	public LGSupport(Agent _agent) {
+	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
+		dictionaryPath = dictionary;
 		
-		agent.LoadProductions(lgSoarLoaderPath, true);
-		 // make a root lg-input WME
+		// make a root lg-input WME
         lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
 		
 	}

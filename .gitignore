@@ -1,6 +1,7 @@
 .classpath
 .settings
 bin/
+sbolt.properties
 
 
 #### emacs 

@@ -1,40 +1,25 @@
-# for some reason the lg9init.tcl code wasn't loading at least the first file's productions
-# so for now just load by hand...
-
-excise --all
-learn --off
-
-#### CHANGE THIS FOR YOUR MACHINE!!
-pushd /opt/bolt/stbolt/lgsoar/
-
-#echo \n"Loading LG parser interface..."
-#source soarcode/sentence2input.soar
-
-#load the refSoar productions
 echo \n"Loading RefSoar..."
-source soarcode/refsoar/interpret.soar
-source soarcode/refsoar/realize.soar
-source soarcode/refsoar/promote.soar
-source soarcode/refsoar/clause.soar
-source soarcode/refsoar/lgrefsoar.soar
-source soarcode/refsoar/anaphor.soar
-source soarcode/refsoar/build.soar
-source soarcode/refsoar/identify.soar
-source soarcode/refsoar/linkage.soar
-source soarcode/refsoar/transfer.soar
+source refsoar/interpret.soar
+source refsoar/realize.soar
+source refsoar/promote.soar
+source refsoar/clause.soar
+source refsoar/lgrefsoar.soar
+source refsoar/anaphor.soar
+source refsoar/build.soar
+source refsoar/identify.soar
+source refsoar/linkage.soar
+source refsoar/transfer.soar
+source refsoar/global.soar
 
 # misc. productions that need to be cleaned up
-source soarcode/simple-cligdump.soar
+source simple-cligdump.soar
 
-### now try my new output sp's
 echo \n"Loading predicate output productions..."
-source soarcode/output-code/output-flags.soar
-source soarcode/output-code/output-adj.soar
-source soarcode/output-code/output-pp.soar
-source soarcode/output-code/output-vpred.soar
-source soarcode/output-code/output-imperative.soar
-source soarcode/output-code/output-prondets.soar
+source output-code/output-flags.soar
+source output-code/output-adj.soar
+source output-code/output-pp.soar
+source output-code/output-vpred.soar
+source output-code/output-imperative.soar
+source output-code/output-prondets.soar
 
-source soarcode/lg-soartech-extra.soar
-popd
-
+source lg-soartech-extra.soar

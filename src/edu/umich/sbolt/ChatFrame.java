@@ -12,6 +12,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.soartech.bolt.LGSupport;
+
 public class ChatFrame extends JFrame
 {
 
@@ -22,13 +24,15 @@ public class ChatFrame extends JFrame
     private List<String> chatMessages;
 
     private SBolt sbolt;
+    
+    private LGSupport lgSupport;
 
-    public ChatFrame(SBolt sbolt)
-    {
+    public ChatFrame(SBolt sbolt, LGSupport lg) {
         super("SBolt");
 
         this.sbolt = sbolt;
-
+        lgSupport = lg;
+        
         chatMessages = new ArrayList<String>();
 
         chatArea = new JTextArea();
@@ -77,7 +81,13 @@ public class ChatFrame extends JFrame
 
     private void sendSoarMessage(String message)
     {
-        sbolt.getWorld().newMessage(message);
+    	if (lgSupport == null) {
+    		sbolt.getWorld().newMessage(message);
+    	}
+    	else {
+    		lgSupport.handleSentence(message);
+    		// LGSupport has access to the agent object and handles all WM interaction from here
+    	}
     }
 
     public void showFrame()

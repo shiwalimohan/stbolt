@@ -140,7 +140,6 @@ sp {global*implement*start-next-sentence
   (<ss> ^superstate <sss>)
   (<sss> ^superstate nil -^io.lgsentence ^operator.name start-next-sentence)
 -->
-  (write (exec badsentence))
   (<s> ^halt immediately)
 }
 
@@ -160,7 +159,7 @@ sp {halt*didnt-complete*nothing-dumped
   (state <s1> ^superstate nil)
 -{(<s1> ^model.idea.annotation << feat-dumped pred-dumped >>)}
 -->
-  (write (crlf) (exec flagbadsentence))
+   (halt)
 }
 
 sp {halt*didnt-complete
@@ -186,7 +185,6 @@ sp {halt*operator-tie
   (state <s4> ^attribute state ^choices none ^impasse no-change ^quiescence t
        ^superstate <s3> ^type state)
 -->
-  (write (exec flagbadsentence))
   (halt)
 }
 
@@ -208,7 +206,6 @@ sp {global*apply*processing-complete*nolinks
     (<refs> ^count <count>)
     -->
 #    (<s> ^badsentence yes +)
-    (write (crlf) (exec flagbadsentence))
     (<refsets> ^refs <refs> -)
     (<s> ^halt immediately +)
 }

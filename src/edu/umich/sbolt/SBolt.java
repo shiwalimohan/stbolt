@@ -1,8 +1,11 @@
 package edu.umich.sbolt;
 
 import java.io.File;
+
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,6 +23,8 @@ import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
 import edu.umich.soar.SoarProperties;
+
+import com.soartech.bolt.LGSupport;
 
 public class SBolt implements LCMSubscriber
 
@@ -44,7 +49,7 @@ public class SBolt implements LCMSubscriber
 
     private World world;
 
-    public SBolt(String channel, String agentName, String agentSource)
+    public SBolt(String channel, String agentName)
     {
         // LCM Channel, listen for observations_t
         try
@@ -66,13 +71,44 @@ public class SBolt implements LCMSubscriber
             throw new IllegalStateException("Kernel created null agent");
         }
 
-        String objAnalyzerSource = "agent/obj-analyzer/obj-analyzer.soar";
-        if ((new File(objAnalyzerSource)).exists())
-        {
-            agentSource = objAnalyzerSource;
+        Properties props = new Properties();
+        try {
+			props.load(new FileReader("sbolt.properties"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+        String agentSource = props.getProperty("agent");
+        
+        if (agentSource != null) {
+        	agent.LoadProductions(agentSource);
         }
-        agent.LoadProductions(agentSource);
-
+        
+        String useLGProp = props.getProperty("enable-lgsoar");
+        
+        boolean useLG = false;
+        String lgSoarDictionary = "";
+        if (useLGProp != null && useLGProp.equals("true")) {
+        	String lgSoarSource = props.getProperty("lgsoar-productions");
+        	lgSoarDictionary = props.getProperty("lgsoar-dictionary");
+        	
+        	if (lgSoarSource != null && lgSoarDictionary != null) {
+        		useLG = true;
+        		agent.LoadProductions(lgSoarSource);
+        	}
+        	else {
+        		System.out.println("ERROR: LGSoar misconfigured, not enabled.");
+        	}
+        }
+        
+        LGSupport lgSupport = null;
+        
+        if (useLG) {
+        	lgSupport = new LGSupport(agent, lgSoarDictionary);
+        }
+        
+        
+        
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event
         // handler
@@ -92,7 +128,7 @@ public class SBolt implements LCMSubscriber
         outputLinkHandler = new OutputLinkHandler(this);
 
         // Setup ChatFrame
-        chatFrame = new ChatFrame(this);
+        chatFrame = new ChatFrame(this, lgSupport);
 
         // Start broadcasting
         timerTask = new TimerTask()
@@ -192,8 +228,7 @@ public class SBolt implements LCMSubscriber
 
     public static void main(String[] args)
     {
-        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt",
-                "agent/simple-responder/responder.soar");
+        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
         sbolt.start();
     }
 

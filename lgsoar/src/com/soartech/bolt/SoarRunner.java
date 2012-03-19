@@ -65,8 +65,9 @@ public class SoarRunner implements PrintEventInterface {
 		}
 		
 		agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+		agent.LoadProductions("/opt/bolt/stbolt/lgsoar/soarcode/simple-init.soar");
 		
-		LGSupport lgSupport = new LGSupport(agent);
+		LGSupport lgSupport = new LGSupport(agent, "/opt/bolt/stbolt/lgsoar/data/link");
 		for (String sentence: sentences) {
 			lgSupport.handleSentence(sentence);
 		}
