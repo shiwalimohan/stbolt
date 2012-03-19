@@ -1,0 +1,16 @@
+# Contains basic elaborations used across obj-analyzer
+
+source io.soar
+# elaborates the io link on substates
+
+source output.soar
+# Operator applications regarding the output link
+
+source nl.soar
+# Copies a message from io.input-link to the nl.input-link
+
+source substate-name.soar
+# Elaborates substates with the name of the operator that led to their creation
+
+source top-state.soar
+# elaborates the top-state onto substates

@@ -1,0 +1,46 @@
+# learn-val
+# Expects an operator proposal on any state which looks like:
+# <s> ^operator <o>
+# <o> ^name learn-val
+#     ^learned-val <lv>
+# <lv> ^internal 'word'
+#	   ^external 'word'
+
+# Stores the learned value in semantic memory
+sp {apply*learn-val*update*smem
+   (state <s> ^operator <o>
+              ^smem.command <smem-cmd>)
+   (<o> ^name learn-val
+        ^learned-val <lv>)
+   (<lv> ^internal <internal-val>
+         ^external <external-val>)
+-->
+   (<smem-cmd> ^store <val>)
+   (<val> ^type value ^internal <internal-val> ^external <external-val>)
+}
+
+# Updates all objects that have that value with the external representation
+sp {apply*learn-val*update*object
+   (state <s> ^operator <o>
+              ^top-state.object <obj>)
+   (<o> ^name learn-val
+        ^learned-val <lv>)
+   (<lv> ^internal <internal-val>
+         ^external <external-val>)
+   (<obj> ^mapping.att-val-pair.val <val>)
+   (<val> ^internal <internal-val>)
+-->
+   (<val> ^external <external-val>)
+}
+
+sp {apply*learn-val*remove*unknown
+   (state <s> ^operator <o>
+              ^top-state.object.desc <desc>)
+   (<o> ^name learn-val
+        ^learned-val.external <value>)
+   (<desc> ^unknown <value>)
+-->
+   (<desc> ^unknown <value> -)
+}
+
+              

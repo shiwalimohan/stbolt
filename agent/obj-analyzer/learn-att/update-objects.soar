@@ -1,0 +1,42 @@
+sp {learn-att*propose*update-objects
+   (state <s> ^name learn-att
+              ^stored true
+             -^updated)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name update-objects)
+}
+              
+# Updates all objects that have that attribute with the external representation
+sp {learn-att*apply*update-objects
+   (state <s> ^name learn-att
+              ^operator.name update-objects
+              ^learned-att <la>
+              ^top-state.object <obj>)
+   (<la> ^internal <internal-att>
+         ^external <external-att>)
+   (<obj> ^mapping.att-val-pair.att <att>)
+   (<att> ^internal <internal-att>)
+-->
+   (<att> ^external <external-att>)
+}      
+
+sp {learn-att*apply*update-objects*remove*att-val-pair
+   (state <s> ^name learn-att
+              ^operator.name update-objects
+              ^learned-att.external <external-att>
+              ^top-state.object.mapping <map>)
+   (<map> ^att-val-pair <av-pair>)
+   (<av-pair> ^att.external <external-att>
+              ^att-type external)
+-->
+   (<map> ^att-val-pair <av-pair> -)
+}
+
+sp {learn-att*apply*update-objects*mark*updated
+   (state <s> ^name learn-att
+              ^operator.name update-objects)
+-->
+   (<s> ^updated true)
+}
+              

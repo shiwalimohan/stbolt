@@ -1,0 +1,80 @@
+sp {object-elaborations*elaborate*att-type*matched
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att <att>)
+   (<att> ^internal
+          ^external)
+-->
+   (<av-pair> ^att-type matched)
+}
+
+sp {object-elaborations*elaborate*att-type*internal
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att <att>)
+   (<att> ^internal
+          -^external)
+-->
+   (<av-pair> ^att-type internal)
+}
+
+sp {object-elaborations*elaborate*att-type*external
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att <att>)
+   (<att> -^internal
+          ^external)
+-->
+   (<av-pair> ^att-type external)
+}
+
+sp {object-elaborations*elaborate*att-type*unknown
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att <att>)
+   (<att> -^internal
+          -^external)
+-->
+   (<av-pair> ^att-type unknown)
+}
+
+sp {object-elaborations*elaborate*val-type*matched
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^val <val>)
+   (<val> ^internal
+          ^external)
+-->
+   (<av-pair> ^val-type matched)
+}
+
+sp {object-elaborations*elaborate*val-type*internal
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^val <val>)
+   (<val> ^internal
+          -^external)
+-->
+   (<av-pair> ^val-type internal)
+}
+
+sp {object-elaborations*elaborate*val-type*external
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^val <val>)
+   (<val> -^internal
+          ^external)
+-->
+   (<av-pair> ^val-type external)
+}
+
+sp {object-elaborations*elaborate*val-type*unknown
+   (state <s> ^name obj-analyzer
+              ^object.mapping.att-val-pair <av-pair>)
+   (<av-pair> ^val <val>)
+   (<val> -^internal
+          -^external)
+-->
+   (<av-pair> ^val-type unknown)
+}
+   

@@ -1,0 +1,47 @@
+sp {responder*elaborate*desired*distance-left*place
+   (state <s> ^name responder
+        ^io.input-link <il>
+        ^desired <d>)
+   (<d> ^place <place>)
+   (<il> ^self.location <loc>
+         ^objects.object <obj>)
+   (<loc> ^x <curX> ^y <curY>)
+   (<obj> ^name <place>
+          ^location.x <goalX>
+          ^location.y <goalY>)
+-->
+   # Straight line distance from current position to goal squared
+   (<d> ^distance-left (+ (* (- <goalX> <curX>) (- <goalX> <curX>)) 
+   						  (* (- <goalY> <curY>) (- <goalY> <curY>))))
+}
+
+sp {responder*elaborate*desired*distance-left*xy
+   (state <s> ^name responder
+        ^io.input-link.self <self>
+        ^desired <d>)
+   (<d> ^location.x <goalX>
+        ^location.y <goalY>)
+   (<self> ^location.x <curX>
+           ^location.y <curY>)
+-->
+   # Straight line distance from current position to goal squared
+   (<d> ^distance-left (+ (* (- <goalX> <curX>) (- <goalX> <curX>)) 
+   						  (* (- <goalY> <curY>) (- <goalY> <curY>))))
+}
+
+sp {responder*elaborate*desired*complete*distance-left
+   (state <s> ^name responder
+              ^desired <d>)
+   (<d> ^distance-left < .01)
+-->
+   (<d> ^status complete)
+}
+
+sp {responder*elaborate*desired*complete*stopped
+   (state <s> ^name responder
+              ^io.input-link.self.stopped true
+              ^desired <d>)
+   (<d> ^stopped <stopped>)
+-->
+   (<d> ^status complete)
+}

@@ -1,0 +1,6 @@
+sp {propose*XXX
+   (state <s> ^name comprehend-att)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name XXX)
+}

@@ -1,0 +1,50 @@
+# elaborations
+# creates the query structure on the substate
+# query has 2 attributes, internal and external
+# by leaving one off the lookup-att operator it will cause that one to be
+#	searched for in smem
+
+
+# Put the query structure on the substate
+sp {lookup-att*elaborate*add-query
+   (state <s> ^name lookup-att)
+-->
+   (<s> ^query <q>)
+}
+
+
+# If there is an internal attribute on the superstate operator, add it to the query
+sp {lookup-att*elaborate*internal
+   (state <s> ^name lookup-att
+              ^query <q>
+              ^superstate.operator.internal <internal-att>)
+-->
+   (<q> ^internal <internal-att>)
+}
+
+# If there is no internal attribute on the superstate operator, create a placeholder
+sp {lookup-att*elaborate*no-internal
+   (state <s> ^name lookup-att
+              ^query <q>
+              -^superstate.operator.internal)
+-->
+   (<q> ^internal <internal-att>)
+}
+
+# If there is an external attribute on the superstate operator, add it to the query
+sp {lookup-att*elaborate*external
+   (state <s> ^name lookup-att
+              ^query <q>
+              ^superstate.operator.external <external-att>)
+-->
+   (<q> ^external <external-att>)
+}
+
+# If there is no external attribute on the superstate operator, create a placeholder
+sp {lookup-att*apply*init-lookup-att*no-external
+   (state <s> ^name lookup-att
+              ^query <q>
+              -^superstate.operator.external)
+-->
+   (<q> ^external <external-att>)
+}

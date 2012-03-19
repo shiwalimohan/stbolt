@@ -1,0 +1,16 @@
+sp {att-rel-info*propose*init-att-rel-info
+   (state <s> ^name att-rel-info
+             -^message <m>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name init-att-rel-info)
+}
+
+sp {att-rel-info*apply*init-att-rel-info
+   (state <s> ^name att-rel-info
+              ^operator.name init-att-rel-info
+              ^superstate.message <m>)
+-->
+   (<s> ^message <m>)
+}
+              

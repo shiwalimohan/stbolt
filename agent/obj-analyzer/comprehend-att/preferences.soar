@@ -1,0 +1,19 @@
+sp {prefer*all*over*complete-comprehend-att
+   (state <s> ^name comprehend-att
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name <> complete-comprehend-att)
+   (<o2> ^name complete-comprehend-att)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {reject*if*no*objects
+   (state <s> ^name find-value-group
+              ^operator <o> +
+              ^att-to-comp
+             -^object <obj>)
+   (<o> ^name <> complete-comprehend-att)
+-->
+   (<s> ^operator <o> -)
+}

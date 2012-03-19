@@ -1,0 +1,11 @@
+# When a new message is recieved it proposes process-message to handle it
+   
+sp {propose*process-message
+   (state <s> ^name obj-analyzer
+              ^nl.input-link.message <msg>
+             -^processed <msg>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name process-message
+        ^message <msg>)
+}

@@ -1,0 +1,27 @@
+sp {att-rel-info*propose*modify-object
+   (state <s> ^name att-rel-info
+              ^object <obj>
+             -^modified)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name modify-object)
+}
+
+sp {att-rel-info*apply*modify-object*name
+   (state <s> ^name att-rel-info
+              ^operator.name modify-object
+              ^object-name <name>
+              ^object <obj>)
+-->
+   (<obj> ^name <name>)
+}
+
+
+sp {att-rel-info*apply*modify-object*mark-modified
+   (state <s> ^name att-rel-info
+              ^operator.name modify-object)
+-->
+   (<s> ^modified true)
+}
+
+              

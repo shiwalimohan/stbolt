@@ -1,0 +1,41 @@
+sp {propose*init-find-value-group
+   (state <s> ^name find-value-group
+             -^value)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name init-find-value-group)
+}
+
+sp {apply*init-find-value-group*value
+   (state <s> ^name find-value-group
+              ^operator.name init-find-value-group
+              ^superstate.operator <o>)
+   (<o> ^value <val>)
+-->
+   (<s> ^value <val>)
+}
+
+sp {apply*init-find-value-group*copy*superstate-info
+   (state <s> ^name find-value-group
+              ^operator.name init-find-value-group
+              ^superstate.att-to-comp <att>
+              ^superstate.att-type <att-type>)
+-->
+   (<s> ^att-to-comp <att>
+        ^att-type <att-type>)
+}
+
+sp {apply*init-find-value-group*objects
+   (state <s> ^name find-value-group
+              ^superstate <ss>)
+   (<ss> ^operator <o>
+         ^object <obj>
+         ^att-to-comp <att>
+         ^att-type <att-type>)
+   (<o> ^value <val>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.<att-type> <att>
+              ^val.<att-type> <val>)
+-->
+   (<s> ^object <obj>)
+}

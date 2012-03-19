@@ -1,0 +1,11 @@
+# Proposes create-object if there is an object on the input link not in working memory
+#	Enters a substate to do the creation
+sp {propose*create-object
+   (state <s> ^name obj-analyzer
+              ^io.input-link.objects.object.id <id>
+             -^object.id <id>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name create-object
+        ^id <id>)
+}

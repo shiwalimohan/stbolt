@@ -1,0 +1,337 @@
+sp {propose*init-puppet
+   (state <s> ^superstate nil
+             -^name )
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name init-puppet)
+}
+
+sp {apply*init-puppet
+   (state <s> ^superstate nil
+              ^operator <o>
+              ^io.input-link <in>)
+   (<o> ^name init-puppet)
+-->
+   (<s> ^name puppet
+        ^inbox <inbox>)
+   (<inbox> ^input-link <in>
+            ^custom <custom>)
+   (<custom> ^messages <msgs>)
+   (<msgs> ^message <m1> <m2> <m3> <m4>)
+   (<m1> ^id 1
+          ^words <w11>)
+   (<w11> ^first-word goto
+         ^rest <w12>)
+   (<w12> ^first-word 2
+         ^rest <w13>)
+   (<w13> ^first-word 4
+         ^rest <w14>)
+   (<w14> ^first-word 1.24)
+   (<m2> ^id 2
+          ^words <w21>)
+   (<w21> ^first-word change
+         ^rest <w22>)
+   (<w22> ^first-word switch
+         ^rest <w23>)
+   (<w23> ^first-word to
+         ^rest <w24>)
+   (<w24> ^first-word on)
+   (<m3> ^id 3
+          ^words <w31>)
+   (<w31> ^first-word open
+         ^rest <w32>)
+   (<w32> ^first-word gripper)
+   (<m4> ^id 4
+          ^words <w41>)
+   (<w41> ^first-word close
+         ^rest <w42>)
+   (<w42> ^first-word gripper)
+}
+
+### Remove completed commands and message
+### We do this during any operator application
+sp {apply*remove-message
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<out> ^message <m>)
+   (<m> ^status << complete error >>)
+-->
+   (<out> ^message <m> -)
+}
+
+sp {apply*remove-command*sub
+   (state <s> ^operator <o>
+              ^io.output-link.command <command>)
+   (<command> ^{<sub-command> << action gripper destination >>} <sub>)
+   (<sub> ^status << complete error >>)
+-->
+   (<command> ^<sub-command> <sub> -)
+}
+
+sp {apply*remove-command
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<out> ^command <command>)
+   -{(<command> ^<att> <a>)
+     (<a> -^status <st>)}
+-->
+   (<out> ^command <command> -)
+}
+
+sp {apply*remove-processed-message
+   (state <s> ^name puppet
+              ^processed <msgID>
+              ^operator <o>
+             -^inbox.<folder>.messages.message.id <msgID>)
+-->
+   (<s> ^processed <msgID> -)
+}
+
+### goto
+
+sp {propose*goto
+   (state <s> ^name puppet
+             -^processed <msgID>
+              ^inbox.<folder>.messages.message <msg>)
+   (<msg> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word goto
+         ^rest <w2>)
+   (<w2> ^first-word <x>
+         ^rest <w3>)
+   (<w3> ^first-word <y>
+         ^rest <w4>)
+   (<w4> ^first-word <t>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name goto
+        ^message <msgID>
+        ^x <x> ^y <y> ^t <t>)
+}
+
+sp {apply*goto
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name goto
+        ^message <msgID>
+        ^x <x> ^y <y> ^t <t>)
+-->
+   (<s> ^processed <msgID>)
+   (<out> ^command.destination <d>)
+   (<d> ^x <x> ^y <y> ^t <t>)
+}
+
+sp {apply*goto*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name goto
+        ^x <x> ^y <y> ^t <t>)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word Going
+         ^rest <w2>)
+   (<w2> ^first-word to
+         ^rest <w3>)
+   (<w3> ^first-word <x>
+         ^rest <w4>)
+   (<w4> ^first-word <y>
+         ^rest <w5>)
+   (<w5> ^first-word <t>)
+}
+
+
+### stop
+sp {propose*stop
+   (state <s> ^name puppet
+             -^processed <msgID>
+              ^inbox.<folder>.messages.message <msg>)
+   (<msg> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word stop)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name stop
+        ^message <msgID>)
+}
+
+sp {apply*stop
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name stop
+        ^message <msgID>)
+-->
+   (<s> ^processed <msgID>)
+   (<out> ^command.destination.None 0)
+}
+
+
+sp {apply*stop*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name stop)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word stopping)
+}
+
+### change-gripper
+
+sp {propose*change-gripper
+   (state <s> ^name puppet
+             -^processed <msgID>
+              ^inbox.<folder>.messages.message <msg>)
+   (<msg> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word {<gripper-state> << open close >>}
+         ^rest <w2>)
+   (<w2> ^first-word gripper)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name change-gripper
+        ^message <msgID>
+        ^gripper-state <gripper-state>)
+}
+
+sp {apply*change-gripper
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name change-gripper
+        ^message <msgID>
+        ^gripper-state <gripper-state>)
+-->
+   (<s> ^processed <msgID>)
+   (<out> ^command.gripper.perform <gripper-state>)
+}
+
+
+sp {apply*change-gripper*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name change-gripper
+        ^gripper-state <gripper-state>)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word gripper
+         ^rest <w2>)
+   (<w2> ^first-word set
+         ^rest <w3>)
+   (<w3> ^first-word to
+         ^rest <w4>)
+   (<w4> ^first-word <gripper-state>)
+}
+
+
+### perform-action
+
+sp {propose*perform-action
+   (state <s> ^name puppet
+             -^processed <msgID>
+              ^inbox.<folder>.messages.message <msg>)
+   (<msg> ^id <msgID>
+          ^words <w1>)
+   (<w1> ^first-word change
+         ^rest <w2>)
+   (<w2> ^first-word <object>
+         ^rest <w3>)
+   (<w3> ^first-word to
+         ^rest <w4>)
+   (<w4> ^first-word <new-state>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name perform-action
+        ^message <msgID>
+        ^object <object>
+        ^state <new-state>)
+}
+
+sp {apply*perform-action
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name perform-action
+        ^message <msgID>
+        ^object <object>
+        ^state <new-state>)
+-->
+   (<s> ^processed <msgID>)
+   (<out> ^command.action <a>)
+   (<a> ^pair <p1> <p2>)
+   (<p1> ^key name
+         ^value <object>)
+   (<p2> ^key state
+         ^value <new-state>)
+}
+
+sp {apply*perform-action*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name perform-action
+        ^object <object>
+        ^state <new-state>)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word Changing
+         ^rest <w2>)
+   (<w2> ^first-word <object>
+         ^rest <w3>)
+   (<w3> ^first-word to
+         ^rest <w4>)
+   (<w4> ^first-word <new-state>)
+}
+
+### wait
+
+sp {propose*wait
+   (state <s> ^attribute state
+              ^choices none
+             -^operator.name wait)
+  	
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name wait)}
+
+######################################################################
+#  Test Code to print out 10 messages, requires counter on <s> 
+sp {propose*increment-counter
+   (state <s> ^name puppet
+              ^counter {<counter> < 10})
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name increment-counter
+        ^new-value (+ <counter> 1))
+}
+
+sp {apply*increment-counter*increment
+   (state <s> ^name puppet
+              ^operator <o>
+              ^counter <old-counter>)
+   (<o> ^name increment-counter
+        ^new-value {<new-counter> <> <old-counter>})
+-->
+   (<s> ^counter <old-counter> - <new-counter>)
+}
+
+sp {apply*increment-counter*send-message
+   (state <s> ^name puppet
+              ^io.output-link <out>
+              ^operator <o>)
+   (<o> ^name increment-counter
+        ^new-value <counter-val>)
+-->
+   (<out> ^message.words <w1>)
+   (<w1> ^first-word Counter
+         ^rest <w2>)
+   (<w2> ^first-word is
+         ^rest <w3>)
+   (<w3> ^first-word now
+         ^rest <w4>)
+   (<w4> ^first-word <counter-val>)
+}
+##################################################################
