@@ -1,10 +1,10 @@
 ############### adjective modifiers on single-word lexical nouns
 
-sp {global*apply*processing-complete*output*nuc-n-aug*adj
+sp {global*apply*generate-predicates*output*nuc-n-aug*adj
    (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s> ^superstate nil ^model.idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>} ^annotation pred-adj/noun-tested)
    (<aval> ^aug1 <idea> -^annotation pred-adj/noun)
@@ -17,14 +17,14 @@ sp {global*apply*processing-complete*output*nuc-n-aug*adj
 
 # call this when the adjective is NOT a predicate adjective
 # also, do not call this when the adjective is modifying a predicate noun
-sp {global*apply*processing-complete*output*nuc-n-aug*adj*non-pred
+sp {global*apply*generate-predicates*output*nuc-n-aug*adj*non-pred
    (state <s> ^operator <o> 
    #^count <count> 
    #^refsets <refsets>)
    #(<refsets> ^refs <refs>)
    #(<refs> ^count <count>
    )
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s> ^superstate nil ^model <mod> ^final-predicates <fp>)
    (<mod> ^idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
@@ -47,13 +47,13 @@ sp {global*apply*processing-complete*output*nuc-n-aug*adj*non-pred
 
 # have to treat this separately since we need to re-use the head's var
 # in this case output the pred-adj, but resolve its var
-sp {global*apply*processing-complete*output*nuc-n-aug*adj*copula
+sp {global*apply*generate-predicates*output*nuc-n-aug*adj*copula
    (state <s> ^operator <o>  ^final-predicates <fp>
    #^count <count> 
    ^refsets <refsets>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s> ^superstate nil ^model.idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
    (<aval> ^aug1 <idea> ^annotation pred-adj/noun ^aug.ext <thesubject>)

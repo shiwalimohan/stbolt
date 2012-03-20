@@ -1,4 +1,4 @@
-# this will eventually be replaced by something more sophisticated
+# excise this and add something project-specific
 
 sp {top-state*elaborate*lg-problem-space
    (state <s> ^superstate nil
@@ -39,10 +39,10 @@ sp {elaborate*clear-output
    (<s> ^predoutput-refresh yes -)
 }
 
-sp {global*apply*processing-complete*graph
+sp {global*apply*generate-predicates*graph
     :o-support
     (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io>)
-        (<o> ^name processing-complete ^annotation preds-output)
+        (<o> ^name generate-predicates ^annotation preds-output)
        (<refsets> ^refs <refs>)
         (<refs> ^count <count>)
          (<io> ^lgsentence <anylgio> ^output-preds <iop>)

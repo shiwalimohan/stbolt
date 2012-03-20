@@ -1,0 +1,15 @@
+source simple-init.soar
+
+# BOLT/LGSoar integration productions go here
+
+# prefer any operator without a priority (non-LGSoar) to one with a priority
+sp {prefer*non-LG
+   (state <s> ^operator <o> +
+              ^operator <o2> +)
+   (<o> ^priority <any>)
+   (<o2> -^priority)
+-->
+   (<s> ^operator <o2> > <o>)
+}
+
+

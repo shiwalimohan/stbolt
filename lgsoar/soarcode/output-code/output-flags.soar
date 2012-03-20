@@ -2,11 +2,11 @@
 
 ################################## copula flag ###################################
 
-sp {global*apply*processing-complete*output*set-flag*copula
+sp {global*apply*generate-predicates*output*set-flag*copula
   :o-support
    (state <s> ^superstate nil ^model.idea <idea>)
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s>  
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -15,11 +15,11 @@ sp {global*apply*processing-complete*output*set-flag*copula
   (<idea> ^annotation copula +)
   (<o> ^annotation copulaflag-set +)
 }
-sp {global*apply*processing-complete*output*set-flag*copula*fail
+sp {global*apply*generate-predicates*output*set-flag*copula*fail
   :o-support
    (state <s> ^superstate nil ^model.idea <idea>)
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s>  
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -32,11 +32,11 @@ sp {global*apply*processing-complete*output*set-flag*copula*fail
 #################################### preposition flags #########################
 
 ### use just 1 flag for all preps, based on the lex item
-sp {global*apply*processing-complete*output*flag-preplex
+sp {global*apply*generate-predicates*output*flag-preplex
   :o-support
    (state <s> ^superstate nil ^model.idea <idea> ^refsets.refs.count <count>) #^count <count>
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation copulaflag-set)
+   (<o> ^name generate-predicates ^annotation copulaflag-set)
    (<idea> ^{<< about above across after against along among around as at 
 		before behind below beneath beside between beyond but by
 		concerning despite down during except excepting for from
@@ -50,11 +50,11 @@ sp {global*apply*processing-complete*output*flag-preplex
 }
 
 ### copula+pred-pp have different structure
-sp {global*apply*processing-complete*output*flag-preplex*copula
+sp {global*apply*generate-predicates*output*flag-preplex*copula
   :o-support
    (state <s> ^superstate nil ^model.idea <idea> ^refsets.refs.count <count>) #^count <count> 
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation copulaflag-set)
+   (<o> ^name generate-predicates ^annotation copulaflag-set)
    (<idea> ^preplex <some> ^annotation copula)
 -->
   (<idea> ^annotation pred-pp +)
@@ -62,11 +62,11 @@ sp {global*apply*processing-complete*output*flag-preplex*copula
 }
 
 ### otherwise
-sp {global*apply*processing-complete*output*flag-preplex*fail
+sp {global*apply*generate-predicates*output*flag-preplex*fail
   :o-support
    (state <s> ^superstate nil ^model.idea <idea> ^refsets.refs.count <count>) #^count <count> 
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation copulaflag-set)
+   (<o> ^name generate-predicates ^annotation copulaflag-set)
    
  -{
     (<idea> ^{<< about above across after against along among around as at 
@@ -100,11 +100,11 @@ sp {global*apply*processing-complete*output*flag-preplex*fail
 # test to see whether the internal argument is a predicate adjective
 # set a flag on the idea (so we can assure the pred-adj/noun test has been done)
 # and set a flag on the internal argument if it is a pred-adj/noun
-sp {global*apply*processing-complete*output*set-flag*pred-adj/noun
+sp {global*apply*generate-predicates*output*set-flag*pred-adj/noun
   :o-support
    (state <s> ^superstate nil ^model.idea <idea>)
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation prepflags-set)
+   (<o> ^name generate-predicates ^annotation prepflags-set)
    (state <s>  
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -117,11 +117,11 @@ sp {global*apply*processing-complete*output*set-flag*pred-adj/noun
   (<thisroleval> ^annotation pred-adj/noun +)
   (<o> ^annotation predflags-set +)
 }
-sp {global*apply*processing-complete*output*set-flag*pred-adj/noun*fail
+sp {global*apply*generate-predicates*output*set-flag*pred-adj/noun*fail
   :o-support
    (state <s> ^superstate nil ^model.idea <idea>)
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation prepflags-set) 
+   (<o> ^name generate-predicates ^annotation prepflags-set) 
    (state <s> 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -133,11 +133,11 @@ sp {global*apply*processing-complete*output*set-flag*pred-adj/noun*fail
   (<o> ^annotation predflags-set +)
 }
 # put out a white lie for itrx verbs
-sp {global*apply*processing-complete*output*set-flag*pred-adj/noun*fail*intrx
+sp {global*apply*generate-predicates*output*set-flag*pred-adj/noun*fail*intrx
   :o-support
    (state <s> ^superstate nil ^model.idea <idea>)
    (state <s> ^operator <o>)
-   (<o> ^name processing-complete ^annotation prepflags-set) 
+   (<o> ^name generate-predicates ^annotation prepflags-set) 
    (state <s>
    #^count <count> 
    ^refsets.refs.count <count>)

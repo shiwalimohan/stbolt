@@ -4,7 +4,7 @@
 # go to the table .
 # eat the food .
 ### todo: assumes w1 is the verb, so "please burp." won't work
-sp {global*apply*processing-complete*output*ext*imperative
+sp {global*apply*generate-predicates*output*ext*imperative
   :o-support
    (state <s> ^operator <o> 
    #^count <count> 
@@ -12,7 +12,7 @@ sp {global*apply*processing-complete*output*ext*imperative
    (<refsets> ^refs <refs>)
    (<refs> ^count <count> ^ref <rf>)
    (<rf> ^head <some> ^rooted-in <something>)
-   (<o> ^name processing-complete)
+   (<o> ^name generate-predicates)
    (state <s> ^superstate nil ^model <mod>)
    (<mod> ^idea <idea>)
    (<idea> ^nuc <nucval> ^wcount 1 -^ext <extvalx> -^annotation imperative)

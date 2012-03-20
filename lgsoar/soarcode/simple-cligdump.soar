@@ -1,13 +1,6 @@
 ## from productions2b.soar
 # replace original versions in refsoar/lgrefsoar.soar
 
-sp {global*propose*processing-complete
-	(state <s> ^io.total-sentences <total> ^count <total>)
--->
-	(<s> ^operator <o> + >)
-	(<o> ^name processing-complete ^priority 0 ) 
-}
-
 
 sp {realize*apply*ref*as*new-idea
 	(state <s> ^operator <o> ^model <m>)
@@ -40,7 +33,7 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*has-new
 
 sp {interpret*propose*P*as*internal
 	(state <s> ^count <count> ^io <io>)
-  	(<io> ^lgsentence <lgs> ^total-sentences <tscount>)
+  	(<io> ^lgsentence <lgs> )
 	(<lgs> ^count <count> ^links.link <link> ^words.word <int> <main>)
 
 #<main> is for those that contain a ^ref <ref> and a ^wcount <main-count>
@@ -133,127 +126,83 @@ sp {interpret*propose*D*as*negative-description
 
 ## nothing from two-internal-args.soar
 
-## from nolgparse.soar
 
-sp {global*implement*start-next-sentence
-  (state <s> ^impasse no-change ^superstate <ss>)
-  (<ss> ^superstate <sss>)
-  (<sss> ^superstate nil -^io.lgsentence ^operator.name start-next-sentence)
--->
-  (<s> ^halt immediately)
-}
+# sp {global*implement*start-next-sentence
+#   (state <s> ^impasse no-change ^superstate <ss>)
+#   (<ss> ^superstate <sss>)
+#   (<sss> ^superstate nil -^io.lgsentence ^operator.name start-next-sentence)
+# -->
+#   (<s> ^halt immediately)
+# }
 
 
 ## from nocompletionprods.soar
 
 
-sp {halt*didnt-complete*nothing-dumped
-  (state <s9> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s8> ^type state)
-  (state <s8> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s7> ^type state)
-  (state <s7> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s6> ^type state)
-  (state <s6> ^attribute operator ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s1> ^type state)
-  (state <s1> ^superstate nil)
--{(<s1> ^model.idea.annotation << feat-dumped pred-dumped >>)}
--->
-   (halt)
-}
+# sp {halt*didnt-complete*nothing-dumped
+#   (state <s9> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s8> ^type state)
+#   (state <s8> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s7> ^type state)
+#   (state <s7> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s6> ^type state)
+#   (state <s6> ^attribute operator ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s1> ^type state)
+#   (state <s1> ^superstate nil)
+# -{(<s1> ^model.idea.annotation << feat-dumped pred-dumped >>)}
+# -->
+#    (halt)
+# }
 
-sp {halt*didnt-complete
-  (state <s9> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s8> ^type state)
-  (state <s8> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s7> ^type state)
-  (state <s7> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s6> ^type state)
-  (state <s6> ^attribute operator ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s1> ^type state)
-  (state <s1> ^superstate nil)
--->
-  (halt)
-}
+# sp {halt*didnt-complete
+#   (state <s9> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s8> ^type state)
+#   (state <s8> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s7> ^type state)
+#   (state <s7> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s6> ^type state)
+#   (state <s6> ^attribute operator ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s1> ^type state)
+#   (state <s1> ^superstate nil)
+# -->
+#   (halt)
+# }
 
-sp {halt*operator-tie
-  (state <s1> ^superstate nil)
-  (state <s2> ^attribute operator ^choices multiple ^impasse tie ^quiescence t
-       ^superstate <s1> ^type state)
-  (state <s3> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s2> ^type state)
-  (state <s4> ^attribute state ^choices none ^impasse no-change ^quiescence t
-       ^superstate <s3> ^type state)
--->
-  (halt)
-}
+# sp {halt*operator-tie
+#   (state <s1> ^superstate nil)
+#   (state <s2> ^attribute operator ^choices multiple ^impasse tie ^quiescence t
+#        ^superstate <s1> ^type state)
+#   (state <s3> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s2> ^type state)
+#   (state <s4> ^attribute state ^choices none ^impasse no-change ^quiescence t
+#        ^superstate <s3> ^type state)
+# -->
+#   (halt)
+# }
 
-sp {global*apply*processing-complete*nolinks
-    (state <s> ^count <count> ^operator <o> ^refsets <refsets>)
-   -{ (<s> ^anaphor <a*1>)
-      (<a*1> ^centers <c*1>)
-      (<c*1> ^center <c*2>)
-      (<c*2> ^ref <theref>)
-      (<theref> ^pointer <ptr> ^desc <d*1>)
-      (<ptr> -^annotation feat-dumped)
-      (<d*1> ^feature <any>)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> -^annotation pred-dumped ^aug <anyaug>)}
-   -{ (<s> ^io.lgsentence <anylgio>)}
-    (<o> ^name processing-complete)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    -->
-#    (<s> ^badsentence yes +)
-    (<refsets> ^refs <refs> -)
-    (<s> ^halt immediately +)
-}
-
-
-# from /export/home/ctustiso/lgsoar_files/numbers2.soar
-sp	{clause*propose*recognize-quantification-number-phrases
-	(state <s> ^count <count> ^io <io> ^model <model> ^operator <o>)
-	(<io> ^lgsentence <lgsentence>)
-	(<lgsentence> ^links <links> ^words <words>)
-	(<links> ^link <Mam-link>)
-	(<links> ^link <MVt-link>)
-	(<words> ^word <Mam-number>)
-	(<words> ^word <MVt-number>)
-	(<Mam-number> ^wcount <Mam-wcount> ^wvalue <quantification>)
-	(<o> ^name processing-complete)
-	(<Mam-link> ^lvalue << Mam MVm >> ^lwright <Mam-wcount>)
-	(<MVt-number> ^wcount <MVt-count> ^wvalue <quantification2>)
-	(<MVt-link> ^lvalue MVt ^lwright <MVt-count>)
-	(state <s> ^superstate nil ^model <model>)
-	(<model> ^idea <idea>)
-	(<idea> ^nuc <nuc> ^ext <ext> ^int <int>)
-	(<ext>  ^annotation pred-dumped)
--->
-	(<model> ^quant <new> +)
-	(<new> ^quant_type <quantification>)
-	(write (crlf) (exec output_quantification | | <quantification> | | <int> | | <new>))
-}
-
-
-## nothing from numbers2.soar for now	
-
-## nothing from morefixes.soar for now
-
-## from newfoo4.soar
+# sp {global*apply*processing-complete*nolinks
+#     (state <s> ^count <count> ^operator <o> ^refsets <refsets>)
+#    -{ (<s> ^anaphor <a*1>)
+#       (<a*1> ^centers <c*1>)
+#       (<c*1> ^center <c*2>)
+#       (<c*2> ^ref <theref>)
+#       (<theref> ^pointer <ptr> ^desc <d*1>)
+#       (<ptr> -^annotation feat-dumped)
+#       (<d*1> ^feature <any>)}
+#    -{ (<s> ^model <m*1>)
+#       (<m*1> ^idea <idea>)
+#       (<idea> -^annotation pred-dumped ^aug <anyaug>)}
+#    -{ (<s> ^io.lgsentence <anylgio>)}
+#     (<o> ^name processing-complete)
+#     (<refsets> ^refs <refs>)
+#     (<refs> ^count <count>)
+#     -->
+# #    (<s> ^badsentence yes +)
+#     (<refsets> ^refs <refs> -)
+#     (<s> ^halt immediately +)
+# }
 
 # new test so nc collection terminates before halting
-
-
-
-sp {global*apply*processing-complete*note-any-annotation-anywhere
-   (state <s> ^count <count> ^operator.name processing-complete ^model <mod>)
-   (<mod> ^idea <idea>)
-   (<idea> ^annotation <any>)
--->
-   (<mod> ^did-idea-annotation yes +)
-}
-
 
 
 ####### basic stuff for conjunction
@@ -263,43 +212,7 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*use-arg
     (<preferred> ^main <mainval> ^priority <priority> ^arg.wcount <wc1>)
     (<deferred> ^main <mainval> ^priority <priority> ^arg.wcount {> <wc1> <wc2>})
     -->
-#    (interrupt)
     (<s> ^operator <preferred> > <deferred>)
 }
 
-
-sp {global*apply*processing-complete*links
-  :o-support
-    (state <s> ^refsets <refsets> ^operator <o> ^count <count> ^io <io> )
-   -{ (<s> ^anaphor <a*2>)
-      (<a*2> ^centers <c*1>)
-      (<c*1> ^center <c*2>)
-      (<c*2> ^ref <theref>)
-      (<theref> ^pointer <ptr> ^desc <d*1>)
-      (<ptr> -^feat-dumped <anyfoo>)
-      (<d*1> ^feature <thefeat>)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> -^annotation pred-dumped)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea>
-            -^annotation { << nc-nonhead-dumped compound-head-dumped >> <a*1> }
-            ^annotation in-n-n)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^quant <q>)
-      (<q> -^annotation quant-dumped)}
-   -{ (<s> ^model <m*1>)
-      (<m*1> ^idea <idea>)
-      (<idea> -^annotation nc-dump-complete ^annotation compound-head-dumped)}
-    (<o> ^name processing-complete)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<io> ^lgsentence <anylgio>)
-    -->
-
-    (<io> ^output-preds <out> +)
-    (exec output_preds | | <out>)
-   (<o> ^annotation preds-output +)
-}
 

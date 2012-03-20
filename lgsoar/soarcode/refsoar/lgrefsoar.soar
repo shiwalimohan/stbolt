@@ -48,7 +48,6 @@ sp	{Activate*create*space
 -->
    (<s> ^problem-space <p> ^refsets <refsets> ^model <m> ^count 0 ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1)
-   (<io> ^total-sentences 1)
    (<refsets> ^refs <refs> +)
    (<refs> ^count 0)
    (<a> ^acount 1 ^centers <centers> ^unblock? no ^merge <merge> ^cascades <cascs>)

@@ -1,9 +1,9 @@
 
 ###################### these output terms for verbal external and internal arguments
 # output the external and internal argument (if it exists) for the verb
-sp {global*apply*processing-complete*output*ext/int*arg
+sp {global*apply*generate-predicates*output*ext/int*arg
    (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name processing-complete 
+   (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^<< ext int >> <thisroleval> ^nuc <nucval> ^annotation pred-adj/noun-tested)
@@ -18,9 +18,9 @@ sp {global*apply*processing-complete*output*ext/int*arg
 }
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
-sp {global*apply*processing-complete*output*int*pred-adj
+sp {global*apply*generate-predicates*output*int*pred-adj
    (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name processing-complete 
+   (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^int <thisroleval> ^nuc <nucval>)
@@ -36,9 +36,9 @@ sp {global*apply*processing-complete*output*int*pred-adj
 }
 
 # intransitive predicate terms
-sp {global*apply*processing-complete*output*predicate-itrx
+sp {global*apply*generate-predicates*output*predicate-itrx
    (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name processing-complete 
+   (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^ext <extval> ^nuc <nucval> -^int <any> -^annotation copula)
@@ -52,9 +52,9 @@ sp {global*apply*processing-complete*output*predicate-itrx
 
 
 # transitive predicate terms
-sp {global*apply*processing-complete*output*predicate-trx
+sp {global*apply*generate-predicates*output*predicate-trx
    (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name processing-complete 
+   (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> -^int {<> <intval> <int2val>} -^annotation copula)
@@ -71,9 +71,9 @@ sp {global*apply*processing-complete*output*predicate-trx
 # the man sent the lawyer a letter .
 
 # ditransitive predicates
-sp {global*apply*processing-complete*output*predicate-ditrx
+sp {global*apply*generate-predicates*output*predicate-ditrx
    (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name processing-complete 
+   (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> ^int {<> <intval> <int2val>})

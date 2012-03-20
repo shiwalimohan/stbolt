@@ -4,7 +4,7 @@
 # Version 2.0: July 24, 2001
 # Created: July 6, 2001
 #
-# Operators:	start-next-sentence (0), processing-complete (0), find-root (205),
+# Operators:	start-next-sentence (0), generate-predicates (0), find-root (205),
 #				return-to-nil
 # Preference:	prefer*operator-with-highest-priority, prefer*operator-with-lowest-order
 # Other:		terminate*operator, halt
@@ -38,31 +38,20 @@ sp	{global*apply*start-next-sentence
    (<refs> ^count (+ 1 <count>))
 }
 
-sp {global*propose*wrap-up
+sp {global*propose*generate-predicates
    (state <s> ^impasse no-change ^superstate <ss>)
    (<ss> ^superstate nil 
+        -^predicates-generated 
          ^anaphor.unblock? no
-         ^io.lgsentence <any> 
+         ^problem-space lgsoar
          -^io.lgsentence.count { <next-count> > <count> } ^count <count>)
 -->
    (<ss> ^operator <o> + >)
-   (<o> ^name wrap-up ^priority 0 ^count <count>)
-}
-
-sp	{global*apply*wrap-up
-   (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
-   (<o> ^name wrap-up ^count <count> )
--->
-   (<a> ^unblock? no - general +)
-   (<s> ^root <root> - 0 +)
-   (<s> ^count <count> - (+ 1 <count>))
-   (<refsets> ^refs <refs> +)
-   (<refs> ^count (+ 1 <count>))
+   (<o> ^name generate-predicates ^priority 0)
 }
 
 
 sp	{global*apply*find-root
-  #  :o-support
    (state <s> ^operator <o> ^root <old>)
    (<o> ^name find-root ^new <new>)
 -->
@@ -142,16 +131,39 @@ sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
 
 ## Halt
 
-sp	{global*halt
-   (state <s> ^halt immediately)
+# sp	{global*halt
+#   (state <s> ^halt immediately)
+# -->
+#   (halt)
+# }
+
+
+sp {global*apply*generate-predicates*note-any-annotation-anywhere
+   (state <s> ^count <count> ^operator.name generate-predicates ^model <mod>)
+   (<mod> ^idea <idea>)
+   (<idea> ^annotation <any>)
+-->
+   (<mod> ^did-idea-annotation yes +)
+}
+
+sp {global*apply*generate-predicates*generated
+  (state <s> ^operator.name generate-predicates)
+   -{(<s> ^model.idea <id>)
+     (<id> -^annotation pred-dumped)}
+-->
+  (<s> ^predicates-generated true)
+}
+
+sp {global*propose*processing-complete
+   (state <s> ^problem-space lgsoar
+              ^predicates-generated true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name processing-complete)
+}
+
+sp {global*apply*processing-complete
+   (state <s> ^operator.name processing-complete)
 -->
    (halt)
 }
-# sp {global*propose*start-next-sentence
-#   (state <s> ^impasse no-change ^superstate <ss>)
-#   (<ss> ^superstate <sss>)
-#   (<sss> ^superstate nil -^io.total-sentences <count> ^count <count>)
-# -->
-#   (<sss> ^operator <o> + >)
-#   (<o> ^name start-next-sentence ^priority 0 ^count <count> )}
-
