@@ -1,0 +1,18 @@
+Go to file->import existing projects, point it at this directory to import the lgsoar project.
+
+Go to lgsoar project properties->Java Build Path->Libraries->Add External JARs, add these:
+[SoarSuite path]/share/java/sml.jar
+[SoarSuite path]/share/java/soar-debugger(version).jar
+
+Also in Java Build Path->Libraries, do Add Library.. and choose JRE system library (workspace default)
+
+Also in Java Build Path, Source tab:
+remove lgsoar
+add lgsoar/src
+
+add a run config:
+-arguments should be a single quoted sentence
+-on Linux, environment tab needs LD_LIBRARY_PATH set to the SoarSuite lib directory
+-on OS X, this is DYLD_LIBRARY_PATH
+-on Windows, ???
+(the right way to do this is supposed to be to go through the External JARs settings (above), expand the JAR, and add a native library location to the two Soar JARs, but that doesn't work for me)
