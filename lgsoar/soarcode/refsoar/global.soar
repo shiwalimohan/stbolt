@@ -24,7 +24,7 @@ sp {global*propose*start-next-sentence
    (<ss> ^superstate nil ^io.lgsentence.count { <next-count> > <count> } ^count <count>)
 -->
    (<ss> ^operator <o> + >)
-   (<o> ^name start-next-sentence ^priority 0 ^count <count>)
+   (<o> ^name start-next-sentence ^priority -1 ^count <count>)
 }
 
 sp	{global*apply*start-next-sentence
@@ -47,7 +47,7 @@ sp {global*propose*generate-predicates
          -^io.lgsentence.count { <next-count> > <count> } ^count <count>)
 -->
    (<ss> ^operator <o> + >)
-   (<o> ^name generate-predicates ^priority 0)
+   (<o> ^name generate-predicates ^priority -1)
 }
 
 
@@ -61,13 +61,15 @@ sp	{global*apply*find-root
 ## return-to-nil
 
 sp	{global*propose*return-to-nil
-   (state <s> ^superstate <ss>)
+   (state <s> ^superstate <ss>
+             -^impasse tie)
    (<ss> ^count <count> ^refsets.refs <refs>)
    (<refs> ^count <count> ^ref <ref>)
    (<ref> ^return-to-nil ^head.wcount <wcount>)
 -->
    (<ss> ^operator <o> +)
-   (<o> ^name return-to-nil ^order <wcount> ^ref <ref> )}
+   (<o> ^name return-to-nil ^order <wcount> ^ref <ref> )
+}
 
 sp	{global*apply*return-to-nil*if-refs-not-marked-complete
    (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
@@ -128,15 +130,8 @@ sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
 -->
    (<s> ^operator <preferred> > <deferred>)}
 
-
-## Halt
-
-# sp	{global*halt
-#   (state <s> ^halt immediately)
-# -->
-#   (halt)
-# }
-
+# SBW added some indifferent rules to handle identical priorities
+# these cases probably represent bugs!
 
 sp {global*apply*generate-predicates*note-any-annotation-anywhere
    (state <s> ^count <count> ^operator.name generate-predicates ^model <mod>)
@@ -166,4 +161,22 @@ sp {global*apply*processing-complete
    (state <s> ^operator.name processing-complete)
 -->
    (halt)
+}
+
+# excise this and add something project-specific
+
+
+
+sp {lg*resolve-ties-indifferently
+   (state <s> ^impasse tie
+              ^attribute operator
+              ^item <o1>
+              ^item <o2>
+              ^superstate <ss>)
+   (<ss> ^problem-space lgsoar
+        ^operator <o1> +
+        ^operator <o2> +)
+-->
+  (<ss> ^operator <o1> = <o2>)
+   (write (crlf) |WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.|)
 }

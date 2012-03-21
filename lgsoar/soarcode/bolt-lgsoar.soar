@@ -1,4 +1,4 @@
-source simple-init.soar
+source load.soar
 
 # BOLT/LGSoar integration productions go here
 
@@ -12,4 +12,13 @@ sp {prefer*non-LG
    (<s> ^operator <o2> > <o>)
 }
 
-
+# replacement for the rule in refsoar/global.soar that halts
+# instead, remove sentences from input, which will cause the problem-space to
+# retract
+sp {global*apply*processing-complete
+  (state <s> ^operator.name processing-complete
+             ^io.input-link.lg <lg>)
+   (<lg> ^sentence <sen>)
+-->
+   (<sen> ^processed true)
+}

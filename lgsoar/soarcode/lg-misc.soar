@@ -58,8 +58,7 @@ sp {global*propose*find-root
 	(<parent> ^wcount <new> ^wvalue <newVal>)
 	(<link> ^lwleft <old> ^lwright <new>)
 	(<link> ^ltype {<< AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
-					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS |S*b| >> <type>})
-            # SBW added S*b for "This is a block."
+					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS  >> <type>})
 -->
 	(<s> ^operator <o> + >)
 	(<o> ^name find-root ^priority 170 ^new <new> 

@@ -5,7 +5,10 @@ excise --all
 learn --off
 
 #### CHANGE THIS FOR YOUR MACHINE!!
-pushd /opt/bolt/stbolt/lgsoar/
+pushd /opt/bolt/lgsoar/LG-Soar-2.0.0/
+
+echo \n"Loading LG parser interface..."
+source soarcode/sentence2input.soar
 
 #load the refSoar productions
 echo \n"Loading RefSoar..."
@@ -32,25 +35,8 @@ source soarcode/output-code/output-vpred.soar
 source soarcode/output-code/output-imperative.soar
 source soarcode/output-code/output-prondets.soar
 
-source soarcode/sentence2input.soar
 source soarcode/lgsentenceparse.soar
-
-
 popd
 
 # one productions that needs to be cleaned up
 excise global*apply*processing-complete
-
-# extra productions to support WME predicates..
-sp {elaborate*init*final-predicates
-   (state <s> ^superstate nil)
--->
-   (<s> ^final-predicates <fp>)
-}
-
-sp {elaborate*report-predicate
-   (state <s> ^superstate nil
-              ^final-predicates.predicate <p>)
--->
-   (write (crlf) <p>)
-}

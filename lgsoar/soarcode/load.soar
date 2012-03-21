@@ -2,17 +2,20 @@ echo \n"Loading RefSoar..."
 source refsoar/interpret.soar
 source refsoar/realize.soar
 source refsoar/promote.soar
-source refsoar/clause.soar
-source refsoar/lgrefsoar.soar
 source refsoar/anaphor.soar
+source refsoar/clause.soar
+
 source refsoar/build.soar
 source refsoar/identify.soar
 source refsoar/linkage.soar
 source refsoar/transfer.soar
+source refsoar/antecedent.soar
+
 source refsoar/global.soar
+source refsoar/activate.soar
 
 # misc. productions that need to be cleaned up
-source simple-cligdump.soar
+source lg-misc.soar
 
 echo \n"Loading predicate output productions..."
 source output-code/output-flags.soar
@@ -22,4 +25,4 @@ source output-code/output-vpred.soar
 source output-code/output-imperative.soar
 source output-code/output-prondets.soar
 
-source lg-soartech-extra.soar
+source debug-printing.soar

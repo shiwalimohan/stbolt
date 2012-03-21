@@ -1,0 +1,299 @@
+
+    +---------------------------------------Xp---------------------------------------+
+    +------------Wd-----------+                                                      |
+    |       +-------CO*s------+-----Sp*i----+-----Os-----+                           |
+    |       +-Cs-+--Ss--+     |     +---E---+      +-D*u-+---TH--+-Cet+--Ss-+--N--+  |
+    |       |    |      |     |     |       |      |     |       |    |     |     |  |
+LEFT-WALL when Harry sings.v I.p always conceal.v my belief.n that.c he should.v not . 
+
+
+
+    +------------------------Xp------------------------+-
+    +-----------Wd-----------+                         | 
+    |       +------CO*s------+    +-----I-----+        |-
+    |       +-Cs+--Ss-+      +Sp*i+--N-+      +--Ox--+ |-
+    |       |   |     |      |    |    |      |      | |
+LEFT-WALL when he gambles.v I.p can.v not conceal.v it . 
+
+
+     1:    O: O4 (recognize-phrase)
+     2:    O: O6 (recognize-introductory-verb)
+     3:    O: O3 (recognize-phrase)
+     4:    O: O7 (recognize-introductory-verb)
+     5:    O: O5 (add-elliptical-verb-syntax)
+     6:    O: O8 (recognize-introductory-verb-fix)
+     7:    O: O2 (find-root)
+        found root of W link from "LEFT-WALL" to "I"
+     8:    O: O10 (find-root)
+        found root of S link from "I" to "conceal"
+     9:    O: O11 (give-root-ref)
+        adding a reference for root "conceal"
+    10:    O: O14 (recognize-main-verb)
+    11:    O: O18 (hide-main-verb)
+    12:    O: O19 (add-center)
+        adding verb center for reference from "sings"
+    13:    O: O21 (add-arg)
+        side effect: new ref from "Harry" added
+        adding "sings" as ext, kind single due to S link from "he" to "gambles"
+        adding "sings" as ext, kind single due to S link from "Harry" to "sings"
+    14:    O: O22 (add-center)
+        adding third-person center for reference from "Harry"
+    15:    O: O23 (new-idea)
+        realizing reference from "Harry" as new idea
+    16:    O: O20 (new-idea)
+        realizing reference from "sings" as new idea
+    17:    O: O24 (basic)
+        directly promoting: idea for "sings" gets a ext of "Harry"
+    18:    O: O25 (basic)
+        indirectly promoting: idea for "Harry" gets an aug of "sings"
+    19:    ==>S: S5 (state no-change)
+    20:    O: O26 (free-bindings)
+    21:    O: O34 (unblock-center)
+        unblocking center for word "sings"
+    22:    O: O35 (unblock-center)
+        unblocking center for word "Harry"
+    23:    O: O28 (unblocking-finished)
+    24:    O: O29 (add-center)
+        adding verb center for reference from "conceal"
+    25:    O: O33 (add-arg)
+        side effect: new ref from "I" added
+        adding "conceal" as ext, kind single due to S link from "I" to "not"
+        adding "conceal" as ext, kind single due to S link from "I" to "conceal"
+    26:    O: O36 (add-center)
+        adding first-person center for reference from "I"
+    27:    O: O38 (resolve)
+    28:    O: O39 (mark-individual-identified)
+    29:    O: O32 (add-arg)
+        adding "conceal" as mode, kind constant due to E link from "can" to "not"
+        adding "conceal" as mode, kind constant due to E link from "always" to "conceal"
+    30:    O: O31 (add-arg)
+        side effect: new ref from "belief" added
+        adding "conceal" as int, kind single due to O link from "not" to "it"
+        adding "conceal" as int, kind single due to O link from "conceal" to "belief"
+    31:    O: O41 (add-center)
+        adding third-person center for reference from "belief"
+    32:    O: O43 (add-arg)
+        side effect: new ref from "my" added
+        adding "belief" as pos, kind single due to D link from "conceal" to "it"
+        adding "belief" as pos, kind single due to D link from "my" to "belief"
+    33:    O: O44 (add-center-out-of-order)
+    34:    O: O46 (resolve)
+    35:    O: O37 (new-idea)
+        realizing reference from "I" as new idea
+    36:    O: O30 (new-idea)
+        realizing reference from "conceal" as new idea
+    37:    O: O47 (basic)
+        directly promoting: idea for "conceal" gets a when of "sings"
+    38:    O: O48 (basic)
+        directly promoting: idea for "conceal" gets a ext of "I"
+    39:    O: O49 (feature)
+    40:    O: O50 (basic)
+        indirectly promoting: idea for "sings" gets an aug of "conceal"
+    41:    O: O51 (basic)
+        indirectly promoting: idea for "I" gets an aug of "conceal"
+    42:    O: O42 (new-idea)
+        realizing reference from "belief" as new idea
+    43:    O: O52 (basic)
+        directly promoting: idea for "conceal" gets a int of "belief"
+    44:    O: O54 (basic)
+        indirectly promoting: idea for "belief" gets an aug of "conceal"
+    45:    O: O53 (coref)
+    46:    O: O55 (basic)
+        directly promoting: idea for "belief" gets a pos of "my"
+    47:    O: O56 (basic)
+        indirectly promoting: idea for "I" gets an aug of "belief"
+    48:    O: O40 (handle-that-clause)
+    49:    O: O58 (add-center)
+        adding third-person center for reference from "nil"
+    50:    O: O63 (resolve)
+    51:    O: O72 (remove-non-elliptically-included-semantics)
+    52:    O: O70 (rip)
+        removing aug ^when A2 from reference from "conceal"
+    53:    O: O69 (cascade)
+    54:    O: O71 (merge)
+    55:    O: O64 (clean-up-merge)
+    56:    O: O67 (add-arg)
+        side effect: new ref from "he" added
+        adding "sings" as ext, kind single due to S link from "he" to "should"
+    57:    O: O75 (add-center)
+        adding third-person center for reference from "he"
+    58:    O: O77 (resolve)
+    59:    O: O80 (cascade)
+    60:    O: O81 (merge)
+    61:    O: O78 (clean-up-merge)
+    62:    O: O66 (add-arg)
+        adding "sings" as infl, kind constant due to I link from "should" to "sings"
+    63:    O: O68 (add-arg)
+        adding "sings" as neg, kind constant due to N link from "should" to "not"
+    64:    O: O85 (coref)
+    65:    O: O73 (new-idea)
+        realizing reference from "sings" as new idea
+    66:    ==>S: S7 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+    67:    O: O101 (basic)
+        directly promoting: idea for "sings" gets a ext of "Harry"
+    68:    O: O91 (basic)
+        directly promoting: idea for "sings" gets a ext of "Harry"
+    69:    ==>S: S9 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+    70:    O: O95 (feature)
+    71:    O: O105 (feature)
+    72:    ==>S: S11 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+    73:    O: O97 (feature)
+    74:    O: O87 (feature)
+    75:    ==>S: S13 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+    76:    O: O99 (basic)
+        directly promoting: idea for "belief" gets a aug of "sings"
+    77:    O: O89 (basic)
+        directly promoting: idea for "belief" gets a aug of "sings"
+    78:    ==>S: S15 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+    79:    O: O114 (basic)
+        indirectly promoting: idea for "Harry" gets an aug of "sings"
+    80:    O: O110 (basic)
+        indirectly promoting: idea for "Harry" gets an aug of "sings"
+    81:    O: O27 (start-next-sentence)
+    82:    O: O118 (recognize-phrase)
+    83:    O: O125 (recognize-introductory-verb)
+    84:    O: O119 (unblock-center)
+        unblocking center for word "conceal"
+    85:    O: O120 (unblock-center)
+        unblocking center for word "I"
+    86:    O: O122 (unblock-center)
+        unblocking center for word "my"
+    87:    O: O121 (unblock-center)
+        unblocking center for word "belief"
+    88:    O: O123 (unblock-center)
+        unblocking center for word "sings"
+    89:    O: O124 (unblock-center)
+        unblocking center for word "Harry"
+    90:    O: O115 (unblocking-finished)
+    91:    O: O117 (find-root)
+        found root of W link from "LEFT-WALL" to "I"
+    92:    O: O127 (find-root)
+        found root of S link from "I" to "can"
+    93:    O: O129 (find-root)
+        found root of I link from "can" to "conceal"
+    94:    O: O130 (give-root-ref)
+        adding a reference for root "conceal"
+    95:    O: O133 (recognize-main-verb)
+    96:    O: O138 (hide-main-verb)
+    97:    O: O139 (add-center)
+        adding verb center for reference from "gambles"
+    98:    O: O141 (add-arg)
+        side effect: new ref from "he" added
+        adding "gambles" as ext, kind single due to S link from "he" to "gambles"
+        adding "gambles" as ext, kind single due to S link from "Harry" to "sings"
+    99:    O: O142 (add-center)
+        adding third-person center for reference from "he"
+   100:    O: O144 (resolve)
+   101:    O: O152 (rip)
+        removing aug ^ext A3 from reference from "sings"
+   102:    ==>S: S17 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+   103:    O: O150 (cascade)
+   104:    O: O154 (merge)
+   105:    O: O149 (clean-up-merge)
+   106:    ==>S: S19 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+   107:    O: O157 (coref)
+   108:    O: O140 (new-idea)
+        realizing reference from "gambles" as new idea
+   109:    ==>S: S21 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+   110:    O: O159 (basic)
+        directly promoting: idea for "gambles" gets a ext of "Harry"
+   111:    ==>S: S23 (operator tie)
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.
+   112:    O: O161 (basic)
+        indirectly promoting: idea for "Harry" gets an aug of "gambles"
+   113:    ==>S: S25 (state no-change)
+   114:    O: O163 (free-bindings)
+   115:    O: O172 (unblock-center)
+        unblocking center for word "gambles"
+   116:    O: O173 (unblock-center)
+        unblocking center for word "Harry"
+   117:    O: O165 (unblocking-finished)
+   118:    O: O166 (add-center)
+        adding verb center for reference from "conceal"
+   119:    O: O171 (add-arg)
+        side effect: new ref from "I" added
+        adding "conceal" as ext, kind single due to S link from "I" to "can"
+        adding "conceal" as ext, kind single due to S link from "I" to "always"
+   120:    O: O174 (add-center)
+        adding first-person center for reference from "I"
+   121:    O: O177 (resolve)
+   122:    O: O180 (cascade)
+   123:    O: O182 (merge)
+   124:    O: O179 (clean-up-merge)
+   125:    O: O170 (add-arg)
+        adding "conceal" as infl, kind constant due to I link from "can" to "conceal"
+        adding "conceal" as infl, kind constant due to I link from "always" to "my"
+   126:    O: O169 (add-arg)
+        adding "conceal" as neg, kind constant due to N link from "can" to "not"
+        adding "conceal" as neg, kind constant due to N link from "always" to "conceal"
+   127:    O: O168 (add-arg)
+        side effect: new ref from "it" added
+        adding "conceal" as int, kind single due to O link from "conceal" to "it"
+        adding "conceal" as int, kind single due to O link from "my" to "belief"
+   128:    O: O187 (add-center)
+        adding third-person center for reference from "it"
+   129:    O: O186 (coref)
+   130:    O: O167 (new-idea)
+        realizing reference from "conceal" as new idea
+   131:    O: O191 (basic)
+        directly promoting: idea for "conceal" gets a when of "gambles"
+   132:    O: O193 (basic)
+        directly promoting: idea for "conceal" gets a ext of "my"
+   133:    O: O189 (feature)
+   134:    O: O190 (feature)
+   135:    O: O194 (basic)
+        indirectly promoting: idea for "gambles" gets an aug of "conceal"
+   136:    O: O195 (basic)
+        indirectly promoting: idea for "my" gets an aug of "conceal"
+   137:    O: O188 (new-idea)
+        realizing reference from "it" as new idea
+   138:    O: O197 (basic)
+        directly promoting: idea for "conceal" gets a int of "it"
+   139:    O: O198 (basic)
+        indirectly promoting: idea for "it" gets an aug of "conceal"
+   140:    ==>S: S27 (state no-change)
+   141:    O: O199 (generate-predicates)
+it(N11)
+I(N4)
+Harry(N2)
+belief(N6)
+conceal(N4,N6)
+conceal(N4,N11)
+sings(N2)
+gambles(N2)
+   142:    O: O200 (processing-complete)
