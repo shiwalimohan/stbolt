@@ -2,7 +2,7 @@
 ###################### these output terms for verbal external and internal arguments
 # output the external and internal argument (if it exists) for the verb
 sp {global*apply*generate-predicates*output*ext/int*arg
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -12,14 +12,16 @@ sp {global*apply*generate-predicates*output*ext/int*arg
    -^annotation in-n-n)
 -->
    (<thisroleval> ^annotation pred-dumped +)
-   #(exec collect_pred <thisnucval> |(| <thisroleval> |)|)
-   (<fp> ^predicate (concat <thisnucval> |(| <thisroleval> |)|))
+   (<fps> ^predicate (concat <thisnucval> |(| <thisroleval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <thisnucval>
+           ^inner1 <thisroleval>)
 #   (write (crlf) ext/int-arg: <thisnucval> |(| <thisroleval> |)|)
 }
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
 sp {global*apply*generate-predicates*output*int*pred-adj
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -30,14 +32,16 @@ sp {global*apply*generate-predicates*output*int*pred-adj
 -->
    (<thisroleval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie 
-   #(exec collect_pred <thisnucval> |(| <thesubject> |)|)
-   (<fp> ^predicate (concat <thisnucval> |(| <thesubject> |)|))
+   (<fps> ^predicate (concat <thisnucval> |(| <thesubject> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <thisnucval>
+           ^inner1 <thesubject>)
 #   (write (crlf) int*pred-adj: <thisnucval> |(| <thesubject> |)|)
 }
 
 # intransitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-itrx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -45,15 +49,17 @@ sp {global*apply*generate-predicates*output*predicate-itrx
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<idea> ^annotation pred-dumped + ^annotation intransitive +)
-   (<fp> ^predicate (concat <nucval> |(| <extval> |)|))
-   #(exec collect_pred <nucval> |(| <extval> |)|)
+   (<fps> ^predicate (concat <nucval> |(| <extval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <nucval>
+           ^inner1 <extval>)
 #   (write (crlf) predicate-itrx: | | <nucval> |(| <extval> |)|)
 }
 
 
 # transitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-trx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -63,8 +69,11 @@ sp {global*apply*generate-predicates*output*predicate-trx
    (<extval> ^annotation pred-dumped +)
    (<intval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped + ^annotation transitive +)
-   (<fp> ^predicate (concat <nucval> |(| <extval> |,| <intval> |)|))
-   #(exec collect_pred <nucval> |(| <extval> |,| <intval> |)|)
+   (<fps> ^predicate (concat <nucval> |(| <extval> |,| <intval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <nucval>
+           ^inner1 <extval>
+           ^inner2 <intval>)
 #   (write (crlf) predicate-trx: | | <nucval> |(| <extval> |,| <intval> |)|)
 }
 
@@ -72,7 +81,7 @@ sp {global*apply*generate-predicates*output*predicate-trx
 
 # ditransitive predicates
 sp {global*apply*generate-predicates*output*predicate-ditrx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -85,8 +94,12 @@ sp {global*apply*generate-predicates*output*predicate-ditrx
    (<intval> ^annotation pred-dumped +)
    (<int2val> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +)
-   (<fp> ^predicate (concat <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|))
-   #(exec collect_pred <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|)
+   (<fps> ^predicate (concat <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <nucval>
+           ^inner1 <extval>
+           ^inner2 <intval>
+           ^inner3 <int2val>)
 #   (write (crlf) predicate-ditrx: | | <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|)
 }
 

@@ -208,24 +208,33 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant
    (<main-ref> ^<aug> <cons-arg> +)
    (<link> ^handled-as <aug> +)
    }
-#excise interpret*apply*single-add-arg*if*arg-is-constant
+excise interpret*apply*single-add-arg*if*arg-is-constant
 ## soar9 problem: substructure under <cons-arg> loses o-support and disappears; adding it explicitly fixes the problem
-## SBW note: undoing this change, if it is a constant why is there substructure?
 
     
-#sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
-#  :o-support
-#   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
-#   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant 
-#       )
-#   (<main> ^ref <main-ref>)
-#   (<cons-arg> ^feature <fval> ^word <wval>)
-#-->
-#   (<main-ref> ^<aug> <dfoo> +)
-#   (<dfoo> ^feature <fval> + ^word <wval> +)
-#   (<link> ^handled-as <aug> +)
-#   }
+sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
+  :o-support
+   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant 
+       )
+   (<main> ^ref <main-ref>)
+   (<cons-arg> ^feature <fval> ^word <wval>)
+-->
+   (<main-ref> ^<aug> <dfoo> +)
+   (<dfoo> ^feature <fval> + ^word <wval> +)
+   (<link> ^handled-as <aug> +)
+ }
 
+sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
+  :o-support
+   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant -^arg.feature)
+   (<main> ^ref <main-ref>)
+-->
+   (<main-ref> ^<aug> <dfoo> +)
+   (<dfoo> ^feature <fval> + ^word <wval> +)
+   (<link> ^handled-as <aug> +)
+ }
 sp {interpret*apply*single-side-add-arg
  # :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)

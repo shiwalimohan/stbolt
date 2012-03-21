@@ -15,7 +15,16 @@ sp {prefer*non-LG
 # replacement for the rule in refsoar/global.soar that halts
 # instead, remove sentences from input, which will cause the problem-space to
 # retract
-sp {global*apply*processing-complete
+sp {global*apply*processing-complete 
+  (state <s> ^operator.name processing-complete
+           ^predicates-generated true
+           ^final-predicates <fp>)
+--> 
+  (<s> ^lgsoar-predicates <fp>
+       ^predicates-generated true -)
+}
+
+sp {global*apply*processing-complete*mark-sentences
   (state <s> ^operator.name processing-complete
              ^io.input-link.lg <lg>)
    (<lg> ^sentence <sen>)

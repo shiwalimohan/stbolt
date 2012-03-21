@@ -164,11 +164,15 @@ sp {global*apply*processing-complete
 }
 
 # excise this and add something project-specific
-
-
+sp {global*apply*processing-complete
+   (state <s> ^operator.name processing-complete)
+-->
+   (halt)
+}
 
 sp {lg*resolve-ties-indifferently
    (state <s> ^impasse tie
+              ^item-count < 10 # don't explode with matches
               ^attribute operator
               ^item <o1>
               ^item <o2>

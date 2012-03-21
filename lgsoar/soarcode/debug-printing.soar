@@ -2,9 +2,42 @@
 
 sp {elaborate*report-predicate
    (state <s> ^superstate nil
-              ^final-predicates.predicate <p>)
+              ^comment out
+              ^final-predicate-strings.predicate <p>)
 -->
    (write (crlf) <p>)
+}
+
+sp {elaborate*report-predicate*from-wmes*1
+   (state <s> ^superstate nil
+              ^final-predicates.predicate <p>)
+   (<p> ^outer <out>
+        ^inner1 <in1>
+       -^inner2)
+-->
+   (write (crlf) (concat <out> |(| <in1> |)|))
+}
+
+sp {elaborate*report-predicate*from-wmes*2
+   (state <s> ^superstate nil
+              ^final-predicates.predicate <p>)
+   (<p> ^outer <out>
+        ^inner1 <in1>
+        ^inner2 <in2>
+       -^inner3)
+-->
+   (write (crlf) (concat <out> |(| <in1> |,| <in2> |)|))
+}
+
+sp {elaborate*report-predicate*from-wmes*3
+   (state <s> ^superstate nil
+              ^final-predicates.predicate <p>)
+   (<p> ^outer <out>
+        ^inner1 <in1>
+        ^inner2 <in2>
+        ^inner3 <in3>)
+--> 
+   (write (crlf) (concat <out> |(| <in1> |,| <in2> |,| <in3> |)|))
 }
 
 sp {elaborate*proposed*add-arg*debug-info

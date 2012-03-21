@@ -5,11 +5,11 @@ source refsoar/promote.soar
 source refsoar/anaphor.soar
 source refsoar/clause.soar
 
-source refsoar/build.soar
-source refsoar/identify.soar
-source refsoar/linkage.soar
-source refsoar/transfer.soar
-source refsoar/antecedent.soar
+#source refsoar/build.soar
+#source refsoar/identify.soar
+#source refsoar/linkage.soar
+#source refsoar/transfer.soar
+#source refsoar/antecedent.soar
 
 source refsoar/global.soar
 source refsoar/activate.soar

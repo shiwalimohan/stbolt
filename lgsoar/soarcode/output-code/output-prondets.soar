@@ -1,7 +1,7 @@
 # dumps feature values (definite or indefinite)
 # The man kicked a bottle.
 sp {global*apply*generate-predicates*cligdump*feature-feature
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
+   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name generate-predicates)
@@ -12,8 +12,10 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
    (<pointer> ^nuc <nounvalue>)
 -->
    (<pointer> ^feat-dumped <feavalue> +)
- #  (exec collect_pred <feavalue> |(| <pointer> |)|)
-   (<fp> ^predicate (concat <feavalue> |(| <pointer> |)|))
+   (<fps> ^predicate (concat <feavalue> |(| <pointer> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <feavalue>
+           ^inner1 <pointer>)
  #  (write (crlf) feature-feature: | | <feavalue> |(| <pointer> |)|)
 }
 

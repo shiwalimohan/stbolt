@@ -4,7 +4,7 @@
 # the block is on the table .
 sp {global*apply*generate-predicates*output*predicate-PP
    (state <s> ^superstate nil ^model.idea <idea>
-              ^final-predicates <fp>)
+              ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -14,8 +14,11 @@ sp {global*apply*generate-predicates*output*predicate-PP
 -->
    (<plexval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie
-  (<fp> ^predicate (concat <plex> |(| <extval> |,| <plexval> |)|))
-   #(exec collect_pred <plex> |(| <extval> |,| <plexval> |)|)
+  (<fps> ^predicate (concat <plex> |(| <extval> |,| <plexval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <plex>
+           ^inner1 <extval>
+           ^inner2 <plexval>)
 #   (write (crlf) predicate-pp: | | <plex> |(| <extval> |,| <plexval> |)|)
 }
 
@@ -26,7 +29,7 @@ sp {global*apply*generate-predicates*output*predicate-PP
 ### copula predicate has PP
 # one criterion is history of lymphoma
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
-    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> 
+    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps> 
     #^count <count> 
     ^model <m*1>
           ^refsets <refsets>)
@@ -42,8 +45,11 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
     (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
     -->
     (<pobjval> ^annotation pred-dumped +)
-    (<fp> ^predicate (concat <plex> |(| <idea> |,| <pobjval> |)|))
-    #(exec collect_pred <plex> |(| <idea> |,| <pobjval> |)|)
+    (<fps> ^predicate (concat <plex> |(| <idea> |,| <pobjval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <plex>
+           ^inner1 <idea>
+           ^inner2 <pobjval>)
 #    (write (crlf) nuc-ppobj*seq: <plex> |(| <idea> |,| <pobjval> |)|)
 }
 
@@ -53,7 +59,7 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
 ### in any case, handle PP attachments to verb; for now just use verb lex as first argument
 ### this should handle intransitives, transitives, and ditransitives
 sp {global*apply*generate-predicates*output*PP*v-attached
-    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp>
+    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps>
     #^count <count> 
     ^model <m*1>
           ^refsets <refsets>)
@@ -67,15 +73,18 @@ sp {global*apply*generate-predicates*output*PP*v-attached
     (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
     -->
     (<pobjval> ^annotation pred-dumped +)
-    (<fp> ^predicate (concat <plex> |(| <nucval> |,| <pobjval> |)|))
-    #(exec collect_pred <plex> |(| <nucval> |,| <pobjval> |)|)
+    (<fps> ^predicate (concat <plex> |(| <nucval> |,| <pobjval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <plex>
+           ^inner1 <nucval>
+           ^inner2 <pobjval>)
     #(write (crlf) nuc-ppobj*seq: <plex> |(| <nucval> |,| <pobjval> |)|)
 }
 
 ### output a predicate for the object of any pp
 # the happy dogs with a penchant for ridiculous drama chased the ugly cat .
 sp {global*apply*generate-predicates*cligdump*ppobj*arg
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp>)
+   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -84,8 +93,10 @@ sp {global*apply*generate-predicates*cligdump*ppobj*arg
 -->
    (<pobjval> ^annotation pred-dumped +)
    #(<nuc2val> ^annotation pred-dumped +)
-   (<fp> ^predicate (concat <nuc2val> |(| <pobjval> |)|))
-   #(exec collect_pred <nuc2val> |(| <pobjval> |)|)
+   (<fps> ^predicate (concat <nuc2val> |(| <pobjval> |)|))
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer <nuc2val>
+           ^inner1 <pobjval>)
 #   (write (crlf) ext/int-arg: <nuc2val> |(| <pobjval> |)|)
 }
 
