@@ -1,0 +1,46 @@
+
+# interpret-relation-message just passes everything down to interpret-relation
+
+sp {interpret-relation-message*propose*collect-predicates
+   (state <s> ^name interpret-relation-message
+             -^predicates-collected)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name collect-predicates)
+}
+
+sp {interpret-relation-message*apply*collect-predicates*root
+   (state <s> ^name interpret-relation-message
+              ^operator.name collect-predicates)
+-->
+   (<s> ^relation-predicates <op>)
+}
+
+sp {interpret-relation-message*apply*collect-predicates
+   (state <s> ^name interpret-relation-message
+              ^operator.name collect-predicates
+              ^relation-predicates <op>
+              ^all-predicates.predicate <p>)
+-->
+   (<op> ^predicate <p>)
+   (<s> ^predicates-collected true)
+}
+
+sp {interpret-relation-message*propose*interpret-relation
+   (state <s> ^name interpret-relation-message
+              ^relation-predicates <p>
+              ^predicates-collected
+             -^relation-interpretation)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-relation
+        ^predicates <p>)
+}
+
+sp {interpret-relation-message*elaborate*return-interpretation
+   (state <s> ^name interpret-relation-message
+              ^all-predicates <p>
+              ^relation-predicates.interpretation <oi>) # comes from interpret-relation
+-->
+   (<p> ^interpretation.relation-message <oi>)
+}

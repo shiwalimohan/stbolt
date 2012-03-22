@@ -1,0 +1,11 @@
+# test sentence: Put the block on the table.
+# PASSED: DEF(N3) DEF(N4) HEARER(N5) block(N3) on(put,N4) put(N5,N3) table(N4)
+
+# structure needed:
+# verb.word put
+#     .direct-object.word block
+#     .preposition-relation.word on
+#                          .p1-object <link to direct-object>
+#                          .p2-object.word table
+
+

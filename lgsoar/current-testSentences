@@ -1,15 +1,15 @@
 ******** BEGIN PRIORITY 1 SENTENCES ************
 test sentence: This is a red block.
-PASSED: INDEF(N5) block(N2) red(N2) this(N2)
+PASSED: INDEF(N2) block(N2) red(N2) this(N2)
 ********************
 test sentence: This is a block.
-PASSED: INDEF(N4) block(N2) this(N2)
+PASSED: INDEF(N2) block(N2) this(N2)
 ********************
 test sentence: This is a ball.
-PASSED: INDEF(N4) ball(N2) this(N2)
+PASSED: INDEF(N2) ball(N2) this(N2)
 ********************
 test sentence: This is a yellow block.
-PASSED: INDEF(N5) block(N2) this(N2) yellow(N2)
+PASSED: INDEF(N2) block(N2) this(N2) yellow(N2)
 ********************
 test sentence: These are blue blocks.
 PASSED: blocks(N2) blue(N2) these(N2)
@@ -20,12 +20,12 @@ PASSED: blocks(N2) these(N2)
 test sentence: The red ball is left of the blue block.
 FAILED:
 	expected []
-	got [DEF(N3) ball(N3) red(N3)]
+	got [DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3)]
 ********************
 test sentence: The block is right of the ball.
 FAILED:
 	expected []
-	got [DEF(N2) block(N2)]
+	got [DEF(N2) DEF(N2) DEF(N2) DEF(N2) DEF(N2) DEF(N2) DEF(N2) DEF(N2) DEF(N2) block(N2) block(N2) block(N2) block(N2) block(N2) block(N2) block(N2) block(N2) block(N2)]
 ********************
 test sentence: The ball is on the table.
 PASSED: DEF(N2) DEF(N4) ball(N2) on(N2,N4) table(N4)
@@ -37,10 +37,10 @@ test sentence: The yellow ball is behind the white ball.
 PASSED: DEF(N3) DEF(N6) ball(N3) ball(N6) behind(N3,N6) white(N6) yellow(N3)
 ********************
 test sentence: Which is the yellow block?
-PASSED: DEF(N5) block(N2) which(N2) yellow(N2)
+PASSED: DEF(N2) block(N2) which(N2) yellow(N2)
 ********************
 test sentence: Which is the block?
-PASSED: DEF(N4) block(N2) which(N2)
+PASSED: DEF(N2) block(N2) which(N2)
 ********************
 test sentence: Describe this object.
 PASSED: DEF(N3) HEARER(N4) describe(N4,N3) object(N3)
@@ -49,13 +49,13 @@ test sentence: What is this?
 PASSED: this(N2) what(N2)
 ********************
 test sentence: What is the color of this?
-PASSED: DEF(N4) color(N2) of(N4,N5) this(N5) what(N2)
+PASSED: DEF(N2) color(N2) of(N2,N5) this(N5) what(N2)
 ********************
 test sentence: What is the size of this?
-PASSED: DEF(N4) of(N4,N5) size(N2) this(N5) what(N2)
+PASSED: DEF(N2) of(N2,N5) size(N2) this(N5) what(N2)
 ********************
 test sentence: What is the shape of this?
-PASSED: DEF(N4) of(N4,N5) shape(N2) this(N5) what(N2)
+PASSED: DEF(N2) of(N2,N5) shape(N2) this(N5) what(N2)
 ********************
 test sentence: Describe the spatial relationship between the red ball and the yellow block.
 FAILED:
@@ -84,10 +84,10 @@ PASSED: DEF(N5) DEF(N6) block(N5) moved(N2,N5) red(N5) table(N6) to(moved,N6) yo
 ********************
 ******** BEGIN PRIORITY 2 SENTENCES ************
 test sentence: That is a block.
-PASSED: INDEF(N4) block(N2) that(N2)
+PASSED: INDEF(N2) block(N2) that(N2)
 ********************
 test sentence: That is a red ball.
-PASSED: INDEF(N5) ball(N2) red(N2) that(N2)
+PASSED: INDEF(N2) ball(N2) red(N2) that(N2)
 ********************
 test sentence: Those are yellow blocks.
 PASSED: blocks(N2) those(N2) yellow(N2)
@@ -95,7 +95,7 @@ PASSED: blocks(N2) those(N2) yellow(N2)
 test sentence: The red ball is left of that blue block.
 FAILED:
 	expected []
-	got [DEF(N3) ball(N3) red(N3)]
+	got [DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) ball(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3) red(N3)]
 ********************
 test sentence: That purple block is in front of the ball.
 FAILED:
@@ -103,10 +103,10 @@ FAILED:
 	got [DEF(N3) DEF(N5) ball(N5) block(N3) of(N3,N5) purple(N3)]
 ********************
 test sentence: Which is a block?
-PASSED: INDEF(N4) block(N2) which(N2)
+PASSED: INDEF(N2) block(N2) which(N2)
 ********************
 test sentence: Which is a green block?
-PASSED: INDEF(N5) block(N2) green(N2) which(N2)
+PASSED: INDEF(N2) block(N2) green(N2) which(N2)
 ********************
 test sentence: Describe this.
 PASSED: HEARER(N4) describe(N4,N3) this(N3)
@@ -132,7 +132,7 @@ FAILED:
 	got [color(N2) this(N2)]
 ********************
 test sentence: What is the color of that?
-PASSED: DEF(N4) color(N2) of(N4,N5) that(N5) what(N2)
+PASSED: DEF(N2) color(N2) of(N2,N5) that(N5) what(N2)
 ********************
 test sentence: What color is that?
 FAILED:
@@ -152,7 +152,7 @@ FAILED:
 test sentence: Now put the block on the table.
 FAILED:
 	expected []
-	got []
+	got [DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N3) DEF(N4) DEF(N4) DEF(N4) DEF(N4) DEF(N4) DEF(N4) DEF(N4) DEF(N4) DEF(N4) block(N3) block(N3) block(N3) block(N3) block(N3) block(N3) block(N3) block(N3) block(N3) on(put,N4) on(put,N4) on(put,N4) on(put,N4) on(put,N4) on(put,N4) on(put,N4) on(put,N4) on(put,N4) table(N4) table(N4) table(N4) table(N4) table(N4) table(N4) table(N4) table(N4) table(N4)]
 ********************
 test sentence: The action is complete.
 PASSED: DEF(N2) action(N2) complete(N2)

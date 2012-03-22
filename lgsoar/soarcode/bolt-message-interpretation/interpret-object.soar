@@ -1,0 +1,116 @@
+
+sp {interpret-object*elaborate*failure*multiple-inners
+   (state <s> ^name interpret-object
+              ^all-predicates <ps>)
+   (<ps> ^predicate.inner1 <in>
+         ^predicate.inner1 <> <in>)
+-->
+   (<ps> ^interpretation failed)
+   (write (crlf) |Interpretation failed: more than one object in the predicates!|)
+}
+
+sp {interpret-object*elaborate*mark-specifier
+   (state <s> ^name interpret-object
+              ^all-predicates.predicate <p>)
+   (<p> ^outer {<sp> << this that DEF INDEF >>})
+-->
+   (<s> ^potential-specifier <sp>)
+   (<p> ^is-specifier true)
+}
+
+sp {interpret-object*propose*choose-specifier*none
+   (state <s> ^name interpret-object
+             -^potential-specifier
+             -^specifier)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name choose-specifier
+        ^specifier none)
+}
+
+sp {interpret-object*propose*choose-specifier*val
+   (state <s> ^name interpret-object
+             -^specifier
+              ^potential-specifier <val>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name choose-specifier
+        ^specifier <val>)
+}
+
+sp {interpret-object*choose-specifier*thisthat-over-others
+   (state <s> ^name interpret-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name choose-specifier
+         ^specifier << this that >>)
+   (<o2> ^name choose-specifier
+        -^specifier << this that >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {interpret-object*apply*choose-specifier
+   (state <s> ^name interpret-object
+              ^operator <o>)
+   (<o> ^name choose-specifier
+        ^specifier <sp>)
+-->
+   (<s> ^specifier <sp>)
+}
+
+sp {interpret-object*propose*build-interpretation
+   (state <s> ^name interpret-object
+              ^specifier <chosen>
+             -^interpreted)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name build-interpretation)
+}
+
+sp {interpret-object*apply*build-interpretation*base
+   (state <s> ^name interpret-object
+              ^operator.name build-interpretation)
+-->
+   (<s> ^interpretation <i>)
+   (<i> ^object <ob>)
+}
+
+sp {interpret-object*apply*build-interpretation*specifier
+   (state <s> ^name interpret-object
+              ^operator.name build-interpretation
+              ^interpretation.object <ob>
+              ^specifier <sp>)
+-->
+   (<ob> ^specifier <sp>)
+}
+
+# all predicates that aren't specifiers are stored as words
+sp {interpret-object*apply*build-interpretation*nounjective
+   (state <s> ^name interpret-object
+              ^operator.name build-interpretation
+              ^interpretation.object <ob>
+              ^all-predicates.predicate <p>)
+   (<p> -^is-specifier
+         ^outer <wd>)
+-->
+   (<ob> ^word <wd>)
+   (<s> ^interpreted true) # no apply chaining after this
+}
+
+sp {interpret-object*propose*commit-result
+   (state <s> ^name interpret-object
+              ^interpreted true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name commit-result)
+}
+
+sp {interpret-object*apply*commit-result
+   (state <s> ^name interpret-object
+              ^operator.name commit-result
+              ^interpretation <i>
+              ^all-predicates <p>)
+-->
+   (<p> ^interpretation <i>)
+}
