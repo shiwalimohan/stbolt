@@ -1,10 +1,13 @@
 source load.soar
+source bolt-message-interpretation/general.soar
 source bolt-message-interpretation/choose-message-type.soar
 source bolt-message-interpretation/interpret-object.soar
 source bolt-message-interpretation/interpret-relation.soar
 source bolt-message-interpretation/interpret-verb.soar
 source bolt-message-interpretation/interpret-object-message.soar
+source bolt-message-interpretation/interpret-object-question.soar
 source bolt-message-interpretation/interpret-relation-message.soar
+source bolt-message-interpretation/interpret-relation-question.soar
 source bolt-message-interpretation/interpret-verb-command.soar
 
 # BOLT/LGSoar integration productions go here

@@ -1,5 +1,5 @@
-
-# interpret-verb-command just passes everything down to interpret-verb
+# eventually, this should handle conditional actions, too: "pick up the block
+# if it is on the table."
 
 sp {interpret-verb-command*propose*collect-predicates
    (state <s> ^name interpret-verb-command
@@ -42,5 +42,5 @@ sp {interpret-verb-command*elaborate*return-interpretation
               ^all-predicates <p>
               ^verb-predicates.interpretation <oi>) # comes from interpret-verb
 -->
-   (<p> ^interpretation.verb-command <oi>)
+   (<p> ^interpretation.verb-command.verb <oi>)
 }

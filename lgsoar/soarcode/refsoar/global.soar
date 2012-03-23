@@ -157,10 +157,18 @@ sp {global*propose*processing-complete
    (<o> ^name processing-complete)
 }
 
-sp {global*apply*processing-complete
-   (state <s> ^operator.name processing-complete)
+
+# most LGSoar state is removed since it is below structures elaborated
+# from activate*create*space, which retracts when the sentence is flagged done
+
+# clean up any remaining state here
+sp {global*apply*processing-complete*cleanup
+   (state <s> ^operator.name processing-complete
+              ^root <rt>
+              ^count <ct>)
 -->
-   (halt)
+   (<s> ^root <rt> -
+        ^count <ct> -)
 }
 
 # excise this and add something project-specific

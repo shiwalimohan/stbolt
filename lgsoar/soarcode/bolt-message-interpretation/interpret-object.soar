@@ -95,22 +95,22 @@ sp {interpret-object*apply*build-interpretation*nounjective
          ^outer <wd>)
 -->
    (<ob> ^word <wd>)
+}
+
+sp {interpret-object*apply*build-interpretation
+   (state <s> ^name interpret-object
+              ^operator.name build-interpretation
+              ^interpretation.object <ob>)
+-->
    (<s> ^interpreted true) # no apply chaining after this
 }
 
-sp {interpret-object*propose*commit-result
+sp {interpret-object*elaborate*commit-result
    (state <s> ^name interpret-object
-              ^interpreted true)
+              ^interpreted true
+              ^interpretation <int>
+              ^all-predicates <ap>)
 -->
-   (<s> ^operator <o> +)
-   (<o> ^name commit-result)
+   (<ap> ^interpretation <int>)
 }
 
-sp {interpret-object*apply*commit-result
-   (state <s> ^name interpret-object
-              ^operator.name commit-result
-              ^interpretation <i>
-              ^all-predicates <p>)
--->
-   (<p> ^interpretation <i>)
-}

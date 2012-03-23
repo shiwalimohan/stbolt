@@ -1,0 +1,52 @@
+sp {elaborate*lgsoar-message-count
+   (state <s> ^superstate nil)
+-->
+   (<s> ^next-lgsoar-message-id 0)
+}
+
+sp {propose*finish-interpretation
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> ^interpretation <int>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name finish-interpretation)
+}
+
+sp {apply*finish-interpretation
+   (state <s> ^superstate nil
+              ^operator.name finish-interpretation
+              ^nl.input-link <nli>
+              ^next-lgsoar-message-id <id>
+              ^lgsoar-predicates <pred>
+              ^lgsoar-predicates.interpretation <int>)
+-->
+   (<nli> ^message <int>)
+   (<int> ^id <id>)
+   (<s> ^lgsoar-predicates <pred> -
+        ^next-lgsoar-message-id <id> -
+        ^next-lgsoar-message-id (+ <id> 1))
+}
+
+
+
+# generally, interpretation subgoals terminate by adding an ^interpretation
+# structure to the ^all-parameters structure on their state, which is the
+# same as the ^predicates structure on the interpretation operator
+
+sp {interpretation*elaborate*predicates-to-substate
+   (state <s> ^superstate.operator <o>)
+   (<o> ^kind interpretation
+        ^predicates <p>)
+-->
+   (<s> ^all-predicates <p>)
+}
+
+sp {misc*elaborate*interpretation-operators
+   (state <s> ^operator <o> +)
+   (<o> ^name << interpret-object-message interpret-relation-message interpret-verb-command 
+                 interpret-object-question interpret-relation-question 
+                 interpret-object interpret-relation interpret-verb >>)
+-->
+   (<o> ^kind interpretation)
+}

@@ -42,21 +42,25 @@
 
 # Initialize problem space
 
-# make sure only one init happens if multiple sentences appear
-sp {elaborate*any-outstanding-sentences
-   (state <s> ^superstate nil ^io.input-link.lg.sentence <sen>)
-   (<sen> -^processed)
+sp {top-state*lg*init*sentence
+  (state <s> ^superstate nil
+             ^io <io>
+             ^io.input-link.lg.sentence <sent>)
+   (<sent> -^processed)
 -->
-   (<s> ^outstanding-sentence true)
+  (<io> ^lgsentence <sent>)
 }
 
+
 sp	{Activate*create*space
-   (state <s> ^superstate nil ^outstanding-sentence true) 
+   (state <s> ^superstate nil
+              ^io.lgsentence.count <ct> # match only for the minimal count sentence
+             -^io.lgsentence.count < <ct>) 
 -->
-   (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^count 0 ^root 0 ^anaphor <a>
+   (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^count <ct> ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp> ^final-predicate-strings <fps>)
    (<refsets> ^refs <refs> +)
-   (<refs> ^count 0)
+   (<refs> ^count <ct>)
    (<a> ^acount 1 ^centers <centers> ^unblock? no ^merge <merge> ^cascades <cascs>)
    (<cascs> ^records <records> ^ante-off-set nil ^ana-off-set nil)
    (<merge> ^temp nil ^replace nil)
@@ -65,13 +69,4 @@ sp	{Activate*create*space
                   ^kind first +, second +, third +, verb +)
 }
 
-
-sp {top-state*lg*init*sentence
-  (state <s> ^superstate nil
-             ^problem-space lgsoar
-             ^io <io>
-             ^io.input-link.lg.sentence <sent>)
--->
-  (<io> ^lgsentence <sent>)
-}
 

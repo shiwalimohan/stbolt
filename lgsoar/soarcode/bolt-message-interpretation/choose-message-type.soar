@@ -80,12 +80,6 @@ sp {top-state*interpret-messages*propose*interpret-relation-question
 # single-word response:  need to add metalevel for unparsable sentences -> raw
 # word representation
 
-sp {misc*elaborate*interpretation-operators
-   (state <s> ^operator <o> +)
-   (<o> ^name << interpret-object-message interpret-relation-message interpret-verb-command interpret-object-question interpret-relation-question interpret-object interpret-relation >>)
--->
-   (<o> ^kind interpretation)
-}
 
 sp {top-state*interpret-messages*prefer*anything-over-object-message
    (state <s> ^superstate nil
@@ -103,7 +97,17 @@ sp {top-state*interpret-messages*prefer*relation-question-over-relation
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
-   (<o2> ^kind interpret-relation-question)
+   (<o2> ^name interpret-relation-question)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+sp {top-state*interpret-messages*prefer*relation-question-over-object-question
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-object-question)
+   (<o2> ^name interpret-relation-question)
 -->
    (<s> ^operator <o2> > <o1>)
 }
@@ -117,17 +121,5 @@ sp {top-state*interpret-messages*prefer*verb-command-over-any
         -^name interpret-verb-command)
 -->
    (<s> ^operator <o1> > <o2>)
-}
-
-# generally, interpretation subgoals terminate by adding an ^interpretation
-# structure to the ^all-parameters structure on their state, which is the
-# same as the ^predicates structure on the interpretation operator
-
-sp {interpretation*elaborate*predicates-to-substate
-   (state <s> ^superstate.operator <o>)
-   (<o> ^kind interpretation
-        ^predicates <p>)
--->
-   (<s> ^all-predicates <p>)
 }
 
