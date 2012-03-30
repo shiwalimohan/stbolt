@@ -73,10 +73,10 @@ public class SBolt implements LCMSubscriber
 
         Properties props = new Properties();
         try {
-			props.load(new FileReader("sbolt.properties"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+					props.load(new FileReader("sbolt.properties"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
         
         String agentSource = props.getProperty("agent");
         
@@ -115,6 +115,9 @@ public class SBolt implements LCMSubscriber
         // for the RunEvent right before the next Input Phase
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
+        
+        System.out.println(new SoarProperties().getPrefix());
+        
 
         agent.SpawnDebugger(kernel.GetListenerPort(),
                 new SoarProperties().getPrefix());
