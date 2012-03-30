@@ -67,9 +67,10 @@ public class SBolt implements LCMSubscriber
         }
 
         String objAnalyzerSource = "agent/obj-analyzer/obj-analyzer.soar";
-        if ((new File(objAnalyzerSource)).exists())
+        String learnVerbsExplanationSource = "agent/interaction/learn-verbs-explanation.soar";
+        if ((new File(learnVerbsExplanationSource)).exists())
         {
-            agentSource = objAnalyzerSource;
+            agentSource = learnVerbsExplanationSource;
         }
         agent.LoadProductions(agentSource);
 
@@ -79,6 +80,9 @@ public class SBolt implements LCMSubscriber
         // for the RunEvent right before the next Input Phase
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
+        
+        System.out.println(new SoarProperties().getPrefix());
+        
 
         agent.SpawnDebugger(kernel.GetListenerPort(),
                 new SoarProperties().getPrefix());
