@@ -1,0 +1,33 @@
+# Lookup the attribute before trying to learn a value
+sp {prefer*lookup-att*over*all
+   (state <s> ^name learn-val2att
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name lookup-att)
+   (<o2> ^name << learn-val store-val2att >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# Learn the values (if possible) before storing the mapping
+sp {prefer*learn-val*over*store-val2att
+   (state <s> ^name learn-val2att
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name learn-val)
+   (<o2> ^name store-val2att)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# make sure complete operator is last
+sp {learn-val2att*prefer*all*over*complete-learn-val2att
+   (state <s> ^name learn-val2att
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name <> complete-learn-val2att
+         ^category object-processing)
+   (<o2> ^name complete-learn-val2att)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

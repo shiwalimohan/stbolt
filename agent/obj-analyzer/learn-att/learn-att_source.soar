@@ -1,7 +1,0 @@
-source init-learn-att.soar
-source learn-val.soar
-source store-att.soar
-source complete-learn-att.soar
-source comprehend-att.soar
-source preferences.soar
-source update-objects.soar

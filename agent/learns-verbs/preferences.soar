@@ -1,0 +1,82 @@
+##########################----------Preference rules category: communication------------------########################
+
+### setting preferences wrt primitive actions
+sp {preference*communicate*greater-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^category communication)
+   (<op1> ^category << primitive-action sub-primitive-action >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
+##########################----------Preference rules category: nl------------------########################
+
+### setting preferences wrt nl and primitive actions
+sp {preference*natural-language*greater-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^category natural-language)
+   (<op1> ^category << primitive-action sub-primitive-action communication >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
+
+##########################----------Preference rules wait-for-instructor------------------########################
+### set preferences wait-for-instructor and others
+
+sp {preference*wait-for-instructor*greater-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^name wait-for-instructor)
+   (<op1> ^category << primitive-action sub-primitive-action >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
+sp {preference*wait-for-instructor*worse-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^name wait-for-instructor)
+   (<op1> ^category << communication natural-language interaction-stack >>)
+-->
+   (<s> ^operator <op2> < <op1>)
+}
+
+#########################-----------Preference rules category: object-processing----------------------#######################
+
+### prefer interaction-stack operators over primitive-actions
+sp {preference*object-processing*better-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^category object-processing)
+   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action communication >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
+
+##########################----------Preference rules category: interaction-stack----------------------########################
+
+### prefer interaction-stack operators over primitive-actions
+sp {preference*interaction-stack*better-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^category interaction-stack)
+   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action communication object-processing >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
+
+### prefer pop-segment to push-segment
+sp {preference*pop-segment*push-segment
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name pop-segment)
+   (<op2> ^name push-segment)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+   	 
