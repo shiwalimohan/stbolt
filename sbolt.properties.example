@@ -1,5 +1,5 @@
 agent = agent/obj-analyzer/obj-analyzer.soar
 
 enable-lgsoar = true
-lgsoar-productions = lgsoar/soarcode/simple-init.soar
+lgsoar-productions = lgsoar/soarcode/bolt-lgsoar.soar
 lgsoar-dictionary = lgsoar/data/link
