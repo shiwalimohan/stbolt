@@ -8,14 +8,31 @@ sp {create-object*propose*copy-att-val
               ^object <obj>)
    (<in> ^objects.object <il-obj>)
    (<il-obj> ^id <id>
-             ^{<att> <> id <> name <> pose} <val>)
+             ^category <cat>)
+   (<cat> ^name <att>
+          ^{<val> <> name} <confidence>)
    (<obj> ^id <id>
          -^mapping.att-val-pair.att.internal <att>)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name copy-att-val
         ^att <att>
-        ^val <val>)
+        ^val <val>
+        ^conf <confidence>)
+}
+
+sp {create-object*reject*lower-confidence
+   (state <s> ^name create-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name create-object
+         ^att <att>
+         ^conf <c1>)
+   (<o2> ^name create-object
+         ^att <att>
+         ^conf < <c1>)
+-->
+   (<s> ^operator <o2> -)
 }
 
 # Creates the new att-val-pair structure on the object
