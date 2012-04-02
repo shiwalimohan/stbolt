@@ -84,7 +84,10 @@ public class ChatFrame extends JFrame
     	if (lgSupport == null) {
     		sbolt.getWorld().newMessage(message);
     	}
-    	else {
+    	else if(message.charAt(0) == ':'){
+    		// Prefixing with a : goes to Soar's message processing
+    		sbolt.getWorld().newMessage(message.substring(1));
+    	} else {
     		lgSupport.handleSentence(message);
     		// LGSupport has access to the agent object and handles all WM interaction from here
     	}
