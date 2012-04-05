@@ -3,8 +3,9 @@ sp {find-object*propose*object-match
               ^description <desc>
               ^object <obj>)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + =)
    (<o> ^name object-match
+        ^category object-processing
         ^match <obj>)
 }
 

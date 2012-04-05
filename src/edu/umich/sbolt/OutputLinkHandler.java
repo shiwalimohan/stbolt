@@ -313,11 +313,21 @@ public class OutputLinkHandler implements OutputEventInterface
             return;
         }
         String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pointId,
-                "object-id", "point does not have an ^object-id attribute");
+                "id", "point does not have an ^object-id attribute");
+        
+        Identifier poseId = WorkingMemoryUtil.getIdentifierOfAttribute(pointId, "pose");
+        String x = WorkingMemoryUtil.getValueOfAttribute(poseId, "x");
+        String y = WorkingMemoryUtil.getValueOfAttribute(poseId, "y");
+        String z = WorkingMemoryUtil.getValueOfAttribute(poseId, "z");
+        
 
         String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
                 .getRobot().getId(), Integer.parseInt(objectIdStr));
         command.action = action;
+        command.updateDest = true;
+        command.dest[0] = Double.parseDouble(x);
+        command.dest[1] = Double.parseDouble(y);
+        command.dest[2] = Double.parseDouble(z);
         pointId.CreateStringWME("status", "complete");
     }
 

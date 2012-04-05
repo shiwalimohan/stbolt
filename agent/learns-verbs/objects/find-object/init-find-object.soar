@@ -4,7 +4,8 @@ sp {find-object*propose*init-find-object
               ^superstate.operator.description <desc>)
 -->
    (<s> ^operator <o> + >)
-   (<o> ^name init-find-object)
+   (<o> ^name init-find-object
+        ^category object-processing)
 }
 
 sp {find-object*apply*init-find-object

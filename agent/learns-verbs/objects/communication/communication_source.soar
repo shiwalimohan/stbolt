@@ -6,3 +6,4 @@ source object-desc_source.soar
 popd
 
 source description-request.soar
+source recognition-question.soar

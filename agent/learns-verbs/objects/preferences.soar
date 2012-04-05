@@ -1,4 +1,11 @@
 #######------ object-processing ------#####
+sp {elaborate*pref-rank*create-object
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name delete-object)
+-->
+   (<o> ^pref-rank 0)
+}
 
 # Rank 1: create-object
 sp {elaborate*pref-rank*create-object
