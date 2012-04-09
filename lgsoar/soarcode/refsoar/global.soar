@@ -21,7 +21,7 @@
 # - split to another operator, wrap-up, for when another sentence doesn't exist
 sp {global*propose*start-next-sentence
    (state <s> ^impasse no-change ^superstate <ss>)
-   (<ss> ^superstate nil ^io.lgsentence.count { <next-count> > <count> } ^count <count>)
+   (<ss> ^problem-space lgsoar ^io.lgsentence.count { <next-count> > <count> } ^count <count>)
 -->
    (<ss> ^operator <o> + >)
    (<o> ^name start-next-sentence ^priority -1 ^count <count>)
@@ -40,7 +40,7 @@ sp	{global*apply*start-next-sentence
 
 sp {global*propose*generate-predicates
    (state <s> ^impasse no-change ^superstate <ss>)
-   (<ss> ^superstate nil 
+   (<ss> ^problem-space lgsoar 
         -^predicates-generated 
          ^anaphor.unblock? no
          ^problem-space lgsoar
@@ -154,7 +154,8 @@ sp {global*propose*processing-complete
               ^predicates-generated true)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name processing-complete)
+   (<o> ^name processing-complete
+        ^priority 1000)
 }
 
 
@@ -192,3 +193,4 @@ sp {lg*resolve-ties-indifferently
   (<ss> ^operator <o1> = <o2>)
    (write (crlf) |WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.|)
 }
+

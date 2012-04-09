@@ -40,5 +40,8 @@ sp {global*apply*processing-complete*mark-sentences
    (<lg> ^sentence <sen>)
 -->
    (<sen> ^processed true)
+   # removes the io.lgsentence since top-state*lg*init*sentence stops matching
+   # (refsoar/activate.soar), removal of lgsentence causes
+   # Activate*create*space to retract, removing most lgsoar state
 }
 

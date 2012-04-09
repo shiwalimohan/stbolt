@@ -2,7 +2,7 @@
 ###################### these output terms for verbal external and internal arguments
 # output the external and internal argument (if it exists) for the verb
 sp {global*apply*generate-predicates*output*ext/int*arg
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -21,7 +21,7 @@ sp {global*apply*generate-predicates*output*ext/int*arg
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
 sp {global*apply*generate-predicates*output*int*pred-adj
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -41,7 +41,7 @@ sp {global*apply*generate-predicates*output*int*pred-adj
 
 # intransitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-itrx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -59,7 +59,7 @@ sp {global*apply*generate-predicates*output*predicate-itrx
 
 # transitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-trx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -81,7 +81,7 @@ sp {global*apply*generate-predicates*output*predicate-trx
 
 # ditransitive predicates
 sp {global*apply*generate-predicates*output*predicate-ditrx
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)

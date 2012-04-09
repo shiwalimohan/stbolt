@@ -10,6 +10,16 @@
 #     ^p2-object.word table
 #               .specifier DEF
 
+# We are also treating prepositions as relations. For transitive verbs, the p1
+# of the relation is the direct object, for intransitive verbs it is a SELF
+# symbol. The implication here is that the goal of the verb is to make the
+# relation true, which works in many cases for transitive verbs:
+# put the ball on the table -> on(ball,table) is the goal of "put"
+#
+# It makes slightly less sense for intransitive verbs:
+# go to the store -> to(SELF,store) is a parameter of "go", but not really the
+# goal (and SELF is also the one doing the putting above)
+
 sp {interpret-relation*elaborate*init
    (state <s> ^name interpret-relation)
 -->

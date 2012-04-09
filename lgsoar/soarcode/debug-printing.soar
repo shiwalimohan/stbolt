@@ -1,15 +1,7 @@
 
 
-sp {elaborate*report-predicate
-   (state <s> ^superstate nil
-              ^comment out
-              ^final-predicate-strings.predicate <p>)
--->
-   (write (crlf) <p>)
-}
-
 sp {elaborate*report-predicate*from-wmes*1
-   (state <s> ^superstate nil
+   (state <s> ^problem-space lgsoar
               ^final-predicates.predicate <p>)
    (<p> ^outer <out>
         ^inner1 <in1>
@@ -19,7 +11,7 @@ sp {elaborate*report-predicate*from-wmes*1
 }
 
 sp {elaborate*report-predicate*from-wmes*2
-   (state <s> ^superstate nil
+   (state <s> ^problem-space lgsoar
               ^final-predicates.predicate <p>)
    (<p> ^outer <out>
         ^inner1 <in1>
@@ -30,7 +22,7 @@ sp {elaborate*report-predicate*from-wmes*2
 }
 
 sp {elaborate*report-predicate*from-wmes*3
-   (state <s> ^superstate nil
+   (state <s> ^problem-space lgsoar
               ^final-predicates.predicate <p>)
    (<p> ^outer <out>
         ^inner1 <in1>

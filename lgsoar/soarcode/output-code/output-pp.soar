@@ -3,7 +3,7 @@
 ### output predicate for predicate PP
 # the block is on the table .
 sp {global*apply*generate-predicates*output*predicate-PP
-   (state <s> ^superstate nil ^model.idea <idea>
+   (state <s> ^model.idea <idea>
               ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
@@ -29,7 +29,7 @@ sp {global*apply*generate-predicates*output*predicate-PP
 ### copula predicate has PP
 # one criterion is history of lymphoma
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
-    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps> 
+    (state <s> ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps> 
     #^count <count> 
     ^model <m*1>
           ^refsets <refsets>)
@@ -60,7 +60,7 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
 
 # SBW added this
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
-    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps> 
+    (state <s> ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps> 
     #^count <count> 
     ^model <m*1>
           ^refsets <refsets>)
@@ -94,7 +94,7 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
 ### in any case, handle PP attachments to verb; for now just use verb lex as first argument
 ### this should handle intransitives, transitives, and ditransitives
 sp {global*apply*generate-predicates*output*PP*v-attached
-    (state <s> ^superstate nil ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps>
+    (state <s> ^operator <o> ^final-predicates <fp> ^final-predicate-strings <fps>
     #^count <count> 
     ^model <m*1>
           ^refsets <refsets>)
@@ -119,7 +119,7 @@ sp {global*apply*generate-predicates*output*PP*v-attached
 ### output a predicate for the object of any pp
 # the happy dogs with a penchant for ridiculous drama chased the ugly cat .
 sp {global*apply*generate-predicates*cligdump*ppobj*arg
-   (state <s> ^superstate nil ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)

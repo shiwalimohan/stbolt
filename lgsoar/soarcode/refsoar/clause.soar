@@ -201,7 +201,7 @@ sp {clause*apply*handle-that-clause
 
 sp {clause*propose*free-bindings
    (state <s> ^impasse no-change ^superstate <ss>)
-   (<ss> ^superstate nil ^count <count> ^clauses.clause <clause>)
+   (<ss> ^problem-space lgsoar  ^count <count> ^clauses.clause <clause>)
    (<clause> ^count <count> -^unblocked centers ^ref <ref> -^free bindings -^that)
 -->
    (<ss> ^operator <o> + >)

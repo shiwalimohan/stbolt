@@ -13,7 +13,7 @@ sp {global*apply*generate-predicates*output*ext*imperative
    (<refs> ^count <count> ^ref <rf>)
    (<rf> ^head <some> ^rooted-in <something>)
    (<o> ^name generate-predicates)
-   (state <s> ^superstate nil ^model <mod>)
+   (state <s> ^model <mod>)
    (<mod> ^idea <idea>)
    (<idea> ^nuc <nucval> ^wcount 1 -^ext <extvalx> -^annotation imperative)
    # rule out bare-NP subjects of intransitives

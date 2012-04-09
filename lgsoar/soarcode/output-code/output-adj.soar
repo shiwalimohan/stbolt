@@ -5,7 +5,7 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name generate-predicates)
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^model.idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>} ^annotation pred-adj/noun-tested)
    (<aval> ^aug1 <idea> -^annotation pred-adj/noun)
 -->
@@ -27,7 +27,7 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj*non-pred
    #(<refs> ^count <count>
    )
    (<o> ^name generate-predicates)
-   (state <s> ^superstate nil ^model <mod> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model <mod> ^final-predicates <fp> ^final-predicate-strings <fps>)
    (<mod> ^idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
    (<aval> ^aug1 <idea>)
@@ -58,7 +58,7 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj*copula
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name generate-predicates)
-   (state <s> ^superstate nil ^model.idea <idea>)
+   (state <s> ^model.idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
    (<aval> ^aug1 <idea> ^annotation pred-adj/noun ^aug.ext <thesubject>)
 -->

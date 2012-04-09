@@ -1,3 +1,4 @@
+# transitive verb:
 # test sentence: Put the block on the table.
 # PASSED: DEF(N3) DEF(N4) HEARER(N5) block(N3) on(put,N4) put(N5,N3) table(N4)
 
@@ -10,6 +11,18 @@
 
 # interpret-relation needs: DEF(N3) DEF(N4) block(N3) on(N3,N4), table(N4)
 #                                  "put"'s direct object ^^
+
+# intransitive verb:
+# test sentence: Go to the stove.
+# PASSED: DEF(N3) HEARER(N4) go(N4) stove(N3) to(go,N3)
+
+# structure needed:
+# verb.word go
+#     .preposition-relation.word to
+#                          .p1-object SELF
+#                          .p2-object.word stove
+
+# interpret-relation needs: DEF(N3) stove(N3) to(SELF,N3)
 
 sp {interpret-verb*elaborate*init
    (state <s> ^name interpret-verb)

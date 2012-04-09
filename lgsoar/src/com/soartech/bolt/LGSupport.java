@@ -61,10 +61,7 @@ public class LGSupport {
         for (int wordx = 0; wordx < numWords; wordx++) {
             // add ^word information for this link
             String wordval = sent.sentence_get_word(wordx);
-            // there's some kind of bug in the add-wme code...
-            if (wordval.equals(".")) {
-            	wordval = "|.|";
-            }
+ 
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
             agent.CreateIntWME(wordWME, "wcount", wordx);
             agent.CreateStringWME(wordWME, "wvalue", wordval);
