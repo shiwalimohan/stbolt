@@ -46,7 +46,9 @@ sp {misc*elaborate*interpretation-operators
    (state <s> ^operator <o> +)
    (<o> ^name << interpret-object-message interpret-relation-message interpret-verb-command 
                  interpret-object-question interpret-relation-question 
-                 interpret-object interpret-relation interpret-verb finish-interpretation >>)
+                 interpret-object interpret-relation interpret-verb 
+                 interpret-preposition
+                 interpret-single-word-response finish-interpretation >>)
 -->
    (<o> ^kind message-interpretation)
 }

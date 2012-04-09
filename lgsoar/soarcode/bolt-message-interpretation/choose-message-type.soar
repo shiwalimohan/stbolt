@@ -1,15 +1,12 @@
 
-# verb-commands have the HEARER in a relation
+# verb-commands have the HEARER
 sp {top-state*interpret-messages*propose*interpret-verb-command
    (state <s> ^superstate nil
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
-            ^predicate <p1>
-            ^predicate <p2>)
+            ^predicate <p1>)
    (<p1> ^outer HEARER
          ^inner1 <hearer>)
-   (<p2> ^inner1 <hearer>
-         ^inner2 <i2>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-verb-command
@@ -70,6 +67,30 @@ sp {top-state*interpret-messages*propose*interpret-relation-question
         ^predicates <pred>)
 }
 
+sp {top-state*interpret-messages*propose*interpret-single-word-response
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> -^interpretation
+            ^predicate <p1>)
+   (<p1> ^outer single-word)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-single-word-response
+        ^predicates <pred>)
+}
+
+# single-word-responses are done in place here
+sp {top-state*interpret-messages*apply*interpret-single-word-response
+   (state <s> ^superstate nil
+              ^operator <o>)
+   (<o> ^name interpret-single-word-response
+              ^predicates <pred>)
+   (<pred> ^predicate.inner1 <word>)
+-->
+   (<pred> ^interpretation <int>)
+   (<int> ^single-word-response.response <word>)
+}
+
 # other commands:
 # goal info ??
 
@@ -100,6 +121,17 @@ sp {top-state*interpret-messages*prefer*relation-question-over-relation
    (<o2> ^name interpret-relation-question)
 -->
    (<s> ^operator <o2> > <o1>)
+}
+
+# "to the right of" has two 2d preds
+sp {top-state*interpret-messages*prefer*indifferent-relation
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-relation-message)
+   (<o2> ^name interpret-relation-message)
+-->
+   (<s> ^operator <o2> = <o1>)
 }
 
 sp {top-state*interpret-messages*prefer*relation-question-over-object-question

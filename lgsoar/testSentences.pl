@@ -82,6 +82,9 @@ else {
 	["Which is a green block?",
 		"INDEF(N2) block(N2) green(N2) which(N2)",
 		1],	
+	["Where is the red block?",
+		"",
+	1],
 	# Describe this object? (with pointing)
 	["Describe this object.",
 	 "DEF(N3) HEARER(N4) describe(N4,N3) object(N3)",
@@ -195,6 +198,7 @@ else {
 	["Point at the square object.",
 		"DEF(N4) HEARER(N5) at(point,N4) object(N4) point(N5) square(N4)",
 		1],
+
 	["Go to the stove.",
 		"DEF(N3) HEARER(N4) go(N4) stove(N3) to(go,N3)",
 		1],
@@ -207,13 +211,6 @@ else {
 		"DEF(N3) HEARER(N4) blocks(N3) count(N4,N3)",
 		1],
 
-	["No, it is triangular.",
-		"",
-		1],
-
-	["No, that is a blue block.",
-		"",
-		1],
 );
 
 $minPriority = 100;
@@ -235,7 +232,7 @@ for ($p=$minPriority; $p <= $maxPriority; $p++) {
 	if ($singlePriority > -1 and $p != $singlePriority) {
 		next PRIORITY;
 	}
-	if (not $simple) {
+	if ($simple == 0) {
 		print "******** BEGIN PRIORITY $p SENTENCES ************\n";
 	}
 	SENTENCE:
@@ -252,7 +249,7 @@ for ($p=$minPriority; $p <= $maxPriority; $p++) {
 		chomp $outDRS;
 		
 		if ($outDRS eq $correctDRS and $outDRS ne "") {
-			if (not $simple) {
+			if ($simple == 0) {
 				print "test sentence: $sentence\n";
 				print "PASSED: $correctDRS\n";
 			}
@@ -262,7 +259,7 @@ for ($p=$minPriority; $p <= $maxPriority; $p++) {
 			$passCount++;
 		}
 		else {
-			if (not $simple) {
+			if ($simple == 0) {
 				print "test sentence: $sentence\n";
 				print "FAILED:\n";	
 				print "\texpected [$correctDRS]\n";
@@ -276,7 +273,7 @@ for ($p=$minPriority; $p <= $maxPriority; $p++) {
 
 			$failCount++;
 		}
-		if (not $simple) {
+		if ($simple == 0) {
 			print "********************\n";
 		}
 	}

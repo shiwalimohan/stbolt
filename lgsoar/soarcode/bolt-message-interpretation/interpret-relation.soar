@@ -2,23 +2,13 @@
 # test sentence: The ball is on the table.
 # PASSED: DEF(N2) DEF(N4) ball(N2) on(N2,N4) table(N4)
 
-# need: relation <rm>
-# <rm> ^relation <r>
+# ^relation <r>
 # <r> ^word on
 #     ^p1-object.word ball
 #               .specifier DEF
 #     ^p2-object.word table
 #               .specifier DEF
 
-# We are also treating prepositions as relations. For transitive verbs, the p1
-# of the relation is the direct object, for intransitive verbs it is a SELF
-# symbol. The implication here is that the goal of the verb is to make the
-# relation true, which works in many cases for transitive verbs:
-# put the ball on the table -> on(ball,table) is the goal of "put"
-#
-# It makes slightly less sense for intransitive verbs:
-# go to the store -> to(SELF,store) is a parameter of "go", but not really the
-# goal (and SELF is also the one doing the putting above)
 
 sp {interpret-relation*elaborate*init
    (state <s> ^name interpret-relation)
@@ -27,7 +17,7 @@ sp {interpret-relation*elaborate*init
    (<it> ^relation <rm>)
 }
 
-sp {interpret-relation*propose*identify-relation-word
+sp {interpret-relation*propose*identify-relation
    (state <s> ^name interpret-relation
              -^relation-identified
               ^all-predicates.predicate <pr>)
@@ -40,7 +30,56 @@ sp {interpret-relation*propose*identify-relation-word
         ^relation <pr>)
 }
 
-sp {interpret-relation*apply*identify-relation-word
+sp {interpret-relation*propose*identify-to-the-x-of-relation
+   (state <s> ^name interpret-relation
+             -^relation-identified
+              ^all-predicates <ap>)
+   (<ap> ^predicate <to> <the> <x> <of>)
+   (<to> ^outer to
+         ^inner1 <p1>
+         ^inner2 <x-obj>)
+   (<the> ^outer DEF
+          ^inner1 <x-obj>)
+   (<x> ^outer {<> DEF <x-word>}
+        ^inner1 <x-obj>
+       -^inner2)
+   (<of> ^outer of
+         ^inner1 <x-obj>
+         ^inner2 <p2>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer (concat <x-word> |-of|)
+        ^inner1 <p1>
+        ^inner2 <p2>)
+}
+
+sp {interpret-relation*identify-to-the-x-of-relation*over*identify-relation
+   (state <s> ^name interpret-relation
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name identify-to-the-x-of-relation)
+   (<o2> ^name identify-relation)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {interpret-relation*apply*identify-to-the-x-of-relation
+   (state <s> ^name interpret-relation
+              ^interpretation.relation <rm>
+              ^operator <o>)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer <out>
+        ^inner1 <in1>
+        ^inner2 <in2>)
+-->
+   (<s> ^relation-identified true
+        ^p1 <in1>
+        ^p2 <in2>)
+   (<rm> ^word <out>)
+}
+
+sp {interpret-relation*apply*identify-relation
    (state <s> ^name interpret-relation
               ^operator <o>
               ^interpretation.relation <rm>)
@@ -50,7 +89,7 @@ sp {interpret-relation*apply*identify-relation-word
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->
-   (<s> ^relation-identified true
+   (<s> ^relation-identified <pr>
         ^p1 <p1-val>
         ^p2 <p2-val>)
    (<rm> ^word <relation>)
@@ -98,7 +137,7 @@ sp {interpret-relation*propose*interpret-p1
 
 sp {interpret-relation*propose*collect-p2
    (state <s> ^name interpret-relation
-              ^relation-identified true
+              ^relation-identified 
               ^p1-predicates.interpretation
              -^p2-collected)
 -->

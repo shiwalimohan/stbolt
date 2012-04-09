@@ -4,6 +4,7 @@ source bolt-message-interpretation/choose-message-type.soar
 source bolt-message-interpretation/interpret-object.soar
 source bolt-message-interpretation/interpret-relation.soar
 source bolt-message-interpretation/interpret-verb.soar
+source bolt-message-interpretation/interpret-preposition.soar
 source bolt-message-interpretation/interpret-object-message.soar
 source bolt-message-interpretation/interpret-object-question.soar
 source bolt-message-interpretation/interpret-relation-message.soar

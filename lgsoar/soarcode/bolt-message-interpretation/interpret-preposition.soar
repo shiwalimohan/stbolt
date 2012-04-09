@@ -1,0 +1,150 @@
+
+# on the table
+# DEF(N4) on(x,N4) table(N4)
+
+# ^preposition.word on
+#             .object.word table
+#                    .specifier DEF
+
+sp {interpret-preposition*elaborate*init
+   (state <s> ^name interpret-preposition)
+-->
+   (<s> ^interpretation <it>)
+   (<it> ^preposition <rm>)
+}
+
+sp {interpret-preposition*propose*identify-preposition-word
+   (state <s> ^name interpret-preposition
+             -^pword-identified
+              ^all-predicates.predicate <pr>)
+   (<pr> ^outer <preposition>
+         ^inner1 <p1-val>
+         ^inner2 <p2-val>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name identify-preposition-word
+        ^preposition <pr>)
+}
+
+sp {interpret-preposition*propose*identify-to-the-x-of-preposition
+   (state <s> ^name interpret-preposition
+             -^pword-identified
+              ^all-predicates <ap>)
+   (<ap> ^predicate <to> <the> <x> <of>)
+   (<to> ^outer to
+         ^inner1 <p1>
+         ^inner2 <x-obj>)
+   (<the> ^outer DEF
+          ^inner1 <x-obj>)
+   (<x> ^outer {<> DEF <x-word>}
+        ^inner1 <x-obj>
+       -^inner2)
+   (<of> ^outer of
+         ^inner1 <x-obj>
+         ^inner2 <p2>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name identify-to-the-x-of-preposition
+        ^outer (concat <x-word> |-of|)
+        ^inner1 <p1>
+        ^inner2 <p2>)
+}
+
+sp {interpret-preposition*identify-to-the-x-of-preposition*over*identify-preposition-word
+   (state <s> ^name interpret-preposition
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name identify-to-the-x-of-preposition)
+   (<o2> ^name identify-preposition-word)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {interpret-preposition*apply*identify-to-the-x-of-preposition
+   (state <s> ^name interpret-preposition
+              ^interpretation.preposition <rm>
+              ^operator <o>)
+   (<o> ^name identify-to-the-x-of-preposition
+        ^outer <out>
+        ^inner1 <in1>
+        ^inner2 <in2>)
+-->
+   (<s> ^pword-identified true
+        ^p2 <in2>)
+   (<rm> ^word <out>)
+}
+
+
+sp {interpret-preposition*apply*identify-preposition-word
+   (state <s> ^name interpret-preposition
+              ^operator <o>
+              ^interpretation.preposition <rm>)
+   (<o> ^name identify-preposition-word
+        ^preposition <pr>)
+   (<pr> ^outer <preposition>
+         ^inner1 <p1-val>
+         ^inner2 <p2-val>)
+-->
+   (<s> ^pword-identified true
+        ^p2 <p2-val>)
+   (<rm> ^word <preposition>)
+}
+
+sp {interpret-preposition*propose*collect-object
+   (state <s> ^name interpret-preposition
+             -^object-collected true
+              ^pword-identified true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name collect-object)
+}
+
+sp {interpret-preposition*apply*collect-object*base
+   (state <s> ^name interpret-preposition
+              ^operator.name collect-object)
+-->
+   (<s> ^object-predicates <cp>)
+}
+
+sp {interpret-preposition*apply*collect-object
+   (state <s> ^name interpret-preposition
+              ^operator.name collect-object
+              ^p2 <p2>
+              ^object-predicates <cp>
+              ^all-predicates.predicate <pred>)
+   (<pred> ^inner1 <p2>
+          -^inner2)
+-->
+   (<cp> ^predicate <pred>)
+   (<s> ^object-collected true)
+}
+
+sp {interpret-preposition*propose*interpret-object
+   (state <s> ^name interpret-preposition
+              ^object-collected true
+              ^object-predicates <cp>)
+   (<cp> -^interpretation)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-object
+        ^predicates <cp>)
+}
+
+sp {interpret-preposition*elaborate*object-interpretation
+   (state <s> ^name interpret-preposition
+              ^object-predicates <p1p>
+              ^interpretation.preposition <rm>)
+   (<p1p> ^interpretation.object <int>)
+-->
+   (<rm> ^object <int>)
+}
+
+sp {interpret-preposition*elaborate*return-interpretation
+   (state <s> ^name interpret-preposition
+              ^all-predicates <p>
+              ^interpretation <i>)
+   (<i> ^preposition <rm>)
+   (<rm> ^object <p1>)
+-->
+   (<p> ^interpretation <i>)
+}
