@@ -24,7 +24,7 @@ import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
 import edu.umich.soar.SoarProperties;
 
-import com.soartech.bolt.LGSupport;
+import com.soartech.bolt.BOLTLGSupport;
 
 public class SBolt implements LCMSubscriber
 
@@ -101,10 +101,10 @@ public class SBolt implements LCMSubscriber
         	}
         }
         
-        LGSupport lgSupport = null;
+        BOLTLGSupport lgSupport = null;
         
         if (useLG) {
-        	lgSupport = new LGSupport(agent, lgSoarDictionary);
+        	lgSupport = new BOLTLGSupport(agent, lgSoarDictionary);
         }
         
         

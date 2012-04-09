@@ -86,7 +86,7 @@ sp {top-state*interpret-messages*prefer*anything-over-object-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-object-message)
-   (<o2> ^kind interpretation
+   (<o2> ^kind message-interpretation
         -^name interpret-object-message)
 -->
    (<s> ^operator <o2> > <o1>)
@@ -117,7 +117,7 @@ sp {top-state*interpret-messages*prefer*verb-command-over-any
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-verb-command)
-   (<o2> ^kind interpretation
+   (<o2> ^kind message-interpretation
         -^name interpret-verb-command)
 -->
    (<s> ^operator <o1> > <o2>)

@@ -1,0 +1,30 @@
+
+sp {global*propose*handle-single-word
+   (state <s> ^problem-space lgsoar
+              ^count <cnt>
+             -^predicates-generated
+              ^io.lgsentence <sen>)
+   (<sen> ^count <cnt>
+          ^words <wds>)
+   (<wds> ^word.wvalue <w1>
+          -^word.wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name handle-single-word
+        ^priority 1000
+        ^word <w1>)
+}
+
+sp {global*apply*handle-single-word
+   (state <s> ^problem-space lgsoar
+              ^operator <o>
+              ^final-predicates <fp>)
+   (<o> ^name handle-single-word
+        ^word <wd>)
+-->
+   (<s> ^predicates-generated true)
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer single-word
+           ^inner1 <wd>)
+}
+

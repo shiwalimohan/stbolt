@@ -25,23 +25,72 @@ sp {prefer*non-LG
 # replacement for the rule in refsoar/global.soar that halts
 # instead, remove sentences from input, which will cause the problem-space to
 # retract
-sp {global*apply*processing-complete 
-  (state <s> ^operator.name processing-complete
-           ^predicates-generated true
-           ^final-predicates <fp>)
---> 
-  (<s> ^lgsoar-predicates <fp>
-       ^predicates-generated true -)
-}
+# sp {global*apply*processing-complete 
+#   (state <s> ^operator.name processing-complete
+#            ^predicates-generated true
+#            ^final-predicates <fp>)
+# --> 
+#   (<s> ^lgsoar-predicates <fp>
+#        ^predicates-generated true -)
+# }
 
-sp {global*apply*processing-complete*mark-sentences
-  (state <s> ^operator.name processing-complete
-             ^io.input-link.lg <lg>)
-   (<lg> ^sentence <sen>)
+
+# replace productions in refsoar/activate.soar to put lgsoar in a substate
+excise top-state*lg*init*sentence
+excise global*apply*processing-complete
+
+sp {top-state*propose*interpret-sentence
+  (state <s> ^superstate nil
+             ^io.input-link.lg.sentence <sent>)
+   (<sent> -^final-predicates)
 -->
-   (<sen> ^processed true)
-   # removes the io.lgsentence since top-state*lg*init*sentence stops matching
-   # (refsoar/activate.soar), removal of lgsentence causes
-   # Activate*create*space to retract, removing most lgsoar state
+  (<s> ^operator <o> +)
+  (<o> ^name interpret-sentence
+       ^sentence <sent>)
 }
 
+sp {elaborate*prefer-older-sentences
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-sentence
+         ^sentence.count <ct1>)
+   (<o2> ^name interpret-sentence
+         ^sentence.count > <ct1>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {elaborate*process-over-interpret
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-sentence)
+   (<o2> ^name process-message)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+sp {interpret-sentence*elaborate*init
+   (state <s> ^superstate.operator <sso>)
+   (<sso> ^name interpret-sentence
+          ^sentence <sent>)
+-->
+   (<s> ^io.lgsentence <sent>)
+}
+
+sp {global*apply*processing-complete*save-predicates
+  (state <s> ^operator.name processing-complete
+             ^io.lgsentence <lgs>
+             ^final-predicates <fp>)
+-->
+   (<lgs> ^final-predicates <fp>)
+}
+
+sp {top-state*lgsoar-predicates*to-state
+   (state <s> ^io.input-link.lg.sentence <lgs>)
+   (<lgs> ^final-predicates <fp>)
+-->
+   (<s> ^lgsoar-predicates <fp>)
+}
+
+# TODO: give lgsoar multiple sentences in its subgoal!

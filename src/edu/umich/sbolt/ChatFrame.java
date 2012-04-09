@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.soartech.bolt.LGSupport;
+import com.soartech.bolt.BOLTLGSupport;
 
 public class ChatFrame extends JFrame
 {
@@ -25,9 +25,9 @@ public class ChatFrame extends JFrame
 
     private SBolt sbolt;
     
-    private LGSupport lgSupport;
+    private BOLTLGSupport lgSupport;
 
-    public ChatFrame(SBolt sbolt, LGSupport lg) {
+    public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
 
         this.sbolt = sbolt;
@@ -88,7 +88,7 @@ public class ChatFrame extends JFrame
     		// Prefixing with a : goes to Soar's message processing
     		sbolt.getWorld().newMessage(message.substring(1));
     	} else {
-    		lgSupport.handleSentence(message);
+    		lgSupport.handleInput(message);
     		// LGSupport has access to the agent object and handles all WM interaction from here
     	}
     }

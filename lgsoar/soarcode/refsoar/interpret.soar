@@ -192,9 +192,10 @@ sp {interpret*propose*AN*as*noun-auging-noun
    (<link> ^ltype AN ^lwleft <arg-count> ^lwright <main-count> -^handled-as)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name add-arg ^priority 150 ^main <main> ^aug aug ^arg <arg> ^link <link>
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug aug1 ^arg <arg> ^link <link>
    	 ^kind single-side ^order <main-count> ^level-two-order <arg-count> )}
-   	 
+# SBW 4/9/2012 changed aug to aug1 to represent similar to adjective.
+# implications?
 
 # applications
 
@@ -276,4 +277,81 @@ sp {interpret*apply*single-add-arg*if*arg-has-ref
 -->
    (<main-ref> ^<aug> <arg-ref> +)
    (<link> ^handled-as <aug>)
+}
+
+### below here moved from non-cligdump93.soar in original LGSoar 2.0 release
+
+## from adj-prods.soar
+
+#---------The following section contains Soar productions that add Link-Grammar link infor to the state---------#
+
+sp {interpret*propose*P*as*internal
+	(state <s> ^count <count> ^io <io>)
+  	(<io> ^lgsentence <lgs> )
+	(<lgs> ^count <count> ^links.link <link> ^words.word <int> <main>)
+
+#<main> is for those that contain a ^ref <ref> and a ^wcount <main-count>
+#<int> is for those that don't contain a ^ref <ref>, but do have a ^wcount <int-count>	
+	(<main> ^ref <ref> ^wcount <main-count>)
+	(<int> ^wcount <int-count>)
+	## not predicate PP, though...so block ^ltypesub p
+	(<link> ^ltype P -^ltypesub p ^lwleft <main-count> ^lwright <int-count> -^handled-as)
+-->
+	(<s> ^operator <o> +)
+	(<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
+		 ^kind single ^order <main-count> ^level-two-order <int-count>
+		 )
+}
+
+
+# identical to the above? was in non-cligdump93..
+# sp {|interpret*propose*AN*as*noun-auging-noun|
+#     (state <s> ^io <i*1> ^count <count>)
+#     (<i*1> ^lgsentence <cs>)
+#     (<cs> ^count <count> ^words <w*1> ^links <l*1>)
+#     (<w*1> ^word <arg> ^word <main>)
+#     (<arg> ^wcount <arg-count>)
+#     (<main> ^wcount <main-count> ^ref <ref>)
+#     (<l*1> ^link <link>)
+#     (<link> -^handled-as <h*1> ^lwleft <arg-count> ^lwright <main-count>
+#           ^ltype |AN| )
+#     -->
+#     (<s> ^operator <o> +)
+#     (<o> ^name add-arg + ^priority 150 + ^main <main> + ^aug aug +
+#            ^arg <arg> + ^link <link> + ^kind single-side +
+#            ^order <main-count> + ^level-two-order <arg-count> +
+#             +)
+# }
+
+
+sp {|interpret*propose*A*as*adj-auging-noun|
+    (state <s> ^io <i*1> ^count <count>)
+    (<i*1> ^lgsentence <cs>)
+    (<cs> ^count <count> ^words <w*1> ^links <l*1>)
+    (<w*1> ^word <arg> ^word <main>)
+    (<arg> ^wcount <arg-count>)
+    (<main> ^wcount <main-count> ^ref <ref>)
+    (<l*1> ^link <link>)
+    (<link> -^handled-as <h*1> ^lwleft <arg-count> ^lwright <main-count>
+          ^ltype |A| )
+    -->
+    (<s> ^operator <o> +)
+    (<o> ^name add-arg + ^priority 150 + ^main <main> + ^aug aug1 + 
+           ^arg <arg> + ^link <link> + ^kind single-side +
+           ^order <main-count> + ^level-two-order <arg-count> +
+            +)
+}
+
+
+sp {interpret*propose*D*as*negative-description
+	(state <s> ^count <count> ^io.lgsentence <cs>)
+	(<cs> ^count <count> ^links.link <link> ^words.word <neg-desc> <main>)
+	(<main> ^ref <ref> ^wcount <main-count>)
+	(<neg-desc> ^wvalue << no >> ^wcount <neg-desc-count>)
+	(<link> ^ltype D ^lwleft <neg-desc-count> ^lwright <main-count> -^handled-as)
+-->
+	(<s> ^operator <o> +)
+	(<o> ^name add-arg ^priority 170 ^main <main> ^aug desc ^arg <desc> ^link <link>
+		 ^kind constant ^order <neg-desc-count> ^level-two-order <main-count> )
+	(<desc> ^word <neg-desc> ^feature neg)
 }

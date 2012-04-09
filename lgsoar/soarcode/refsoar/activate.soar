@@ -53,8 +53,7 @@ sp {top-state*lg*init*sentence
 
 
 sp	{Activate*create*space
-   (state <s> ^superstate nil
-              ^io.lgsentence.count <ct> # match only for the minimal count sentence
+   (state <s> ^io.lgsentence.count <ct> # match only for the minimal count sentence
              -^io.lgsentence.count < <ct>) 
 -->
    (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^count <ct> ^root 0 ^anaphor <a>

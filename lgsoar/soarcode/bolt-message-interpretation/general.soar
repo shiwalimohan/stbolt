@@ -36,7 +36,7 @@ sp {apply*finish-interpretation
 
 sp {interpretation*elaborate*predicates-to-substate
    (state <s> ^superstate.operator <o>)
-   (<o> ^kind interpretation
+   (<o> ^kind message-interpretation
         ^predicates <p>)
 -->
    (<s> ^all-predicates <p>)
@@ -46,7 +46,17 @@ sp {misc*elaborate*interpretation-operators
    (state <s> ^operator <o> +)
    (<o> ^name << interpret-object-message interpret-relation-message interpret-verb-command 
                  interpret-object-question interpret-relation-question 
-                 interpret-object interpret-relation interpret-verb >>)
+                 interpret-object interpret-relation interpret-verb finish-interpretation >>)
 -->
-   (<o> ^kind interpretation)
+   (<o> ^kind message-interpretation)
+}
+
+sp {misc*interpret-old-messages-before-lgsoar
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-sentence)
+   (<o2> ^kind message-interpretation)
+-->
+   (<s> ^operator <o2> > <o1>)
 }

@@ -50,6 +50,19 @@ sp {global*propose*generate-predicates
    (<o> ^name generate-predicates ^priority -1)
 }
 
+sp {global*propose*find-root
+	(state <s> ^count <count> ^io.lgsentence <cs> ^root <old>)
+	(<cs> ^count <count> ^links.link <link> ^words.word <child> <parent>)
+	(<child> ^wcount <old> ^wvalue <oldVal>)
+	(<parent> ^wcount <new> ^wvalue <newVal>)
+	(<link> ^lwleft <old> ^lwright <new>)
+	(<link> ^ltype {<< AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
+					  NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS  >> <type>})
+-->
+	(<s> ^operator <o> + >)
+	(<o> ^name find-root ^priority 170 ^new <new> 
+       ^debug-info (concat |found root of | <type> | link from "| <oldVal> |" to "| <newVal> |"|))
+}
 
 sp	{global*apply*find-root
    (state <s> ^operator <o> ^root <old>)
