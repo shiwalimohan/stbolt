@@ -7,6 +7,7 @@ import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.WMElement;
 import abolt.lcmtypes.robot_command_t;
+import april.util.TimeUtil;
 import edu.umich.sbolt.world.Robot;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
@@ -36,6 +37,7 @@ public class OutputLinkHandler implements OutputEventInterface
 
     public robot_command_t getCommand()
     {
+    	/*
         if (command.updateDest)
         {
             // Check to see if we've reached our destination and turn off
@@ -51,7 +53,10 @@ public class OutputLinkHandler implements OutputEventInterface
             {
                 command.updateDest = false;
             }
-        }
+        }*/
+    	if(command != null){
+    		command.utime = TimeUtil.utime();
+    	}
         return command;
     }
 
@@ -321,9 +326,9 @@ public class OutputLinkHandler implements OutputEventInterface
         String z = WorkingMemoryUtil.getValueOfAttribute(poseId, "z");
         
 
-        String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
-                .getRobot().getId(), Integer.parseInt(objectIdStr));
-        command.action = action;
+        //String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
+        //        .getRobot().getId(), Integer.parseInt(objectIdStr));
+        //command.action = action;
         command.updateDest = true;
         command.dest[0] = Double.parseDouble(x);
         command.dest[1] = Double.parseDouble(y);

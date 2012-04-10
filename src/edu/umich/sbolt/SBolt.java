@@ -47,6 +47,8 @@ public class SBolt implements LCMSubscriber
     private ChatFrame chatFrame;
 
     private World world;
+    
+    private boolean received = false;
 
     public SBolt(String channel, String agentName)
     {
@@ -115,7 +117,8 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort(), "/home/aaron/soar/SoarSuite/out/SoarJavaDebugger.jar"));
+        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
+        // Requires the SOAR_HOME environment variable
 
         world = new World();
 
@@ -195,6 +198,11 @@ public class SBolt implements LCMSubscriber
     {
         if (inputLinkHandler == null)
             return;
+        if(received){
+        	return;
+        }
+        received = true;      
+        
         observations_t obs = null;
         try
         {

@@ -1,6 +1,7 @@
 ### propose goto for all known locations
 sp {propose*goto*locations
-   (state <s> ^location <loc>)
+   (state <s> ^location <loc>
+              ^faker forrealz)
 -->
    (<s> ^operator <op> +)
    (<op> ^name goto
