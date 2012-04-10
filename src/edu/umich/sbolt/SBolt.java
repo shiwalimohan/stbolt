@@ -23,7 +23,7 @@ import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
 
-//import com.soartech.bolt.LGSupport;
+import com.soartech.bolt.LGSupport;
 
 public class SBolt implements LCMSubscriber
 
@@ -100,10 +100,10 @@ public class SBolt implements LCMSubscriber
         	}
         }
         
-        //LGSupport lgSupport = null;
+        LGSupport lgSupport = null;
         
         if (useLG) {
-        	//lgSupport = new LGSupport(agent, lgSoarDictionary);
+        	lgSupport = new LGSupport(agent, lgSoarDictionary);
         }
         
         
@@ -126,7 +126,7 @@ public class SBolt implements LCMSubscriber
         outputLinkHandler = new OutputLinkHandler(this);
 
         // Setup ChatFrame
-        chatFrame = new ChatFrame(this);//, lgSupport);
+        chatFrame = new ChatFrame(this, lgSupport);
 
         // Start broadcasting
         timerTask = new TimerTask()
