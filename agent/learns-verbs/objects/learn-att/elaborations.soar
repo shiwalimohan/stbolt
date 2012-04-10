@@ -1,0 +1,10 @@
+# Adds information about the learned attribute to the state
+sp {learn-att*elaborate*attribute*info
+   (state <s> ^name learn-att
+              ^superstate.operator <o>)
+   (<o> ^internal <internal-att>
+        ^external <external-att>)
+-->
+   (<s> ^internal <internal-att>
+        ^external <external-att>)
+}

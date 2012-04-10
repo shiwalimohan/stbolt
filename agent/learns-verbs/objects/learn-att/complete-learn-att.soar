@@ -1,0 +1,54 @@
+sp {propose*complete-learn-att
+   (state <s> ^name learn-att)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name complete-learn-att
+        ^category object-processing)
+}
+
+# Causes the end of the current segment
+sp {apply*complete-learn-att*mark*satisfied
+   (state <s> ^name learn-att
+              ^operator.name complete-learn-att
+              ^topstate.status <status>)
+-->
+   (<status> ^performed.learning-event attribute)
+}
+
+# Removes queries that ask for the same attribute
+sp {apply*complete-learn-att*remove*queries
+   (state <s> ^name learn-att
+              ^operator.name complete-learn-att
+              ^internal <internal-att>
+              ^topstate.queries <queries>)
+   (<queries> ^query <q>)
+   (<q> ^type << shared-att-val differs-from-group >>
+        ^internal-att <internal-att>)
+-->
+   (<queries> ^query <q> -)
+}
+
+# Restarts the comprehend-att operator
+sp {apply*complete-learn-att*comprehend-att
+   (state <s> ^name learn-att
+              ^operator.name complete-learn-att
+              ^topstate <top>)
+   (<top> ^object.mapping.att-val-pair <av-pair>
+         -^comprehend-att.<att-type> <attribute>)
+   (<av-pair> ^att-type {<att-type> << internal external >>}
+              ^att.<att-type> <attribute>)
+-->
+   (<top> ^comprehend-att.<att-type> <attribute>)
+}
+
+# If the current attribute is proposed for comprehend-att remove it
+sp {apply*complete-learn-att*remove*comprehend-att
+   (state <s> ^name learn-att
+              ^operator.name complete-learn-att
+              ^{<att-type> << internal external >>} <attribute>
+              ^topstate <top>)
+   (<top> ^comprehend-att <ca>)
+   (<ca> ^<att-type> <attribute>)
+-->
+   (<top> ^comprehend-att <ca> -)
+}

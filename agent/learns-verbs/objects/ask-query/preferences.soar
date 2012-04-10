@@ -1,0 +1,28 @@
+# Orders query in the following way:
+#	shared-att-val > differs-from-group > value-question
+
+sp {prefer*all*over*value-question
+   (state <s> ^name find-value-group
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name ask-query
+         ^query.type <> value-question)
+   (<o2> ^name ask-query
+         ^query.type value-question)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {prefer*shared-att-value*over*differs-from-group
+   (state <s> ^name find-value-group
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name ask-query
+         ^query.type shared-att-value)
+   (<o2> ^name ask-query
+         ^query.type differs-from-group)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+   

@@ -1,6 +1,0 @@
-# Elaborates substates with the name of the operator that led to their creation
-sp {elaborate*state*name
-   (state <s> ^superstate.operator.name <name>)
--->
-   (<s> ^name <name>)
-}

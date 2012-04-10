@@ -1,0 +1,11 @@
+#sp {propose*find-object
+#   (state <s> ^superstate nil
+#             -^query-match)
+#-->
+#   (<s> ^operator <o> + <)
+#   (<o> ^name find-object
+#        ^object <obj>)
+#   (<obj> ^name block
+#          ^adjective blue
+#          ^adjective medium)
+#}

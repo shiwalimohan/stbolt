@@ -1,5 +1,0 @@
-source complete-XXX.soar
-source elaborations.soar
-source init-XXX.soar
-source preferences.soar
-source propose*XXX.soar
