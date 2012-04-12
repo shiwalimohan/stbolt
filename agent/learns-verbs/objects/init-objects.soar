@@ -12,9 +12,9 @@ sp {apply*init-agent*store*smem
               ^operator.name init-agent
               ^smem.command <cmd>)
 -->
-   (<cmd> ^store <a1> <v11> <v12> <v13> <v14> <v15> <v16> <v17> <v18>
-          		<a2> <v21> <v22> <v23> <v24> 
-				<a3> <v31> <v32> <v33> 
+   (<cmd> ^store #<a1> <v11> <v12> <v13> <v14> <v15> <v16> <v17> <v18>
+          		#<a2> <v21> <v22> <v23> <v24> 
+				#<a3> <v31> <v32> <v33> 
 				<a4> <v41> <v42> 
 				<a5> <v51> <v52> 
 				<a6> <v61> <v62> 
@@ -23,26 +23,26 @@ sp {apply*init-agent*store*smem
 				<a9> <v91> <v92> 
 				<a10> <v101> <v102>)
    
-   (<a1> ^type attribute ^internal color ^external color)
-   (<v11> ^type value ^internal red ^external red)
-   (<v12> ^type value ^internal green ^external green)
-   (<v13> ^type value ^internal black ^external black)
-   (<v14> ^type value ^internal beige ^external beige)
-   (<v15> ^type value ^internal tan ^external tan)
-   (<v16> ^type value ^internal beige ^external blue)
-   (<v17> ^type value ^internal gray ^external gray)
-   (<v18> ^type value ^internal blue ^external blue)
-   
-   (<a2> ^type attribute  ^internal shape ^external shape)
-   (<v21> ^type value ^internal cube ^external cube)
-   (<v22> ^type value ^internal sphere ^external sphere)
-   (<v23> ^type value ^internal rectangle ^external rectangle)
-   (<v24> ^type value ^internal cylinder ^external cylinder)
-   
-   (<a3> ^type attribute ^internal size ^external size)
-   (<v31> ^type value ^internal small ^external small)
-   (<v32> ^type value ^internal medium ^external medium)
-   (<v33> ^type value ^internal large ^external large)
+#   (<a1> ^type attribute ^internal color ^external color)
+#   (<v11> ^type value ^internal red ^external red)
+#   (<v12> ^type value ^internal green ^external green)
+#   (<v13> ^type value ^internal black ^external black)
+#   (<v14> ^type value ^internal beige ^external beige)
+#   (<v15> ^type value ^internal tan ^external tan)
+#   (<v16> ^type value ^internal beige ^external blue)
+#   (<v17> ^type value ^internal gray ^external gray)
+#   (<v18> ^type value ^internal blue ^external blue)
+#   
+#   (<a2> ^type attribute  ^internal shape ^external shape)
+#   (<v21> ^type value ^internal cube ^external cube)
+#   (<v22> ^type value ^internal sphere ^external sphere)
+#   (<v23> ^type value ^internal rectangle ^external rectangle)
+#   (<v24> ^type value ^internal cylinder ^external cylinder)
+#   
+#   (<a3> ^type attribute ^internal size ^external size)
+#   (<v31> ^type value ^internal small ^external small)
+#   (<v32> ^type value ^internal medium ^external medium)
+#   (<v33> ^type value ^internal large ^external large)
    
    (<a4> ^type attribute  ^internal cooked-state ^external cooked-state)
    (<v41> ^type value ^internal raw ^external raw)

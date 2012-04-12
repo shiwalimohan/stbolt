@@ -115,7 +115,7 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort(), "/home/aaron/soar/SoarSuite/out/SoarJavaDebugger.jar"));
+        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
 
         world = new World();
 
