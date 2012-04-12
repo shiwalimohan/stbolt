@@ -2,7 +2,9 @@
 
 sp {propose*put-down*current-location
    (state <s> ^self.grabbed-object <id> <> -1
-   	      ^object <obj>)
+   	      ^object <obj>
+	     -^problem-space lgsoar
+	     -^superstate.operator.kind message-interpretation)
    (<obj> ^id <id>)
 -->
    (<s> ^operator <op> +)

@@ -1,0 +1,232 @@
+### the interaction stack resolves in accordance with what dialog/action events occur in the evironment. Following cases may occur.
+
+## *** please refer to clean up rule at the end of the file wrt success <sop> attribute on the topstate
+
+
+
+## case 1 *no top-goal being pursued*: if the interaction.stack is empty and their is an unresolved tie in the topstate, agent does not have a topgoal to pursue. the purpose of agent initiated communication is to prompt the instructor for new instruction. the purpose is satisfied if the instructor provides an action command ...(to be updated as needed) . ::push-segment::
+
+
+sp {propose*push-segment*case-1
+   (state <s> ^task <t>
+   	      ^interaction.stack <cs>)
+   (<t> ^information <info>
+   	^progress <tp>)
+   (<info> ^category next-task-unknown
+   	   ^name topstate)
+   (<tp> ^status.type unresolved-tie)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name push-segment
+   	 ^originator agent	
+	 ^purpose-type get-further-instruction
+	 ^purpose-satisfaction <ps>
+	 ^category interaction-stack)
+   (<ps> ^dialog-event verb-command)
+}
+	 
+
+sp {apply*push-segment*case*1
+   (state <s> ^task.progress <tp>	
+	      ^operator <op>
+	      ^task <t>
+	      ^success-operator <op>)
+   (<t> ^information <info>
+   	^progress <tp>)
+   (<op> ^name push-segment)
+-->
+  (<t> ^information <info> -
+       ^progress <tp> -)
+}
+	      			
+
+## case 2 *dialog-event-as-expected-no-satisfaction*: if the dialog event is in concordance with the agents expectations, then progress
+
+## case 3 *dialog-event-as-expected-satisfaction*: if the dialog event is in concordance with the agents expectation and is also one of the satisfaction conditions of the purpose on the top of the interaction stack, then pop it from the top of the stack and process the dialog event appropriately
+
+sp {propose*pop-segment*interaction-stack*case*3
+   (state <s> ^interaction.stack <cs>
+	      ^instructor-message <m>)
+   (<cs> ^segment <segment>)
+   (<segment> ^purpose <p>)
+   (<p> ^satisfaction <sat>)
+   (<m> ^event-type <etype>)
+   (<sat> ^dialog-event <etype>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name pop-segment
+   	 ^segment <segment>
+         ^category interaction-stack)
+}
+
+## case 4 *dialog-event-action-command*: if the purpose of the instructor dialog event is for the agent to perform an external action, push that on the interaction stack along with its satisfaction
+
+sp {propose*push-segment*interaction-stack*case*4
+   (state <s> ^interaction.stack <cs>
+   	      ^instructor-message <m>)
+   (<m> ^purpose <p>
+   	^information <info>)
+   (<p> ^type environmental-action
+   	^assigned-to agent)
+   -->
+   (<s> ^operator <op> +)
+   (<op> ^name push-segment
+   	 ^originator instructor
+	 ^purpose-type environmental-action
+	 ^purpose-satisfaction <ps>
+	 ^category interaction-stack)
+   (<ps> ^action-event <info>
+   	 ^learning-event successful-explanation)
+}
+   	 
+
+sp {apply*push-segment*case*4
+   (state <s> ^operator <op>
+	      ^instructor-message <m>
+	      ^success-operator <op>)
+   (<op> ^name push-segment)
+-->
+  (<s> ^instructor-message <m> -)
+}
+
+
+### case 5 *action-event*: if the purpose of the top-segment is for the agent to perform an external action and it has performed that action, pop the segment from the stack (related to rules in instruction/execute-purpose.soar)
+
+sp {propose*pop-segment*interaction-stack*case*5
+   (state <s> ^interaction.stack <cs>
+   	      ^operator <op>)
+   (<cs> ^segment <segment>)
+   (<segment> ^purpose <p>)
+   (<p> ^satisfaction <sat>
+   	^type environmental-action)
+   (<sat> ^action-event <any>)
+   (<op> ^executed-purpose <p>)
+-->
+   (<op> ^name pop-segment
+   	 ^segment <segment>)
+}
+ 
+
+
+## case 5  *dialog-event-not-as-expected*: if the dialog event is not in concordance with the agent's expectations, then push a new purpose onto the interaction stack
+
+
+### case 6 *lacks selection knowledge (application knowledge) of a composite operator*:
+sp {propse*push-segment*case-6
+   (state <s> ^task <t> 
+   	      ^interaction.stack <cs>)
+   (<t> ^information <info>
+   	^progress <tp>)
+   (<info> ^category operator-application
+   	   ^name <op-name>)
+   (<tp> ^status.type unresolved-tie)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name push-segment
+   	 ^originator agent
+	 ^purpose-type get-next-subaction
+	 ^purpose-satisfaction <ps>
+	 ^category interaction-stack)
+   (<ps> ^dialog-event verb-command
+   	 ^dialog-event successful-completion)
+}
+
+## case 7 *dialog-event-successful-completion-explanation*: if the purpose of the instructor is explanation
+
+sp {propose*push-segment*interaction-stack*case*7
+   (state <s> ^interaction.stack <cs>
+   	      ^instructor-message <m>)
+   (<m> ^purpose <p>
+   	^information <info>)
+   (<p> ^type explanation
+   	^assigned-to agent)
+   -->
+   (<s> ^operator <op> +)
+   (<op> ^name push-segment
+   	 ^originator instructor
+	 ^purpose-type explanation
+	 ^purpose-satisfaction <ps>
+	 ^category interaction-stack)
+   (<ps> ^learning-event successful-explanation)
+}
+
+
+
+### case 8: *successful explanation*: pop the purpose if the goal is successful completion
+sp {propose*pop-segment*interaction-stack*case*8
+   (state <s> ^interaction.stack <cs>
+   	      ^operator <op>
+	      ^topstate.successful-explanation <any>)
+   (<cs> ^segment <segment>)
+   (<segment> ^purpose <p>)
+   (<p> ^satisfaction <sat>
+   	^type explanation)
+   (<op> ^name explain)
+-->
+   (<op> ^name pop-segment
+   	 ^segment <segment>)
+}
+ 
+
+### case 9: *successful explanation pop action command*: 
+
+sp {propose*pop-segment*interaction-stack*case*9
+   (state <s> ^interaction.stack <cs>
+	      ^successful-explanation <op-name>)
+   (<cs> ^segment <segment>)
+   (<segment> ^purpose <p>)
+   (<p> ^satisfaction <sat>)
+   (<sat> ^learning-event successful-explanation
+   	  ^action-event.verb <op-name>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name pop-segment
+   	 ^segment <segment>
+         ^category interaction-stack)
+}
+
+
+sp {propose*pop-segment*interaction-stack*case*9*clear*topstate
+   (state <s> ^interaction.stack <cs>
+	      ^successful-explanation <op-name>
+	      ^operator <op>)
+   (<op> ^name pop-segment
+   	 ^segment <segment>
+         ^category interaction-stack)
+
+-->
+   (<s> ^successful-explanation <op-name> -)
+}
+
+
+### case 10: *dialog-event-question*: the instructor intends for the agent to reply to a quesiton put forward by the instructor
+
+sp {propose*push-segment*interaction-stack*case*10
+   (state <s> ^interaction.stack <cs>
+   	      ^instructor-message <m>)
+   (<m> ^purpose <p>
+   	^information <info>)
+   (<p> ^type get-fact)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name push-segment
+   	 ^originator instructor
+	 ^purpose-type question-fact
+	 ^purpose-satisfaction <ps>
+	 ^category interaction-stack)
+   (<ps> ^dialog-event-reply <info>)
+}
+
+### case 11: *reply-to-dialog-event-question*: 
+
+
+
+### clean up
+sp {topstate*clean-up
+   (state <s> ^topstate <ts>
+   	      ^success-operator <sop>
+	      ^operator <op>)
+   (<op> -^name push-segment)
+-->
+   (<s> ^success-operator <sop> -)
+}

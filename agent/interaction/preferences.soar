@@ -10,6 +10,16 @@ sp {preference*communicate*greater-than
    (<s> ^operator <op2> > <op1>)
 }
 
+### setting preferences of kind interpretation wrt primitive actions
+sp {preference*interpretation*greater-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^kind << interpretation message-interpretation >>)
+   (<op1> ^category << primitive-action sub-primitive-action >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
 ##########################----------Preference rules category: nl------------------########################
 
 ### setting preferences wrt nl and primitive actions

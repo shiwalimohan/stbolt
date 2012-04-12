@@ -1,6 +1,8 @@
 ### propose goto for all known locations
 sp {propose*goto*locations
-   (state <s> ^location <loc>)
+   (state <s> ^location <loc>
+   	      -^problem-space lgsoar
+	     -^superstate.operator.kind message-interpretation)
 -->
    (<s> ^operator <op> +)
    (<op> ^name goto
