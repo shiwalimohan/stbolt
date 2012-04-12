@@ -89,7 +89,7 @@ sp {interpret-relation*apply*identify-relation
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->
-   (<s> ^relation-identified <pr>
+   (<s> ^relation-identified true
         ^p1 <p1-val>
         ^p2 <p2-val>)
    (<rm> ^word <relation>)

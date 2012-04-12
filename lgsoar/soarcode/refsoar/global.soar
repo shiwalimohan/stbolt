@@ -39,7 +39,7 @@ sp	{global*apply*start-next-sentence
 }
 
 sp {global*propose*generate-predicates
-   (state <s> ^impasse no-change ^superstate <ss>)
+   (state <s> ^impasse no-change ^attribute state ^superstate <ss>)
    (<ss> ^problem-space lgsoar 
         -^predicates-generated 
          ^anaphor.unblock? no
@@ -48,6 +48,18 @@ sp {global*propose*generate-predicates
 -->
    (<ss> ^operator <o> + >)
    (<o> ^name generate-predicates ^priority -1)
+}
+
+# don't choke completely if some preds can't be generated
+sp {global*elaborate*generate-predicates*failed
+   (state <s> ^impasse no-change ^attribute operator ^superstate <ss>)
+   (<ss> ^operator.name generate-predicates
+         ^model.idea <id>)
+   (<id> ^nuc <nuc>
+        -^annotation pred-dumped)
+-->
+   (write (crlf) |WARNING: generate-predicates failed to find a predicate representation for idea | <id> |, nucleus | <nuc>)
+  (<id> ^annotation pred-dumped)
 }
 
 sp {global*propose*find-root
