@@ -1,0 +1,66 @@
+sp {propose*push-description-request
+   (state <s> ^topstate <s>
+              ^instructor-message.type description-request)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name push-description-request
+        ^category object-processing)
+}
+
+sp {apply*push-description-request
+   (state <s> ^operator.name push-description-request
+              ^instructor-message <msg>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type description-request
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<sat> ^dialog-event object-description)
+}
+
+# Returns the description of the object currently being pointed to
+
+# handles messages responding to description-request queries
+sp {propose*description-request
+   (state <s> ^topstate <s>
+              ^interaction.stack.segment.purpose <p>
+              ^io.input-link.pointed-object <id>
+              ^topstate.object <obj>)
+   (<p> ^type description-request)
+   (<obj> ^id <id>
+          ^external-desc <desc>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name description-request
+        ^category object-processing
+        ^message <m>)
+   (<m> ^type description
+        ^originator agent
+        ^fields.object <desc>)
+}
+
+sp {apply*description-request*generic-name
+   (state <s> ^operator <o>)
+   (<o> ^name description-request
+        ^message.fields.object <obj>)
+   (<obj> -^word <> object)
+-->
+   (<obj> ^word object)
+}
+
+sp {apply*description-request
+   (state <s> ^operator <o>
+              ^io.output-link <ol>)
+   (<o> ^name description-request
+        ^message <m>)
+-->
+   (<ol> ^send-message <m>)
+}
+
+sp {apply*description-request*mark*satisfied
+   (state <s> ^operator.name description-request
+              ^status <status>)
+-->
+   (<status> ^performed.dialog-event object-description)
+}
+   

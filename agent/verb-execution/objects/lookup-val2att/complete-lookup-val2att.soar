@@ -1,0 +1,54 @@
+# complete-lookup-val2att2att
+# Fetches the query result and adds the result to the superstate lookup-val2att operator
+# If successful, adds the found attribute to the operator
+# If failure, adds the word 'failure' to the operator
+
+# Knows a query is processed if there is a success or failure result
+sp {lookup-val2att*propose*complete-lookup-val2att
+   (state <s> ^name lookup-val2att
+              ^smem <smem>)
+   (<smem> ^command.query <query>
+           ^result.{<< success failure >>} <query>)
+   (<query> ^type val2att)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-lookup-val2att
+        ^category object-processing
+        ^query <query>)
+}
+
+# Remove the query from the smem.command link
+sp {lookup-val2att*apply*complete-lookup-val2att*remove*query
+   (state <s> ^name lookup-val2att
+              ^operator <o>
+              ^smem.command <cmd>)
+   (<o> ^name complete-lookup-val2att
+        ^query <query>)
+   (<cmd> ^query <query>)
+-->
+   (<cmd> ^query <query> -)
+}
+
+# failure
+sp {lookup-val2att*apply*complete-lookup-val2att*failure
+   (state <s> ^name lookup-val2att
+              ^operator.name complete-lookup-val2att
+              ^superstate.operator <ss-op>
+              ^smem.result.failure)
+-->
+   (<ss-op> ^attribute failure)
+}
+
+# success
+sp {lookup-val2att*apply*complete-lookup-val2att*success
+   (state <s> ^name lookup-val2att
+              ^operator <o>
+              ^smem.result <result>
+              ^superstate.operator <ss-op>)
+   (<o> ^name complete-lookup-val2att
+        ^query <query>)
+   (<result> ^success <query>
+             ^retrieved.attribute <att>)
+-->
+   (<ss-op> ^attribute <att>)
+}

@@ -23,7 +23,7 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         this.sbolt = sbolt;
         String[] outputHandlerStrings = { "goto", "action", "pick-up",
-                "put-down", "point", "send-message", "query", "remove-message"};
+                "put-down", "point", "send-message","remove-message"};
         for (String outputHandlerString : outputHandlerStrings)
         {
             this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
@@ -89,10 +89,6 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             processPointCommand(wme.ConvertToIdentifier());
         }
-        else if (wme.GetAttribute().equals("query"))
-        {
-            processQueryCommand(wme.ConvertToIdentifier());
-        }
         else if (wme.GetAttribute().equals("remove-message"))
         {
         	processRemoveMesageCommand(wme.ConvertToIdentifier());
@@ -130,6 +126,27 @@ public class OutputLinkHandler implements OutputEventInterface
             messageId.CreateStringWME("status", "error");
             throw new IllegalStateException("Message has no children");
         }
+        
+        if(WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first") == null){
+        	processAgentMessageStructureCommand(messageId);
+        } else {
+        	processAgentMessageStringCommand(messageId);
+        }
+    }
+	
+    private void processAgentMessageStructureCommand(Identifier messageId)
+    {
+        String type = WorkingMemoryUtil.getValueOfAttribute(messageId, "type",
+                "Message does not have ^type");
+        String message = "";
+        message = AgentMessageParser.translateAgentMessage(messageId);
+        if(!message.equals("")){
+            sbolt.getChatFrame().addMessage(message);
+        }
+        messageId.CreateStringWME("status", "complete");
+    }
+	
+	private void processAgentMessageStringCommand(Identifier messageId){
 
         String message = "";
         WMElement wordsWME = messageId.FindByAttribute("first", 0);
@@ -296,22 +313,21 @@ public class OutputLinkHandler implements OutputEventInterface
             return;
         }
         String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pointId,
-                "object-id", "point does not have an ^object-id attribute");
+                "id", "point does not have an ^object-id attribute");
+        
+        Identifier poseId = WorkingMemoryUtil.getIdentifierOfAttribute(pointId, "pose");
+        String x = WorkingMemoryUtil.getValueOfAttribute(poseId, "x");
+        String y = WorkingMemoryUtil.getValueOfAttribute(poseId, "y");
+        String z = WorkingMemoryUtil.getValueOfAttribute(poseId, "z");
+        
 
         String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
                 .getRobot().getId(), Integer.parseInt(objectIdStr));
         command.action = action;
+        command.updateDest = true;
+        command.dest[0] = Double.parseDouble(x);
+        command.dest[1] = Double.parseDouble(y);
+        command.dest[2] = Double.parseDouble(z);
         pointId.CreateStringWME("status", "complete");
-    }
-
-    private void processQueryCommand(Identifier queryId)
-    {
-        String type = WorkingMemoryUtil.getValueOfAttribute(queryId, "type",
-                "Query does not have ^type");
-        String message = "";
-        message = AgentMessageParser.translateAgentMessage(queryId);
-        if(!message.equals("")){
-            sbolt.getChatFrame().addMessage(message);
-        }
     }
 }

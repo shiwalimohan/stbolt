@@ -1,0 +1,18 @@
+# Proposes learn-att when the top segment on the interaction stack has the purpose of learning an attribute
+# segment.purpose <p>
+# (<p> ^type learn-att
+#	   ^parameters.internal <internal-att>
+#	   ^parameters.external <external-att>)
+sp {propose*learn-att
+   (state <s> ^topstate <s>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type learn-att
+        ^parameters.internal <internal-att>
+        ^parameters.external <external-att>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name learn-att
+        ^category object-processing
+        ^internal <internal-att>
+        ^external <external-att>)
+}

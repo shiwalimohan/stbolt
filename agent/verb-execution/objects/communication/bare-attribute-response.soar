@@ -1,0 +1,37 @@
+sp {apply*pop-segment*create*instructor-purpose*bare-attribute-response*learn-att
+   (state <s> ^topstate <s> 
+              ^operator.name pop-segment
+              ^interaction.stack.segment.purpose.parameters.query <q>
+              ^instructor-message <msg>)
+   (<msg> ^type bare-attribute-response
+          ^information.attribute <external-att>)
+   (<q> ^type << differs-from-group shared-att-val >>
+        ^internal-att <internal-att>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type learn-att
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^internal <internal-att>
+             ^external <external-att>)
+   (<sat> ^learning-event attribute)
+}
+
+sp {apply*pop-segment*create*instructor-purpose*bare-attribute-response*learn-val2att
+   (state <s> ^topstate <s> 
+              ^operator.name pop-segment
+              ^interaction.stack.segment.purpose.parameters.query <q>
+              ^instructor-message <msg>)
+   (<msg> ^type bare-attribute-response
+          ^information.attribute <external-att>)
+   (<q> ^type type-of-value
+        ^value <external-val>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type learn-val2att
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^attribute <external-att>
+             ^value <external-val>)
+   (<sat> ^learning-event val2att)
+}

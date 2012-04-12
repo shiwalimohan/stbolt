@@ -1,9 +1,0 @@
-sp {process-message*propose*att-rel-info
-   (state <s> ^name process-message
-             -^processed
-              ^message <m>)
-   (<m> ^type object-identification)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name att-rel-info)
-}

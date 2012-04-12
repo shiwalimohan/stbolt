@@ -22,7 +22,6 @@ import abolt.lcmtypes.robot_command_t;
 import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
-import edu.umich.soar.SoarProperties;
 
 import com.soartech.bolt.BOLTLGSupport;
 
@@ -73,6 +72,7 @@ public class SBolt implements LCMSubscriber
 
         Properties props = new Properties();
         try {
+
 			props.load(new FileReader("sbolt.properties.example"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -116,8 +116,7 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        agent.SpawnDebugger(kernel.GetListenerPort(),
-                new SoarProperties().getPrefix());
+        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
 
         world = new World();
 

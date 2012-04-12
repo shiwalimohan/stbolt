@@ -1,0 +1,74 @@
+# Adds needed structures to the topstate upon initialization
+sp {apply*init-agent*augment*topstate
+   (state <s> ^operator.name init-agent)
+-->
+   (<s> ^queries <q>)
+}
+
+
+# Adds the starting knowledge to semantic memory
+sp {apply*init-agent*store*smem
+   (state <s> ^io.input-link <in>
+              ^operator.name init-agent
+              ^smem.command <cmd>)
+-->
+   (<cmd> ^store #<a1> <v11> <v12> <v13> <v14> <v15> <v16> <v17> <v18>
+          		#<a2> <v21> <v22> <v23> <v24> 
+				#<a3> <v31> <v32> <v33> 
+				<a4> <v41> <v42> 
+				<a5> <v51> <v52> 
+				<a6> <v61> <v62> 
+				<a7> <v71> <v72> 
+				<a8> <v81> <v82> 
+				<a9> <v91> <v92> 
+				<a10> <v101> <v102>)
+   
+#   (<a1> ^type attribute ^internal color ^external color)
+#   (<v11> ^type value ^internal red ^external red)
+#   (<v12> ^type value ^internal green ^external green)
+#   (<v13> ^type value ^internal black ^external black)
+#   (<v14> ^type value ^internal beige ^external beige)
+#   (<v15> ^type value ^internal tan ^external tan)
+#   (<v16> ^type value ^internal beige ^external blue)
+#   (<v17> ^type value ^internal gray ^external gray)
+#   (<v18> ^type value ^internal blue ^external blue)
+#   
+#   (<a2> ^type attribute  ^internal shape ^external shape)
+#   (<v21> ^type value ^internal cube ^external cube)
+#   (<v22> ^type value ^internal sphere ^external sphere)
+#   (<v23> ^type value ^internal rectangle ^external rectangle)
+#   (<v24> ^type value ^internal cylinder ^external cylinder)
+#   
+#   (<a3> ^type attribute ^internal size ^external size)
+#   (<v31> ^type value ^internal small ^external small)
+#   (<v32> ^type value ^internal medium ^external medium)
+#   (<v33> ^type value ^internal large ^external large)
+   
+   (<a4> ^type attribute  ^internal cooked-state ^external cooked-state)
+   (<v41> ^type value ^internal raw ^external raw)
+   (<v42> ^type value ^internal cooked ^external cooked)
+   
+   (<a5> ^type attribute ^internal clean-state ^external clean-state)
+   (<v51> ^type value ^internal dirty ^external dirty)
+   (<v52> ^type value ^internal clean ^external clean)
+   
+   (<a6> ^type attribute  ^internal door ^external door)
+   (<v61> ^type value ^internal open ^external open)
+   (<v62> ^type value ^internal closed ^external closed)
+   
+   (<a7> ^type attribute ^internal cooking ^external cooking)
+   (<v71> ^type value ^internal on ^external on)
+   (<v72> ^type value ^internal off ^external off)
+   
+   (<a8> ^type attribute  ^internal full ^external full)
+   (<v81> ^type value ^internal true ^external true)
+   (<v82> ^type value ^internal false ^external false)
+   
+   (<a9> ^type attribute ^internal toggle ^external toggle)
+   (<v91> ^type value ^internal on ^external on)
+   (<v92> ^type value ^internal off ^external off)
+   
+   (<a10> ^type attribute  ^internal fullness ^external fullness)
+   (<v101> ^type value ^internal stocked ^external stocked)
+   (<v102> ^type value ^internal empty ^external empty)
+}

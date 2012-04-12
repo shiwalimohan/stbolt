@@ -76,5 +76,5 @@ sp {interpret-relation-question*elaborate*return-interpretation
               ^relation-predicates.interpretation.relation <oi>) # comes from interpret-relation
 -->
    (<int> ^relation <oi>)
-   (<p> ^interpretation <int>)
+   (<p> ^interpretation.relation-question <int>)
 }

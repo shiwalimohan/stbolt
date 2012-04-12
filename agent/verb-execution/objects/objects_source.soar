@@ -1,0 +1,153 @@
+##############------- CONFIGURATION -----############
+smem --set learning on
+
+#########------- SETUP AND INITIALIZATION -----#######
+#  init-objects
+######################################################
+
+source init-objects.soar
+# Initializes objects and adds knowledge to semantic memory
+
+
+########------- ELABORATIONS and PREFERENCES -----#######
+#  elaborations
+#  preferences
+#########################################################
+
+pushd elaborations
+source elaborations_source.soar
+# Contains basic elaborations used across objects
+popd
+
+source preferences.soar
+
+
+########------- SMEM OPERATIONS ------######
+# lookup-att
+# lookup-val
+# lookup-val2att
+############################################
+
+pushd lookup-att
+source lookup-att_source.soar
+# Looks up an attribute from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-att
+#		^internal <internal-att>
+#		^external <external-att>
+# NOTE: you should only have one of the above ^internal or ^external attributes
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
+popd
+
+pushd lookup-val
+source lookup-val_source.soar
+# Looks up a value from smem
+#	You can lookup by external or by internal representation
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-val
+#		^internal <internal-val>
+#		^external <external-val>
+# NOTE: you should only have one of the above ^internal or ^external values
+#		leaving one off the operator denotes which you are looking for
+# If successful, adds ^external <word> or ^internal <word> to the operator
+# If failure, adds ^external failure or ^internal failure to the operator
+popd
+
+pushd lookup-val2att
+source lookup-val2att_source.soar
+# Looks up an attribute from smem based on the value
+#   These are for external representations
+# Propose the following operator:
+#	<s> ^operator <o>
+#	<o> ^name lookup-att2val
+#		^value <external-val>
+#       ^attribute <external-att>
+# NOTE: you should only specify the ^value WME
+# If successful, adds ^attribute <word> to the operator
+# If failure, adds ^attribute failure to the operator
+popd
+
+
+
+########----------- COMMUNICATION ----------#######
+#  value-question
+#  ask-query
+#  communication
+#########################################################
+
+source value-question.soar
+# If there is an object with a known attribute and unknown value then 
+#	the user is asked what that value is
+
+
+pushd ask-query
+ source ask-query_source.soar
+#	If there is a query structure on the top state and no current-query
+#		this operator will ask the query by creating a structure on the output link
+popd
+
+pushd communication
+source communication_source.soar
+popd
+
+##########-------- OBJECT PROCESSING -------#######
+#  create-object
+#  find-object
+#  comprehend-att
+#########################################################
+
+pushd create-object
+source create-object_source.soar
+#	When an object comes in on the input link this operator
+#		creates a working memory representation of that object
+#	It also uses semantic memory to match internal terms for attributes and values
+#		to external words if it has that knowledge
+popd
+
+pushd find-object
+source find-object_source.soar
+popd
+
+pushd comprehend-att
+ source comprehend-att_source.soar
+popd
+
+#######---------- LEARNING-EVENTS -------#######
+#  learn-val
+#  learn-att
+#  learn-val2att
+################################################
+
+pushd learn-val
+source learn-val.soar
+popd 
+# Proposes learn-val when the top segment on the interaction stack has the purpose of learning a value
+# segment.purpose <p>
+# (<p> ^type learn-val
+#	   ^parameters.internal <internal-val>
+#	   ^parameters.external <external-val>
+#      ^parameters.attribute <external-att>) !!! OPTIONAL !!!
+
+pushd learn-att
+source learn-att_source.soar
+popd
+# Proposes learn-att when the top segment on the interaction stack has the purpose of learning an attribute
+# segment.purpose <p>
+# (<p> ^type learn-att
+#	   ^parameters.internal <internal-att>
+
+pushd learn-val2att
+source learn-val2att_source.soar
+popd
+# Proposes learn-val2att when the top segment on the interaction stack has 
+# the purpose of learning a value to attribute matching
+# segment.purpose <p>
+# (<p> ^type learn-val2att
+#	   ^parameters.attribute <external-att>
+#	   ^parameters.value <external-val>)
+#	   ^parameters.external <external-att>)
