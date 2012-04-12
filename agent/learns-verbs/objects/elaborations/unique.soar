@@ -1,0 +1,45 @@
+# Adds a unique flag to each object if its description can uniquely identify it from the other objects
+
+# Different than an object if the names are different
+sp {elaborate*different*name
+   (state <s> ^superstate nil
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> ^name <name>
+          ^comparisons <comp>)
+   (<obj2> -^name <name>)
+-->
+   (<comp> ^different <obj2>)
+}
+
+# Different than an object if it has a different adjective
+sp {elaborate*different*missing-adj
+   (state <s> ^superstate nil
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> ^name <name>
+          ^comparisons <comp>
+          ^desc.<att> <adj>)
+   (<obj2> -^desc.<att2> <adj>)
+-->
+   (<comp> ^different <obj2>)
+}
+
+# Not unique if there are no differences between it an another object
+sp {elaborate*unique*false
+   (state <s> ^superstate nil
+              ^object <obj>
+              ^object {<obj2> <> <obj>})
+   (<obj> -^comparisons.different <obj2>)
+-->
+   (<obj> ^unique false)
+}
+
+# Otherwise it is unique
+sp {elaborate*unique*true
+   (state <s> ^superstate nil
+              ^object <obj>)
+   (<obj> -^unique false)
+-->
+   (<obj> ^unique true)
+}

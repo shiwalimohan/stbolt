@@ -1,8 +1,0 @@
-# Copies a message from io.input-link to the nl.input-link
-sp {elaborate*nl*message
-   (state <s> ^name obj-analyzer
-              ^nl.input-link <nl>
-              ^io.input-link.message <m>)
--->
-   (<nl> ^message <m>)
-}

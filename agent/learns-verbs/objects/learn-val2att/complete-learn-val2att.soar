@@ -1,0 +1,40 @@
+sp {propose*complete-learn-val2att
+   (state <s> ^name learn-val2att)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-learn-val2att
+        ^category object-processing)
+}
+
+# Causes the end of the current segment
+sp {apply*complete-learn-val2att*mark*satisfied
+   (state <s> ^name learn-val2att
+              ^operator.name complete-learn-val2att
+              ^topstate.status <status>)
+-->
+   (<status> ^performed.learning-event val2att)
+}
+
+# Removes other queries that ask for the same value
+sp {learn-val2att*apply*process-type-of-value*remove*similar*queries
+   (state <s> ^name learn-val2att
+              ^operator.name complete-learn-val2att
+              ^external-val <external-val>
+              ^topstate.queries <qs>)
+   (<qs> ^query <q>)
+   (<q> ^type type-of-value
+        ^value <external-val>)
+-->
+   (<qs> ^query <q> -)
+}
+
+sp {learn-val2att*apply*complete-learn-val2att*comprehend-att
+   (state <s> ^name learn-val2att
+              ^operator.name complete-learn-val2att
+              ^internal-att failure
+              ^external-att <external-att>
+              ^topstate <top>)
+   -{(<top> ^comprehend-att.external <external-att>)}
+-->
+   (<top> ^comprehend-att.external <external-att>)
+}

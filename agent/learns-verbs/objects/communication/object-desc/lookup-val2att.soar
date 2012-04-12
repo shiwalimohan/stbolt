@@ -1,0 +1,49 @@
+sp {shared-att-val*propose*lookup-val2att
+   (state <s> ^name object-desc
+             -^object.desc.<att> <adj>
+              ^description.adjective <adj>
+             -^copied <adj>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name lookup-val2att
+        ^category object-processing
+        ^value <adj>)
+}
+
+# Creates a new att-val-pair structure in the mapping with no attribute
+sp {object-desc*apply*lookup-val2att*failure*new*av-pair
+   (state <s> ^name object-desc
+              ^operator <o>
+              ^object.mapping <map>)
+   (<o> ^name lookup-val2att
+        ^value <val>
+        ^attribute failure)
+-->
+   (<map> ^att-val-pair <av-pair>)
+   (<av-pair> ^att <att>
+              ^val.external <val>)
+}
+
+# Creates a new att-val-pair structure in the mapping with the retrieved attribute
+sp {object-desc*apply*lookup-val2att*success*new*av-pair
+   (state <s> ^name object-desc
+              ^operator <o>
+              ^object.mapping <map>)
+   (<o> ^name lookup-val2att
+        ^value <val>
+        ^attribute {<att> <> failure})
+-->
+   (<map> ^att-val-pair <av-pair>)
+   (<av-pair> ^att.external <att>
+              ^val.external <val>)
+}
+
+sp {object-desc*apply*lookup-val2att*mark*copied
+   (state <s> ^name object-desc
+              ^operator <o>)
+   (<o> ^name lookup-val2att
+        ^value <val>
+        ^attribute <att>)
+-->
+   (<s> ^copied <val>)
+}

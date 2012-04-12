@@ -1,0 +1,9 @@
+source bare-value-response.soar
+source bare-attribute-response.soar
+
+pushd object-desc
+source object-desc_source.soar
+popd
+
+source description-request.soar
+source recognition-question.soar

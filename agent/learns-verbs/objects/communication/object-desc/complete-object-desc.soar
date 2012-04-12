@@ -1,0 +1,42 @@
+sp {object-desc*propose*complete-object-desc
+   (state <s> ^name object-desc)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-object-desc
+        ^category object-processing)
+}
+
+# Mark the action performed in the interaction stack
+sp {object-desc*apply*complete-object-desc
+   (state <s> ^name object-desc
+              ^operator.name complete-object-desc
+              ^topstate.status <status>)
+-->
+   (<status> ^performed.learning-event object)
+}
+
+# Ask a query if there is an adjective is unknown
+sp {object-desc*apply*complete-object-desc*query
+   (state <s> ^name object-desc
+              ^operator.name complete-object-desc
+              ^object.desc.unknown <adj>
+              ^topstate.queries <qs>)
+-->
+   (<qs> ^query <q>)
+   (<q> ^type type-of-value
+        ^value <adj>)
+}
+
+# Add that to a list to comprehend in case it can be learned
+sp {object-desc*apply*complete-object-desc*comprehend-att
+   (state <s> ^name object-desc
+              ^operator.name complete-object-desc
+              ^topstate <top>
+              ^object <obj>)
+   (<obj> ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att-type {<att-type> << internal external >>}
+              ^att.<att-type> <attribute>)
+   (<top> -^comprehend-att.<att-type> <attribute>)
+-->
+   (<top> ^comprehend-att.<att-type> <attribute>)
+}
