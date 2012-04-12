@@ -50,7 +50,7 @@ sp {top-state*propose*interpret-sentence
        ^sentence <sent>
        ^kind interpretation)
 }
-
+R
 sp {elaborate*prefer-older-sentences
    (state <s> ^superstate nil
               ^operator <o1> +
