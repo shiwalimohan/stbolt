@@ -330,6 +330,4 @@ public class OutputLinkHandler implements OutputEventInterface
         command.dest[2] = Double.parseDouble(z);
         pointId.CreateStringWME("status", "complete");
     }
-
-
 }
