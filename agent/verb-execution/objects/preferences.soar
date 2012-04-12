@@ -1,0 +1,96 @@
+#######------ object-processing ------#####
+sp {elaborate*pref-rank*create-object
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name delete-object)
+-->
+   (<o> ^pref-rank 0)
+}
+
+# Rank 1: create-object
+sp {elaborate*pref-rank*create-object
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name create-object)
+-->
+   (<o> ^pref-rank 1)
+}
+
+# Rank 2: learn-att learn-val
+sp {elaborate*pref-rank*learning
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name << learn-att learn-val learn-val2att >> )
+-->
+   (<o> ^pref-rank 2)
+}
+
+# Rank 3: object-desc
+sp {elaborate*pref-rank*object-desc
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name object-desc)
+-->
+   (<o> ^pref-rank 3)
+}
+
+
+# Rank 4: ask-query
+sp {elaborate*pref-rank*ask-query
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name ask-query)
+-->
+   (<o> ^pref-rank 4)
+}
+
+# Rank 4: comprehend-att
+sp {elaborate*pref-rank*comprehend-att
+   (state <s> ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name comprehend-att)
+-->
+   (<o> ^pref-rank 4)
+}
+
+# Prefer external comprehend-att > ask-query > internal comprehend-att
+sp {prefer*external*comprehend-att*over*ask-query
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name comprehend-att
+         ^type external)
+   (<o2> ^name ask-query)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {prefer*ask-query*over*internal*comprehend-att
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name ask-query)
+   (<o2> ^name comprehend-att
+         ^type internal)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+
+#
+# Rank 6: value-question
+sp {elaborate*pref-rank*value-question
+   (state <s>  ^topstate <s>
+              ^operator <o> +)
+   (<o> ^name value-question)
+-->
+   (<o> ^pref-rank 6)
+}
+
+# Prefer a lower rank to a higher one
+sp {prefer*lower*pref-rank
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^pref-rank <rank>)
+   (<o2> ^pref-rank > <rank>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

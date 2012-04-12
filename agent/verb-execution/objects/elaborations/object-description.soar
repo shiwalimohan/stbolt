@@ -1,0 +1,49 @@
+# Creates the descriptions of the object, both internal and external
+# (<obj> ^desc <desc> and <obj> ^external-desc <desc>)
+# The internal description is the one used for internal reasoning
+# The external description is what would go on the output link to refer to the object
+
+# Adds an attribute/value pair to the description
+sp {elaborate*object-description
+   (state <s> ^superstate nil
+              ^object <obj>)
+   (<obj> ^desc <desc>
+          ^mapping.att-val-pair <av-pair>)
+   (<av-pair> ^att.external <external-att>
+              ^val.external <external-val>)
+-->
+   (<desc> ^<external-att> <external-val>)
+}
+
+# If only the value is known, add it with the attribute 'unknown'
+sp {elaborate*object-description*unknown-att
+   (state <s> ^superstate nil
+              ^object <obj>)
+   (<obj> ^desc <desc>
+          ^mapping.att-val-pair <av-pair>)
+   (<av-pair> -^att.external
+              ^val.external <external-val>)
+-->
+   (<desc> ^unknown <external-val>)
+}
+
+# Adds an adjective to the external description
+sp {elaborate*object-external-description*adj
+   (state <s> ^superstate nil
+              ^object <obj>)
+   (<obj> ^external-desc <external-desc>
+          ^desc <desc>)
+   (<desc> ^<att> <adj>)
+-->
+   (<external-desc> ^adjective <adj>)
+}
+
+# Adds the name (word) to the external description
+sp {elaborate*object-external-description*name
+   (state <s> ^superstate nil
+              ^object <obj>)
+   (<obj> ^external-desc <external-desc>
+          ^name <name>)
+-->
+   (<external-desc> ^word <name>)
+}
