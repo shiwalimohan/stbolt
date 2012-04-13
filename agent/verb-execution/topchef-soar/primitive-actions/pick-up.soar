@@ -2,8 +2,7 @@
 
 sp {propose*pickup*object
    (state <s> ^object <obj>
-   	     -^problem-space lgsoar
-	     -^superstate.operator.kind message-interpretation)
+   	      -^problem-space << lgsoar message-interpretation >>)
    (<obj> ^id <id>
    	  ^close-by yes)
  -->

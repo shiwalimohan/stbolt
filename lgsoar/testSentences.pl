@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-if ($ARGV[0] == "--simple") {
+if ($ARGV[0] =~ /"--simple"/) {
 	$singlePriority = 1;
 	$simple = 1;
 }
@@ -122,6 +122,9 @@ else {
 		1],	
 	["What is the shape of this?",
 		"DEF(N2) of(N2,N5) shape(N2) this(N5) what(N2)",
+		1],	
+	["What is the color of the big block?",
+		"DEF(N2) DEF(N6) big(N6) block(N6) color(N2) of(N2,N6) what(N2)",
 		1],	
 	# Describe the spatial relationship between <adj?> <noun> and <adj?> <noun>.
 	["Describe the spatial relationship between the red ball and the yellow block.",
