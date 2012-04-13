@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.World;
 
 import sml.Agent;
@@ -24,6 +25,8 @@ public class InputLinkHandler implements RunEventInterface
     private Identifier inputLinkId;
 
     private World world;
+    
+    private boolean needToClearLGMessages = false;
 
     public InputLinkHandler(World world, SBolt sbolt)
     {
@@ -41,6 +44,10 @@ public class InputLinkHandler implements RunEventInterface
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
         world.updateInputLink(inputLinkId);
+        
+        if(needToClearLGMessages){
+        	clearLGMessages_internal();
+        }
 
         if (agent.IsCommitRequired())
         {
@@ -48,7 +55,24 @@ public class InputLinkHandler implements RunEventInterface
         }
     }
     
-    public void clearMessages(){
-    	world.clearMessages();
+    public void clearLGMessages(){
+    	needToClearLGMessages = true;
+    }
+    
+    private void clearLGMessages_internal(){
+    	Identifier lgID = WorkingMemoryUtil.getIdentifierOfAttribute(inputLinkId, "lg");
+    	if(lgID != null){
+    		List<WMElement> wmesToDestroy = new ArrayList<WMElement>();
+    		int i = 0;
+    		for(WMElement wme = lgID.GetChild(i); wme != null; wme = lgID.GetChild(++i)){
+    			if(wme.GetAttribute().equals("sentence")){
+    				wmesToDestroy.add(wme);
+    			}
+    		}
+    		for(WMElement wme : wmesToDestroy){
+    			wme.DestroyWME();
+    		}
+    	}
+    	needToClearLGMessages = false;
     }
 }

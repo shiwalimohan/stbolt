@@ -1,5 +1,8 @@
 package edu.umich.sbolt.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.umich.sbolt.language.BOLTDictionary;
 import edu.umich.sbolt.language.Parser;
 import sml.Identifier;
@@ -38,8 +41,6 @@ public class Messages implements IInputLinkElement
 
     private Parser parser;
     
-    private boolean needsCleared = false;
-    
 
     public Messages(World world){
         latestMessage = "";
@@ -52,7 +53,7 @@ public class Messages implements IInputLinkElement
 
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
-    {
+    {        
         if(!messageChanged){
             return;
         }
@@ -67,12 +68,6 @@ public class Messages implements IInputLinkElement
         messageId.CreateIntWME("id", latestMessageId);
         parser.getSoarSpeak(latestMessage, messageId);
         messageChanged = false;
-        
-        if(needsCleared){
-        	needsCleared = false;
-        }
-        
-        
     }
 
     @Override
@@ -83,11 +78,6 @@ public class Messages implements IInputLinkElement
             messageId = null;
         }
     }
-    
-    public void clear(){
-    	needsCleared = true;
-    }
-    
     
     public synchronized void addMessage(String message){
         latestMessageId++;

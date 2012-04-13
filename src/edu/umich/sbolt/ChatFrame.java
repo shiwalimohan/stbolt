@@ -3,6 +3,9 @@ package edu.umich.sbolt;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,15 +75,6 @@ public class ChatFrame extends JFrame
         
         JMenuBar menuBar = new JMenuBar();        
         
-        JButton JButton = new JButton("Exit");
-        JButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				exit();
-			}
-        });
-        menuBar.add(JButton);
-        
         JButton clearButton  = new JButton("Clear");
         clearButton.addActionListener(new ActionListener(){
 			@Override
@@ -90,14 +84,20 @@ public class ChatFrame extends JFrame
         });
         menuBar.add(clearButton);
         
-        
         setJMenuBar(menuBar);
+        
+        addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent w) {
+        		exit();
+        	}
+     	});
     }
     
     public void clear(){
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");
+    	sbolt.getInputLink().clearLGMessages();
     }
     
     public void exit(){
@@ -145,4 +145,5 @@ public class ChatFrame extends JFrame
     {
         this.setVisible(false);
     }
+
 }

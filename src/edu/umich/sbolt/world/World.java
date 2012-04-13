@@ -69,12 +69,7 @@ public class World implements IInputLinkElement
     	}
     	else return;
     }
-    
-    public void clearMessages(){
-    	messages.clear();
-    }
-    
-    
+
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
         for(String sensable : observation.sensables){

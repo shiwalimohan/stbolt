@@ -72,8 +72,7 @@ public class SBolt implements LCMSubscriber
 
         Properties props = new Properties();
         try {
-
-			props.load(new FileReader("sbolt.properties.example"));
+			props.load(new FileReader("sbolt.properties"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
