@@ -1,3 +1,4 @@
+smem --init
 pushd ./topchef-soar
 source all_source.soar
 popd
@@ -8,6 +9,14 @@ popd
 
 pushd ./interaction
 source all_source.soar
+popd
+
+pushd ../../lgsoar/soarcode/
+source bolt-lgsoar.soar
+popd
+
+pushd objects2
+source objects_source.soar
 popd
 
 source default.soar

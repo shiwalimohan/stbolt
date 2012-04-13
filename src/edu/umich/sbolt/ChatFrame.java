@@ -1,5 +1,6 @@
 package edu.umich.sbolt;
 
+import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -7,10 +8,16 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
+import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
 import com.soartech.bolt.BOLTLGSupport;
 
@@ -56,12 +63,47 @@ public class ChatFrame extends JFrame
         JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane,
                 pane2);
 
-        pane1.setDividerLocation(200);
-        pane2.setDividerLocation(450);
+        pane1.setDividerLocation(325);
+        pane2.setDividerLocation(600);
 
         this.add(pane1);
-        this.setSize(600, 300);
+        this.setSize(800, 450);
         this.getRootPane().setDefaultButton(button);
+        
+        JMenuBar menuBar = new JMenuBar();        
+        
+        JButton JButton = new JButton("Exit");
+        JButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				exit();
+			}
+        });
+        menuBar.add(JButton);
+        
+        JButton clearButton  = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				clear();
+			}
+        });
+        menuBar.add(clearButton);
+        
+        
+        setJMenuBar(menuBar);
+    }
+    
+    public void clear(){
+    	chatMessages.clear();
+    	chatField.setText("");
+    	chatArea.setText("");
+    }
+    
+    public void exit(){
+    	sbolt.getAgent().KillDebugger();
+    	sbolt.getKernel().DestroyAgent(sbolt.getAgent());
+    	System.exit(0);
     }
 
     public void addMessage(String message)
@@ -84,7 +126,7 @@ public class ChatFrame extends JFrame
     	if (lgSupport == null) {
     		sbolt.getWorld().newMessage(message);
     	}
-    	else if(message.charAt(0) == ':'){
+    	else if(message.length() > 0 && message.charAt(0) == ':'){
     		// Prefixing with a : goes to Soar's message processing
     		sbolt.getWorld().newMessage(message.substring(1));
     	} else {

@@ -49,7 +49,7 @@ sp {preference*wait-for-instructor*worse-than
    (state <s> ^operator <op1> +
    	      ^operator <op2> +) 
    (<op2> ^name wait-for-instructor)
-   (<op1> ^category << communication natural-language interaction-stack object-processing >>)
+   (<op1> ^category << communication natural-language interaction-stack object-processing smem >>)
 -->
    (<s> ^operator <op2> < <op1>)
 }
@@ -66,6 +66,27 @@ sp {preference*object-processing*better-than
    (<s> ^operator <op2> > <op1>)
 }
 
+sp {prefer*no-cat*over*object-processing
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> -^category)
+   (<o2> ^category << object-processing smem >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+#########################-----------Preference rules category: smem ----------------------#######################
+
+### prefer smem operators over most others
+sp {preference*smem*better-than
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +) 
+   (<op2> ^category smem)
+   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action communication object-processing >>)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+
 
 ##########################----------Preference rules category: interaction-stack----------------------########################
 
@@ -74,7 +95,7 @@ sp {preference*interaction-stack*better-than
    (state <s> ^operator <op1> +
    	      ^operator <op2> +) 
    (<op2> ^category interaction-stack)
-   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action communication object-processing >>)
+   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action communication object-processing smem >>)
 -->
    (<s> ^operator <op2> > <op1>)
 }

@@ -47,4 +47,8 @@ public class InputLinkHandler implements RunEventInterface
             agent.Commit();
         }
     }
+    
+    public void clearMessages(){
+    	world.clearMessages();
+    }
 }

@@ -38,6 +38,8 @@ public class Messages implements IInputLinkElement
 
     private Parser parser;
     
+    private boolean needsCleared = false;
+    
 
     public Messages(World world){
         latestMessage = "";
@@ -65,6 +67,12 @@ public class Messages implements IInputLinkElement
         messageId.CreateIntWME("id", latestMessageId);
         parser.getSoarSpeak(latestMessage, messageId);
         messageChanged = false;
+        
+        if(needsCleared){
+        	needsCleared = false;
+        }
+        
+        
     }
 
     @Override
@@ -74,6 +82,10 @@ public class Messages implements IInputLinkElement
             messageId.DestroyWME();
             messageId = null;
         }
+    }
+    
+    public void clear(){
+    	needsCleared = true;
     }
     
     

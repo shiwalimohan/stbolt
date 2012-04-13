@@ -141,6 +141,10 @@ public class SBolt implements LCMSubscriber
         running = false;
         chatFrame.showFrame();
     }
+    
+    public Kernel getKernel(){
+    	return kernel;
+    }
 
     public Agent getAgent()
     {
