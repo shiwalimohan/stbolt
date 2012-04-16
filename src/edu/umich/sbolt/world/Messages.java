@@ -1,5 +1,8 @@
 package edu.umich.sbolt.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.umich.sbolt.language.BOLTDictionary;
 import edu.umich.sbolt.language.Parser;
 import sml.Identifier;
@@ -50,7 +53,7 @@ public class Messages implements IInputLinkElement
 
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
-    {
+    {        
         if(!messageChanged){
             return;
         }
@@ -75,7 +78,6 @@ public class Messages implements IInputLinkElement
             messageId = null;
         }
     }
-    
     
     public synchronized void addMessage(String message){
         latestMessageId++;

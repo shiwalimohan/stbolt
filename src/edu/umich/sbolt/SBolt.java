@@ -72,10 +72,10 @@ public class SBolt implements LCMSubscriber
 
         Properties props = new Properties();
         try {
-					props.load(new FileReader("sbolt.properties"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			props.load(new FileReader("sbolt.properties"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
         String agentSource = props.getProperty("agent");
         
@@ -140,6 +140,10 @@ public class SBolt implements LCMSubscriber
 
         running = false;
         chatFrame.showFrame();
+    }
+    
+    public Kernel getKernel(){
+    	return kernel;
     }
 
     public Agent getAgent()

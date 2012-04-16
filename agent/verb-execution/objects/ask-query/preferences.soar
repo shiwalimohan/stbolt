@@ -24,5 +24,3 @@ sp {prefer*shared-att-value*over*differs-from-group
 -->
    (<s> ^operator <o1> > <o2>)
 }
-
-   

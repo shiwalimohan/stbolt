@@ -12,6 +12,8 @@ popd
 
 source default.soar
 
+source preferences.soar
+
 
 sp {propose*init-agent
    (state <s> -^name

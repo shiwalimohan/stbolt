@@ -72,5 +72,5 @@ sp {interpret-object-question*elaborate*return-interpretation
               ^object-predicates.interpretation.object <oi>) # comes from interpret-object
 -->
    (<int> ^object <oi>)
-   (<p> ^interpretation <int>)
+   (<p> ^interpretation.object-question <int>)
 }

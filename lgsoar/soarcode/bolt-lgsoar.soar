@@ -47,7 +47,8 @@ sp {top-state*propose*interpret-sentence
 -->
   (<s> ^operator <o> +)
   (<o> ^name interpret-sentence
-       ^sentence <sent>)
+       ^sentence <sent>
+       ^kind interpretation)
 }
 
 sp {elaborate*prefer-older-sentences

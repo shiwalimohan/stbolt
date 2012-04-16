@@ -62,3 +62,9 @@ sp {misc*interpret-old-messages-before-lgsoar
 -->
    (<s> ^operator <o2> > <o1>)
 }
+
+sp {misc*elaborate*message-interpretation*problem-space
+   (state <s> ^superstate.operator.kind message-interpretation)
+-->
+   (<s> ^problem-space message-interpretation)
+}
