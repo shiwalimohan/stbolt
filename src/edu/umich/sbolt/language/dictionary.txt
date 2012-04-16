@@ -1,5 +1,5 @@
-NOUN: block table ball pantry cylinder stove dishwasher blocka blockb blockc blockd
-ADJECTIVE: red green blue gray large medium small round square
+NOUN: block table ball pantry cylinder stove dishwasher blocka blockb blockc blockd sphere
+ADJECTIVE: red green blue gray large medium small round square spherical
 VERB: put get go pick
 DETERMINER: a the that
 PREPOSITION: on in from to up down

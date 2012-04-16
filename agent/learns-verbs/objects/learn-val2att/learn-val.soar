@@ -1,0 +1,38 @@
+# When a new attribute is learned, these rules try to find values of that attribute that can also be learned
+
+sp {learn-val2att*propose*learn-val
+   (state <s> ^name learn-val2att
+              ^internal-att {<internal-att> <> failure}
+              ^external-val <external-val>
+              ^topstate.object.mapping <map>)
+   (<map> ^att-val-pair.val.external <external-val>
+          ^att-val-pair <av-pair>)
+   (<av-pair> ^att.internal <internal-att>
+              ^val.internal <internal-val>
+             -^val.external <external-val>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name learn-val
+        ^category object-processing
+        ^internal <internal-val>
+        ^external <external-val>)
+}
+
+sp {learn-val2att*apply*learn-val
+   (state <s> ^name learn-val2att
+              ^operator <o>
+              ^topstate.status <status>)
+   (<o> ^name learn-val
+        ^internal <internal-val>
+        ^external <external-val>)
+-->
+   (<status> ^type learning
+             ^state-name topstate
+             ^purpose <p>)
+   (<p> ^type learn-val
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^internal <internal-val>
+             ^external <external-val>)
+   (<sat> ^learning-event value)
+}

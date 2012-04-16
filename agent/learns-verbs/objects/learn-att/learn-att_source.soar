@@ -1,0 +1,28 @@
+# learn-att - Handles when the top segment has a learning-event for an attribute
+
+source propose*learn-att.soar
+# Proposes learn-att when the top segment on the interaction stack has the purpose of learning an attribute
+# segment.purpose <p>
+# (<p> ^type learn-att
+#	   ^parameters.internal <internal-att>
+#	   ^parameters.external <external-att>)
+
+# Causes Soar to enter a substate
+
+source elaborations.soar
+# Elaborates the substate with the useful information regarding the attributes to be learned
+
+source preferences.soar
+# Enforces the following order of operators in the substate:
+
+	source learn-val.soar
+	# First learns any values that it can make a match with (another segment will be pushed and popped)
+	
+	source store-att.soar
+	# Then stores the attribute mapping in semantic memory
+
+	source update-objects.soar
+	# Then updates the objects with the new mapping
+
+	source complete-learn-att.soar
+	# Finally exits the substate by marking the satisfaction complete on the top state

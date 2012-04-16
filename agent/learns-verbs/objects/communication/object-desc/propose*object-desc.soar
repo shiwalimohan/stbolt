@@ -1,0 +1,11 @@
+sp {propose*object-desc
+   (state <s> ^topstate <s>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type object-desc
+        ^parameters.object <obj>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name object-desc
+        ^category object-processing
+        ^object <obj>)
+}

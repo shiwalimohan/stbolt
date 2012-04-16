@@ -1,0 +1,82 @@
+sp {propose*push-recognition-question
+   (state <s> ^topstate <s>
+              ^instructor-message.type recognition-question)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name push-recognition-question
+        ^category object-processing)
+}
+
+sp {apply*push-recognition-question
+   (state <s> ^operator.name push-recognition-question
+              ^instructor-message <msg>)
+   (<msg> ^information.object <desc>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type recognition-question
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<sat> ^action-event point)
+   (<params> ^description <desc>)
+}
+
+# Returns points to the described object
+
+sp {recognition-question*propose*find-object
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type recognition-question)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name find-object
+        ^category object-processing
+        ^description <desc>)
+}
+
+sp {recognition-question*find-object*elaborate*name
+   (state <s> ^operator <o> +
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type recognition-question
+        ^parameters.description.word <word>)
+   (<o> ^name find-object
+        ^description <desc>)
+-->
+   (<desc> ^name <word>)
+}
+
+sp {recognition-question*find-object*elaborate*adjective
+   (state <s> ^operator <o> +
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type recognition-question
+        ^parameters.description.adjective <adj>)
+   (<o> ^name find-object
+        ^description <desc>)
+-->
+   (<desc> ^adjective <adj>)
+}
+
+sp {recognition-question*apply*find-object
+   (state <s> ^operator <o>
+              ^interaction.stack.segment.purpose.type recognition-question
+              ^status <status>)
+   (<o> ^name find-object
+        ^match <m>)
+-->
+   (<status> ^performed.action-event point)
+}
+
+sp {recogition-question*apply*find-object*point
+   (state <s> ^operator <o>
+              ^io.output-link <out>
+              ^topstate.object <obj>
+              ^interaction.stack.segment.purpose.type recognition-question)
+   (<o> ^name find-object
+        ^match.id <id>)
+   (<obj> ^id <id>
+          ^pose <pose>)
+-->
+   (<out> ^point <point>)
+   (<point> ^id <id>
+            ^pose <pose>)
+}

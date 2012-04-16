@@ -1,7 +1,0 @@
-sp {propose*init-XXX
-   (state <s> ^name XXX)
-   # Test here that the substate has just been created
--->
-   (<s> ^operator <o> + >)
-   (<o> ^name init-XXX)
-}

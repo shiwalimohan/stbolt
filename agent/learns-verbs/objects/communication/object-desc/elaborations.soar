@@ -1,0 +1,15 @@
+sp {object-desc*elaborate*description
+   (state <s> ^name object-desc
+              ^superstate.operator.object <obj>)
+-->
+   (<s> ^description <obj>)
+}
+
+sp {object-desc*elaborate*object
+   (state <s> ^name object-desc
+              ^io.input-link.pointed-object <obj-id>
+              ^topstate.object <obj>)
+   (<obj> ^id <obj-id>)
+-->
+   (<s> ^object <obj>)
+}

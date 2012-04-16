@@ -1,0 +1,27 @@
+# Stores the attribute-val matching in semantic memory
+sp {learn-val2att*propose*store-val2att
+   (state <s> ^name learn-val2att
+             -^stored)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name store-val2att
+        ^category object-processing)
+}
+
+sp {learn-val2att*apply*store-val2att
+   (state <s> ^name learn-val2att
+              ^operator.name store-val2att
+              ^external-att <external-att>
+              ^external-val <external-val>
+              ^smem.command <smem-cmd>)
+-->
+   (<smem-cmd> ^store <val2att>)
+   (<val2att> ^type val2att ^value <external-val> ^attribute <external-att>)
+}
+
+sp {learn-val2att*apply*store-val2att*mark*stored
+   (state <s> ^name learn-val2att
+              ^operator.name store-val2att)
+-->
+   (<s> ^stored true)
+}

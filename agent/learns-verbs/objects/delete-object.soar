@@ -1,0 +1,19 @@
+sp {propose*delete-object
+   (state <s> ^topstate <s>
+              ^object.id <id>
+             -^io.input-link.objects.object.id <id>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name delete-object
+        ^id <id>)
+}
+
+sp {apply*delete-object
+   (state <s> ^operator <o>
+              ^object <obj>)
+   (<o> ^name delete-object
+        ^id <id>)
+   (<obj> ^id <id>)
+-->
+   (<s> ^object <obj> -)
+}

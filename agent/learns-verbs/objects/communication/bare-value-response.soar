@@ -1,0 +1,19 @@
+sp {apply*pop-segment*create*instructor-purpose*bare-value-response
+   (state <s> ^topstate <s> 
+              ^operator.name pop-segment
+              ^interaction.stack.segment.purpose.parameters.query <q>
+              ^instructor-message <msg>)
+   (<msg> ^type bare-value-response
+          ^information.value <external-val>)
+   (<q> ^att-val-pair.val.internal <internal-val>
+        ^att-val-pair.att.external <external-att>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type learn-val
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^internal <internal-val>
+             ^external <external-val>
+             ^attribute <external-att>)
+   (<sat> ^learning-event value)
+}
