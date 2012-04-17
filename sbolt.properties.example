@@ -1,4 +1,5 @@
-agent = agent/obj-analyzer/obj-analyzer.soar
+#agent = agent/obj-analyzer/obj-analyzer.soar
+agent = agent/verb-execution/verb-execution.soar
 
 enable-lgsoar = true
 lgsoar-productions = lgsoar/soarcode/bolt-lgsoar.soar

@@ -28,7 +28,7 @@ sp {interpret-relation-question*apply*identify-question-word
             ^inner2 <any>) # verify the thing being asked about is in the relation
 -->
    (<int> ^question-word <qword>)
-   (<s> ^exclude <pred>)
+   (<s> ^question-pred <pred>)
 }
 
 sp {interpret-relation-question*propose*collect-predicates
@@ -51,10 +51,23 @@ sp {interpret-relation-question*apply*collect-predicates
    (state <s> ^name interpret-relation-question
               ^operator.name collect-predicates
               ^relation-predicates <op>
-             -^exclude <p>
+             -^question-pred <p>
               ^all-predicates.predicate <p>)
 -->
    (<op> ^predicate <p>)
+   (<s> ^predicates-collected true)
+}
+
+sp {interpret-relation-question*apply*collect-predicates*question-pred
+   (state <s> ^name interpret-relation-question
+              ^operator.name collect-predicates
+              ^relation-predicates <op>
+              ^question-pred <p>)
+   (<p> ^inner1 <in1>)
+-->
+   (<op> ^predicate <p1>)
+   (<p1> ^outer UNKNOWN
+         ^inner1 <in1>)
    (<s> ^predicates-collected true)
 }
 

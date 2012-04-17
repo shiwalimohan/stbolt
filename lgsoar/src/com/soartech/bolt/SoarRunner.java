@@ -20,38 +20,40 @@ public class SoarRunner implements PrintEventInterface {
 	
 	private static Agent agent = null;
 	private static Kernel kernel = null;
-		
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// two args: first a sentence (quoted) to parse
 		// second is a (optional) --debug or --silent flag
-		if (args.length < 1) {
+		if (args.length < 2) {
 			System.out.println("SoarRunner needs a sentence to parse!");
 			return;
 		}
 		
+		String soarFile = args[0];
+		
 		boolean debug = false;
 		boolean silent = false;
-		int sentenceStart = 0;
-		if (args.length >= 2 && args[0].equals("--debug")) {
+		int sentenceStart = 1;
+		if (args.length >= 3 && args[1].equals("--debug")) {
 			debug = true;
-			sentenceStart = 1;
+			sentenceStart = 2;
 		}
-		else if (args.length >= 2 && args[0].equals("--silent")) {
+		else if (args.length >= 3 && args[1].equals("--silent")) {
 			silent = true;
-			sentenceStart = 1;
+			sentenceStart = 2;
 		}
 		ArrayList<String> sentences = new ArrayList<String>();
 		for (int i=sentenceStart; i<args.length; i++) {
 			sentences.add(args[i]);
 		}
 		
-		SoarRunner sr = new SoarRunner(sentences, debug, silent);
+		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent);
 	}
 	
-	public SoarRunner(ArrayList<String> sentences, boolean debug, boolean silent) {
+	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent) {
 		if (debug) {
 			kernel = Kernel.CreateKernelInNewThread();
 		}
@@ -65,7 +67,7 @@ public class SoarRunner implements PrintEventInterface {
 		}
 		
 		agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
-		agent.LoadProductions("soarcode/load.soar");
+		agent.LoadProductions(soarFile);
 		
 		LGSupport lgSupport = new LGSupport(agent, "data/link");
 		for (String sentence: sentences) {

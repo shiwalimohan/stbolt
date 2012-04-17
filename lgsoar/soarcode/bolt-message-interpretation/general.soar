@@ -4,6 +4,31 @@ sp {elaborate*lgsoar-message-count
    (<s> ^next-lgsoar-message-id 0)
 }
 
+
+# role prepositions will cause redundant predicates
+# e.g.: color-of(N7,N4) color(N4) of(N4,N7)
+# ignore the last two
+
+sp {elaborate*ignore-redundant
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> ^predicate <rp>
+           ^predicate <propp>
+           ^predicate <predp>)
+   (<rp> ^outer1 <property>
+         ^outer2 <preposition>
+         ^inner1 <i1>
+         ^inner2 <i2>)
+   (<propp> ^outer <property>
+            ^inner1 <i2>)
+   (<predp> ^outer <preposition>
+            ^inner1 <i2>
+            ^inner2 <i1>)
+-->
+   (<propp> ^ignored true)
+   (<predp> ^ignored true)
+}
+
 sp {propose*finish-interpretation
    (state <s> ^superstate nil
               ^lgsoar-predicates <pred>)

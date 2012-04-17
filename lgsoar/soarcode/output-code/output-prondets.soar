@@ -1,7 +1,7 @@
 # dumps feature values (definite or indefinite)
 # The man kicked a bottle.
 sp {global*apply*generate-predicates*cligdump*feature-feature
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name generate-predicates
@@ -16,7 +16,6 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
            ^int <pointer>)}
 -->
    (<pointer> ^feat-dumped <feavalue> +)
-   (<fps> ^predicate (concat <feavalue> |(| <pointer> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <feavalue>
            ^inner1 <pointer>)
@@ -26,7 +25,7 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
 # SBW adding this to fix problems where "is" causes the DEF/INDEF to attach to
 # the wrong object
 sp {global*apply*generate-predicates*cligdump*feature-feature*copula
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
    (<refsets> ^refs <refs>)
    (<refs> ^count <count>)
    (<o> ^name generate-predicates)
@@ -41,7 +40,6 @@ sp {global*apply*generate-predicates*cligdump*feature-feature*copula
                ^ext <pointer3>)
 -->
    (<pointer> ^feat-dumped <feavalue> +)
-   (<fps> ^predicate (concat <feavalue> |(| <pointer3> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <feavalue>
            ^inner1 <pointer3>)

@@ -2728,9 +2728,17 @@ or (Xd- & Xc+ & E+)));
 why: ({EL+} & ((Wq- & Q+) or (QI- & (Cs+ or TOn+)) or (Cs+ & 
 ((SFsx+ & <S-CLAUSE>) or WY- or BIq-)))) or [[{@CO-} & Wc- & Wi+]];
 why_not: [[{@CO-} & Wc- & Wi+]]; 
-where: {EL+} & ((Wq- & (WR+ or Q+ or PF+)) or 
-((WR+ or Cs+ or TOn+ or PF+) & (BIq- or QI- or (SFsx+ & <S-CLAUSE>)))
- or ((Cs+ or PF+ or WR+) & <prep-main-b>));
+
+% FIXME SBW removed since LGSoar can't handle "where" with this parse
+% replaced "where" entry with a copy of "what"
+
+% where: {EL+} & ((Wq- & (WR+ or Q+ or PF+)) or 
+% ((WR+ or Cs+ or TOn+ or PF+) & (BIq- or QI- or (SFsx+ & <S-CLAUSE>)))
+%  or ((Cs+ or PF+ or WR+) & <prep-main-b>));
+where: ({EL+} & (D**w+ or Ss*w+ or Bsw+ or BW+) & (Wq- or Ws- or QI*d-
+or BIqd-)) or ((Ss*d+ or Bsd+ or BW+) &
+(<noun-main2-s> or (Ss*t+ & <CLAUSE>) or SIs*t-)) or (D+ & JQ-);
+
 whether: (((QI- or BIq-) & (Cs+ or TOn+)) or (Cs+ & SFsx+ & <S-CLAUSE>))
 or [[(Cs+ or MV+) & (({Xd- & Xc+} & MVs-) or ({Xc+ & {Xd-}} & CO*s+))]];
 whether_or_not: ((QI- or BIq-) & (Cs+ or TOn+)) or 

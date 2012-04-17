@@ -3,7 +3,7 @@
 
 sp {global*apply*generate-predicates*output*nuc-n-aug*adj
    (state <s> ^operator.name generate-predicates
-              ^model <mod> ^final-predicates <fp> ^final-predicate-strings <fps>)
+              ^model <mod> ^final-predicates <fp>)
    (<mod> ^idea <idea>
           # hack! constraint: have already tested for copula
           ^idea.annotation pred-adj/noun-tested)
@@ -13,7 +13,6 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj
           # isn't a copula
 -->
    (<idea> ^annotation pred-dumped +)
-   (<fps> ^predicate (concat <wvalue> |(| <aval> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <wvalue>
            ^inner1 <aval>)
@@ -23,13 +22,12 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj
 # in this case output the pred-adj, but resolve its var
 sp {global*apply*generate-predicates*output*nuc-n-aug*adj*copula
    (state <s> ^operator.name generate-predicates  
-              ^final-predicates <fp> ^final-predicate-strings <fps>
+              ^final-predicates <fp>
               ^model.idea <idea>)
    (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
    (<aval> ^aug1 <idea> ^annotation pred-adj/noun ^aug.ext <thesubject>)
 -->
    (<idea> ^annotation pred-dumped +)
-   (<fps> ^predicate (concat <wvalue> |(| <thesubject> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <wvalue>
            ^inner1 <thesubject>)

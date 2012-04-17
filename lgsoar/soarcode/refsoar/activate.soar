@@ -57,7 +57,7 @@ sp	{Activate*create*space
              -^io.lgsentence.count < <ct>) 
 -->
    (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^count <ct> ^root 0 ^anaphor <a>
-        ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp> ^final-predicate-strings <fps>)
+        ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp>)
    (<refsets> ^refs <refs> +)
    (<refs> ^count <ct>)
    (<a> ^acount 1 ^centers <centers> ^unblock? no ^merge <merge> ^cascades <cascs>)

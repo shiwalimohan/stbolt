@@ -37,6 +37,11 @@ else {
 	["That is a red ball.", 
 		"INDEF(N2) ball(N2) red(N2) that(N2)",
 		1],
+
+	["Red is a color.",
+		"color(N2) red(N2)",
+		1],
+
 	# These are <adj?> <noun>.
 	["These are blue blocks.", 
 		"blocks(N2) blue(N2) these(N2)",
@@ -212,6 +217,10 @@ else {
 
 	["Count the blocks.",
 		"DEF(N3) HEARER(N4) blocks(N3) count(N4,N3)",
+		1],
+
+	["Red is a color.",
+		"INDEF(N2) red(N2) color(N2)",
 		1],
 
 );
