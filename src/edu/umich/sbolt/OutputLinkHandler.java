@@ -1,12 +1,16 @@
 package edu.umich.sbolt;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
 import sml.WMElement;
+import abolt.lcmtypes.category_t;
 import abolt.lcmtypes.robot_command_t;
+import abolt.lcmtypes.training_label_t;
+import edu.umich.sbolt.world.Category;
 import edu.umich.sbolt.world.Robot;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
@@ -18,12 +22,14 @@ public class OutputLinkHandler implements OutputEventInterface
     private SBolt sbolt;
 
     private robot_command_t command;
+    
+    private List<training_label_t> newLabels;
 
     public OutputLinkHandler(SBolt sbolt)
     {
         this.sbolt = sbolt;
         String[] outputHandlerStrings = { "goto", "action", "pick-up",
-                "put-down", "point", "send-message","remove-message"};
+                "put-down", "point", "send-message","remove-message","send-training-label"};
         for (String outputHandlerString : outputHandlerStrings)
         {
             this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
@@ -32,6 +38,18 @@ public class OutputLinkHandler implements OutputEventInterface
 
         command = new robot_command_t();
         command.action = "";
+        
+        newLabels = new ArrayList<training_label_t>();
+    }
+    
+    public List<training_label_t> extractNewLabels(){
+    	if(newLabels.size() == 0){
+    		return null;
+    	} else {
+    		List<training_label_t> retVal = newLabels;
+    		newLabels = new ArrayList<training_label_t>();
+    		return retVal;
+    	}
     }
 
     public robot_command_t getCommand()
@@ -59,48 +77,50 @@ public class OutputLinkHandler implements OutputEventInterface
     public void outputEventHandler(Object data, String agentName,
             String attributeName, WMElement wme)
     {
-        if (!(wme.IsJustAdded() && wme.IsIdentifier()))
-        {
-            return;
-        }
-        System.out.println(wme.GetAttribute());
+    	synchronized(this){
+    		if (!(wme.IsJustAdded() && wme.IsIdentifier()))
+            {
+                return;
+            }
+            System.out.println(wme.GetAttribute());
 
-        if (wme.GetAttribute().equals("goto"))
-        {
-            processGoto(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("action"))
-        {
-            processActionCommand(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("send-message"))
-        {
-            processOutputLinkMessage(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("pick-up"))
-        {
-            processPickUpCommand(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("put-down"))
-        {
-            processPutDownCommand(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("point"))
-        {
-            processPointCommand(wme.ConvertToIdentifier());
-        }
-        else if (wme.GetAttribute().equals("remove-message"))
-        {
-        	processRemoveMesageCommand(wme.ConvertToIdentifier());
-        }
+            if (wme.GetAttribute().equals("goto"))
+            {
+                processGoto(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("action"))
+            {
+                processActionCommand(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("send-message"))
+            {
+                processOutputLinkMessage(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("pick-up"))
+            {
+                processPickUpCommand(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("put-down"))
+            {
+                processPutDownCommand(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("point"))
+            {
+                processPointCommand(wme.ConvertToIdentifier());
+            }
+            else if (wme.GetAttribute().equals("remove-message"))
+            {
+            	processRemoveMesageCommand(wme.ConvertToIdentifier());
+            } else if(wme.GetAttribute().equals("send-training-label")){
+            	processSendTrainingLabelCommand(wme.ConvertToIdentifier());
+            }
 
-        if (this.sbolt.getAgent().IsCommitRequired())
-        {
-            this.sbolt.getAgent().Commit();
-        }
+            if (this.sbolt.getAgent().IsCommitRequired())
+            {
+                this.sbolt.getAgent().Commit();
+            }
+    	}
     }
-
-   
 
 	private void processRemoveMesageCommand(Identifier messageId) {
 		
@@ -329,5 +349,24 @@ public class OutputLinkHandler implements OutputEventInterface
         command.dest[1] = Double.parseDouble(y);
         command.dest[2] = Double.parseDouble(z);
         pointId.CreateStringWME("status", "complete");
+    }
+    
+    private void processSendTrainingLabelCommand(Identifier id){
+    	Integer objId = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(id, "id", "No id on send-training-label"));
+    	String label = WorkingMemoryUtil.getValueOfAttribute(id, "label", "No label on send-training-label");
+    	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", "No category on send-training-label");
+    	
+    	training_label_t newLabel = new training_label_t();
+    	Integer catNum = Category.getCategoryType(category);
+    	if(catNum == null){
+    		return;
+    	}
+    	
+    	newLabel.cat = new category_t();
+    	newLabel.cat.cat = catNum;
+    	newLabel.id = objId;
+    	newLabel.label = label;
+    	
+    	newLabels.add(newLabel);
     }
 }

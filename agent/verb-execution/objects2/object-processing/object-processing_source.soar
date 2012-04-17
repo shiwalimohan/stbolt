@@ -1,0 +1,15 @@
+source create-object.soar
+# When there is a new object on the input link initialize a new object sturcture in working memory
+
+source delete-object.soar
+# When an object no longer exists on the input-link remove it
+
+source external-desc.soar
+
+
+source create-value.soar
+# When a new label comes in on the input link this creates a value structure on the 
+# object for the appropriate property (example, will add color-red label to the color property)
+                                      
+source delete-value.soar
+# If a label disappears from the input link this will remove the corresponding value structure

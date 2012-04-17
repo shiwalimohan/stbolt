@@ -1,0 +1,106 @@
+# When a new label comes in on the input link this creates a value structure on the 
+# object for the appropriate property (example, will add color-red label to the color property)
+
+# There is a label on the input-link not in working memory
+sp {propose*create-value
+   (state <s> ^topstate <s>
+              ^io.input-link.objects.object <io-obj>
+              ^object <obj>)
+   (<io-obj> ^id <id>
+             ^category <cat>)
+   (<cat> ^{<label> <> name} <conf>
+          ^name <cat-name>)
+   (<obj> ^id <id>
+         -^property.value.label <label>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name create-value
+        ^category object-processing
+        ^object <obj>
+        ^obj-cat <cat>
+        ^confidence <conf>
+        ^label <label>)
+}
+
+# Create the empty value structure
+sp {apply*create-value*init*value
+   (state <s> ^operator <o>)
+   (<o> ^name create-value)
+-->
+   (<o> ^value <val>)
+}
+
+# Add the label to the value structure
+sp {apply*create-value*add*label
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^value <val>
+        ^label <label>)
+-->
+   (<val> ^label <label>)
+}
+
+# Add discrete confidence descriptions to the value structure
+sp {apply*create-value*add*confidence*low
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^confidence {<conf> < .3}
+        ^value <val>)
+-->
+   (<val> ^confidence low)
+}
+
+sp {apply*create-value*add*confidence*medium
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^confidence {<conf> >= .3 < .7}
+        ^value <val>)
+-->
+   (<val> ^confidence medium)
+}
+
+sp {apply*create-value*add*confidence*high
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^confidence {<conf> >= .7}
+        ^value <val>)
+-->
+   (<val> ^confidence high)
+}
+
+# If the word is known in the WM mapping then add it to the value structure
+sp {apply*create-value*add*word
+   (state <s> ^operator <o>
+              ^mappings.word2label <w2l>)
+   (<o> ^name create-value
+        ^value <val>
+        ^label <label>)
+   (<w2l> ^<word> <label>)
+-->
+   (<val> ^word <label>)
+}
+
+# If this value is for a new property, create a property structure
+sp {apply*create-value*create*property
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^object <obj>
+        ^obj-cat.name <cat-name>)
+   (<obj> -^property.category <cat-name>)
+-->
+   (<obj> ^property <prop>)
+   (<prop> ^category <cat-name>)
+}
+
+# Copy the created value structure to the object
+sp {apply*create-value*copy*value
+   (state <s> ^operator <o>)
+   (<o> ^name create-value
+        ^object.property <prop>
+        ^obj-cat.name <cat-name>
+        ^value <val>)
+   (<val> ^label <label>)
+   (<prop> ^category <cat-name>)
+-->
+   (<prop> ^value <val>)
+}

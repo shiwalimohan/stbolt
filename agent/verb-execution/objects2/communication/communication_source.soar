@@ -1,0 +1,7 @@
+pushd object-message
+source object-message_source.soar
+popd
+
+source copy-message.soar
+
+source bare-attribute-response.soar

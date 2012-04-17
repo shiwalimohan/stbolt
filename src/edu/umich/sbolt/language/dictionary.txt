@@ -3,4 +3,4 @@ ADJECTIVE: red green blue gray large medium small round square spherical
 VERB: put get go pick
 DETERMINER: a the that
 PREPOSITION: on in from to up down
-ATTRIBUTE: color size shape
+ATTRIBUTE: color size shape name

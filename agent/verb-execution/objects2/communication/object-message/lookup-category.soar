@@ -1,0 +1,57 @@
+# Fetch the category for the given word from memory
+sp {object-message*propose*lookup-smem*category
+   (state <s> ^name object-message
+              ^nounjective <nj>)
+   (<nj> -^category
+          ^word <word>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name lookup-smem
+        ^category smem
+        ^lookup-type category
+        ^query <q>
+        ^desired.category true)
+   (<q> ^type word2cat ^word <word> ^category <cat>)
+}
+
+# The category is cached in working memory, use it
+sp {object-message*apply*lookup-smem*category*working-mem
+   (state <s> ^name object-message
+              ^operator <o>
+              ^topstate.mappings.word2cat <w2c>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^query.word <word>)
+   (<w2c> ^<word> <cat>)
+-->
+   (<o> ^result <cat>)
+}
+
+# If this is a new word with an unknown category ask the user
+sp {object-message*apply*lookup-smem*category*failure*query
+   (state <s> ^name object-message
+              ^operator <o>
+              ^topstate.queries <qs>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^query.word <word>
+        ^result failure)
+-->
+   (<qs> ^query <q>)
+   (<q> ^type category-of-word
+        ^word <word>)
+}
+
+# Successful retrieval
+sp {object-message*apply*lookup-smem*category*success
+   (state <s> ^name object-message
+              ^operator <o>
+              ^nounjective <nj>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^query.word <word>
+        ^result {<cat> <> failure})
+   (<nj> ^word <word>)
+-->
+   (<nj> ^category <cat>)
+}

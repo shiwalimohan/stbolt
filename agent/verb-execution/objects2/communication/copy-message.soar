@@ -1,0 +1,29 @@
+sp {propose*copy-message
+   (state <s> ^topstate <s>
+             -^processed <m>
+              ^io.input-link.message <m>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name copy-message-il
+        ^category communication
+        ^message <m>)
+}
+
+sp {apply*copy-message
+   (state <s> ^operator <o>
+              ^nl.input-link <nil>)
+   (<o> ^name copy-message-il
+        ^message <m>)
+-->
+   (<nil> ^message <m>)
+   (<s> ^processed <m>)
+}
+
+sp {apply*copy-message*removed-processed
+   (state <s> ^operator <o>
+              ^processed {<m2> <> <m>})
+   (<o> ^name copy-message-il
+        ^message <m>)
+-->
+   (<s> ^processed <m2> -)
+}

@@ -22,8 +22,8 @@ public class AgentMessageParser
             message = translateCommonAttributeQuestion(fieldsId);
         } else if(type.equals("attribute-presence-question")){
             message = translateAttributePresenceQuestion(fieldsId);
-        } else if(type.equals("type-of-value")){
-            message = translateAttributeQuestion(fieldsId);
+        } else if(type.equals("category-of-word")){
+            message = translateCategoryQuestion(fieldsId);
         } else if(type.equals("description")){
             message = translateDescription(fieldsId);
         }
@@ -63,9 +63,9 @@ public class AgentMessageParser
         return exceptionStr + message;
     }
     
-    private static String translateAttributeQuestion(Identifier id){
-        String value = WorkingMemoryUtil.getValueOfAttribute(id, "value");
-        return String.format("What attribute does %s describe?", value);
+    private static String translateCategoryQuestion(Identifier id){
+        String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+        return String.format("What category does %s belong to?", word);
     }
     
     private static String translateValueQuestion(Identifier id){

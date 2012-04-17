@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Timer;
@@ -19,6 +20,8 @@ import sml.Agent;
 import sml.Kernel;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
+import abolt.lcmtypes.training_data_t;
+import abolt.lcmtypes.training_label_t;
 import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
@@ -225,6 +228,18 @@ public class SBolt implements LCMSubscriber
         synchronized (command)
         {
             lcm.publish("ROBOT_COMMAND", command);
+        }
+        synchronized (outputLinkHandler){
+        	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
+        	if(newLabels != null){
+            	training_data_t trainingData = new training_data_t();
+            	trainingData.num_labels = newLabels.size();
+            	trainingData.labels = new training_label_t[newLabels.size()];
+            	for(int i = 0; i < newLabels.size(); i++){
+            		trainingData.labels[i] = newLabels.get(i);
+            	}
+            	lcm.publish("TRAINING_DATA", trainingData);
+        	}
         }
     }
 
