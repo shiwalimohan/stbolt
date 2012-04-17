@@ -17,7 +17,8 @@ sp {interpret-preposition*propose*identify-preposition-word
    (state <s> ^name interpret-preposition
              -^pword-identified
               ^all-predicates.predicate <pr>)
-   (<pr> ^outer <preposition>
+   (<pr> -^ignored
+         ^outer <preposition>
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->
@@ -26,29 +27,29 @@ sp {interpret-preposition*propose*identify-preposition-word
         ^preposition <pr>)
 }
 
-sp {interpret-preposition*propose*identify-to-the-x-of-preposition
-   (state <s> ^name interpret-preposition
-             -^pword-identified
-              ^all-predicates <ap>)
-   (<ap> ^predicate <to> <the> <x> <of>)
-   (<to> ^outer to
-         ^inner1 <p1>
-         ^inner2 <x-obj>)
-   (<the> ^outer DEF
-          ^inner1 <x-obj>)
-   (<x> ^outer {<> DEF <x-word>}
-        ^inner1 <x-obj>
-       -^inner2)
-   (<of> ^outer of
-         ^inner1 <x-obj>
-         ^inner2 <p2>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name identify-to-the-x-of-preposition
-        ^outer (concat <x-word> |-of|)
-        ^inner1 <p1>
-        ^inner2 <p2>)
-}
+# sp {interpret-preposition*propose*identify-to-the-x-of-preposition
+#    (state <s> ^name interpret-preposition
+#              -^pword-identified
+#               ^all-predicates <ap>)
+#    (<ap> ^predicate <to> <the> <x> <of>)
+#    (<to> ^outer to
+#          ^inner1 <p1>
+#          ^inner2 <x-obj>)
+#    (<the> ^outer DEF
+#           ^inner1 <x-obj>)
+#    (<x> ^outer {<> DEF <x-word>}
+#         ^inner1 <x-obj>
+#        -^inner2)
+#    (<of> ^outer of
+#          ^inner1 <x-obj>
+#          ^inner2 <p2>)
+# -->
+#    (<s> ^operator <o> +)
+#    (<o> ^name identify-to-the-x-of-preposition
+#         ^outer (concat <x-word> |-of|)
+#         ^inner1 <p1>
+#         ^inner2 <p2>)
+# }
 
 sp {interpret-preposition*identify-to-the-x-of-preposition*over*identify-preposition-word
    (state <s> ^name interpret-preposition
@@ -81,7 +82,8 @@ sp {interpret-preposition*apply*identify-preposition-word
               ^interpretation.preposition <rm>)
    (<o> ^name identify-preposition-word
         ^preposition <pr>)
-   (<pr> ^outer <preposition>
+   (<pr> -^ignored
+         ^outer <preposition>
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->
@@ -112,7 +114,8 @@ sp {interpret-preposition*apply*collect-object
               ^p2 <p2>
               ^object-predicates <cp>
               ^all-predicates.predicate <pred>)
-   (<pred> ^inner1 <p2>
+   (<pred> -^ignored
+           ^inner1 <p2>
           -^inner2)
 -->
    (<cp> ^predicate <pred>)

@@ -2,17 +2,16 @@
 ###################### these output terms for verbal external and internal arguments
 # output the external and internal argument (if it exists) for the verb
 sp {global*apply*generate-predicates*output*ext/int*arg
-   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
    (<idea> ^<< ext int >> <thisroleval> ^nuc <nucval> ^annotation pred-adj/noun-tested)
-   (<thisroleval> ^nuc <thisnucval> -^annotation pred-adj/noun
+   (<thisroleval> ^nuc <thisnucval> -^annotation pred-adj/noun 
    #^annotation pred-prep 
    -^annotation in-n-n)
 -->
    (<thisroleval> ^annotation pred-dumped +)
-   (<fps> ^predicate (concat <thisnucval> |(| <thisroleval> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <thisnucval>
            ^inner1 <thisroleval>)
@@ -21,7 +20,7 @@ sp {global*apply*generate-predicates*output*ext/int*arg
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
 sp {global*apply*generate-predicates*output*int*pred-adj
-   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -32,7 +31,6 @@ sp {global*apply*generate-predicates*output*int*pred-adj
 -->
    (<thisroleval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie 
-   (<fps> ^predicate (concat <thisnucval> |(| <thesubject> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <thisnucval>
            ^inner1 <thesubject>)
@@ -41,7 +39,7 @@ sp {global*apply*generate-predicates*output*int*pred-adj
 
 # intransitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-itrx
-   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -49,7 +47,6 @@ sp {global*apply*generate-predicates*output*predicate-itrx
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<idea> ^annotation pred-dumped + ^annotation intransitive +)
-   (<fps> ^predicate (concat <nucval> |(| <extval> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
            ^inner1 <extval>)
@@ -59,7 +56,7 @@ sp {global*apply*generate-predicates*output*predicate-itrx
 
 # transitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-trx
-   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -69,7 +66,6 @@ sp {global*apply*generate-predicates*output*predicate-trx
    (<extval> ^annotation pred-dumped +)
    (<intval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped + ^annotation transitive +)
-   (<fps> ^predicate (concat <nucval> |(| <extval> |,| <intval> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
            ^inner1 <extval>
@@ -81,7 +77,7 @@ sp {global*apply*generate-predicates*output*predicate-trx
 
 # ditransitive predicates
 sp {global*apply*generate-predicates*output*predicate-ditrx
-   (state <s> ^model.idea <idea> ^final-predicates <fp> ^final-predicate-strings <fps>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>)
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
@@ -94,7 +90,6 @@ sp {global*apply*generate-predicates*output*predicate-ditrx
    (<intval> ^annotation pred-dumped +)
    (<int2val> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +)
-   (<fps> ^predicate (concat <nucval> |(| <extval> |,| <intval> |,| <int2val> |)|))
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
            ^inner1 <extval>

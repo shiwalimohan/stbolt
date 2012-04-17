@@ -21,7 +21,7 @@ sp {interpret-object-question*apply*identify-question-word
               ^operator.name identify-question-word
               ^interpretation <int>
               ^all-predicates.predicate <pred>)
-   (<pred> ^outer {<< what which >> <qword>})
+   (<pred> ^outer {<< what which where >> <qword>})
 -->
    (<int> ^question-word <qword>)
    (<s> ^exclude <pred>)
