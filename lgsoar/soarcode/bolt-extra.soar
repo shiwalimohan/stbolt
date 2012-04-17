@@ -28,3 +28,57 @@ sp {global*apply*handle-single-word
            ^inner1 <wd>)
 }
 
+
+# experimental role-preposition handling:
+# "The color of the block is red"
+# DEF(N2)
+# DEF(N3)
+# of(N2,N3)
+# block(N3)
+# color(N2)
+# of(color,N2,N3) <== adds this
+# red(N2)
+# This makes "the color of the block is red" different from "the red of the
+# block is color"
+
+sp {global*apply*generate-predicates*role-preposition
+   (state <s> ^model.idea <idea> ^final-predicates <fp> 
+              ^operator.name generate-predicates) 
+   (<idea> ^nuc <nucval> ^preplex <plex> ^<plex> <pobjval>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^preplex <pl2> ^<pl2> <prep>)
+-->
+   (<pobjval> ^annotation pred-dumped +)
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer1 <nuc2val>
+           ^outer2 <pl2>
+           ^inner1 <pobjval>
+           ^inner2 <prep>)
+}
+
+sp {global*apply*generate-predicates*role-preposition*copula*ext
+   (state <s> ^model.idea <idea> ^final-predicates <fp> 
+              ^operator.name generate-predicates) 
+   (<idea> ^ext <ext> ^nuc <nucval> ^annotation copula) 
+   (<ext> ^nuc <thisnucval> ^preplex <pl> ^<pl> <prep>)
+-->
+   (<ext> ^annotation pred-dumped +)
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer1 <thisnucval>
+           ^outer2 <pl>
+           ^inner1 <prep>
+           ^inner2 <ext>)
+}
+
+sp {global*apply*generate-predicates*role-preposition*copula*int
+   (state <s> ^model.idea <idea> ^final-predicates <fp> 
+              ^operator.name generate-predicates) 
+   (<idea> ^int <int> ^ext <ext> ^nuc <nucval> ^annotation copula) 
+   (<int> ^nuc <thisnucval> ^preplex <pl> ^<pl> <prep>)
+-->
+   (<int> ^annotation pred-dumped +)
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer1 <thisnucval>
+           ^outer2 <pl>
+           ^inner1 <prep>
+           ^inner2 <ext>)
+}

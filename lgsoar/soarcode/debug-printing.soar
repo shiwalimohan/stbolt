@@ -32,6 +32,18 @@ sp {elaborate*report-predicate*from-wmes*3
    (write (crlf) (concat <out> |(| <in1> |,| <in2> |,| <in3> |)|))
 }
 
+sp {elaborate*report-predicate*from-wmes*4
+   (state <s> ^problem-space lgsoar
+              ^final-predicates.predicate <p>)
+   (<p> ^outer1 <out1>
+        ^outer2 <out2>
+        ^inner1 <in1>
+        ^inner2 <in2>
+       -^inner3)
+-->
+   (write (crlf) (concat <out1> |-| <out2> |(| <in1> |,| <in2> |)|))
+}
+
 sp {elaborate*proposed*add-arg*debug-info
   (state <s> ^operator <o> +
              ^io.lgsentence.words <wd>)

@@ -12,7 +12,8 @@ sp {interpret-object*elaborate*failure*multiple-inners
 sp {interpret-object*elaborate*mark-specifier
    (state <s> ^name interpret-object
               ^all-predicates.predicate <p>)
-   (<p> ^outer {<sp> << this that DEF INDEF >>})
+   (<p> -^ignored
+         ^outer {<sp> << this that DEF INDEF >>})
 -->
    (<s> ^potential-specifier <sp>)
    (<p> ^is-specifier true)
@@ -91,7 +92,8 @@ sp {interpret-object*apply*build-interpretation*nounjective
               ^operator.name build-interpretation
               ^interpretation.object <ob>
               ^all-predicates.predicate <p>)
-   (<p> -^is-specifier
+   (<p> -^ignored
+        -^is-specifier
          ^outer <wd>)
 -->
    (<ob> ^word <wd>)

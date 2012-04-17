@@ -1,0 +1,7 @@
+Changes to the dictionary files for BOLT should be indicated here:
+
+data/link/4.0.dict, around line 2733: 
+replaced entry for "where" with entry for "what", need to research how LGSoar can handle "where" sentences and why they would be parsed differently anyway
+
+data/link/words/words.n.3, at the end:
+added color names as mass nouns, this enables sentences like "blue is a color". The right way to handle this might be instead to handle quotes ("blue" is a color)

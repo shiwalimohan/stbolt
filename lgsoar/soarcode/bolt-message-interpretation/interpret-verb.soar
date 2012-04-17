@@ -42,7 +42,8 @@ sp {interpret-verb*apply*identify-verb-word
               ^interpretation <int>
               ^all-predicates.predicate <hearer>
               ^all-predicates.predicate {<> <hearer> <vw>} )
-   (<hearer> ^outer HEARER
+   (<hearer> ^outer << HEARER you >>
+            -^ignored
              ^inner1 <hearer-obj>)
    (<vw> ^outer <word>
          ^inner1 <hearer-obj>)
@@ -68,7 +69,8 @@ sp {interpret-verb*elaborate*has-preposition
               ^all-predicates <ap>
               ^verb-predicate <verbp>)
     (<ap> ^predicate {<> <verbp> <pred>})
-    (<pred> ^inner2 <any>)
+    (<pred> -^ignored
+            ^inner2 <any>)
 -->
    (<s> ^has-preposition true)
 }

@@ -5,8 +5,9 @@ sp {top-state*interpret-messages*propose*interpret-verb-command
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
-   (<p1> ^outer HEARER
-         ^inner1 <hearer>)
+   (<p1> ^outer << HEARER you >>
+         ^inner1 <hearer>
+        -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-verb-command
@@ -31,20 +32,22 @@ sp {top-state*interpret-messages*propose*interpret-relation-message
    (<pred> -^interpretation
             ^predicate <p1>)
    (<p1> ^inner1 <i1>
-         ^inner2 <i2>)
+         ^inner2 <i2>
+        -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-relation-message
         ^predicates <pred>)
 }
 
-# object-questions must have a what or which pred
+# object-questions must have a what or which or where pred
 sp {top-state*interpret-messages*propose*interpret-object-question
    (state <s> ^superstate nil
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
-   (<p1> ^outer << what which >>)
+   (<p1> ^outer << what which where >>
+        -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object-question
@@ -58,9 +61,11 @@ sp {top-state*interpret-messages*propose*interpret-relation-question
    (<pred> -^interpretation
             ^predicate <p1>
             ^predicate <p2>)
-   (<p1> ^outer << what which >>)
+   (<p1> ^outer << what which >>
+        -^ignored)
    (<p2> ^inner1 <i1>
-         ^inner2 <i2>)
+         ^inner2 <i2>
+        -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-relation-question
@@ -72,7 +77,8 @@ sp {top-state*interpret-messages*propose*interpret-single-word-response
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
-   (<p1> ^outer single-word)
+   (<p1> ^outer single-word
+        -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-single-word-response
@@ -130,6 +136,16 @@ sp {top-state*interpret-messages*prefer*indifferent-relation
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
    (<o2> ^name interpret-relation-message)
+-->
+   (<s> ^operator <o2> = <o1>)
+}
+
+sp {top-state*interpret-messages*prefer*indifferent-question
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-relation-question)
+   (<o2> ^name interpret-relation-question)
 -->
    (<s> ^operator <o2> = <o1>)
 }
