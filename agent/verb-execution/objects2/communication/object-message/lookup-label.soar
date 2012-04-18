@@ -15,60 +15,6 @@ sp {object-message*propose*lookup-smem*label
    (<q> ^type label-map ^word <word> ^category <cat> ^label <label>)
 }
 
-# The label is cached in working memory, use it
-sp {object-message*apply*lookup-smem*label*working-mem
-   (state <s> ^name object-message
-              ^operator <o>
-              ^topstate.mappings.label-map <lm>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.word <word>
-        ^query.category <cat>)
-   (<lm> ^<word>.<cat> <label>)
--->
-   (<o> ^result <label>)
-}
-
-# Create the new label
-sp {object-message*apply*lookup-smem*label*failure*create*new-label
-   (state <s> ^name object-message
-              ^operator <o>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.word <word>
-        ^query.category <cat>
-        ^result failure)
--->
-   (<o> ^new-label (concat <cat> |-| <word>))
-}
-
-# Adds the new-label as a result to the operator
-sp {object-message*apply*lookup-smem*label*new-label*add*result
-   (state <s> ^name object-message
-              ^operator <o>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^new-label <label>
-        ^result failure)
--->
-   (<o> ^result <label>)
-}
-
-# Stores the new label in semantic memory
-sp {object-message*apply*lookup-smem*label*new-label*store*smem
-   (state <s> ^name object-message
-              ^operator <o>
-              ^smem.command <smem-cmd>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.word <word>
-        ^query.category <cat>
-        ^new-label <label>)
--->
-   (<smem-cmd> ^store <l>)
-   (<l> ^type label-map ^word <word> ^category <cat> ^label <label>)
-}
-
 # Successful retrieval
 sp {object-message*apply*lookup-smem*label*success
    (state <s> ^name object-message
@@ -96,22 +42,4 @@ sp {object-message*apply*lookup-smem*send-training-label
 -->
    (<out> ^send-training-label <stl>)
    (<stl> ^id <id> ^label <label> ^category <cat>)
-}
-
-# Updates any objects with the word, for convenience
-sp {object-message*apply*lookup-smem*annotate*object
-   (state <s> ^name object-message
-              ^topstate.object.property <prop>
-              ^operator <o>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.category <cat>
-        ^query.word <word>
-        ^result {<label> <> failure})
-   (<prop> ^category <cat>
-           ^value <val>)
-   (<val> ^label <label>
-         -^word <word>)
--->
-   (<val> ^word <word>)
 }
