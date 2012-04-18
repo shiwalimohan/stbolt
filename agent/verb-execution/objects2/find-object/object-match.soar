@@ -1,0 +1,30 @@
+sp {find-object*propose*object-match
+   (state <s> ^name find-object
+              ^topstate.object <obj>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name object-match
+        ^category object-processing
+        ^object <obj>)
+}
+
+sp {find-object*reject*not-match
+   (state <s> ^name find-object
+              ^operator <o> +
+              ^nounjective.label <label>)
+   (<o> ^name object-match
+        ^object <obj>)
+   (<obj> -^property.label <label>)
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {find-object*apply*object-match
+   (state <s> ^name find-object
+              ^operator <o>
+              ^superstate.operator <sso>)
+   (<o> ^name object-match
+        ^object <obj>)
+-->
+   (<sso> ^match <obj>)
+}

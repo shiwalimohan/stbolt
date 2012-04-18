@@ -4,4 +4,4 @@ popd
 
 source copy-message.soar
 
-source bare-attribute-response.soar
+source object-question.soar

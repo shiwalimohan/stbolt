@@ -5,3 +5,7 @@ source elaborations.soar
 source lookup.soar
 
 source complete-lookup-smem.soar
+
+source lookup-category.soar
+
+source lookup-label.soar

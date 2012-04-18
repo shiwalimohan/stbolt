@@ -29,6 +29,11 @@ source mappings.soar
 # Only the smem mappings are long-term
 
 
+pushd find-object
+source find-object_source.soar
+popd
+
+
 ########------- SMEM OPERATIONS ------######
 # lookup-smem
 ############################################
@@ -36,6 +41,7 @@ source mappings.soar
 pushd lookup-smem
 source lookup-smem_source.soar
 popd
+
 
 
 ##########-------- OBJECT PROCESSING -------#######

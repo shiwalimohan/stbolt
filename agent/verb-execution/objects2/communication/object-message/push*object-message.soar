@@ -1,6 +1,8 @@
 sp {propose*push-object-message
    (state <s> ^topstate <s>
-              ^instructor-message.type object-message)
+              ^instructor-message <msg>)
+   (<msg> ^type object-message
+          ^information.object.specifier this )
 -->
    (<s> ^operator <o> +)
    (<o> ^name push-object-message

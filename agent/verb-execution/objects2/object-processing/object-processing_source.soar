@@ -13,3 +13,7 @@ source create-value.soar
                                       
 source delete-value.soar
 # If a label disappears from the input link this will remove the corresponding value structure
+
+source object-info.soar
+
+source object-labels.soar

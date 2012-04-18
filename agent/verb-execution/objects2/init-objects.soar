@@ -50,19 +50,19 @@ sp {apply*init-agent*store*smem*word2cat
  
  	# Name
 	(<v41> ^type word2cat ^word block ^category name)
-	#(<v42> ^type word2cat ^word cylinder ^category name)
+	(<v42> ^type word2cat ^word cylinder ^category name)
 	(<v43> ^type word2cat ^word ball ^category name)
 	(<v44> ^type word2cat ^word object ^category name)
 }
 
-# Example way to pre-store labels
-sp {apply*init-agent*store*smem*label-map
-   (state <s> ^io.input-link <in>
-              ^operator.name init-agent
-              ^smem.command <cmd>)
--->
-   (<cmd> ^store <v1> <v2>)
-   (<v1> ^type label-map ^word round ^category shape ^label shape-round)
-   (<v2> ^type label-map ^word red ^category color ^label color-red)
-}
+## Example way to pre-store labels
+#sp {apply*init-agent*store*smem*label-map
+#   (state <s> ^io.input-link <in>
+#              ^operator.name init-agent
+#              ^smem.command <cmd>)
+#-->
+#   (<cmd> ^store <v1> <v2>)
+#   (<v1> ^type label-map ^word round ^category shape ^label shape-round)
+#   (<v2> ^type label-map ^word red ^category color ^label color-red)
+#}
    
