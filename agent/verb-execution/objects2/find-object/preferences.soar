@@ -7,3 +7,13 @@ sp {find-object*prefer*lookup-smem*over*object-match
 -->
    (<s> ^operator <o1> > <o2>)
 }
+
+sp {find-object*prefer*object-match*over*no-match
+   (state <s> ^name find-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name object-match)
+   (<o2> ^name no-match)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

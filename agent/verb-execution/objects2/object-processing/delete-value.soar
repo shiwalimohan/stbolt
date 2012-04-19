@@ -7,7 +7,8 @@ sp {propose*delete-value
               ^io.input-link.objects.object <io-obj>)
    (<obj> ^id <id>
           ^property <prop>)
-   (<prop> ^value <val>)
+   (<prop> ^category <> name
+           ^value <val>)
    (<val> ^label <label>)
    (<io-obj> ^id <id>
             -^category.<label>)

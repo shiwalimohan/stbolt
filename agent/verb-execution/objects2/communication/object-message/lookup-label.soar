@@ -30,7 +30,7 @@ sp {object-message*apply*lookup-smem*label*success
 }
 
 # Send a training label to the visual system
-sp {object-message*apply*lookup-smem*send-training-label
+sp {object-message*apply*lookup-smem*label*send-training-label
    (state <s> ^name object-message
               ^io.output-link <out>
               ^operator <o>
@@ -42,4 +42,42 @@ sp {object-message*apply*lookup-smem*send-training-label
 -->
    (<out> ^send-training-label <stl>)
    (<stl> ^id <id> ^label <label> ^category <cat>)
+}
+
+sp {object-message*apply*lookup-smem*label*name*object*existing-prop
+   (state <s> ^name object-message
+              ^operator <o>
+              ^object <obj>)
+   (<o> ^name lookup-smem
+        ^lookup-type label
+        ^query.category name
+        ^query.word <word>
+        ^result {<label> <> failure})
+   (<obj> ^property <prop>)
+   (<prop> ^category name
+          -^value.label <label>)
+-->
+   (<prop> ^value <v>)
+   (<v> ^label <label>
+        ^word <word>
+        ^confidence high)
+}
+
+sp {object-message*apply*lookup-smem*label*name*object*no-existing-prop
+   (state <s> ^name object-message
+              ^operator <o>
+              ^object <obj>)
+   (<o> ^name lookup-smem
+        ^lookup-type label
+        ^query.category name
+        ^query.word <word>
+        ^result {<label> <> failure})
+   (<obj> -^property.category name)
+-->
+   (<obj> ^property <prop>)
+   (<prop> ^category name
+           ^value <v>)
+   (<v> ^label <label>
+        ^word <word>
+        ^confidence high)
 }

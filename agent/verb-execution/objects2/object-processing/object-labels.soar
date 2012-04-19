@@ -23,6 +23,16 @@ sp {elaborate*object-labels*medium
 -->
    (<prop> ^label <label>)
 }
+
+sp {elaborate*object-labels*name
+   (state <s> ^topstate <s>
+              ^object <obj>)
+   (<obj> ^property <prop>)
+   (<prop> ^category name
+           ^value.label <label>) 
+-->
+   (<prop> ^label <label>)
+}
    
 
    

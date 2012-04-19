@@ -28,3 +28,19 @@ sp {find-object*apply*object-match
 -->
    (<sso> ^match <obj>)
 }
+
+sp {find-object*propose*no-match
+   (state <s> ^name find-object)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name no-match
+        ^category object-processing)
+}
+
+sp {find-object*apply*no-match
+   (state <s> ^name find-object
+              ^superstate.operator <o>
+              ^operator.name no-match)
+-->
+   (<o> ^match failure)
+}

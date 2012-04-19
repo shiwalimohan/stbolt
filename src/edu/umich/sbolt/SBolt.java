@@ -206,7 +206,7 @@ public class SBolt implements LCMSubscriber
         if (inputLinkHandler == null)
             return;
         if(received){
-        	return;
+        	//return;
         }
         received = true;      
         
