@@ -77,6 +77,7 @@ public class Messages implements IInputLinkElement
             messageId.DestroyWME();
             messageId = null;
         }
+        messageChanged = false;
     }
     
     public synchronized void addMessage(String message){

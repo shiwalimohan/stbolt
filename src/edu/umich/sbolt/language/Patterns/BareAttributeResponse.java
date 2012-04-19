@@ -12,24 +12,24 @@ import sml.Identifier;
 
 public class BareAttributeResponse extends LinguisticEntity{
     public static String TYPE = "BareAttributeResponse";
-    private String attribute = null;
+    private String category = null;
     
-    public String getAttribute(){
-        return attribute;
+    public String getCategory(){
+        return category;
     }
     
     public void translateToSoarSpeak(Identifier messageId, String connectingString){
         messageId.CreateStringWME("type", "bare-attribute-response");
         messageId.CreateStringWME("originator", "mentor");
         Identifier fieldsId = messageId.CreateIdWME("fields");
-        fieldsId.CreateStringWME("attribute", attribute);
+        fieldsId.CreateStringWME("category", category);
     }
 
     public void extractLinguisticComponents(String string, Map tagsToWords) {
         Pattern p = Pattern.compile("AT\\d*");
         Matcher m = p.matcher(string);
         if(m.find()){
-            attribute = (String)tagsToWords.get(m.group());
+        	category = (String)tagsToWords.get(m.group());
         }
     }
 }

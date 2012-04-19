@@ -40,7 +40,7 @@
 		<EntityType>ObjectIdentification</EntityType>
 	</Pattern>
 	<Pattern name="BareAttributeResponse">
-		<Regex>(DT\d* )(attribute\d* )(AT\d*)</Regex>
+		<Regex>(DT\d* )(category\d* )(AT\d*)</Regex>
 		<Tag>BAR</Tag>
 		<EntityType>BareAttributeResponse</EntityType>
 	</Pattern>	

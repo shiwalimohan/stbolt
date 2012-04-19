@@ -1,0 +1,8 @@
+sp {test*object-message*mappings
+   (state <s> ^topstate <s>
+              ^mappings.word2cat <w2c>
+              ^mappings.label-map <lm>)
+-->
+   (<w2c> ^red color)
+   (<lm> ^red.color color-red)
+}

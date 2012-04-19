@@ -1,0 +1,7 @@
+sp {find-object*elaborate*nounjective
+   (state <s> ^name find-object
+              ^superstate.operator <o>)
+   (<o> ^word <w>)
+-->
+   (<s> ^nounjective.word <w>)
+}

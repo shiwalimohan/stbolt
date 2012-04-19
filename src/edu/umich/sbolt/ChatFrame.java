@@ -98,6 +98,7 @@ public class ChatFrame extends JFrame
     	chatField.setText("");
     	chatArea.setText("");
     	sbolt.getInputLink().clearLGMessages();
+    	sbolt.getWorld().destroyMessage();
     }
     
     public void exit(){

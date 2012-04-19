@@ -1,0 +1,38 @@
+sp {elaborate*object-labels*high-confidence
+   (state <s> ^topstate <s>
+              ^object <obj>)
+   (<obj> ^property <prop>)
+   (<prop> ^value <v1>)
+   (<v1> ^label <label>
+         ^confidence high)
+   -{(<prop> ^value <v2>)
+     (<v2> ^label <> <label>
+           ^confidence high)}
+-->
+   (<prop> ^label <label>)
+}
+
+sp {elaborate*object-labels*medium
+   (state <s> ^topstate <s>
+              ^object <obj>)
+   (<obj> ^property <prop>)
+   (<prop> ^value <v1>
+          -^value <> <v1>)
+   (<v1> ^label <label>
+         ^confidence medium)
+-->
+   (<prop> ^label <label>)
+}
+
+sp {elaborate*object-labels*name
+   (state <s> ^topstate <s>
+              ^object <obj>)
+   (<obj> ^property <prop>)
+   (<prop> ^category name
+           ^value.label <label>) 
+-->
+   (<prop> ^label <label>)
+}
+   
+
+   
