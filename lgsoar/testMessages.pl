@@ -228,6 +228,12 @@ else {
 ["No.",
 "single-word-response 
   response no"],
+["Red is a color.",
+"object-message 
+  object 
+    specifier INDEF
+    word color
+    word red"]
 
 );
 

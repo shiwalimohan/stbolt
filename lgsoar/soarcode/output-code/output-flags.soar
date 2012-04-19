@@ -31,67 +31,23 @@ sp {global*apply*generate-predicates*output*set-flag*copula*fail
 
 #################################### preposition flags #########################
 
-### use just 1 flag for all preps, based on the lex item
-sp {global*apply*generate-predicates*output*flag-preplex
-  :o-support
-   (state <s> ^model.idea <idea> ^refsets.refs.count <count>) #^count <count>
-   (state <s> ^operator <o>)
-   (<o> ^name generate-predicates ^annotation copulaflag-set)
-   (<idea> ^{<< about above across after against along among around as at 
-		before behind below beneath beside between beyond but by
-		concerning despite down during except excepting for from
-		in inside into like near next of off on onto out outside
-		over past regarding round since through throughout till to 
-		toward under underneath unlike until up upon with within
-		without >> <ptype>} <pval>)
--->
-  (<idea> ^preplex <ptype> +)
-  (<o> ^annotation prepflags-set +)
-}
-
 ### copula+pred-pp have different structure
 sp {global*apply*generate-predicates*output*flag-preplex*copula
-  :o-support
-   (state <s> ^model.idea <idea> ^refsets.refs.count <count>) #^count <count> 
-   (state <s> ^operator <o>)
+   (state <s> ^model.idea <idea> ^operator <o>)
    (<o> ^name generate-predicates ^annotation copulaflag-set)
-   (<idea> ^preplex <some> ^annotation copula)
+   (<idea> ^preposition-lex <some> ^annotation copula)
 -->
   (<idea> ^annotation pred-pp +)
-  (<o> ^annotation prepflags-set +)
 }
 
-### otherwise
-sp {global*apply*generate-predicates*output*flag-preplex*fail
-  :o-support
-   (state <s> ^model.idea <idea> ^refsets.refs.count <count>) #^count <count> 
+### should fire in parallel with the above 
+sp {global*apply*generate-predicates*output*flag-preplex*done
    (state <s> ^operator <o>)
    (<o> ^name generate-predicates ^annotation copulaflag-set)
-   
- -{
-    (<idea> ^{<< about above across after against along among around as at 
-		before behind below beneath beside between beyond but by
-		concerning despite down during except excepting for from
-		in inside into like near next of off on onto out outside
-		over past regarding round since through throughout till to 
-		toward under underneath unlike until up upon with within
-		without >> <ptype>} <pval>)
-		
-	}
- -{
-   (<idea> ^nuc { << about above across after against along among around as at 
-		before behind below beneath beside between beyond but by
-		concerning despite down during except excepting for from
-		in inside into like near next of off on onto out outside
-		over past regarding round since through throughout till to 
-		toward under underneath unlike until up upon with within
-		without >> <ptype>} ^aug.annotation copula)
-	}
-	
-	
 -->
-  (<o> ^annotation prepflags-set +)
+  (<o> ^annotation prepflags-set)
 }
+
 
 #################################### adjective/noun flags #########################
 

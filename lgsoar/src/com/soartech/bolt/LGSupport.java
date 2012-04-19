@@ -64,13 +64,14 @@ public class LGSupport {
  
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
             agent.CreateIntWME(wordWME, "wcount", wordx);
-            agent.CreateStringWME(wordWME, "wvalue", wordval);
+            agent.CreateStringWME(wordWME, "original-wvalue", wordval);
         }
             
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
         
         String noStarsPattern = "\\*";
+        String idiomPattern = "ID.*";
         String pattern = "([A-Z]+)([a-z]*)";
         
         // now load the links
@@ -87,6 +88,7 @@ public class LGSupport {
             
             String ltype = linkLabel;
             ltype = ltype.replaceAll(pattern, "$1");
+            ltype = ltype.replaceAll(idiomPattern, "ID");
             String lsubtype = linkLabel;
             lsubtype = lsubtype.replaceAll(pattern, "$2");
             

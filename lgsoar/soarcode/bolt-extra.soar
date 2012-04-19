@@ -44,8 +44,8 @@ sp {global*apply*handle-single-word
 sp {global*apply*generate-predicates*role-preposition
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
-   (<idea> ^nuc <nucval> ^preplex <plex> ^<plex> <pobjval>)
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^preplex <pl2> ^<pl2> <prep>)
+   (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^preposition-lex <pl2> ^<pl2> <prep>)
 -->
    (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
@@ -59,7 +59,7 @@ sp {global*apply*generate-predicates*role-preposition*copula*ext
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
    (<idea> ^ext <ext> ^nuc <nucval> ^annotation copula) 
-   (<ext> ^nuc <thisnucval> ^preplex <pl> ^<pl> <prep>)
+   (<ext> ^nuc <thisnucval> ^preposition-lex <pl> ^<pl> <prep>)
 -->
    (<ext> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
@@ -73,7 +73,7 @@ sp {global*apply*generate-predicates*role-preposition*copula*int
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
    (<idea> ^int <int> ^ext <ext> ^nuc <nucval> ^annotation copula) 
-   (<int> ^nuc <thisnucval> ^preplex <pl> ^<pl> <prep>)
+   (<int> ^nuc <thisnucval> ^preposition-lex <pl> ^<pl> <prep>)
 -->
    (<int> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)

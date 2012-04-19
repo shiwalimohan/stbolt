@@ -24,7 +24,7 @@ sp {promote*propose*direct-promotion
    (<main> ^<aug> <arg>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name basic ^priority 70 ^imain <imain> ^aug <aug> ^iarg <iarg>
+   (<o> ^name basic ^priority 70 ^imain <imain> ^aug <aug> ^iarg <iarg> ^ref <main>
    	 ^order <arg-wcount> ^level-two-order <main-wcount> 
      ^debug-info (concat |directly promoting: idea for "|<main-wval>|" gets a | <aug> | of "| <arg-wval> |"|))
 }
@@ -41,7 +41,7 @@ sp {promote*propose*indirect-promotion
    (<iarg> ^{<> aug <aug>} <imain>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name basic ^priority 60 ^imain <imain> ^aug aug ^iarg <iarg>
+   (<o> ^name basic ^priority 60 ^imain <imain> ^aug aug ^iarg <iarg> ^ref <main>
    	 ^order <arg-wcount> ^level-two-order <main-wcount> 
      ^debug-info (concat |indirectly promoting: idea for "|<main-wval>|" gets an aug of "| <arg-wval> |"|))
 }
@@ -52,6 +52,13 @@ sp {promote*apply*direct-promotion
    (<o> ^name basic ^imain <imain> ^aug <aug> ^iarg <iarg>)
 -->
    (<imain> ^<aug> <iarg> +)
+}
+
+sp {promote*apply*direct-promotion*preposition-flag
+   (state <s> ^operator <o>)
+   (<o> ^name basic ^imain <imain> ^ref.preposition-lex <prep>)
+-->
+   (<imain> ^preposition-lex <prep>)
 }
 
 ## feature promotion

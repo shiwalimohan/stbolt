@@ -181,7 +181,9 @@ sp {interpret*propose*MV-J*as*preposition
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug <aug> ^arg <prep-obj> ^link <MV-link>
-   	 ^kind single ^order <main-count> ^level-two-order <prep-count> )}
+   	 ^kind single ^order <main-count> ^level-two-order <prep-count> 
+     ^preposition true)
+}
  
 
 sp {interpret*propose*AN*as*noun-auging-noun
@@ -252,10 +254,8 @@ sp {interpret*apply*single-side-add-arg
    (<link> ^handled-as <aug>)
 }
 sp {interpret*apply*single-add-arg*if*arg-requires-ref
- #  :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
-   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single
-   	 )
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single)
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
@@ -265,6 +265,15 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
    (<arg-ref> ^head <arg>)
    (<arg> ^ref <arg-ref>)
    (<link> ^handled-as <aug>)
+}
+
+sp {interpret*apply*add-arg*flag-preposition
+   (state <s> ^operator <o> ^count <count> ^refsets.refs.count <count>)
+   (<o> ^name add-arg ^preposition true
+        ^main <main> ^aug <aug>)
+   (<main> ^ref <main-ref>)
+-->
+   (<main-ref> ^preposition-lex <aug>)
 }
 
 sp {interpret*apply*single-add-arg*if*arg-has-ref
@@ -299,8 +308,7 @@ sp {interpret*propose*P*as*internal
 -->
 	(<s> ^operator <o> +)
 	(<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
-		 ^kind single ^order <main-count> ^level-two-order <int-count>
-		 )
+		 ^kind single ^order <main-count> ^level-two-order <int-count>)
 }
 
 

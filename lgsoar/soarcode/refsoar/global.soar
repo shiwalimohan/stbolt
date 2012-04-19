@@ -180,9 +180,8 @@ sp {global*propose*processing-complete
 -->
    (<s> ^operator <o> +)
    (<o> ^name processing-complete
-        ^priority 1000)
+        ^priority 900)
 }
-
 
 # most LGSoar state is removed since it is below structures elaborated
 # from activate*create*space, which retracts when the sentence is flagged done
@@ -219,3 +218,65 @@ sp {lg*resolve-ties-indifferently
    (write (crlf) |WARNING: LGSoar tie encountered, resolving indifferently in order to make progress.|)
 }
 
+# handle idioms..
+
+# need a simple workaround so the sentence can be edited in place
+# (it is made of read-only input WMEs)
+# Java code changed to make original-wvalue rather than wvalue
+sp {global*elaborated*wvalue
+   (state <s> ^problem-space lgsoar
+              ^io.lgsentence.words.word <wd>)
+   (<wd> ^original-wvalue <wv>)
+-->
+   (<wd> ^wvalue <wv>)
+}
+
+sp {global*elaborate*unexpanded-idiom
+   (state <s> ^problem-space lgsoar
+              ^io.lgsentence <sent>)
+   (<sent> ^links.link <ln>
+           ^words.word <rightword>)
+   (<rightword> ^wcount <rightc>)
+   (<ln> ^ltype ID
+         ^lwright <rightc>)
+-->
+   (<rightword> ^unexpanded-idiom true)
+}
+
+sp {global*propose*expand-idiom
+   (state <s> ^problem-space lgsoar
+              ^count <ct>
+              ^io.lgsentence <sent>)
+   (<sent> ^count <ct>
+           ^words.word <wd>)
+   (<wd> ^unexpanded-idiom true
+         ^wcount <idx>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name expand-idiom
+        ^priority 1000
+        ^order <idx>)
+}
+
+sp {global*apply*expand-idiom
+   (state <s> ^problem-space lgsoar
+              ^operator <o>
+              ^io.lgsentence <sent>)
+   (<sent> ^links.link <ln>
+            ^words.word <wdl>
+            ^words.word <wdr>)
+   (<o> ^name expand-idiom
+        ^order <idx>)
+   (<ln> ^ltype ID
+         ^lwleft <leftc>
+         ^lwright <idx>)
+   (<wdl> ^wcount <leftc>
+          ^wvalue <lval>)
+   (<wdr> ^wcount <idx>
+          ^wvalue <rval>
+          ^unexpanded-idiom true)
+-->
+   (<wdr> ^unexpanded-idiom true -
+          ^wvalue <rval> -
+          ^wvalue (concat <lval> |-| <rval>))
+}
