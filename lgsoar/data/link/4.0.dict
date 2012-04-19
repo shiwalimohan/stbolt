@@ -2526,8 +2526,10 @@ back.k: ({Yd-} & K-) or (MVp+ & (MVp- or FM-));
 forth aside.p: K- or MVa-;
 
 nearby: A+ or MVp- or Pp- or FM-;
+
+% SBW added left of and right of to this list
 next_to in_back_of in_front_of close_to on_top_of outside_of
-inside_of atop:
+inside_of atop left_of right_of:
 J+ & (<prep-main-b> or FM- or [Wq- & PF+]); 
 ahead_of by_way_of akin_to betwixt vis-a-vis in_lieu_of on_account_of
 in_place_of in_search_of:
