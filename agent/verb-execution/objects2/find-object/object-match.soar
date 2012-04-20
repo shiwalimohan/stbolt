@@ -16,15 +16,29 @@ sp {find-object*reject*not-match
         ^object <obj>)
    (<obj> -^property.label <label>)
 -->
-   (<s> ^operator <o> -)
+   (<s> ^operator <o> -
+   	^not-match <obj>)
 }
+
+#### SM: changed to support multiple object matches, resolution is attempted later based on object affordances.
 
 sp {find-object*apply*object-match
    (state <s> ^name find-object
-              ^operator <o>
-              ^superstate.operator <sso>)
+              ^operator <o> +
+	      -^not-match <obj>)
    (<o> ^name object-match
         ^object <obj>)
+-->
+   (<s> ^operator <o> =)
+}
+
+sp {find-object*write*match*superstate-operator
+   (state <s> ^name find-object
+              ^superstate.operator <sso>	
+	      ^operator <o>
+	      ^topstate.object <obj>
+	      -^not-match <obj>)
+   (<o> ^name object-match)
 -->
    (<sso> ^match <obj>)
 }
