@@ -28,8 +28,7 @@ sp {lookup-smem*label*failure*create*new-label
         ^query.category <cat>
         ^result failure)
 -->
-   #(<o> ^new-label (concat <cat> |-| <word>))
-   (<o> ^new-label <word>) #SM: temp change to work with current verb learning system.
+   (<o> ^new-label (concat <cat> |-| <word>))
 }
 
 # Adds the new-label as a result to the operator
