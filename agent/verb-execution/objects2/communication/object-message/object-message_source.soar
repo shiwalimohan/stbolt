@@ -6,8 +6,7 @@ source preferences.soar
 
 source elaborations.soar
 
-# SM: removed this test as it was setting a strange value
-#source test*object-message.soar
+source test*object-message.soar
 
 source lookup-category.soar
 # Fetch the category for the given word from memory
