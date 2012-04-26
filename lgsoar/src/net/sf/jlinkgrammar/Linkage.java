@@ -541,12 +541,13 @@ public class Linkage {
         sublinkage[num_subs] = unionize_linkage();
 
         /* The domain data will not be needed for the union -- zero it out */
+        /* SBW removing this, pp_data is null...
         sublinkage[num_subs].pp_data.N_domains = 0;
         sublinkage[num_subs].pp_data.length = 0;
         sublinkage[num_subs].pp_data.links_to_ignore = null;
         for (i = 0; i < GlobalBean.MAX_SENTENCE; ++i) {
             sublinkage[num_subs].pp_data.word_links[i] = null;
-        }
+        }*/
 
         num_sublinkages++;
 

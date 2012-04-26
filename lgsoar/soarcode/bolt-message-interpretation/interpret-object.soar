@@ -51,6 +51,19 @@ sp {interpret-object*choose-specifier*thisthat-over-others
    (<s> ^operator <o1> > <o2>)
 }
 
+# "This block is a red one." -> DEF, not INDEF
+sp {interpret-object*choose-specifier*def-over-indef 
+   (state <s> ^name interpret-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name choose-specifier
+         ^specifier DEF)
+   (<o2> ^name choose-specifier
+         ^specifier INDEF)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
 sp {interpret-object*apply*choose-specifier
    (state <s> ^name interpret-object
               ^operator <o>)

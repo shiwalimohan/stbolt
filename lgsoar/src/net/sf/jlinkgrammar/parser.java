@@ -128,31 +128,18 @@ public class parser {
 
         if (dictionary_file == null) {
              dictionary_file = lgpDataDir + "/4.0.dict";
-//            dictionary_file = "4.0.dict";
-            // TODO: logging
-//            System.out.println("No dictionary file specified.  Using " + dictionary_file + ".");
         }
 
         if (af_on && affix_file == null) {
              affix_file = lgpDataDir + "/4.0.affix";
-//            affix_file = "4.0.affix";
-            // TODO: logging
-//            System.out.println("No affix file specified.  Using " + affix_file + ".");
         }
 
         if (pp_on && post_process_knowledge_file == null) {
              post_process_knowledge_file = lgpDataDir + "/4.0.knowledge";
-//            post_process_knowledge_file = "4.0.knowledge";
-            // TODO: logging
-//            System.out.println("No post process knowledge file specified.  Using " + post_process_knowledge_file + ".");
         }
 
         if (cons_on && constituent_knowledge_file == null) {
              constituent_knowledge_file = lgpDataDir + "/4.0.constituent-knowledge";
-//            constituent_knowledge_file = "4.0.constituent-knowledge";
-            // TODO: logging
-//            System.out.println("No constituent knowledge file specified.  Using " + 
-//                    constituent_knowledge_file + ".");
         }
 
         try { dict =
@@ -186,7 +173,7 @@ public class parser {
          */
         {
         	
-//        	System.out.println("Got into doIt");
+        	//System.out.println("Got into doIt");
         	String testString = arg[0];
             
             // DWL added this
@@ -200,7 +187,7 @@ public class parser {
             opts.parse_options_set_min_null_count(0);
             opts.parse_options_set_max_null_count(0);
             opts.parse_options_reset_resources();
-            
+                        
             num_linkages = sent.sentence_parse(opts);
             if ( num_linkages == 0) { 
                 // O.K. we have a null link (i.e. word without a link)
@@ -210,14 +197,12 @@ public class parser {
                 num_linkages = sent.sentence_parse(opts);
             }
             
-            /* This is an example of the API uncomment it to see it work. **/
             /* DWL deleted lots of stuff... */
             
             // Normally you loop over linkages; here we only choose the first
             
-            // SBW removed for lgsoar-simple
             Linkage myLinkage = new Linkage(0, sent, opts);
-
+            
             LGSupport.loadLinkage(myLinkage, sent);
             return;
         }

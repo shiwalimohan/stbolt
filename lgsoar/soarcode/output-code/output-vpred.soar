@@ -81,7 +81,7 @@ sp {global*apply*generate-predicates*output*predicate-ditrx
    (state <s> ^operator.name generate-predicates 
    #^count <count> 
    ^refsets.refs.count <count>)
-   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> ^int {<> <intval> <int2val>})
+   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> ^int {<> <intval> <int2val>} -^annotation copula)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
    (<intval> ^wcount <w1val>)
    (<int2val> ^wcount {< <w1val> <w2val>})

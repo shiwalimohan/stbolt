@@ -37,13 +37,12 @@ public class LGSupport {
         int     lWordIndex;
         String  linkLabel;
         
+        // combine all sublinkages to one
+        thisLinkage.linkage_compute_union();
+        
         String outstr = thisLinkage.linkage_print_diagram();
 		System.out.println(outstr);
 		
-        // Normally you loop through sublinkages
-        // int n = thisLinkage.linkage_get_num_sublinkages();
-        // For now only choose the first sublinkage
-        thisLinkage.linkage_set_current_sublinkage(0);
         int numLinks = thisLinkage.linkage_get_num_links();
         
        // make a root for this sentence
