@@ -28,7 +28,8 @@ sp {lookup-smem*label*failure*create*new-label
         ^query.category <cat>
         ^result failure)
 -->
-   (<o> ^new-label (concat <cat> |-| <word>))
+   (<o> ^new-label <word>)
+   # (concat <cat> |-| <word>))
 }
 
 # Adds the new-label as a result to the operator

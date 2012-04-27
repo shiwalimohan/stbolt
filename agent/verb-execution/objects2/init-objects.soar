@@ -27,7 +27,7 @@ sp {apply*init-agent*store*smem*word2cat
               ^smem.command <cmd>)
 -->
    (<cmd> ^store <v11> <v12> <v13> <v14> <v15> <v16> # Color
-          		 <v21> <v22> <v23>  # Shape
+          		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29>  # Shape
 				 <v31> <v32> <v33>  # Size
 				 <v41> <v42> <v43> <v44>) # Name
    # Color
@@ -39,9 +39,15 @@ sp {apply*init-agent*store*smem*word2cat
    (<v16> ^type word2cat ^word purple ^category color)
    
    # Shape
-	(<v21> ^type word2cat ^word square ^category shape)
-	(<v22> ^type word2cat ^word round ^category shape)
-	(<v23> ^type word2cat ^word triangular ^category shape)
+	(<v21> ^type word2cat ^word rectangle ^category shape)
+	(<v22> ^type word2cat ^word triangle ^category shape)
+	(<v23> ^type word2cat ^word cylinder ^category shape)
+	(<v24> ^type word2cat ^word l-block ^category shape)
+	(<v25> ^type word2cat ^word t-block ^category shape)
+	(<v26> ^type word2cat ^word half-cylinder ^category shape)
+	(<v27> ^type word2cat ^word arch ^category shape)
+	(<v28> ^type word2cat ^word square ^category shape)
+	(<v29> ^type word2cat ^word doughnut ^category shape)
  
  	# Size
 	(<v31> ^type word2cat ^word small ^category size)
@@ -49,9 +55,9 @@ sp {apply*init-agent*store*smem*word2cat
 	(<v33> ^type word2cat ^word large ^category size)
  
  	# Name
-	(<v41> ^type word2cat ^word block ^category name)
-	(<v42> ^type word2cat ^word cylinder ^category name)
-	(<v43> ^type word2cat ^word ball ^category name)
+	#(<v41> ^type word2cat ^word block ^category name)
+	#(<v42> ^type word2cat ^word cylinder ^category name)
+	#(<v43> ^type word2cat ^word ball ^category name)
 	(<v44> ^type word2cat ^word object ^category name)
 }
 

@@ -51,7 +51,22 @@ public class SBolt implements LCMSubscriber
 
     private World world;
     
-    private boolean received = false;
+    private boolean ready = true;
+    
+    private static boolean inputLinkLocked = false;
+    public static void lockInputLink(){
+    	while(inputLinkLocked){
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	inputLinkLocked = true;
+    }
+    public static void unlockInputLink(){
+    	inputLinkLocked = false;
+    }
 
     public SBolt(String channel, String agentName)
     {
@@ -203,12 +218,10 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
-        if (inputLinkHandler == null)
+        if (inputLinkHandler == null || !ready)
             return;
-        if(received){
-        	//return;
-        }
-        received = true;      
+        ready = false;
+        SBolt.lockInputLink();
         
         observations_t obs = null;
         try
@@ -221,6 +234,8 @@ public class SBolt implements LCMSubscriber
             e.printStackTrace();
             return;
         }
+        SBolt.unlockInputLink();
+        ready = true;
     }
 
     /**
