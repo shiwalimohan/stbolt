@@ -73,7 +73,7 @@ sp {global*propose*find-root
 -->
 	(<s> ^operator <o> + >)
 	(<o> ^name find-root ^priority 170 ^new <new> 
-       ^debug-info (concat |found root of | <type> | link from "| <oldVal> |" to "| <newVal> |"|))
+       ^debug-info (concat |finding root verb: traversed | <type> | link from "| <oldVal> |" to "| <newVal> |"|))
 }
 
 sp	{global*apply*find-root
