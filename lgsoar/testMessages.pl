@@ -258,8 +258,25 @@ else {
         specifier DEF
         word pantry
       word to
-    word move"]
+    word move"],
+["The goal is a red square on the stove.",
+"goal-relation-message 
+  relation 
+    p1-object 
+      specifier DEF
+      word red
+      word square
+    p2-object 
+      specifier DEF
+      word stove
+    word on"],
 
+["The goal is an empty gripper.",
+"goal-object-message 
+  object 
+    specifier DEF
+    word empty
+    word gripper"]
 );
 
 $passCount = 0;

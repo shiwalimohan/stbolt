@@ -1,0 +1,13 @@
+source general.soar
+source choose-message-type.soar
+source interpret-object.soar
+source interpret-relation.soar
+source interpret-verb.soar
+source interpret-preposition.soar
+source interpret-object-message.soar
+source interpret-object-question.soar
+source interpret-relation-message.soar
+source interpret-relation-question.soar
+source interpret-verb-command.soar
+source interpret-goal-object-message.soar
+source interpret-goal-relation-message.soar

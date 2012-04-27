@@ -1,0 +1,64 @@
+
+sp {interpret-goal-relation-message*propose*mark-goal-predicate
+   (state <s> ^name interpret-goal-relation-message
+             -^goal-predicate)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name mark-goal-predicate)
+}
+
+sp {interpret-goal-relation-message*apply*mark-goal-predicate
+   (state <s> ^name interpret-goal-relation-message
+              ^operator.name mark-goal-predicate
+              ^all-predicates.predicate <p>)
+   (<p> ^outer goal)
+-->
+   (<s> ^goal-predicate <p>)
+   (<p> ^ignored true)
+}
+
+sp {interpret-goal-relation-message*propose*collect-predicates
+   (state <s> ^name interpret-goal-relation-message
+              ^goal-predicate
+             -^predicates-collected)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name collect-predicates)
+}
+
+sp {interpret-goal-relation-message*apply*collect-predicates*root
+   (state <s> ^name interpret-goal-relation-message
+              ^operator.name collect-predicates)
+-->
+   (<s> ^relation-predicates <op>)
+}
+
+sp {interpret-goal-relation-message*apply*collect-predicates
+   (state <s> ^name interpret-goal-relation-message
+              ^operator.name collect-predicates
+              ^relation-predicates <op>
+              ^all-predicates.predicate <p>)
+   (<p> -^ignored)
+-->
+   (<op> ^predicate <p>)
+   (<s> ^predicates-collected true)
+}
+
+sp {interpret-goal-relation-message*propose*interpret-relation
+   (state <s> ^name interpret-goal-relation-message
+              ^relation-predicates <p>
+              ^predicates-collected
+             -^relation-interpretation)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-relation
+        ^predicates <p>)
+}
+
+sp {interpret-goal-relation-message*elaborate*return-interpretation
+   (state <s> ^name interpret-goal-relation-message
+              ^all-predicates <p>
+              ^relation-predicates.interpretation <oi>) # comes from interpret-relation
+-->
+   (<p> ^interpretation.goal-relation-message <oi>)
+}
