@@ -203,6 +203,8 @@ sp {interpret*propose*MV-J*as*preposition
 }
  
 
+# SBW 4/9/2012 changed aug to aug1 to represent similar to adjective.
+# implications?
 sp {interpret*propose*AN*as*noun-auging-noun
    (state <s> ^count <count> ^io.lgsentence <cs>)
    (<cs> ^count <count> ^links.link <link> ^words.word <main> <arg>)
@@ -213,16 +215,27 @@ sp {interpret*propose*AN*as*noun-auging-noun
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug aug1 ^arg <arg> ^link <link>
    	 ^kind single-side ^order <main-count> ^level-two-order <arg-count> )}
-# SBW 4/9/2012 changed aug to aug1 to represent similar to adjective.
-# implications?
+
+# SBW 4/27/2012
+# Handle post-noun adjectives: "This is the block available."
+# (added to handle a parse error, but still correct so I'm leaving it in)
+sp {interpret*propose*M*as*adj-auging-noun
+   (state <s> ^count <count> ^io.lgsentence <cs>)
+   (<cs> ^count <count> ^links.link <link> ^words.word <main> <arg>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<arg> ^wcount <arg-count>)
+   (<link> ^ltype M ^ltypesub a ^lwright <arg-count> ^lwleft <main-count> -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug aug1 ^arg <arg> ^link <link>
+   	 ^kind single-side ^order <main-count> ^level-two-order <arg-count>)
+}
 
 # applications
 
 sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
-#  :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
-   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant 
-       )
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant)
    (<main> ^ref <main-ref>)
    (<cons-arg> ^feature <fval> ^word <wval>)
 -->
@@ -232,21 +245,17 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
  }
 
 sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
-#  :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant -^arg.feature)
    (<main> ^ref <main-ref>)
 -->
-   (<main-ref> ^<aug> <dfoo> +)
-   (<dfoo> ^feature <fval> + ^word <wval> +)
-   (<link> ^handled-as <aug> +)
- }
+   (<main-ref> ^<aug> <arg> +)
+   (<link> ^handled-as <aug> +) 
+}
 
 sp {interpret*apply*single-side-add-arg
- # :o-support
    (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
-   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single-side
-   	 )
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single-side)
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
@@ -282,8 +291,7 @@ sp {interpret*apply*add-arg*flag-preposition
 
 sp {interpret*apply*single-add-arg*if*arg-has-ref
    (state <s> ^operator <o> ^refsets.refs <refs>)
-   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single
-       )
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single)
    (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> ^ref <arg-ref>)
