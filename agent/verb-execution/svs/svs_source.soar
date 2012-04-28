@@ -9,6 +9,10 @@ pushd svs-label
 source svs-label_source.soar
 popd
 
+#pushd svs-query
+#source svs-query_source.soar
+#popd
+
 pushd find-relations
 source find-relations_source.soar
 popd

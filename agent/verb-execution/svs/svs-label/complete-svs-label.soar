@@ -1,3 +1,4 @@
+
 sp {svs-label*propose*complete-svs-label*direct
    (state <s> ^name svs-label
               ^superstate.operator.message.fields.objects <objs>
@@ -115,11 +116,16 @@ sp {svs-label*propose*complete-svs-label*direct*false
 sp {svs-label*apply*complete-svs-label*direct*mark-processed
    (state <s> ^name svs-label
               ^operator.name complete-svs-label
+              ^topstate.status <status>
               ^superstate <ss>)
    (<ss> ^operator.message <m>)
    (<ss> ^superstate <sss>)
+   (<sss> ^obj1 <id1>
+          ^obj2 <id2>)
 -->
-   (<sss> ^processed <m>)
+   (<sss> ^obj1 <id1> -)
+   (<sss> ^obj2 <id2> -)
+   (<status> ^performed.learning-event preposition)
 }
 
 

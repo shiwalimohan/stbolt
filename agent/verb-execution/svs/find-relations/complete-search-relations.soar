@@ -1,6 +1,5 @@
 sp {find-relations*complete-relations-search*true
    (state <s> ^name find-relations
-              ^superstate <ss>
               ^obj <id>
              -^superstate.operator.relationships
 			  ^relation <r>)
@@ -17,7 +16,6 @@ sp {find-relations*complete-relations-search*true
 
 sp {find-relations*complete-relations-search*false
    (state <s> ^name find-relations
-              ^superstate <ss>
               ^obj <id>
              -^superstate.operator.relationships
 			  ^relation <r>)

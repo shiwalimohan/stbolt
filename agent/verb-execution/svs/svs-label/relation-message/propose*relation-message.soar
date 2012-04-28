@@ -88,14 +88,28 @@ sp {relation-messaging*propose*process-svs-message
    (<objb> ^id <id2> ^index 2)
 } 
 
-sp {relation-messaging*propose*process-svs-message*test
-   (state <s> ^processed <msg>
-              ^topstate <s>
-              ^interaction.stack.segment.purpose <p>
-              ^obj2 <id2>)
- -->
-   (<s> ^operator <o> +)
-   (<o> ^name find-relations
-        ^category svs
-		 ^obj <id2>)
-}
+
+
+#sp {relation-message*clean*up
+#   (state <s> ^topstate <s>
+#             -^interaction.stack.segment.purpose.type relation-message
+#              ^processed <msg>
+#              ^obj1 <id1>
+#              ^obj2 <id2>)
+#-->
+#   (<s> ^obj1 <id1> -)
+#   (<s> ^obj2 <id2> -)
+#   (<s> ^processed <msg> -)
+#}
+#sp {relation-messaging*propose*process-svs-message*test
+#   (state <s> ^processed <msg>
+#              ^topstate <s>
+#              ^interaction.stack.segment.purpose <p>
+#              ^obj2 <id2>)
+# -->
+#   (<s> ^operator <o> +)
+#   (<o> ^name find-relations
+#        ^category svs
+#		 ^obj <id2>)
+#}
+
