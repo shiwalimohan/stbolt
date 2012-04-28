@@ -1,0 +1,24 @@
+# Elaborates Flexible structures on the object
+# Includes pose and bbox
+
+sp {elaborate*object*pose
+   (state <s> ^topstate <s>
+              ^io.input-link.objects.object <il-obj>
+              ^object <obj>)
+   (<il-obj> ^id <id>
+             ^pose <pose>)
+   (<obj> ^id <id>)
+-->
+   (<obj> ^pose <pose>)
+}
+
+sp {elaborate*object*bbox
+   (state <s> ^topstate <s>
+              ^io.input-link.objects.object <il-obj>
+              ^object <obj>)
+   (<il-obj> ^id <id>
+             ^bbox <pose>)
+   (<obj> ^id <id>)
+-->
+   (<obj> ^bbox <pose>)
+}
