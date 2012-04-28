@@ -244,15 +244,6 @@ public class SBolt implements LCMSubscriber
      */
     private void broadcastLcmCommand()
     {
-        robot_command_t command = outputLinkHandler.getCommand();
-        if (command == null)
-        {
-            return;
-        }
-        synchronized (command)
-        {
-            lcm.publish("ROBOT_COMMAND", command);
-        }
         synchronized (outputLinkHandler){
         	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
         	if(newLabels != null){
@@ -266,6 +257,10 @@ public class SBolt implements LCMSubscriber
             	lcm.publish("TRAINING_DATA", trainingData);
         	}
         }
+    }
+    
+    public void broadcastRobotCommand(robot_command_t command){
+        lcm.publish("ROBOT_COMMAND", command);
     }
 
     public static void main(String[] args)

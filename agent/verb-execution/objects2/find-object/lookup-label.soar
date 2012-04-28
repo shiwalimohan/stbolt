@@ -2,7 +2,7 @@
 sp {find-object*propose*lookup-smem*label
    (state <s> ^name find-object
               ^nounjective <nj>)
-   (<nj> ^category <cat>
+   (<nj> ^category {<cat> <> failure}
           ^word <word>
          -^label)
 -->

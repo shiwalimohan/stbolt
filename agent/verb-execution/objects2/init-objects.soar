@@ -70,5 +70,6 @@ sp {apply*init-agent*store*smem*label-map
    (<cmd> ^store <v1> <v2> <v3>)
    (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
    (<v2> ^type label-map ^word gray ^category color ^label color-gray)
+   (<v3> ^type label-map ^word red ^category color ^label color-red)
 }
    

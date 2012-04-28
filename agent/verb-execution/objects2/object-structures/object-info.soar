@@ -22,3 +22,13 @@ sp {elaborate*object*bbox
 -->
    (<obj> ^bbox <pose>)
 }
+
+sp {elaborate*object*name*no-name
+   (state <s> ^topstate <s>
+              ^object.property <prop>)
+   (<prop> ^name name
+          -^value <> name-object)
+-->
+   (<prop> ^value name-object)
+}
+           
