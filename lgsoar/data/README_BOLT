@@ -7,3 +7,6 @@ around line 2530: added "left of" and "right of" as idioms similar to "in front 
 
 data/link/words/words.n.3, at the end:
 added color names as mass nouns, this enables sentences like "blue is a color". The right way to handle this might be instead to handle quotes ("blue" is a color)
+
+This changed has been REMOVED due to unintended consequences. Parsing for "the block is to the left of the yellow square" 
+and similar now fails, since it thinks yellow is more noun-y than square.

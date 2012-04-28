@@ -233,8 +233,50 @@ else {
   object 
     specifier INDEF
     word color
-    word red"]
+    word red"],
+["The triangle is to the left of the yellow square.",
+"relation-message 
+  relation 
+    p1-object 
+      specifier DEF
+      word triangle
+    p2-object 
+      specifier DEF
+      word yellow
+      word square
+    word left-of"],
 
+["Move the blue square to the pantry.",
+"verb-command 
+  verb 
+    direct-object 
+      specifier DEF
+      word square
+      word blue
+    preposition 
+      object 
+        specifier DEF
+        word pantry
+      word to
+    word move"],
+["The goal is a red square on the stove.",
+"goal-relation-message 
+  relation 
+    p1-object 
+      specifier DEF
+      word red
+      word square
+    p2-object 
+      specifier DEF
+      word stove
+    word on"],
+
+["The goal is an empty gripper.",
+"goal-object-message 
+  object 
+    specifier DEF
+    word empty
+    word gripper"]
 );
 
 $passCount = 0;
