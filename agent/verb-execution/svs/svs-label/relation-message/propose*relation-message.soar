@@ -67,11 +67,10 @@ sp {relation-messaging*apply*find-object2*results
 }
 
 sp {relation-messaging*propose*process-svs-message
-   (state <s> ^operator <o>
-             -^processed
-              ^interaction.stack.segment.purpose <p>
-              ^obj1 <id1>
-              ^obj2 <id2>)
+   (state <s> -^processed
+               ^interaction.stack.segment.purpose <p>
+               ^obj1 <id1>
+               ^obj2 <id2>)
    (<p> ^type relation-message
         ^parameters.prep <prep>)
 -->

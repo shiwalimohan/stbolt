@@ -11,8 +11,6 @@ public class EntityFactory
             return new LingObject();
         } else if(entityType.equals(ObjectRelation.TYPE)){
             return new ObjectRelation();
-        } else if(entityType.equals(SvsLabel.TYPE)){
-            return new SvsLabel();
         } else if(entityType.equals(ProposalInfo.TYPE)){
             return new ProposalInfo();
         } else if(entityType.equals(Sentence.TYPE)){
