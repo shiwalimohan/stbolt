@@ -22,6 +22,7 @@ import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_data_t;
 import abolt.lcmtypes.training_label_t;
+import april.util.TimeUtil;
 import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
@@ -256,6 +257,7 @@ public class SBolt implements LCMSubscriber
         	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
         	if(newLabels != null){
             	training_data_t trainingData = new training_data_t();
+            	trainingData.utime = TimeUtil.utime();
             	trainingData.num_labels = newLabels.size();
             	trainingData.labels = new training_label_t[newLabels.size()];
             	for(int i = 0; i < newLabels.size(); i++){

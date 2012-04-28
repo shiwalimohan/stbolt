@@ -14,8 +14,10 @@
 # ^match will either be a pointer to the found object or the word failure
 
 source elaborations.soar
+# Copy the words from the superstate to create nounjective structures
 
 source preferences.soar
+# Preferences ensure lookup-smem > object-match and object-match > no-match
 
 source lookup-category.soar
 # Fetch the category for each word in the query
