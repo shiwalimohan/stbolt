@@ -119,35 +119,32 @@ public class World implements IInputLinkElement
     {
         WorldObject object;
         String s = "";
-        //TODO remove preprogrammed sizes
-        //use cube for default bounding box of blocks
-        String cubeRobot = "-0.05 -0.05 -0.05 0.05 0.05 -0.05 -0.05 0.05 -0.05 0.05 -0.05 -0.05 -0.05 -0.05 0.05 0.05 0.05 0.05 -0.05 0.05 0.05 0.05 -0.05 0.05";
-        String cubeBlock = "-0.025 -0.025 -0.025 0.025 0.025 -0.025 -0.025 0.025 -0.025 0.025 -0.025 -0.025 -0.025 -0.025 0.025 0.025 0.025 0.025 -0.025 0.025 0.025 0.025 -0.025 0.025";
-        String pantryShape = "-0.1 -0.2 -0.2 0.1 0.2 -0.2 0.1 -0.2 -0.2 -0.1 0.2 -0.2 -0.1 -0.2 0.2 0.1 0.2 0.2 0.1 -0.2 0.2 -0.1 0.2 0.2";
-        String stovedishShape = "-0.1 -0.1 -0.1 0.1 0.1 -0.1 -0.1 0.1 -0.1 0.1 -0.1 -0.1 -0.1 -0.1 0.1 0.1 0.1 0.1 -0.1 0.1 0.1 0.1 -0.1 0.1";
+       
+        Set<Integer> removeObjects = objects.getObjectsToRemove();
+        for(Integer id : removeObjects){
+            s+= "d " + id + "\n";
+        }
+        objects.clearObjectsToRemove();
         
         while ((object = objects.getNextChangedObject()) != null)
         {
             Pose pose = object.pose;
-            s+= "c obj" + object.getId() + " p " + pose.getX() + " " + 
-                    pose.getY() + " " + pose.getZ() + "\n";
-            System.out.println("c obj" + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ());
+            s+= "c " + object.getId() + " p " + pose.getX() + " " + 
+                        pose.getY() + " " + pose.getZ() + "\n";
+            //s+= " r " + pose.getRoll() + " " + 
+             //       pose.getPitch() + " " + pose.getYaw() + "\n";
+             //   s+= "d " + object.getId() + "\n";
             
-            //System.out.println(s);
+            //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n");
         }
         while ((object = objects.getNextNewObject()) != null)
         {
             Pose pose = object.pose;
             
-            s+= "a obj" + object.getId() + " world v ";
-            System.out.println(object.getName());
-            if (object.getName().equals("pantry"))
-                s+=pantryShape;
-            else if ((object.getName().equals("dishwasher")) || 
-                    (object.getName().equals("stove")))
-                s+=stovedishShape;
-            else
-                s+=cubeBlock;
+            s+= "a " + object.getId() + " world v ";
+            System.out.println(object.getId());
+            s+= object.getBBox().getFullPoints();
+            System.out.println("a " + object.getId() + " world v " + object.getBBox().getFullPoints());
             s+= " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n";
         }
         /*

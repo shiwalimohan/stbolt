@@ -27,7 +27,7 @@ sp {apply*init-agent*store*smem*word2cat
               ^smem.command <cmd>)
 -->
    (<cmd> ^store <v11> <v12> <v13> <v14> <v15> <v16> # Color
-          		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29>  # Shape
+          		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29> <v30> # Shape
 				 <v31> <v32> <v33>  # Size
 				 <v41> <v42> <v43> <v44>) # Name
    # Color
@@ -48,6 +48,7 @@ sp {apply*init-agent*store*smem*word2cat
 	(<v27> ^type word2cat ^word arch ^category shape)
 	(<v28> ^type word2cat ^word square ^category shape)
 	(<v29> ^type word2cat ^word doughnut ^category shape)
+    (<v30> ^type word2cat ^word sphere ^category shape)
  
  	# Size
 	(<v31> ^type word2cat ^word small ^category size)
@@ -67,8 +68,10 @@ sp {apply*init-agent*store*smem*label-map
               ^operator.name init-agent
               ^smem.command <cmd>)
 -->
-   (<cmd> ^store <v1> <v2> <v3>)
+   (<cmd> ^store <v1> <v2> <v3> <v4>)
    (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
-   (<v2> ^type label-map ^word gray ^category color ^label color-gray)
+   (<v2> ^type label-map ^word green ^category color ^label color-green)
+   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
+   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
 }
    

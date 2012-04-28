@@ -29,8 +29,11 @@ public class ObjectCollection implements IInputLinkElement
     // True if a new observations_t has arrived since the last update
     private boolean hasChanged;
     
+    Set<Integer> objectsToRemove;
+    
     public ObjectCollection(){
         objectsId = null;
+        objectsToRemove = new HashSet<Integer>();
         objects = new HashMap<Integer, WorldObject>();
         hasChanged = false;
     }
@@ -39,6 +42,7 @@ public class ObjectCollection implements IInputLinkElement
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
+        objectsToRemove.clear();
         if(objectsId == null){
             objectsId = parentIdentifier.CreateIdWME("objects");
         }
@@ -100,7 +104,6 @@ public class ObjectCollection implements IInputLinkElement
             }   
         }
         
-        Set<Integer> objectsToRemove = new HashSet<Integer>();
         for(Integer id : objects.keySet()){
             if(!observedIds.contains(id)){
                 objectsToRemove.add(id);
@@ -109,11 +112,20 @@ public class ObjectCollection implements IInputLinkElement
         
         for(Integer id : objectsToRemove){
             objects.get(id).destroy();
-            objects.remove(id);
+            //objects.remove(id);
         }
         hasChanged = true;
     }
+    public Set<Integer> getObjectsToRemove()
+    {     
+        return objectsToRemove;
+    }
     
+    //for SVS use
+    public void clearObjectsToRemove()
+    {     
+       objectsToRemove.clear();
+    }
     public synchronized WorldObject getObject(Integer id){
         return objects.get(id);
     }

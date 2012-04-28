@@ -127,6 +127,19 @@ public class BBox implements IInputLinkElement
     	}    
     }
     
+    public String getFullPoints()
+    {
+        return String.format("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f", 
+                getMinX(), getMinY(), getMinZ(),
+                getMinX(), getMinY(), getMaxZ(),
+                getMinX(), getMaxY(), getMinZ(),
+                getMinX(), getMaxY(), getMaxZ(),
+                getMaxX(), getMinY(), getMinZ(),
+                getMaxX(), getMinY(), getMaxZ(),
+                getMaxX(), getMaxY(), getMinZ(),
+                getMaxX(), getMaxY(), getMaxZ());
+    }
+    
     @Override
     public String toString(){
         return String.format("[%f %f %f %f %f %f]", getMinX(), getMinY(), getMinZ(), getMaxX(), getMaxY(), getMaxZ());

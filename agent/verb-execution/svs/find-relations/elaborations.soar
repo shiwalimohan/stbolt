@@ -1,0 +1,7 @@
+sp {find-relations*elaborate*nounjective
+   (state <s> ^name find-relations
+              ^superstate.operator <o>)
+   (<o> ^obj <id>)
+-->
+   (<s> ^obj <id>)
+}
