@@ -44,7 +44,7 @@ public class InputLinkHandler implements RunEventInterface
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
         world.updateInputLink(inputLinkId);
-        
+        world.updateSVS(agent);
         if(needToClearLGMessages){
         	clearLGMessages_internal();
         }

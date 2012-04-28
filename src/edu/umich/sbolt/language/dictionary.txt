@@ -1,6 +1,6 @@
-NOUN: block table ball pantry cylinder stove dishwasher blocka blockb blockc blockd sphere object
+NOUN: block table ball pantry cylinder stove dishwasher blocka blockb blockc blockd sphere object obj1 obj0
 ADJECTIVE: red orange yellow green blue purple gray large medium small round square spherical
 VERB: put get go pick
 DETERMINER: a the that
-PREPOSITION: on in from to up down
+PREPOSITION: on in from to up down right
 ATTRIBUTE: color size shape name

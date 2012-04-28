@@ -59,6 +59,10 @@
 		<Tag>DR</Tag>
 		<EntityType>DescriptionRequest</EntityType>
 	</Pattern>
+	<Pattern name="SvsLabel">
+		<Regex>(OBJ\d* )(is\d* )(PP\d* )(of\d* )(OBJ\d*)</Regex>
+		<Tag>SL</Tag>
+		<EntityType>SvsLabel</EntityType></Pattern>
 	<Pattern name="Sentence">
 		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)</Regex>
 		<Tag>SEN</Tag>

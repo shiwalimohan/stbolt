@@ -117,4 +117,30 @@ public class ObjectCollection implements IInputLinkElement
     public synchronized WorldObject getObject(Integer id){
         return objects.get(id);
     }
+    
+    //svs added
+    public synchronized WorldObject getNextNewObject(){
+        for(WorldObject object : objects.values()){
+            if (object.isNew)
+            {
+                object.isNew = false;
+                return object;
+            }
+        }
+        //else no new objects
+        return null;
+    }
+    
+    public synchronized WorldObject getNextChangedObject(){
+        for(WorldObject object : objects.values()){
+            if ((object.hasChanged) && (object.isNew == false))
+            {
+                object.hasChanged = false;
+                return object;
+            }
+        }
+        //else no changed objects
+        return null; 
+    }
+    
 }
