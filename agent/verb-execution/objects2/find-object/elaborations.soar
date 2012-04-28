@@ -1,3 +1,5 @@
+# Copy the words from the superstate to create nounjective structures
+
 sp {find-object*elaborate*nounjective
    (state <s> ^name find-object
               ^superstate.operator <o>)

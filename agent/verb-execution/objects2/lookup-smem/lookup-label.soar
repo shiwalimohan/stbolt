@@ -1,10 +1,12 @@
+# Used to find a label given a word's disambiguation (right now word + category)
 # Expected Operator:
 #   (<s> ^operator <o> +)
 #   (<o> ^name lookup-smem
 #        ^lookup-type label
 #        ^query <q>
 #        ^desired.label true)
-#   (<q> ^type label-map ^word <word> ^category <cat> ^label <label>)
+#   (<q> ^type label-map ^word <word> ^category <cat> ^label l32)
+# Both word and category are specified
 
 # The label is cached in working memory, use it
 sp {lookup-smem*label*working-mem
@@ -58,7 +60,7 @@ sp {apply*lookup-smem*label*new-label*store*smem
 }
 
 # Updates any objects with the word, for convenience
-sp {apply*lookup-smem*annotate*object
+sp {apply*lookup-smem*label*annotate*object
    (state <s> ^topstate.object.property <prop>
               ^operator <o>)
    (<o> ^name lookup-smem
@@ -66,7 +68,7 @@ sp {apply*lookup-smem*annotate*object
         ^query.category <cat>
         ^query.word <word>
         ^result {<label> <> failure})
-   (<prop> ^category <cat>
+   (<prop> ^name <prop-name>
            ^value <val>)
    (<val> ^label <label>
          -^word <word>)

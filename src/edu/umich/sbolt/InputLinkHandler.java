@@ -43,6 +43,7 @@ public class InputLinkHandler implements RunEventInterface
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {
+    	SBolt.lockInputLink();
         world.updateInputLink(inputLinkId);
         world.updateSVS(agent);
         if(needToClearLGMessages){
@@ -53,6 +54,7 @@ public class InputLinkHandler implements RunEventInterface
         {
             agent.Commit();
         }
+        SBolt.unlockInputLink();
     }
     
     public void clearLGMessages(){

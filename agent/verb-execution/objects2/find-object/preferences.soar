@@ -1,3 +1,5 @@
+# Preferences ensure lookup over object-match and object-match over no-match
+
 sp {find-object*prefer*lookup-smem*over*object-match
    (state <s> ^name find-object
               ^operator <o1> +

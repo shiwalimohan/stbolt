@@ -2,7 +2,7 @@
 sp {object-message*propose*lookup-smem*label
    (state <s> ^name object-message
               ^nounjective <nj>)
-   (<nj> ^category <cat>
+   (<nj> ^category {<cat> <> failure}
           ^word <word>
          -^label)
 -->
@@ -44,7 +44,7 @@ sp {object-message*apply*lookup-smem*label*send-training-label
    (<stl> ^id <id> ^label <label> ^category <cat>)
 }
 
-sp {object-message*apply*lookup-smem*label*name*object*existing-prop
+sp {object-message*apply*lookup-smem*label*name*object
    (state <s> ^name object-message
               ^operator <o>
               ^object <obj>)
@@ -54,30 +54,24 @@ sp {object-message*apply*lookup-smem*label*name*object*existing-prop
         ^query.word <word>
         ^result {<label> <> failure})
    (<obj> ^property <prop>)
-   (<prop> ^category name
-          -^value.label <label>)
+   (<prop> ^name name)
 -->
-   (<prop> ^value <v>)
-   (<v> ^label <label>
-        ^word <word>
-        ^confidence high)
+   (<prop> ^value <word>)
 }
 
-sp {object-message*apply*lookup-smem*label*name*object*no-existing-prop
+sp {object-message*apply*lookup-smem*add*word*to*object
    (state <s> ^name object-message
               ^operator <o>
-              ^object <obj>)
+              ^topstate.object <obj>)
    (<o> ^name lookup-smem
         ^lookup-type label
-        ^query.category name
+        ^query.category <cat-name>
         ^query.word <word>
         ^result {<label> <> failure})
-   (<obj> -^property.category name)
--->
    (<obj> ^property <prop>)
-   (<prop> ^category name
-           ^value <v>)
-   (<v> ^label <label>
-        ^word <word>
-        ^confidence high)
+   (<prop> ^name <cat-name>
+           ^value <val>)
+   (<val> ^label <label>)
+-->
+   (<val> ^word <word>)
 }

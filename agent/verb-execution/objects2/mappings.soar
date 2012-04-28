@@ -7,14 +7,16 @@ sp {apply*init-agent*create*mappings
 -->
    (<s> ^mappings <m>)
    (<m> ^word2cat <w2c> ^label-map <lm>)
+   (<lm> ^gray.color color-gray)         
 }
 
 sp {mappings*elaborate*word2cat
    (state <s> ^topstate <s>
               ^object <obj>
-              ^word2cat <w2c>)
+              ^mappings.word2cat <w2c>)
    (<obj> ^property <prop>)
-   (<prop> ^category <cat>
+   (<prop> ^name <cat>
+           ^type visual
            ^value.word <word>)
 -->
    (<w2c> ^<word> <cat>)
@@ -23,9 +25,10 @@ sp {mappings*elaborate*word2cat
 sp {mappings*elaborate*label-map
    (state <s> ^topstate <s>
               ^object <obj>
-              ^label-map <lm>)
+              ^mappings.label-map <lm>)
    (<obj> ^property <prop>)
-   (<prop> ^category <cat>
+   (<prop> ^name <cat>
+           ^type visual
            ^value <val>)
    (<val> ^label <label>
           ^word <word>)

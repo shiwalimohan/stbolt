@@ -99,9 +99,12 @@ public class LGSupport {
             agent.CreateIntWME(linkWME, "lwright", rWordIndex);
             agent.CreateStringWME(linkWME, "ltype", ltype);
            
-            if (lsubtype.length() > 0) {
-                agent.CreateStringWME(linkWME, "ltypesub", lsubtype);
-            }
+            // make a separate WME for each subtype
+            // assumption: subtype ordering doesn't matter
+        	for (int i=0; i< lsubtype.length(); i++) {
+        		agent.CreateStringWME(linkWME, "ltypesub", lsubtype.substring(i, i+1));
+        	}
+          
         }		
 	}
 }

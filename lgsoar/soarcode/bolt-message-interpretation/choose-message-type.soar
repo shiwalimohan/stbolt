@@ -25,6 +25,17 @@ sp {top-state*interpret-messages*propose*interpret-object-message
         ^predicates <pred>)
 }
 
+sp {top-state*interpret-messages*propose*interpret-goal-object-message
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> -^interpretation
+            ^predicate.outer goal)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-goal-object-message
+        ^predicates <pred>)
+}
+
 # relation-message must have a 2-parameter predicate
 sp {top-state*interpret-messages*propose*interpret-relation-message
    (state <s> ^superstate nil
@@ -37,6 +48,22 @@ sp {top-state*interpret-messages*propose*interpret-relation-message
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-relation-message
+        ^predicates <pred>)
+}
+
+# goal-relation-message same but with goal predicate
+sp {top-state*interpret-messages*propose*interpret-goal-relation-message
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> -^interpretation
+            ^predicate <p1>
+            ^predicate.outer goal)
+   (<p1> ^inner1 <i1>
+         ^inner2 <i2>
+        -^ignored)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-goal-relation-message
         ^predicates <pred>)
 }
 
@@ -97,9 +124,6 @@ sp {top-state*interpret-messages*apply*interpret-single-word-response
    (<int> ^single-word-response.response <word>)
 }
 
-# other commands:
-# goal info ??
-
 # verb-completion-message: revised from verb command if past tense is detected
 # (could be "you" based, but "you should put the block on the table" has same
 # DRS as "you put the block on the table")
@@ -125,6 +149,26 @@ sp {top-state*interpret-messages*prefer*relation-question-over-relation
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
    (<o2> ^name interpret-relation-question)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+sp {top-state*interpret-messages*prefer*goal-relation-over-relation
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-relation-message)
+   (<o2> ^name interpret-goal-relation-message)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+sp {top-state*interpret-messages*prefer*goal-relation-over-goal-object
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-goal-object-message)
+   (<o2> ^name interpret-goal-relation-message)
 -->
    (<s> ^operator <o2> > <o1>)
 }

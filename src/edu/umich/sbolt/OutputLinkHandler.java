@@ -55,7 +55,7 @@ public class OutputLinkHandler implements OutputEventInterface
 
     public robot_command_t getCommand()
     {
-    	
+    	/*
         if (command.updateDest)
         {
             // Check to see if we've reached our destination and turn off
@@ -71,7 +71,7 @@ public class OutputLinkHandler implements OutputEventInterface
             {
                 command.updateDest = false;
             }
-        }
+        }*/
     	if(command != null){
     		command.utime = TimeUtil.utime();
     	}

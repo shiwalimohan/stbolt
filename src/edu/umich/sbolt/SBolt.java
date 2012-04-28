@@ -22,6 +22,7 @@ import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_data_t;
 import abolt.lcmtypes.training_label_t;
+import april.util.TimeUtil;
 import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
@@ -51,7 +52,22 @@ public class SBolt implements LCMSubscriber
 
     private World world;
     
-    private boolean received = false;
+    private boolean ready = true;
+    
+    private static boolean inputLinkLocked = false;
+    public static void lockInputLink(){
+    	while(inputLinkLocked){
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	inputLinkLocked = true;
+    }
+    public static void unlockInputLink(){
+    	inputLinkLocked = false;
+    }
 
     public SBolt(String channel, String agentName)
     {
@@ -203,12 +219,10 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
-        if (inputLinkHandler == null)
+        if (inputLinkHandler == null || !ready)
             return;
-        if(received){
-        	//return;
-        }
-        received = true;      
+        ready = false;
+        SBolt.lockInputLink();
         
         observations_t obs = null;
         try
@@ -221,6 +235,8 @@ public class SBolt implements LCMSubscriber
             e.printStackTrace();
             return;
         }
+        SBolt.unlockInputLink();
+        ready = true;
     }
 
     /**
@@ -241,6 +257,7 @@ public class SBolt implements LCMSubscriber
         	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
         	if(newLabels != null){
             	training_data_t trainingData = new training_data_t();
+            	trainingData.utime = TimeUtil.utime();
             	trainingData.num_labels = newLabels.size();
             	trainingData.labels = new training_label_t[newLabels.size()];
             	for(int i = 0; i < newLabels.size(); i++){
