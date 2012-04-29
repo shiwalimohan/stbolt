@@ -36,6 +36,7 @@ sp {description-request*propose*describe-object
 
 sp {describe-object*elaborate*object*pointed
    	(state <s> ^operator <o> +
+               ^interaction.stack.segment.purpose.type description-request
                ^io.input-link.pointed-object <obj-id>
                ^topstate.object <obj>)
     (<o> ^name describe-object)
@@ -46,6 +47,7 @@ sp {describe-object*elaborate*object*pointed
 
 sp {describe-object*elaborate*object*only-one
    	(state <s> ^operator <o> +
+               ^interaction.stack.segment.purpose.type description-request
                ^topstate.object <obj>
               -^topstate.object <> <obj>)
     (<o> ^name describe-object)
