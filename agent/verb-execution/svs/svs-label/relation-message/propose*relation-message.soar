@@ -56,6 +56,7 @@ sp {relation-messaging*apply*find-object1*results
 -->
    (<s> ^obj1 <id>)
 }
+
 sp {relation-messaging*apply*find-object2*results
    (state <s> ^operator <o>
               ^interaction.stack.segment.purpose.type relation-message)
