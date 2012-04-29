@@ -8,7 +8,7 @@ sp {propose*create-visual-value
               ^object <obj>)
    (<io-obj> ^id <id>
              ^category <cat>)
-   (<cat> ^{<label> <> name} <conf>
+   (<cat> ^{<label> <> name <> unknown} <conf>
           ^name <cat-name>)
    (<obj> ^id <id>
           ^property <prop>)

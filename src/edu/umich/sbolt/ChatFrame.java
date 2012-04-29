@@ -24,6 +24,9 @@ import javax.swing.KeyStroke;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
+import abolt.lcmtypes.robot_command_t;
+import april.util.TimeUtil;
+
 import com.soartech.bolt.BOLTLGSupport;
 
 public class ChatFrame extends JFrame
@@ -171,8 +174,22 @@ public class ChatFrame extends JFrame
     		sbolt.getWorld().newMessage(message);
     	}
     	else if(message.length() > 0 && message.charAt(0) == ':'){
-    		// Prefixing with a : goes to Soar's message processing
-    		sbolt.getWorld().newMessage(message.substring(1));
+    		if(message.equals(":reset")){
+    			robot_command_t command = new robot_command_t();
+    			command.utime = TimeUtil.utime();
+    			command.action = "RESET";
+    			command.dest = new double[6];
+    			sbolt.broadcastRobotCommand(command);
+        		// Prefixing with a : goes to Soar's message processing
+    		} else if(message.equals(":drop")){
+    			robot_command_t command = new robot_command_t();
+    			command.utime = TimeUtil.utime();
+    			command.action = "DROP";
+    			command.dest = new double[6];
+    			sbolt.broadcastRobotCommand(command);
+    		} else {
+        		sbolt.getWorld().newMessage(message.substring(1));
+    		}
     	} else {
     		lgSupport.handleInput(message);
     		// LGSupport has access to the agent object and handles all WM interaction from here

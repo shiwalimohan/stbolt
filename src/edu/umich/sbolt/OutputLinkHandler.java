@@ -223,9 +223,11 @@ public class OutputLinkHandler implements OutputEventInterface
         
         robot_command_t command = new robot_command_t();
         command.utime = TimeUtil.utime();
-        command.action = String.format("POINT=%d", Integer.parseInt(objectIdStr));
+        command.action = String.format("GRAB=%d", Integer.parseInt(objectIdStr));
         command.dest = new double[6];
         sbolt.broadcastRobotCommand(command);
+        
+        sbolt.getWorld().getRobotArm().pickup(Integer.parseInt(objectIdStr));
         
         pickUpId.CreateStringWME("status", "complete");
     }

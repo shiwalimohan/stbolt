@@ -62,11 +62,13 @@ public class Messages implements IInputLinkElement
             messageId.DestroyWME();
         }
         
-        
         messageId = parentIdentifier.CreateIdWME("message");
         messageNumber = latestMessageId;
         messageId.CreateIntWME("id", latestMessageId);
-        parser.getSoarSpeak(latestMessage, messageId);
+        if(!parser.getSoarSpeak(latestMessage, messageId)){
+        	messageId.DestroyWME();
+        	messageId = null;
+        }
         messageChanged = false;
     }
 

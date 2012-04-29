@@ -27,10 +27,12 @@ public class World implements IInputLinkElement
     
     private Set<IInputLinkElement> inputLinkElements;
     
+    private RobotArm robotArm;
+    
     public World(){
         inputLinkElements = new HashSet<IInputLinkElement>();
         
-        objects = new ObjectCollection();
+        objects = new ObjectCollection(this);
         
         robot = null;
         
@@ -40,10 +42,13 @@ public class World implements IInputLinkElement
         
         pointedObject = new PointedObject(-1);
         
+        robotArm = new RobotArm();
+        
         inputLinkElements.add(objects);
         inputLinkElements.add(worldTime);
         inputLinkElements.add(messages);
         inputLinkElements.add(pointedObject);
+        inputLinkElements.add(robotArm);
     }
     
 
@@ -115,6 +120,11 @@ public class World implements IInputLinkElement
         return worldTime.getSteps();
     }
     
+    public RobotArm getRobotArm(){
+    	return robotArm;
+    }
+    
+    
     public synchronized void updateSVS(Agent agent)
     {
         WorldObject object;
@@ -123,6 +133,13 @@ public class World implements IInputLinkElement
         Set<Integer> removeObjects = objects.getObjectsToRemove();
         for(Integer id : removeObjects){
             s+= "d " + id + "\n";
+            System.out.println("d " + id + "\n");
+        }
+        if (!removeObjects.isEmpty())
+        {
+        	agent.SendSVSInput(s);
+        	objects.clearObjectsToRemove();
+        	return;
         }
         objects.clearObjectsToRemove();
         
@@ -135,14 +152,14 @@ public class World implements IInputLinkElement
              //       pose.getPitch() + " " + pose.getYaw() + "\n";
              //   s+= "d " + object.getId() + "\n";
             
-            //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n");
+            System.out.println("c " + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n");
         }
         while ((object = objects.getNextNewObject()) != null)
         {
             Pose pose = object.pose;
             
             s+= "a " + object.getId() + " world v ";
-            System.out.println(object.getId());
+            //System.out.println(object.getId());
             s+= object.getBBox().getFullPoints();
             System.out.println("a " + object.getId() + " world v " + object.getBBox().getFullPoints());
             s+= " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n";

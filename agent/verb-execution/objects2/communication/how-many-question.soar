@@ -57,13 +57,12 @@ sp {how-many-question*count-objects*elaborate*adjective
    (<o> ^word <word>)
 }
 
-
 sp {how-many-question*apply*count-objects
    (state <s> ^operator <o>
               ^interaction.stack.segment.purpose.type how-many-question
               ^status <status>)
    (<o> ^name count-objects
-        ^match <m>)
+        ^match-count <m>)
 -->
    (<status> ^performed.dialog-event count-response)
 }

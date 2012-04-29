@@ -73,7 +73,7 @@ sp {description-request*apply*describe-object*send-message
         ^description {<desc> <> failure})
 -->
    (<out> ^send-message <msg>)
-   (<msg> ^type description
+   (<msg> ^type describe-object
           ^fields.object <desc>)
 }
 

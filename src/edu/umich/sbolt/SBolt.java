@@ -19,6 +19,7 @@ import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Kernel;
 import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_action_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_data_t;
 import abolt.lcmtypes.training_label_t;
@@ -76,6 +77,7 @@ public class SBolt implements LCMSubscriber
         {
             lcm = new LCM();
             lcm.subscribe(channel, this);
+            lcm.subscribe("ROBOT_ACTION", this);
         }
         catch (IOException e)
         {
@@ -219,24 +221,34 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
-        if (inputLinkHandler == null || !ready)
-            return;
-        ready = false;
-        SBolt.lockInputLink();
-        
-        observations_t obs = null;
-        try
-        {
-            obs = new observations_t(ins);
-            world.newObservation(obs);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return;
-        }
-        SBolt.unlockInputLink();
-        ready = true;
+    	if(channel.equals("ROBOT_ACTION") && world != null && world.getRobotArm() != null){
+    		try {
+    			robot_action_t action = new robot_action_t(ins);
+				world.getRobotArm().newRobotAction(action);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	} else if(channel.equals("OBSERVATIONS")){
+    		if (inputLinkHandler == null || !ready)
+                return;
+            ready = false;
+            SBolt.lockInputLink();
+            
+            observations_t obs = null;
+            try
+            {
+                obs = new observations_t(ins);
+                world.newObservation(obs);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+            SBolt.unlockInputLink();
+            ready = true;
+    	}
     }
 
     /**

@@ -90,12 +90,12 @@ public class Parser {
         }
 	}
 	
-    public void getSoarSpeak(String latestMessage, Identifier messageId) {
+    public boolean getSoarSpeak(String latestMessage, Identifier messageId) {
         this.languageSentence = latestMessage;
         tagsToWords = new LinkedHashMap();
         mapTagToWord();
         this.tagString = getPOSTagString();
-        traslateToSoarSpeak(messageId, getParse());
+        return traslateToSoarSpeak(messageId, getParse());
     }
 	
 	// create tags to words mappings
@@ -130,7 +130,18 @@ public class Parser {
 	}
 	
 	//Get Soar structure
-	public void traslateToSoarSpeak(Identifier messageId, String tagString){
-		((LinguisticEntity) tagsToWords.get(tagString)).translateToSoarSpeak(messageId, null);
+	public boolean traslateToSoarSpeak(Identifier messageId, String tagString){
+		Object obj = tagsToWords.get(tagString);
+		if(obj == null){
+			return false;
+		}
+		try{
+			LinguisticEntity entity = (LinguisticEntity)obj;
+			entity.translateToSoarSpeak(messageId, null);
+		} catch (ClassCastException e){
+			return false;
+		}
+		return true;
 	}
+	
 }

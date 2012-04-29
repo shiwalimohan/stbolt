@@ -29,20 +29,22 @@ public class ObjectCollection implements IInputLinkElement
     // True if a new observations_t has arrived since the last update
     private boolean hasChanged;
     
-    Set<Integer> objectsToRemove;
+    Set<Integer> svsObjectsToRemove;
     
-    public ObjectCollection(){
+    private World world;
+    
+    public ObjectCollection(World world){
         objectsId = null;
-        objectsToRemove = new HashSet<Integer>();
+        svsObjectsToRemove = new HashSet<Integer>();
         objects = new HashMap<Integer, WorldObject>();
         hasChanged = false;
+        this.world = world;
     }
     
 
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
-        objectsToRemove.clear();
         if(objectsId == null){
             objectsId = parentIdentifier.CreateIdWME("objects");
         }
@@ -68,6 +70,7 @@ public class ObjectCollection implements IInputLinkElement
     }
     
     public synchronized void newObservation(observations_t observation){
+    	Set<Integer> objectsToRemove = new HashSet<Integer>();
         Set<Integer> observedIds = new HashSet<Integer>();
         
         // update each object from the object_data_t
@@ -104,27 +107,34 @@ public class ObjectCollection implements IInputLinkElement
             }   
         }
         
+        objectsToRemove.clear();
         for(Integer id : objects.keySet()){
             if(!observedIds.contains(id)){
                 objectsToRemove.add(id);
             }
         }
         
+        // don't remove the object currently being grabbed
+        if(objectsToRemove.contains(world.getRobotArm().getGrabbedId())){
+        	objectsToRemove.remove(world.getRobotArm().getGrabbedId());
+        }
+        
         for(Integer id : objectsToRemove){
             objects.get(id).destroy();
-            //objects.remove(id);
+            objects.remove(id);
         }
         hasChanged = true;
+        svsObjectsToRemove.addAll(objectsToRemove);
     }
     public Set<Integer> getObjectsToRemove()
     {     
-        return objectsToRemove;
+        return svsObjectsToRemove;
     }
     
     //for SVS use
     public void clearObjectsToRemove()
     {     
-       objectsToRemove.clear();
+    	svsObjectsToRemove.clear();
     }
     public synchronized WorldObject getObject(Integer id){
         return objects.get(id);

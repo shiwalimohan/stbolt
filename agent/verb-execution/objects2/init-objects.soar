@@ -29,7 +29,7 @@ sp {apply*init-agent*store*smem*word2cat
    (<cmd> ^store <v11> <v12> <v13> <v14> <v15> <v16> # Color
           		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29> <v30> # Shape
 				 <v31> <v32> <v33>  # Size
-				 <v41> <v42> <v43> <v44>) # Name
+				 <v41> <v42> <v43> <v44> <v45> <v46> <v47> <v48> <v49>) # Name
    # Color
    (<v11> ^type word2cat ^word red ^category color)
    (<v12> ^type word2cat ^word orange ^category color)
@@ -60,6 +60,11 @@ sp {apply*init-agent*store*smem*word2cat
 	#(<v42> ^type word2cat ^word cylinder ^category name)
 	#(<v43> ^type word2cat ^word ball ^category name)
 	(<v44> ^type word2cat ^word object ^category name)
+	(<v45> ^type word2cat ^word stove ^category name)
+	(<v46> ^type word2cat ^word pantry ^category name)
+	(<v47> ^type word2cat ^word dishwasher ^category name)
+	(<v48> ^type word2cat ^word center ^category name)
+	(<v49> ^type word2cat ^word garbage ^category name)
 }
 
 ## Example way to pre-store labels
