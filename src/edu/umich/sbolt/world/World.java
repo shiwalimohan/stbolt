@@ -27,13 +27,17 @@ public class World implements IInputLinkElement
     
     private Set<IInputLinkElement> inputLinkElements;
     
+    //TODO remove debugging
+    int lastChanged;
+    
     public World(){
         inputLinkElements = new HashSet<IInputLinkElement>();
         
         objects = new ObjectCollection();
         
         robot = null;
-        
+      //TODO remove debugging
+        lastChanged = -1;
         worldTime = new WorldTime();
         
         messages = new Messages(this);
@@ -129,14 +133,12 @@ public class World implements IInputLinkElement
         while ((object = objects.getNextChangedObject()) != null)
         {
             Pose pose = object.pose;
+
+            System.out.println("c " + object.getId() + " p " + pose.getX() + " " + 
+                        pose.getY() + " " + pose.getZ() + "\n");
             s+= "c " + object.getId() + " p " + pose.getX() + " " + 
                         pose.getY() + " " + pose.getZ() + "\n";
-            //s+= " r " + pose.getRoll() + " " + 
-             //       pose.getPitch() + " " + pose.getYaw() + "\n";
-             //   s+= "d " + object.getId() + "\n";
-            
-            //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n");
-        }
+       }
         while ((object = objects.getNextNewObject()) != null)
         {
             Pose pose = object.pose;
@@ -147,27 +149,6 @@ public class World implements IInputLinkElement
             System.out.println("a " + object.getId() + " world v " + object.getBBox().getFullPoints());
             s+= " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n";
         }
-        /*
-        if ((object = robot)!= null)
-        {
-            Pose pose = object.pose;
-            if (object.isNew)
-            {
-                s+= "a obj" + object.getId() + " world v "+ cubeRobot + " p " + pose.getX() + " " + 
-                        pose.getY() + " " + pose.getZ() + "\n";
-                object.isNew = false;
-            }
-            else if (object.hasChanged)
-            {
-                System.out.println("c obj" + object.getId() + " p " + pose.getX() + " " + 
-                        pose.getY() + " " + pose.getZ());
-                s+= "c obj" + object.getId() + " p " + pose.getX() + " " + 
-                        pose.getY() + " " + pose.getZ() + "\n";
-                object.hasChanged = false;
-                
-            }
-        }
-        */
         agent.SendSVSInput(s);
     }
     
