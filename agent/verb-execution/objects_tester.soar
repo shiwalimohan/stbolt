@@ -8,6 +8,10 @@ pushd objects2
 source objects_source.soar
 popd
 
+pushd svs
+source svs_source.soar
+popd
+
 pushd ../../lgsoar/soarcode/
 source bolt-lgsoar.soar
 popd

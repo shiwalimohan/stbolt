@@ -27,6 +27,10 @@ public class EntityFactory
             return new RecognitionQuestion();
         } else if(entityType.equals(DescriptionRequest.TYPE)){
             return new DescriptionRequest();
+        } else if(entityType.equals(PropertyRequest.TYPE)){
+        	return new PropertyRequest();
+        } else if(entityType.equals(CountRequest.TYPE)){
+        	return new CountRequest();
         } else {
             return null;
         }

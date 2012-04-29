@@ -48,7 +48,7 @@ sp {describe-object*apply*lookup-name*has-name
               ^needs-found <nf>)
    (<obj> ^property <prop>)
    (<prop> ^name name
-           ^value <name>)
+           ^word <name>)
    (<nf> ^query name)
 -->
    (<nf> ^result <name>)
@@ -61,7 +61,7 @@ sp {describe-object*apply*lookup-name*no-name
               ^needs-found <nf>)
    (<obj> ^property <prop>)
    (<prop> ^name name
-           -^value <name>)
+           -^word <name>)
    (<nf> ^query name)
 -->
    (<nf> ^result object)

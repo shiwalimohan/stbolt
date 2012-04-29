@@ -13,5 +13,3 @@ source lookup-label.soar
 # Fetch the label for the category-word pair from memory
 
 source complete-object-message.soar
-
-source category-response.soar

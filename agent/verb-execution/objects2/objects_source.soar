@@ -82,6 +82,11 @@ source describe-object_source.soar
 popd
 
 
+pushd count-objects
+source count-objects_source.soar
+popd
+
+
 ########----------- COMMUNICATION ----------#######
 #  ask-query
 #  communication

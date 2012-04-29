@@ -59,6 +59,21 @@
 		<Tag>DR</Tag>
 		<EntityType>DescriptionRequest</EntityType>
 	</Pattern>
+	<Pattern name="PropertyRequest">
+		<Regex>(what\d* )(AT\d* )(is\d* )(this\d*)</Regex>
+		<Tag>PRQ</Tag>
+		<EntityType>PropertyRequest</EntityType>
+	</Pattern>
+	<Pattern name="SvsLabel">
+		<Regex>(OBJ\d* )(is\d* )(PP\d* )(of\d* )(OBJ\d*)</Regex>
+		<Tag>SL</Tag>
+		<EntityType>SvsLabel</EntityType>
+	</Pattern>
+	<Pattern name="CountRequest">
+		<Regex>(how\d* )(many\d* )(OBJ\d*)</Regex>
+		<Tag>CRQ</Tag>
+		<EntityType>CountRequest</EntityType>
+	</Pattern>
 	<Pattern name="Sentence">
 		<Regex>(VBC\d*)|(GS\d*)|(PS\d*)|(REL\d*)</Regex>
 		<Tag>SEN</Tag>

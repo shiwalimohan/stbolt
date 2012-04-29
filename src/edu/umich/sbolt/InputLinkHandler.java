@@ -45,7 +45,7 @@ public class InputLinkHandler implements RunEventInterface
     {
     	SBolt.lockInputLink();
         world.updateInputLink(inputLinkId);
-        
+        world.updateSVS(agent);
         if(needToClearLGMessages){
         	clearLGMessages_internal();
         }

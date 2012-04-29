@@ -1,7 +1,7 @@
 sp {propose*copy-message
    (state <s> ^topstate <s>
-             -^processed <m>
-              ^io.input-link.message <m>)
+              ^io.input-link.message <m>
+             -^processed <m>)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name copy-message-il
@@ -10,20 +10,19 @@ sp {propose*copy-message
 }
 
 sp {apply*copy-message
-   (state <s> ^operator <o>
-              ^nl.input-link <nil>)
+   (state <s> ^operator <o>)
    (<o> ^name copy-message-il
         ^message <m>)
 -->
-   (<nil> ^message <m>)
-   (<s> ^processed <m>)
+   (<s> ^instructor-message <m>
+        ^processed <m>)
 }
 
-sp {apply*copy-message*removed-processed
+sp {apply*copy-message*remove*processed
    (state <s> ^operator <o>
-              ^processed {<m2> <> <m>})
+              ^processed {<pm> <> <m>})
    (<o> ^name copy-message-il
         ^message <m>)
 -->
-   (<s> ^processed <m2> -)
+   (<s> ^processed <pm> -)
 }

@@ -65,8 +65,20 @@ sp {find-object*apply*object-match
    (<s> ^operator <o> =)
 }
 
+sp {find-object*write*match*superstate-operator*return-any*true
+   (state <s> ^name find-object
+              ^return-any true
+              ^superstate.operator <sso>	
+	      	  ^operator <o>)
+   (<o> ^name object-match
+        ^object <obj>)
+-->
+   (<sso> ^match <obj>)
+}
+
 sp {find-object*write*match*superstate-operator
    (state <s> ^name find-object
+              ^return-any false
               ^superstate.operator <sso>	
 	      ^operator <o>
 	      ^topstate.object <obj>

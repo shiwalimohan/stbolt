@@ -26,6 +26,14 @@ public class AgentMessageParser
             message = translateCategoryQuestion(fieldsId);
         } else if(type.equals("description")){
             message = translateDescription(fieldsId);
+        } else if(type.equals("dont-know")){
+        	message = "I don't know";
+        } else if(type.equals("single-word")){
+        	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
+        } else if(type.equals("no-object")){
+        	message = "I do not see the object you are talking about";
+        } else if(type.equals("count-response")){
+        	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
         }
         return message;
     }

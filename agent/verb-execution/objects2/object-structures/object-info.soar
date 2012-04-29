@@ -31,4 +31,16 @@ sp {elaborate*object*name*no-name
 -->
    (<prop> ^value name-object)
 }
+
+sp {elaborate*object*shape-name
+   (state <s> ^topstate <s>
+              ^object <obj>)
+   (<obj> ^property <shape-prop>
+          ^property <name-prop>)
+   (<name-prop> ^name name)
+   (<shape-prop> ^name shape
+                 ^word <word>)
+-->
+   (<name-prop> ^word <word>)
+}
            
