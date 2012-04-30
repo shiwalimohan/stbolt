@@ -8,7 +8,7 @@ sp {relation-question*propose*find-object
 -->
    (<s> ^operator <o> + =)
    (<o> ^name find-object
-        ^category object-processing
+        ^category svs
         ^obj 2)
 }
 

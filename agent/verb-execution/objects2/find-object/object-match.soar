@@ -68,12 +68,27 @@ sp {find-object*reject*not-match*name
 sp {find-object*apply*object-match
    (state <s> ^name find-object
               ^operator <o>
+             -^return-all true
               ^superstate.operator <ss-o>)
    (<o> ^name object-match
         ^object <obj>)
 -->
    (<ss-o> ^match <obj>)
 }
+
+sp {find-object*apply*object-match*return-all
+   (state <s> ^name find-object
+              ^operator.name object-match
+              ^operator <o1> +
+              ^return-all true
+              ^superstate.operator <ss-o>
+             -^not-match <obj>)
+   (<o1> ^name object-match
+         ^object <obj>)
+-->
+   (<ss-o> ^match <obj>)
+}
+
 
 sp {find-object*add*smem-match
    (state <s> ^name find-object

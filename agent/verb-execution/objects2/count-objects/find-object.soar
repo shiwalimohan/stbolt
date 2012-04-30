@@ -4,6 +4,7 @@ sp {count-objects*propose*find-object
 -->
    (<s> ^operator <o> +)
    (<o> ^name find-object
+        ^return-all true
         ^category object-processing)
 }
 

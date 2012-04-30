@@ -21,3 +21,10 @@ sp {find-object*elaborate*return-any*false
 -->
    (<s> ^return-any false)
 }
+
+sp {find-object*elaborate*return-all*true
+   (state <s> ^name find-object
+              ^superstate.operator.return-all true)
+-->
+   (<s> ^return-all true)
+}
