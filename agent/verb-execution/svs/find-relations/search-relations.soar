@@ -66,10 +66,10 @@ sp {find-relations*propose*relation-search*build-potentials
    (<ss> ^predicates <p>)
    (<p>  ^predicate <p1>)
    (<p1> ^name <type>)
-   (<ss> ^svs.spatial-scene.child.id-int <id>)
+   (<ss> ^svs.spatial-scene.child.id-int <id2>)
 -->
    (<s> ^relation <rel>)
-   (<rel> ^name <type> ^obj <id>)
+   (<rel> ^name <type> ^obj <id2>)
 }
 
 sp {find-relations*propose*relation-search*build-potentials*optional-prep
@@ -81,10 +81,10 @@ sp {find-relations*propose*relation-search*build-potentials*optional-prep
    (<ss> ^predicates <p>)
    (<p>  ^predicate <p1>)
    (<p1> ^name <type>)
-   (<ss> ^svs.spatial-scene.child.id-int <id>)
+   (<ss> ^svs.spatial-scene.child.id-int <id2>)
 -->
    (<s> ^relation <rel>)
-   (<rel> ^name <type> ^obj <id>)
+   (<rel> ^name <type> ^obj <id2>)
 }
 
 sp {find-relations*propose*relation-search*build-answerlist
