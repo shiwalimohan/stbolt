@@ -6,8 +6,6 @@ source preferences.soar
 
 source elaborations.soar
 
-source test*object-message.soar
-
 source lookup-category.soar
 # Fetch the category for the given word from memory
 
@@ -15,5 +13,3 @@ source lookup-label.soar
 # Fetch the label for the category-word pair from memory
 
 source complete-object-message.soar
-
-source category-response.soar

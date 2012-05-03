@@ -24,8 +24,16 @@ public class AgentMessageParser
             message = translateAttributePresenceQuestion(fieldsId);
         } else if(type.equals("category-of-word")){
             message = translateCategoryQuestion(fieldsId);
-        } else if(type.equals("description")){
+        } else if(type.equals("describe-object")){
             message = translateDescription(fieldsId);
+        } else if(type.equals("dont-know")){
+        	message = "I don't know";
+        } else if(type.equals("single-word")){
+        	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
+        } else if(type.equals("no-object")){
+        	message = "I do not see the object you are talking about";
+        } else if(type.equals("count-response")){
+        	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
         }
         return message;
     }
@@ -91,6 +99,16 @@ public class AgentMessageParser
     }
     
     private static String translateDescription(Identifier id){
+    	
+    	if(id == null){
+            return null;
+        }
+    	
+    	//kind of a hack :(
+    	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "object");
+    	if (objectId == null)
+    		return "nothing\n";
+    	
         return LingObject.createFromSoarSpeak(id, "object").toString();
     }
 }

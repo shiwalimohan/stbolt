@@ -16,8 +16,8 @@ public class BBox implements IInputLinkElement
     
     public BBox(){     
         initBBox();
-    	for(int i = 0; i < 3; i++){
-    		for(int j = 0; j < 2; j++){
+    	for(int i = 0; i < 2; i++){
+    		for(int j = 0; j < 3; j++){
     			bounds[i][j] = 0;
     		}
     	}
@@ -25,12 +25,12 @@ public class BBox implements IInputLinkElement
     
     public BBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){     
         initBBox();
-    	bounds[ElementIndex.X.ordinal()][TypeIndex.MIN.ordinal()] = minX;
-    	bounds[ElementIndex.Y.ordinal()][TypeIndex.MIN.ordinal()] = minX;
-    	bounds[ElementIndex.Z.ordinal()][TypeIndex.MIN.ordinal()] = minX;
-    	bounds[ElementIndex.X.ordinal()][TypeIndex.MAX.ordinal()] = minX;
-    	bounds[ElementIndex.Y.ordinal()][TypeIndex.MAX.ordinal()] = minX;
-    	bounds[ElementIndex.Z.ordinal()][TypeIndex.MAX.ordinal()] = minX;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.X.ordinal()] = minX;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.Y.ordinal()] = minY;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.Z.ordinal()] = minZ;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.X.ordinal()] = maxX;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.Y.ordinal()] = maxY;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.Z.ordinal()] = maxZ;
     }
     
     public BBox(double[][] boundsValues){     
@@ -47,54 +47,54 @@ public class BBox implements IInputLinkElement
     	wmes = null;
     	typeIDs = null;
     	bboxID = null;
-    	bounds = new double[3][2];
+    	bounds = new double[2][3];
     }
     
     public double getMinX(){
-        return bounds[ElementIndex.X.ordinal()][TypeIndex.MIN.ordinal()];
+        return bounds[TypeIndex.MIN.ordinal()][ElementIndex.X.ordinal()];
     }
     public void setMinX(double minX){
-    	bounds[ElementIndex.X.ordinal()][TypeIndex.MIN.ordinal()] = minX;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.X.ordinal()] = minX;
     }
     
 
     public double getMinY(){
-        return bounds[ElementIndex.Y.ordinal()][TypeIndex.MIN.ordinal()];
+        return bounds[TypeIndex.MIN.ordinal()][ElementIndex.Y.ordinal()];
     }
     public void setMinY(double minY){
-    	bounds[ElementIndex.Y.ordinal()][TypeIndex.MIN.ordinal()] = minY;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.Y.ordinal()] = minY;
     }
     
 
     public double getMinZ(){
-        return bounds[ElementIndex.Z.ordinal()][TypeIndex.MIN.ordinal()];
+        return bounds[TypeIndex.MIN.ordinal()][ElementIndex.Z.ordinal()];
     }
     public void setMinZ(double minZ){
-    	bounds[ElementIndex.Z.ordinal()][TypeIndex.MIN.ordinal()] = minZ;
+    	bounds[TypeIndex.MIN.ordinal()][ElementIndex.Z.ordinal()] = minZ;
     }
     
 
     public double getMaxX(){
-        return bounds[ElementIndex.X.ordinal()][TypeIndex.MAX.ordinal()];
+        return bounds[TypeIndex.MAX.ordinal()][ElementIndex.X.ordinal()];
     }
     public void setMaxX(double MaxX){
-    	bounds[ElementIndex.X.ordinal()][TypeIndex.MAX.ordinal()] = MaxX;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.X.ordinal()] = MaxX;
     }
     
 
     public double getMaxY(){
-        return bounds[ElementIndex.Y.ordinal()][TypeIndex.MAX.ordinal()];
+        return bounds[TypeIndex.MAX.ordinal()][ElementIndex.Y.ordinal()];
     }
     public void setMaxY(double MaxY){
-    	bounds[ElementIndex.Y.ordinal()][TypeIndex.MAX.ordinal()] = MaxY;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.Y.ordinal()] = MaxY;
     }
     
 
     public double getMaxZ(){
-        return bounds[ElementIndex.Z.ordinal()][TypeIndex.MAX.ordinal()];
+        return bounds[TypeIndex.MAX.ordinal()][ElementIndex.Z.ordinal()];
     }
     public void setMaxZ(double MaxZ){
-    	bounds[ElementIndex.Z.ordinal()][TypeIndex.MAX.ordinal()] = MaxZ;
+    	bounds[TypeIndex.MAX.ordinal()][ElementIndex.Z.ordinal()] = MaxZ;
     }
     
     
@@ -108,16 +108,16 @@ public class BBox implements IInputLinkElement
         
         for(int i = 0; i < 6; i++){
             if(poseInfo.length <= i){
-                bounds[i%3][i/3] = 0;
+                bounds[i/3][i%3] = 0;
             } else {
-            	bounds[i%3][i/3] = Double.parseDouble(poseInfo[i].trim());
+            	bounds[i/3][i%3] = Double.parseDouble(poseInfo[i].trim());
             }
         }         
     }
     
     public void updateWithArray(double[][] boundsInfo){
-    	for(int i = 0; i < 3; i++){
-    		for(int j = 0; j < 2; j++){
+    	for(int i = 0; i < 2; i++){
+    		for(int j = 0; j < 3; j++){
     			if(boundsInfo.length <= i || boundsInfo[i].length <= j){
     				bounds[i][j] = 0;
     			} else {
@@ -125,6 +125,19 @@ public class BBox implements IInputLinkElement
     			}
     		}
     	}    
+    }
+    
+    public String getFullPoints()
+    {
+        return String.format("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f", 
+                getMinX(), getMinY(), getMinZ(),
+                getMinX(), getMinY(), getMaxZ(),
+                getMinX(), getMaxY(), getMinZ(),
+                getMinX(), getMaxY(), getMaxZ(),
+                getMaxX(), getMinY(), getMinZ(),
+                getMaxX(), getMinY(), getMaxZ(),
+                getMaxX(), getMaxY(), getMinZ(),
+                getMaxX(), getMaxY(), getMaxZ());
     }
     
     @Override
@@ -140,17 +153,17 @@ public class BBox implements IInputLinkElement
             // Create the pose on the input link
             bboxID = parentIdentifier.CreateIdWME("bbox");
             typeIDs = new Identifier[2];
-            wmes = new FloatElement[3][2];
+            wmes = new FloatElement[2][3];
             for(int i = 0; i < 2; i++){
             	typeIDs[i] = bboxID.CreateIdWME(typeStrings[i]);
             	for(int j = 0; j < 3; j++){
-            		wmes[j][i] = typeIDs[i].CreateFloatWME(wmeStrings[j], bounds[j][i]);
+            		wmes[i][j] = typeIDs[i].CreateFloatWME(wmeStrings[j], bounds[i][j]);
             	}
             }
         } else {
             // Update the pose on the input link
-        	for(int i = 0; i < 3; i++){
-        		for(int j = 0; j < 2; j++){
+        	for(int i = 0; i < 2; i++){
+        		for(int j = 0; j < 3; j++){
         			if(wmes[i][j].GetValue() != bounds[i][j]){
                         wmes[i][j].Update(bounds[i][j]);
                     }
@@ -163,8 +176,8 @@ public class BBox implements IInputLinkElement
     @Override
     public synchronized void destroy(){
         if(wmes != null){
-        	for(int i = 0; i < 3; i++){
-        		for(int j = 0; j < 2; j++){
+        	for(int i = 0; i < 2; i++){
+        		for(int j = 0; j < 3; j++){
         			wmes[i][j].DestroyWME();
         		}
         		typeIDs[i].DestroyWME();

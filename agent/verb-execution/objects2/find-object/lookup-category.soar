@@ -27,3 +27,17 @@ sp {find-object*apply*lookup-smem*category*success
 -->
    (<nj> ^category <cat>)
 }
+
+# Successful retrieval
+sp {find-object*apply*lookup-smem*category*failure
+   (state <s> ^name find-object
+              ^operator <o>
+              ^nounjective <nj>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^query.word <word>
+        ^result failure)
+   (<nj> ^word <word>)
+-->
+   (<nj> ^category failure)
+}

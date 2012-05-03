@@ -65,6 +65,9 @@ public class WorldObject implements IInputLinkElement
     
     protected Map<String, Category> categories;
 
+     // svs added
+    protected boolean isNew;
+    protected boolean hasChanged;
     
     public WorldObject(String sensable){
         initMembers();
@@ -85,6 +88,7 @@ public class WorldObject implements IInputLinkElement
         bbox = new BBox();
         attributes = new HashMap<String, String>();
         categories = new HashMap<String, Category>();
+        isNew = true;
     }
     
     // Accessors
@@ -165,6 +169,11 @@ public class WorldObject implements IInputLinkElement
                 name = keyVal[1];
                 attributes.put("name", keyVal[1].toLowerCase());
             } else if(keyVal[0].equals("pose")){
+                if (!pose.equals(keyVal[1]))
+                {
+                    hasChanged = true;
+                }
+                
                 pose.updateWithString(keyVal[1]);
                 continue;
             } else if(keyVal[0].equals("bbox")){
@@ -196,6 +205,10 @@ public class WorldObject implements IInputLinkElement
 
     public synchronized void newObjectData(object_data_t objectData){        
         id = objectData.id;
+        
+        //used for svs
+        if (!pose.equals(objectData.pos))
+           hasChanged = true;
         pose.updateWithArray(objectData.pos);
         bbox.updateWithArray(objectData.bbox);
        

@@ -1,4 +1,4 @@
-sp {apply*pop-segment*create*instructor-purpose*object-message*learn-word2cat
+sp {apply*pop-segment*create*instructor-purpose*object-message*category-response*learn-word2cat
    (state <s> ^topstate <s> 
               ^operator.name pop-segment
               ^interaction.stack.segment.purpose.parameters.query <q>

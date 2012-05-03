@@ -4,4 +4,12 @@ popd
 
 source copy-message.soar
 
-source object-question.soar
+source description-request.soar
+
+source category-response.soar
+
+source which-question.soar
+
+source property-question.soar
+
+source how-many-question.soar

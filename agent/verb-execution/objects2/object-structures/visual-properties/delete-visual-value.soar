@@ -1,20 +1,23 @@
 # If a label disappears from the input link this will remove the corresponding value structure
 
 # There is a label on the input-link not in working memory
-sp {propose*delete-value
+sp {propose*delete-visual-value
    (state <s> ^topstate <s>
               ^object <obj>
               ^io.input-link.objects.object <io-obj>)
    (<obj> ^id <id>
           ^property <prop>)
-   (<prop> ^category <> name
+   (<prop> ^name <prop-name>
+           ^type visual
            ^value <val>)
    (<val> ^label <label>)
    (<io-obj> ^id <id>
-            -^category.<label>)
+             ^category <cat>)
+   (<cat> ^name <prop-name>
+         -^<label>)
 -->
    (<s> ^operator <o> + =)
-   (<o> ^name delete-value
+   (<o> ^name delete-visual-value
         ^category object-processing
         ^object <obj>
         ^property <prop>
@@ -22,23 +25,11 @@ sp {propose*delete-value
 }
 
 # Remove the value from the property
-sp {apply*delete-value*remove*value
+sp {apply*delete-visual-value*remove*value
    (state <s> ^operator <o>)
-   (<o> ^name delete-value
+   (<o> ^name delete-visual-value
         ^property <prop>
         ^value <val>)
 -->
    (<prop> ^value <val> -)
-}
-
-# If there are no other values associated with that property, remove the property
-sp {apply*delete-value*remove*property
-   (state <s> ^operator <o>)
-   (<o> ^name delete-value
-        ^object <obj>
-        ^property <prop>
-        ^value <val>)
-   (<prop> -^value <> <val>)
--->
-   (<obj> ^property <prop> -)
 }

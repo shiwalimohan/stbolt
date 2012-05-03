@@ -21,8 +21,6 @@ public class OutputLinkHandler implements OutputEventInterface
 {
 
     private SBolt sbolt;
-
-    private robot_command_t command;
     
     private List<training_label_t> newLabels;
 
@@ -36,9 +34,6 @@ public class OutputLinkHandler implements OutputEventInterface
             this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
                     null);
         }
-
-        command = new robot_command_t();
-        command.action = "";
         
         newLabels = new ArrayList<training_label_t>();
     }
@@ -53,30 +48,26 @@ public class OutputLinkHandler implements OutputEventInterface
     	}
     }
 
-    public robot_command_t getCommand()
-    {
-    	
-        if (command.updateDest)
-        {
-            // Check to see if we've reached our destination and turn off
-            // updateDest flag
-            Robot robot = sbolt.getWorld().getRobot();
-            double x = robot.getPose().getX();
-            double y = robot.getPose().getY();
-            double z = robot.getPose().getZ();
-            double delta = (x - command.dest[0]) * (x - command.dest[0])
-                    + (y - command.dest[1]) * (y - command.dest[1])
-                    + (z - command.dest[2]) * (z - command.dest[2]);
-            if (delta < .01)
-            {
-                command.updateDest = false;
-            }
-        }
-    	if(command != null){
-    		command.utime = TimeUtil.utime();
-    	}
-        return command;
-    }
+//    public robot_command_t getCommand()
+//    {
+//    	/*
+//        if (command.updateDest)
+//        {
+//            // Check to see if we've reached our destination and turn off
+//            // updateDest flag
+//            Robot robot = sbolt.getWorld().getRobot();
+//            double x = robot.getPose().getX();
+//            double y = robot.getPose().getY();
+//            double z = robot.getPose().getZ();
+//            double delta = (x - command.dest[0]) * (x - command.dest[0])
+//                    + (y - command.dest[1]) * (y - command.dest[1])
+//                    + (z - command.dest[2]) * (z - command.dest[2]);
+//            if (delta < .01)
+//            {
+//                command.updateDest = false;
+//            }
+//        }*/
+//    }
 
     @Override
     public void outputEventHandler(Object data, String agentName,
@@ -226,12 +217,18 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
+        
         String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pickUpId,
                 "object-id", "pick-up does not have an ^object-id attribute");
-
-        String action = String.format("ID=%d,GRAB=%d", sbolt.getWorld()
-                .getRobot().getId(), Integer.parseInt(objectIdStr));
-        command.action = action;
+        
+        robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.action = String.format("GRAB=%d", Integer.parseInt(objectIdStr));
+        command.dest = new double[6];
+        sbolt.broadcastRobotCommand(command);
+        
+        sbolt.getWorld().getRobotArm().pickup(Integer.parseInt(objectIdStr));
+        
         pickUpId.CreateStringWME("status", "complete");
     }
 
@@ -252,6 +249,8 @@ public class OutputLinkHandler implements OutputEventInterface
             putDownId.CreateStringWME("status", "error");
             return;
         }
+        robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
         
         String action;
         if(locationWME.IsIdentifier()){
@@ -267,15 +266,14 @@ public class OutputLinkHandler implements OutputEventInterface
             double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
                     locationId, "z",
                     "put-down.location does not have an ^z attribute"));
-
-            action = String.format("ID=%d,DROP=[%f %f %f]", sbolt.getWorld()
-                    .getRobot().getId(), x, y, z);
+            command.action = "DROP";
+            command.dest = new double[]{x, y, z, 0, 0, 0};
+            sbolt.broadcastRobotCommand(command);
+            
+            putDownId.CreateStringWME("status", "complete");
         } else {
-            action = String.format("ID=%d,GRAB=-1", sbolt.getWorld().getRobot().getId());
+            putDownId.CreateStringWME("status", "error");	
         }
-        
-        command.action = action;
-        putDownId.CreateStringWME("status", "complete");
     }
 
     /**
@@ -301,9 +299,13 @@ public class OutputLinkHandler implements OutputEventInterface
         double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
                 locationId, "z",
                 "put-down.location does not have an ^z attribute"));
-
-        command.dest = new double[] { x, y, z, 0, 0, 0 };
-        command.updateDest = true;
+        
+        robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.action = String.format("POINT");
+        command.dest = new double[]{x, y, z, 0, 0, 0};
+        sbolt.broadcastRobotCommand(command);
+        
         gotoId.CreateStringWME("status", "complete");
     }
 
@@ -326,7 +328,11 @@ public class OutputLinkHandler implements OutputEventInterface
                 "action does not have a ^value attribute");
 
         String action = String.format("ID=%s,%s=%s", id, attribute, value);
-        command.action = action.toUpperCase();
+        robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.action = action;
+        command.dest = new double[6];
+        sbolt.broadcastRobotCommand(command);
 
         actionId.CreateStringWME("status", "complete");
     }
@@ -337,22 +343,31 @@ public class OutputLinkHandler implements OutputEventInterface
         {
             return;
         }
-        String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pointId,
-                "id", "point does not have an ^object-id attribute");
+        String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pointId, "id");
         
         Identifier poseId = WorkingMemoryUtil.getIdentifierOfAttribute(pointId, "pose");
         String x = WorkingMemoryUtil.getValueOfAttribute(poseId, "x");
         String y = WorkingMemoryUtil.getValueOfAttribute(poseId, "y");
         String z = WorkingMemoryUtil.getValueOfAttribute(poseId, "z");
         
-
-        //String action = String.format("ID=%d,POINT=%d", sbolt.getWorld()
-        //        .getRobot().getId(), Integer.parseInt(objectIdStr));
-        //command.action = action;
-        command.updateDest = true;
-        command.dest[0] = Double.parseDouble(x);
-        command.dest[1] = Double.parseDouble(y);
-        command.dest[2] = Double.parseDouble(z);
+        robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        if(x != null && y != null && z != null){
+            command.dest = new double[]{Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z), 0, 0, 0};
+        	if(objectIdStr != null){
+        		command.action = String.format("POINT=%d", Integer.parseInt(objectIdStr));
+        	} else {
+        		command.action = "POINT";
+        	}
+        } else if(objectIdStr != null){
+        	command.action = String.format("POINT=%d", Integer.parseInt(objectIdStr));
+        	command.dest = new double[6];
+        } else {
+            pointId.CreateStringWME("status", "error");
+            return;
+        }
+        sbolt.broadcastRobotCommand(command);
+        
         pointId.CreateStringWME("status", "complete");
     }
     

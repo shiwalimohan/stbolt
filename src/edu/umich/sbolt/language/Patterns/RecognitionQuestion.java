@@ -21,7 +21,7 @@ public class RecognitionQuestion extends LinguisticEntity{
     public void translateToSoarSpeak(Identifier messageId, String connectingString){
         messageId.CreateStringWME("type", "recognition-question");
         messageId.CreateStringWME("originator", "mentor");
-        Identifier fieldsId = messageId.CreateIdWME("fields");
+        Identifier fieldsId = messageId.CreateIdWME("information");
         if(object != null){
             object.translateToSoarSpeak(fieldsId,"object");
         }

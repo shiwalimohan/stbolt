@@ -3,6 +3,8 @@ package edu.umich.sbolt;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -22,6 +24,9 @@ import javax.swing.KeyStroke;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
+import abolt.lcmtypes.robot_command_t;
+import april.util.TimeUtil;
+
 import com.soartech.bolt.BOLTLGSupport;
 
 public class ChatFrame extends JFrame
@@ -36,9 +41,15 @@ public class ChatFrame extends JFrame
     private SBolt sbolt;
     
     private BOLTLGSupport lgSupport;
+    
+    private ArrayList<String> history;
+    
+    private int historyIndex = 0;
 
     public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
+        
+        history = new ArrayList<String>();
 
         this.sbolt = sbolt;
         lgSupport = lg;
@@ -48,12 +59,47 @@ public class ChatFrame extends JFrame
         chatArea = new JTextArea();
         JScrollPane pane = new JScrollPane(chatArea);
         chatField = new JTextField();
+        chatField.addKeyListener(new KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_UP) {
+					if(historyIndex > 0){
+						historyIndex--;
+					}
+					if(history.size() > 0){
+						chatField.setText(history.get(historyIndex));
+					}
+				} else if(arg0.getKeyCode() == KeyEvent.VK_DOWN){
+					historyIndex++;
+					if(historyIndex > history.size()){
+						historyIndex = history.size();
+					}
+					if(historyIndex == history.size()){
+						chatField.setText("");
+					} else {
+						chatField.setText(history.get(historyIndex));
+					}
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+        });
+        
+        
         JButton button = new JButton("Send Message");
         button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+            	history.add(chatField.getText());
+            	historyIndex = history.size();
                 addMessage(chatField.getText());
                 sendSoarMessage(chatField.getText());
                 chatField.setText("");
@@ -128,8 +174,22 @@ public class ChatFrame extends JFrame
     		sbolt.getWorld().newMessage(message);
     	}
     	else if(message.length() > 0 && message.charAt(0) == ':'){
-    		// Prefixing with a : goes to Soar's message processing
-    		sbolt.getWorld().newMessage(message.substring(1));
+    		if(message.equals(":reset")){
+    			robot_command_t command = new robot_command_t();
+    			command.utime = TimeUtil.utime();
+    			command.action = "RESET";
+    			command.dest = new double[6];
+    			sbolt.broadcastRobotCommand(command);
+        		// Prefixing with a : goes to Soar's message processing
+    		} else if(message.equals(":drop")){
+    			robot_command_t command = new robot_command_t();
+    			command.utime = TimeUtil.utime();
+    			command.action = "DROP";
+    			command.dest = new double[6];
+    			sbolt.broadcastRobotCommand(command);
+    		} else {
+        		sbolt.getWorld().newMessage(message.substring(1));
+    		}
     	} else {
     		lgSupport.handleInput(message);
     		// LGSupport has access to the agent object and handles all WM interaction from here

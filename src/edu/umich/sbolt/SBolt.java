@@ -19,9 +19,11 @@ import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Kernel;
 import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_action_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_data_t;
 import abolt.lcmtypes.training_label_t;
+import april.util.TimeUtil;
 import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
 import edu.umich.sbolt.world.WorldObject;
@@ -51,7 +53,22 @@ public class SBolt implements LCMSubscriber
 
     private World world;
     
-    private boolean received = false;
+    private boolean ready = true;
+    
+    private static boolean inputLinkLocked = false;
+    public static void lockInputLink(){
+    	while(inputLinkLocked){
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	inputLinkLocked = true;
+    }
+    public static void unlockInputLink(){
+    	inputLinkLocked = false;
+    }
 
     public SBolt(String channel, String agentName)
     {
@@ -60,6 +77,7 @@ public class SBolt implements LCMSubscriber
         {
             lcm = new LCM();
             lcm.subscribe(channel, this);
+            lcm.subscribe("ROBOT_ACTION", this);
         }
         catch (IOException e)
         {
@@ -203,24 +221,34 @@ public class SBolt implements LCMSubscriber
     @Override
     public void messageReceived(LCM lcm, String channel, LCMDataInputStream ins)
     {
-        if (inputLinkHandler == null)
-            return;
-        if(received){
-        	//return;
-        }
-        received = true;      
-        
-        observations_t obs = null;
-        try
-        {
-            obs = new observations_t(ins);
-            world.newObservation(obs);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return;
-        }
+    	if(channel.equals("ROBOT_ACTION") && world != null && world.getRobotArm() != null){
+    		try {
+    			robot_action_t action = new robot_action_t(ins);
+				world.getRobotArm().newRobotAction(action);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	} else if(channel.equals("OBSERVATIONS")){
+    		if (inputLinkHandler == null || !ready)
+                return;
+            ready = false;
+            SBolt.lockInputLink();
+            
+            observations_t obs = null;
+            try
+            {
+                obs = new observations_t(ins);
+                world.newObservation(obs);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+            SBolt.unlockInputLink();
+            ready = true;
+    	}
     }
 
     /**
@@ -228,19 +256,11 @@ public class SBolt implements LCMSubscriber
      */
     private void broadcastLcmCommand()
     {
-        robot_command_t command = outputLinkHandler.getCommand();
-        if (command == null)
-        {
-            return;
-        }
-        synchronized (command)
-        {
-            lcm.publish("ROBOT_COMMAND", command);
-        }
         synchronized (outputLinkHandler){
         	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
         	if(newLabels != null){
             	training_data_t trainingData = new training_data_t();
+            	trainingData.utime = TimeUtil.utime();
             	trainingData.num_labels = newLabels.size();
             	trainingData.labels = new training_label_t[newLabels.size()];
             	for(int i = 0; i < newLabels.size(); i++){
@@ -249,6 +269,10 @@ public class SBolt implements LCMSubscriber
             	lcm.publish("TRAINING_DATA", trainingData);
         	}
         }
+    }
+    
+    public void broadcastRobotCommand(robot_command_t command){
+        lcm.publish("ROBOT_COMMAND", command);
     }
 
     public static void main(String[] args)

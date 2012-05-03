@@ -161,4 +161,38 @@ public class Pose implements IInputLinkElement
             poseID = null;
         }
     }
+    
+    
+    public boolean equals(double[] poseInfo){
+        for(int i = 0; i < 6; i++){
+            if(poseInfo.length <= i){
+                return true;
+            } 
+            else if (pose[i] != poseInfo[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean equals(String s){
+        String n;
+        n = s.replace("[", "");
+        n = n.replace("]", "");
+        String[] poseInfo = n.split(" ");
+        
+        if (poseInfo[0].equals("")){
+            return false;
+        }
+        
+        for(int i = 0; i < 6; i++){
+            if(poseInfo.length <= i){
+                return true;
+            } else if (pose[i] != Double.parseDouble(poseInfo[i].trim()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

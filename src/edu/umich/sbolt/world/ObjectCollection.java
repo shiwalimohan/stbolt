@@ -29,10 +29,16 @@ public class ObjectCollection implements IInputLinkElement
     // True if a new observations_t has arrived since the last update
     private boolean hasChanged;
     
-    public ObjectCollection(){
+    Set<Integer> svsObjectsToRemove;
+    
+    private World world;
+    
+    public ObjectCollection(World world){
         objectsId = null;
+        svsObjectsToRemove = new HashSet<Integer>();
         objects = new HashMap<Integer, WorldObject>();
         hasChanged = false;
+        this.world = world;
     }
     
 
@@ -64,6 +70,7 @@ public class ObjectCollection implements IInputLinkElement
     }
     
     public synchronized void newObservation(observations_t observation){
+    	Set<Integer> objectsToRemove = new HashSet<Integer>();
         Set<Integer> observedIds = new HashSet<Integer>();
         
         // update each object from the object_data_t
@@ -100,11 +107,16 @@ public class ObjectCollection implements IInputLinkElement
             }   
         }
         
-        Set<Integer> objectsToRemove = new HashSet<Integer>();
+        objectsToRemove.clear();
         for(Integer id : objects.keySet()){
             if(!observedIds.contains(id)){
                 objectsToRemove.add(id);
             }
+        }
+        
+        // don't remove the object currently being grabbed
+        if(objectsToRemove.contains(world.getRobotArm().getGrabbedId())){
+        	objectsToRemove.remove(world.getRobotArm().getGrabbedId());
         }
         
         for(Integer id : objectsToRemove){
@@ -112,9 +124,45 @@ public class ObjectCollection implements IInputLinkElement
             objects.remove(id);
         }
         hasChanged = true;
+        svsObjectsToRemove.addAll(objectsToRemove);
+    }
+    public Set<Integer> getObjectsToRemove()
+    {     
+        return svsObjectsToRemove;
     }
     
+    //for SVS use
+    public void clearObjectsToRemove()
+    {     
+    	svsObjectsToRemove.clear();
+    }
     public synchronized WorldObject getObject(Integer id){
         return objects.get(id);
     }
+    
+    //svs added
+    public synchronized WorldObject getNextNewObject(){
+        for(WorldObject object : objects.values()){
+            if (object.isNew)
+            {
+                object.isNew = false;
+                return object;
+            }
+        }
+        //else no new objects
+        return null;
+    }
+    
+    public synchronized WorldObject getNextChangedObject(){
+        for(WorldObject object : objects.values()){
+            if ((object.hasChanged) && (object.isNew == false))
+            {
+                object.hasChanged = false;
+                return object;
+            }
+        }
+        //else no changed objects
+        return null; 
+    }
+    
 }
