@@ -1,3 +1,7 @@
+# TODO: mask out the DEF from "The goal"
+# Better yet, keep the goal as a separate thing so _the_ goal is _a_ property
+# isn't conflicted.
+
 
 sp {interpret-goal-object-message*propose*mark-goal-predicate
    (state <s> ^name interpret-goal-object-message

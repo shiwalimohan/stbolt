@@ -36,6 +36,7 @@ public class SoarRunner implements PrintEventInterface {
 		
 		boolean debug = false;
 		boolean silent = false;
+		boolean runSoar = true;
 		int sentenceStart = 1;
 		if (args.length >= 3 && args[1].equals("--debug")) {
 			debug = true;
@@ -45,30 +46,36 @@ public class SoarRunner implements PrintEventInterface {
 			silent = true;
 			sentenceStart = 2;
 		}
+		else if (args.length >= 3 && args[1].equals("--parse-only")) {
+			runSoar = false;
+			sentenceStart = 2;
+		}
 		ArrayList<String> sentences = new ArrayList<String>();
 		for (int i=sentenceStart; i<args.length; i++) {
 			sentences.add(args[i]);
 		}
 		
-		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent);
+		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent, runSoar);
 	}
 	
-	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent) {
-		if (debug) {
-			kernel = Kernel.CreateKernelInNewThread();
+	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar) {
+		if (runSoar) {
+			if (debug) {
+				kernel = Kernel.CreateKernelInNewThread();
+			}
+			else {
+				kernel = Kernel.CreateKernelInCurrentThread();
+			}
+			agent = kernel.CreateAgent("LGSoar");
+	
+			if (silent) {
+				agent.ExecuteCommandLine("watch 0");
+			}
+			
+			agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+			agent.LoadProductions(soarFile);
 		}
-		else {
-			kernel = Kernel.CreateKernelInCurrentThread();
-		}
-		agent = kernel.CreateAgent("LGSoar");
-
-		if (silent) {
-			agent.ExecuteCommandLine("watch 0");
-		}
-		
-		agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
-		agent.LoadProductions(soarFile);
-		
+	
 		LGSupport lgSupport = new LGSupport(agent, "data/link");
 		for (String sentence: sentences) {
 			lgSupport.handleSentence(sentence);
@@ -84,7 +91,7 @@ public class SoarRunner implements PrintEventInterface {
 				e.printStackTrace();
 			}
 		}
-		else {
+		else if (runSoar) {
 			agent.RunSelf(1000);
 			if (agent.GetDecisionCycleCounter() > 990) {
 				System.out.println("Agent reached dc " + agent.GetDecisionCycleCounter() + ", terminating.");

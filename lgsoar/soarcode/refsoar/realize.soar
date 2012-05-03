@@ -21,22 +21,46 @@ sp {realize*propose*ref*as*new-idea
    (<s> ^operator <o> +)
    (<o> ^name new-idea ^priority 20 ^ref <ref>
    	 ^order <wcount> 
-     ^debug-info (concat |realizing reference from "| <val> |" as new idea|))
+     ^debug-info (concat |realizing reference of "| <val> |" as new idea|))
 }
+
+sp {realize*apply*ref*as*new-idea
+	(state <s> ^operator <o> ^model <m>)
+	(<o> ^name new-idea ^ref <ref>)
+	(<ref> ^head <head>)
+	(<head> ^wvalue <nuc> ^wcount <wcount>)
+-->
+	(<m> ^idea <new> +)
+	(<new> ^nuc <nuc> ^wcount <wcount> +)
+	(<ref> ^pointer <new>)
+}
+
 
 ## realize as coref
 # def-desc
 
-sp {realize*propose*def-desc-ref*as*coref
-   (state <s> ^count <count> ^refsets.refs <refs> ^model.idea <idea>)
-   (<refs> ^count <count> ^ref <ref>)
-   (<ref> ^head <word> ^desc.feature def -^pointer)
-   (<word> ^wvalue <wvalue> ^wcount <wcount>)
-   (<idea> ^nuc <wvalue>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind general
-   	 ^order <wcount> )}
+# SBW 4/30/2012
+# removing these:
+# The proposal checks for "def", not "DEF", so it was never matching. If
+# fixed, it only appears to break things like: "The little block is on the big
+# block".
+#
+# I think the intention here is that if there is a definite noun late in the
+# sentence, and there was an idea for the same word earlier, they must refer to
+# the same thing ("If you see a block, get the block", but that doesn't
+# actually work)
+#
+
+# sp {realize*propose*def-desc-ref*as*coref
+#    (state <s> ^count <count> ^refsets.refs <refs> ^model.idea <idea>)
+#    (<refs> ^count <count> ^ref <ref>)
+#    (<ref> ^head <word> ^desc.feature DEF -^pointer)
+#    (<word> ^wvalue <wvalue> ^wcount <wcount>)
+#    (<idea> ^nuc <wvalue>)
+# -->
+#    (<s> ^operator <o> +)
+#    (<o> ^name coref ^priority 30 ^ref <ref> ^idea <idea> ^kind general
+#    	 ^order <wcount> )}
 
 sp {realize*apply*general-coref
    (state <s> ^operator <o>)

@@ -9,8 +9,7 @@ import sml.Identifier;
 
 public class LGSupport {
 	private static Agent agent;
-	public static String dictionaryPath = ""; //"/opt/bolt/stbolt/lgsoar/data/link";
-	//private static String lgSoarLoaderPath = "/opt/bolt/stbolt/lgsoar/soarcode/simple-init.soar";
+	public static String dictionaryPath = ""; 
 	private static Identifier lgInputRoot;
 	private static int sentenceCount = 0;
 	
@@ -19,8 +18,9 @@ public class LGSupport {
 		dictionaryPath = dictionary;
 		
 		// make a root lg-input WME
-        lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
-		
+		if (agent != null) {
+			lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
+		}
 	}
 	
 	public void handleSentence(String sentence) {
@@ -42,6 +42,11 @@ public class LGSupport {
         
         String outstr = thisLinkage.linkage_print_diagram();
 		System.out.println(outstr);
+		
+		if (agent == null) {
+			// valid if run to print the parse alone
+			return;
+		}
 		
         int numLinks = thisLinkage.linkage_get_num_links();
         

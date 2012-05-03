@@ -3322,3 +3322,21 @@ UNLIMITED-CONNECTORS:    % These are the link-types that are not subject
       S+ & CO+ & C+ & Xc+ & MV+ & CC+ & TH+ & W+ & RW+ & Xp+ & Xx+ & CP+
       & SFsx+;
 
+% Below here backported from abiword package, 5/3/2012
+
+<noun-modifiers>: {@AN-} & {@A- & {[[@AN-]]}};
+<rel-clause-s>: {Rw+} & Bsm+;
+% Nouns that are also adjectives (e.g. red.n) and so we don't want to
+% allow these to take AN+ links.  We need these as nouns, so as to 
+% parse 'she prefers red'. However, assign a cost, so that 'her shoes
+% are red' gets red.a perfered over red.n.
+% [[Ds-]] to allow: "The house was painted a fading yellow"
+%
+% Doesn't seem to need a noun-and-x to make this work ... 
+auburn.n black.n blue.n brown.n green.n gray.n pink.n purple.n red.n 
+tawny.n ultramarine.n yellow.n:
+  <noun-modifiers> & 
+    ((({Dmu- or [[Ds-]]}) & <noun-sub-s> & ([<noun-main-m> or <rel-clause-s>])) or
+    (YS+ & {Dmu-}) or 
+    (GN+ & (DD- or [()])) or 
+    Up-);

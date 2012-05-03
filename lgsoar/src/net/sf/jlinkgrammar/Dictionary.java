@@ -1475,7 +1475,7 @@ public class Dictionary {
         // TODO - clean up file handling
         // So we now add to the bad code by saing that if the filename = /word/...
         // Then we back up on the dictionary and append to it.
-        if (filename.substring(0, 4) == "word/") {
+        if (filename.length() >= 5 && filename.substring(0, 4) == "word/") {
             int len = name.lastIndexOf("/");
             file_name_copy = name.substring(0,len) + filename.substring(1);
         } else {

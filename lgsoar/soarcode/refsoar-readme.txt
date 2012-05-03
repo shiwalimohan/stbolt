@@ -1,6 +1,15 @@
 This file contains notes on how refsoar works. This is all of LGSoar up until generate-predicates,
 which involves the Soar rules in the output/ directory.
 
+Basic flow:
+- references from one word to another are identified, starting with the main
+	verb and extending to its arguments and other things connected there
+- centers are determined from references
+- ideas are determined from centers
+- predicates are built from ideas (in output code, not refsoar)
+
+TODO: what is filtered or added at each step (ref->center, center->idea, idea->predicate)?
+
 refsoar files:
 global.soar
 activate.soar
@@ -60,12 +69,24 @@ add-arg (interpret.soar)
 		^kind << single constant single-side >>
 			constant has a structure in the arg, either a word (for modes) or feature/word pair
 			single has an arg that is a word identifier
+			single-side is like single, but ???
     ^link: id of the link causing the add-arg
     ^main: id of the word structure for the ref 
 
-    Single add-args, which have another word in the arg, add a ref for that other word as a side effect.
-
+    Single add-args, which have another word in the arg, add a ref for that other word as a side effect. This appears to be how 
+		refs propogate.
 
 new-idea (realize.soar)
+	Each ref is "realized" as a new idea or a coref to an existing idea, this operator handles the
+	first case.
+coref (promote.soar)
+	Realize a ref as a reference to an existing idea. Currently (April 2012) not used in BOLT stuff,
+	since it is really a multi-sentence thing.
 
-basic
+basic, feature (promote.soar)
+	These copy augmentations from the refs to the model (ideas). Augmentations pointing from ref A 
+	to ref B get a corresponding feature in idea A pointing to idea B (direct promotion), there
+	is also a reverse pointer (called "aug") going from idea B to idea A (indirect promotion). 
+	Features that aren't pointers to refs/ideas are also copied via the "feature" operator (e.g.,
+	modes like "always").
+

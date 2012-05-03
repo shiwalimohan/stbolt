@@ -1,5 +1,4 @@
 
-
 sp {elaborate*report-predicate*from-wmes*1
    (state <s> ^problem-space lgsoar
               ^final-predicates.predicate <p>)
@@ -44,14 +43,15 @@ sp {elaborate*report-predicate*from-wmes*4
    (write (crlf) (concat <out1> |-| <out2> |(| <in1> |,| <in2> |)|))
 }
 
-sp {elaborate*proposed*add-arg*debug-info
+sp {elaborate*proposed*add-arg*debug-info*single
   (state <s> ^operator <o> +
-             ^io.lgsentence.words <wd>)
+             ^io.current-lgsentence.words <wd>)
   (<o> ^name add-arg
        ^main <main>
        ^aug <aug>
+       ^arg.wvalue <arg-wvalue>
        ^link <link>
-       ^kind <kind>)
+       ^kind << single single-side >>)
   (<main> ^wvalue <wval>)
   (<link> ^ltype <ltype>
           ^lwleft <left> ^lwright <right>)
@@ -59,9 +59,51 @@ sp {elaborate*proposed*add-arg*debug-info
   (<wleft> ^wcount <left> ^wvalue <leftword>)
   (<wright> ^wcount <right> ^wvalue <rightword>)
 -->
-  (<o> ^debug-info (concat |adding "| <wval> |" as | <aug> |, kind | <kind> | due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|))
+  (<o> ^debug-info (concat |on reference for "| <wval> |", adding "| <arg-wvalue> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+       ^base-debug-added true)
 }
 
+sp {elaborate*proposed*add-arg*debug-info*constant-deep
+  (state <s> ^operator <o> +
+             ^io.current-lgsentence.words <wd>)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^arg.feature <feat>
+       ^arg.word.wvalue <word>
+       ^link <link>
+       ^kind constant)
+  (<main> ^wvalue <wval>)
+  (<link> ^ltype <ltype>
+          ^lwleft <left> ^lwright <right>)
+  (<wd> ^word <wleft> ^word <wright>)
+  (<wleft> ^wcount <left> ^wvalue <leftword>)
+  (<wright> ^wcount <right> ^wvalue <rightword>)
+-->
+  (<o> ^debug-info (concat |on reference for "| <wval> |", adding | <feat> | "| <word> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+       ^base-debug-added true)
+}
+
+sp {elaborate*proposed*add-arg*debug-info*constant-surface
+  (state <s> ^operator <o> +
+             ^io.lgsentence.words <wd>)
+  (<o> ^name add-arg
+       ^main <main>
+       ^aug <aug>
+       ^arg <arg>
+      -^arg.feature
+       ^link <link>
+       ^kind constant)
+  (<main> ^wvalue <wval>)
+  (<link> ^ltype <ltype>
+          ^lwleft <left> ^lwright <right>)
+  (<wd> ^word <wleft> ^word <wright>)
+  (<wleft> ^wcount <left> ^wvalue <leftword>)
+  (<wright> ^wcount <right> ^wvalue <rightword>)
+-->
+  (<o> ^debug-info (concat |on reference for "| <wval> |", adding | <arg> | as | <aug> | due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+       ^base-debug-added true)
+}
 sp {elaborate*proposed*add-arg*debug-info*side
   (state <s> ^operator <o> +)
   (<o> ^name add-arg
@@ -70,10 +112,11 @@ sp {elaborate*proposed*add-arg*debug-info*side
        ^arg.wvalue <wval>
        -^arg.ref
        ^link <link>
+       ^base-debug-added
        ^kind << single single-side >>)
   (<link> ^ltype <ltype>)
 -->
-  (<o> ^debug-info (concat |side effect: new ref from "|<wval>|" added|))
+  (<o> ^debug-info (concat |side effect: new ref for "|<wval>|" added|))
 }
 
      
@@ -84,3 +127,10 @@ sp {apply*any*print-debug-info
 -->
    (write (crlf) (concat |        | <info>))
 }
+
+sp {elaborate*processing-complete*refs
+  (state <s> ^operator.name processing-complete
+             ^refsets.refs <rs>)
+-->
+  (write (crlf) |refs: | (crlf) (cmd print --tree --depth 2 <rs>))
+  }

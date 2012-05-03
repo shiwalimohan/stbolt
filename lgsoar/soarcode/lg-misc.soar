@@ -1,20 +1,3 @@
-## from productions2b.soar
-# replace original versions in refsoar/lgrefsoar.soar
-
-
-sp {realize*apply*ref*as*new-idea
-	(state <s> ^operator <o> ^model <m>)
-	(<o> ^name new-idea ^ref <ref>)
-	(<ref> ^head <head>)
-	(<head> ^wvalue <nuc> ^wcount <wcount>)
--->
-	(<m> ^idea <new> +)
-#	(<new> ^wcount <wccount>)
-	(<new> ^nuc <nuc> ^wcount <wcount> +)
-	(<ref> ^pointer <new>)
-}
-
-## nothing from prep-prods.soar
 
 ## from conjprods.soar
 
@@ -24,9 +7,6 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*has-new
 	(<preferred> ^priority <priority> ^new <n2val> < <n1val>)
 -->
 	(<s> ^operator <preferred> > <deferred>)}
-	
-	
-	
 
 ####### basic stuff for conjunction
 
@@ -38,4 +18,12 @@ sp {global*prefer*operator-with-lowest-order*if-priority-is-equal*use-arg
     (<s> ^operator <preferred> > <deferred>)
 }
 
-
+sp {elaborate*current-lgsentence
+   (state <s> ^problem-space lgsoar
+              ^io <io>
+              ^io.lgsentence <lgs>
+              ^count <ct>)
+   (<lgs> ^count <ct>)
+-->
+   (<io> ^current-lgsentence <lgs>)
+}

@@ -121,7 +121,7 @@ sp	{anaphor*propose*add-verb-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind verb ^ref <ref> ^new-acount (+ <acount> 1)
-        ^debug-info (concat |adding verb center for reference from "| <wval> |"|))
+        ^debug-info (concat |adding verb center for reference for "| <wval> |"|))
 }
 
 sp	{anaphor*propose*add-first-center
@@ -130,7 +130,7 @@ sp	{anaphor*propose*add-first-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind first ^ref <ref> ^new-acount (+ <acount> 1)
-        ^debug-info (concat |adding first-person center for reference from "| <wval> |"|))
+        ^debug-info (concat |adding first-person center for reference for "| <wval> |"|))
 }
 
 
@@ -140,7 +140,7 @@ sp	{anaphor*propose*add-second-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind second ^ref <ref> ^new-acount (+ <acount> 1)
-        ^debug-info (concat |adding second-person center for reference from "| <wval> |"|))
+        ^debug-info (concat |adding second-person center for reference for "| <wval> |"|))
 }
 
 sp	{anaphor*propose*add-third-center
@@ -150,7 +150,7 @@ sp	{anaphor*propose*add-third-center
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-center ^priority 203 ^kind third ^ref <ref> ^new-acount (+ <acount> 1)
-        ^debug-info (concat |adding third-person center for reference from "| <wval> |"|))
+        ^debug-info (concat |adding third-person center for reference for "| <wval> |"|))
 }
 
 sp	{anaphor*apply*add-center
@@ -497,7 +497,7 @@ sp	{anaphor*propose*rip
    (<s> ^operator <o> +)
    (<o> ^name rip ^priority 204 ^ref <ref> ^aug <aug> ^replace <replace>
         ^order <count> ^level-two-order <wcount>
-        ^debug-info (concat |removing aug ^| <aug> | | <replace> | from reference from "| <wval> |"|))
+        ^debug-info (concat |removing aug ^| <aug> | | <replace> | from reference for "| <wval> |"|))
 }
 
 sp	{anaphor*apply*rip
