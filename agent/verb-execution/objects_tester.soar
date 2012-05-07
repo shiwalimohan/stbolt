@@ -1,8 +1,6 @@
 smem --init
 
-pushd ../shiwali/
-source verb-execution-explanation.soar
-popd
+source verb-execution.soar
 
 pushd svs
 source svs_source.soar

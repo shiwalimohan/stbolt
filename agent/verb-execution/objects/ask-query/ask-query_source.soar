@@ -14,17 +14,9 @@ source ask-query.soar
 
 
 # 	Types of queries:
-source value-question.soar
-#	Query for an unknown value for a known attribute
 
-source differs-from-group.soar
-#	Query for an object that differs from a group of objects in some way
-
-source shared-att-val.soar
-#	Query for a group of objects that share a common attribute
-
-source type-of-value.soar
-#	Query for the attribute of a known value
+source category-of-word.soar
+#	Query for the category of the given word
 
 
 source preferences.soar

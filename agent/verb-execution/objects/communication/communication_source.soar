@@ -1,9 +1,15 @@
-source bare-value-response.soar
-source bare-attribute-response.soar
-
-pushd object-desc
-source object-desc_source.soar
+pushd object-message
+source object-message_source.soar
 popd
 
+source copy-message.soar
+
 source description-request.soar
-source recognition-question.soar
+
+source category-response.soar
+
+source which-question.soar
+
+source property-question.soar
+
+source how-many-question.soar
