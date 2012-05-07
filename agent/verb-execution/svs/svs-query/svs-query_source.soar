@@ -1,5 +1,4 @@
 source propose*svs-query.soar
-#source query-svs.soar
 source preferences.soar
 source complete-svs-query.soar
 

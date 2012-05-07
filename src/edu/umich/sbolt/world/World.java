@@ -29,7 +29,9 @@ public class World implements IInputLinkElement
     
     private Set<Integer> svsObjects;
     
-
+    //TODO debugging
+    //private int todelete;
+    
     private RobotArm robotArm;
 
 
@@ -50,6 +52,8 @@ public class World implements IInputLinkElement
         
         robotArm = new RobotArm();
         
+        //TODO debugging
+        //todelete = -1;
         inputLinkElements.add(objects);
         inputLinkElements.add(worldTime);
         inputLinkElements.add(messages);
@@ -150,12 +154,36 @@ public class World implements IInputLinkElement
         	return;
         }
     	objects.clearObjectsToRemove();
-        
+    	 
+    	
         while ((object = objects.getNextChangedObject()) != null)
         {
         	if(svsObjects.contains(object.getId())){
                 Pose pose = object.pose;
-
+                /*
+                if (todelete == -1 && object.getId() == 1)
+                    todelete = object.getId();
+                else if (todelete == object.getId())
+                {
+                    s+= "d " + object.getId() + "\n";
+                    System.out.println("d " + object.getId() + "\n");
+                    //svsObjects.remove(object.getId());
+                    todelete = 20;
+                    continue;
+                }
+                else if (todelete == 20 && object.getId() == 1)
+                {
+                    Pose pose2 = object.pose;
+                    svsObjects.add(object.getId());
+                    
+                    s+= "a " + object.getId() + " world v ";
+                    System.out.println("a " + object.getId() + "\n");
+                    //System.out.println(object.getId());
+                    s+= object.getBBox().getFullPoints();
+                    s+= " p " + pose2.getX() + " " + pose2.getY() + " " + pose2.getZ() + "\n";
+                    break;
+                }
+                */
                 //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + 
                 //            pose.getY() + " " + pose.getZ() + "\n");
                 s+= "c " + object.getId() + " p " + pose.getX() + " " + 
