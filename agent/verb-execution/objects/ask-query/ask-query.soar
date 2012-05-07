@@ -20,7 +20,7 @@ sp {propose*ask-query
 sp {propose*ask-query*get-next-task
    (state <s> ^superstate nil
               ^queries.query <q>
-             ^interaction.stack.segment.purpose.type get-next-task)
+             ^interaction.stack.segment.purpose.type << get-next-task object-message >> )
 -->
    (<s> ^operator <o> + =)
    (<o> ^name ask-query
