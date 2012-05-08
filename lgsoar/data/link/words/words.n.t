@@ -16,3 +16,23 @@ president.i professor.i prosecutor.i secretary.i senator.i sheriff.i
 solicitor.i speaker.i spokesman.i spokesperson.i spokeswoman.i 
 sponsor.i superintendent.i treasurer.i undersecretary.i underwriter.i 
 warden.i best_man maid_of_honor proprietor.i
+generic-word.n.t[0]
+generic-word.n.t[1]
+generic-word.n.t[2]
+generic-word.n.t[3]
+generic-word.n.t[4]
+generic-word.n.t[5]
+generic-word.n.t[6]
+generic-word.n.t[7]
+generic-word.n.t[8]
+generic-word.n.t[9]
+generic-word.n.t[10]
+generic-word.n.t[11]
+generic-word.n.t[12]
+generic-word.n.t[13]
+generic-word.n.t[14]
+generic-word.n.t[15]
+generic-word.n.t[16]
+generic-word.n.t[17]
+generic-word.n.t[18]
+generic-word.n.t[19]

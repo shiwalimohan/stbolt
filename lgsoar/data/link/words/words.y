@@ -9,3 +9,23 @@
 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989
 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999
 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
+generic-word.y[0]
+generic-word.y[1]
+generic-word.y[2]
+generic-word.y[3]
+generic-word.y[4]
+generic-word.y[5]
+generic-word.y[6]
+generic-word.y[7]
+generic-word.y[8]
+generic-word.y[9]
+generic-word.y[10]
+generic-word.y[11]
+generic-word.y[12]
+generic-word.y[13]
+generic-word.y[14]
+generic-word.y[15]
+generic-word.y[16]
+generic-word.y[17]
+generic-word.y[18]
+generic-word.y[19]
