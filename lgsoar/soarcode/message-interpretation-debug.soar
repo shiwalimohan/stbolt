@@ -1,89 +1,5 @@
-source load.soar
-source bolt-message-interpretation/load.soar
-
-# BOLT/LGSoar integration productions go here
-
-# prefer any operator without a priority (non-LGSoar) to one with a priority
-sp {prefer*non-LG
-   (state <s> ^operator <o> +
-              ^operator <o2> +)
-   (<o> ^priority <any>)
-   (<o2> -^priority)
--->
-   (<s> ^operator <o2> > <o>)
-}
-
-# replacement for the rule in refsoar/global.soar that halts
-# instead, remove sentences from input, which will cause the problem-space to
-# retract
-# sp {global*apply*processing-complete 
-#   (state <s> ^operator.name processing-complete
-#            ^predicates-generated true
-#            ^final-predicates <fp>)
-# --> 
-#   (<s> ^lgsoar-predicates <fp>
-#        ^predicates-generated true -)
-# }
-
-
-# replace productions in refsoar/activate.soar to put lgsoar in a substate
-excise top-state*lg*init*sentence
-excise global*apply*processing-complete
-
-sp {top-state*propose*interpret-sentence
-  (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
-   (<sent> -^final-predicates)
--->
-  (<s> ^operator <o> +)
-  (<o> ^name interpret-sentence
-       ^sentence <sent>
-       ^kind interpretation)
-}
-
-sp {elaborate*prefer-older-sentences
-   (state <s> ^superstate nil
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name interpret-sentence
-         ^sentence.count <ct1>)
-   (<o2> ^name interpret-sentence
-         ^sentence.count > <ct1>)
--->
-   (<s> ^operator <o1> > <o2>)
-}
-sp {elaborate*process-over-interpret
-   (state <s> ^superstate nil
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name interpret-sentence)
-   (<o2> ^name process-message)
--->
-   (<s> ^operator <o2> > <o1>)
-}
-
-sp {interpret-sentence*elaborate*init
-   (state <s> ^superstate.operator <sso>)
-   (<sso> ^name interpret-sentence
-          ^sentence <sent>)
--->
-   (<s> ^io.lgsentence <sent>)
-}
-
-sp {global*apply*processing-complete*save-predicates
-  (state <s> ^operator.name processing-complete
-             ^io.lgsentence <lgs>
-             ^final-predicates <fp>)
--->
-   (<lgs> ^final-predicates <fp>)
-}
-
-sp {top-state*lgsoar-predicates*to-state
-   (state <s> ^io.input-link.lg.sentence <lgs>)
-   (<lgs> ^final-predicates <fp>)
--->
-   (<s> ^lgsoar-predicates <fp>)
-}
+# run through message interpretation without the rest of the BOLT system
+source bolt-lgsoar.soar
 
 sp {elaborate*print-structure
    (state <s> ^nl.input-link.message <m>)
@@ -102,4 +18,11 @@ sp {elaborate*nli
    (state <s> ^superstate nil)
 -->
    (<s> ^nl.input-link <nli>)
+}
+
+sp {elaborate*top-state
+   (state <s> ^superstate nil)
+   (state <s2>)
+-->
+   (<s2> ^top-state <s>)
 }

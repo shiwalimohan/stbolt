@@ -1,0 +1,64 @@
+# preprocessing flow:
+# -sentence appears on io.input-link.lg.original-sentence
+#  structure: sentence.words.word [wvalue wcount]
+# -preprocessing goal takes over, builds io.output-link.preprocessed-sentence
+#  structure: preprocessed-sentence.start [word next] [word next] ..
+
+sp {preprocess-sentence*elaborate*original-sentence
+  (state <s> ^name preprocess-sentence
+             ^superstate.operator.sentence <sent>)
+-->
+   (<s> ^original-sentence <sent>)
+}
+
+sp {preprocess-sentence*propose*pass-through
+   (state <s> ^name preprocess-sentence
+              ^original-sentence <sent>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name pass-through)
+}
+
+sp {preprocess-sentence*apply*pass-through*first-word
+   (state <s> ^name preprocess-sentence
+              ^operator.name pass-through
+              ^top-state.io.output-link <ol>
+              ^original-sentence.words.word <wd>)
+   (<wd> ^wcount 0
+         ^wvalue <val>)
+-->
+   (<ol> ^preprocessed-sentence <ps>)
+   (<ps> ^start <st>)
+   (<st> ^word <val>
+         ^wcount 0)
+   (<s> ^output-word <st>)
+}
+
+sp {preprocess-sentence*apply*pass-through*next-word
+   (state <s> ^name preprocess-sentence
+              ^operator.name pass-through
+              ^original-sentence.words.word <next-word>
+              ^output-word <last-word>)
+   (<last-word> ^wcount <last-count>)
+   (<next-word> ^wcount <next-count> > <last-count>
+                ^wvalue <val>)
+  -{(<s> ^original-sentence.words.word <intervening-word>)
+   (<intervening-word> ^wcount > <last-count>
+                       ^wcount < <next-count>)}
+-->
+   (<last-word> ^next <xt>)
+   (<xt> ^word <val>
+         ^wcount <next-count>)
+   (<s> ^output-word <xt>)
+}
+
+sp {preprocess-sentence*apply*pass-through*last-word
+   (state <s> ^name preprocess-sentence
+              ^operator.name pass-through
+              ^original-sentence <os>
+              ^output-word <last-word>)
+   (<last-word> ^wcount <last-count>)
+  -{(<s> ^original-sentence.words.word.wcount > <last-count>)}
+-->
+   (<os> ^preprocessed true)
+}
