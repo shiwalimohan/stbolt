@@ -21,7 +21,8 @@ sp {top-state*propose*preprocess-sentence
 sp {top-state*propose*evaluate-parse
   (state <s> ^superstate nil
              ^io.input-link.lg.sentence <sent>)
-   (<sent> -^parse-valid)
+   (<sent> -^parse-valid
+            ^parse-count 0)
 -->
   (<s> ^operator <o> +)
   (<o> ^name evaluate-parse
@@ -33,7 +34,8 @@ sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
              ^io.input-link.lg.sentence <sent>)
    (<sent> -^final-predicates
-            ^parse-valid true)
+            ^parse-valid true
+            ^parse-count 0)
 -->
   (<s> ^operator <o> +)
   (<o> ^name interpret-sentence

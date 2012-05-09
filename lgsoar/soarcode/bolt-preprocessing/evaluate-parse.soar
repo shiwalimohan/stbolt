@@ -1,3 +1,17 @@
+# This runs after the parser, before LGSoar.
+# 
+# - If the parse fails, try reparsing as a noun phrase
+# - If there are multiple parses, allow Soar knowledge to select a non-default
+# parse. Specifically:
+# "Pick up the square to the right of the triangle"
+# This parses by attaching the preposition to the verb, not the object.
+# Need to detect the verb ("pick up"), get knowledge that it has no PP. Then,
+# select best parse that doesn't give it one.
+#
+# "Describe the relationship between the arch and the triangle."
+# Similarly, the "between" attaches to "describe" wrongly in the first parse.
+
+
 sp {evaluate-parse*elaborate*init
    (state <s> ^name evaluate-parse
               ^superstate.operator.sentence <sent>)

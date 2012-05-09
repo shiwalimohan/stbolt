@@ -13,7 +13,7 @@ public class LGSupport implements OutputEventInterface {
 	private static Agent agent;
 	public static String dictionaryPath = ""; 
 	private static Identifier lgInputRoot;
-	private static int sentenceCount = 0;
+	private static int sentenceCount = -1;
 	
 	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
@@ -27,12 +27,14 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	public void handleSentence(String sentence) {
+		sentenceCount++;
+		
 		// load the sentence into WM
 		originalSentenceToWM(sentence);
 		
 		// Soar rules may modify it
 		
-		// wait for modified sentence on output
+		// wait for preprocessed sentence on output
 	}
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
@@ -46,7 +48,8 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	// called from parser.java
-	public static void loadLinkage(Linkage thisLinkage, Sentence sent) {
+	// doIt (called above) will call this once for each linkage (parse)
+	public static void loadLinkage(Linkage thisLinkage, int idx, Sentence sent) {
 		int     rWordIndex;
         int     lWordIndex;
         String  linkLabel;
@@ -69,7 +72,8 @@ public class LGSupport implements OutputEventInterface {
         
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "count", sentenceCount);
-        sentenceCount++;
+       
+        agent.CreateIntWME(sentenceRoot, "parse-count", idx);
         	
         // make a wme for the words
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
