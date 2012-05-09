@@ -29,7 +29,6 @@ public class World implements IInputLinkElement
     
     private Set<Integer> svsObjects;
     
-
     private RobotArm robotArm;
 
 
@@ -50,6 +49,8 @@ public class World implements IInputLinkElement
         
         robotArm = new RobotArm();
         
+        //TODO debugging
+        //todelete = -1;
         inputLinkElements.add(objects);
         inputLinkElements.add(worldTime);
         inputLinkElements.add(messages);
@@ -150,7 +151,8 @@ public class World implements IInputLinkElement
         	return;
         }
     	objects.clearObjectsToRemove();
-        
+    	 
+    	
         while ((object = objects.getNextChangedObject()) != null)
         {
         	if(svsObjects.contains(object.getId())){
