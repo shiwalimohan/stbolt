@@ -18,15 +18,18 @@ sp {top-state*propose*preprocess-sentence
        ^sentence <sent>)
 }
 
+# only matches for the 0th parse, but subgoal looks at all of them
+# one parse should get marked valid to get to interpret-sentence
 sp {top-state*propose*evaluate-parse
   (state <s> ^superstate nil
              ^io.input-link.lg.sentence <sent>)
    (<sent> -^parse-valid
-            ^parse-count 0)
+            ^parse-count 0
+            ^count <ct>)
 -->
   (<s> ^operator <o> +)
   (<o> ^name evaluate-parse
-       ^sentence <sent>
+       ^count <ct>
        ^kind interpretation)
 }
 
@@ -34,8 +37,7 @@ sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
              ^io.input-link.lg.sentence <sent>)
    (<sent> -^final-predicates
-            ^parse-valid true
-            ^parse-count 0)
+            ^parse-valid true)
 -->
   (<s> ^operator <o> +)
   (<o> ^name interpret-sentence

@@ -27,7 +27,6 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	public void handleSentence(String sentence) {
-		sentenceCount++;
 		
 		// load the sentence into WM
 		originalSentenceToWM(sentence);
@@ -39,6 +38,8 @@ public class LGSupport implements OutputEventInterface {
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
+		sentenceCount++;
+
 		// call LG Parser
 		try {
 			net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});

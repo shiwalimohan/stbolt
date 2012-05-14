@@ -27,30 +27,27 @@ sp {interpret-preposition*propose*identify-preposition-word
         ^preposition <pr>)
 }
 
-# sp {interpret-preposition*propose*identify-to-the-x-of-preposition
-#    (state <s> ^name interpret-preposition
-#              -^pword-identified
-#               ^all-predicates <ap>)
-#    (<ap> ^predicate <to> <the> <x> <of>)
-#    (<to> ^outer to
-#          ^inner1 <p1>
-#          ^inner2 <x-obj>)
-#    (<the> ^outer DEF
-#           ^inner1 <x-obj>)
-#    (<x> ^outer {<> DEF <x-word>}
-#         ^inner1 <x-obj>
-#        -^inner2)
-#    (<of> ^outer of
-#          ^inner1 <x-obj>
-#          ^inner2 <p2>)
-# -->
-#    (<s> ^operator <o> +)
-#    (<o> ^name identify-to-the-x-of-preposition
-#         ^outer (concat <x-word> |-of|)
-#         ^inner1 <p1>
-#         ^inner2 <p2>)
-# }
-
+sp {interpret-preposition*propose*identify-to-the-x-of-relation
+   (state <s> ^name interpret-preposition
+             -^pword-identified
+              ^all-predicates <ap>)
+   (<ap> ^predicate <to> <the> <x-of>)
+   (<to> ^outer << to on >>
+         ^inner1 <p1>
+         ^inner2 <x-obj>)
+   (<the> ^outer DEF
+          ^inner1 <x-obj>)
+   (<x-of> ^outer1 <x-word>
+           ^outer2 of
+           ^inner1 <x-obj>
+           ^inner2 <p2>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name identify-to-the-x-of-preposition
+        ^outer (concat <x-word> |-of|)
+        ^inner1 <p1>
+        ^inner2 <p2>)
+}
 sp {interpret-preposition*identify-to-the-x-of-preposition*over*identify-preposition-word
    (state <s> ^name interpret-preposition
               ^operator <o1> +
