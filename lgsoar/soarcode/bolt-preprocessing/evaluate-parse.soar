@@ -60,7 +60,7 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*first-word
               ^top-state.io.output-link <ol>
               ^parse.words.word <wd>)
    (<wd> ^wcount 0
-         ^original-wvalue <val>)
+         ^wvalue <val>)
 -->
    (<ol> ^preprocessed-sentence <ps>)
    (<ps> ^start <st>)
@@ -79,11 +79,11 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*next-word
               ^output-word <last-word>)
    (<last-word> ^wcount <last-count>)
    (<next-word> ^wcount <next-count> > <last-count>
-                ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL <val>})
+                ^wvalue {<> LEFT-WALL <> RIGHT-WALL <val>})
   -{(<s> ^parse.words.word <intervening-word>)
    (<intervening-word> ^wcount > <last-count>
                        ^wcount < <next-count>
-                       ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL})}
+                       ^wvalue {<> LEFT-WALL <> RIGHT-WALL})}
 -->
    (<last-word> ^next <xt>)
    (<xt> ^word <val>
@@ -99,7 +99,7 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
    (<last-word> ^wcount <last-count>)
    -{(<s> ^parse.words.word <later-word>)
      (<later-word> ^wcount > <last-count>
-                   ^original-wvalue <> RIGHT-WALL)}
+                   ^wvalue <> RIGHT-WALL)}
 -->
    (<os> ^parse-valid false)
 } 
@@ -110,6 +110,8 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
 # Add general knowledge to break ties where a prepositional phrase could be
 # attached to either a verb or a noun. For our use, we almost always want it on
 # the noun.
+
+# TODO: fix this for "move the block to the table" and re-add
 
 # sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
 #    (state <s> ^name evaluate-parse
@@ -124,12 +126,12 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
 #          ^lwleft <mvl>
 #          ^lwright <right>)
 #    (<mvlw> ^wcount <mvl>
-#            ^original-wvalue <mv-left-word>)
+#            ^wvalue <mv-left-word>)
 #    (<m> ^ltype M
 #         ^lwleft <ml>
 #         ^lwright <right>)
 #    (<mlw> ^wcount <ml>
-#           ^original-wvalue <m-left-word>)
+#           ^wvalue <m-left-word>)
 # -->
 #    (<s> ^operator <o> +)
 #    (<o> ^name resolve-ambiguous-prepostion-attachment
@@ -153,12 +155,12 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
          ^lwleft <mvl>
          ^lwright <right>)
    (<mvlw> ^wcount <mvl>
-           ^original-wvalue <mv-left-word>)
+           ^wvalue <mv-left-word>)
    (<m> ^ltype M
         ^lwleft <ml>
         ^lwright <right>)
    (<mlw> ^wcount <ml>
-          ^original-wvalue <m-left-word>)
+          ^wvalue <m-left-word>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve-ambiguous-prepostion-attachment

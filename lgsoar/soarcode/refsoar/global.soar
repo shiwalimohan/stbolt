@@ -220,16 +220,6 @@ sp {lg*resolve-ties-indifferently
 
 # handle idioms..
 
-# need a simple workaround so the sentence can be edited in place
-# (it is made of read-only input WMEs)
-# Java code changed to make original-wvalue rather than wvalue
-sp {global*elaborated*wvalue
-   (state <s> ^problem-space lgsoar
-              ^io.lgsentence.words.word <wd>)
-   (<wd> ^original-wvalue <wv>)
--->
-   (<wd> ^wvalue <wv>)
-}
 
 sp {global*elaborate*unexpanded-idiom
    (state <s> ^problem-space lgsoar

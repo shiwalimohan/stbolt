@@ -108,8 +108,8 @@ sp {global*propose*handle-single-word
    (<sent> -^final-predicates
            ^words <wds>
            ^parse-count 0)
-   (<wds> ^word.original-wvalue <w1>
-          -^word.original-wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
+   (<wds> ^word.wvalue <w1>
+          -^word.wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
 -->
    (<s> ^operator <o> +)
    (<o> ^name handle-single-word
