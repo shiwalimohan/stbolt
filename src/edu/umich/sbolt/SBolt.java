@@ -1,5 +1,6 @@
 package edu.umich.sbolt;
 
+import java.awt.Rectangle;
 import java.io.File;
 
 import java.io.FileReader;
@@ -276,7 +277,7 @@ public class SBolt implements LCMSubscriber
     }
 
     public static void main(String[] args)
-    {
+    {    	
         SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
         sbolt.start();
     }

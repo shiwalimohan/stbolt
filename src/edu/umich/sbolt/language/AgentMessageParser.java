@@ -34,6 +34,8 @@ public class AgentMessageParser
         	message = "I do not see the object you are talking about";
         } else if(type.equals("count-response")){
         	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
+        } else if(type.equals("unknown-message")){
+        	message = "I was not able to understand your last message";
         }
         return message;
     }

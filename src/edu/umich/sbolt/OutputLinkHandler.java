@@ -12,7 +12,6 @@ import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_label_t;
 import edu.umich.sbolt.world.Category;
 import april.util.TimeUtil;
-import edu.umich.sbolt.world.Robot;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
 import edu.umich.sbolt.language.AgentMessageParser;

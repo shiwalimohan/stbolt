@@ -1,14 +1,22 @@
 package edu.umich.sbolt.world;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lcm.lcm.LCM;
+import lcm.lcm.LCMDataInputStream;
+import lcm.lcm.LCMSubscriber;
+
+import abolt.lcmtypes.bolt_arm_command_t;
 import abolt.lcmtypes.robot_action_t;
+import abolt.lcmtypes.robot_command_t;
 
 import edu.umich.sbolt.language.BOLTDictionary;
 import edu.umich.sbolt.language.Parser;
 import sml.Identifier;
 import sml.IntElement;
+import sml.StringElement;
 import sml.WMElement;
 
 public class RobotArm implements IInputLinkElement
@@ -17,6 +25,8 @@ public class RobotArm implements IInputLinkElement
 	// Identifier of the arm on the input link
 	
 	private IntElement grabbedId;
+	
+	private StringElement actionId;
 	
 	private Pose pose;
 	// Position of the arm
@@ -28,8 +38,11 @@ public class RobotArm implements IInputLinkElement
 	
 	private int curGrab = -1;
 	
+	private static LCM lcm = LCM.getSingleton();
+	
 
     public RobotArm(){
+    	pose = new Pose();
     }
     
     public void pickup(int id){
@@ -51,18 +64,14 @@ public class RobotArm implements IInputLinkElement
         
         if(selfId == null){
         	selfId = parentIdentifier.CreateIdWME("self");
-        	grabbedId = selfId.CreateIntWME("grabbed-object", 1);
-        	//pose.updateInputLink(selfId);
+        	grabbedId = selfId.CreateIntWME("grabbed-object", -1);
+        	actionId = selfId.CreateStringWME("action", "wait");
+        	pose.updateInputLink(selfId);
         }
         if(robotAction != null){
-            if(robotAction.action.equals("DROP")){
-            	curGrab = -1;
-            }
-            if(robotAction.obj_id != 0 && !robotAction.action.equals("GRABBING")){
-            	//grabbedId.Update(robotAction.obj_id);
-            } else {
-            	//grabbedId.Update(-1);
-            }
+        	grabbedId.Update(robotAction.obj_id);
+        	actionId.Update(robotAction.action.toLowerCase());
+        	pose.updateInputLink(selfId);
         }
         	
         grabbedId.Update(curGrab);
@@ -84,6 +93,7 @@ public class RobotArm implements IInputLinkElement
     
     public void newRobotAction(robot_action_t action){
     	robotAction = action;
+    	pose.updateWithArray(action.xyz);
     	actionChanged = true;
     }
 }

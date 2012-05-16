@@ -88,10 +88,6 @@ public class ObjectCollection implements IInputLinkElement
         // update each object from the sensables
         for(String sensable : observation.sensables){
             sensable = sensable.toLowerCase();
-            if(Robot.IsRobotSensable(sensable)){
-                //Ignore the robot sensable
-                continue;
-            }
             
             Integer id = Integer.parseInt(WorldObject.getSensableId(sensable));
             if(id == null){
