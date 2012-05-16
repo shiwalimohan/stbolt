@@ -14,9 +14,9 @@
 
 sp {evaluate-parse*elaborate*init
    (state <s> ^name evaluate-parse
-              ^superstate.operator.count <ct>
-              ^top-state.io.input-link.lg.sentence <sent>)
-   (<sent> ^count <ct>)
+              ^superstate.operator.sentence-count <ct>
+              ^top-state.io.input-link.lg.parsed-sentence <sent>)
+   (<sent> ^sentence-count <ct>)
 -->
    (<s> ^parse <sent>)
 }

@@ -80,10 +80,10 @@ public class LGSupport implements OutputEventInterface {
         int numLinks = thisLinkage.linkage_get_num_links();
         
        // make a root for this sentence
-        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "sentence");
+        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
         
         // make a wme for the count
-        agent.CreateIntWME(sentenceRoot, "count", sentenceCount);
+        agent.CreateIntWME(sentenceRoot, "sentence-count", sentenceCount);
        
         agent.CreateIntWME(sentenceRoot, "parse-count", idx);
         	

@@ -22,22 +22,22 @@ sp {top-state*propose*preprocess-sentence
 # one parse should get marked valid to get to interpret-sentence
 sp {top-state*propose*evaluate-parse
   (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
+             ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> ^parse-count 0
-            ^count <ct>)
-  -{(<s> ^io.input-link.lg.sentence <sent2>)
-    (<sent2> ^count <ct>
+           ^sentence-count <ct>)
+  -{(<s> ^io.input-link.lg.parsed-sentence <sent2>)
+    (<sent2> ^sentence-count <ct>
              ^parse-valid true)}
 -->
   (<s> ^operator <o> +)
   (<o> ^name evaluate-parse
-       ^count <ct>
+       ^sentence-count <ct>
        ^kind interpretation)
 }
 
 sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
+             ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> -^final-predicates
             ^parse-valid true)
 -->
@@ -52,9 +52,9 @@ sp {elaborate*prefer-older-sentences
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-sentence
-         ^sentence.count <ct1>)
+         ^sentence.sentence-count <ct1>)
    (<o2> ^name interpret-sentence
-         ^sentence.count > <ct1>)
+         ^sentence.sentence-count > <ct1>)
 -->
    (<s> ^operator <o1> > <o2>)
 }
@@ -96,7 +96,7 @@ sp {global*apply*processing-complete*save-predicates
 }
 
 sp {top-state*lgsoar-predicates*to-state
-   (state <s> ^io.input-link.lg.sentence <lgs>)
+   (state <s> ^io.input-link.lg.parsed-sentence <lgs>)
    (<lgs> ^final-predicates <fp>)
 -->
    (<s> ^lgsoar-predicates <fp>)
@@ -104,7 +104,7 @@ sp {top-state*lgsoar-predicates*to-state
 
 sp {global*propose*handle-single-word
   (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
+             ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> -^final-predicates
            ^words <wds>
            ^parse-count 0)
