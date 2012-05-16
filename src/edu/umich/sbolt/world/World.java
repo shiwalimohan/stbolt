@@ -17,7 +17,7 @@ public class World implements IInputLinkElement
     
     private ObjectCollection objects;
     
-    private Robot robot;
+    private RobotArm robotArm;
     
     private WorldTime worldTime;
     
@@ -28,17 +28,12 @@ public class World implements IInputLinkElement
     private Set<IInputLinkElement> inputLinkElements;
     
     private Set<Integer> svsObjects;
-    
-
-    private RobotArm robotArm;
 
 
     public World(){
         inputLinkElements = new HashSet<IInputLinkElement>();
         
         objects = new ObjectCollection(this);
-        
-        robot = null;
 
         worldTime = new WorldTime();
         
@@ -87,27 +82,12 @@ public class World implements IInputLinkElement
 
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
-        for(String sensable : observation.sensables){
-            if(Robot.IsRobotSensable(sensable)){
-                if(robot == null){
-                    robot = new Robot(sensable);
-                    inputLinkElements.add(robot);
-                } else {
-                    robot.newSensableString(sensable);
-                }
-                break;
-            }
-        }
         worldTime.newObservation(observation);
         pointedObject.setObjectID(observation.click_id);
     }
     
     public synchronized void newMessage(String message){
         messages.addMessage(message);
-    }
-    
-    public Robot getRobot(){
-        return robot;
     }
     
     public int getPointedObjectID(){
