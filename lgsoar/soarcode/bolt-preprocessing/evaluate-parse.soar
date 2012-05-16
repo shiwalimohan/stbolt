@@ -28,6 +28,7 @@ sp {evaluate-parse*propose*approve-first-parse
 -->
    (<s> ^operator <o> + <)
    (<o> ^name approve
+        ^kind interpretation
         ^parse <parse>)
 }
 
@@ -48,7 +49,8 @@ sp {evaluate-parse*propose*reparse-as-noun-phrase
    (<parse> ^words.word <exists>
            -^links.link <any>)
 -->
-   (<s> ^operator <o> + =)
+   (<s> ^operator <o> + =
+        ^kind interpretation)
    (<o> ^name reparse-as-noun-phrase)
 }
 
@@ -164,6 +166,7 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve-ambiguous-prepostion-attachment
+        ^kind interpretation
         ^rank <ct>
         ^mv-left <mv-left-word>
         ^m-left <m-left-word>

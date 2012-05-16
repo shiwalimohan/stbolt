@@ -44,7 +44,8 @@
 # (it is made of read-only input WMEs)
 # Java code changed to make original-wvalue rather than wvalue
 sp {activate*elaborate*wvalue
-   (state <s> ^io.input-link.lg.parsed-sentence.words.word <wd>)
+   (state <s> ^superstate nil
+              ^io.input-link.lg.parsed-sentence.words.word <wd>)
    (<wd> ^original-wvalue <wv>)
 -->
    (<wd> ^wvalue <wv>)

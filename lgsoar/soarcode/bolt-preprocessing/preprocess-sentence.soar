@@ -28,7 +28,8 @@ sp {preprocess-sentence*propose*pass-through
               ^original-sentence <sent>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name pass-through)
+   (<o> ^name pass-through
+        ^kind interpretation)
 }
 
 sp {preprocess-sentence*apply*pass-through*first-word
