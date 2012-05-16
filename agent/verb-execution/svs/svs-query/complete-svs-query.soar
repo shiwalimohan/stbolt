@@ -17,7 +17,6 @@ sp {svs-query*propose*find-relations
 }
 sp {svs-query*apply*find-relations
    (state <s> ^name svs-query
-            # -^relationships
               ^operator <o>)
    (<o> ^name find-relations)
 -->
