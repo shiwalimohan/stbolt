@@ -1,0 +1,54 @@
+sp {propose*push-unknown-message
+   (state <s> ^topstate <s>
+              ^instructor-message <msg>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name push-unknown-message
+        ^category communication)
+}
+
+sp {prefer*other*communication*over*push-unknown-message
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name <> push-unknown-message
+         ^category communication)
+   (<o2> ^name push-unknown-message
+         ^category communication)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {apply*push-unknown-message*mark-purpose
+   (state <s> ^operator.name push-unknown-message
+              ^instructor-message <msg>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type unknown-message
+        ^satisfaction.dialog-event unknown-message)
+}
+
+sp {propose*unknown-message
+   (state <s> ^topstate <s>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type unknown-message)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name unknown-message
+        ^category communication)
+}
+
+sp {apply*unknown-message*send-message
+   (state <s> ^operator.name unknown-message
+              ^io.output-link <out>)
+-->
+   (<out> ^send-message <msg>)
+   (<msg> ^type unknown-message
+          ^fields <f>)
+}
+
+sp {apply*unknown-message*mark*performed
+   (state <s> ^operator.name unknown-message
+              ^status <status>)
+-->
+   (<status> ^performed.dialog-event unknown-message)
+}

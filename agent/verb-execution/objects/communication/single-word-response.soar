@@ -1,0 +1,18 @@
+sp {apply*pop-segment*create*instructor-purpose*single-word-response*learn-word2cat
+   (state <s> ^topstate <s> 
+              ^operator.name pop-segment
+              ^interaction.stack.segment.purpose.parameters.query <q>
+              ^instructor-message <msg>)
+   (<msg> ^type single-word-response
+          ^information.response <category>)
+   (<q> ^type category-of-word
+        ^word <word>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type learn-word2cat
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^category <category>
+             ^word <word>)
+   (<sat> ^learning-event word2cat)
+}
