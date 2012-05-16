@@ -93,14 +93,14 @@ sp {interpret-relation*apply*identify-relation
    (<rm> ^word <relation>)
 }
 
-sp {interpret-relation*apply*identify-relation*two-part-outer
+sp {interpret-relation*apply*identify-relation*two-part-outer*of
    (state <s> ^name interpret-relation
               ^operator <o>
               ^interpretation.relation <rm>)
    (<o> ^name identify-relation
         ^relation <pr>)
    (<pr> ^outer1 <o1>
-         ^outer2 <o2>
+         ^outer2 {<o2> of}
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->

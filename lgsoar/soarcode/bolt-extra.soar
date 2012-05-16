@@ -23,9 +23,11 @@ sp {top-state*propose*preprocess-sentence
 sp {top-state*propose*evaluate-parse
   (state <s> ^superstate nil
              ^io.input-link.lg.sentence <sent>)
-   (<sent> -^parse-valid
-            ^parse-count 0
+   (<sent> ^parse-count 0
             ^count <ct>)
+  -{(<s> ^io.input-link.lg.sentence <sent2>)
+    (<sent2> ^count <ct>
+             ^parse-valid true)}
 -->
   (<s> ^operator <o> +)
   (<o> ^name evaluate-parse
@@ -101,34 +103,42 @@ sp {top-state*lgsoar-predicates*to-state
 }
 
 sp {global*propose*handle-single-word
-   (state <s> ^problem-space lgsoar
-              ^count <cnt>
-             -^predicates-generated
-              ^io.lgsentence <sen>)
-   (<sen> ^count <cnt>
-          ^words <wds>)
-   (<wds> ^word.wvalue <w1>
-          -^word.wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
+  (state <s> ^superstate nil
+             ^io.input-link.lg.sentence <sent>)
+   (<sent> -^final-predicates
+           ^words <wds>
+           ^parse-count 0)
+   (<wds> ^word.original-wvalue <w1>
+          -^word.original-wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
 -->
    (<s> ^operator <o> +)
    (<o> ^name handle-single-word
-        ^priority 1000
-        ^word <w1>)
+        ^kind interpretation
+        ^word <w1>
+        ^sentence <sent>)
 }
 
 sp {global*apply*handle-single-word
-   (state <s> ^problem-space lgsoar
-              ^operator <o>
-              ^final-predicates <fp>)
+   (state <s> ^operator <o>)
    (<o> ^name handle-single-word
-        ^word <wd>)
+        ^word <wd>
+        ^sentence <sent>)
 -->
-   (<s> ^predicates-generated true)
+   (<sent> ^final-predicates <fp>
+           ^parse-valid true)
    (<fp> ^predicate <pred>)
    (<pred> ^outer single-word
            ^inner1 <wd>)
 }
 
+sp {elaborate*handle-single-word*over*evaluate-parse
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-single-word)
+   (<o2> ^name evaluate-parse)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
 
 # experimental role-preposition handling:
 # "The color of the block is red"

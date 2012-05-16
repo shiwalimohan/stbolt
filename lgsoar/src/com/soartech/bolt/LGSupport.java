@@ -22,18 +22,29 @@ public class LGSupport implements OutputEventInterface {
 		// make a root lg-input WME
 		if (agent != null) {
 			lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
+
+			agent.AddOutputHandler("preprocessed-sentence", this, null);
 		}
-		agent.AddOutputHandler("preprocessed-sentence", this, null);
 	}
 	
 	public void handleSentence(String sentence) {
 		
-		// load the sentence into WM
-		originalSentenceToWM(sentence);
-		
-		// Soar rules may modify it
-		
-		// wait for preprocessed sentence on output
+		if (agent == null) {
+			// no Soar, run parser directly on sentence
+			try {
+				net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			// load the sentence into WM
+			originalSentenceToWM(sentence);
+			
+			// Soar rules may modify it
+			
+			// wait for preprocessed sentence on output
+		}
 	}
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
