@@ -1,15 +1,13 @@
 # Fetch the category for the given word from memory
-sp {find-object*propose*lookup-smem*category
-   (state <s> ^name find-object
-              ^nounjective <nj>
-              ^ask-user <ask>)
+sp {noun-information*propose*lookup-smem*category
+   (state <s> ^name noun-information
+              ^nounjective <nj>)
    (<nj> -^category
           ^word <word>)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name lookup-smem
         ^category smem
-        ^ask-user <ask>
         ^lookup-type category
         ^query <q>
         ^desired.category true)
@@ -17,8 +15,8 @@ sp {find-object*propose*lookup-smem*category
 }
 
 # Successful retrieval
-sp {find-object*apply*lookup-smem*category*success
-   (state <s> ^name find-object
+sp {noun-information*apply*lookup-smem*category*success
+   (state <s> ^name noun-information
               ^operator <o>
               ^nounjective <nj>)
    (<o> ^name lookup-smem
@@ -30,9 +28,9 @@ sp {find-object*apply*lookup-smem*category*success
    (<nj> ^category <cat>)
 }
 
-# Successful retrieval
-sp {find-object*apply*lookup-smem*category*failure
-   (state <s> ^name find-object
+# Failed retrieval
+sp {noun-information*apply*lookup-smem*category*failure
+   (state <s> ^name noun-information
               ^operator <o>
               ^nounjective <nj>)
    (<o> ^name lookup-smem
