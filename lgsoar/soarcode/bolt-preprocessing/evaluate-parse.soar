@@ -14,9 +14,9 @@
 
 sp {evaluate-parse*elaborate*init
    (state <s> ^name evaluate-parse
-              ^superstate.operator.count <ct>
-              ^top-state.io.input-link.lg.sentence <sent>)
-   (<sent> ^count <ct>)
+              ^superstate.operator.sentence-count <ct>
+              ^top-state.io.input-link.lg.parsed-sentence <sent>)
+   (<sent> ^sentence-count <ct>)
 -->
    (<s> ^parse <sent>)
 }
@@ -26,8 +26,9 @@ sp {evaluate-parse*propose*approve-first-parse
               ^parse <parse>)
    (<parse> ^parse-count 0)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + <)
    (<o> ^name approve
+        ^kind interpretation
         ^parse <parse>)
 }
 
@@ -48,7 +49,8 @@ sp {evaluate-parse*propose*reparse-as-noun-phrase
    (<parse> ^words.word <exists>
            -^links.link <any>)
 -->
-   (<s> ^operator <o> + > =)
+   (<s> ^operator <o> + =
+        ^kind interpretation)
    (<o> ^name reparse-as-noun-phrase)
 }
 
@@ -60,7 +62,7 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*first-word
               ^top-state.io.output-link <ol>
               ^parse.words.word <wd>)
    (<wd> ^wcount 0
-         ^original-wvalue <val>)
+         ^wvalue <val>)
 -->
    (<ol> ^preprocessed-sentence <ps>)
    (<ps> ^start <st>)
@@ -79,11 +81,11 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*next-word
               ^output-word <last-word>)
    (<last-word> ^wcount <last-count>)
    (<next-word> ^wcount <next-count> > <last-count>
-                ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL <val>})
+                ^wvalue {<> LEFT-WALL <> RIGHT-WALL <val>})
   -{(<s> ^parse.words.word <intervening-word>)
    (<intervening-word> ^wcount > <last-count>
                        ^wcount < <next-count>
-                       ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL})}
+                       ^wvalue {<> LEFT-WALL <> RIGHT-WALL})}
 -->
    (<last-word> ^next <xt>)
    (<xt> ^word <val>
@@ -99,33 +101,104 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
    (<last-word> ^wcount <last-count>)
    -{(<s> ^parse.words.word <later-word>)
      (<later-word> ^wcount > <last-count>
-                   ^original-wvalue <> RIGHT-WALL)}
+                   ^wvalue <> RIGHT-WALL)}
 -->
    (<os> ^parse-valid false)
 } 
 
 # "Pick up the square to the right of the triangle"
 # This parses by attaching the preposition to the verb, not the object.
-# Need to detect the verb ("pick up"), get knowledge that it has no PP. Then,
-# select best parse that doesn't give it one.
+# 
+# Add general knowledge to break ties where a prepositional phrase could be
+# attached to either a verb or a noun. For our use, we almost always want it on
+# the noun.
 
-# alternatively, could modify the rules for parsing "pick" to be more specific
-# and avoid MV+ links
+# TODO: fix this for "move the block to the table" and re-add
 
-# sp {evaluate-parse*elaborate*preposition-attachment-ambiguity
+# sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
 #    (state <s> ^name evaluate-parse
 #               ^parse <p1> <p2>)
-#    (<p1> ^count <mvc>
-#          ^links.link <mv>)
-#    (<p2> ^count <mc>
-#          ^links.link <m>)
+#    (<p1> ^parse-count 0
+#          ^links.link <mv>
+#          ^words.word <mvlw>)
+#    (<p2> ^parse-count <ct>
+#          ^links.link <m>
+#          ^words.word <mlw>)
 #    (<mv> ^ltype MV
+#          ^lwleft <mvl>
 #          ^lwright <right>)
+#    (<mvlw> ^wcount <mvl>
+#            ^wvalue <mv-left-word>)
 #    (<m> ^ltype M
+#         ^lwleft <ml>
 #         ^lwright <right>)
+#    (<mlw> ^wcount <ml>
+#           ^wvalue <m-left-word>)
 # -->
 #    (<s> ^operator <o> +)
-#    (<o> ^name resolve-ambiguity
-#         ^mv-count <mvc>
-#         ^m-count <mc>)
+#    (<o> ^name resolve-ambiguous-prepostion-attachment
+#         ^rank <ct>
+#         ^mv-left <mv-left-word>
+#         ^m-left <m-left-word>
+#         ^mv-parse 0
+#         ^m-parse <ct>)
 # }
+
+sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
+   (state <s> ^name evaluate-parse
+              ^parse <p1> <p2>)
+   (<p1> ^parse-count <ct>
+         ^links.link <mv>
+         ^words.word <mvlw>)
+   (<p2> ^parse-count 0
+         ^links.link <m>
+         ^words.word <mlw>)
+   (<mv> ^ltype MV
+         ^lwleft <mvl>
+         ^lwright <right>)
+   (<mvlw> ^wcount <mvl>
+           ^wvalue <mv-left-word>)
+   (<m> ^ltype M
+        ^lwleft <ml>
+        ^lwright <right>)
+   (<mlw> ^wcount <ml>
+          ^wvalue <m-left-word>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name resolve-ambiguous-prepostion-attachment
+        ^kind interpretation
+        ^rank <ct>
+        ^mv-left <mv-left-word>
+        ^m-left <m-left-word>
+        ^mv-parse <ct>
+        ^m-parse 0)
+}
+
+# only resolve-ambiguous-prepostion-attachment if the best parse is one of the options
+# consider that vs. the highest-ranked alternative
+
+sp {preposition-attachment-ambiguity*prefer*lowest
+   (state <s> ^name evaluate-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name resolve-ambiguous-prepostion-attachment
+         ^rank <p1>)
+   (<o2> ^name resolve-ambiguous-prepostion-attachment
+         ^rank > <p1>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# choose the "M" parse 
+# do this in all cases, until we find sentences where MV is intended
+sp {evaluate-parse*apply*resolve-ambiguous-prepostion-attachment*m
+   (state <s> ^name evaluate-parse
+              ^parse <parse>
+              ^operator <o>)
+   (<o> ^name resolve-ambiguous-prepostion-attachment
+   #     ^mv-left << |point| |get| |pick| >>
+        ^m-parse <pc>)
+   (<parse> ^parse-count <pc>)
+-->
+   (<parse> ^parse-valid true)
+}

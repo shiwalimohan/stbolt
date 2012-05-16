@@ -40,32 +40,126 @@
 #
 
 
-# Initialize problem space
-
-sp {top-state*lg*init*sentence
-  (state <s> ^superstate nil
-             ^io <io>
-             ^io.input-link.lg.sentence <sent>)
-   (<sent> -^processed)
+# need a simple workaround so the sentence can be edited in place
+# (it is made of read-only input WMEs)
+# Java code changed to make original-wvalue rather than wvalue
+sp {activate*elaborate*wvalue
+   (state <s> ^superstate nil
+              ^io.input-link.lg.parsed-sentence.words.word <wd>)
+   (<wd> ^original-wvalue <wv>)
 -->
-  (<io> ^lgsentence <sent>)
+   (<wd> ^wvalue <wv>)
 }
 
+# Initialize problem space
 
-sp	{Activate*create*space
-   (state <s> ^io.lgsentence.count <ct> # match only for the minimal count sentence
-             -^io.lgsentence.count < <ct>) 
+
+sp {activate*create-space*in-substate
+   (state <s> ^name interpret-sentence)
 -->
-   (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^count <ct> ^root 0 ^anaphor <a>
+   (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp>)
-   (<refsets> ^refs <refs> +)
-   (<refs> ^count <ct>)
    (<a> ^acount 1 ^centers <centers> ^unblock? no ^merge <merge> ^cascades <cascs>)
    (<cascs> ^records <records> ^ante-off-set nil ^ana-off-set nil)
    (<merge> ^temp nil ^replace nil)
    (<centers> ^center <null-center> +)
    (<null-center> ^ccount 0 ^ref nil ^blocked? no
                   ^kind first +, second +, third +, verb +)
+}
+
+sp {activate*create-space*in-subgoal*current-sentence
+   (state <s> ^name interpret-sentence
+              ^refsets <rs>
+              ^superstate.operator.sentence <sent>)
+              # operator proposal assures this is minimal-count and a valid
+              # parse
+   (<sent> ^sentence-count <count>)
+-->
+   (<s> ^current-sentence <copy> ^current-refset <r>)
+   (<rs> ^refs <r>)
+   (<r> ^count <count>)
+   (<copy> ^source-sentence <sent>)
+}
+
+sp {activate*create-space*in-subgoal*other-sentence
+   (state <s> ^name interpret-sentence
+              ^superstate.operator.sentence <sent>
+              ^top-state.io.input-link.lg.parsed-sentence {<> <sent> <ps>})
+   (<ps> ^parse-valid true)
+-->
+   (<s> ^other-sentence <copy>)
+   (<copy> ^source-sentence <ps>)
+}
+
+sp {activate*create-space*in-subgoal*any-sentence
+   (state <s> ^name interpret-sentence
+              ^<< current-sentence other-sentence >> <sent>)
+-->
+   (<s> ^any-sentence <sent>)
+}
+
+# deep copies for sentence parses
+# this is because LGSoar will add ref structures to the words,
+# and doing that in a subgoal to a topstate structure will invoke the GDS
+
+sp {activate*elaborate*sentence-copy*init
+   (state <s> ^name interpret-sentence
+              ^any-sentence <sent>)
+   (<sent> ^source-sentence.sentence-count <count>)
+-->
+   (<sent> ^words <wd>
+           ^links <lks>
+           ^sentence-count <count>)
+  # don't need a parse-count, nothing here should care
+}
+
+sp {activate*elaborate*sentence-copy*word
+   (state <s> ^name interpret-sentence
+              ^any-sentence <sent>)
+   (<sent> ^source-sentence.words.word <wd>
+           ^words <cwd>)
+   (<wd> ^wcount <wc>
+         ^wvalue <wv>)
+-->
+   (<cwd> ^word <word>)
+   (<word> ^wcount <wc>
+           ^wvalue <wv>)
+}
+
+sp {activate*elaborate*sentence-copy*link
+   (state <s> ^name interpret-sentence
+              ^any-sentence <sent>)
+   (<sent> ^source-sentence.links.link <lk>
+           ^links <clk>)
+   (<lk> ^lvalue <lv>
+         ^lwleft <lwl>
+         ^lwright <lwr>
+         ^ltype <lt>)
+-->
+   (<clk> ^link <link>)
+   (<link> ^lvalue <lv>
+           ^lwleft <lwl>
+           ^lwright <lwr>
+           ^ltype <lt>)
+}
+
+sp {activate*elaborate*sentence-copy*link*typesub
+   (state <s> ^name interpret-sentence
+              ^any-sentence <sent>)
+   (<sent> ^source-sentence.links.link <lk>
+           ^links <clk>)
+   (<lk> ^lvalue <lv>
+         ^lwleft <lwl>
+         ^lwright <lwr>
+         ^ltype <lt>
+         ^ltypesub <lts>)
+   (<clk> ^link <clnk>)
+   (<clnk> ^lvalue <lv>
+           ^lwleft <lwl>
+           ^lwright <lwr>
+           ^ltype <lt>)
+-->
+   (<clnk> ^ltypesub <lts>)
 }
 
 

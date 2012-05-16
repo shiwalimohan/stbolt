@@ -19,23 +19,37 @@
 # the wait operator)
 # - changed to only propose when another, unhandled, sentence exists
 # - split to another operator, wrap-up, for when another sentence doesn't exist
+
+# TODO: fix for new current-sentence structure
+
 sp {global*propose*start-next-sentence
    (state <s> ^impasse no-change ^superstate <ss>)
-   (<ss> ^problem-space lgsoar ^io.lgsentence.count { <next-count> > <count> } ^count <count>)
+   (<ss> ^problem-space lgsoar 
+         ^current-sentence.sentence-count <count>
+         ^other-sentence <os>)
+   (<os> ^sentence-count { <next-count> > <count> })
+  -{(<ss> ^other-sentence.sentence-count < <next-count>)}
 -->
    (<ss> ^operator <o> + >)
-   (<o> ^name start-next-sentence ^priority -1 ^count <count>)
+   (<o> ^name start-next-sentence ^priority -1
+        ^sentence <os>)
 }
 
 sp	{global*apply*start-next-sentence
-   (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>)
-   (<o> ^name start-next-sentence ^count <count> )
+   (state <s> ^operator <o> ^refsets <refsets> ^root <root> ^anaphor <a>
+              ^current-sentence <cs>
+              ^current-refset <cr>
+              ^other-sentence <next-sentence>)
+   (<next-sentence> ^sentence-count <next-count>)
+   (<o> ^name start-next-sentence ^sentence <next-sentence> )
 -->
    (<a> ^unblock? no - general +)
-   (<s> ^root <root> - 0 +)
-   (<s> ^count <count> - (+ 1 <count>))
-   (<refsets> ^refs <refs> +)
-   (<refs> ^count (+ 1 <count>))
+   (<s> ^root <root> - 0
+        ^current-sentence <cs> - <next-sentence>
+        ^other-sentence <next-sentence> - <cs>
+        ^current-refset <cr> - <newrs>)
+   (<refsets> ^refs <newrs>)
+   (<newrs> ^count <next-count>)
 }
 
 sp {global*propose*generate-predicates
@@ -44,7 +58,8 @@ sp {global*propose*generate-predicates
         -^predicates-generated 
          ^anaphor.unblock? no
          ^problem-space lgsoar
-         -^io.lgsentence.count { <next-count> > <count> } ^count <count>)
+         -^other-sentence.sentence-count { <next-count> > <count> } 
+         ^current-sentence.sentence-count <count>)
 -->
    (<ss> ^operator <o> + >)
    (<o> ^name generate-predicates ^priority -1)
@@ -63,8 +78,8 @@ sp {global*elaborate*generate-predicates*failed
 }
 
 sp {global*propose*find-root
-	(state <s> ^count <count> ^io.lgsentence <cs> ^root <old>)
-	(<cs> ^count <count> ^links.link <link> ^words.word <child> <parent>)
+	(state <s> ^current-sentence <cs> ^root <old>)
+	(<cs> ^links.link <link> ^words.word <child> <parent>)
 	(<child> ^wcount <old> ^wvalue <oldVal>)
 	(<parent> ^wcount <new> ^wvalue <newVal>)
 	(<link> ^lwleft <old> ^lwright <new>)
@@ -88,8 +103,8 @@ sp	{global*apply*find-root
 sp	{global*propose*return-to-nil
    (state <s> ^superstate <ss>
              -^impasse tie)
-   (<ss> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count> ^ref <ref>)
+   (<ss> ^current-refset <refs>)
+   (<refs> ^ref <ref>)
    (<ref> ^return-to-nil ^head.wcount <wcount>)
 -->
    (<ss> ^operator <o> +)
@@ -97,8 +112,7 @@ sp	{global*propose*return-to-nil
 }
 
 sp	{global*apply*return-to-nil*if-refs-not-marked-complete
-   (state <s> ^operator <o> ^io.lgsentence.words.word <word> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count>)# -^complete?)
+   (state <s> ^operator <o> ^current-sentence.words.word <word> ^current-refset <refs>)
    (<o> ^name return-to-nil ^ref <ref> )
    (<ref> ^return-to-nil <rcount> ^head <head>)
    (<head> ^wcount <wcount>)
@@ -159,7 +173,7 @@ sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
 # these cases probably represent bugs!
 
 sp {global*apply*generate-predicates*note-any-annotation-anywhere
-   (state <s> ^count <count> ^operator.name generate-predicates ^model <mod>)
+   (state <s> ^operator.name generate-predicates ^model <mod>)
    (<mod> ^idea <idea>)
    (<idea> ^annotation <any>)
 -->
@@ -189,11 +203,9 @@ sp {global*propose*processing-complete
 # clean up any remaining state here
 sp {global*apply*processing-complete*cleanup
    (state <s> ^operator.name processing-complete
-              ^root <rt>
-              ^count <ct>)
+              ^root <rt>)
 -->
-   (<s> ^root <rt> -
-        ^count <ct> -)
+   (<s> ^root <rt> -)
 }
 
 # excise this and add something project-specific
@@ -220,20 +232,10 @@ sp {lg*resolve-ties-indifferently
 
 # handle idioms..
 
-# need a simple workaround so the sentence can be edited in place
-# (it is made of read-only input WMEs)
-# Java code changed to make original-wvalue rather than wvalue
-sp {global*elaborated*wvalue
-   (state <s> ^problem-space lgsoar
-              ^io.lgsentence.words.word <wd>)
-   (<wd> ^original-wvalue <wv>)
--->
-   (<wd> ^wvalue <wv>)
-}
 
 sp {global*elaborate*unexpanded-idiom
    (state <s> ^problem-space lgsoar
-              ^io.lgsentence <sent>)
+              ^current-sentence <sent>)
    (<sent> ^links.link <ln>
            ^words.word <rightword>)
    (<rightword> ^wcount <rightc>)
@@ -245,10 +247,8 @@ sp {global*elaborate*unexpanded-idiom
 
 sp {global*propose*expand-idiom
    (state <s> ^problem-space lgsoar
-              ^count <ct>
-              ^io.lgsentence <sent>)
-   (<sent> ^count <ct>
-           ^words.word <wd>)
+              ^current-sentence <sent>)
+   (<sent> ^words.word <wd>)
    (<wd> ^unexpanded-idiom true
          ^wcount <idx>)
 -->
@@ -261,7 +261,7 @@ sp {global*propose*expand-idiom
 sp {global*apply*expand-idiom
    (state <s> ^problem-space lgsoar
               ^operator <o>
-              ^io.lgsentence <sent>)
+              ^current-sentence <sent>)
    (<sent> ^links.link <ln>
             ^words.word <wdl>
             ^words.word <wdr>)

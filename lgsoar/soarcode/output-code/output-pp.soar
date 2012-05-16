@@ -4,10 +4,8 @@
 # the block is on the table .
 sp {global*apply*generate-predicates*output*predicate-PP
    (state <s> ^model.idea <idea>
-              ^final-predicates <fp>)
-   (state <s> ^operator.name generate-predicates 
-   #^count <count> 
-   ^refsets.refs.count <count>)
+              ^final-predicates <fp>
+              ^operator.name generate-predicates) 
    (<idea> ^ext <extval> ^annotation copula ^annotation pred-pp ^preposition-lex <plex> ^<plex> <plexval>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
    (<plexval> ^nuc <pobjlex>) 
@@ -28,27 +26,22 @@ sp {global*apply*generate-predicates*output*predicate-PP
 ### copula predicate has PP
 # one criterion is history of lymphoma
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
-    (state <s> ^operator <o> ^final-predicates <fp> 
-    #^count <count> 
-    ^model <m*1>
-          ^refsets <refsets>)
-    (<o> ^name generate-predicates ^annotation predflags-set)
-    (<m*1> ^idea <idea>)
-    (<idea> -^relclause <relval> 
+   (state <s> ^operator <o> ^final-predicates <fp> ^model <m1>)
+   (<o> ^name generate-predicates ^annotation predflags-set)
+   (<m1> ^idea <idea>)
+   (<idea> -^relclause <relval> 
     #-^aug <augval> DWL: it's an ext so the predicate is an ^aug
-    -^int <intval> -^ext <extval>
-          ^nuc <nucval>
-	  ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+           -^int <intval> -^ext <extval>
+            ^nuc <nucval>
+            ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
 
     # SBW added
   -{(<idea> ^aug <idea2>)
     (<idea2> ^annotation copula
              ^int <idea>)}
-    -->
-    (<pobjval> ^annotation pred-dumped +)
+-->
+   (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <idea>
@@ -58,27 +51,23 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
 
 # SBW added this
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
-    (state <s> ^operator <o> ^final-predicates <fp> 
-    #^count <count> 
-    ^model <m*1>
-          ^refsets <refsets>)
-    (<o> ^name generate-predicates ^annotation predflags-set)
-    (<m*1> ^idea <idea>)
-    (<idea> -^relclause <relval> 
+   (state <s> ^operator <o> ^final-predicates <fp> 
+              ^model <m*1>)
+   (<o> ^name generate-predicates ^annotation predflags-set)
+   (<m*1> ^idea <idea>)
+   (<idea> -^relclause <relval> 
     #-^aug <augval> DWL: it's an ext so the predicate is an ^aug
-    -^int <intval> -^ext <extval>
-          ^nuc <nucval>
-	  ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+           -^int <intval> -^ext <extval>
+            ^nuc <nucval>
+            ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
 
-    (<idea> ^aug <idea2>)
-    (<idea2> ^annotation copula
-             ^int <idea>
-             ^ext <idea3>)
-    -->
-    (<pobjval> ^annotation pred-dumped +)
+   (<idea> ^aug <idea2>)
+   (<idea2> ^annotation copula
+            ^int <idea>
+            ^ext <idea3>)
+-->
+   (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <idea3>
@@ -92,22 +81,20 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
 # this should handle intransitives, transitives, and ditransitives
 
 sp {global*apply*generate-predicates*output*PP*v-attached
-    (state <s> ^operator <o> ^final-predicates <fp>
-               ^model <m*1> ^refsets <refsets>)
-    (<o> ^name generate-predicates ^annotation predflags-set)
-    (<m*1> ^idea <idea>)
-    (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval> -^annotation copula -^annotation pred-pp)
-	  # somewhat of a hack---without this we get with(x1,x2) and with(verb,X2) for some reason
-    (<idea> -^aug.annotation copula)
+   (state <s> ^operator <o> ^final-predicates <fp>
+              ^model <m*1> ^refsets <refsets>)
+   (<o> ^name generate-predicates ^annotation predflags-set)
+   (<m*1> ^idea <idea>)
+   (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval> -^annotation copula -^annotation pred-pp)
+    # somewhat of a hack---without this we get with(x1,x2) and with(verb,X2) for some reason
+   (<idea> -^aug.annotation copula)
     # SBW adding similar hack for preposition-lex
     # this makes "the ball is to the left of the block" the same as "put the
     # ball to the left of the block". In both cases, need to stop of(left,N7)
-    (<idea> -^aug.preposition-lex) 
-    (<refsets> ^refs <refs>)
-    (<refs> ^count <count>)
-    (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
-    -->
-    (<pobjval> ^annotation pred-dumped +)
+   (<idea> -^aug.preposition-lex) 
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+-->
+   (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <nucval>
@@ -118,10 +105,8 @@ sp {global*apply*generate-predicates*output*PP*v-attached
 ### output a predicate for the object of any pp
 # the happy dogs with a penchant for ridiculous drama chased the ugly cat .
 sp {global*apply*generate-predicates*cligdump*ppobj*arg
-   (state <s> ^model.idea <idea> ^final-predicates <fp>)
-   (state <s> ^operator.name generate-predicates 
-   #^count <count> 
-   ^refsets.refs.count <count>)
+   (state <s> ^model.idea <idea> ^final-predicates <fp>
+              ^operator.name generate-predicates)
    (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval>)
    (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
 -->

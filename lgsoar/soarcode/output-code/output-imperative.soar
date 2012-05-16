@@ -6,11 +6,7 @@
 ### todo: assumes w1 is the verb, so "please burp." won't work
 sp {global*apply*generate-predicates*output*ext*imperative
   :o-support
-   (state <s> ^operator <o> 
-   #^count <count> 
-   ^refsets <refsets>)
-   (<refsets> ^refs <refs>)
-   (<refs> ^count <count> ^ref <rf>)
+   (state <s> ^operator <o> ^current-refset.ref <rf>)
    (<rf> ^head <some> ^rooted-in <something>)
    (<o> ^name generate-predicates)
    (state <s> ^model <mod>)

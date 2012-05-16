@@ -13,10 +13,8 @@
 ## basic promotion
 
 sp {promote*propose*direct-promotion
-   (state <s> 
-   #^count <count> 
-   ^refsets.refs <refs> ^model <m>)
-   (<refs> ^count <count> ^ref <main> <arg>)
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main> <arg>)
    (<main> ^pointer <imain> ^head.wcount <main-wcount> ^head.wvalue <main-wval>)
    (<arg> ^pointer <iarg> ^head.wcount <arg-wcount> ^head.wvalue <arg-wval>)
    (<imain> -^<aug> <iarg>)
@@ -30,10 +28,8 @@ sp {promote*propose*direct-promotion
 }
 
 sp {promote*propose*indirect-promotion
-   (state <s> 
-   #^count <count> 
-   ^refsets.refs <refs> ^model <m>)
-   (<refs> ^count <count> ^ref <main> <arg>)
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main> <arg>)
    (<main> ^pointer <imain> ^head.wcount <main-wcount> ^head.wvalue <main-wval>)
    (<arg> ^pointer <iarg> ^head.wcount <arg-wcount> ^head.wvalue <arg-wval>)
    (<imain> -^aug <iarg>)
@@ -64,8 +60,8 @@ sp {promote*apply*direct-promotion*preposition-flag
 ## feature promotion
 
 sp {promote*propose*feature-promotion*infl
-   (state <s> ^count <count> ^refsets.refs <refs> ^model <m>)
-   (<refs> ^count <count> ^ref <main>)
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main>)
    (<main> ^pointer <imain> ^infl <feature> ^head.wcount <main-wcount>)
    (<imain> -^infl <feature>)
 -->
@@ -74,8 +70,8 @@ sp {promote*propose*feature-promotion*infl
    	 ^order <main-wcount> ^level-two-order 0 )}
 
 sp {promote*propose*feature-promotion*neg
-   (state <s> ^count <count> ^refsets.refs <refs> ^model <m>)
-   (<refs> ^count <count> ^ref <main>)
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main>)
    (<main> ^pointer <imain> ^neg not ^head.wcount <main-wcount>)
    (<imain> -^neg not)
 -->
@@ -84,8 +80,8 @@ sp {promote*propose*feature-promotion*neg
    	 ^order <main-wcount> ^level-two-order 1 )}
 
 sp {promote*propose*feature-promotion*mode
-   (state <s> ^count <count> ^refsets.refs <refs> ^model <m>)
-   (<refs> ^count <count> ^ref <main>)
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main>)
    (<main> ^pointer <imain> ^mode <mode> ^head.wcount <main-wcount>)
    (<imain> -^mode <mode>)
 -->

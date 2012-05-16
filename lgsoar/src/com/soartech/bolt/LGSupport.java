@@ -14,6 +14,7 @@ public class LGSupport implements OutputEventInterface {
 	public static String dictionaryPath = ""; 
 	private static Identifier lgInputRoot;
 	private static int sentenceCount = -1;
+	private static int currentOutputSentenceCount = -1;
 	
 	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
@@ -22,23 +23,34 @@ public class LGSupport implements OutputEventInterface {
 		// make a root lg-input WME
 		if (agent != null) {
 			lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
+
+			agent.AddOutputHandler("preprocessed-sentence", this, null);
 		}
-		agent.AddOutputHandler("preprocessed-sentence", this, null);
 	}
 	
 	public void handleSentence(String sentence) {
 		
-		// load the sentence into WM
-		originalSentenceToWM(sentence);
-		
-		// Soar rules may modify it
-		
-		// wait for preprocessed sentence on output
+		if (agent == null) {
+			// no Soar, run parser directly on sentence
+			try {
+				net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			// load the sentence into WM
+			sentenceCount++;
+			originalSentenceToWM(sentence);
+			
+			// Soar rules may modify it
+			
+			// wait for preprocessed sentence on output
+		}
 	}
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
-		sentenceCount++;
 
 		// call LG Parser
 		try {
@@ -69,10 +81,10 @@ public class LGSupport implements OutputEventInterface {
         int numLinks = thisLinkage.linkage_get_num_links();
         
        // make a root for this sentence
-        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "sentence");
+        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
         
         // make a wme for the count
-        agent.CreateIntWME(sentenceRoot, "count", sentenceCount);
+        agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
        
         agent.CreateIntWME(sentenceRoot, "parse-count", idx);
         	
@@ -134,7 +146,7 @@ public class LGSupport implements OutputEventInterface {
 
 	private void originalSentenceToWM(String sentence) {
 		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
-        agent.CreateIntWME(root, "count", sentenceCount);
+        agent.CreateIntWME(root, "sentence-count", sentenceCount);
         Identifier wordsWME = agent.CreateIdWME(root, "words");
         sentence = sentence.replaceAll("(\\W)", " $1");
         //System.out.println("padded: " + sentence);
@@ -153,6 +165,8 @@ public class LGSupport implements OutputEventInterface {
 		String result = "";
 		
 		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
+		
+		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
 		
 		while (currentWME != null) {
 			String word = currentWME.ConvertToIdentifier().GetParameterValue("word");

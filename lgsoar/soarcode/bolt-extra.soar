@@ -4,7 +4,6 @@ source bolt-preprocessing/load.soar
 source bolt-message-interpretation/load.soar
 
 # replace productions in refsoar/activate.soar to put lgsoar in a substate
-excise top-state*lg*init*sentence
 excise global*apply*processing-complete
 
 sp {top-state*propose*preprocess-sentence
@@ -18,24 +17,49 @@ sp {top-state*propose*preprocess-sentence
        ^sentence <sent>)
 }
 
+sp {top-state*prefer*preprocess-lower
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name preprocess-sentence
+         ^sentence.sentence-count <sc>)
+   (<o2> ^name preprocess-sentence
+         ^sentence.sentence-count > <sc>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
 # only matches for the 0th parse, but subgoal looks at all of them
 # one parse should get marked valid to get to interpret-sentence
 sp {top-state*propose*evaluate-parse
   (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
-   (<sent> -^parse-valid
-            ^parse-count 0
-            ^count <ct>)
+             ^io.input-link.lg.parsed-sentence <sent>)
+   (<sent> ^parse-count 0
+           ^sentence-count <ct>)
+  -{(<s> ^io.input-link.lg.parsed-sentence <sent2>)
+    (<sent2> ^sentence-count <ct>
+             ^parse-valid true)}
 -->
   (<s> ^operator <o> +)
   (<o> ^name evaluate-parse
-       ^count <ct>
+       ^sentence-count <ct>
        ^kind interpretation)
+}
+
+sp {elaborate*evaluate-parse*prefer-older-sentences
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name evaluate-parse
+         ^sentence-count <ct1>)
+   (<o2> ^name evaluate-parse
+         ^sentence-count > <ct1>)
+-->
+   (<s> ^operator <o1> > <o2>)
 }
 
 sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
-             ^io.input-link.lg.sentence <sent>)
+             ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> -^final-predicates
             ^parse-valid true)
 -->
@@ -45,14 +69,34 @@ sp {top-state*propose*interpret-sentence
        ^kind interpretation)
 }
 
-sp {elaborate*prefer-older-sentences
+sp {elaborate*interpret-sentence*prefer-older-sentences
    (state <s> ^superstate nil
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-sentence
-         ^sentence.count <ct1>)
+         ^sentence.sentence-count <ct1>)
    (<o2> ^name interpret-sentence
-         ^sentence.count > <ct1>)
+         ^sentence.sentence-count > <ct1>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# if multiple unprocessed sentences are available, preprocess all of them
+# before LGSoar takes over
+sp {elaborate*prefer*preprocess-over-evaluate
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name preprocess-sentence)
+   (<o2> ^name evaluate-parse)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {elaborate*prefer*evaluate-over-interpret
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name evaluate-parse)
+   (<o2> ^name interpret-sentence)
 -->
    (<s> ^operator <o1> > <o2>)
 }
@@ -94,41 +138,49 @@ sp {global*apply*processing-complete*save-predicates
 }
 
 sp {top-state*lgsoar-predicates*to-state
-   (state <s> ^io.input-link.lg.sentence <lgs>)
+   (state <s> ^io.input-link.lg.parsed-sentence <lgs>)
    (<lgs> ^final-predicates <fp>)
 -->
    (<s> ^lgsoar-predicates <fp>)
 }
 
 sp {global*propose*handle-single-word
-   (state <s> ^problem-space lgsoar
-              ^count <cnt>
-             -^predicates-generated
-              ^io.lgsentence <sen>)
-   (<sen> ^count <cnt>
-          ^words <wds>)
+  (state <s> ^superstate nil
+             ^io.input-link.lg.parsed-sentence <sent>)
+   (<sent> -^final-predicates
+           ^words <wds>
+           ^parse-count 0)
    (<wds> ^word.wvalue <w1>
           -^word.wvalue {<> <w1> <> LEFT-WALL <> RIGHT-WALL <> |.|})
 -->
    (<s> ^operator <o> +)
    (<o> ^name handle-single-word
-        ^priority 1000
-        ^word <w1>)
+        ^kind interpretation
+        ^word <w1>
+        ^sentence <sent>)
 }
 
 sp {global*apply*handle-single-word
-   (state <s> ^problem-space lgsoar
-              ^operator <o>
-              ^final-predicates <fp>)
+   (state <s> ^operator <o>)
    (<o> ^name handle-single-word
-        ^word <wd>)
+        ^word <wd>
+        ^sentence <sent>)
 -->
-   (<s> ^predicates-generated true)
+   (<sent> ^final-predicates <fp>
+           ^parse-valid true)
    (<fp> ^predicate <pred>)
    (<pred> ^outer single-word
            ^inner1 <wd>)
 }
 
+sp {elaborate*handle-single-word*over*evaluate-parse
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-single-word)
+   (<o2> ^name evaluate-parse)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
 
 # experimental role-preposition handling:
 # "The color of the block is red"
