@@ -1,0 +1,2 @@
+source preprocess-sentence.soar
+source evaluate-parse.soar

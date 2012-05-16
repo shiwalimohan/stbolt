@@ -27,10 +27,18 @@ sp {svs*elaborate*svs*objects*ids*to*int
    (<C> ^id-int (int <obja1>))
  }
 
-
-sp {extractsW
-   (state <s> ^superstate nil
+sp {clean*up*extracts
+   (state <s> ^operator.name pop-segment
+              ^superstate nil
               ^svs.command <cmd>)
+   (<cmd> ^extract <E11>)
+   (<E11> ^a <N7> ^b <N8>)
+-->
+   (<cmd> ^extract <E11> -)
+}
+sp {extractsW
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type west-of)
@@ -38,8 +46,8 @@ sp {extractsW
    (<N8> ^type all_nodes)}
 
 sp {extractsE
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)     
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type east-of)
@@ -47,8 +55,8 @@ sp {extractsE
    (<N8> ^type all_nodes)}
 
 sp {extractsN
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type north-of)
@@ -56,8 +64,8 @@ sp {extractsN
    (<N8> ^type all_nodes)}
 
 sp {extractsS
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type south-of)
@@ -66,8 +74,8 @@ sp {extractsS
 
 
 sp {extractsA
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type above)
@@ -76,8 +84,8 @@ sp {extractsA
 
 
 sp {extractsB
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type below)
@@ -86,8 +94,8 @@ sp {extractsB
 
 
 sp {extractsHA
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type horizontally-aligned)
@@ -96,8 +104,8 @@ sp {extractsHA
 
 
 sp {extractsVA
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type vertically-aligned)
@@ -105,10 +113,20 @@ sp {extractsVA
    (<N8> ^type all_nodes)}
 
 sp {extractsPA
-   (state <s> ^superstate nil
-              ^svs.command <cmd>)
+   (state <s> ^name << svs-label svs-query >>
+              ^topstate.svs.command <cmd>)  
 -->
    (<cmd> ^extract <E11>)
    (<E11> ^a <N7> ^b <N8> ^type planar-aligned)
    (<N7> ^type all_nodes)
    (<N8> ^type all_nodes)}
+
+
+#sp {extractsPA
+#   (state <s> ^superstate nil
+#              ^svs.command <cmd>)
+#-->
+#   (<cmd> ^extract <E11>)
+#   (<E11> ^a <N7> ^b <N8> ^type planar-aligned)
+#   (<N7> ^type all_nodes)
+#   (<N8> ^type all_nodes)}

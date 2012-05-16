@@ -2362,6 +2362,7 @@ doubling.g tripling.g quadrupling.g quintupling.g:
 %PREPOSITIONS
 
 <prep-main-a>: [Mp-] or MVp- or [({Xc+ & {Xd-}} & CO+)] or Pp- or
+%<prep-main-a>: Mp- or MVp- or [({Xc+ & {Xd-}} & CO+)] or Pp- or
 (Xd- & Xc+ & (MX*x- or MVx-)) or (Cs+ & (Mj- or (Xd- & Xc+ & MX*j-)))
 or (Wj- & Qd+) or [Wq- & PF+];
 <prep-main-b>: [Mp-] or Pp- or MVp- or [({Xc+ & {Xd-}} & CO+)] or 

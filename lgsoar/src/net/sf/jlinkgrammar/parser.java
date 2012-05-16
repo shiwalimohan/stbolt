@@ -201,9 +201,11 @@ public class parser {
             
             // Normally you loop over linkages; here we only choose the first
             
-            Linkage myLinkage = new Linkage(0, sent, opts);
+            for (int i=0; i<num_linkages; i++) {
+            	Linkage myLinkage = new Linkage(i, sent, opts);
             
-            LGSupport.loadLinkage(myLinkage, sent);
+            	LGSupport.loadLinkage(myLinkage, i, sent);
+            }
             return;
         }
     }

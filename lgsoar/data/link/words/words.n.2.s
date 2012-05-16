@@ -1947,3 +1947,23 @@ yodels.n yoghourts.n yoghurts.n yogis.n yogurts.n yokels.n yokes.n
 yolks.n youngsters.n youths.n yuppies.n zealots.n zebras.n zeniths.n 
 zephyrs.n zeppelins.n zeros.n zippers.n zips.n zithers.n zlotys.n 
 zodiacs.n zombies.n zones.n zoologists.n zoos.n 
+generic-word.n.2.s[0]
+generic-word.n.2.s[1]
+generic-word.n.2.s[2]
+generic-word.n.2.s[3]
+generic-word.n.2.s[4]
+generic-word.n.2.s[5]
+generic-word.n.2.s[6]
+generic-word.n.2.s[7]
+generic-word.n.2.s[8]
+generic-word.n.2.s[9]
+generic-word.n.2.s[10]
+generic-word.n.2.s[11]
+generic-word.n.2.s[12]
+generic-word.n.2.s[13]
+generic-word.n.2.s[14]
+generic-word.n.2.s[15]
+generic-word.n.2.s[16]
+generic-word.n.2.s[17]
+generic-word.n.2.s[18]
+generic-word.n.2.s[19]

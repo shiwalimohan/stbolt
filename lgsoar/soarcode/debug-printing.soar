@@ -128,9 +128,9 @@ sp {apply*any*print-debug-info
    (write (crlf) (concat |        | <info>))
 }
 
-sp {elaborate*processing-complete*refs
-  (state <s> ^operator.name processing-complete
-             ^refsets.refs <rs>)
--->
-  (write (crlf) |refs: | (crlf) (cmd print --tree --depth 2 <rs>))
-  }
+# sp {elaborate*processing-complete*refs
+#   (state <s> ^operator.name processing-complete
+#              ^refsets.refs <rs>)
+# -->
+#   (write (crlf) |refs: | (crlf) (cmd print --tree --depth 2 <rs>))
+#   }

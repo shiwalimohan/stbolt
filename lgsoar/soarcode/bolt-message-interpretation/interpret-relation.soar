@@ -35,7 +35,7 @@ sp {interpret-relation*propose*identify-to-the-x-of-relation
              -^relation-identified
               ^all-predicates <ap>)
    (<ap> ^predicate <to> <the> <x-of>)
-   (<to> ^outer to
+   (<to> ^outer << to on >>
          ^inner1 <p1>
          ^inner2 <x-obj>)
    (<the> ^outer DEF

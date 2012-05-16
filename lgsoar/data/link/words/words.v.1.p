@@ -15,3 +15,23 @@ asked_for undreamed_of undreamt_of paid_for slept_in
 agreed_upon talked_about
 
    
+generic-word.v.1.p[0]
+generic-word.v.1.p[1]
+generic-word.v.1.p[2]
+generic-word.v.1.p[3]
+generic-word.v.1.p[4]
+generic-word.v.1.p[5]
+generic-word.v.1.p[6]
+generic-word.v.1.p[7]
+generic-word.v.1.p[8]
+generic-word.v.1.p[9]
+generic-word.v.1.p[10]
+generic-word.v.1.p[11]
+generic-word.v.1.p[12]
+generic-word.v.1.p[13]
+generic-word.v.1.p[14]
+generic-word.v.1.p[15]
+generic-word.v.1.p[16]
+generic-word.v.1.p[17]
+generic-word.v.1.p[18]
+generic-word.v.1.p[19]

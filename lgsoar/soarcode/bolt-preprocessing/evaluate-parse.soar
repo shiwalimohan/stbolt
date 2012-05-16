@@ -1,0 +1,131 @@
+# This runs after the parser, before LGSoar.
+# 
+# - If the parse fails, try reparsing as a noun phrase
+# - If there are multiple parses, allow Soar knowledge to select a non-default
+# parse. Specifically:
+# "Pick up the square to the right of the triangle"
+# This parses by attaching the preposition to the verb, not the object.
+# Need to detect the verb ("pick up"), get knowledge that it has no PP. Then,
+# select best parse that doesn't give it one.
+#
+# "Describe the relationship between the arch and the triangle."
+# Similarly, the "between" attaches to "describe" wrongly in the first parse.
+
+
+sp {evaluate-parse*elaborate*init
+   (state <s> ^name evaluate-parse
+              ^superstate.operator.count <ct>
+              ^top-state.io.input-link.lg.sentence <sent>)
+   (<sent> ^count <ct>)
+-->
+   (<s> ^parse <sent>)
+}
+
+sp {evaluate-parse*propose*approve-first-parse
+   (state <s> ^name evaluate-parse
+              ^parse <parse>)
+   (<parse> ^parse-count 0)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name approve
+        ^parse <parse>)
+}
+
+sp {evaluate-parse*apply*approve
+   (state <s> ^name evaluate-parse
+              ^parse <parse>
+              ^operator <o>)
+   (<o> ^name approve
+        ^parse <parse>)
+-->
+  (<parse> ^parse-valid true)
+}
+
+# unparsable shows up as a single parse with no links
+sp {evaluate-parse*propose*reparse-as-noun-phrase
+   (state <s> ^name evaluate-parse
+              ^parse <parse>)
+   (<parse> ^words.word <exists>
+           -^links.link <any>)
+-->
+   (<s> ^operator <o> + > =)
+   (<o> ^name reparse-as-noun-phrase)
+}
+
+# prepend a verb to the "sentence", so if the phrase describes an object it looks
+# like a command (e.g., "the red block" to "acquire the red block")
+sp {evaluate-parse*apply*reparse-as-noun-phrase*first-word
+   (state <s> ^name evaluate-parse
+              ^operator.name reparse-as-noun-phrase
+              ^top-state.io.output-link <ol>
+              ^parse.words.word <wd>)
+   (<wd> ^wcount 0
+         ^original-wvalue <val>)
+-->
+   (<ol> ^preprocessed-sentence <ps>)
+   (<ps> ^start <st>)
+   (<st> ^word |generic-word.v.4.1[19]|
+         # this is a transitive verb, infinitive/plural form, like "acquire"
+         # use the 19th (last) generic to prevent conflicts
+         ^wcount -1)
+   (<s> ^output-word <st>
+        ^output-word <w1>)
+}
+
+sp {evaluate-parse*apply*reparse-as-noun-phrase*next-word
+   (state <s> ^name evaluate-parse
+              ^operator.name reparse-as-noun-phrase
+              ^parse.words.word <next-word>
+              ^output-word <last-word>)
+   (<last-word> ^wcount <last-count>)
+   (<next-word> ^wcount <next-count> > <last-count>
+                ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL <val>})
+  -{(<s> ^parse.words.word <intervening-word>)
+   (<intervening-word> ^wcount > <last-count>
+                       ^wcount < <next-count>
+                       ^original-wvalue {<> LEFT-WALL <> RIGHT-WALL})}
+-->
+   (<last-word> ^next <xt>)
+   (<xt> ^word <val>
+         ^wcount <next-count>)
+   (<s> ^output-word <xt>)
+}
+
+sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
+   (state <s> ^name evaluate-parse
+              ^operator.name reparse-as-noun-phrase
+              ^parse <os>
+              ^output-word <last-word>)
+   (<last-word> ^wcount <last-count>)
+   -{(<s> ^parse.words.word <later-word>)
+     (<later-word> ^wcount > <last-count>
+                   ^original-wvalue <> RIGHT-WALL)}
+-->
+   (<os> ^parse-valid false)
+} 
+
+# "Pick up the square to the right of the triangle"
+# This parses by attaching the preposition to the verb, not the object.
+# Need to detect the verb ("pick up"), get knowledge that it has no PP. Then,
+# select best parse that doesn't give it one.
+
+# alternatively, could modify the rules for parsing "pick" to be more specific
+# and avoid MV+ links
+
+# sp {evaluate-parse*elaborate*preposition-attachment-ambiguity
+#    (state <s> ^name evaluate-parse
+#               ^parse <p1> <p2>)
+#    (<p1> ^count <mvc>
+#          ^links.link <mv>)
+#    (<p2> ^count <mc>
+#          ^links.link <m>)
+#    (<mv> ^ltype MV
+#          ^lwright <right>)
+#    (<m> ^ltype M
+#         ^lwright <right>)
+# -->
+#    (<s> ^operator <o> +)
+#    (<o> ^name resolve-ambiguity
+#         ^mv-count <mvc>
+#         ^m-count <mc>)
+# }
