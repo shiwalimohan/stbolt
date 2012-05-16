@@ -52,8 +52,8 @@
 ## add-elliptical-verb-syntax
 
 sp	{anaphor*propose*add-elliptical-verb-syntax*for-expected-I-link
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links <links> ^words.word <infl>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links <links> ^words.word <infl>)
    (<infl> ^wcount <wcount> ^wvalue << did does do will should shall must might could can >>)
   -{(<links> ^link <link>)
     (<link> ^ltype I ^lwleft <wcount>)}
@@ -64,9 +64,9 @@ sp	{anaphor*propose*add-elliptical-verb-syntax*for-expected-I-link
 
 sp	{anaphor*apply*add-elliptical-verb-syntax
  # :o-support
-   (state <s> ^operator <o> ^count <count> ^io.lgsentence <cs>)
+   (state <s> ^operator <o> ^current-sentence <cs>)
    (<o> ^name add-elliptical-verb-syntax ^word <word> ^ltype <ltype> ^order <wcount>)
-   (<cs> ^count <count> ^links <links> ^words <words>)
+   (<cs> ^links <links> ^words <words>)
 -->
    (<links> ^link <link> +)
    (<words> ^word <empty> +)
@@ -403,7 +403,7 @@ sp	{anaphor*apply*pronoun-resolve*if-wcounts-equal
 }
 
 sp	{anaphor*apply*verb-ellipsis-resolve*if-refs-does-not-have-ante-ref
-   (state <s> ^count <count> ^operator <o> ^refsets.refs <refs> <ante-refs> ^anaphor <anaphor>)
+   (state <s> ^operator <o> ^refsets.refs <refs> <ante-refs> ^anaphor <anaphor>)
    (<anaphor> ^merge <merge> ^cascades <cascs>)
    (<o> ^name resolve ^kind verb-ellipsis ^ana-ref <ana-ref> ^ante-ref <ante-ref>)
    (<refs> ^ref <ana-ref> -^ref <ante-ref>)
@@ -432,7 +432,7 @@ sp	{anaphor*apply*verb-ellipsis-resolve*if-refs-does-not-have-ante-ref
 }
 
 sp	{anaphor*apply*verb-ellipsis-resolve*if-refs-has-ante-ref
-   (state <s> ^count <count> ^operator <o> ^refsets.refs <refs> ^anaphor <anaphor>)
+   (state <s> ^operator <o> ^refsets.refs <refs> ^anaphor <anaphor>)
    (<anaphor> ^merge <merge> ^cascades <cascs>)
    (<o> ^name resolve ^kind verb-ellipsis ^ana-ref <ana-ref> ^ante-ref <ante-ref>)
    (<refs> ^ref <ana-ref> <ante-ref>)
@@ -459,7 +459,7 @@ sp	{anaphor*apply*verb-ellipsis-resolve*if-refs-has-ante-ref
 }
 
 sp	{anaphor*apply*phrase-ellipsis-resolve
-   (state <s> ^count <count> ^operator <o> ^refsets.refs <refs> <ante-refs> ^anaphor <anaphor>)
+   (state <s> ^operator <o> ^refsets.refs <refs> <ante-refs> ^anaphor <anaphor>)
    (<anaphor> ^merge <merge> ^cascades <cascs>)
    (<o> ^name resolve ^kind phrase-ellipsis ^ana-ref <ana-ref> ^ante-ref <ante-ref>)
    (<refs> ^ref <ana-ref>)
@@ -523,9 +523,8 @@ sp	{anaphor*propose*cascade*into-river
         ^order <count> ^level-two-order <wcount> )}
 
 sp	{anaphor*apply*cascade*into-river
-   (state <s> ^count <count> ^operator <o> ^anaphor.cascades <cascs>
+   (state <s> ^current-refset <new-refs>  ^operator <o> ^anaphor.cascades <cascs>
               ^refsets.refs <old-refs> {<> <old-refs> <new-refs>})
-   (<new-refs> ^count <count>)
    (<old-refs> ^ref <arg>)
    (<o> ^name cascade ^kind into-river ^river <arg>)
    (<arg> ^head <head> ^center <center>)

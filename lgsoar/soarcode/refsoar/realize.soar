@@ -14,8 +14,8 @@
 ## realize as new-idea
 
 sp {realize*propose*ref*as*new-idea
-   (state <s> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count> ^ref <ref>)
+   (state <s> ^current-refset <refs>)
+   (<refs> ^ref <ref>)
    (<ref> ^head.wcount <wcount> -^pointer -^sloppy-binding ^head.wvalue <val>)
 -->
    (<s> ^operator <o> +)
@@ -72,8 +72,8 @@ sp {realize*apply*general-coref
 # binding
 
 sp {realize*propose*binding*as*coref
-   (state <s> ^count <count> ^refsets.refs <refs> ^model.idea <idea>)
-   (<refs> ^count <count> ^ref <ref>)
+   (state <s> ^current-refset <refs> ^model.idea <idea>)
+   (<refs> ^ref <ref>)
    (<ref> ^head.wcount <wcount> ^binding <idea> -^pointer)
 -->
    (<s> ^operator <o> +)
@@ -91,15 +91,16 @@ sp {realize*apply*remove-binding
 # sloppy-binding
 
 sp {realize*propose*sloppy-binding*as*coref
-   (state <s> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count> ^ref <ana-ref> <pos-ref>)
+   (state <s> ^current-refset <refs>)
+   (<refs> ^ref <ana-ref> <pos-ref>)
    (<ana-ref> ^head.wcount <wcount> ^sloppy-binding.to <ante-ref> -^pointer)
    (<ante-ref> ^pointer <ante-idea>)
    (<pos-ref> ^pos <ana-ref> ^pointer <pos-idea>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name coref ^priority 30 ^ref <ana-ref> ^idea <ante-idea> ^kind remove-sloppy-binding
-   	 ^order <wcount> )}
+   	 ^order <wcount> )
+}
 
 sp {realive*apply*remove-sloppy-binding
    (state <s> ^operator <o>)

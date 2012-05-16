@@ -35,12 +35,14 @@ sp {preprocess-sentence*apply*pass-through*first-word
    (state <s> ^name preprocess-sentence
               ^operator.name pass-through
               ^top-state.io.output-link <ol>
+              ^original-sentence.sentence-count <ct>
               ^original-sentence.words.word <wd>)
    (<wd> ^wcount 0
          ^wvalue <val>)
 -->
    (<ol> ^preprocessed-sentence <ps>)
-   (<ps> ^start <st>)
+   (<ps> ^start <st>
+         ^sentence-count <ct>)
    (<st> ^word <val>
          ^wcount 0)
    (<s> ^output-word <st>)

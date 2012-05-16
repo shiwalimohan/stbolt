@@ -19,8 +19,8 @@
 ## give-root-ref
 
 sp {interpret*propose*give-root-ref
-   (state <s>  ^io.lgsentence <cs> ^count <count> ^root <root>)
-   (<cs> ^count <count> ^words.word <root-word>)
+   (state <s>  ^current-sentence <cs> ^root <root>)
+   (<cs> ^words.word <root-word>)
    (<root-word> ^wcount <root> -^ref -^hidden ref ^wvalue <value>)
 -->
    (<s> ^operator <o> +)
@@ -31,8 +31,7 @@ sp {interpret*propose*give-root-ref
 
 sp {interpret*apply*give-root-ref
  #   :o-support
-   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
-   (<refs> ^count <count>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name give-root-ref ^root-word <root-word>  ^sentence <cs>)
 -->
    (<refs> ^ref <ref> +)
@@ -44,20 +43,20 @@ sp {interpret*apply*give-root-ref
 # proposals
 
 sp	{interpret*propose*S*as*external
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <ext> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <ext> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<ext> ^wcount <ext-count>)
    (<link> ^ltype S ^lwleft <ext-count> ^lwright <main-count> -^handled-as)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <link>
-   	 ^kind single ^order <ext-count> ^level-two-order <main-count>
-   	 )}
+   	 ^kind single ^order <ext-count> ^level-two-order <main-count>)
+}
 
 sp {interpret*propose*O*as*internal
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <int> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <int> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<int> ^wcount <int-count>)
    (<link> ^ltype O ^lwleft <main-count> ^lwright <int-count> -^handled-as -^ltypesub n)
@@ -73,8 +72,8 @@ sp {interpret*propose*O*as*internal
 # Now, if something has two ints, those are considered multiple instantiations
 # of the verb (conjunction) rather than two objects for the same instanitation.
 sp {interpret*propose*O*as*internal*ditransitive
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <int> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <int> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<int> ^wcount <int-count>)
    (<link> ^ltype O ^lwleft <main-count> ^lwright <int-count> -^handled-as ^ltypesub n)
@@ -85,8 +84,8 @@ sp {interpret*propose*O*as*internal*ditransitive
 }
 
 sp {interpret*propose*S-P*as*passive
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <S-link> <P-link> ^words.word <int> <infl> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <S-link> <P-link> ^words.word <int> <infl> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<infl> ^wcount <infl-count>)
    (<int> ^wcount <int-count>)
@@ -98,8 +97,8 @@ sp {interpret*propose*S-P*as*passive
    	 ^kind single ^order <int-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*S-I*as*inflected
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <S-link> <I-link> ^words.word <ext> <infl> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <S-link> <I-link> ^words.word <ext> <infl> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<infl> ^wcount <infl-count>)
    (<ext> ^wcount <ext-count>)
@@ -111,15 +110,12 @@ sp {interpret*propose*S-I*as*inflected
    	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
 	
 sp {interpret*propose*D*as*definite-description
-   (state <s> 
-   #^count <count> 
-   ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <def-desc> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <def-desc> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<def-desc> ^wvalue << the this that >> ^wcount <def-desc-count>)
    (<link> ^ltype D ^lwleft <def-desc-count> ^lwright <main-count> 
-   -^handled-as
-   )
+   -^handled-as)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
@@ -128,10 +124,8 @@ sp {interpret*propose*D*as*definite-description
  }
 
 sp {interpret*propose*D*as*indefinite-description
-   (state <s> 
-   #^count <count> 
-   ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <indef-desc> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <indef-desc> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<indef-desc> ^wvalue << a an >> ^wcount <indef-desc-count>)
    (<link> ^ltype D ^lwleft <indef-desc-count> ^lwright <main-count> -^handled-as)
@@ -139,22 +133,24 @@ sp {interpret*propose*D*as*indefinite-description
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
    	 ^kind constant ^order <indef-desc-count> ^level-two-order <main-count> )
-   (<desc> ^word <indef-desc> ^feature INDEF)}
+   (<desc> ^word <indef-desc> ^feature INDEF)
+}
 
 sp {interpret*propose*D*as*possessive
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <pos-pro> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <pos-pro> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<pos-pro> ^wcount <pos-pro-count> ^wvalue << his her its my your >>)
    (<link> ^ltype D ^lwleft <pos-pro-count> ^lwright <main-count> -^handled-as)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug pos ^arg <pos-pro> ^link <link>
-   	 ^kind single ^order <pos-pro-count> ^level-two-order <main-count> )}
+   	 ^kind single ^order <pos-pro-count> ^level-two-order <main-count> )
+}
 
 sp {interpret*propose*I*as*inflection
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <infl> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <infl> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<infl> ^wcount <infl-count> ^wvalue <wvalue>)
    (<link> ^ltype I ^lwleft <infl-count> ^lwright <main-count> -^handled-as)
@@ -164,8 +160,8 @@ sp {interpret*propose*I*as*inflection
    	 ^kind constant ^order <infl-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*E*as*mode
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <mode> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <mode> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<mode> ^wcount <mode-count> ^wvalue <wvalue>)
    (<link> ^ltype E ^lwleft <mode-count> ^lwright <main-count> -^handled-as)
@@ -175,8 +171,8 @@ sp {interpret*propose*E*as*mode
    	 ^kind constant ^order <mode-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*I/N*as*negation
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <I-link> <N-link> ^words.word <infl> <main> <neg>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <I-link> <N-link> ^words.word <infl> <main> <neg>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<infl> ^wcount <infl-count>)
    (<neg> ^wcount <neg-count> ^wvalue not)
@@ -188,8 +184,8 @@ sp {interpret*propose*I/N*as*negation
    	 ^kind constant ^order <neg-count> ^level-two-order <main-count> )}
 
 sp {interpret*propose*MV-J*as*preposition
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <MV-link> <J-link> ^words.word <prep-obj> <prep> <main>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <MV-link> <J-link> ^words.word <prep-obj> <prep> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<prep> ^wvalue <aug> ^wcount <prep-count>)
    (<prep-obj> ^wcount <prep-obj-count>)
@@ -206,8 +202,8 @@ sp {interpret*propose*MV-J*as*preposition
 # SBW 4/9/2012 changed aug to aug1 to represent similar to adjective.
 # implications?
 sp {interpret*propose*AN*as*noun-auging-noun
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <main> <arg>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <main> <arg>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<arg> ^wcount <arg-count>)
    (<link> ^ltype AN ^lwleft <arg-count> ^lwright <main-count> -^handled-as)
@@ -220,8 +216,8 @@ sp {interpret*propose*AN*as*noun-auging-noun
 # Handle post-noun adjectives: "This is the block available."
 # (added to handle a parse error, but still correct so I'm leaving it in)
 sp {interpret*propose*M*as*adj-auging-noun
-   (state <s> ^count <count> ^io.lgsentence <cs>)
-   (<cs> ^count <count> ^links.link <link> ^words.word <main> <arg>)
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <main> <arg>)
    (<main> ^ref <ref> ^wcount <main-count>)
    (<arg> ^wcount <arg-count>)
    (<link> ^ltype M ^ltypesub a ^lwright <arg-count> ^lwleft <main-count> -^handled-as)
@@ -234,7 +230,7 @@ sp {interpret*propose*M*as*adj-auging-noun
 # applications
 
 sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
-   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant)
    (<main> ^ref <main-ref>)
    (<cons-arg> ^feature <fval> ^word <wval>)
@@ -245,7 +241,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*feature+word
  }
 
 sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
-   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant -^arg.feature)
    (<main> ^ref <main-ref>)
 -->
@@ -254,9 +250,8 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
 }
 
 sp {interpret*apply*single-side-add-arg
-   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single-side)
-   (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
 -->
@@ -267,9 +262,8 @@ sp {interpret*apply*single-side-add-arg
    (<link> ^handled-as <aug>)
 }
 sp {interpret*apply*single-add-arg*if*arg-requires-ref
-   (state <s> ^operator <o> ^count <count> ^refsets.refs <refs>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <arg> ^link <link> ^kind single)
-   (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> -^ref)
 -->
@@ -281,7 +275,7 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
 }
 
 sp {interpret*apply*add-arg*flag-preposition
-   (state <s> ^operator <o> ^count <count> ^refsets.refs.count <count>)
+   (state <s> ^operator <o> ^current-refset <cr>)
    (<o> ^name add-arg ^preposition true
         ^main <main> ^aug <aug>)
    (<main> ^ref <main-ref>)
@@ -290,9 +284,8 @@ sp {interpret*apply*add-arg*flag-preposition
 }
 
 sp {interpret*apply*single-add-arg*if*arg-has-ref
-   (state <s> ^operator <o> ^refsets.refs <refs>)
+   (state <s> ^operator <o> ^current-refset <refs>)
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single)
-   (<refs> ^count <count>)
    (<main> ^ref <main-ref>)
    (<arg> ^ref <arg-ref>)
 -->
@@ -307,9 +300,8 @@ sp {interpret*apply*single-add-arg*if*arg-has-ref
 #---------The following section contains Soar productions that add Link-Grammar link infor to the state---------#
 
 sp {interpret*propose*P*as*internal
-	(state <s> ^count <count> ^io <io>)
-  	(<io> ^lgsentence <lgs> )
-	(<lgs> ^count <count> ^links.link <link> ^words.word <int> <main>)
+	(state <s> ^current-sentence <lgs>)
+	(<lgs> ^links.link <link> ^words.word <int> <main>)
 
 #<main> is for those that contain a ^ref <ref> and a ^wcount <main-count>
 #<int> is for those that don't contain a ^ref <ref>, but do have a ^wcount <int-count>	
@@ -324,30 +316,9 @@ sp {interpret*propose*P*as*internal
 }
 
 
-# identical to the above? was in non-cligdump93..
-# sp {|interpret*propose*AN*as*noun-auging-noun|
-#     (state <s> ^io <i*1> ^count <count>)
-#     (<i*1> ^lgsentence <cs>)
-#     (<cs> ^count <count> ^words <w*1> ^links <l*1>)
-#     (<w*1> ^word <arg> ^word <main>)
-#     (<arg> ^wcount <arg-count>)
-#     (<main> ^wcount <main-count> ^ref <ref>)
-#     (<l*1> ^link <link>)
-#     (<link> -^handled-as <h*1> ^lwleft <arg-count> ^lwright <main-count>
-#           ^ltype |AN| )
-#     -->
-#     (<s> ^operator <o> +)
-#     (<o> ^name add-arg + ^priority 150 + ^main <main> + ^aug aug +
-#            ^arg <arg> + ^link <link> + ^kind single-side +
-#            ^order <main-count> + ^level-two-order <arg-count> +
-#             +)
-# }
-
-
 sp {|interpret*propose*A*as*adj-auging-noun|
-    (state <s> ^io <i*1> ^count <count>)
-    (<i*1> ^lgsentence <cs>)
-    (<cs> ^count <count> ^words <w*1> ^links <l*1>)
+    (state <s> ^current-sentence <cs>)
+    (<cs> ^words <w*1> ^links <l*1>)
     (<w*1> ^word <arg> ^word <main>)
     (<arg> ^wcount <arg-count>)
     (<main> ^wcount <main-count> ^ref <ref>)
@@ -364,8 +335,8 @@ sp {|interpret*propose*A*as*adj-auging-noun|
 
 
 sp {interpret*propose*D*as*negative-description
-	(state <s> ^count <count> ^io.lgsentence <cs>)
-	(<cs> ^count <count> ^links.link <link> ^words.word <neg-desc> <main>)
+	(state <s> ^current-sentence <cs>)
+	(<cs> ^links.link <link> ^words.word <neg-desc> <main>)
 	(<main> ^ref <ref> ^wcount <main-count>)
 	(<neg-desc> ^wvalue << no >> ^wcount <neg-desc-count>)
 	(<link> ^ltype D ^lwleft <neg-desc-count> ^lwright <main-count> -^handled-as)

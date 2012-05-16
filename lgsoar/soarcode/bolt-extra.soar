@@ -4,7 +4,6 @@ source bolt-preprocessing/load.soar
 source bolt-message-interpretation/load.soar
 
 # replace productions in refsoar/activate.soar to put lgsoar in a substate
-excise top-state*lg*init*sentence
 excise global*apply*processing-complete
 
 sp {top-state*propose*preprocess-sentence
@@ -16,6 +15,17 @@ sp {top-state*propose*preprocess-sentence
   (<o> ^name preprocess-sentence
        ^kind interpretation
        ^sentence <sent>)
+}
+
+sp {top-state*prefer*preprocess-lower
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name preprocess-sentence
+         ^sentence.sentence-count <sc>)
+   (<o2> ^name preprocess-sentence
+         ^sentence.sentence-count > <sc>)
+-->
+   (<s> ^operator <o1> > <o2>)
 }
 
 # only matches for the 0th parse, but subgoal looks at all of them
@@ -35,6 +45,18 @@ sp {top-state*propose*evaluate-parse
        ^kind interpretation)
 }
 
+sp {elaborate*evaluate-parse*prefer-older-sentences
+   (state <s> ^superstate nil
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name evaluate-parse
+         ^sentence-count <ct1>)
+   (<o2> ^name evaluate-parse
+         ^sentence-count > <ct1>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
 sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
              ^io.input-link.lg.parsed-sentence <sent>)
@@ -47,7 +69,7 @@ sp {top-state*propose*interpret-sentence
        ^kind interpretation)
 }
 
-sp {elaborate*prefer-older-sentences
+sp {elaborate*interpret-sentence*prefer-older-sentences
    (state <s> ^superstate nil
               ^operator <o1> +
               ^operator <o2> +)
@@ -55,6 +77,26 @@ sp {elaborate*prefer-older-sentences
          ^sentence.sentence-count <ct1>)
    (<o2> ^name interpret-sentence
          ^sentence.sentence-count > <ct1>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# if multiple unprocessed sentences are available, preprocess all of them
+# before LGSoar takes over
+sp {elaborate*prefer*preprocess-over-evaluate
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name preprocess-sentence)
+   (<o2> ^name evaluate-parse)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {elaborate*prefer*evaluate-over-interpret
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name evaluate-parse)
+   (<o2> ^name interpret-sentence)
 -->
    (<s> ^operator <o1> > <o2>)
 }

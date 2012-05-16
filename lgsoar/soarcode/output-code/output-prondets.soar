@@ -1,9 +1,7 @@
 # dumps feature values (definite or indefinite)
 # The man kicked a bottle.
 sp {global*apply*generate-predicates*cligdump*feature-feature
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
-   (<refsets> ^refs <refs>)
-   (<refs> ^count <count>)
+   (state <s> ^operator <o> ^final-predicates <fp>)
    (<o> ^name generate-predicates
         ^annotation copulaflag-set)
    (state <s> ^anaphor.centers.center.ref <ref>)
@@ -25,9 +23,7 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
 # SBW adding this to fix problems where "is" causes the DEF/INDEF to attach to
 # the wrong object
 sp {global*apply*generate-predicates*cligdump*feature-feature*copula
-   (state <s> ^operator <o> ^count <count> ^refsets <refsets> ^final-predicates <fp>)
-   (<refsets> ^refs <refs>)
-   (<refs> ^count <count>)
+   (state <s> ^operator <o> ^final-predicates <fp>)
    (<o> ^name generate-predicates)
    (state <s> ^anaphor.centers.center.ref <ref>)
    (<ref> ^desc <desc> ^pointer <pointer>)

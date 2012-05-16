@@ -45,7 +45,7 @@ sp {elaborate*report-predicate*from-wmes*4
 
 sp {elaborate*proposed*add-arg*debug-info*single
   (state <s> ^operator <o> +
-             ^io.current-lgsentence.words <wd>)
+             ^current-sentence.words <wd>)
   (<o> ^name add-arg
        ^main <main>
        ^aug <aug>
@@ -65,7 +65,7 @@ sp {elaborate*proposed*add-arg*debug-info*single
 
 sp {elaborate*proposed*add-arg*debug-info*constant-deep
   (state <s> ^operator <o> +
-             ^io.current-lgsentence.words <wd>)
+             ^current-sentence.words <wd>)
   (<o> ^name add-arg
        ^main <main>
        ^aug <aug>
@@ -86,7 +86,7 @@ sp {elaborate*proposed*add-arg*debug-info*constant-deep
 
 sp {elaborate*proposed*add-arg*debug-info*constant-surface
   (state <s> ^operator <o> +
-             ^io.lgsentence.words <wd>)
+             ^current-sentence.words <wd>)
   (<o> ^name add-arg
        ^main <main>
        ^aug <aug>
