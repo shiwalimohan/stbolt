@@ -14,5 +14,5 @@
 # all of the jars except lcm and sml can be rebuilt by running ant in their
 # directory
 
-java edu.umich.sbolt.SBolt &
+java edu.umich.sbolt.SBolt $* &
 java abolt.bolt.Bolt -w $ABOLT_HOME/config/bolt.world -c $ABOLT_HOME/config/bolt.config

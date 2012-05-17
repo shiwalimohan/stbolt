@@ -70,11 +70,15 @@ public class LGSupport implements OutputEventInterface {
         // combine all sublinkages to one
         thisLinkage.linkage_compute_union();
         
-        String outstr = thisLinkage.linkage_print_diagram();
-		System.out.println(outstr);
+        String message = thisLinkage.linkage_print_diagram();
+        System.out.println(message);
+
+		// this ideally should be injected into the Soar print stream,
+		// but that doesn't seem possible. Echo command doesn't seem to do it.
 		
 		if (agent == null) {
 			// valid if run to print the parse alone
+
 			return;
 		}
 		

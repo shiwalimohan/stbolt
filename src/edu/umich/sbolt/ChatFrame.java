@@ -149,7 +149,12 @@ public class ChatFrame extends JFrame
     
     public void exit(){
     	sbolt.getAgent().KillDebugger();
-    	sbolt.getKernel().DestroyAgent(sbolt.getAgent());
+    	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
+    	
+    	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
+    	// (even when the KillDebugger isn't there)
+    	// I don't think there's any consequence to simply exiting instead.
+    	
     	System.exit(0);
     }
 
