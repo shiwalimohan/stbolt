@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 $started = 0;
 foreach $line (<>) {
 	chomp $line;
