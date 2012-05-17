@@ -1,5 +1,11 @@
 #!/usr/bin/perl
-$cmd = "java -classpath ./bin:/opt/bolt/soar/share/java:/opt/bolt/soar/share/java/soar-debugger-9.3.1.jar com.soartech.bolt.SoarRunner soarcode/message-interpretation-debug.soar";
+
+# jar files needed in classpath:
+#   lgsoar.jar (/opt/bolt/stbolt/lgsoar/lgsoar.jar)
+#		SoarJavaDebugger.jar (/opt/bolt/soar/out/SoarJavaDebugger.jar)
+#   sml.jar    (/opt/bolt/soar/out/java/sml.jar)
+
+$cmd = "java com.soartech.bolt.SoarRunner soarcode/message-interpretation-debug.soar";
 
 # need to preserve quoted arguments
 foreach $arg (@ARGV) {
