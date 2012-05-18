@@ -123,6 +123,20 @@ sp {interpret*propose*D*as*definite-description
    (<desc> ^word <def-desc> ^feature DEF)
  }
 
+sp {interpret*propose*Dw*as*question-word
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <def-desc> <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<def-desc> ^wvalue <wval> ^wcount <def-desc-count>)
+   (<link> ^ltype D ^ltypesub w ^lwleft <def-desc-count> ^lwright <main-count> 
+   -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
+   	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
+   (<desc> ^word <def-desc> ^feature <wval>)
+ }
+
 sp {interpret*propose*D*as*indefinite-description
    (state <s> ^current-sentence <cs>)
    (<cs> ^links.link <link> ^words.word <indef-desc> <main>)
