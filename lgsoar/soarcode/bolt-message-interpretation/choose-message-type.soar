@@ -1,7 +1,14 @@
+sp {interpret-message*elaborate*init
+   (state <s> ^name interpret-message
+              ^superstate.operator.lgsoar-predicates <pred>)
+-->
+   (<s> ^lgsoar-predicates <pred>)
+}
+
 
 # verb-commands have the HEARER
-sp {top-state*interpret-messages*propose*interpret-verb-command
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-verb-command
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
@@ -15,8 +22,8 @@ sp {top-state*interpret-messages*propose*interpret-verb-command
 }
 
 # anything might be an object-message
-sp {top-state*interpret-messages*propose*interpret-object-message
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-object-message
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation)
 -->
@@ -25,8 +32,8 @@ sp {top-state*interpret-messages*propose*interpret-object-message
         ^predicates <pred>)
 }
 
-sp {top-state*interpret-messages*propose*interpret-goal-object-message
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-goal-object-message
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate.outer goal)
@@ -37,8 +44,8 @@ sp {top-state*interpret-messages*propose*interpret-goal-object-message
 }
 
 # relation-message must have a 2-parameter predicate
-sp {top-state*interpret-messages*propose*interpret-relation-message
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-relation-message
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
@@ -52,8 +59,8 @@ sp {top-state*interpret-messages*propose*interpret-relation-message
 }
 
 # goal-relation-message same but with goal predicate
-sp {top-state*interpret-messages*propose*interpret-goal-relation-message
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-goal-relation-message
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>
@@ -68,8 +75,8 @@ sp {top-state*interpret-messages*propose*interpret-goal-relation-message
 }
 
 # object-questions must have a what or which or where pred
-sp {top-state*interpret-messages*propose*interpret-object-question
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-object-question
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
@@ -82,8 +89,8 @@ sp {top-state*interpret-messages*propose*interpret-object-question
 }
 
 # relation-questions must have a what or which pred and a relation
-sp {top-state*interpret-messages*propose*interpret-relation-question
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-relation-question
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>
@@ -99,8 +106,8 @@ sp {top-state*interpret-messages*propose*interpret-relation-question
         ^predicates <pred>)
 }
 
-sp {top-state*interpret-messages*propose*interpret-single-word-response
-   (state <s> ^superstate nil
+sp {interpret-message*propose*interpret-single-word-response
+   (state <s> ^name interpret-message
               ^lgsoar-predicates <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
@@ -113,8 +120,8 @@ sp {top-state*interpret-messages*propose*interpret-single-word-response
 }
 
 # single-word-responses are done in place here
-sp {top-state*interpret-messages*apply*interpret-single-word-response
-   (state <s> ^superstate nil
+sp {interpret-message*apply*interpret-single-word-response
+   (state <s> ^name interpret-message
               ^operator <o>)
    (<o> ^name interpret-single-word-response
               ^predicates <pred>)
@@ -132,8 +139,8 @@ sp {top-state*interpret-messages*apply*interpret-single-word-response
 # word representation
 
 
-sp {top-state*interpret-messages*prefer*anything-over-object-message
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*anything-over-object-message
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-object-message)
@@ -143,8 +150,8 @@ sp {top-state*interpret-messages*prefer*anything-over-object-message
    (<s> ^operator <o2> > <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*relation-question-over-relation
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*relation-question-over-relation
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
@@ -153,8 +160,8 @@ sp {top-state*interpret-messages*prefer*relation-question-over-relation
    (<s> ^operator <o2> > <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*goal-relation-over-relation
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*goal-relation-over-relation
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
@@ -163,8 +170,8 @@ sp {top-state*interpret-messages*prefer*goal-relation-over-relation
    (<s> ^operator <o2> > <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*goal-relation-over-goal-object
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*goal-relation-over-goal-object
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-goal-object-message)
@@ -174,8 +181,8 @@ sp {top-state*interpret-messages*prefer*goal-relation-over-goal-object
 }
 
 # "to the right of" has two 2d preds
-sp {top-state*interpret-messages*prefer*indifferent-relation
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*indifferent-relation
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-relation-message)
@@ -184,8 +191,8 @@ sp {top-state*interpret-messages*prefer*indifferent-relation
    (<s> ^operator <o2> = <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*indifferent-question
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*indifferent-question
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-relation-question)
@@ -194,8 +201,8 @@ sp {top-state*interpret-messages*prefer*indifferent-question
    (<s> ^operator <o2> = <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*relation-question-over-object-question
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*relation-question-over-object-question
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-object-question)
@@ -204,8 +211,8 @@ sp {top-state*interpret-messages*prefer*relation-question-over-object-question
    (<s> ^operator <o2> > <o1>)
 }
 
-sp {top-state*interpret-messages*prefer*verb-command-over-any
-   (state <s> ^superstate nil
+sp {interpret-message*prefer*verb-command-over-any
+   (state <s> ^name interpret-message
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name interpret-verb-command)

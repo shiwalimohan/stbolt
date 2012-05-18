@@ -103,7 +103,7 @@ public class LGSupport implements OutputEventInterface {
  
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
             agent.CreateIntWME(wordWME, "wcount", wordx);
-            agent.CreateStringWME(wordWME, "original-wvalue", wordval);
+            agent.CreateStringWME(wordWME, "wvalue", wordval);
         }
             
         // make a wme for the links
