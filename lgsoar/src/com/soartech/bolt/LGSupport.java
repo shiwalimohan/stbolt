@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.sf.jlinkgrammar.Linkage;
 import net.sf.jlinkgrammar.Sentence;
+import net.sf.jlinkgrammar.parser;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
@@ -16,9 +17,12 @@ public class LGSupport implements OutputEventInterface {
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
 	
+	public static parser theParser;
+	
 	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
 		dictionaryPath = dictionary;
+		theParser = new parser();
 		
 		// make a root lg-input WME
 		if (agent != null) {
@@ -32,11 +36,7 @@ public class LGSupport implements OutputEventInterface {
 		
 		if (agent == null) {
 			// no Soar, run parser directly on sentence
-			try {
-				net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			theParser.parseSentence(sentence);
 		}
 		else {
 			// load the sentence into WM
@@ -53,11 +53,7 @@ public class LGSupport implements OutputEventInterface {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
 
 		// call LG Parser
-		try {
-			net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		theParser.parseSentence(sentence);
 	}
 	
 	// called from parser.java

@@ -113,7 +113,24 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
 # attached to either a verb or a noun. For our use, we almost always want it on
 # the noun.
 
-# TODO: fix this for "move the block to the table" and re-add
+# MV links are verb->preposition, M links are noun->preposition
+
+# Challenge: handle  "move (the sandwich) to (the plate  on  the table)" (1) MV M
+#                    "move (the sandwich  on  the plate) to (the table)" (2) M  MV
+#                    "move (the sandwich  on  the table) to (the plate)" (3) M  MV
+#                    "move (the sandwich) to (the table) on (the plate)" (4) MV MV
+#                    "move (the sandwich  on  the plate  on  the table)" (5) M  M
+#                    (the last one isn't great usage)
+#
+# Heuristic: "to" is an MV, "on" is an M. This handles all but case 4, where
+# "on" is an MV.
+# Case 4 needs knowledge that tables don't sit on plates, and that
+# things can be moved on plates.
+
+# "to" can also be an M, as in "Clear a path to the sink." and "Pick up the
+# square to the left of the triangle"
+
+# if it can be attached by M or MV, and there is an earlier MV, make it an M
 
 # sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
 #    (state <s> ^name evaluate-parse

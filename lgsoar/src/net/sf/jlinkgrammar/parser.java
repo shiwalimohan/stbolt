@@ -164,55 +164,35 @@ public class parser {
         }
     }
 
-    public static void doIt(String arg[]) throws IOException {
-
-    	InitializeVars(arg);
-
-        /* This section is a simple example of the API for those trying to figure out how to
-         * incorporate it into their own program. Un-comment it to see the results
-         */
-        {
-        	
-        	//System.out.println("Got into doIt");
-        	String testString = arg[0];
-            
-            // DWL added this
-            opts.parse_options_set_verbosity(1);
-            
-            // Set up a quick test
-            sent = new Sentence(testString, dict, opts);
-            
-            // First parse with cost 0 or 1 and no null links            
-            opts.parse_options_set_disjunct_cost(2);
-            opts.parse_options_set_min_null_count(0);
-            opts.parse_options_set_max_null_count(0);
-            opts.parse_options_reset_resources();
-                        
+    public void parseSentence(String sentence) {
+    	opts.parse_options_set_verbosity(1);
+        
+        sent = new Sentence(sentence, dict, opts);
+        
+        // First parse with cost 0 or 1 and no null links            
+        opts.parse_options_set_disjunct_cost(2);
+        opts.parse_options_set_min_null_count(0);
+        opts.parse_options_set_max_null_count(0);
+        opts.parse_options_reset_resources();
+                    
+        num_linkages = sent.sentence_parse(opts);
+        if ( num_linkages == 0) { 
+            // O.K. we have a null link (i.e. word without a link)
+            // so allow one and try again
+            opts.parse_options_set_min_null_count(1);
+            opts.parse_options_set_max_null_count(sent.sentence_length());
             num_linkages = sent.sentence_parse(opts);
-            if ( num_linkages == 0) { 
-                // O.K. we have a null link (i.e. word without a link)
-                // so allow one and try again
-                opts.parse_options_set_min_null_count(1);
-                opts.parse_options_set_max_null_count(sent.sentence_length());
-                num_linkages = sent.sentence_parse(opts);
-            }
-            
-            /* DWL deleted lots of stuff... */
-            
-            // Normally you loop over linkages; here we only choose the first
-            
-            for (int i=0; i<num_linkages; i++) {
-            	Linkage myLinkage = new Linkage(i, sent, opts);
-            
-            	LGSupport.loadLinkage(myLinkage, i, sent);
-            }
-            return;
         }
+        
+        
+        for (int i=0; i<num_linkages; i++) {
+        	Linkage myLinkage = new Linkage(i, sent, opts);
+        
+        	LGSupport.loadLinkage(myLinkage, i, sent);
+        }
+        return;
     }
-            
-
-
-
+    
     
     /**
      * Instead of printing a link diagram print an XML tree
@@ -259,76 +239,16 @@ public class parser {
                         opts.out.println(linkage.word[w++].toString());
                         displayCNode(current);
                     } while (current.next != null);
-                    // string = linkage_print_diagram();
-                    // opts.out.println(string);
                 }
                 
             }
         }
     }
            
-        public void displayCNode(CNode n) {
-            opts.out.println(n.toString());
-        }
-
-        /*
-         *void print_words_with_prep_phrases_marked(CNode *n) {
-    CNode * m;
-    static char * spacer=" ";
-
-    if (n == NULL) return;
-    if (strcmp(n->label, "PP")==0) {
-	printf("%s[", spacer);
-	spacer="";
+    public void displayCNode(CNode n) {
+        opts.out.println(n.toString());
     }
-    for (m=n->child; m!=NULL; m=m->next) {
-	if (m->child == NULL) {
-	    printf("%s%s", spacer, m->label);
-	    spacer=" ";
-	}
-	else {
-	    print_words_with_prep_phrases_marked(m);
-	}
-    }
-    if (strcmp(n->label, "PP")==0) {
-	printf("]");
-    }
-}
 
-int main() {
-
-    Dictionary    dict;
-    Parse_Options opts;
-    Sentence      sent;
-    Linkage       linkage;
-    CNode *       cn;
-    char *        string;
-    char *        input_string = 
-       "This is a test of the constituent code in the API.";
-
-    opts  = parse_options_create();
-    dict  = dictionary_create("4.0.dict", "4.0.knowledge", 
-			      "4.0.constituent-knowledge", "4.0.affix");
-
-
-    sent = sentence_create(input_string, dict);
-    if (sentence_parse(sent, opts)) {
-	linkage = linkage_create(0, sent, opts);
-	printf("%s", string = linkage_print_diagram(linkage));
-	string_delete(string);
-	cn = linkage_constituent_tree(linkage);
-	print_words_with_prep_phrases_marked(cn);
-	linkage_free_constituent_tree(cn);
-	fprintf(stdout, "\n\n");
-	linkage_delete(linkage);
-    }
-    sentence_delete(sent);
-
-    dictionary_delete(dict);
-    parse_options_delete(opts);
-    return 0;
-}
-         */
 
     static void print_usage(String str) {
         System.err.println(
