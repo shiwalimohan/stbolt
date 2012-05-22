@@ -16,6 +16,9 @@ sp {global*apply*generate-predicates*output*predicate-PP
    (<pred> ^outer <plex>
            ^inner1 <extval>
            ^inner2 <plexval>)
+   (<fp> ^predicate <pred2>)
+   (<pred2> ^outer PRIMARY_OBJECT
+           ^inner1 <extval>)
 #   (write (crlf) predicate-pp: | | <plex> |(| <extval> |,| <plexval> |)|)
 }
 
@@ -26,9 +29,8 @@ sp {global*apply*generate-predicates*output*predicate-PP
 ### copula predicate has PP
 # one criterion is history of lymphoma
 sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
-   (state <s> ^operator <o> ^final-predicates <fp> ^model <m1>)
+   (state <s> ^operator <o> ^final-predicates <fp> ^model.idea <idea>)
    (<o> ^name generate-predicates ^annotation predflags-set)
-   (<m1> ^idea <idea>)
    (<idea> -^relclause <relval> 
     #-^aug <augval> DWL: it's an ext so the predicate is an ^aug
            -^int <intval> -^ext <extval>
@@ -82,17 +84,16 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
 
 sp {global*apply*generate-predicates*output*PP*v-attached
    (state <s> ^operator <o> ^final-predicates <fp>
-              ^model <m*1> ^refsets <refsets>)
+              ^model.idea <idea>)
    (<o> ^name generate-predicates ^annotation predflags-set)
-   (<m*1> ^idea <idea>)
-   (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval> -^annotation copula -^annotation pred-pp)
+   (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval> -^annotation copula -^annotation pred-pp
+          -^aug.<< int int-second >> <idea>) # SBW added: idea must be an int of a verb (attached pp)
     # somewhat of a hack---without this we get with(x1,x2) and with(verb,X2) for some reason
    (<idea> -^aug.annotation copula)
     # SBW adding similar hack for preposition-lex
     # this makes "the ball is to the left of the block" the same as "put the
     # ball to the left of the block". In both cases, need to stop of(left,N7)
    (<idea> -^aug.preposition-lex) 
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
 -->
    (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)

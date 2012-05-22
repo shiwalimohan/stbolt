@@ -244,7 +244,7 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*m
    (state <s> ^name evaluate-parse
               ^operator <o>)
    (<o> ^name resolve-ambiguous-preposition-attachment
-        -^right to
+        -^right << to >>
          ^right <right>
         ^mv-parse <parse>
         ^mv-parse.parse-count <rc>
@@ -258,7 +258,7 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*mv
    (state <s> ^name evaluate-parse
               ^operator <o>)
    (<o> ^name resolve-ambiguous-preposition-attachment
-        ^right to
+        ^right << to >>
         ^right <right>
         ^m-parse <parse>
         ^m-parse.parse-count <rc>

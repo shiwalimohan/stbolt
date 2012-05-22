@@ -51,15 +51,17 @@ sp {interpret-verb*apply*identify-verb-word
    (<int> ^word <word>)
    (<s> ^accounted-for <hearer>
         ^accounted-for <vw>
-        ^verb-predicate <vw>)
+        ^verb-predicate <vw>
+        ^verb-word <word>)
 }
 
 sp {interpret-verb*elaborate*no-preposition
    (state <s> ^name interpret-verb
               ^all-predicates <ap>
+              ^verb-word <vw>
               ^verb-predicate <verbp>)
   -{(<ap> ^predicate {<> <verbp> <pred>} )
-    (<pred> ^inner2 <any>)} # no remaining 2d preds: must not have a preposition
+    (<pred> ^inner1 <vw>)}
 -->
    (<s> ^has-preposition false)
 }
@@ -67,10 +69,11 @@ sp {interpret-verb*elaborate*no-preposition
 sp {interpret-verb*elaborate*has-preposition
    (state <s> ^name interpret-verb
               ^all-predicates <ap>
+              ^verb-word <vw>
               ^verb-predicate <verbp>)
     (<ap> ^predicate {<> <verbp> <pred>})
     (<pred> -^ignored
-            ^inner2 <any>)
+            ^inner1 <vw>)
 -->
    (<s> ^has-preposition true)
 }
@@ -89,6 +92,30 @@ sp {interpret-verb*elaborate*no-direct-object
 -->
    (<s> ^no-direct-object true)
 }
+
+sp {interpret-verb*elaborate*direct-object*closure
+   (state <s> ^name interpret-verb
+              ^direct-object <do>
+              ^all-predicates.predicate <p>)
+   (<p> -^ignored
+         ^<< inner1 inner2 >> <do>
+         ^<< inner1 inner2 >> {<> <do> <other>})
+-->
+   (<s> ^direct-object-closure <other>)
+}
+
+sp {interpret-verb*elaborate*direct-object*closure*recursive
+   (state <s> ^name interpret-verb
+              ^direct-object-closure <do>
+             -^direct-object <other>
+              ^all-predicates.predicate <p>)
+   (<p> -^ignored
+         ^<< inner1 inner2 >> <do>
+         ^<< inner1 inner2 >> {<> <do> <other>})
+-->
+   (<s> ^direct-object-closure <other>)
+}
+
 
 sp {interpret-verb*propose*collect-object-predicates
    (state <s> ^name interpret-verb
@@ -110,17 +137,31 @@ sp {interpret-verb*apply*collect-object-predicates*init
 sp {interpret-verb*apply*collect-object-predicates*collect
    (state <s> ^name interpret-verb
               ^operator.name collect-object-predicates
-              ^direct-object <do>
+              ^<< direct-object direct-object-closure >> <do>
               ^object-predicates <rp>
               ^all-predicates <ap>
              -^accounted-for <pred>)
    (<ap> ^predicate <pred>)
-   (<pred> ^inner1 <do>)
+   (<pred> ^<< inner1 inner2 >> <do>)
 -->
    (<rp> ^predicate <pred>)
    (<s> ^object-predicates-collected true
         ^accounted-for <pred>)
 }
+
+# add in a new predicate that indicates which the direct object is, 
+# in case the object is relationally-defined
+sp {interpret-verb*apply*collect-object-predicates*primary
+   (state <s> ^name interpret-verb
+              ^operator.name collect-object-predicates
+              ^direct-object <do>
+              ^object-predicates <op>)
+-->
+   (<op> ^predicate <pred>)
+   (<pred> ^outer PRIMARY_OBJECT
+           ^inner1 <do>)
+}
+
 
 sp {interpret-verb*propose*interpret-object
    (state <s> ^name interpret-verb

@@ -23,6 +23,7 @@ sp {interpret-relation*propose*identify-relation
               ^all-predicates.predicate <pr>)
    (<pr> ^inner1 <p1-val>
          ^inner2 <p2-val>
+        -^outer IS_HINT
         -^ignored)
 -->
    (<s> ^operator <o> +)

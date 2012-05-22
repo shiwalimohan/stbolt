@@ -20,27 +20,50 @@ sp {interpret-object-message*apply*collect-predicates
    (state <s> ^name interpret-object-message
               ^operator.name collect-predicates
               ^object-predicates <op>
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>)
 -->
    (<op> ^predicate <p>)
+}
+
+sp {interpret-object-message*apply*collect-predicates*done
+   (state <s> ^name interpret-object-message
+              ^operator.name collect-predicates
+              ^object-predicates <op>)
+-->
    (<s> ^predicates-collected true)
 }
 
 sp {interpret-object-message*propose*interpret-object
    (state <s> ^name interpret-object-message
               ^object-predicates <p>
+              ^objects <ob>
               ^predicates-collected
              -^object-interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
-        ^predicates <p>)
+        ^predicates <p>
+        ^objects <ob>)
 }
 
 sp {interpret-object-message*elaborate*return-interpretation
    (state <s> ^name interpret-object-message
-              ^all-predicates <p>
+              ^predicates <p>
               ^object-predicates.interpretation <oi>) # comes from interpret-object
 -->
    (<p> ^interpretation.object-message <oi>)
 }
+
+# sp {interpret-object-message*propose*interpret-object
+#    (state <s> ^name interpret-object-message
+#               ^predicates <p>
+#               ^objects <ob>
+#              -^predicates.interpretation)
+# -->
+#    (<s> ^operator <o> +)
+#    (<o> ^name interpret-object
+#         ^predicates <p>
+#         ^objects <ob>)
+# }
+
+
