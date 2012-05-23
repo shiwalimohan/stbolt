@@ -68,18 +68,6 @@ sp {interpret-relation-question*apply*collect-predicates*done
    (<s> ^predicates-collected true)
 }
 
-sp {interpret-relation-question*apply*collect-predicates*question-predicate
-   (state <s> ^name interpret-relation-question
-              ^operator.name collect-predicates
-              ^relation-predicates <op>
-              ^question-object <ob>
-              ^question-predicate <p>)
--->
-   (<op> ^predicate <p1>)
-   (<p1> ^outer PRIMARY_OBJECT
-         ^inner1 <ob>)
-}
-
 sp {interpret-relation-question*propose*interpret-relation
    (state <s> ^name interpret-relation-question
               ^relation-predicates <p>

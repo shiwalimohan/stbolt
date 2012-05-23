@@ -46,6 +46,13 @@ sp {interpret-goal-object-message*apply*collect-predicates
    (<p> -^ignored)
 -->
    (<op> ^predicate <p>)
+}
+
+sp {interpret-goal-object-message*apply*collect-predicates*done
+   (state <s> ^name interpret-goal-object-message
+              ^operator.name collect-predicates
+              ^object-predicates <op>)
+-->
    (<s> ^predicates-collected true)
 }
 

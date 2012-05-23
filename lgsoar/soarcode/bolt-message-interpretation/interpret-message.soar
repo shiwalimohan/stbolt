@@ -354,7 +354,7 @@ sp {interpret-message*elaborate*object*collect
               ^objects.object <po>
               ^lgsoar-predicates.predicate <pr>)
    (<pr> ^inner1 <po>
-        -^outer << HEARER you PRIMARY_OBJECT goal >> 
+        -^outer << HEARER you goal >> 
         -^inner2)
    (<po> ^predicates <prp>)
 -->
@@ -372,13 +372,3 @@ sp {interpret-message*propose*interpret-primitive-object
         ^predicates <pr>)
 }
 
-sp {interpret-message*elaborate*only-object-is-primary
-   (state <s> ^name interpret-message
-              ^lgsoar-predicates <pr>
-              ^objects.object <ob>
-             -^objects.object <> <ob>)
--->
-   (<pr> ^predicate <new>)
-   (<new> ^outer PRIMARY_OBJECT
-          ^inner1 <ob>)
-}

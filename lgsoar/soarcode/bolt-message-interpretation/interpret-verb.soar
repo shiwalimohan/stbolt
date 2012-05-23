@@ -121,28 +121,16 @@ sp {interpret-verb*apply*collect-object-predicates*done
    (<s> ^object-predicates-collected true)
 }
 
-# add in a new predicate that indicates which the direct object is, 
-# in case the object is relationally-defined
-sp {interpret-verb*apply*collect-object-predicates*primary
-   (state <s> ^name interpret-verb
-              ^operator.name collect-object-predicates
-              ^direct-object <do>
-              ^object-predicates <op>)
--->
-   (<op> ^predicate <pred>)
-   (<pred> ^outer PRIMARY_OBJECT
-           ^inner1 <do>)
-}
-
-
 sp {interpret-verb*propose*interpret-object
    (state <s> ^name interpret-verb
               ^object-predicates-collected true
               ^object-predicates <op>
+              ^direct-object <po>
              -^object-predicates.interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <po>
         ^predicates <op>)
 }
 

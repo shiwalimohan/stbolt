@@ -29,17 +29,6 @@ sp {interpret-object-question*apply*identify-question-word
         ^questioned-object <obj>)
 }
 
-# we will build our own PRIMARY_OBJECT predicate based on questioned-object
-# if this exists, it should be consistent, but we don't want two
-sp {interpret-object*apply*identify-question-word*inhibit-po
-   (state <s> ^name interpret-object-question
-              ^operator.name identify-question-word
-              ^predicates.predicate <p>)
-   (<p> ^outer PRIMARY_OBJECT)
--->
-   (<s> ^exclude <p>)
-}
-
 sp {interpret-object-question*propose*collect-predicates
    (state <s> ^name interpret-object-question
               ^interpretation.question-word
@@ -66,16 +55,6 @@ sp {interpret-object-question*apply*collect-predicates
    (<op> ^predicate <p>)
 }
 
-sp {interpret-object-question*apply*collect-predicates*primary
-   (state <s> ^name interpret-object-question
-              ^operator.name collect-predicates
-              ^questioned-object <ob>
-              ^object-predicates <op>)
--->
-   (<op> ^predicate <pred>)
-   (<pred> ^outer PRIMARY_OBJECT
-           ^inner1 <ob>)
-}
 sp {interpret-object-question*apply*collect-predicates*done
    (state <s> ^name interpret-object-question
               ^operator.name collect-predicates
@@ -88,10 +67,12 @@ sp {interpret-object-question*propose*interpret-object
    (state <s> ^name interpret-object-question
               ^object-predicates <p>
               ^predicates-collected
+              ^questioned-object <po>
              -^object-interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <po>
         ^predicates <p>)
 }
 

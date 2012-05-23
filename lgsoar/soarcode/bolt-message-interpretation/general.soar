@@ -3,13 +3,12 @@
 # structure to the ^predicates structure on their state, which is the
 # elaborated to the ^predicates structure on the interpretation operator
 
-# sp {interpretation*elaborate*objects-to-substate
-#    (state <s> ^superstate.operator <o>)
-#    (<o> ^kind message-interpretation
-#         ^objects <ob>)
-# -->
-#    (<s> ^objects <ob>)
-# }
+sp {interpretation*elaborate*objects-to-substate
+   (state <s> ^problem-space message-interpretation
+              ^superstate.objects <ob>)
+-->
+   (<s> ^objects <ob>)
+}
 
 sp {interpretation*elaborate*predicates
    (state <s> ^superstate.operator <o>)
@@ -80,8 +79,7 @@ sp {interpretation*prefer*interpret-primitive
 # determine linked sets of predicates
 # note that these are only 2d+ predicates, so plain properties won't be picked
 # up. This is usually desirable, since those should all be absorbed in
-# interpret-primitive-object, or are PRIMARY_OBJECT predicates that shouldn't 
-# be passed between levels
+# interpret-primitive-object
 sp {interpretation*elaborate*predicate-sets*object
    (state <s> ^problem-space message-interpretation
               ^predicates.predicate <pred>)

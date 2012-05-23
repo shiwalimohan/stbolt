@@ -62,9 +62,6 @@ sp {interpret-preposition*apply*collect-object*base
               ^operator.name collect-object)
 -->
    (<s> ^object-predicates <cp>)
-   (<cp> ^predicate <pr>)
-   (<pr> ^outer PRIMARY_OBJECT
-         ^inner1 <object>)
 }
 
 sp {interpret-preposition*apply*collect-object
@@ -90,12 +87,14 @@ sp {interpret-preposition*apply*collect-object*done
 sp {interpret-preposition*propose*interpret-object
    (state <s> ^name interpret-preposition
               ^object-collected true
+              ^object <po>
               ^object-predicates <cp>)
    (<cp> -^interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
-        ^predicates <cp>)
+        ^predicates <cp>
+        ^primary-object <po>)
 }
 
 sp {interpret-preposition*elaborate*object-interpretation

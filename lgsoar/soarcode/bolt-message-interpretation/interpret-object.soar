@@ -1,22 +1,3 @@
-# return immediately if this is just a plain object
-
-sp {interpret-object*elaborate*single-primitive-passthrough
-   (state <s> ^name interpret-object
-              ^predicates <ap>
-              ^predicates.predicate <pred>
-             -^predicates.predicate <> <pred>)
-   (<pred> ^outer PRIMARY_OBJECT
-           ^inner1 <po>)
-   (<po> ^predicates.interpretation <int>)
--->
-   (<ap> ^interpretation.object <int>)
-}
-
-# not a plain object:
-# either the root statement is an "is" about a relation,
-# or this was called as a subpart of parsing a verb direct object or similar,
-# in which case the parent must make a fake PRIMARY_OBJECT predicate
-# (non-relation "is" like "the block is red" appears as a plain object)
 
 sp {interpret-object*elaborate*interpretation*on*state
    (state <s> ^name interpret-object)
@@ -24,36 +5,61 @@ sp {interpret-object*elaborate*interpretation*on*state
    (<s> ^interpretation <int>)
 }
 
-# TODO
-# it probably makes sense to reengineer and remove the PRIMARY_OBJECT predicate
-# as an internal data structure, replacing it with an ^object param on
-# interpret-object operator, like the ^relation param on the interpret-relation
-# operator
-
-sp {interpret-object*elaborate*primary-object
+sp {interpret-object*elaborate*primary-object*from-operator
    (state <s> ^name interpret-object
               ^interpretation <int>
-              ^predicates.predicate <pr>)
-   (<pr> ^outer PRIMARY_OBJECT
-         ^inner1 <po>)
+              ^superstate.operator.primary-object <po>)
    (<po> ^predicates.interpretation <point>)
 -->
    (<s> ^primary-object <po>)
    (<int> ^object <point>)
 }
 
-# if we weren't provided with a PRIMARY_OBJECT, guess that its the first param
-# of a relation
-# any other cases will tie, improve this to handle them
+sp {interpret-object*elaborate*no-predicates*return
+   (state <s> ^name interpret-object
+              ^predicates <pred>
+             -^predicates.predicate 
+              ^interpretation <int>
+              ^primary-object)
+-->
+   (<pred> ^interpretation <int>)
+}
+
+
 sp {interpret-object*propose*infer-primary-object
    (state <s> ^name interpret-object
              -^primary-object
-             -^predicates.predicate.outer PRIMARY_OBJECT
-              ^predicates.predicate.inner1 <ob>)
+              ^objects.object <ob>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name infer-primary-object
         ^object <ob>)
+}
+
+sp {interpret-object*infer-primary-object*prefer*same-object-equally
+   (state <s> ^name interpret-object
+              ^operator <o1> + <o2> +)
+   (<o1> ^name infer-primary-object
+         ^object <ob>)
+   (<o2> ^name infer-primary-object
+         ^object <ob>)
+-->
+   (<s> ^operator <o1> = <o2>)
+}
+
+sp {interpret-object*infer-primary-object*prefer*first-parameter
+   (state <s> ^name interpret-object
+              ^operator <o1> + <o2> +
+              ^predicates.predicate <pd>
+             -^predicates.predicate.inner1 <ob2>)
+   (<pd> ^inner1 <ob>
+         ^inner2)
+   (<o1> ^name infer-primary-object
+         ^object <ob>)
+   (<o2> ^name infer-primary-object
+         ^object <ob2>)
+-->
+   (<s> ^operator <o1> > <o2>)
 }
 
 sp {interpret-object*apply*infer-primary-object
@@ -99,7 +105,6 @@ sp {interpret-object*elaborate*primary-object-relation*predicate
 }
 
 # for instance:
-# PRIMARY_OBJECT(N2)
 # on(N2,N3)
 # on(N3,N4)
 # above(N2,N5)

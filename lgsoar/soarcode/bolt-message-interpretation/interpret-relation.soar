@@ -65,9 +65,6 @@ sp {interpret-relation*apply*collect-p1*base
               ^operator.name collect-p1)
 -->
    (<s> ^p1-predicates <cp>)
-   (<cp> ^predicate <pr>)
-   (<pr> ^outer PRIMARY_OBJECT
-         ^inner1 <p1>)
 }
 
 sp {interpret-relation*apply*collect-p1
@@ -92,12 +89,14 @@ sp {interpret-relation*apply*collect-p1*done
 
 sp {interpret-relation*propose*interpret-p1
    (state <s> ^name interpret-relation
+              ^p1 <p1>
               ^p1-collected true
               ^p1-predicates <cp>)
    (<cp> -^interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <p1>
         ^predicates <cp>)
 }
 
@@ -117,9 +116,6 @@ sp {interpret-relation*apply*collect-p2*base
               ^operator.name collect-p2)
 -->
    (<s> ^p2-predicates <cp>)
-   (<cp> ^predicate <pr>)
-   (<pr> ^outer PRIMARY_OBJECT
-         ^inner1 <p2>)
 }
 
 sp {interpret-relation*apply*collect-p2
@@ -146,12 +142,14 @@ sp {interpret-relation*apply*collect-p2*done
 
 sp {interpret-relation*propose*interpret-p2
    (state <s> ^name interpret-relation
+              ^p2 <p2>
               ^p2-collected true
               ^p2-predicates <cp>)
    (<cp> -^interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <p2>
         ^predicates <cp>)
 }
 
