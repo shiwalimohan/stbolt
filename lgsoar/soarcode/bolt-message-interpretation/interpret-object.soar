@@ -104,31 +104,15 @@ sp {interpret-object*elaborate*primary-object-relation
           ^predicates <ps>)
 }
 
-# find all predicates referencing things related to the primary-object-relation
-
 sp {interpret-object*elaborate*primary-object-relation*predicate
    (state <s> ^name interpret-object
               ^predicates.predicate <pred>
-              ^object-info <oi>
              -^primary-object-relation.relation <pred>
-              ^primary-object-relation <por>)
-   (<por> ^relation <rel>         
-          ^predicates <ps>)
-   (<rel> ^<< inner1 inner2 inner3 >> <ro>)
-   (<oi> ^id <ro>
-         ^linked-predicate <pred>)
+              ^primary-object-relation.predicates <ps>)
 -->
    (<ps> ^predicate <pred>)
 }
 
-# for instance:
-# on(N2,N3)
-# on(N3,N4)
-# above(N2,N5)
-#
-# we now have two primary-object-relations, for on(N2,N3) and another for above(N2,N5)
-# the first has on(N3,N4) in its predicates, the second has nothing in its
-# predicates
 
 sp {interpret-object*propose*interpret-relation
    (state <s> ^name interpret-object

@@ -49,13 +49,10 @@ sp {interpret-relation-question*apply*collect-predicates*root
 sp {interpret-relation-question*apply*collect-predicates
    (state <s> ^name interpret-relation-question
               ^operator.name collect-predicates
-              ^question-object <ob>
-              ^object-info <oi>
+              ^predicates.predicate <p>
               -^question-relation-predicate <p>
               -^question-predicate <p>
               ^relation-predicates <op>)
-   (<oi> ^id <ob>
-         ^linked-predicate <p>)
 -->
    (<op> ^predicate <p>)
 }

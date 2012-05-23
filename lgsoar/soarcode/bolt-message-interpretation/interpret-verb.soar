@@ -104,12 +104,9 @@ sp {interpret-verb*apply*collect-object-predicates*init
 sp {interpret-verb*apply*collect-object-predicates*collect
    (state <s> ^name interpret-verb
               ^operator.name collect-object-predicates
-              ^direct-object <do>
              -^preposition-predicate <pred>
-              ^object-predicates <rp>
-              ^object-info <oi>)
-   (<oi> ^id <do>
-         ^linked-predicate <pred>)
+              ^predicates.predicate <pred>
+              ^object-predicates <rp>)
 -->
    (<rp> ^predicate <pred>)
 }
@@ -166,11 +163,8 @@ sp {interpret-verb*apply*collect-preposition-predicates*collect
    (state <s> ^name interpret-verb
               ^operator.name collect-preposition-predicates
               ^preposition-subpredicates <rp>
-              ^preposition-object <ob>
               ^verb-word <vw>
-              ^object-info <oi>)
-   (<oi> ^id <ob>
-         ^linked-predicate <pred>)
+              ^predicates.predicate <pred>)
    (<pred> ^inner1 <> <vw>)
 -->
    (<rp> ^predicate <pred>)

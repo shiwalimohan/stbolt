@@ -67,11 +67,8 @@ sp {interpret-preposition*apply*collect-object*base
 sp {interpret-preposition*apply*collect-object
    (state <s> ^name interpret-preposition
               ^operator.name collect-object
-              ^object <object>
-              ^object-info <oi>
-              ^object-predicates <cp>)
-   (<oi> ^id <object>
-         ^linked-predicate <pred>)
+              ^object-predicates <cp>
+              ^predicates.predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
 }

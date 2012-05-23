@@ -70,11 +70,8 @@ sp {interpret-relation*apply*collect-p1*base
 sp {interpret-relation*apply*collect-p1
    (state <s> ^name interpret-relation
               ^operator.name collect-p1
-              ^p1 <p1>
-              ^object-info <oi>
-              ^p1-predicates <cp>)
-   (<oi> ^id <p1>
-         ^linked-predicate <pred>)
+              ^p1-predicates <cp>
+              ^predicates.predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
 }
@@ -121,11 +118,8 @@ sp {interpret-relation*apply*collect-p2*base
 sp {interpret-relation*apply*collect-p2
    (state <s> ^name interpret-relation
               ^operator.name collect-p2
-              ^p2 <p2>
-              ^object-info <oi>
-              ^p2-predicates <cp>)
-   (<oi> ^id <p2>
-         ^linked-predicate <pred>)
+              ^p2-predicates <cp>
+              ^predicates.predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
 }
