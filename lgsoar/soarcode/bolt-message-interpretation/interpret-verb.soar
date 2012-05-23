@@ -105,6 +105,7 @@ sp {interpret-verb*apply*collect-object-predicates*collect
    (state <s> ^name interpret-verb
               ^operator.name collect-object-predicates
               ^direct-object <do>
+             -^preposition-predicate <pred>
               ^object-predicates <rp>
               ^object-info <oi>)
    (<oi> ^id <do>

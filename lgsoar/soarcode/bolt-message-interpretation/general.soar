@@ -80,25 +80,42 @@ sp {interpretation*prefer*interpret-primitive
 # note that these are only 2d+ predicates, so plain properties won't be picked
 # up. This is usually desirable, since those should all be absorbed in
 # interpret-primitive-object
-sp {interpretation*elaborate*predicate-sets*object
+# sp {interpretation*elaborate*predicate-sets*object
+#    (state <s> ^problem-space message-interpretation
+#               ^predicates.predicate <pred>)
+#    (<pred> ^<< inner1 inner2 inner3 >> <ob>)
+# -->
+#    (<s> ^object-info <obj>)
+#    (<obj> ^id <ob>
+#           ^associated <ob>)
+# }
+
+# sp {interpretation*elaborate*predicates*objects*association
+#    (state <s> ^problem-space message-interpretation
+#               ^predicates.predicate <pred>
+#               ^object-info <oi>)
+#    (<oi> ^associated <a>)
+#    (<pred> ^<< inner1 inner2 inner3 >> <a>
+#            ^<< inner1 inner2 inner3 >> {<> <a> <b>})
+# -->
+#    (<oi> ^associated <b>
+#          ^linked-predicate <pred>)
+# }
+
+sp {interpretation*elaborate*object-info
    (state <s> ^problem-space message-interpretation
-              ^predicates.predicate <pred>)
-   (<pred> ^<< inner1 inner2 inner3 >> <ob>)
+              ^objects.object <ob>)
 -->
-   (<s> ^object-info <obj>)
-   (<obj> ^id <ob>
-          ^associated <ob>)
+   (<s> ^object-info <oi>)
+   (<oi> ^id <ob>)
 }
 
-sp {interpretation*elaborate*predicates*objects*association
+sp {interpretation*elaborate*object-info*pred
    (state <s> ^problem-space message-interpretation
-              ^predicates.predicate <pred>
+              ^predicates.predicate <p>
               ^object-info <oi>)
-   (<oi> ^associated <a>)
-   (<pred> ^<< inner1 inner2 inner3 >> <a>
-           ^<< inner1 inner2 inner3 >> {<> <a> <b>})
 -->
-   (<oi> ^associated <b>
-         ^linked-predicate <pred>)
+   (<oi> ^linked-predicate <p>)
+
 }
 

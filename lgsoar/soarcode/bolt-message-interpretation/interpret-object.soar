@@ -15,12 +15,12 @@ sp {interpret-object*elaborate*primary-object*from-operator
    (<int> ^object <point>)
 }
 
-sp {interpret-object*elaborate*no-predicates*return
+sp {interpret-object*elaborate*no-relevant-predicates*return
    (state <s> ^name interpret-object
               ^predicates <pred>
-             -^predicates.predicate 
+             -^predicates.predicate.<< inner1 inner2 inner3 >> <po> 
               ^interpretation <int>
-              ^primary-object)
+              ^primary-object <po>)
 -->
    (<pred> ^interpretation <int>)
 }

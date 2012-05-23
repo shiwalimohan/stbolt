@@ -51,13 +51,13 @@ sp {interpret-relation-question*apply*collect-predicates
               ^operator.name collect-predicates
               ^question-object <ob>
               ^object-info <oi>
-              ^question-relation-predicate <> <p>
+              -^question-relation-predicate <p>
+              -^question-predicate <p>
               ^relation-predicates <op>)
    (<oi> ^id <ob>
          ^linked-predicate <p>)
 -->
    (<op> ^predicate <p>)
-   (<s> ^predicates-collected true)
 }
 
 sp {interpret-relation-question*apply*collect-predicates*done

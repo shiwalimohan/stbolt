@@ -16,7 +16,7 @@ sp {global*apply*generate-predicates*output*predicate-PP
    (<pred> ^outer <plex>
            ^inner1 <extval>
            ^inner2 <plexval>)
-   (<fp> ^predicate <pred2>)
+ #  (<fp> ^predicate <pred2>)
  #  (<pred2> ^outer PRIMARY_OBJECT
  #          ^inner1 <extval>)
 #   (write (crlf) predicate-pp: | | <plex> |(| <extval> |,| <plexval> |)|)
