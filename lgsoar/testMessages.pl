@@ -332,7 +332,36 @@ else {
         specifier DEF
         word red
     word color-of"],
-
+["Move the red block by the circle to the area near the kitchen.",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word red
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
+            word circle
+        word by
+    preposition 
+      object o4
+        specifier DEF
+        word area
+      relation 
+        p1 
+          object o4
+        p2 
+          object o5
+            specifier DEF
+            word kitchen
+        word near
+      word to
+    word move"],
 );
 
 $passCount = 0;
