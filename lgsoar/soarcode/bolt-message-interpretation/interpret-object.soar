@@ -62,6 +62,23 @@ sp {interpret-object*infer-primary-object*prefer*first-parameter
    (<s> ^operator <o1> > <o2>)
 }
 
+sp {interpret-object*infer-primary-object*prefer*first-parameter*chain
+   (state <s> ^name interpret-object
+              ^operator <o1> + <o2> +
+              ^predicates.predicate <p1>
+              ^predicates.predicate <p2>)
+   (<p1> ^inner1 <i1>
+         ^inner2 <i2>)
+   (<p2> ^inner1 <i2>
+         ^inner2 <i3>)
+   (<o1> ^name infer-primary-object
+         ^object <i1>)
+   (<o2> ^name infer-primary-object
+         ^object <i2>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
 sp {interpret-object*apply*infer-primary-object
    (state <s> ^name interpret-object
               ^interpretation <int>
