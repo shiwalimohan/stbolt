@@ -1,11 +1,3 @@
-
-# on the table
-# DEF(N4) on(x,N4) table(N4)
-
-# ^preposition.word on
-#             .object.word table
-#                    .specifier DEF
-
 sp {interpret-preposition*elaborate*init
    (state <s> ^name interpret-preposition)
 -->
@@ -13,86 +5,52 @@ sp {interpret-preposition*elaborate*init
    (<it> ^preposition <rm>)
 }
 
-sp {interpret-preposition*propose*identify-preposition-word
+sp {interpret-preposition*propose*identify-preposition
    (state <s> ^name interpret-preposition
-             -^pword-identified
-              ^all-predicates.predicate <pr>)
-   (<pr> -^ignored
-         ^outer <preposition>
-         ^inner1 <p1-val>
-         ^inner2 <p2-val>)
+             -^preposition-identified
+              ^superstate.operator.preposition <pr>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name identify-preposition-word
+   (<o> ^name identify-preposition
         ^preposition <pr>)
 }
 
-sp {interpret-preposition*propose*identify-to-the-x-of-relation
-   (state <s> ^name interpret-preposition
-             -^pword-identified
-              ^all-predicates <ap>)
-   (<ap> ^predicate <to> <the> <x-of>)
-   (<to> ^outer << to on >>
-         ^inner1 <p1>
-         ^inner2 <x-obj>)
-   (<the> ^outer DEF
-          ^inner1 <x-obj>)
-   (<x-of> ^outer1 <x-word>
-           ^outer2 of
-           ^inner1 <x-obj>
-           ^inner2 <p2>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name identify-to-the-x-of-preposition
-        ^outer (concat <x-word> |-of|)
-        ^inner1 <p1>
-        ^inner2 <p2>)
-}
-sp {interpret-preposition*identify-to-the-x-of-preposition*over*identify-preposition-word
-   (state <s> ^name interpret-preposition
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name identify-to-the-x-of-preposition)
-   (<o2> ^name identify-preposition-word)
--->
-   (<s> ^operator <o1> > <o2>)
-}
 
-sp {interpret-preposition*apply*identify-to-the-x-of-preposition
-   (state <s> ^name interpret-preposition
-              ^interpretation.preposition <rm>
-              ^operator <o>)
-   (<o> ^name identify-to-the-x-of-preposition
-        ^outer <out>
-        ^inner1 <in1>
-        ^inner2 <in2>)
--->
-   (<s> ^pword-identified true
-        ^p2 <in2>)
-   (<rm> ^word <out>)
-}
-
-
-sp {interpret-preposition*apply*identify-preposition-word
+sp {interpret-preposition*apply*identify-preposition
    (state <s> ^name interpret-preposition
               ^operator <o>
               ^interpretation.preposition <rm>)
-   (<o> ^name identify-preposition-word
+   (<o> ^name identify-preposition
         ^preposition <pr>)
-   (<pr> -^ignored
-         ^outer <preposition>
+   (<pr> ^outer <preposition>
          ^inner1 <p1-val>
          ^inner2 <p2-val>)
 -->
-   (<s> ^pword-identified true
-        ^p2 <p2-val>)
+   (<s> ^preposition-identified true
+        ^object <p2-val>)
    (<rm> ^word <preposition>)
+}
+
+sp {interpret-preposition*apply*identify-preposition*two-part-outer*of
+   (state <s> ^name interpret-preposition
+              ^operator <o>
+              ^interpretation.preposition <rm>)
+   (<o> ^name identify-preposition
+        ^preposition <pr>)
+   (<pr> ^outer1 <o1>
+         ^outer2 {<o2> of}
+         ^inner1 <p1-val>
+         ^inner2 <p2-val>)
+-->
+   (<s> ^preposition-identified true
+        ^object <p2-val>)
+   (<rm> ^word (concat <o1> |-| <o2>))
 }
 
 sp {interpret-preposition*propose*collect-object
    (state <s> ^name interpret-preposition
-             -^object-collected true
-              ^pword-identified true)
+              ^preposition-identified true
+             -^object-collected)
 -->
    (<s> ^operator <o> +)
    (<o> ^name collect-object)
@@ -100,22 +58,32 @@ sp {interpret-preposition*propose*collect-object
 
 sp {interpret-preposition*apply*collect-object*base
    (state <s> ^name interpret-preposition
+              ^object <object>
               ^operator.name collect-object)
 -->
    (<s> ^object-predicates <cp>)
+   (<cp> ^predicate <pr>)
+   (<pr> ^outer PRIMARY_OBJECT
+         ^inner1 <object>)
 }
 
 sp {interpret-preposition*apply*collect-object
    (state <s> ^name interpret-preposition
               ^operator.name collect-object
-              ^p2 <p2>
-              ^object-predicates <cp>
-              ^all-predicates.predicate <pred>)
-   (<pred> -^ignored
-           ^inner1 <p2>
-          -^inner2)
+              ^object <object>
+              ^object-info <oi>
+              ^object-predicates <cp>)
+   (<oi> ^id <object>
+         ^linked-predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
+}
+
+sp {interpret-preposition*apply*collect-object*done
+   (state <s> ^name interpret-preposition
+              ^operator.name collect-object
+              ^object-predicates <cp>)
+-->
    (<s> ^object-collected true)
 }
 
@@ -139,12 +107,20 @@ sp {interpret-preposition*elaborate*object-interpretation
    (<rm> ^object <int>)
 }
 
+sp {interpret-preposition*elaborate*object-interpretation*subrelation
+   (state <s> ^name interpret-preposition
+              ^object-predicates <p1p>
+              ^interpretation.preposition <rm>)
+   (<p1p> ^interpretation.relation <int>)
+-->
+   (<rm> ^relation <int>)
+}
+
 sp {interpret-preposition*elaborate*return-interpretation
    (state <s> ^name interpret-preposition
-              ^all-predicates <p>
+              ^predicates <p>
               ^interpretation <i>)
-   (<i> ^preposition <rm>)
-   (<rm> ^object <p1>)
+   (<i> ^preposition.object <object>)
 -->
    (<p> ^interpretation <i>)
 }

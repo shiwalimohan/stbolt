@@ -22,8 +22,8 @@ sp {global*apply*generate-predicates*role-preposition
    (<fp> ^predicate <pred>)
    (<pred> ^outer1 <nuc2val>
            ^outer2 <pl2>
-           ^inner1 <pobjval>
-           ^inner2 <prep>)
+           ^inner2 <pobjval>
+           ^inner1 <prep>)
 }
 
 sp {global*apply*generate-predicates*role-preposition*copula*ext

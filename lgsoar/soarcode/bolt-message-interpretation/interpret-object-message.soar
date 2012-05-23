@@ -36,14 +36,12 @@ sp {interpret-object-message*apply*collect-predicates*done
 sp {interpret-object-message*propose*interpret-object
    (state <s> ^name interpret-object-message
               ^object-predicates <p>
-              ^objects <ob>
               ^predicates-collected
              -^object-interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
-        ^predicates <p>
-        ^objects <ob>)
+        ^predicates <p>)
 }
 
 sp {interpret-object-message*elaborate*return-interpretation
@@ -54,16 +52,16 @@ sp {interpret-object-message*elaborate*return-interpretation
    (<p> ^interpretation.object-message <oi>)
 }
 
+# shortcut version
+
 # sp {interpret-object-message*propose*interpret-object
 #    (state <s> ^name interpret-object-message
 #               ^predicates <p>
-#               ^objects <ob>
 #              -^predicates.interpretation)
 # -->
 #    (<s> ^operator <o> +)
 #    (<o> ^name interpret-object
-#         ^predicates <p>
-#         ^objects <ob>)
+#         ^predicates <p>)
 # }
 
 

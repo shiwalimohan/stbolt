@@ -5,6 +5,7 @@ sp {interpret-message*elaborate*init
    (<s> ^lgsoar-predicates <pred>)
 }
 
+
 # verb-commands have the HEARER
 sp {interpret-message*propose*interpret-verb-command
    (state <s> ^name interpret-message
@@ -230,6 +231,7 @@ sp {interpret-message*prefer*verb-command-over-any
               ^operator <o2> +)
    (<o1> ^name interpret-verb-command)
    (<o2> ^kind message-interpretation
+        -^name interpret-primitive-object
         -^name interpret-verb-command)
 -->
    (<s> ^operator <o1> > <o2>)
@@ -242,6 +244,91 @@ sp {interpret-message*elaborate*objects
    (state <s> ^name interpret-message)
 -->
    (<s> ^objects <ob>)
+}
+
+# role prepositions will cause redundant predicates
+# e.g.: color-of(N7,N4) color(N4) of(N4,N7)
+# ignore the last two
+
+sp {elaborate*ignore-redundant
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates <pred>)
+   (<pred> ^predicate <rp>
+           ^predicate <propp>
+           ^predicate <predp>)
+   (<rp> ^outer1 <property>
+         ^outer2 <preposition>
+         ^inner1 <i2>
+         ^inner2 <i1>)
+   (<propp> ^outer <property>
+            ^inner1 <i1>)
+   (<predp> ^outer <preposition>
+            ^inner1 <i1>
+            ^inner2 <i2>)
+-->
+   (<propp> ^ignored true)
+   (<predp> ^ignored true)
+}
+
+sp {interpret-message*propose*identify-to-the-x-of-relation
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates <ap>)
+   (<ap> ^predicate <to> <the> <x-of>)
+   (<to> ^outer << to on >>
+         ^inner1 <p1>
+         ^inner2 <x-obj>
+        -^ignored)
+   (<the> ^outer DEF
+          ^inner1 <x-obj>
+         -^ignored)
+   (<x-of> ^outer1 <x-word>
+           ^outer2 of
+           ^inner1 <p2>
+           ^inner2 <x-obj>
+          -^ignored)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer (concat <x-word> |-of|)
+        ^inner1 <p1>
+        ^inner2 <p2>
+        ^inhibit <to> <the> <x-of>)
+}
+
+sp {interpret-message*apply*identify-to-the-x-of-relation
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates <pred>
+              ^operator <o>)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer <out>
+        ^inner1 <in1>
+        ^inner2 <in2>)
+-->
+   (<pred> ^predicate <ttxo>)
+   (<ttxo> ^outer <out>
+           ^inner1 <in1>
+           ^inner2 <in2>)
+}
+
+sp {interpret-message*apply*identify-to-the-x-of-relation*inhibit
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates.predicate <pred>
+              ^operator <o>)
+   (<o> ^name identify-to-the-x-of-relation
+        ^inhibit <pred>)
+-->
+   (<pred> ^ignored true)
+}
+
+sp {interpret-message*prefer*identify-to-the-x-of-relation
+   (state <s> ^name interpret-message
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name identify-to-the-x-of-relation)
+   (<o2> ^kind message-interpretation
+        -^name identify-to-the-x-of-relation)
+-->
+   (<s> ^operator <o1> > <o2>)
 }
 
 sp {interpret-message*elaborate*primitive-object-symbol
@@ -267,7 +354,7 @@ sp {interpret-message*elaborate*object*collect
               ^objects.object <po>
               ^lgsoar-predicates.predicate <pr>)
    (<pr> ^inner1 <po>
-        -^outer << what which where HEARER you PRIMARY_OBJECT goal >> 
+        -^outer << HEARER you PRIMARY_OBJECT goal >> 
         -^inner2)
    (<po> ^predicates <prp>)
 -->
@@ -285,3 +372,13 @@ sp {interpret-message*propose*interpret-primitive-object
         ^predicates <pr>)
 }
 
+sp {interpret-message*elaborate*only-object-is-primary
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates <pr>
+              ^objects.object <ob>
+             -^objects.object <> <ob>)
+-->
+   (<pr> ^predicate <new>)
+   (<new> ^outer PRIMARY_OBJECT
+          ^inner1 <ob>)
+}

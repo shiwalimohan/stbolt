@@ -1,27 +1,12 @@
-# interpret-object handles not just plain objects, but also relational
-# information about them
-
-# table(N6)
-# DEF(N4)
-# DEF(N6)
-# block(N4)
-# on(N4,N6)
-# IS_HINT(on,N4)
-
-# object.word block
-#       .specifier DEF
-# relation.word on
-#         .p1-val (ref to object above)
-#         .p2-val.word table
-#                .specifier DEF
-
-
 # return immediately if this is just a plain object
+
 sp {interpret-object*elaborate*single-primitive-passthrough
    (state <s> ^name interpret-object
               ^predicates <ap>
-              ^objects.object <po>
-             -^objects.object <> <po>)
+              ^predicates.predicate <pred>
+             -^predicates.predicate <> <pred>)
+   (<pred> ^outer PRIMARY_OBJECT
+           ^inner1 <po>)
    (<po> ^predicates.interpretation <int>)
 -->
    (<ap> ^interpretation.object <int>)
@@ -39,7 +24,13 @@ sp {interpret-object*elaborate*interpretation*on*state
    (<s> ^interpretation <int>)
 }
 
-sp {interpret-object*elaborate*primitive-object
+# TODO
+# it probably makes sense to reengineer and remove the PRIMARY_OBJECT predicate
+# as an internal data structure, replacing it with an ^object param on
+# interpret-object operator, like the ^relation param on the interpret-relation
+# operator
+
+sp {interpret-object*elaborate*primary-object
    (state <s> ^name interpret-object
               ^interpretation <int>
               ^predicates.predicate <pr>)
@@ -49,7 +40,102 @@ sp {interpret-object*elaborate*primitive-object
 -->
    (<s> ^primary-object <po>)
    (<int> ^object <point>)
-   (<s> ^primary-object-predicates <pop>)
 }
 
-sp {interpret-object*
+# if we weren't provided with a PRIMARY_OBJECT, guess that its the first param
+# of a relation
+# any other cases will tie, improve this to handle them
+sp {interpret-object*propose*infer-primary-object
+   (state <s> ^name interpret-object
+             -^primary-object
+             -^predicates.predicate.outer PRIMARY_OBJECT
+              ^predicates.predicate.inner1 <ob>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name infer-primary-object
+        ^object <ob>)
+}
+
+sp {interpret-object*apply*infer-primary-object
+   (state <s> ^name interpret-object
+              ^interpretation <int>
+              ^operator <o>)
+   (<o> ^name infer-primary-object
+        ^object <ob>)
+   (<ob> ^predicates.interpretation <point>)
+-->
+   (<s> ^primary-object <ob>)
+   (<int> ^object <point>)
+}
+          
+
+sp {interpret-object*elaborate*primary-object-relation
+   (state <s> ^name interpret-object
+              ^primary-object <po>
+              ^predicates.predicate <pred>)
+   (<pred> ^<< inner1 inner2 inner3 >> <po>
+           ^inner2 <exists>)
+-->
+   (<s> ^primary-object-relation <por>)
+   (<por> ^relation <pred>
+          ^predicates <ps>)
+}
+
+# find all predicates referencing things related to the primary-object-relation
+
+sp {interpret-object*elaborate*primary-object-relation*predicate
+   (state <s> ^name interpret-object
+              ^predicates.predicate <pred>
+              ^object-info <oi>
+             -^primary-object-relation.relation <pred>
+              ^primary-object-relation <por>)
+   (<por> ^relation <rel>         
+          ^predicates <ps>)
+   (<rel> ^<< inner1 inner2 inner3 >> <ro>)
+   (<oi> ^id <ro>
+         ^linked-predicate <pred>)
+-->
+   (<ps> ^predicate <pred>)
+}
+
+# for instance:
+# PRIMARY_OBJECT(N2)
+# on(N2,N3)
+# on(N3,N4)
+# above(N2,N5)
+#
+# we now have two primary-object-relations, for on(N2,N3) and another for above(N2,N5)
+# the first has on(N3,N4) in its predicates, the second has nothing in its
+# predicates
+
+sp {interpret-object*propose*interpret-relation
+   (state <s> ^name interpret-object
+              ^primary-object-relation <per>)
+   (<per> ^relation <rel>
+          ^predicates <pred>)
+   (<pred> -^interpretation)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name interpret-relation
+        ^relation <rel>
+        ^predicates <pred>)
+}
+
+sp {interpret-object*elaborate*relation-interpretation
+   (state <s> ^name interpret-object
+              ^interpretation <int>
+              ^primary-object-relation.predicates.interpretation.relation <pint>)
+-->
+   (<int> ^relation <pint>)
+} 
+
+sp {interpret-object*elaborate*done
+   (state <s> ^name interpret-object
+              ^predicates <pred>
+              ^interpretation <int>
+              ^primary-object-relation.predicates.interpretation <exists>)
+  -{(<s> ^primary-object-relation.predicates <pred2>)
+    (<pred2> -^interpretation)}
+-->
+   (<pred> ^interpretation <int>)
+}

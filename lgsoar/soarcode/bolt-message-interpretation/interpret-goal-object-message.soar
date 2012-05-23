@@ -14,7 +14,7 @@ sp {interpret-goal-object-message*propose*mark-goal-predicate
 sp {interpret-goal-object-message*apply*mark-goal-predicate
    (state <s> ^name interpret-goal-object-message
               ^operator.name mark-goal-predicate
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>)
    (<p> ^outer goal)
 -->
    (<s> ^goal-predicate <p>)
@@ -42,7 +42,7 @@ sp {interpret-goal-object-message*apply*collect-predicates
    (state <s> ^name interpret-goal-object-message
               ^operator.name collect-predicates
               ^object-predicates <op>
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>)
    (<p> -^ignored)
 -->
    (<op> ^predicate <p>)
@@ -62,7 +62,7 @@ sp {interpret-goal-object-message*propose*interpret-object
 
 sp {interpret-goal-object-message*elaborate*return-interpretation
    (state <s> ^name interpret-goal-object-message
-              ^all-predicates <p>
+              ^predicates <p>
               ^object-predicates.interpretation <oi>) # comes from interpret-object
 -->
    (<p> ^interpretation.goal-object-message <oi>)

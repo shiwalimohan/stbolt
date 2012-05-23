@@ -20,11 +20,24 @@ sp {interpret-object-question*apply*identify-question-word
    (state <s> ^name interpret-object-question
               ^operator.name identify-question-word
               ^interpretation <int>
-              ^all-predicates.predicate <pred>)
-   (<pred> ^outer {<< what which where >> <qword>})
+              ^predicates.predicate <pred>)
+   (<pred> ^outer {<< what which where >> <qword>}
+           ^inner1 <obj>)
 -->
    (<int> ^question-word <qword>)
-   (<s> ^exclude <pred>)
+   (<s> ^exclude <pred>
+        ^questioned-object <obj>)
+}
+
+# we will build our own PRIMARY_OBJECT predicate based on questioned-object
+# if this exists, it should be consistent, but we don't want two
+sp {interpret-object*apply*identify-question-word*inhibit-po
+   (state <s> ^name interpret-object-question
+              ^operator.name identify-question-word
+              ^predicates.predicate <p>)
+   (<p> ^outer PRIMARY_OBJECT)
+-->
+   (<s> ^exclude <p>)
 }
 
 sp {interpret-object-question*propose*collect-predicates
@@ -48,9 +61,26 @@ sp {interpret-object-question*apply*collect-predicates
               ^operator.name collect-predicates
               ^object-predicates <op>
              -^exclude <p>
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>)
 -->
    (<op> ^predicate <p>)
+}
+
+sp {interpret-object-question*apply*collect-predicates*primary
+   (state <s> ^name interpret-object-question
+              ^operator.name collect-predicates
+              ^questioned-object <ob>
+              ^object-predicates <op>)
+-->
+   (<op> ^predicate <pred>)
+   (<pred> ^outer PRIMARY_OBJECT
+           ^inner1 <ob>)
+}
+sp {interpret-object-question*apply*collect-predicates*done
+   (state <s> ^name interpret-object-question
+              ^operator.name collect-predicates
+              ^object-predicates <op>)
+-->
    (<s> ^predicates-collected true)
 }
 
@@ -67,7 +97,7 @@ sp {interpret-object-question*propose*interpret-object
 
 sp {interpret-object-question*elaborate*return-interpretation
    (state <s> ^name interpret-object-question
-              ^all-predicates <p>
+              ^predicates <p>
               ^interpretation <int>
               ^object-predicates.interpretation.object <oi>) # comes from interpret-object
 -->

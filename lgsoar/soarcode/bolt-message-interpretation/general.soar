@@ -1,39 +1,15 @@
 
-# role prepositions will cause redundant predicates
-# e.g.: color-of(N7,N4) color(N4) of(N4,N7)
-# ignore the last two
-
-sp {elaborate*ignore-redundant
-   (state <s> ^superstate nil
-              ^lgsoar-predicates <pred>)
-   (<pred> ^predicate <rp>
-           ^predicate <propp>
-           ^predicate <predp>)
-   (<rp> ^outer1 <property>
-         ^outer2 <preposition>
-         ^inner1 <i1>
-         ^inner2 <i2>)
-   (<propp> ^outer <property>
-            ^inner1 <i2>)
-   (<predp> ^outer <preposition>
-            ^inner1 <i2>
-            ^inner2 <i1>)
--->
-   (<propp> ^ignored true)
-   (<predp> ^ignored true)
-}
-
 # generally, interpretation subgoals terminate by adding an ^interpretation
 # structure to the ^predicates structure on their state, which is the
 # elaborated to the ^predicates structure on the interpretation operator
 
-sp {interpretation*elaborate*objects-to-substate
-   (state <s> ^superstate.operator <o>)
-   (<o> ^kind message-interpretation
-        ^objects <ob>)
--->
-   (<s> ^objects <ob>)
-}
+# sp {interpretation*elaborate*objects-to-substate
+#    (state <s> ^superstate.operator <o>)
+#    (<o> ^kind message-interpretation
+#         ^objects <ob>)
+# -->
+#    (<s> ^objects <ob>)
+# }
 
 sp {interpretation*elaborate*predicates
    (state <s> ^superstate.operator <o>)
@@ -47,7 +23,8 @@ sp {interpretation*elaborate*unignored-predicates
               ^predicates <p>)
    (<o> ^kind message-interpretation
         ^predicates.predicate <pred>)
-   (<pred> -^ignored)
+   (<pred> -^ignored
+           -^accounted-for)
 -->
    (<p> ^predicate <pred>)
 }
@@ -99,3 +76,31 @@ sp {interpretation*prefer*interpret-primitive
 -->
    (<s> ^operator <o1> > <o2>)
 }
+
+# determine linked sets of predicates
+# note that these are only 2d+ predicates, so plain properties won't be picked
+# up. This is usually desirable, since those should all be absorbed in
+# interpret-primitive-object, or are PRIMARY_OBJECT predicates that shouldn't 
+# be passed between levels
+sp {interpretation*elaborate*predicate-sets*object
+   (state <s> ^problem-space message-interpretation
+              ^predicates.predicate <pred>)
+   (<pred> ^<< inner1 inner2 inner3 >> <ob>)
+-->
+   (<s> ^object-info <obj>)
+   (<obj> ^id <ob>
+          ^associated <ob>)
+}
+
+sp {interpretation*elaborate*predicates*objects*association
+   (state <s> ^problem-space message-interpretation
+              ^predicates.predicate <pred>
+              ^object-info <oi>)
+   (<oi> ^associated <a>)
+   (<pred> ^<< inner1 inner2 inner3 >> <a>
+           ^<< inner1 inner2 inner3 >> {<> <a> <b>})
+-->
+   (<oi> ^associated <b>
+         ^linked-predicate <pred>)
+}
+
