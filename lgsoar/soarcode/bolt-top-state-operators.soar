@@ -54,7 +54,8 @@ sp {global*apply*processing-complete*save-predicates
 }
 
 sp {top-state*lgsoar-predicates*to-state
-   (state <s> ^io.input-link.lg.parsed-sentence <lgs>)
+   (state <s> ^superstate nil
+              ^io.input-link.lg.parsed-sentence <lgs>)
    (<lgs> ^final-predicates <fp>)
 -->
    (<s> ^lgsoar-predicates <fp>)
