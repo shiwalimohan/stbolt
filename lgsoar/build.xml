@@ -39,7 +39,6 @@
        deprecation="yes"
        source="1.5"
        target="1.5"
-			 includeantruntime="false"
        >
     </javac>
   </target>
