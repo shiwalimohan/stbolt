@@ -1,0 +1,236 @@
+#### propose explanation operator, when popping of the segment from the stack when the reason for popping is "completed action <new action>". because the agent is relying on instructor to determine when the action has successfully ended, it means that the operator application is unkown to the agent and should be learned
+
+### for coding purposes proposing explain operator at topstate; fix it such that it fires only at appropriate places
+
+### we are popping of the top of the stack now; note that the segment at the top of the current stack contains the operator that we are trying to learn. 
+
+sp {topstate*propose*explain*operator
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment <top>
+	      -^operator.name push-segment
+	      -^status.performed.learning-event explanation)
+   (<top> ^purpose <p>
+   	  ^next <next>)
+   (<p> ^type explanation)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name explain
+   	 ^segment <next>)
+}
+
+sp {elaborate*explain*dont-learn
+   (state <s> ^name explain)
+-->
+   (dont-learn <s>)
+}
+
+sp {elaborate*explain*query
+   (state <s> ^name explain
+   	      ^superstate.operator <op>)
+   (<op> ^name explain
+   	 ^segment <top>)
+-->
+   (<s> ^segment <top>)
+
+} 
+
+## in the explain operator, query episodic memory for the time when segment top was first seen on the top of the stack
+
+sp {explain*retrieve*episode*episodic*memory*2
+   (state <s> ^name explain
+   	      ^segment <seg>
+	      ^epmem.command <epcom>)
+   (<seg> ^epmem-id <id>)
+-->
+   (<epcom> ^retrieve <id>)
+} 
+
+### if the retrieval is successful; copy all the relevant material from the retrieved episode to this state
+
+sp {explain*copy*retrieved*episode*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^object <obj>)
+   -->
+   (<s> ^object <obj>)
+}
+
+sp {explain*copy*retrieved*episode*self
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^self <obj>)
+   -->
+   (<s> ^self <obj>)
+}
+
+### if an object is hypothetical, add it to the current state description
+sp {explain*elaborate*hypothetical*objects
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <map-op>)
+   (<map-op> ^<arg> <val>)
+   (<val> ^hypothetical true
+   	  ^o_type <o-type>)
+-->
+   (<s> ^<o-type> <val>)
+}
+
+### in the generated state; proposed the verb on the segment
+sp {explain*propose*segment-verb
+   (state <s> ^name explain
+   	      ^segment <seg>)
+   (<seg> ^purpose <p>)
+   (<p> ^indexed-operator <map-op>) 
+   (<map-op> ^name <name>)
+-->
+   (<s> ^operator <new-op> + >)
+   (<new-op> ^name <name>)
+}
+
+sp {explain*propose*segment-verb*elaborate
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <map-op>	
+	      ^operator <op> +
+	      ^<< object location >> <obj>)
+   (<op> ^name <name>)
+   (<map-op> ^name <name>
+   	     ^<arg> <val>)
+   (<val> ^id <id>)
+   (<obj> ^id <id>)
+   -->
+   (<op> ^<arg> <obj>)
+   (<obj> ^focus yes)
+}
+
+##### more generalized version of desired
+sp {new-operator*desired*generalized
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>)
+   (<sop> ^name <sname>
+   	  ^{<arg1> <> name} <val1>
+	  ^{<arg2> <> name} <val2>)
+   (<val2> ^o_type location)
+   (<val1> -^o_type location)
+-->
+   (<s> ^desired <d>)
+   (<d> ^in <in-p>)
+   (<in-p> ^object <val1>
+   	   ^location <val2>)
+}
+
+### --- reject operator if desired state is reached
+
+sp {new-operator*reject
+   (state <s> ^name <sname>
+   	      ^superstate <ss> 
+	      ^learning-operator <sname>
+	      ^desired <d>
+	      ^success <d>)
+   (<sop> ^name <sname>)
+   (<ss> ^name explain
+   	 ^operator <sop>)
+-->
+   (<ss> ^operator <sop>
+   	 ^successful-explanation <sname>)
+}
+
+
+### once successful explanation has been reached; pop the pupose; see resolve-stack in conversation-manager
+
+sp {explain*success
+   (state <s> ^name explain
+   	      ^successful-explanation <op-name>
+	      ^topstate.status <stat>)
+-->
+   (<stat> ^performed <p>)
+   (<p> ^learning-event explanation)
+}
+	      
+
+
+### temporary composite operator reject
+sp {composite*operator*elaborate*success
+   (state <s> ^name <sname>
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^category composite-action)
+   (<sop> ^name <sname>)
+   (<s> ^desired <d>
+   	^success <d>)
+-->
+   (<sop> ^success yes)
+}
+
+sp {composite*operator*success*write-to-superstate
+   (state <s> ^operator <op>)
+   (<op> ^category composite-action
+   	 ^success yes)
+-->
+   (<s> ^composite-success <op>)
+}
+
+sp {composite*operator*retract
+   (state <s> ^composite-success <op>
+   	      ^operator <op>
+	      ^indexed-operator <op>)
+-->
+   (<s> ^operator <op> -)
+}
+
+
+### get focus to work
+sp {composite*operator*elaborate*focus
+   (state <s> ^name <sname>
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^category composite-action
+   	  ^name <sname>
+   	  ^{<arg1> <> name} <val1>
+	  ^{<arg2> <> name} <val2>)
+   (<val2> ^o_type location)
+   (<val1> -^o_type location)
+ -->
+   (<val2> ^focus yes)
+   (<val1> ^focus yes)
+}
+
+
+##### hack to clean up objects after composite action has been executed
+sp {composite*action*cleanup*x
+   (state <s> ^topstate <s>
+   	      ^object <ob>
+	      ^operator <op>)
+   (<op> ^name pop-segment)
+   (<ob> ^pose <p>)
+   (<p> ^x <x>)
+   (<ob> ^x <nx> <> <x>)
+-->
+   (<ob> ^x <nx> -)
+}
+
+sp {composite*action*cleanup*y
+   (state <s> ^topstate <s>
+   	      ^object <ob>
+	      ^operator <op>)
+   (<op> ^name pop-segment)
+   (<ob> ^pose <p>)
+   (<p> ^y <x>)
+   (<ob> ^y <nx> <> <x>)
+-->
+   (<ob> ^y <nx> -)
+}
+
+sp {composite*action*cleanup*z
+   (state <s> ^topstate <s>
+   	      ^object <ob>
+	      ^operator <op>)
+   (<op> ^name pop-segment)
+   (<ob> ^pose <p>)
+   (<p> ^z <x>)
+   (<ob> ^z <nx> <> <x>)
+-->
+   (<ob> ^z <nx> -)
+}

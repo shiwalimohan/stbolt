@@ -31,19 +31,19 @@ popd
 pushd ./interaction
 source all_source.soar
 popd
-2
+
 pushd ./indexing
 source all_source.soar
 popd
 
 
-### source Aaron's object code from sbolt
-pushd /home/shiwali/BOLT/bolt-agents/sbolt_agent/verb-execution/objects/
+### source objects code
+pushd ./objects
 source objects_source.soar
 popd
 
-### source James's SVS code
-pushd /home/shiwali/BOLT/bolt-agents/sbolt_agent-svs/verb-execution/svs/
+### source spatial-rel code
+pushd ./svs
 source svs_source.soar
 popd
 

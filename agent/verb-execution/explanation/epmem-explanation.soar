@@ -1,0 +1,64 @@
+### propose explanation operator
+sp {topstate*propose*explain*operator
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment <top>
+	      -^operator.name push-segment)
+   (<top> ^purpose <p>
+   	  ^next <next>)
+   (<p> ^type explanation)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name explain
+   	 ^segment <next>)
+}
+
+sp {elaborate*explain*query
+   (state <s> ^name explain
+   	      ^superstate.operator <op>)
+   (<op> ^name explain
+   	 ^segment <top>)
+-->
+   (<s> ^segment <top>)
+}
+
+sp {explain*retrieve*episode*episodic*memory*2
+   (state <s> ^name explain
+   	      ^segment <seg>
+	      ^epmem.command <epcom>)
+   (<seg> ^epmem-id <id>)
+-->
+   (<epcom> ^retrieve <id>)
+} 
+
+### if the retrieval is successful; copy all the relevant material from the retrieved episode to this state
+
+sp {explain*copy*retrieved*episode*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^object <obj>)
+   -->
+   (<s> ^object <obj>)
+}
+
+sp {explain*copy*retrieved*episode*self
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^self <obj>)
+   -->
+   (<s> ^self <obj>)
+}
+
+### if an object is hypothetical, add it to the current state description
+sp {explain*elaborate*hypothetical*objects
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <map-op>)
+   (<map-op> ^{<arg> <> name} <val>)
+   (<val> ^hypothetical true
+   	  ^o_type <o-type>)
+-->
+   (<s> ^<o-type> <val>)
+}

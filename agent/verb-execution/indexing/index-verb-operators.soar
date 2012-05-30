@@ -1,0 +1,60 @@
+### using templates in semantic memory, map verbs to operators 
+
+
+### results in a mapped operator 
+sp {propose*map*verb
+   (state <s> ^interaction.stack.segment <top>)
+   (<top> ^originator instructor
+   	  ^purpose <p>)
+   (<p> ^type external-action
+   	^satisfaction <ps>)  
+   (<ps> ^action-event <info>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name index-verb
+   	 ^information <info>
+	 ^category indexing)
+}
+
+
+
+## assign the operator retrieved from semantic memory the highest preference
+#sp {apply*mapped*operator
+ #  (state <s> ^smem.result <sres>)
+  # (<sres> ^retrieved 
+
+
+
+#### 
+
+sp {elaborate*state*index-verb
+   (state <s> ^name index-verb
+   	      ^superstate.operator <sop>)
+   (<sop> ^name index-verb
+   	  ^information <info>)
+   -->
+   (<s> ^information <info>)
+}
+
+
+### create cue
+sp {propose*create*cue
+   (state <s> ^name index-verb
+   	      ^information <info>
+	      -^cue <cue>)
+-->
+  (<s> ^operator <op> +)
+  (<op> ^name create-cue
+  	^category indexing)
+}
+
+### lookup semantic memory
+sp {elaborate*lookup*semantic-memory
+   (state <s> ^name index-verb
+   	      ^cue <cue>
+	      ^smem.command <scom>)
+  -->
+   (<scom> ^query <cue>)
+}
+
+

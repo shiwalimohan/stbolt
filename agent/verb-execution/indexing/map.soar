@@ -1,0 +1,102 @@
+### using templates in semantic memory, map verbs to operators 
+
+
+### results in a mapped operator 
+sp {propose*map*verb
+   (state <s> ^interaction.stack.segment <top>)
+   (<top> ^originator instructor
+   	  ^purpose <p>)
+   (<p> ^type external-action
+   	^satisfaction <ps>
+	-^indexed-operator <map-op>)  
+   (<ps> ^action-event <info>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name index-verb
+   	 ^information <info>
+	 ^category indexing)
+}
+
+sp {elaborate*indexed-operator
+   (state <s> ^interaction.stack.segment.purpose.indexed-operator <map-op>)
+-->
+   (<s> ^indexed-operator <map-op>)
+}
+
+##### resolve verb arguments to objects in current perception or from semantic memory
+
+### prefer the mapped operator
+sp {elaborate*attribute*match
+   (state <s> ^indexed-operator <map-op> <> <op>
+   	      ^operator <op> +)
+   (<op> ^<attr> <val>
+   	 ^category << primitive-action composite-action >> )
+   (<map-op> ^<attr> <val>)
+-->
+   (<op> ^matched <attr>)
+}
+
+#### operator match is not complete untill all arguments are matched
+sp {elaborate*operator*match
+   (state <s> ^operator <op> + 
+   	      ^indexed-operator <map-op> <> <op>)
+   (<map-op> ^<attr> <val>)
+   (<op> -^matched <attr>
+   	 ^category << primitive-action composite-action >>)
+-->
+   (<op> ^op-matched no)
+   (<s> ^operator <op> -)
+}
+
+### if there exists an operator for which all attributes match, give it a better preference than other operators
+
+sp {prefer*match
+   (state <s> ^indexed-operator <map-op> <> <op>
+   	      ^operator <op> +
+	      ^interaction.stack.segment.purpose.satisfaction.action-event <info>
+	      ^topstate <s>)
+   (<op> -^op-matched no
+   	 ^category << primitive-action composite-action >>)
+   -->
+   (<s> ^operator <op> >)
+   (<op> ^information <info>)
+}
+
+sp {propose*indexed-operator*if*no-choices
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <map-op>
+   	 ^topstate <ss>
+	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
+ -->
+   (<ss> ^operator <map-op> +)
+   (<map-op> ^category composite-action
+   	     ^information <info>)
+}
+
+#### cleanup indexed-operator
+sp {remove-indexed-operator
+   (state <s> ^indexed-oreeperator <iop>
+   	      ^operator <op>)
+   (<op> ^category << primitive-action communication composite-action >>
+   	 ^success yes)
+ -->
+   (<s> ^indexed-operator <iop> -)
+}
+
+
+#### plug in to the interaction stack
+sp {write*primitive-action*status*topstate
+   (state <s> ^operator <op>
+   	      ^topstate.status <status>)
+   (<op> ^category << primitive-action composite-action >>
+   	 ^information <info>
+	 ^success yes)
+ -->
+   (<status> ^performed.action-event <info>)
+}
+
+
+
+

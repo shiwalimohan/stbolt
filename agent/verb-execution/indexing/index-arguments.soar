@@ -1,0 +1,69 @@
+### constraints on the objects selection are provided by the linguistic knowledge in the instruction and the objects in the verbs
+
+
+#### first try locating with working memory/input-link
+
+sp {elaborate*index-arguments
+   (state <s> ^name index-argument
+   	      ^superstate.operator <sop>)
+   (<sop> ^name index-argument
+   	  ^verb-cue <cue>
+	  ^connector <con>
+	  ^argument <obj>)
+-->
+  (<s> ^verb-cue <cue>
+       ^connector <con>
+       ^argument <obj>)
+}
+
+#### propose find object operator
+sp {propose*find*object*
+   (state <s> ^name index-argument
+   	      ^argument <arg>
+	      -^match <any>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name find-object
+	^category indexing)
+}
+
+### elaborate operator find-object with words from the cue
+sp {elaborate*find-object	   
+   (state <s> ^operator <op>
+   	      ^argument <arg>)
+   (<op> ^name find-object)
+   (<arg> ^word <word>) 
+-->
+   (<op> ^word <word>)
+}
+
+### copy the correct object if find-object is successful
+sp {copy*matched*object
+   (state <s> ^name index-argument
+   	      ^operator <op>) 
+   (<op> ^match <obj>
+   	 ^name find-object)
+ -->
+   (<s> ^match <obj>)
+}
+
+#### catch failure / interact with the instructor
+
+### write matched object to the superstate
+sp {write*matched*object*superstate
+   (state <s> ^name index-argument
+   	      ^match <obj>
+	      ^superstate <ss>
+	      ^verb-cue <cue>
+	      ^connector <con>
+	      ^superstate <ss>
+	      ^argument <arg>)
+-->
+  (<cue> ^<con> <obj>)
+  (<ss> ^matched <arg>
+  	^bit flip)
+}
+
+
+
+

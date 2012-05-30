@@ -1,0 +1,20 @@
+source initialize-linguistic-indexing.soar
+source preferences.soar
+
+#### map verbs to operators
+source map.soar
+source index-verb.soar
+source create-cue-verb.soar
+source generate-operator.soar
+
+
+### map arguments to objects/locations
+source create-cue-object.soar
+source index-arguments.soar
+#source find-object.soar
+source find-object-smem.soar
+
+
+pushd ./smem-operators
+source all_source.soar
+popd

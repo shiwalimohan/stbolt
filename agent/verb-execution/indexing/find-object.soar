@@ -1,0 +1,103 @@
+#### find object in the current perceptions
+
+sp {find-object*elaborate*state
+   (state <s> ^name find-object
+   	      ^superstate.operator <sop>)
+   (<sop> ^description <cue>)
+-->
+   (<s> ^descriptionr <cue>)
+}
+
+sp {find-object*match-name
+   (state <s> ^name find-object
+   	      ^description <cue>
+	      ^<< object location >> <obj>)
+   (<cue> ^name <oname>)
+   (<obj> ^name <oname>)
+-->
+   (<s> ^candidate <obj>)
+}
+
+sp {find-object*confirm*match
+   (state <s> ^name find-object
+   	      ^description <cue>
+	      ^candidate <obj>
+	      ^superstate <ss>)
+   (<cue> ^adjective <val>)
+   (<obj> -^<arg> <val>)
+-->
+   (<obj> ^matches no)
+}
+
+sp {mark*if*match
+   (state <s> ^name find-object
+   	      ^candidate <obj>)
+   (<obj> -^matches no)
+-->
+   (<s> ^match <obj>)
+}
+
+#### hack to delay removal of the state
+sp {write*if*match
+   (state <s> ^name find-object
+   	      ^match <obj>)
+-->
+   (<s> ^new <obj>)
+}
+
+sp {write*to*superstate*if*match
+   (state <s> ^name find-object
+   	      ^match <obj>
+	      ^new <obj>
+	      ^superstate <ss>)
+-->
+   (<ss> ^match <obj>)
+}
+
+sp {find-object*confirm*match*no-adjective
+   (state <s> ^name find-object
+   	      ^candidate <obj>
+	      ^description <cue>
+	      ^superstate <ss>)
+   (<cue> -^adjective <any>)
+-->
+   (<ss> ^match <obj>)
+}
+
+
+### if there is no object that can be matched from the current perceptions
+### look-up semantic memory
+
+sp {propose*look*up*semantic*memory
+   (state <s> ^name find-object
+   	      -^match <obj>
+	      ^description <cue>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name find-object-smem
+   	 ^description <cue>
+	 ^category indexing)
+}
+
+### clean up matches
+sp {clean-up*matches
+   (state <s> ^object <obj>
+   	      ^operator <op>)
+   (<obj> ^matches <m>)
+   (<op> ^name create-cue-argument)
+-->
+   (<obj> ^matches <m> -)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+   	  

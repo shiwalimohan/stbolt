@@ -1,0 +1,44 @@
+#### generates a grounded operator
+sp {elaborate*generate*operator
+   (state <s> ^name generate-operator
+   	      ^superstate.operator <sop>)
+   (<sop> ^procedural-id <pid>
+   	  ^linguistic-id <lid>
+	  ^cue <cue>)
+-->
+   (<s> ^procedural-id <pid>
+   	^linguistic-id <lid>
+	^cue <cue>)
+}
+
+sp {generate*operator*name
+   (state <s> ^name generate-operator
+   	      ^procedural-id <pid>)
+   (<pid> ^op_name <op-name>)
+-->
+   (<s> ^index-operator <op>)
+   (<op> ^name <op-name>)
+}
+
+sp {generate*operator*arguments
+   (state <s> ^name generate-operator
+   	      ^procedural-id <pid>
+	      ^linguistic-id <lid>
+	      ^cue <cue>
+	      ^index-operator <op>)
+   (<cue> ^<connect> <obj>)
+   (<lid> ^<connect> <lobj>)
+   (<pid> ^<arg> <lobj>)
+-->
+   (<op> ^<arg> <obj>)
+}
+
+sp {generate*operator*arguments*write-to-superstate
+   (state <s> ^name generate-operator
+   	      ^index-operator <op>
+	      ^superstate <ss>)
+   (<op> ^<> name <any>)
+-->
+   (<ss> ^indexed-operator <op>)
+}
+   
