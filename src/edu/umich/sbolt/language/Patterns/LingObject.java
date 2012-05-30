@@ -54,16 +54,21 @@ public class LingObject extends LinguisticEntity {
 	
 	@Override
 	public void translateToSoarSpeak(Identifier id, String connectingString) {
-		Identifier objectId = id.CreateIdWME(connectingString);
+		id.CreateStringWME("type", "object-message");
+	    id.CreateStringWME("originator", "instructor");
+	    Identifier fieldsId = id.CreateIdWME("information");
+		Identifier objectId = fieldsId.CreateIdWME("object");
 	    objectId.CreateStringWME("word", noun);
 		if (determiner != null){
-			objectId.CreateStringWME("determiner", determiner);
+			if(determiner.equals("the")){
+				determiner = "DEF";
+			}
+			objectId.CreateStringWME("specifier", determiner);
 		}
 		if (adjective != null){
-			String adj;
 			Iterator itr = adjective.iterator();
 			while (itr.hasNext()){
-				objectId.CreateStringWME("adjective", itr.next().toString());
+				objectId.CreateStringWME("word", itr.next().toString());
 			}
 		}
 	}
@@ -102,10 +107,16 @@ public class LingObject extends LinguisticEntity {
     
     @Override
     public String toString(){
+    	if(noun == null){
+    		noun = "object";
+    	}
+    	if(determiner == null){
+    		determiner = "";
+    	}
         String adjString = "";
         for(Iterator<String> i = adjective.iterator(); i.hasNext(); ){
             adjString += i.next() + " ";
         }        
-        return String.format("the %s%s", adjString, noun);
+        return String.format("%s %s%s", determiner, adjString, noun);
     }
 }

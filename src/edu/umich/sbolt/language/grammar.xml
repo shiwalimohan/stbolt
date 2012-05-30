@@ -9,6 +9,11 @@
 		</Pattern>	
 -->
 <Grammar>
+	<Pattern name="SimpleCommand">
+		<Regex>(VB\d*)</Regex>
+		<Tag>CMD</Tag>
+		<EntityType>SimpleCommand</EntityType>
+	</Pattern>
 	<Pattern name="LingObject">
 		<Regex>(DT\d* )?(JJ\d* )*(NN\d*)</Regex>
 		<Tag>OBJ</Tag>
