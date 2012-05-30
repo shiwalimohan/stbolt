@@ -8,7 +8,7 @@ sp {index-object*propose*lookup-smem*category
               ^label-query <lq>
               ^use-interaction <ask>)
    (<lq> -^category
-          ^word <word>)
+          ^word {<word> <> UNKNOWN})
 -->
    (<s> ^operator <o> + =)
    (<o> ^name lookup-smem

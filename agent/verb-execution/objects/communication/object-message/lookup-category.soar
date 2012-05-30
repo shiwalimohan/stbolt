@@ -4,7 +4,7 @@ sp {object-message*propose*lookup-smem*category
               ^object <obj>
               ^nounjective <nj>)
    (<nj> -^category
-          ^word <word>)
+          ^word {<word> <> UNKNOWN})
 -->
    (<s> ^operator <o> + =)
    (<o> ^name lookup-smem
