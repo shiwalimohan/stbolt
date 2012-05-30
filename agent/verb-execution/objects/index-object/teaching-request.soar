@@ -1,3 +1,8 @@
+# teaching-request
+# 	If use-interaction=true and no matches were found for the object, 
+#   ask the user for more information
+# The teaching interaction is finished with the single word 'cancel' or 'finished'
+
 sp {index-object*propose*teaching-request
    (state <s> ^name index-object
               ^index-object-context.use-interaction true
@@ -12,6 +17,7 @@ sp {index-object*propose*teaching-request
         ^object <obj>)
 }
 
+# Creates a teaching-request query 
 sp {index-object*apply*teaching-request*create*query
    (state <s> ^name index-object
               ^operator <o>
@@ -27,6 +33,7 @@ sp {index-object*apply*teaching-request*create*query
    (<desc> ^determiner a)
 }
 
+# Copies adjectives to the description
 sp {index-object*apply*teaching-request*copy*word
    (state <s> ^name index-object
               ^operator <o>
@@ -39,6 +46,7 @@ sp {index-object*apply*teaching-request*copy*word
    (<desc> ^adjective <word>)
 }
 
+# Copies the name to the description
 sp {index-object*apply*teaching-request*copy*name
    (state <s> ^name index-object
               ^operator <o>
@@ -51,6 +59,7 @@ sp {index-object*apply*teaching-request*copy*name
    (<desc> ^word <word>)
 }
 
+# If no names, then copies the word object as the name
 sp {index-object*apply*teaching-request*copy*name*object
    (state <s> ^name index-object
               ^operator <o>
@@ -61,7 +70,7 @@ sp {index-object*apply*teaching-request*copy*name*object
    (<desc> ^word object)
 }
 
-
+# Copies the query to the topstate
 sp {index-object*apply*teaching-request*copy*query
    (state <s> ^name index-object
               ^operator.name teaching-request
@@ -71,3 +80,4 @@ sp {index-object*apply*teaching-request*copy*query
 -->
    (<qs> ^query <q>)
 }
+

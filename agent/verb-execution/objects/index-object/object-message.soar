@@ -1,3 +1,8 @@
+# After the user has asked a which-question, these rules handle possible responses from the user
+#   object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
+#   object-message with DEF specifier: add words to the object's description
+
+
 # Results when answered with an object-message with a 'this' used
 sp {object-message*apply*complete-object-message*resolve*which-question
    (state <s> ^name object-message
@@ -8,7 +13,7 @@ sp {object-message*apply*complete-object-message*resolve*which-question
         ^active true
         ^object <query-obj>)
 -->
-   (<query-obj> ^match <obj>)
+   (<query-obj> ^candidate <obj>)
 }
 
 sp {object-message*apply*complete-object-message*which-question*remove*query

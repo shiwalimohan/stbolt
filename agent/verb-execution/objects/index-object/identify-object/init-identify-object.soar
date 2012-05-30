@@ -1,4 +1,5 @@
-# init-identify-object
+# init-identify-operator
+#   Creates the object-matches structure that will eventally be returned
 sp {identify-object*propose*init-identify-object
    (state <s> ^name identify-object
              -^object-matches)

@@ -1,11 +1,11 @@
+# elaborations.soar
+# Elaborations used to construct the index-object substate including:
+#   Creating a label-query for each object.property
+# 	Copying parameter values (or creating default values if missing)
+#	Modifying the final-matches structure with the result of the index-object
 
-sp {index-object*elaborate*final-matches
-   (state <s> ^name index-object)
--->
-   (<s> ^final-matches <fm>)
-}
-
-# Elaborations for copying parameters from the top state
+# For each property of an object, create a label-query structure to 
+# look up the label for that word
 
 sp {index-object*elaborate*label-query
    (state <s> ^name index-object
@@ -15,6 +15,8 @@ sp {index-object*elaborate*label-query
 -->
    (<s> ^label-query.word <word>)
 }
+
+# Elaborations for copying parameters from the top state
 
 sp {index-object*elaborate*boolean*parameter*copy
    (state <s> ^name index-object
@@ -45,7 +47,14 @@ sp {index-object*elaborate*return-all*default
    (<s> ^return-all false)
 }
 
-# Added to the final-matches WME when there are no relations
+# final-matches structure on the substate
+sp {index-object*elaborate*final-matches
+   (state <s> ^name index-object)
+-->
+   (<s> ^final-matches <fm>)
+}
+
+# Object only - Mark the object as the one to use for final-matches
 sp {index-object*elaborate*final-matches*object
    (state <s> ^name index-object
               ^final-matches <fm>
@@ -56,7 +65,18 @@ sp {index-object*elaborate*final-matches*object
    (<fm> ^object <obj>)
 }
 
+# Object only - Copy the match from the identify-object 
+sp {index-object*elaborate*final-match*no-relation
+   (state <s> ^name index-object
+              ^final-matches <fm>
+              ^object-matches.match {<m> <> failure}
+             -^index-object-context.relation)
+-->
+   (<fm> ^match <m>)
+}
 
+# If one of the identify-object queries resulted in failure, and
+#   use-interaction is false, then the result is a failure
 sp {index-object*elaborate*match*failure*use-interaction*false
    (state <s> ^name index-object
               ^final-matches <fm>
@@ -67,6 +87,8 @@ sp {index-object*elaborate*match*failure*use-interaction*false
    (<fm> ^match failure)
 }
 
+# If one of the identify-object queries resulted in failure, and
+#	no-teaching has been set on that object, then the result is failure
 sp {index-object*elaborate*match*failure*no-teaching
    (state <s> ^name index-object
               ^final-matches <fm>
@@ -75,13 +97,4 @@ sp {index-object*elaborate*match*failure*no-teaching
                ^object.no-teaching)
 -->
    (<fm> ^match failure)
-}
-
-sp {index-object*elaborate*final-match*no-relation
-   (state <s> ^name index-object
-              ^final-matches <fm>
-              ^object-matches.match {<m> <> failure}
-             -^index-object-context.relation)
--->
-   (<fm> ^match <m>)
 }

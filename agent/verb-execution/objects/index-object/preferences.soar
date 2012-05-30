@@ -1,3 +1,9 @@
+# preferences
+# Ensure the following operator ordering:
+#   index-object-failure > all others
+#   identify-object > teaching-request
+#   all others > complete-index-object
+
 sp {index-object*prefer*identify-object*over*teaching-request
    (state <s> ^name index-object
               ^operator <o1> +

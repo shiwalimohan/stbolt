@@ -17,6 +17,7 @@ sp {apply*pop-segment*create*instructor-purpose*single-word-response*learn-word2
    (<sat> ^learning-event word2cat)
 }
 
+# The teaching-request is finished with either the word 'finished' or 'cancel'
 sp {apply*pop-segment*single-word-response*teaching-request*finished
    (state <s> ^topstate <s> 
               ^operator.name pop-segment

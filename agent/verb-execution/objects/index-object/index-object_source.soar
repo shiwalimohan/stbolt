@@ -1,114 +1,91 @@
-source init-index-object.soar
+# Usage of index-object:
 
-source elaborations.soar
+# Indexing a single object
+# 	(<s> ^operator <o>)
+# 	(<o> ^name index-object
+#	   	 ^object <obj>
+#	     ^<parameter> <value>)
+# 	(<obj> ^word <word1>
+#		   ^word <word2>)
+   
+# Example: Find all the large red objects
+#	(<s> ^operator <o>)
+#	(<o> ^name index-object
+#     	 ^return-all true
+#     	 ^object <obj>)
+#	(<obj> ^word large
+#          ^word red)
+   
+# Parameters:
+#   ^use-interaction << true false >> 
+#			If true, then if the agent needs to resolve uncertaintly it will initiate interaction with the user
+#			If false, then if the agent can't resolve the uncertainty it will return failure
+#			[Default = false]
+#	^allow-ties << true false >>
+#			If true, then if there are multiple matches then an operator-tie will occur and the agent will ask a which-question
+#			If false, then a match will randomly be selected and returned
+#			[Default = false]
+#	^return-all << true false >>
+#			If true, then all possible matches will be returned
+#   		[Default = false]
+
+
+source init-index-object.soar
+# init-index-object
+# This operator sets up the index-object substate including:
+#	Restoring an existing index-object-context or creating a new one
 
 source lookup-category.soar
+# For each object.property, look up the category for the word
+# Copies the category result onto the object and the label-query
 
 source lookup-label.soar
+# For each category/word pair, look up the internal label for that concept
+# Copies the result to the object and causes the label-query to be removed
 
 pushd identify-object
 source identify-object_source.soar
 popd
+# Once all the labels are found for an object, identify-object is used to
+# find matches from the visual system for that description and return them all
+# If no matches are found it returns ^match failure
+# The result is to create an object-matches structure on the state
+#	^object-matches <om>
+#		^object <obj>   <- object on the context used for the query
+#		^match          <- object on the topstate which is retrieved (or failure)
 
 source teaching-request.soar
-
-source preferences.soar
+# teaching-request
+# 	If use-interaction=true and no matches were found for the object, 
+#   ask the user for more information
+# The teaching interaction is finished with the single word 'cancel' or 'finished'
 
 source complete-index-object.soar
+# complete-index-object 
+# 	This operator returns the result of the index-object onto the superstate operator
+# index-object-failure
+#   This operator returns ^match failure as the result onto the superstate operator
 
 source op-tie*complete-index-object.soar
+# op-tie*complete-index-object
+#   If allow-ties=true, then if there are multiple matches then the complete-index-object operators will tie
+#	Then in the substate a query asking 'which' will be asked
 
 source object-message.soar
+# After the user has asked a which-question, these rules handle possible responses from the user
+#   object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
+#   object-message with DEF specifier: add words to the object's description
 
-sp {propose*push-index-object-test
-   (state <s> ^topstate <s>
-              ^instructor-message <msg>)
-   (<msg> ^type single-word-response
-          ^information.response index)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name push-index-object-test
-        ^category communication)
-}
+source elaborations.soar
+# elaborations.soar
+# Elaborations used to construct the index-object substate including:
+#   Creating a label-query for each object.property
+# 	Copying parameter values (or creating default values if missing)
+#	Modifying the final-matches structure with the result of the index-object
 
-sp {apply*push-index-object-test
-   (state <s> ^operator.name push-index-object-test
-              ^instructor-message <msg>)
--->
-   (<msg> ^purpose <p>)
-   (<p> ^type index-test
-        ^satisfaction <sat>)
-   (<sat> ^testing-event index-object)
-}
-
-sp {perform*index-object*test
-   (state <s> ^topstate <s>
-             -^instructor-message <msg>
-              ^interaction.stack.segment.purpose.type index-test)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name index-object
-        ^category indexing
-        ^object <obj1>
-        ^use-interaction true
-        ^allow-ties false
-        ^return-all false)
-   (<obj1> ^word red )
-}
-
-sp {finish*index-object*test
-   (state <s> ^topstate <s>
-             -^instructor-message <msg>
-              ^interaction.stack.segment.purpose.type index-test
-              ^operator <op>
-              ^status <status>)
-   (<op> ^name index-object
-         ^match <m>)
--->
-   (<status> ^performed.testing-event index-object)
-}
-
-sp {finish*index-object*test*print*match*failure
-   (state <s> ^topstate <s>
-             -^instructor-message <msg>
-              ^interaction.stack.segment.purpose.type index-test
-              ^operator <op>)
-   (<op> ^name index-object
-         ^match failure)
--->
-   (write |No Match|)
-}
-
-sp {finish*index-object*test*print*match*success
-   (state <s> ^topstate <s>
-             -^instructor-message <msg>
-              ^interaction.stack.segment.purpose.type index-test
-              ^operator <op>)
-   (<op> ^name index-object
-         ^match {<m> <> failure})
-   (<m> ^id <id>)
--->
-   (write (concat |Object Match: | <id>))
-}
-
-sp {propose*index-object*wait
-   (state <s> ^name index-object
-              ^index-object-context <context>)
-   -{(<s> ^operator <o>)
-     (<o> ^name index-object-wait)}
--->
-   (<s> ^operator <op> +)
-   (<op> ^name index-object-wait
-         ^category indexing)
-}
-
-sp {prefer*over*over*index-object-wait
-   (state <s> ^name index-object
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name <> index-object-wait
-         ^category indexing)
-   (<o2> ^name index-object-wait)
--->
-   (<s> ^operator <o1> > <o2>)
-}
+source preferences.soar
+# preferences
+# Ensure the following operator ordering:
+#   index-object-failure > all others
+#   identify-object > teaching-request
+#   all others > complete-index-object

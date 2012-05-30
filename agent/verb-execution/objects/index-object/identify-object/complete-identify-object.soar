@@ -1,4 +1,5 @@
-# complete-identify-object: copies the object-matches state to the superstate
+# complete-identify-object
+#   Copies the object-matches structure onto the topstate
 sp {identify-object*propose*complete-identify-object
    (state <s> ^name identify-object)
 -->

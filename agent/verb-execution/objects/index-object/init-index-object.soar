@@ -1,3 +1,7 @@
+# init-index-object
+# This operator sets up the index-object substate including:
+#	Restoring an existing index-object-context or creating a new one
+
 sp {index-object*propose*init-index-object
    (state <s> ^name index-object
              -^index-object-context)
@@ -7,6 +11,8 @@ sp {index-object*propose*init-index-object
         ^category indexing)
 }
 
+
+# index-object-context: If there is an existing one on the topstate then copy it
 sp {index-object*apply*init-index-object*existing*context
    (state <s> ^name index-object
               ^operator <o>
@@ -19,6 +25,7 @@ sp {index-object*apply*init-index-object*existing*context
    (<s> ^index-object-context <context>)
 }
 
+# If for some reason the segment associated with an index-object-context is popped, remove the context
 sp {pop-segment*remove*index-object-context
    (state <s> ^superstate <s>
               ^operator.name pop-segment

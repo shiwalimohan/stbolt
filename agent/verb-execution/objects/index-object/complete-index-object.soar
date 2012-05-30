@@ -1,3 +1,9 @@
+# complete-index-object 
+# 	This operator returns the result of the index-object onto the superstate operator
+# index-object-failure
+#   This operator returns ^match failure as the result onto the superstate operator
+
+# Mark the operator as finished
 sp {complete*index-object*mark-finished
    (state <s> ^name index-object
               ^operator.name << index-object-failure complete-index-object >>
@@ -6,6 +12,7 @@ sp {complete*index-object*mark-finished
    (<ss-op> ^finished true)
 }
 
+# Removes the context from the topstate when the operator finishes
 sp {complete*index-object*destroy-context
    (state <s> ^operator <o>
               ^topstate <top>)
@@ -16,7 +23,8 @@ sp {complete*index-object*destroy-context
    (<top> ^index-object-context <context> -)
 }
 
-# As soon as we know that the index will fail, we mark it on the superstate operator
+# index-object-failure
+#  As soon as we know that the index will fail, we mark it on the superstate operator
 sp {index-object*propose*index-object-failure
    (state <s> ^name index-object
               ^final-matches.match failure)
@@ -34,7 +42,8 @@ sp {index-object*apply*index-object-failure
    (<ss-op> ^match failure)
 }
 
-# complete-index-object: copy matches to the superstate operator
+# complete-index-object
+#  copy matches to the superstate operator
 sp {index-object*propose*complete-index-object
    (state <s> ^name index-object
               ^final-matches.match {<m> <> failure})
@@ -45,6 +54,7 @@ sp {index-object*propose*complete-index-object
         ^match <m>)
 }
 
+# If allow-ties=false, then just one of the matches will randomly be returned
 sp {index-object*elaborate*complete-index-object*allow-ties*false
    (state <s> ^name index-object
               ^allow-ties false
@@ -54,6 +64,7 @@ sp {index-object*elaborate*complete-index-object*allow-ties*false
    (<s> ^operator <o> =)
 }
 
+# If return-all=true, then all the matches will be returned
 sp {index-object*elaborate*complete-index-object*return-all*true
    (state <s> ^name index-object
               ^return-all true
@@ -64,6 +75,7 @@ sp {index-object*elaborate*complete-index-object*return-all*true
    (<o> ^match <m>)
 }
 
+# Copies all matches
 sp {index-object*apply*complete-index-object*copy-match
    (state <s> ^name index-object
               ^superstate.operator <ss-op>

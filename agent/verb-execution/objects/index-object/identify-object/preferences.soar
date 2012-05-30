@@ -1,3 +1,5 @@
+# preferences
+# Make sure complete-identify-object has the lowest preference
 sp {identify-object*prefer*all*over*complete-identify-object
    (state <s> ^name identify-object
               ^operator <o1> +

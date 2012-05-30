@@ -1,3 +1,6 @@
+# For each object.property, look up the category for the word
+# Copies the category result onto the object and the label-query
+
 # Fetch the category for the given word from memory
 sp {index-object*propose*lookup-smem*category
    (state <s> ^name index-object
@@ -45,7 +48,7 @@ sp {index-object*apply*lookup-smem*success*copy*result*object
    (<prop> ^category <result>)
 }
 
-# Failed Retrieval and wont ask user
+# Failed Retrieval and wont ask user, remove the property from the object
 sp {index-object*apply*lookup-smem*category*failure*remove*property
    (state <s> ^name index-object
               ^operator <o>
