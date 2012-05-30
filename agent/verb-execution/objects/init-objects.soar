@@ -39,24 +39,24 @@ sp {apply*init-agent*store*smem*word2cat
    (<c4> ^type word2cat ^word name ^category category)
 
    # Color
-#   (<v11> ^type word2cat ^word red ^category color)
-#   (<v12> ^type word2cat ^word orange ^category color)
-#   (<v13> ^type word2cat ^word yellow ^category color)
-#   (<v14> ^type word2cat ^word green ^category color)
-#   (<v15> ^type word2cat ^word blue ^category color)
-#   (<v16> ^type word2cat ^word purple ^category color)
+   (<v11> ^type word2cat ^word red ^category color)
+   (<v12> ^type word2cat ^word orange ^category color)
+   (<v13> ^type word2cat ^word yellow ^category color)
+   (<v14> ^type word2cat ^word green ^category color)
+   (<v15> ^type word2cat ^word blue ^category color)
+   (<v16> ^type word2cat ^word purple ^category color)
    
    # Shape
-#	(<v21> ^type word2cat ^word rectangle ^category shape)
-#	(<v22> ^type word2cat ^word triangle ^category shape)
-#	(<v23> ^type word2cat ^word cylinder ^category shape)
-#	(<v24> ^type word2cat ^word l-block ^category shape)
-#	(<v25> ^type word2cat ^word t-block ^category shape)
-#	(<v26> ^type word2cat ^word half-cylinder ^category shape)
-#	(<v27> ^type word2cat ^word arch ^category shape)
-#	(<v28> ^type word2cat ^word square ^category shape)
-#	(<v29> ^type word2cat ^word doughnut ^category shape)
-#    (<v30> ^type word2cat ^word sphere ^category shape)
+	(<v21> ^type word2cat ^word rectangle ^category shape)
+	(<v22> ^type word2cat ^word triangle ^category shape)
+	(<v23> ^type word2cat ^word cylinder ^category shape)
+	(<v24> ^type word2cat ^word l-block ^category shape)
+	(<v25> ^type word2cat ^word t-block ^category shape)
+	(<v26> ^type word2cat ^word half-cylinder ^category shape)
+	(<v27> ^type word2cat ^word arch ^category shape)
+	(<v28> ^type word2cat ^word square ^category shape)
+	(<v29> ^type word2cat ^word doughnut ^category shape)
+    (<v30> ^type word2cat ^word sphere ^category shape)
  
  	# Size
 #	(<v31> ^type word2cat ^word small ^category size)
@@ -65,7 +65,6 @@ sp {apply*init-agent*store*smem*word2cat
  
  	# Name
 	(<v41> ^type word2cat ^word block ^category name)
-	(<v42> ^type word2cat ^word cylinder ^category name)
 	(<v43> ^type word2cat ^word ball ^category name)
 	(<v44> ^type word2cat ^word object ^category name)
 	(<v45> ^type word2cat ^word stove ^category name)

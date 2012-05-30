@@ -2,7 +2,7 @@ sp {propose*push-object-message
    (state <s> ^topstate <s>
               ^instructor-message <msg>)
    (<msg> ^type object-message
-          ^information.object.specifier this )
+          ^information.object.specifier this)
 -->
    (<s> ^operator <o> +)
    (<o> ^name push-object-message

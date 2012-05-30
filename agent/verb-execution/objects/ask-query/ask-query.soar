@@ -39,4 +39,5 @@ sp {apply*ask-query*create-status
    (<msg> ^type <type>
           ^originator agent
           ^fields <f>)
+   (<q> ^active true)
 }

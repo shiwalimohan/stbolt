@@ -1,0 +1,9 @@
+source propose*identify-object.soar
+
+source preferences.soar
+
+source init-identify-object.soar
+
+source object-match.soar
+
+source complete-identify-object.soar

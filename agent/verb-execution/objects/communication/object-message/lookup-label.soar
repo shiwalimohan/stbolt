@@ -51,7 +51,7 @@ sp {object-message*apply*lookup-smem*label*name*object
    (<o> ^name lookup-smem
         ^lookup-type label
         ^query.category name
-        ^query.word <word>
+        ^query.word {<word> <> object <> one}
         ^result {<label> <> failure})
    (<obj> ^property <prop>)
    (<prop> ^name name)

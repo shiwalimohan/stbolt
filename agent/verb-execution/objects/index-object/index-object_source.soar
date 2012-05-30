@@ -1,0 +1,114 @@
+source init-index-object.soar
+
+source elaborations.soar
+
+source lookup-category.soar
+
+source lookup-label.soar
+
+pushd identify-object
+source identify-object_source.soar
+popd
+
+source teaching-request.soar
+
+source preferences.soar
+
+source complete-index-object.soar
+
+source op-tie*complete-index-object.soar
+
+source object-message.soar
+
+sp {propose*push-index-object-test
+   (state <s> ^topstate <s>
+              ^instructor-message <msg>)
+   (<msg> ^type single-word-response
+          ^information.response index)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name push-index-object-test
+        ^category communication)
+}
+
+sp {apply*push-index-object-test
+   (state <s> ^operator.name push-index-object-test
+              ^instructor-message <msg>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type index-test
+        ^satisfaction <sat>)
+   (<sat> ^testing-event index-object)
+}
+
+sp {perform*index-object*test
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment.purpose.type index-test)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name index-object
+        ^category indexing
+        ^object <obj1>
+        ^use-interaction true
+        ^allow-ties false
+        ^return-all false)
+   (<obj1> ^word red )
+}
+
+sp {finish*index-object*test
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment.purpose.type index-test
+              ^operator <op>
+              ^status <status>)
+   (<op> ^name index-object
+         ^match <m>)
+-->
+   (<status> ^performed.testing-event index-object)
+}
+
+sp {finish*index-object*test*print*match*failure
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment.purpose.type index-test
+              ^operator <op>)
+   (<op> ^name index-object
+         ^match failure)
+-->
+   (write |No Match|)
+}
+
+sp {finish*index-object*test*print*match*success
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment.purpose.type index-test
+              ^operator <op>)
+   (<op> ^name index-object
+         ^match {<m> <> failure})
+   (<m> ^id <id>)
+-->
+   (write (concat |Object Match: | <id>))
+}
+
+sp {propose*index-object*wait
+   (state <s> ^name index-object
+              ^index-object-context <context>)
+   -{(<s> ^operator <o>)
+     (<o> ^name index-object-wait)}
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name index-object-wait
+         ^category indexing)
+}
+
+sp {prefer*over*over*index-object-wait
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name <> index-object-wait
+         ^category indexing)
+   (<o2> ^name index-object-wait)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

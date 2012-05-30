@@ -3,7 +3,7 @@ package edu.umich.sbolt.language;
 import edu.umich.sbolt.language.Patterns.*;
 
 public class EntityFactory
-{
+{	
     public static LinguisticEntity createEntity(String entityType){
         if(entityType.equals(GoalInfo.TYPE)){
             return new GoalInfo();
@@ -31,6 +31,8 @@ public class EntityFactory
         	return new PropertyRequest();
         } else if(entityType.equals(CountRequest.TYPE)){
         	return new CountRequest();
+        } else if(entityType.equals(SimpleCommand.TYPE)){
+        	return new SimpleCommand();
         } else {
             return null;
         }
