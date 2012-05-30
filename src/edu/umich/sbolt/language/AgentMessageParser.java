@@ -28,6 +28,8 @@ public class AgentMessageParser
             message = translateDescription(fieldsId);
         } else if(type.equals("dont-know")){
         	message = "I don't know";
+        } else if(type.equals("no-prep")){
+            message = "I don't know that preposition. Please give an example:";
         } else if(type.equals("single-word")){
         	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
         } else if(type.equals("no-object")){
@@ -109,7 +111,7 @@ public class AgentMessageParser
     	//kind of a hack :(
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "object");
     	if (objectId == null)
-    		return "nothing\n";
+    		return "nothing";
     	
         return LingObject.createFromSoarSpeak(id, "object").toString();
     }
