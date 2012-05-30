@@ -20,7 +20,7 @@ sp {interpret-verb-command*apply*collect-predicates
    (state <s> ^name interpret-verb-command
               ^operator.name collect-predicates
               ^verb-predicates <op>
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>)
 -->
    (<op> ^predicate <p>)
    (<s> ^predicates-collected true)
@@ -39,7 +39,7 @@ sp {interpret-verb-command*propose*interpret-verb
 
 sp {interpret-verb-command*elaborate*return-interpretation
    (state <s> ^name interpret-verb-command
-              ^all-predicates <p>
+              ^predicates <p>
               ^verb-predicates.interpretation <oi>) # comes from interpret-verb
 -->
    (<p> ^interpretation.verb-command.verb <oi>)

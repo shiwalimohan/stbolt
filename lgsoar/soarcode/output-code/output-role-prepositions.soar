@@ -1,4 +1,5 @@
 # role preposition structures added for BOLT
+# ONLY for "of" for now..
 
 # "The color of the block is red"
 # DEF(N2)
@@ -15,21 +16,21 @@ sp {global*apply*generate-predicates*role-preposition
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
    (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval>)
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^preposition-lex <pl2> ^<pl2> <prep>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^preposition-lex {of <pl2>} ^<pl2> <prep>)
 -->
    (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer1 <nuc2val>
            ^outer2 <pl2>
-           ^inner1 <pobjval>
-           ^inner2 <prep>)
+           ^inner2 <pobjval>
+           ^inner1 <prep>)
 }
 
 sp {global*apply*generate-predicates*role-preposition*copula*ext
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
    (<idea> ^ext <ext> ^nuc <nucval> ^annotation copula) 
-   (<ext> ^nuc <thisnucval> ^preposition-lex <pl> ^<pl> <prep>)
+   (<ext> ^nuc <thisnucval> ^preposition-lex {of <pl>} ^<pl> <prep>)
 -->
    (<ext> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
@@ -43,7 +44,7 @@ sp {global*apply*generate-predicates*role-preposition*copula*int
    (state <s> ^model.idea <idea> ^final-predicates <fp> 
               ^operator.name generate-predicates) 
    (<idea> ^int <int> ^ext <ext> ^nuc <nucval> ^annotation copula) 
-   (<int> ^nuc <thisnucval> ^preposition-lex <pl> ^<pl> <prep>)
+   (<int> ^nuc <thisnucval> ^preposition-lex {of <pl>} ^<pl> <prep>)
 -->
    (<int> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)

@@ -27,6 +27,31 @@ sp {postprocess-sentence*apply*finish-postprocessing
    (<pred> ^postprocessed true)
 }
 
+sp {postprocess-sentence*propose*remove-filler
+   (state <s> ^name postprocess-sentence
+              ^map.word <wd>
+              ^predicates.predicate <pred>)
+   (<wd> ^is-filler true
+         ^parser-wvalue <wv>)
+   (<pred> ^<< outer outer1 outer2 inner1 inner2 inner3 >> <wv>)
+-->
+   (<s> ^operator <o> + > =) # allow multiple filler removals with one application
+   (<o> ^name remove-filler)
+}
+
+sp {postprocess-sentence*apply*remove-filler
+   (state <s> ^name postprocess-sentence
+              ^operator.name remove-filler
+              ^map.word <wd>
+              ^predicates <ps>)
+   (<ps> ^predicate <pred>)
+   (<wd> ^is-filler true
+         ^parser-wvalue <wv>)
+   (<pred> ^<< outer outer1 outer2 inner1 inner2 inner3 >> <wv>)
+-->
+   (<ps> ^predicate <pred> -)
+}
+
 sp {postprocess-sentence*elaborate*report-unmap
    (state <s> ^name postprocess-sentence
               ^map.word <wd>)

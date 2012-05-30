@@ -1,7 +1,4 @@
 
-# test sentence: What is the color of this?
-# PASSED: DEF(N2) color(N2) of(N2,N5) this(N5) what(N2)
-
 sp {interpret-relation-question*elaborate*init
    (state <s> ^name interpret-relation-question)
 -->
@@ -20,15 +17,17 @@ sp {interpret-relation-question*apply*identify-question-word
    (state <s> ^name interpret-relation-question
               ^operator.name identify-question-word
               ^interpretation <int>
-              ^all-predicates.predicate <pred>
-              ^all-predicates.predicate <pred2>)
+              ^predicates.predicate <pred>
+              ^predicates.predicate <pred2>)
    (<pred> ^outer {<< what which >> <qword>}
-           ^inner1 <prop-questioned>)
-   (<pred2> ^inner1 <prop-questioned>
-            ^inner2 <any>) # verify the thing being asked about is in the relation
+           ^inner1 <qo>)
+   (<pred2> ^<< inner1 inner2 >> <qo>
+            ^inner2 <any>) 
 -->
    (<int> ^question-word <qword>)
-   (<s> ^question-pred <pred>)
+   (<s> ^question-predicate <pred>)
+   (<s> ^question-relation-predicate <pred2>)
+   (<s> ^question-object <qo>)
 }
 
 sp {interpret-relation-question*propose*collect-predicates
@@ -50,41 +49,38 @@ sp {interpret-relation-question*apply*collect-predicates*root
 sp {interpret-relation-question*apply*collect-predicates
    (state <s> ^name interpret-relation-question
               ^operator.name collect-predicates
-              ^relation-predicates <op>
-             -^question-pred <p>
-              ^all-predicates.predicate <p>)
+              ^predicates.predicate <p>
+              -^question-relation-predicate <p>
+              -^question-predicate <p>
+              ^relation-predicates <op>)
 -->
    (<op> ^predicate <p>)
-   (<s> ^predicates-collected true)
 }
 
-sp {interpret-relation-question*apply*collect-predicates*question-pred
+sp {interpret-relation-question*apply*collect-predicates*done
    (state <s> ^name interpret-relation-question
               ^operator.name collect-predicates
-              ^relation-predicates <op>
-              ^question-pred <p>)
-   (<p> ^inner1 <in1>)
+              ^relation-predicates <op>)
 -->
-   (<op> ^predicate <p1>)
-   (<p1> ^outer UNKNOWN
-         ^inner1 <in1>)
    (<s> ^predicates-collected true)
 }
 
 sp {interpret-relation-question*propose*interpret-relation
    (state <s> ^name interpret-relation-question
               ^relation-predicates <p>
+              ^question-relation-predicate <pd>
               ^predicates-collected
              -^relation-interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-relation
-        ^predicates <p>)
+        ^predicates <p>
+        ^relation <pd>)
 }
 
 sp {interpret-relation-question*elaborate*return-interpretation
    (state <s> ^name interpret-relation-question
-              ^all-predicates <p>
+              ^predicates <p>
               ^interpretation <int>
               ^relation-predicates.interpretation.relation <oi>) # comes from interpret-relation
 -->
