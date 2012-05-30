@@ -65,7 +65,6 @@ sp {apply*init-agent*store*smem*word2cat
  
  	# Name
 	(<v41> ^type word2cat ^word block ^category name)
-	(<v42> ^type word2cat ^word cylinder ^category name)
 	(<v43> ^type word2cat ^word ball ^category name)
 	(<v44> ^type word2cat ^word object ^category name)
 	(<v45> ^type word2cat ^word stove ^category name)
@@ -81,12 +80,13 @@ sp {apply*init-agent*store*smem*label-map
               ^operator.name init-agent
               ^smem.command <cmd>)
 -->
-   (<cmd> ^store <v1> <v2> <v3> <v4> <v5> <v6>)
-#   (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
-#   (<v2> ^type label-map ^word green ^category color ^label color-green)
-#   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
-#   (<v5> ^type label-map ^word red ^category color ^label color-red)
-#   (<v6> ^type label-map ^word yellow ^category color ^label color-yellow)
-#   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
+   (<cmd> ^store <v1> <v2> <v3> <v4> <v5> <v6> <v7>)
+   (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
+   (<v2> ^type label-map ^word green ^category color ^label color-green)
+   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
+   (<v5> ^type label-map ^word red ^category color ^label color-red)
+   (<v6> ^type label-map ^word yellow ^category color ^label color-yellow)
+   (<v7> ^type label-map ^word rectangle ^category shape ^label shape-rectangle)
+   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
 }
    
