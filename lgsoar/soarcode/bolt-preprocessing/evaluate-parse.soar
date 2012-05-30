@@ -62,8 +62,10 @@ sp {evaluate-parse*apply*approve
 sp {evaluate-parse*propose*reparse-as-noun-phrase
    (state <s> ^name evaluate-parse
               ^minimal-acceptable-parse <parse>)
-   (<parse> ^words.word.wcount <wc>
+   (<parse> ^words.word <wd>
            -^links.link.<< lwleft lwright >> <wc>)
+   (<wd> ^wcount <wc>
+        -^wvalue and) # "and" has no links
 -->
    (<s> ^operator <o> + =
         ^kind interpretation)

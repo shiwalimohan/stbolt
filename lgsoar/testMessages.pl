@@ -29,6 +29,12 @@ else {
     specifier this
     word red
     word block"],
+["This is red and a block.",
+"object-message 
+  object o1
+    specifier this
+    word block
+    word red"],
 ["This is a yellow block.",
 "object-message 
   object o1
@@ -392,7 +398,35 @@ else {
       object o2
         specifier DEF
         word left
-    word on"]
+    word on"],
+["Is this triangle blue?", " "],
+["Describe the relationship between the red triangle and the yellow square",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word relationship
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
+            word red
+            word triangle
+        word between
+      relation 
+        p1 
+          object o2
+        p2 
+          object o4
+            specifier DEF
+            word yellow
+            word square
+        word between
+    word describe"],
+["The goal of the action is to have the block on the table and an empty gripper.", ""]
 );
 
 $passCount = 0;
