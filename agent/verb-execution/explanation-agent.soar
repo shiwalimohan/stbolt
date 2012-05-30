@@ -1,0 +1,115 @@
+#### set learning
+smem --set learning on
+### requires new SMem
+#smem --set activation-mode maximal-constraint 
+
+#### set episodic learning on
+epmem --set learning on
+epmem --set trigger dc
+#epmem --set database file
+# epmem --set path /home/shiwali/Instruction/memory-dump/tanksoar.db
+epmem --set phase output
+
+
+#### set chunking paramenter
+learn --only
+
+
+##### source all relevant files
+pushd ./topchef-soar
+source all_source.soar
+popd
+
+pushd ./explanation
+source all_source.soar
+popd
+
+pushd ./verb-execution
+source all_source.soar
+popd
+
+pushd ./interaction
+source all_source.soar
+popd
+2
+pushd ./indexing
+source all_source.soar
+popd
+
+
+### source Aaron's object code from sbolt
+pushd /home/shiwali/BOLT/bolt-agents/sbolt_agent/verb-execution/objects/
+source objects_source.soar
+popd
+
+### source James's SVS code
+pushd /home/shiwali/BOLT/bolt-agents/sbolt_agent-svs/verb-execution/svs/
+source svs_source.soar
+popd
+
+
+### source LGSoar + Sam's code
+pushd /home/shiwali/soar/stbolt/lgsoar/soarcode/
+source bolt-lgsoar.soar
+popd
+
+### source all the selection rules
+pushd ./default
+source selection.soar
+popd
+
+source default.soar
+source preferences.soar
+##source chunking.soar
+
+
+sp {propose*init-agent
+   (state <s> -^name
+   	      ^superstate nil)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name init-agent)
+}
+
+sp {apply*init-agent
+   (state <s> ^operator.name init-agent)
+-->
+   (<s> ^topstate <s>)
+}
+
+## Elaborate a state as non-atomic/atomic if the operator proposed in superstate in non-atomic/atomic
+
+sp {elaborate*atomicity
+   (state <s> ^superstate.operator <sop>)
+   (<sop> ^kind <atom>)
+-->
+   (<s> ^kind <atom>)
+}
+
+
+
+## The wait operator which gets selected when an action is executing 
+sp {top-state*propose*wait
+    (state <s> ^choices none ^kind non-atomic)
+   -{ (<s> ^operator <o*1>)
+      (<o*1> ^name wait)}
+    -->
+    (<s> ^operator <q> + >)
+    (<q> ^name wait +)
+}
+
+### learn in the selection space
+sp {chunk*in*selection*space	
+   (state <s> ^name selection
+   	      ^learning-operator <any>)
+-->
+   (force-learn <s>)
+}
+
+
+### copy topstate to top-state
+sp {copy*topstate*top-state
+   (state <s> ^topstate <ts>)
+-->
+   (<s> ^top-state <ts>)
+}
