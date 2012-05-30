@@ -362,6 +362,37 @@ else {
         word near
       word to
     word move"],
+["This one.",
+"object-message 
+  object o1
+    specifier this
+    word one"],
+["The square to the right.",
+	"object-message 
+  object o1
+    specifier DEF
+    word square
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word right
+    word to"],
+["The circle on the left.",
+	"object-message 
+  object o1
+    specifier DEF
+    word circle
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word left
+    word on"]
 );
 
 $passCount = 0;

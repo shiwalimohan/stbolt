@@ -58,17 +58,31 @@ sp {evaluate-parse*apply*approve
   (<parse> ^parse-valid true)
 }
 
-# unparsable shows up as a single parse with no links
+# reparse if there are any words not involved in links
 sp {evaluate-parse*propose*reparse-as-noun-phrase
    (state <s> ^name evaluate-parse
               ^minimal-acceptable-parse <parse>)
-   (<parse> ^words.word <exists>
-           -^links.link <any>)
+   (<parse> ^words.word.wcount <wc>
+           -^links.link.<< lwleft lwright >> <wc>)
 -->
    (<s> ^operator <o> + =
         ^kind interpretation)
    (<o> ^name reparse-as-noun-phrase)
 }
+
+# strict version that only reparses after complete failure
+
+# sp {evaluate-parse*propose*reparse-as-noun-phrase
+#    (state <s> ^name evaluate-parse
+#               ^minimal-acceptable-parse <parse>)
+#    (<parse> ^words.word <exists>
+#            -^links.link <any>)
+# -->
+#    (<s> ^operator <o> + =
+#         ^kind interpretation)
+#    (<o> ^name reparse-as-noun-phrase)
+# }
+
 
 # prepend a verb to the "sentence", so if the phrase describes an object it looks
 # like a command (e.g., "the red block" to "acquire the red block")
@@ -76,18 +90,30 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*first-word
    (state <s> ^name evaluate-parse
               ^operator.name reparse-as-noun-phrase
               ^top-state.io.output-link <ol>
+              ^top-state.sentence-mapping <map>
+              ^superstate.operator.sentence-count <sc>
               ^minimal-acceptable-parse.words.word <wd>)
    (<wd> ^wcount 0
          ^wvalue <val>)
+   (<map> ^sentence-count <sc>)
 -->
    (<ol> ^preprocessed-sentence <ps>)
-   (<ps> ^start <st>)
+   (<ps> ^sentence-count <sc> 
+         ^start <st>)
    (<st> ^word |generic-word.v.4.1[19]|
          # this is a transitive verb, infinitive/plural form, like "acquire"
          # use the 19th (last) generic to prevent conflicts
          ^wcount -1)
    (<s> ^output-word <st>
         ^output-word <w1>)
+   (<map> ^word <wd>)
+
+   # info so it can be unmapped and filtered out in postprocessing
+   (<wd> ^parser-wvalue |generic-word.v.4.1[19]|
+         ^is-filler true)
+
+   # flag so we don't attach anything to the fake verb
+   (<s> ^fake-verb true)
 }
 
 sp {evaluate-parse*apply*reparse-as-noun-phrase*next-word
@@ -119,7 +145,7 @@ sp {evaluate-parse*apply*reparse-as-noun-phrase*last-word
      (<later-word> ^wcount > <last-count>
                    ^wvalue <> RIGHT-WALL)}
 -->
-   (<os> ^parse-valid false)
+   (<os> ^rejected true)
 } 
 
 # MV links are verb->preposition, M links are noun->preposition
@@ -254,8 +280,20 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*m
    (write (crlf) |rejected parse | <rc> | in favor of | <gc> | due to | <right> | link|)
 }
 
+# if the verb is fake, don't attach to it
+sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*m*fake-verb
+   (state <s> ^name evaluate-parse
+              ^fake-verb true
+              ^operator <o>)
+   (<o> ^name resolve-ambiguous-preposition-attachment
+        ^mv-parse <parse>)
+-->
+   (<parse> ^rejected true)
+}
+
 sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*mv
    (state <s> ^name evaluate-parse
+             -^fake-verb
               ^operator <o>)
    (<o> ^name resolve-ambiguous-preposition-attachment
         ^right << to >>

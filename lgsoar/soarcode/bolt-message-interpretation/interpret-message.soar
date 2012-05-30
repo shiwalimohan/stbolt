@@ -334,6 +334,7 @@ sp {interpret-message*prefer*identify-to-the-x-of-relation
 sp {interpret-message*elaborate*primitive-object-symbol
    (state <s> ^name interpret-message
               ^objects <ob>
+             -^ignored-object <val>
               ^lgsoar-predicates.predicate <pr>)
    (<pr> ^<< inner1 inner2 inner3 >> <val>)
    (<val> ^<is-an-identifier>)
@@ -372,3 +373,21 @@ sp {interpret-message*propose*interpret-primitive-object
         ^predicates <pr>)
 }
 
+# noun phrases get reparsed as commands with a fake verb,
+# postprocessing removes the fake verb but not the HEARER object
+
+# remove any HEARER object that isn't referred to elsewhere
+sp {interpret-message*elaborate*ignore-phantom-hearer
+   (state <s> ^name interpret-message
+              ^lgsoar-predicates <pred>
+              ^objects <ob>)
+   (<pred> -^interpretation
+            ^predicate <p1>)
+   (<p1> ^outer HEARER
+         ^inner1 <hearer>)
+  -{(<pred> ^predicate {<> <p1> <p2>})
+    (<p2> ^<< inner1 inner2 inner3 >> <hearer>)}
+-->
+   (<p1> ^ignored true)
+   (<s> ^ignored-object <hearer>)
+}
