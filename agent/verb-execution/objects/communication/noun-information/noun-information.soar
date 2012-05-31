@@ -1,16 +1,16 @@
 # Propose noun-information to lookup information about the received words and see what can be learned
-sp {object-message*specifier*INDEF*propose*noun-information
-   (state <s> ^topstate <s>
-              ^instructor-message <msg>)
-   (<msg> ^type object-message
-          ^information.object <obj>)
-   (<obj> ^specifier INDEF)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name noun-information
-        ^category communication
-        ^object <obj>)
-}
+#sp {object-message*specifier*INDEF*propose*noun-information
+#   (state <s> ^topstate <s>
+#              ^instructor-message <msg>)
+#   (<msg> ^type object-message
+#          ^information.object <obj>)
+#   (<obj> ^specifier INDEF)
+#-->
+#   (<s> ^operator <o> +)
+#   (<o> ^name noun-information
+#        ^category communication
+#        ^object <obj>)
+#}
 
 # Applying the operator if the substate processing is finished
 sp {object-message*specifier*INDEF*apply*noun-information*failure

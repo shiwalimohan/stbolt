@@ -1,12 +1,12 @@
 # After the user has asked a which-question, these rules handle possible responses from the user
-#   object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
-#   object-message with DEF specifier: add words to the object's description
+#   this-object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
+#   this-object-message with DEF specifier: add words to the object's description
 
 
-# Results when answered with an object-message with a 'this' used
-sp {object-message*apply*complete-object-message*resolve*which-question
-   (state <s> ^name object-message
-              ^operator.name complete-object-message
+# Results when answered with an this-object-message with a 'this' used
+sp {this-object-message*apply*complete-this-object-message*resolve*which-question
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
               ^topstate.queries.query <q>
               ^object <obj>)
    (<q> ^type which-question
@@ -16,9 +16,9 @@ sp {object-message*apply*complete-object-message*resolve*which-question
    (<query-obj> ^candidate <obj>)
 }
 
-sp {object-message*apply*complete-object-message*which-question*remove*query
-   (state <s> ^name object-message
-              ^operator.name complete-object-message
+sp {this-object-message*apply*complete-this-object-message*which-question*remove*query
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
               ^topstate.queries <qs>)
    (<qs> ^query <q>)   
    (<q> ^type which-question
@@ -27,54 +27,3 @@ sp {object-message*apply*complete-object-message*which-question*remove*query
    (<qs> ^query <q> -)
 }
 
-# Result when answered with a further description ('the red object')
-sp {apply*pop-segment*object-message*which-question*copy-word
-   (state <s> ^topstate <s> 
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^queries.query <q>)
-   (<msg> ^type object-message
-          ^information.object <obj>)
-   (<obj> ^specifier DEF
-          ^word <word>)
-   (<q> ^type which-question
-        ^active true
-        ^object <query-obj>
-        ^segment <next-segment>)
-   (<query-obj> -^property.word <word>)
--->
-   (<query-obj> ^property.word <word>)
-}
-
-sp {apply*pop-segment*object-message*which-question*remove*query
-   (state <s> ^topstate <s>
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^topstate.queries <qs>)
-   (<qs> ^query <q>)   
-   (<q> ^type which-question
-        ^active true
-        ^segment <next-segment>)
-   (<msg> ^type object-message
-          ^information.object.specifier DEF)
--->
-   (<qs> ^query <q> -)
-}
-
-sp {apply*pop-segment*object-message*which-question*remove*message
-   (state <s> ^topstate <s>
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^topstate.queries <qs>)
-   (<qs> ^query <q>)   
-   (<q> ^type which-question
-        ^active true
-        ^segment <next-segment>)
-   (<msg> ^type object-message
-          ^information.object.specifier DEF)
--->
-   (<s> ^instructor-message <msg> -)
-}

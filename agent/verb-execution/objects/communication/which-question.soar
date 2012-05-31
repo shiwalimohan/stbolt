@@ -1,27 +1,24 @@
 # Adds a segment to the interaction stack to deal with the which question
 
-sp {propose*push-which-question
-   (state <s> ^topstate <s>
-              ^instructor-message <msg>)
-   (<msg> ^type object-question
-          ^information.question-word which)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name push-which-question
-        ^category communication)
-}
 
-sp {apply*push-which-question
-   (state <s> ^operator.name push-which-question
+
+sp {apply*push-relation-question*which-question
+   (state <s> ^operator.name push-relation-question
               ^instructor-message <msg>)
-   (<msg> ^information.object <desc>)
+   (<msg> ^type relation-question
+          ^information.question-word which 
+          ^information.relation <rel>)
+   (<rel> ^p1.object <obja> ^p2.object <objb> ^word <prep>)
 -->
    (<msg> ^purpose <p>)
    (<p> ^type which-question
         ^parameters <params>
         ^satisfaction <sat>)
+   (<params> ^relation <rel2>)
+   (<rel2> ^object1 <obja>
+          ^object2 <objb>
+          ^word <prep>)
    (<sat> ^action-event point)
-   (<params> ^description <desc>)
 }
 
 # Returns points to the described object
@@ -39,19 +36,31 @@ sp {which-question*propose*index-object
         ^return-all false
         ^use-interaction true
         ^allow-ties true
-        ^category object-processing
-        ^object <obj>)
+        ^category object-processing)
 }
 
-sp {which-question*index-object*elaborate*word
+sp {which-question*index-object*elaborate*single-object
    (state <s> ^operator <o> +
               ^interaction.stack.segment.purpose <p>)
    (<p> ^type which-question
-        ^parameters.description.word {<word> <> object })
-   (<o> ^name index-object
-        ^object <obj>)
+        ^parameters.description <desc>)
+   (<o> ^name index-object)
 -->
-   (<obj> ^word <word>)
+   (<o> ^object <desc>)
+}
+
+sp {which-question*index-object*elaborate*relation
+   (state <s> ^operator <o> +
+              ^interaction.stack.segment.purpose <p>)
+   (<o> ^name index-object)
+   (<p> ^type which-question
+        ^parameters.relation <rel>)
+   (<rel> ^object1 <obj1>
+          ^object2 <obj2>)
+-->
+   (<o> ^object <obj1>
+        ^object <obj2>
+        ^relation <rel>)
 }
 
 sp {which-question*apply*index-object

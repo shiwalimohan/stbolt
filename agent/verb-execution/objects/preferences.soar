@@ -43,7 +43,7 @@ sp {elaborate*pref-rank*ask-query
 sp {elaborate*pref-rank*message-responses
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name << object-message >>)
+   (<o> ^name << this-object-message >>)
 -->
    (<o> ^pref-rank 5)
 }
