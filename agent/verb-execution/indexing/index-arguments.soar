@@ -16,25 +16,18 @@ sp {elaborate*index-arguments
        ^argument <obj>)
 }
 
-#### propose find object operator
-sp {propose*find*object*
+#### propose index-object (../objects/index-objects/)
+sp {propose*index-object
    (state <s> ^name index-argument
    	      ^argument <arg>
 	      -^match <any>)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name find-object
-	^category indexing)
-}
-
-### elaborate operator find-object with words from the cue
-sp {elaborate*find-object	   
-   (state <s> ^operator <op>
-   	      ^argument <arg>)
-   (<op> ^name find-object)
-   (<arg> ^word <word>) 
--->
-   (<op> ^word <word>)
+   (<o> ^name index-object
+	^category indexing
+	^use-interaction true
+	^return-all true
+	^object <arg>)
 }
 
 ### copy the correct object if find-object is successful
@@ -42,12 +35,10 @@ sp {copy*matched*object
    (state <s> ^name index-argument
    	      ^operator <op>) 
    (<op> ^match <obj>
-   	 ^name find-object)
- -->
-   (<s> ^match <obj>)
+   	 ^name index-object)
+ -->   
+    (<s> ^match <obj>)
 }
-
-#### catch failure / interact with the instructor
 
 ### write matched object to the superstate
 sp {write*matched*object*superstate

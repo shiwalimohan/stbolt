@@ -1,22 +1,3 @@
-### elaborate locations
-
-sp {elaborate*locations
-   (state <s> ^io.input-link <il>)
-   (<il> ^objects.object <obj>)
-   (<obj> ^name << dishwasher stove pantry >>)
--->
-   (<s> ^location <obj>)
-}
-
-
-### elaborate objects
-#sp {elaborate*objects
-#   (state <s> ^io.input-link <il>)
-#   (<il> ^objects.object <obj>)
-#   (<obj> -^name << dishwasher stove pantry >>)
-#-->
-#   (<s> ^object <obj>)
-#}
 
 ### elaborate self
 sp {elaborate*self
@@ -26,6 +7,45 @@ sp {elaborate*self
    (<s> ^self <self>)
 }
 
-### elaborate object
+sp {copy*locations
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> -^name explain
+    	  ^location <l>)
+-->
+   (<s> ^location <l>)
+}
 
- 
+#sp {copy*object
+#   (state <s> ^superstate <ss>
+#   	      ^io)
+#   (<ss> -^name explain
+#    	  ^object <l>)
+#-->
+#   (<s> ^object <l>)
+#}
+
+sp {copy*self
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> -^name explain
+    	  ^self <l>)
+-->
+   (<s> ^self <l>)
+}
+
+
+#### elaborate x,y,z for objects/locations
+
+sp {elaborate*xyz
+   (state <s> ^<< object location self >> <l>
+   	      ^io)
+   (<l> ^pose <lp>)
+   (<lp> ^x <x>
+   	 ^y <y>
+	 ^z <z>)
+-->
+   (<l> ^x <x>
+   	^y <y>
+	^z <z>)
+}

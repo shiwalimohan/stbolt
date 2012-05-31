@@ -1,0 +1,45 @@
+### propose goto for all known locations
+sp {propose*goto*locations
+   (state <s> ^location <loc>
+   	     -^problem-space << lgsoar message-interpretation >>
+	     -^predicates.predicate-at.at.location <loc>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name op_goto
+   	 ^argument1 <loc>)
+}
+
+sp {elaborate*goto*location
+   (state <s> ^operator <op> +) 
+   (<op> ^name op_goto
+   	 ^argument1 <loc>)
+   (<loc> ^name <name>
+   	  ^x <x>
+      	  ^y <y> 
+	  ^z <z>)
+-->
+   (<op> ^location <name>
+   	 ^actions.goto.location <nloc>
+	 ^category primitive-action
+	 ^success yes)
+   (<nloc> ^x <x> ^y <y> ^z <z>)
+}
+
+
+### action model
+sp {apply*goto*locations*action-model
+   (state <s> ^operator <op>
+   	      ^location <loc>
+	      -^io
+	      ^self <self>)
+   (<op> ^name op_goto
+   	 ^argument1 <loc>)
+   (<loc> ^x <l_x>
+   	  ^y <l_y>
+	  ^z <l_z>)
+-->
+   (<self> ^x <l_x>
+   	   ^y <l_y>
+	   ^z <l_z>)
+}
+     

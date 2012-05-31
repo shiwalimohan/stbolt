@@ -1,0 +1,60 @@
+### put down an object on an object
+
+sp {propose*put-down-object-object
+   (state <s> ^self.grabbed-object <id> <> -1
+	      ^object <obj> {<> <obj> <loc>}
+             -^problem-space << lgsoar message-interpretation >>)
+   (<obj> ^id <id>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name op_put-down-object-object
+   	 ^argument1 <obj>
+	 ^argument2 <loc>
+	 ^category primitive-action)
+}
+
+### apply put down an object in a object
+sp {put-down-object-object*elaborate*object*object
+   (state <s> ^name op_put-down-object-object
+   	      ^superstate.operator <sop>)
+   (<sop> ^name op_put-down-object-object
+   	  ^argument1 <obj>
+	  ^argument2 <obj2>)
+-->
+   (<s> ^argument1 <obj> ^argument2 <obj2>)
+}
+
+
+### if not near the argument2, go to the position
+sp {put-down-object-object*propose*goto
+   (state <s> ^name op_put-down-object-object
+   	      ^argument2 <obj2>)
+   (<obj2> -^close-by yes)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name op_goto
+   	 ^argument1 <obj2>)
+}
+
+### if at the object
+sp {put-down-object-object*propose*put-down
+   (state <s> ^name op_put-down-object-object
+   	      ^argument1 <obj>
+   	      ^argument2 <loc>)
+   (<loc> ^close-by yes)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name op_put-down
+   	 ^argument <obj>)
+} 
+
+### if applied put down mark success
+ sp {put-down-object-object*propose*put-down*success
+   (state <s> ^name op_put-down-object-object
+	      ^superstate.operator <sop>
+	      ^operator <op>)
+   (<op> ^name op_put-down
+   	 ^success yes)
+-->
+   (<sop> ^success yes)
+}  	      

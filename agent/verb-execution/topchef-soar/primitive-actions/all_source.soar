@@ -1,5 +1,23 @@
-source goto.soar
-source pick-up.soar
+pushd ./goto
+source all_source.soar
+popd
+
+
+pushd ./pick-up
+source all_source.soar
+popd
+
+
+pushd ./put-down
+source all_source.soar
+popd
+
+
+# pushd ./get
+# source all_source.soar
+# popd
+
+
+
 source apply-action.soar
 source wait.soar
-source put-down.soar

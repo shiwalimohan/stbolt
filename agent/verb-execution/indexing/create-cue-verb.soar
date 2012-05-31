@@ -19,7 +19,7 @@ sp {elaborate*verb
 sp {elaborate*arguments*direct-object
    (state <s> ^name create-cue
    	      ^information.verb <info>)
-   (<info> ^direct-object <do>)
+   (<info> ^direct-object.object <do>)
 -->
    (<s> ^argument <do>)
 }
@@ -38,7 +38,7 @@ sp {propose*index-argument*direct-object
 	      ^cue <cue>
 	      -^matched <do>
 	      ^bit flip)
-   (<info> ^direct-object <do>)
+   (<info> ^direct-object.object <do>)
    (<cue> -^direct-object <any>)
 -->
    (<s> ^operator <op> + =)

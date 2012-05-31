@@ -1,0 +1,16 @@
+### apply the model for pickup
+
+sp {apply*pickup*model
+   (state <s> ^object <obj>
+   	      ^operator <op>
+	      ^self <self>
+	      -^io)
+   (<op> ^name op_pick-up-object
+   	 ^argument <obj>)
+   (<obj> ^id <id>)  
+   (<self> ^grabbed-object <any>)
+-->
+   (<self> ^grabbed-object <id>
+   	   ^grabbed-object <any> -)
+}
+   

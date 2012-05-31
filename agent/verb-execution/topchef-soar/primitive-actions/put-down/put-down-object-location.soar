@@ -1,48 +1,95 @@
 ### put down an object in a location
 
 sp {propose*put-down-object-location
-   (state <s> ^self.grabbed-object <id> <> -1
-   	      ^object <obj>
-	      ^location <loc>)
-   (<ob> ^id <id>)
+#   (state <s> ^self.grabbed-object <id> <> -1
+    (state <s> ^grabbed <obj>
+	      ^location <loc>
+	       -^problem-space << lgsoar message-interpretation >>)
 -->
    (<s> ^operator <op> +)
-   (<op> ^name operator-pd2
+   (<op> ^name op_put-down-object-location
    	 ^argument1 <obj>
 	 ^argument2 <loc>
 	 ^category primitive-action)
 }
 
+sp {elaborate*put-down*location*location
+   (state <s> ^operator <op> +)
+   (<op> ^name op_put-down-object-location
+   	 ^argument1 <obj>
+	 ^argument2 <loc>)
+-->
+   (<op> ^actions.put-down.location <loc>		 
+   	 ^category primitive-action
+	 ^success yes)
+   (<op> ^kind non-atomic)
+}
+
+### action model
+sp {apply*put-down*location*action-model
+   (state <s> ^operator <op>	
+	     -^io
+	     ^grabbed <obj>)
+   (<op> ^name op_put-down-object-location
+   	 ^argument1 <obj>
+	 ^argument2 <loc>)
+   (<loc> ^x <s_x>
+   	  ^y <s_y>
+	  ^z <s_z>)
+-->
+   (<s> ^grabbed <obj> -)
+   (<obj>    ^x <s_x>
+   	     ^y <s_y>
+	     ^z <s_z>)
+}
+
+
+
+
 ### apply put down an object in a location
-sp {put-down-object-location*elaborate*object*location
-   (state <s> ^name operator-pd2
-   	      ^superstate.operator <sop>)
-   (<sop> ^name operator-pd2
-   	  ^argument1 <obj>
-	  ^argument2 <loc>)
--->
-   (<s> ^argument1 <obj> ^argument2 <loc>)
-}
+#sp {put-down-object-location*elaborate*object*location
+#   (state <s> ^name op_put-down-object-location
+#   	      ^superstate.operator <sop>)
+#   (<sop> ^name op_put-down-object-location
+#   	  ^argument1 <obj>
+#	  ^argument2 <loc>)
+#-->
+#   (<s> ^argument1 <obj> ^argument2 <loc>)
+#}
+#
+#
+#### if not at the location, goto that location
+#sp {put-down-object-location*propose*goto
+#   (state <s> ^name op_put-down-object-location
+#   	      ^argument2 <loc>)
+#   (<loc> -^contains yes)
+#-->
+#   (<s> ^operator <op> + >)
+#   (<op> ^name op_goto
+#   	 ^argument1 <loc>)
+#}
+#
+#### if at the location
+#sp {put-down-object-location*propose*put-down
+#   (state <s> ^name op_put-down-object-location
+#   	      ^argument1 <obj>
+#   	      ^argument2 <loc>)
+#   (<loc> ^contains yes)
+#-->
+#   (<s> ^operator <op> + >)
+#   (<op> ^name op_put-down
+#   	 ^argument <obj>)
+#}
+#
+#### 
+# sp {put-down-object-location*propose*put-down*success
+#   (state <s> ^name op_put-down-object-location
+#	      ^superstate.operator <sop>
+#	      ^operator <op>)
+#   (<op> ^name op_put-down
+#   	 ^success yes)
+#-->
+#   (<sop> ^success yes)
+#}  	      
 
-
-### if not at the location, goto that location
-sp {put-down-object-location*propose*goto
-   (state <s> ^argument2 <loc>)
-   (<loc> -^contains yes)
--->
-   (<s> ^operator <op> +)
-   (<op> ^name goto
-   	 ^location <loc>)
-}
-
-### if at the location
-sp {put-down-object-location*propose*put-down
-   (state <s> ^argument1 <obj>
-   	      ^argument2 <loc>)
-   (<loc> ^contains yes)
--->
-   (<s> ^operator <op> +)
-   (<op> ^name put-down
-   	 ^object <obj>)
-}
    	      
