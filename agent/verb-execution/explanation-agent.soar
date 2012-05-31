@@ -48,10 +48,10 @@ source svs_source.soar
 popd
 
 
-### source LGSoar + Sam's code
-pushd /home/shiwali/soar/stbolt/lgsoar/soarcode/
-source bolt-lgsoar.soar
-popd
+## source LGSoar
+##pushd /home/shiwali/soar/stbolt/lgsoar/soarcode/
+##source bolt-lgsoar.soar
+##popd
 
 ### source all the selection rules
 pushd ./default
