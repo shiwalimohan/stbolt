@@ -15,49 +15,54 @@ else {
 "relation-question 
   question-word what
   relation 
-    p1-object 
-      specifier this
-    p2-object 
-      specifier DEF
-      word UNKNOWN
+    p1 
+      object o1
+        specifier this
+    p2 
+      object o2
+        specifier DEF
+        word UNKNOWN
     word color-of"],
 ["This is a red block.",
 "object-message 
-  object 
+  object o1
     specifier this
     word red
     word block"],
+["This is red and a block.",
+"object-message 
+  object o1
+    specifier this
+    word block
+    word red"],
 ["This is a yellow block.",
 "object-message 
-  object 
+  object o1
     specifier this
     word yellow
     word block"],
 ["This is an orange block.",
 "object-message 
-  object 
+  object o1
     specifier this
     word orange
     word block"],
-["What is the shape of this?",
-"relation-question 
-  question-word what
-  relation 
-    p1-object 
-      specifier this
-    p2-object 
-      specifier DEF
-      word UNKNOWN
-    word shape-of"],
+["What shape is this?",
+"object-question 
+  object o1
+    specifier this
+    word shape
+    word UNKNOWN
+  question-word what"],
 ["This is a square block.",
 "object-message 
-  object 
+  object o1
     specifier this
     word square
     word block"],
 ["This is a triangular block.",
 "object-message 
-  object 
+  object o1
     specifier this
     word triangular
     word block"],
@@ -65,7 +70,7 @@ else {
 "verb-command 
   verb 
     preposition 
-      object 
+      object o1
         specifier DEF
         word square
         word block
@@ -75,7 +80,7 @@ else {
 "verb-command 
   verb 
     preposition 
-      object 
+      object o1
         specifier DEF
         word red
         word square
@@ -86,7 +91,7 @@ else {
 "verb-command 
   verb 
     preposition 
-      object 
+      object o1
         specifier DEF
         word yellow
         word one
@@ -96,7 +101,7 @@ else {
 "verb-command 
   verb 
     preposition 
-      object 
+      object o1
         specifier DEF
         word triangular
         word one
@@ -105,68 +110,80 @@ else {
 ["Describe the blocks.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word blocks
+    direct-object o1
+      object o2
+        specifier DEF
+        word blocks
     word describe"],
 ["What is to the left of the red block?",
 "relation-question 
   question-word what
   relation 
-    p1-object 
-      specifier none
-      word UNKNOWN
-    p2-object 
-      specifier DEF
-      word red
-      word block
+    p1 
+      object o1
+        specifier none
+        word UNKNOWN
+    p2 
+      object o2
+        specifier DEF
+        word red
+        word block
     word left-of"],
 ["The orange block is to the left of the red block",
-"relation-message 
+"object-message 
+  object o1
+    specifier DEF
+    word block
+    word orange
   relation 
-    p1-object 
-      specifier DEF
-      word block
-      word orange
-    p2-object 
-      specifier DEF
-      word red
-      word block
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word red
+        word block
     word left-of"],
 ["The orange block is on the table.",
-"relation-message 
+"object-message 
+  object o1
+    specifier DEF
+    word block
+    word orange
   relation 
-    p1-object 
-      specifier DEF
-      word block
-      word orange
-    p2-object 
-      specifier DEF
-      word table
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word table
     word on"],
 ["Where is the orange block?",
 "object-question 
-  object 
+  object o1
     specifier DEF
     word orange
     word block
+    word UNKNOWN
   question-word where"],
 ["Where is the red block?",
 "object-question 
-  object 
+  object o1
     specifier DEF
     word red
     word block
+    word UNKNOWN
   question-word where"],
 ["Move the yellow block to the pantry.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word block
-      word yellow
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word yellow
     preposition 
-      object 
+      object o3
         specifier DEF
         word pantry
       word to
@@ -174,20 +191,22 @@ else {
 ["Pick up the yellow block.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word block
-      word yellow
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word yellow
     word pick"],
 ["Put the yellow block on the pantry.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word block
-      word yellow
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word yellow
     preposition 
-      object 
+      object o3
         specifier DEF
         word pantry
       word on
@@ -195,32 +214,35 @@ else {
 ["You moved the yellow block to the pantry.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word block
-      word yellow
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word yellow
     preposition 
-      object 
+      object o3
         specifier DEF
         word pantry
       word to
     word moved"],
-["Where is the yellow block?",
+["Where is the yellow block.",
 "object-question 
-  object 
+  object o1
     specifier DEF
     word yellow
     word block
+    word UNKNOWN
   question-word where"],
 ["Move the red block to the sink.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word block
-      word red
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word red
     preposition 
-      object 
+      object o3
         specifier DEF
         word sink
       word to
@@ -230,31 +252,34 @@ else {
   response no"],
 ["Red is a color.",
 "object-message 
-  object 
+  object o1
     specifier INDEF
     word color
     word red"],
 ["The triangle is to the left of the yellow square.",
-"relation-message 
+"object-message 
+  object o1
+    specifier DEF
+    word triangle
   relation 
-    p1-object 
-      specifier DEF
-      word triangle
-    p2-object 
-      specifier DEF
-      word yellow
-      word square
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word yellow
+        word square
     word left-of"],
-
 ["Move the blue square to the pantry.",
 "verb-command 
   verb 
-    direct-object 
-      specifier DEF
-      word square
-      word blue
+    direct-object o1
+      object o2
+        specifier DEF
+        word square
+        word blue
     preposition 
-      object 
+      object o3
         specifier DEF
         word pantry
       word to
@@ -262,21 +287,146 @@ else {
 ["The goal is a red square on the stove.",
 "goal-relation-message 
   relation 
-    p1-object 
-      specifier DEF
-      word red
-      word square
-    p2-object 
-      specifier DEF
-      word stove
+    p1 
+      object o1
+        specifier DEF
+        word red
+        word square
+    p2 
+      object o2
+        specifier DEF
+        word stove
     word on"],
-
 ["The goal is an empty gripper.",
 "goal-object-message 
-  object 
+  object o1
     specifier DEF
     word empty
-    word gripper"]
+    word gripper"],
+["What color is this?",
+"object-question 
+  object o1
+    specifier this
+    word color
+    word UNKNOWN
+  question-word what"],
+["Pick up the square on the right of the triangle.",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word square
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
+            word triangle
+        word right-of
+    word pick"],
+["The color of this is red.",
+"object-message 
+  object o1
+    specifier this
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word red
+    word color-of"],
+["Move the red block by the circle to the area near the kitchen.",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word block
+        word red
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
+            word circle
+        word by
+    preposition 
+      object o4
+        specifier DEF
+        word area
+      relation 
+        p1 
+          object o4
+        p2 
+          object o5
+            specifier DEF
+            word kitchen
+        word near
+      word to
+    word move"],
+["This one.",
+"object-message 
+  object o1
+    specifier this
+    word one"],
+["The square to the right.",
+	"object-message 
+  object o1
+    specifier DEF
+    word square
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word right
+    word to"],
+["The circle on the left.",
+	"object-message 
+  object o1
+    specifier DEF
+    word circle
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word left
+    word on"],
+["Is this triangle blue?", " "],
+["Describe the relationship between the red triangle and the yellow square",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word relationship
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
+            word red
+            word triangle
+        word between
+      relation 
+        p1 
+          object o2
+        p2 
+          object o4
+            specifier DEF
+            word yellow
+            word square
+        word between
+    word describe"],
+["The goal of the action is to have the block on the table and an empty gripper.", ""]
 );
 
 $passCount = 0;

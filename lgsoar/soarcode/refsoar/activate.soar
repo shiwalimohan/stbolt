@@ -40,17 +40,6 @@
 #
 
 
-# need a simple workaround so the sentence can be edited in place
-# (it is made of read-only input WMEs)
-# Java code changed to make original-wvalue rather than wvalue
-sp {activate*elaborate*wvalue
-   (state <s> ^superstate nil
-              ^io.input-link.lg.parsed-sentence.words.word <wd>)
-   (<wd> ^original-wvalue <wv>)
--->
-   (<wd> ^wvalue <wv>)
-}
-
 # Initialize problem space
 
 

@@ -20,7 +20,6 @@
 # - changed to only propose when another, unhandled, sentence exists
 # - split to another operator, wrap-up, for when another sentence doesn't exist
 
-# TODO: fix for new current-sentence structure
 
 sp {global*propose*start-next-sentence
    (state <s> ^impasse no-change ^superstate <ss>)
@@ -220,7 +219,7 @@ sp {lg*resolve-ties-indifferently
               ^item-count < 10 # don't explode with matches
               ^attribute operator
               ^item <o1>
-              ^item <o2>
+              ^item {<> <o1> <o2>}
               ^superstate <ss>)
    (<ss> ^problem-space lgsoar
         ^operator <o1> +

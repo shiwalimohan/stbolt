@@ -1,80 +1,20 @@
-
-# test sentence: The ball is on the table.
-# PASSED: DEF(N2) DEF(N4) ball(N2) on(N2,N4) table(N4)
-
-# ^relation <r>
-# <r> ^word on
-#     ^p1-object.word ball
-#               .specifier DEF
-#     ^p2-object.word table
-#               .specifier DEF
-
-
 sp {interpret-relation*elaborate*init
    (state <s> ^name interpret-relation)
 -->
    (<s> ^interpretation <it>)
    (<it> ^relation <rm>)
+   (<rm> ^p1 <p1>
+         ^p2 <p2>)
 }
 
 sp {interpret-relation*propose*identify-relation
    (state <s> ^name interpret-relation
              -^relation-identified
-              ^all-predicates.predicate <pr>)
-   (<pr> ^inner1 <p1-val>
-         ^inner2 <p2-val>
-        -^ignored)
+              ^superstate.operator.relation <pr>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name identify-relation
         ^relation <pr>)
-}
-
-sp {interpret-relation*propose*identify-to-the-x-of-relation
-   (state <s> ^name interpret-relation
-             -^relation-identified
-              ^all-predicates <ap>)
-   (<ap> ^predicate <to> <the> <x-of>)
-   (<to> ^outer << to on >>
-         ^inner1 <p1>
-         ^inner2 <x-obj>)
-   (<the> ^outer DEF
-          ^inner1 <x-obj>)
-   (<x-of> ^outer1 <x-word>
-           ^outer2 of
-           ^inner1 <x-obj>
-           ^inner2 <p2>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name identify-to-the-x-of-relation
-        ^outer (concat <x-word> |-of|)
-        ^inner1 <p1>
-        ^inner2 <p2>)
-}
-
-sp {interpret-relation*identify-to-the-x-of-relation*over*identify-relation
-   (state <s> ^name interpret-relation
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name identify-to-the-x-of-relation)
-   (<o2> ^name identify-relation)
--->
-   (<s> ^operator <o1> > <o2>)
-}
-
-sp {interpret-relation*apply*identify-to-the-x-of-relation
-   (state <s> ^name interpret-relation
-              ^interpretation.relation <rm>
-              ^operator <o>)
-   (<o> ^name identify-to-the-x-of-relation
-        ^outer <out>
-        ^inner1 <in1>
-        ^inner2 <in2>)
--->
-   (<s> ^relation-identified true
-        ^p1 <in1>
-        ^p2 <in2>)
-   (<rm> ^word <out>)
 }
 
 sp {interpret-relation*apply*identify-relation
@@ -121,6 +61,7 @@ sp {interpret-relation*propose*collect-p1
 
 sp {interpret-relation*apply*collect-p1*base
    (state <s> ^name interpret-relation
+              ^p1 <p1>
               ^operator.name collect-p1)
 -->
    (<s> ^p1-predicates <cp>)
@@ -129,30 +70,36 @@ sp {interpret-relation*apply*collect-p1*base
 sp {interpret-relation*apply*collect-p1
    (state <s> ^name interpret-relation
               ^operator.name collect-p1
-              ^p1 <p1>
               ^p1-predicates <cp>
-              ^all-predicates.predicate <pred>)
-   (<pred> ^inner1 <p1>
-          -^inner2)
+              ^predicates.predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
+}
+
+sp {interpret-relation*apply*collect-p1*done
+   (state <s> ^name interpret-relation
+              ^operator.name collect-p1
+              ^p1-predicates <cp>)
+-->
    (<s> ^p1-collected true)
 }
 
 sp {interpret-relation*propose*interpret-p1
    (state <s> ^name interpret-relation
+              ^p1 <p1>
               ^p1-collected true
               ^p1-predicates <cp>)
    (<cp> -^interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <p1>
         ^predicates <cp>)
 }
 
 sp {interpret-relation*propose*collect-p2
    (state <s> ^name interpret-relation
-              ^relation-identified 
+              ^relation-identified true
               ^p1-predicates.interpretation
              -^p2-collected)
 -->
@@ -162,6 +109,7 @@ sp {interpret-relation*propose*collect-p2
 
 sp {interpret-relation*apply*collect-p2*base
    (state <s> ^name interpret-relation
+              ^p2 <p2>
               ^operator.name collect-p2)
 -->
    (<s> ^p2-predicates <cp>)
@@ -170,52 +118,78 @@ sp {interpret-relation*apply*collect-p2*base
 sp {interpret-relation*apply*collect-p2
    (state <s> ^name interpret-relation
               ^operator.name collect-p2
-              ^p2 <p2>
               ^p2-predicates <cp>
-              ^all-predicates.predicate <pred>)
-   (<pred> ^inner1 <p2>
-          -^inner2)
+              ^predicates.predicate <pred>)
 -->
    (<cp> ^predicate <pred>)
+}
+
+
+sp {interpret-relation*apply*collect-p2*done
+   (state <s> ^name interpret-relation
+              ^operator.name collect-p2
+              ^p2-predicates <cp>)
+-->
    (<s> ^p2-collected true)
 }
 
+
 sp {interpret-relation*propose*interpret-p2
    (state <s> ^name interpret-relation
+              ^p2 <p2>
               ^p2-collected true
               ^p2-predicates <cp>)
    (<cp> -^interpretation)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-object
+        ^primary-object <p2>
         ^predicates <cp>)
 }
 
 sp {interpret-relation*elaborate*p1-interpretation
    (state <s> ^name interpret-relation
               ^p1-predicates <p1p>
-              ^interpretation.relation <rm>)
+              ^interpretation.relation.p1 <rm>)
    (<p1p> ^interpretation.object <int>)
 -->
-   (<rm> ^p1-object <int>)
+   (<rm> ^object <int>)
 }
 
 sp {interpret-relation*elaborate*p2-interpretation
    (state <s> ^name interpret-relation
               ^p2-predicates <p2p>
-              ^interpretation.relation <rm>)
+              ^interpretation.relation.p2 <rm>)
    (<p2p> ^interpretation.object <int>)
 -->
-   (<rm> ^p2-object <int>)
+   (<rm> ^object <int>)
+}
+
+sp {interpret-relation*elaborate*p1-interpretation*subrelation
+   (state <s> ^name interpret-relation
+              ^p1-predicates <p1p>
+              ^interpretation.relation.p1 <rm>)
+   (<p1p> ^interpretation.relation <int>)
+-->
+   (<rm> ^relation <int>)
+}
+
+sp {interpret-relation*elaborate*p2-interpretation*subrelation
+   (state <s> ^name interpret-relation
+              ^p2-predicates <p1p>
+              ^interpretation.relation.p2 <rm>)
+   (<p1p> ^interpretation.relation <int>)
+-->
+   (<rm> ^relation <int>)
 }
 
 sp {interpret-relation*elaborate*return-interpretation
    (state <s> ^name interpret-relation
-              ^all-predicates <p>
+              ^predicates <p>
               ^interpretation <i>)
    (<i> ^relation <rm>)
-   (<rm> ^p1-object <p1>
-         ^p2-object <p2>)
+   (<rm> ^p1.object <p1>
+         ^p2.object <p2>)
 -->
    (<p> ^interpretation <i>)
 }

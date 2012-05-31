@@ -1,6 +1,6 @@
 # Fetch the category for the given word from memory
-sp {object-message*propose*lookup-smem*category
-   (state <s> ^name object-message
+sp {this-object-message*propose*lookup-smem*category
+   (state <s> ^name this-object-message
               ^object <obj>
               ^nounjective <nj>)
    (<nj> -^category
@@ -17,8 +17,8 @@ sp {object-message*propose*lookup-smem*category
 }
 
 # Successful retrieval
-sp {object-message*apply*lookup-smem*category*success
-   (state <s> ^name object-message
+sp {this-object-message*apply*lookup-smem*category*success
+   (state <s> ^name this-object-message
               ^operator <o>
               ^nounjective <nj>)
    (<o> ^name lookup-smem
@@ -31,8 +31,8 @@ sp {object-message*apply*lookup-smem*category*success
 }
 
 # Failed retrieval
-sp {object-message*apply*lookup-smem*category*failure
-   (state <s> ^name object-message
+sp {this-object-message*apply*lookup-smem*category*failure
+   (state <s> ^name this-object-message
               ^operator <o>
               ^nounjective <nj>)
    (<o> ^name lookup-smem

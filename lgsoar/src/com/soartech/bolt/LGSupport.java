@@ -1,9 +1,8 @@
 package com.soartech.bolt;
 
-import java.io.IOException;
-
 import net.sf.jlinkgrammar.Linkage;
 import net.sf.jlinkgrammar.Sentence;
+import net.sf.jlinkgrammar.parser;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
 import sml.Identifier;
@@ -16,9 +15,12 @@ public class LGSupport implements OutputEventInterface {
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
 	
+	public static parser theParser;
+	
 	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
 		dictionaryPath = dictionary;
+		theParser = new parser();
 		
 		// make a root lg-input WME
 		if (agent != null) {
@@ -32,11 +34,7 @@ public class LGSupport implements OutputEventInterface {
 		
 		if (agent == null) {
 			// no Soar, run parser directly on sentence
-			try {
-				net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			theParser.parseSentence(sentence);
 		}
 		else {
 			// load the sentence into WM
@@ -48,16 +46,50 @@ public class LGSupport implements OutputEventInterface {
 			// wait for preprocessed sentence on output
 		}
 	}
+	
+	private void originalSentenceToWM(String sentence) {
+		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
+        agent.CreateIntWME(root, "sentence-count", sentenceCount);
+        Identifier wordsWME = agent.CreateIdWME(root, "words");
+        sentence = sentence.replaceAll("(\\W)", " $1");
+        //System.out.println("padded: " + sentence);
+        String[] words = sentence.split("\\s+");
+        
+        for (int i=0; i<words.length; i++) {
+        	Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
+        	agent.CreateStringWME(wordWME, "wvalue", words[i]);
+        	agent.CreateIntWME(wordWME, "wcount", i);
+        	//System.out.println("wd " + words[i]);
+        }
+
+	}
+	
+	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
 
 		// call LG Parser
-		try {
-			net.sf.jlinkgrammar.parser.doIt(new String[]{sentence});
-		} catch (IOException e) {
-			e.printStackTrace();
+		theParser.parseSentence(sentence);
+	}
+	
+	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
+		String result = "";
+		
+		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
+		
+		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
+		
+		while (currentWME != null) {
+			String word = currentWME.ConvertToIdentifier().GetParameterValue("word");
+			if (word != null) {
+				result += " " + word;
+			}
+			currentWME = currentWME.ConvertToIdentifier().FindByAttribute("next", 0);
 		}
+		
+		//System.out.println("got sentence: " + result);
+		return result;
 	}
 	
 	// called from parser.java
@@ -70,11 +102,15 @@ public class LGSupport implements OutputEventInterface {
         // combine all sublinkages to one
         thisLinkage.linkage_compute_union();
         
-        String outstr = thisLinkage.linkage_print_diagram();
-		System.out.println(outstr);
+        String message = thisLinkage.linkage_print_diagram();
+        System.out.println(message);
+
+		// this ideally should be injected into the Soar print stream,
+		// but that doesn't seem possible. Echo command doesn't seem to do it.
 		
 		if (agent == null) {
 			// valid if run to print the parse alone
+
 			return;
 		}
 		
@@ -86,7 +122,7 @@ public class LGSupport implements OutputEventInterface {
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
        
-        agent.CreateIntWME(sentenceRoot, "parse-count", idx);
+        agent.CreateIntWME(sentenceRoot, "parse-count", nextParseCount(currentOutputSentenceCount));
         	
         // make a wme for the words
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
@@ -99,13 +135,14 @@ public class LGSupport implements OutputEventInterface {
  
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
             agent.CreateIntWME(wordWME, "wcount", wordx);
-            agent.CreateStringWME(wordWME, "original-wvalue", wordval);
+            agent.CreateStringWME(wordWME, "wvalue", wordval);
         }
             
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
         
         String noStarsPattern = "\\*";
+        String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
         String idiomPattern = "ID.*";
         String pattern = "([A-Z]+)([a-z]*)";
         
@@ -120,6 +157,7 @@ public class LGSupport implements OutputEventInterface {
             // these indicate "any subtype in this position"
             // not sure what to do with them, but they definitely shouldn't be stuck to the main type
             linkLabel = linkLabel.replaceAll(noStarsPattern, "");
+            linkLabel = linkLabel.replaceAll(noCaratPattern, "");
             
             String ltype = linkLabel;
             ltype = ltype.replaceAll(pattern, "$1");
@@ -143,41 +181,21 @@ public class LGSupport implements OutputEventInterface {
           
         }		
 	}
-
-	private void originalSentenceToWM(String sentence) {
-		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
-        agent.CreateIntWME(root, "sentence-count", sentenceCount);
-        Identifier wordsWME = agent.CreateIdWME(root, "words");
-        sentence = sentence.replaceAll("(\\W)", " $1");
-        //System.out.println("padded: " + sentence);
-        String[] words = sentence.split("\\s+");
-        
-        for (int i=0; i<words.length; i++) {
-        	Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
-        	agent.CreateStringWME(wordWME, "wvalue", words[i]);
-        	agent.CreateIntWME(wordWME, "wcount", i);
-        	//System.out.println("wd " + words[i]);
-        }
-
-	}
 	
-	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
-		String result = "";
-		
-		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
-		
-		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
-		
-		while (currentWME != null) {
-			String word = currentWME.ConvertToIdentifier().GetParameterValue("word");
-			if (word != null) {
-				result += " " + word;
-			}
-			currentWME = currentWME.ConvertToIdentifier().FindByAttribute("next", 0);
+	private static int lastSentenceCount = -1;
+	private static int currentParseCount = -1;
+	
+	private static int nextParseCount(int sentenceCount) {
+		// can't just use LG parse indices, since the same sentence can be reparsed at Soar's request,
+		// reparses should have the same sentence count and extend the parse indices of the original
+	
+		if (sentenceCount != lastSentenceCount) {
+			currentParseCount = 0;
+			lastSentenceCount = sentenceCount;
 		}
-		
-		//System.out.println("got sentence: " + result);
-		return result;
+		else {
+			currentParseCount++;
+		}
+		return currentParseCount;
 	}
-
 }

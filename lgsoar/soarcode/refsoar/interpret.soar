@@ -109,11 +109,30 @@ sp {interpret*propose*S-I*as*inflected
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <S-link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
 	
+# SBW 5/30/12
+# change for BOLT:
+# we care about this/that/the distinctions, so I'm splitting this to preserve
+# "this" and "that"
+
+# sp {interpret*propose*D*as*definite-description
+#    (state <s> ^current-sentence <cs>)
+#    (<cs> ^links.link <link> ^words.word <def-desc> <main>)
+#    (<main> ^ref <ref> ^wcount <main-count>)
+#    (<def-desc> ^wvalue << the this that >> ^wcount <def-desc-count>)
+#    (<link> ^ltype D ^lwleft <def-desc-count> ^lwright <main-count> 
+#    -^handled-as)
+# -->
+#    (<s> ^operator <o> +)
+#    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
+#    	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
+#    (<desc> ^word <def-desc> ^feature DEF)
+#  }
+
 sp {interpret*propose*D*as*definite-description
    (state <s> ^current-sentence <cs>)
    (<cs> ^links.link <link> ^words.word <def-desc> <main>)
    (<main> ^ref <ref> ^wcount <main-count>)
-   (<def-desc> ^wvalue << the this that >> ^wcount <def-desc-count>)
+   (<def-desc> ^wvalue the ^wcount <def-desc-count>)
    (<link> ^ltype D ^lwleft <def-desc-count> ^lwright <main-count> 
    -^handled-as)
 -->
@@ -121,6 +140,33 @@ sp {interpret*propose*D*as*definite-description
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
    	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
    (<desc> ^word <def-desc> ^feature DEF)
+ }
+
+sp {interpret*propose*D*as*definite-description*word
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <def-desc> <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<def-desc> ^wvalue {<< this that >> <val>}  ^wcount <def-desc-count>)
+   (<link> ^ltype D ^lwleft <def-desc-count> ^lwright <main-count> 
+   -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
+   	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
+   (<desc> ^word <def-desc> ^feature <val>)
+ }
+sp {interpret*propose*Dw*as*question-word
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <def-desc> <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<def-desc> ^wvalue <wval> ^wcount <def-desc-count>)
+   (<link> ^ltype D ^ltypesub w ^lwleft <def-desc-count> ^lwright <main-count> 
+   -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug desc ^arg <desc> ^link <link>
+   	 ^kind constant ^order <def-desc-count> ^level-two-order <main-count> )
+   (<desc> ^word <def-desc> ^feature <wval>)
  }
 
 sp {interpret*propose*D*as*indefinite-description
@@ -191,11 +237,34 @@ sp {interpret*propose*MV-J*as*preposition
    (<prep-obj> ^wcount <prep-obj-count>)
    (<MV-link> ^ltype << MV M P >> ^lwleft <main-count> ^lwright <prep-count> -^handled-as)
    (<J-link> ^ltype J ^lwleft <prep-count> ^lwright <prep-obj-count>)
+  -{(<cs> ^links.link {<> <J-link> <other>})
+    (<other> ^ltype J ^lwleft <prep-count> ^lwright <other-prep-obj-count>)} # not two Js (see below)
 -->
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug <aug> ^arg <prep-obj> ^link <MV-link>
    	 ^kind single ^order <main-count> ^level-two-order <prep-count> 
      ^preposition true)
+}
+ 
+# SBW added this for things like "between a and b", that appears as an M link
+# to between, and two J links to a and b. 
+sp {interpret*propose*MV-J*as*preposition*double
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <MV-link> <J-link> <other-J-link> ^words.word <prep-obj> <prep2-obj> <prep> <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<prep> ^wvalue <aug> ^wcount <prep-count>)
+   (<MV-link> ^ltype << MV M P >> ^lwleft <main-count> ^lwright <prep-count> -^handled-as)
+   (<J-link> ^ltype J ^lwleft <prep-count> ^lwright <prep-obj-count>)
+   (<prep-obj> ^wcount <prep-obj-count>)
+   (<other-J-link> ^ltype J ^lwleft <prep-count> ^lwright {> <prep-obj-count> <prep2-obj-count>})
+   (<prep2-obj> ^wcount <prep2-obj-count>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug <aug> ^arg1 <prep-obj> ^arg2 <prep2-obj> ^link <MV-link>
+   	 ^kind double ^order <main-count> ^level-two-order <prep-count> 
+     ^preposition true
+     ^arg1-order <prep-obj-count>
+     ^arg2-order <prep2-obj-count>)
 }
  
 
@@ -274,6 +343,43 @@ sp {interpret*apply*single-add-arg*if*arg-requires-ref
    (<link> ^handled-as <aug>)
 }
 
+# SBW removing this, unmatchable (nothing creates arg-word on that operator)
+# presumably, this means args never have refs, or add-arg would operator
+# no-change
+
+# If this is needed, probably also need a double equivalent
+
+# sp {interpret*apply*single-add-arg*if*arg-has-ref
+#    (state <s> ^operator <o> ^current-refset <refs>)
+#    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single)
+#    (<main> ^ref <main-ref>)
+#    (<arg> ^ref <arg-ref>)
+# -->
+#    (<main-ref> ^<aug> <arg-ref> +)
+#    (<link> ^handled-as <aug>)
+# }
+
+sp {interpret*apply*double-add-arg*if*arg-requires-ref
+   (state <s> ^operator <o> ^current-refset <refs>)
+   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg1 <arg> ^arg2 <arg2> ^link <link> ^kind double
+        ^arg1-order <a1o>
+        ^arg2-order <a2o>)
+   (<main> ^ref <main-ref>)
+   (<arg> -^ref)
+-->
+   (<main-ref> ^<aug> <arg-ref>
+               ^<aug> <arg2-ref>)
+   (<refs> ^ref <arg-ref> 
+           ^ref <arg2-ref>)
+   (<arg-ref> ^head <arg>
+              ^order <a1o>)
+   (<arg2-ref> ^head <arg2>
+               ^order <a2o>)
+   (<arg> ^ref <arg-ref>)
+   (<arg2> ^ref <arg2-ref>)
+   (<link> ^handled-as <aug>)
+}
+
 sp {interpret*apply*add-arg*flag-preposition
    (state <s> ^operator <o> ^current-refset <cr>)
    (<o> ^name add-arg ^preposition true
@@ -281,16 +387,6 @@ sp {interpret*apply*add-arg*flag-preposition
    (<main> ^ref <main-ref>)
 -->
    (<main-ref> ^preposition-lex <aug>)
-}
-
-sp {interpret*apply*single-add-arg*if*arg-has-ref
-   (state <s> ^operator <o> ^current-refset <refs>)
-   (<o> ^name add-arg ^main <main> ^aug <aug> ^arg-word <arg> ^link <link> ^kind single)
-   (<main> ^ref <main-ref>)
-   (<arg> ^ref <arg-ref>)
--->
-   (<main-ref> ^<aug> <arg-ref> +)
-   (<link> ^handled-as <aug>)
 }
 
 ### below here moved from non-cligdump93.soar in original LGSoar 2.0 release

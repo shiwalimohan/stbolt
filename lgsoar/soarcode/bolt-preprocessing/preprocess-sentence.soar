@@ -4,42 +4,54 @@
 # Learned words will be looked up in semantic memory here, and replaced with
 # generics. Possibly all words.
 
-# Other potential uses: if context/knowledge tells us a word should get a different
-# dictionary entry than LG would normally use. Need a good example that can't
-# be better handled by selecting non-default parses in evaluate-parse..
-
-# For now (5/2012), this is just a placeholder.
 
 # preprocessing flow:
-# -sentence appears on io.input-link.lg.original-sentence
+# -sentence appears on io.input-link.lg.sentence
 #  structure: sentence.words.word [wvalue wcount]
 # -preprocessing goal takes over, builds io.output-link.preprocessed-sentence
 #  structure: preprocessed-sentence.start [word next] [word next] ..
 
-sp {preprocess-sentence*elaborate*original-sentence
+# copy the sentence to the state, deep copy so it can be modified
+
+sp {preprocess-sentence*elaborate*sentence
   (state <s> ^name preprocess-sentence
-             ^superstate.operator.sentence <sent>)
+             ^superstate.operator.original-sentence <sent>)
+   (<sent> ^sentence-count <sc>)
 -->
-   (<s> ^original-sentence <sent>)
+   (<s> ^sentence <copy>)
+   (<copy> ^sentence-count <sc>)
 }
 
-sp {preprocess-sentence*propose*pass-through
+sp {preprocess-sentence*elaborate*copy-word
    (state <s> ^name preprocess-sentence
-              ^original-sentence <sent>)
+              ^superstate.operator.original-sentence.words.word <wd>
+              ^sentence <copy>)
+   (<wd> ^wcount <wc>
+         ^wvalue <wv>)
 -->
-   (<s> ^operator <o> +)
-   (<o> ^name pass-through
+   (<copy> ^word <copy-word>)
+   (<copy-word> ^wcount <wc>
+                ^real-wvalue <wv>
+                ^parser-wvalue <wv>) # modify this to remap a word
+}
+
+sp {preprocess-sentence*propose*output-preprocessed
+   (state <s> ^name preprocess-sentence
+              ^sentence <sent>)
+-->
+   (<s> ^operator <o> + <) # only after all preprocessing done
+   (<o> ^name output-preprocessed
         ^kind interpretation)
 }
 
-sp {preprocess-sentence*apply*pass-through*first-word
+sp {preprocess-sentence*apply*output-preprocessed*first-word
    (state <s> ^name preprocess-sentence
-              ^operator.name pass-through
+              ^operator.name output-preprocessed
               ^top-state.io.output-link <ol>
-              ^original-sentence.sentence-count <ct>
-              ^original-sentence.words.word <wd>)
+              ^sentence.sentence-count <ct>
+              ^sentence.word <wd>)
    (<wd> ^wcount 0
-         ^wvalue <val>)
+         ^parser-wvalue <val>)
 -->
    (<ol> ^preprocessed-sentence <ps>)
    (<ps> ^start <st>
@@ -49,15 +61,15 @@ sp {preprocess-sentence*apply*pass-through*first-word
    (<s> ^output-word <st>)
 }
 
-sp {preprocess-sentence*apply*pass-through*next-word
+sp {preprocess-sentence*apply*output-preprocessed*next-word
    (state <s> ^name preprocess-sentence
-              ^operator.name pass-through
-              ^original-sentence.words.word <next-word>
+              ^operator.name output-preprocessed
+              ^sentence.word <next-word>
               ^output-word <last-word>)
    (<last-word> ^wcount <last-count>)
    (<next-word> ^wcount <next-count> > <last-count>
-                ^wvalue <val>)
-  -{(<s> ^original-sentence.words.word <intervening-word>)
+                ^parser-wvalue <val>)
+  -{(<s> ^sentence.word <intervening-word>)
    (<intervening-word> ^wcount > <last-count>
                        ^wcount < <next-count>)}
 -->
@@ -67,13 +79,55 @@ sp {preprocess-sentence*apply*pass-through*next-word
    (<s> ^output-word <xt>)
 }
 
-sp {preprocess-sentence*apply*pass-through*last-word
+sp {preprocess-sentence*apply*output-preprocessed*last-word
    (state <s> ^name preprocess-sentence
-              ^operator.name pass-through
-              ^original-sentence <os>
+              ^top-state <ts>
+              ^operator.name output-preprocessed
+              ^superstate.operator.original-sentence <os>
+              ^sentence <sent>
               ^output-word <last-word>)
    (<last-word> ^wcount <last-count>)
-  -{(<s> ^original-sentence.words.word.wcount > <last-count>)}
+  -{(<s> ^sentence.word.wcount > <last-count>)}
 -->
    (<os> ^preprocessed true)
+   (<ts> ^sentence-mapping <sent>)
 }
+
+# if there is an expectation that a word is being implicitly quoted, substitute
+# it with a generic mass noun (word.n.3)
+# this happens if the interaction stack indicates "I just told the mentor to
+# define a word for me", that word should be quoted in the response
+sp {preprocess-sentence*elaborate*implicit-quote
+   (state <s> ^name preprocess-sentence
+              ^top-state.interaction.stack.segment.purpose.parameters.query <q>)
+   (<q> ^type category-of-word
+        ^word <wd>)
+-->
+   (<s> ^implicitly-quoted-word <wd>)
+   (write (crlf) |"| <wd> |" will be implicitly quoted due to dialog context|)
+}
+
+sp {preprocess-sentence*propose*implicit-quote
+   (state <s> ^name preprocess-sentence
+              ^implicitly-quoted-word <wd>
+              ^sentence.word.parser-wvalue <wd>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name implicit-quote
+        ^kind interpretation)
+}
+
+sp {preprocess-sentence*apply*implicit-quote
+   (state <s> ^name preprocess-sentence
+              ^operator.name implicit-quote
+              ^implicitly-quoted-word <wd>
+              ^sentence.word <wds>)
+   (<wds> ^real-wvalue <wd>
+          ^parser-wvalue <wd>)
+-->
+   (<wds> ^parser-wvalue <wd> -
+          ^parser-wvalue |generic-word.n.3[0]|)
+}
+# TODO:
+# if any other preprocessing replacements are added, need a replacement
+# incrementation scheme of some sort!

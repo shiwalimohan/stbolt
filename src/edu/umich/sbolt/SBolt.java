@@ -4,7 +4,9 @@ import java.awt.Rectangle;
 import java.io.File;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +20,11 @@ import lcm.lcm.LCM;
 import lcm.lcm.LCMDataInputStream;
 import lcm.lcm.LCMSubscriber;
 import sml.Agent;
+import sml.Agent.PrintEventInterface;
+import sml.Agent.RunEventInterface;
 import sml.Kernel;
+import sml.smlPrintEventId;
+import sml.smlRunEventId;
 import abolt.lcmtypes.observations_t;
 import abolt.lcmtypes.robot_action_t;
 import abolt.lcmtypes.robot_command_t;
@@ -31,7 +37,7 @@ import edu.umich.sbolt.world.WorldObject;
 
 import com.soartech.bolt.BOLTLGSupport;
 
-public class SBolt implements LCMSubscriber
+public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterface
 
 {
     private LCM lcm;
@@ -53,8 +59,14 @@ public class SBolt implements LCMSubscriber
     private ChatFrame chatFrame;
 
     private World world;
+   
+    private PrintWriter logWriter;
+    
+    private int throttleMS = 0;
     
     private boolean ready = true;
+    
+   
     
     private static boolean inputLinkLocked = false;
     public static void lockInputLink(){
@@ -71,7 +83,7 @@ public class SBolt implements LCMSubscriber
     	inputLinkLocked = false;
     }
 
-    public SBolt(String channel, String agentName)
+    public SBolt(String channel, String agentName, boolean headless)
     {
         // LCM Channel, listen for observations_t
         try
@@ -139,9 +151,31 @@ public class SBolt implements LCMSubscriber
         // Otherwise the system would apparently hang on a commit
         kernel.SetAutoCommit(false);
 
-        System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
-        // Requires the SOAR_HOME environment variable
+		String doLog = props.getProperty("enable-log");
+		if (doLog != null && doLog.equals("true")) {
+			try {
+				logWriter = new PrintWriter(new FileWriter("sbolt-log.txt"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+		}
+		
+		String watchLevel = props.getProperty("watch-level");
+		if (watchLevel != null) {
+			agent.ExecuteCommandLine("watch " + watchLevel);
+		}
 
+		String throttleMSString = props.getProperty("decision-throttle-ms");
+		if (throttleMSString != null) {
+			throttleMS = Integer.parseInt(throttleMSString);
+			agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_DECISION_CYCLE, this, this);
+		}
+        if (!headless) {
+        	System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
+        	// Requires the SOAR_HOME environment variable
+        }
+      
         world = new World();
 
         // Setup InputLink
@@ -165,6 +199,7 @@ public class SBolt implements LCMSubscriber
 
         running = false;
         chatFrame.showFrame();
+        
     }
     
     public Kernel getKernel(){
@@ -278,8 +313,32 @@ public class SBolt implements LCMSubscriber
 
     public static void main(String[] args)
     {    	
-        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt");
+    	boolean headless = false;
+    	if (args.length > 0 && args[0].equals("--headless")) {
+    		// it might make sense to instead always make the parameter
+    		// be the properties filename, and load all others there
+    		// (currently, properties filename is hardcoded)
+    		headless = true;
+    	}
+        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt", headless);
         sbolt.start();
+        if (headless) {
+        	sbolt.agent.RunSelfForever();
+        }
     }
+	@Override
+	public void printEventHandler(int eventID, Object data, Agent agent, String message) {
+		synchronized(logWriter) {
+			logWriter.print(message);
+		}
+	}
+	@Override
+	public void runEventHandler(int arg0, Object arg1, Agent arg2, int arg3) {
+		try {
+			Thread.sleep(throttleMS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

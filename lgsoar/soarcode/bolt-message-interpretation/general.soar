@@ -1,95 +1,78 @@
-sp {elaborate*lgsoar-message-count
-   (state <s> ^superstate nil)
--->
-   (<s> ^next-lgsoar-message-id 0)
-}
-
-
-# role prepositions will cause redundant predicates
-# e.g.: color-of(N7,N4) color(N4) of(N4,N7)
-# ignore the last two
-
-sp {elaborate*ignore-redundant
-   (state <s> ^superstate nil
-              ^lgsoar-predicates <pred>)
-   (<pred> ^predicate <rp>
-           ^predicate <propp>
-           ^predicate <predp>)
-   (<rp> ^outer1 <property>
-         ^outer2 <preposition>
-         ^inner1 <i1>
-         ^inner2 <i2>)
-   (<propp> ^outer <property>
-            ^inner1 <i2>)
-   (<predp> ^outer <preposition>
-            ^inner1 <i2>
-            ^inner2 <i1>)
--->
-   (<propp> ^ignored true)
-   (<predp> ^ignored true)
-}
-
-sp {propose*finish-interpretation
-   (state <s> ^superstate nil
-              ^lgsoar-predicates <pred>)
-   (<pred> ^interpretation <int>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name finish-interpretation)
-}
-
-sp {apply*finish-interpretation
-   (state <s> ^superstate nil
-              ^operator.name finish-interpretation
-              ^nl.input-link <nli>
-              ^next-lgsoar-message-id <id>
-              ^lgsoar-predicates <pred>
-              ^lgsoar-predicates.interpretation <int>)
--->
-   (<nli> ^message <int>)
-   (<int> ^id <id>)
-   (<s> ^lgsoar-predicates <pred> -
-        ^next-lgsoar-message-id <id> -
-        ^next-lgsoar-message-id (+ <id> 1))
-}
-
-
 
 # generally, interpretation subgoals terminate by adding an ^interpretation
-# structure to the ^all-parameters structure on their state, which is the
-# same as the ^predicates structure on the interpretation operator
+# structure to the ^predicates structure on their state, which is the
+# elaborated to the ^predicates structure on the interpretation operator
 
-sp {interpretation*elaborate*predicates-to-substate
-   (state <s> ^superstate.operator <o>)
-   (<o> ^kind message-interpretation
-        ^predicates <p>)
+sp {interpretation*elaborate*objects-to-substate
+   (state <s> ^problem-space message-interpretation
+              ^superstate.objects <ob>)
 -->
-   (<s> ^all-predicates <p>)
+   (<s> ^objects <ob>)
 }
+
+sp {interpretation*elaborate*predicates
+   (state <s> ^superstate.operator <o>)
+   (<o> ^kind message-interpretation)
+-->
+   (<s> ^predicates <px>)
+}
+
+sp {interpretation*elaborate*unignored-predicates
+   (state <s> ^superstate.operator <o>
+              ^predicates <p>)
+   (<o> ^kind message-interpretation
+        ^predicates.predicate <pred>)
+   (<pred> -^ignored
+           -^accounted-for)
+-->
+   (<p> ^predicate <pred>)
+}
+
+sp {interpretation*elaborate*interpretation-to-operator
+   (state <s> ^problem-space message-interpretation
+              ^superstate.operator.predicates <ssop>
+              ^predicates.interpretation <int>)
+-->
+   (<ssop> ^interpretation <int>)
+}
+              
 
 sp {misc*elaborate*interpretation-operators
    (state <s> ^operator <o> +)
-   (<o> ^name << interpret-object-message interpret-relation-message interpret-verb-command 
+   (<o> ^name << interpret-object-message interpret-verb-command 
                  interpret-object-question interpret-relation-question 
-                 interpret-object interpret-relation interpret-verb interpret-preposition
+                 interpret-object interpret-primitive-object interpret-relation 
+                 interpret-verb interpret-preposition
                  interpret-goal-relation-message interpret-goal-object-message
                  interpret-single-word-response finish-interpretation >>)
 -->
    (<o> ^kind message-interpretation)
 }
 
-sp {misc*interpret-old-messages-before-lgsoar
-   (state <s> ^superstate nil
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name interpret-sentence)
-   (<o2> ^kind message-interpretation)
--->
-   (<s> ^operator <o2> > <o1>)
-}
+# sp {misc*interpret-old-messages-before-lgsoar
+#    (state <s> ^superstate nil
+#               ^operator <o1> +
+#               ^operator <o2> +)
+#    (<o1> ^name interpret-sentence)
+#    (<o2> ^kind message-interpretation)
+# -->
+#    (<s> ^operator <o2> > <o1>)
+# }
 
 sp {misc*elaborate*message-interpretation*problem-space
    (state <s> ^superstate.operator.kind message-interpretation)
 -->
    (<s> ^problem-space message-interpretation)
 }
+
+sp {interpretation*prefer*interpret-primitive
+   (state <s> ^name interpret-message
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name interpret-primitive-object)
+   (<o2> ^kind message-interpretation
+        -^name interpret-primitive-object)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+

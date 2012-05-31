@@ -38,8 +38,17 @@ public class AgentMessageParser
         	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
         } else if(type.equals("unknown-message")){
         	message = "I was not able to understand your last message";
+        } else if(type.equals("teaching-request")){
+        	message = translateTeachingRequest(fieldsId);
+        } else if(type.equals("which-question")){
+        	message = translateWhichQuestion(fieldsId);
         }
         return message;
+    }
+    
+    private static String translateTeachingRequest(Identifier id){
+    	LingObject obj = LingObject.createFromSoarSpeak(id, "description");
+    	return "I don't see " + obj.toString() + ".\nPlease teach me to recognize one";
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){
@@ -114,5 +123,13 @@ public class AgentMessageParser
     		return "nothing";
     	
         return LingObject.createFromSoarSpeak(id, "object").toString();
+    }
+    
+    private static String translateWhichQuestion(Identifier id){
+    	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "description");
+    	if (objectId == null)
+    		return "Which one?";
+    	
+        return "Which " + LingObject.createFromSoarSpeak(id, "description") + "?";
     }
 }
