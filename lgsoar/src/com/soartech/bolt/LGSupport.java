@@ -142,6 +142,7 @@ public class LGSupport implements OutputEventInterface {
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
         
         String noStarsPattern = "\\*";
+        String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
         String idiomPattern = "ID.*";
         String pattern = "([A-Z]+)([a-z]*)";
         
@@ -156,6 +157,7 @@ public class LGSupport implements OutputEventInterface {
             // these indicate "any subtype in this position"
             // not sure what to do with them, but they definitely shouldn't be stuck to the main type
             linkLabel = linkLabel.replaceAll(noStarsPattern, "");
+            linkLabel = linkLabel.replaceAll(noCaratPattern, "");
             
             String ltype = linkLabel;
             ltype = ltype.replaceAll(pattern, "$1");

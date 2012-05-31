@@ -1,3 +1,5 @@
+# Pushed when the message coming in isn't interpreted
+
 sp {propose*push-unknown-message
    (state <s> ^topstate <s>
               ^instructor-message <msg>)
@@ -18,18 +20,18 @@ sp {prefer*other*communication*over*push-unknown-message
    (<s> ^operator <o1> > <o2>)
 }
 
-sp {reject*if*expected*dialog-event
-   (state <s> ^interaction.stack.segment <segment>
-              ^instructor-message <m>
-              ^operator <o> +)
-   (<segment> ^purpose.satisfaction <sat>
-   	      ^originator agent)
-   (<sat> ^dialog-event <etype>)
-   (<m> ^type <etype>)
-   (<o> ^name push-unknown-message)
--->
-   (<s> ^operator <o> -)
-}
+#sp {reject*if*expected*dialog-event
+#   (state <s> ^interaction.stack.segment <segment>
+#              ^instructor-message <m>
+#              ^operator <o> +)
+#   (<segment> ^purpose.satisfaction <sat>
+#   	      ^originator agent)
+#   (<sat> ^dialog-event <etype>)
+#   (<m> ^type <etype>)
+#   (<o> ^name push-unknown-message)
+#-->
+#   (<s> ^operator <o> -)
+#}
    
 
 sp {apply*push-unknown-message*mark-purpose

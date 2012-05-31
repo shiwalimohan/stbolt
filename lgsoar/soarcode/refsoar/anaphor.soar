@@ -153,6 +153,16 @@ sp	{anaphor*propose*add-third-center
         ^debug-info (concat |adding third-person center for reference for "| <wval> |"|))
 }
 
+# if the ref has an order, copy it on the operator
+# (prevents ties for double-object prepositions like "between")
+sp	{anaphor*propose*add-center*order 
+   (state <s> ^operator <o> +)
+   (<o> ^name add-center ^ref <ref>)
+   (<ref> ^order <ord>)
+-->
+   (<o> ^order <ord>)
+}
+
 sp	{anaphor*apply*add-center
   #  :o-support
    (state <s> ^operator <o> ^anaphor <a>)

@@ -8,7 +8,7 @@ sp {index-object*propose*lookup-smem*category
               ^label-query <lq>
               ^use-interaction <ask>)
    (<lq> -^category
-          ^word {<word> <> UNKNOWN})
+          ^word <word>)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name lookup-smem
@@ -42,7 +42,7 @@ sp {index-object*apply*lookup-smem*success*copy*result*object
    (<o> ^name lookup-smem
         ^lookup-type category
         ^query.word <word>
-        ^result {<result> <> failure})
+        ^result {<result> <> failure <> generic})
    (<prop> ^word <word>)
 -->
    (<prop> ^category <result>)
@@ -58,7 +58,7 @@ sp {index-object*apply*lookup-smem*category*failure*remove*property
    (<o> ^name lookup-smem
         ^lookup-type category
         ^query.word <word>
-        ^result failure)
+        ^result << failure generic >>)
    (<obj> ^property <prop>)
    (<prop> ^word <word>)
 -->

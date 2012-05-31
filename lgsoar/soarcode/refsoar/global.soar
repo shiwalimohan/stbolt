@@ -219,7 +219,7 @@ sp {lg*resolve-ties-indifferently
               ^item-count < 10 # don't explode with matches
               ^attribute operator
               ^item <o1>
-              ^item <o2>
+              ^item {<> <o1> <o2>}
               ^superstate <ss>)
    (<ss> ^problem-space lgsoar
         ^operator <o1> +

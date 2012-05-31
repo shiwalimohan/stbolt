@@ -109,20 +109,19 @@ sp {index-object*apply*init-index-object*mark*depth2*copied
    (<cc> ^copied-depth2 true)
 }
 
-sp {index-object*apply*init-index-object*copy*objects*relations*depth2
+sp {index-object*apply*init-index-object*copy*words*depth2
    (state <s> ^name index-object
               ^operator.name init-index-object
               ^copy-context <cc>)
    (<cc> ^context <context>
          ^copied-depth1 true
         -^copied-depth2
-         ^map <map>
-        -^map.original <arg-val>)
+         ^map <map>)
    (<map> ^original <val>
           ^copy <val-copy>)
-   (<val> ^<arg> <arg-val>)
+   (<val> ^word {<word> <> UNKNOWN})
 -->
-   (<val-copy> ^property.word <arg-val>)
+   (<val-copy> ^property.word <word>)
 }
 
 sp {index-object*apply*init-index-object*copy*objects*relations*depth2*resolve*references

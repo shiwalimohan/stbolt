@@ -60,6 +60,9 @@ source teaching-request.soar
 #   ask the user for more information
 # The teaching interaction is finished with the single word 'cancel' or 'finished'
 
+
+source find-relations.soar
+
 source complete-index-object.soar
 # complete-index-object 
 # 	This operator returns the result of the index-object onto the superstate operator
@@ -75,6 +78,7 @@ source object-message.soar
 # After the user has asked a which-question, these rules handle possible responses from the user
 #   object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
 #   object-message with DEF specifier: add words to the object's description
+
 
 source elaborations.soar
 # elaborations.soar
