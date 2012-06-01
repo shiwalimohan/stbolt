@@ -18,7 +18,9 @@ sp {complete*index-object*destroy-context
               ^topstate <top>)
    (<o> ^name index-object
         ^finished true)
-   (<top> ^index-object-context <context>)
+   (<top> ^interaction.stack.segment <seg>
+          ^index-object-context <context>)
+   (<context> ^segment <seg>)
 -->
    (<top> ^index-object-context <context> -)
 }

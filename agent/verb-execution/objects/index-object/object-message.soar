@@ -103,12 +103,11 @@ sp {index-object*purpose*apply*failure*send-message
 sp {index-object*purpose*apply*add*candidate
    (state <s> ^operator <o>
               ^io.output-link <out>
-              ^topstate.object <obj>
               ^interaction.stack.segment.purpose <p>)
    (<o> ^name index-object
         ^match {<m> <> failure})
    (<p> ^type index-object
-        ^message.query <q>)
+        ^parameters.query <q>)
    (<q> ^type which-question
         ^object <obj>)
         
