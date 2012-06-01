@@ -1,4 +1,6 @@
 ### compute distance for every location and objects
+### to be replaced with tracking from SVS
+
 sp {elaborate*object*location
    (state <s> ^object <obj>
    	      ^location <loc>

@@ -1,26 +1,9 @@
-### propose pick-up for all known objects if the robot is in their vicinity, limiting the functionality of robot pick-up a little bit
-
-sp {elaborate*grabbed*object
-   (state <s> ^self <self>
-   	      ^object <obj>)
-   (<self> ^grabbed-object <id> <> -1)
-   (<obj> ^id <id>)
--->
-   (<s> ^grabbed <obj>)
-}   
-
-sp {copy*grabbed
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> ^grabbed <obj>)
--->
-   (<s> ^grabbed <obj>)
-}
-
+## propose pick-up for all known objects
 sp {propose*pickup*object
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
 	      -^grabbed <obj>)
+   (<obj> ^category block)
  -->
    (<s> ^operator <op> +)
    (<op> ^name op_pick-up-object
@@ -34,8 +17,7 @@ sp {elaborate*pickup*object*action
    (<obj> ^id <id>)
   -->
    (<op> ^actions.pick-up.object-id <id>
- 	 ^category primitive-action
-	 ^success yes)
+ 	 ^category primitive-action)
    (<op> ^kind non-atomic)
 }
 

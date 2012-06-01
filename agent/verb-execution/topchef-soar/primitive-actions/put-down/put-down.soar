@@ -18,8 +18,7 @@ sp {elaborate*put-down*current-location*location
    	 ^argument <obj>)
 -->
    (<op> ^actions.put-down.location current		 
-   	 ^category primitive-action
-	 ^success yes)
+   	 ^category primitive-action)
 }
 
 ### action model

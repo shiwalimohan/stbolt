@@ -20,8 +20,7 @@ sp {elaborate*goto*location
 -->
    (<op> ^location <name>
    	 ^actions.goto.location <nloc>
-	 ^category primitive-action
-	 ^success yes)
+	 ^category primitive-action)
    (<nloc> ^x <x> ^y <y> ^z <z>)
 }
 
