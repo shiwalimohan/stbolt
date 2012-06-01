@@ -119,7 +119,8 @@ sp {apply*push-object-message*which-question-response*remove*query
               ^queries <qs>)
    (<o> ^name push-object-message
         ^specifier << none DEF >>
-        ^message.query <q>)
+        ^message.query <q>
+       -^relation)
    (<q> ^type which-question)
 -->
    (<qs> ^query <q> -)
@@ -130,34 +131,35 @@ sp {apply*push-object-message*which-question-response*remove*message
               ^instructor-message <msg>)
    (<o> ^name push-object-message
         ^specifier << none DEF >>
-        ^message <msg>)
+        ^message <msg>
+       -^relation)
    (<msg> ^query.type which-question)
 -->
    (<s> ^instructor-message <msg> -)
 }
 
 # Result when responding to a which-question with a relation
-#sp {apply*push-object-message*which-question-response*relation
-#   (state <s> ^operator <o>)
-#   (<o> ^name push-object-message
-#        ^message <msg>
-#        ^question-word which
-#        ^specifier << none DEF >>
-#        ^relation <rel>)
-#   (<rel> ^p1.object <obja> ^p2.object <objb> ^word <prep>)
-#   (<msg> ^query <q>)
-#   (<q> ^type which-question)
-#-->
-#   (<msg> ^purpose <p>)
-#   (<p> ^type which-question
-#        ^parameters <params>
-#        ^satisfaction <sat>)
-#   (<params> ^relation <rel2>)
-#   (<rel2> ^object1 <obja>
-#          ^object2 <objb>
-#          ^word <prep>)
-#   (<sat> ^internal-event indexing)
-#}
+sp {apply*push-object-message*which-question-response*relation
+   (state <s> ^operator <o>)
+   (<o> ^name push-object-message
+        ^message <msg>
+        ^specifier << none DEF >>
+        ^relation <rel>)
+   (<rel> ^p1.object <obja> ^p2.object <objb> ^word <prep>)
+   (<msg> ^query <q>)
+   (<q> ^type which-question)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type index-object
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<params> ^relation <rel2>
+             ^query <q>)
+   (<rel2> ^object1 <obja>
+          ^object2 <objb>
+          ^word <prep>)
+   (<sat> ^internal-event indexing)
+}
 
 
 
