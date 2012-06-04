@@ -18,7 +18,9 @@ sp {complete*index-object*destroy-context
               ^topstate <top>)
    (<o> ^name index-object
         ^finished true)
-   (<top> ^index-object-context <context>)
+   (<top> ^interaction.stack.segment <seg>
+          ^index-object-context <context>)
+   (<context> ^segment <seg>)
 -->
    (<top> ^index-object-context <context> -)
 }
@@ -43,6 +45,16 @@ sp {index-object*apply*index-object-failure
 }
 
 # complete-index-object
+sp {index-object*propose*complete-index-object*no-matches
+   (state <s> ^name index-object
+             -^final-matches.match)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name complete-index-object
+        ^category indexing
+        ^match failure)
+}
+
 #  copy matches to the superstate operator
 sp {index-object*propose*complete-index-object
    (state <s> ^name index-object

@@ -26,7 +26,7 @@ sp {apply*init-agent*store*smem*word2cat
               ^operator.name init-agent
               ^smem.command <cmd>)
 -->
-   (<cmd> ^store <c0> <c1> <c2> <c3> <c4> # Categories
+   (<cmd> ^store <c0> <c1> <c2> <c3> <c4> <c5> # Categories
           		 <v11> <v12> <v13> <v14> <v15> <v16> # Color
           		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29> <v30> # Shape
 				 <v31> <v32> <v33>  # Size
@@ -37,6 +37,7 @@ sp {apply*init-agent*store*smem*word2cat
    (<c2> ^type word2cat ^word shape ^category category)
    (<c3> ^type word2cat ^word size ^category category)
    (<c4> ^type word2cat ^word name ^category category)
+   (<c5> ^type word2cat ^word generic ^category category)
 
    # Color
    (<v11> ^type word2cat ^word red ^category color)
@@ -65,8 +66,9 @@ sp {apply*init-agent*store*smem*word2cat
  
  	# Name
 	(<v41> ^type word2cat ^word block ^category name)
+ 	(<v42> ^type word2cat ^word one ^category generic)
 	(<v43> ^type word2cat ^word ball ^category name)
-	(<v44> ^type word2cat ^word object ^category name)
+	(<v44> ^type word2cat ^word object ^category generic)
 	(<v45> ^type word2cat ^word stove ^category name)
 	(<v46> ^type word2cat ^word pantry ^category name)
 	(<v47> ^type word2cat ^word dishwasher ^category name)

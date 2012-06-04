@@ -1,12 +1,12 @@
 # After the user has asked a which-question, these rules handle possible responses from the user
-#   object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
-#   object-message with DEF specifier: add words to the object's description
+#   this-object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
+#   this-object-message with DEF specifier: add words to the object's description
 
 
-# Results when answered with an object-message with a 'this' used
-sp {object-message*apply*complete-object-message*resolve*which-question
-   (state <s> ^name object-message
-              ^operator.name complete-object-message
+# Results when answered with an this-object-message with a 'this' used
+sp {this-object-message*apply*complete-this-object-message*resolve*which-question
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
               ^topstate.queries.query <q>
               ^object <obj>)
    (<q> ^type which-question
@@ -16,9 +16,9 @@ sp {object-message*apply*complete-object-message*resolve*which-question
    (<query-obj> ^candidate <obj>)
 }
 
-sp {object-message*apply*complete-object-message*which-question*remove*query
-   (state <s> ^name object-message
-              ^operator.name complete-object-message
+sp {this-object-message*apply*complete-this-object-message*which-question*remove*query
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
               ^topstate.queries <qs>)
    (<qs> ^query <q>)   
    (<q> ^type which-question
@@ -27,54 +27,92 @@ sp {object-message*apply*complete-object-message*which-question*remove*query
    (<qs> ^query <q> -)
 }
 
-# Result when answered with a further description ('the red object')
-sp {apply*pop-segment*object-message*which-question*copy-word
-   (state <s> ^topstate <s> 
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^queries.query <q>)
-   (<msg> ^type object-message
-          ^information.object <obj>)
-   (<obj> ^specifier DEF
-          ^word <word>)
-   (<q> ^type which-question
-        ^active true
-        ^object <query-obj>
-        ^segment <next-segment>)
-   (<query-obj> -^property.word <word>)
+# Results when an object-message with a relation is sent in response to a which-question
+sp {segment*purpose*propose*index-object
+   (state <s> ^topstate <s>
+             -^instructor-message <msg>
+              ^interaction.stack.segment <seg>)
+   (<seg> ^purpose <p>
+          ^originator instructor)
+   (<p> ^type index-object
+        ^parameters.query.type which-question)
 -->
-   (<query-obj> ^property.word <word>)
+   (<s> ^operator <o> +)
+   (<o> ^name index-object
+        ^return-all true
+        ^use-interaction true
+        ^allow-ties false
+        ^category object-processing)
 }
 
-sp {apply*pop-segment*object-message*which-question*remove*query
-   (state <s> ^topstate <s>
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^topstate.queries <qs>)
-   (<qs> ^query <q>)   
-   (<q> ^type which-question
-        ^active true
-        ^segment <next-segment>)
-   (<msg> ^type object-message
-          ^information.object.specifier DEF)
+sp {index-object*purpose*elaborate*relation
+   (state <s> ^operator <o> +
+              ^interaction.stack.segment.purpose <p>)
+   (<o> ^name index-object)
+   (<p> ^type index-object
+        ^parameters.query.type which-question
+        ^parameters.relation <rel>)
+   (<rel> ^object1 <obj1>
+          ^object2 <obj2>)
+-->
+   (<o> ^object <obj1>
+        ^object <obj2>
+        ^relation <rel>)
+}
+
+
+sp {index-object*purpose*apply*perform*indexing
+   (state <s> ^operator <o>
+              ^interaction.stack.segment.purpose <p>
+              ^status <status>)
+   (<p> ^type index-object
+        ^parameters.query.type which-question)
+   (<o> ^name index-object
+        ^finished true)
+-->
+   (<status> ^performed.internal-event indexing)
+}
+
+sp {index-object*purpose*apply*index-object*remove-query
+   (state <s> ^operator <o>
+              ^interaction.stack.segment.purpose <p>
+              ^queries <qs>)
+   (<p> ^type index-object
+        ^parameters.query <q>)
+   (<q> ^type which-question)
+   (<o> ^name index-object
+        ^finished true)
 -->
    (<qs> ^query <q> -)
 }
 
-sp {apply*pop-segment*object-message*which-question*remove*message
-   (state <s> ^topstate <s>
-              ^operator.name pop-segment
-              ^interaction.stack.segment.next <next-seg>
-              ^instructor-message <msg>
-              ^topstate.queries <qs>)
-   (<qs> ^query <q>)   
-   (<q> ^type which-question
-        ^active true
-        ^segment <next-segment>)
-   (<msg> ^type object-message
-          ^information.object.specifier DEF)
+sp {index-object*purpose*apply*failure*send-message
+   (state <s> ^operator <o>
+              ^io.output-link <out>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type index-object
+        ^parameters.query.type which-question)
+   (<o> ^name index-object
+        ^match failure)
 -->
-   (<s> ^instructor-message <msg> -)
+   (<out> ^send-message <msg>)
+   (<msg> ^type no-object
+          ^fields <f>)
 }
+
+sp {index-object*purpose*apply*add*candidate
+   (state <s> ^operator <o>
+              ^io.output-link <out>
+              ^interaction.stack.segment.purpose <p>)
+   (<o> ^name index-object
+        ^match {<m> <> failure})
+   (<p> ^type index-object
+        ^parameters.query <q>)
+   (<q> ^type which-question
+        ^object <obj>)
+        
+-->
+   (<obj> ^candidate <m>)
+}
+
+
