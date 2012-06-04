@@ -3,7 +3,7 @@ sp {index-object*propose*find-relations
               ^index-object-context.relation <rel>
               ^object-matches <obj-m>
    			  -^found-relation <id>)
-   (<rel> ^object1 <obj>
+   (<rel> ^object2 <obj>
           ^property.word <prep>)
    (<obj-m> ^object <obj>
         	^match {<m> <> failure})
@@ -11,9 +11,9 @@ sp {index-object*propose*find-relations
 -->
    (<s> ^operator <o> + =)
    (<o> ^name find-relations
-        ^category svs
+        ^category indexing
         ^prep <prep>
-        ^ind 1
+        ^ind 2
         ^obj <id>)
 }
 
@@ -31,11 +31,11 @@ sp {index-object*apply*find-relations*copy-match
               ^object-matches <matches>
               ^relationships.relations.obj <id>
               ^final-matches <fm>)
-   (<matches> -^object.desired
-               ^match <m>)
+   (<matches> ^object.desired
+              ^match <m>)
    (<m> ^id <id>)
 -->
-   (<fm> ^match <id>)
+   (<fm> ^match <m>)
 }
               
               
