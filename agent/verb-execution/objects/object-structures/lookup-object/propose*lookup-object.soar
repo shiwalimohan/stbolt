@@ -1,37 +1,48 @@
 # When there is a new object on the input link initialize a new object sturcture in working memory
-sp {propose*create-object
+sp {propose*lookup-object
    (state <s> ^topstate <s>
               ^io.input-link.objects.object.id <id>
              -^object.id <id>)
 -->
    (<s> ^operator <o> + =)
-   (<o> ^name create-object
+   (<o> ^name lookup-object
         ^category object-processing
         ^id <id>)
 }
 
-# Elaborates an object sturcture other operators can add to 
-sp {elaborate*create-object*object
-	(state <s> ^operator <o> +)
-   (<o> ^name create-object
+# Successful lookup, use the constructed match
+sp {apply*lookup-object*copy*match
+   (state <s> ^operator <o> +)
+   (<o> ^name lookup-object
+        ^match {<m> <> failure})
+-->
+   (<o> ^object <m>)
+}
+
+# Failed lookup, create a new object structure
+sp {apply*lookup-object*object
+	(state <s> ^operator <o>)
+   (<o> ^name lookup-object
+        ^match failure
         ^id <id>)
 -->
    (<o> ^object <obj>)
 }
 
 # Adds the object structure to the topstate
-sp {apply*create-object
+sp {apply*lookup-object*copy*object
    (state <s> ^operator <o>)
-   (<o> ^name create-object
+   (<o> ^name lookup-object
         ^object <obj>)
 -->
    (<s> ^object <obj>)
 }
 
 # Adds the name to the object
-sp {apply*create-object*name
+sp {apply*lookup-object*name
    (state <s> ^operator <o>)
-   (<o> ^name create-object
+   (<o> ^name lookup-object
+        ^match failure
         ^object <obj>)
 -->
    (<obj> ^property <prop>)
@@ -40,9 +51,9 @@ sp {apply*create-object*name
 }
 
 # Copies the id of the object
-sp {apply*create-object*id
+sp {apply*lookup-object*id
    (state <s> ^operator <o>)
-   (<o> ^name create-object
+   (<o> ^name lookup-object
         ^object <obj>
         ^id <id>)
 -->
