@@ -26,15 +26,15 @@ sp {elaborate*objects*blocks
 
 
 ## copy object/self to substate
-sp {copy*object
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> -^name explain
-    	  ^object <l>)
-   (<l> ^category <any>)
--->
-   (<s> ^object <l>)
-}
+#sp {copy*object
+#   (state <s> ^superstate <ss>
+#   	      ^io)
+#   (<ss> -^name explain
+#    	  ^object <l>)
+#   (<l> ^category <any>)
+#-->
+#   (<s> ^object <l>)
+#}
 sp {copy*self
    (state <s> ^superstate <ss>
    	      ^io)

@@ -23,8 +23,7 @@ sp {elaborate*indexed-operator
    (<s> ^indexed-operator <map-op>)
 }
 
-##### resolve verb arguments to objects in current perception or from semantic memory
-
+#### resolve verb arguments to objects in current perception or from semantic memory
 ### prefer the mapped operator
 sp {elaborate*attribute*match
    (state <s> ^indexed-operator <map-op> <> <op>
@@ -40,7 +39,7 @@ sp {elaborate*attribute*match
 sp {elaborate*operator*match
    (state <s> ^operator <op> + 
    	      ^indexed-operator <map-op> <> <op>)
-   (<map-op> ^<attr> <val>)
+   (<map-op> ^{<attr> <> applied} <val>)
    (<op> -^matched <attr>
    	 ^category << primitive-action composite-action >>)
 -->
@@ -57,9 +56,11 @@ sp {prefer*match
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
+   (<map-op> -^applied true)
    -->
    (<s> ^operator <op> >)
-   (<op> ^information <info>)
+   (<op> ^information <info>
+   	 ^indexed-operator <map-op>)
 }
 
 sp {propose*indexed-operator*if*no-choices
@@ -69,23 +70,46 @@ sp {propose*indexed-operator*if*no-choices
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
 	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
+   (<map-op> -^applied true)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
-   	     ^information <info>)
+   	     ^information <info>
+	     ^indexed-operator <map-op>)
 }
 
-#### cleanup indexed-operator
-sp {remove-indexed-operator
-   (state <s> ^indexed-oreeperator <iop>
+### set indexed-operator as applied
+sp {mark*indexed-operator*applied
+   (state <s> ^indexed-operator <iop>
    	      ^operator <op>)
-   (<op> ^category << primitive-action communication composite-action >>
-   	 ^success yes)
- -->
-   (<s> ^indexed-operator <iop> -)
+   (<op> ^indexed-operator <map-op>)
+-->
+   (<map-op> ^applied true)
 }
 
+### delete indexed-operator
+sp {propose*delete-indexed-operator
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <map-op>)
+   (<map-op> ^applied true)
+-->
+   (<ss> ^operator <op> + >)
+   (<op> ^name delete-indexed-operator
+   	 ^indexed-operator <map-op>)
+}
 
+sp {apply*delete-indexed-operator
+   (state <s> ^operator <op>
+   	      ^indexed-operator <map-op>)
+   (<op> ^name delete-indexed-operator
+   	 ^indexed-operator <map-op>)
+-->
+   (<s> ^indexed-operator <map-op> -)
+}
+     
+   
 #### plug in to the interaction stack
 sp {write*primitive-action*status*topstate
    (state <s> ^operator <op>
