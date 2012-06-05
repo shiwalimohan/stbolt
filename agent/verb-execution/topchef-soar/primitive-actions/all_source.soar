@@ -1,8 +1,3 @@
-pushd ./goto
-source all_source.soar
-popd
-
-
 pushd ./pick-up
 source all_source.soar
 popd
@@ -11,12 +6,6 @@ popd
 pushd ./put-down
 source all_source.soar
 popd
-
-
-# pushd ./get
-# source all_source.soar
-# popd
-
 
 
 source apply-action.soar
