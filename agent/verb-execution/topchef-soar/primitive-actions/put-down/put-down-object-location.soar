@@ -9,13 +9,57 @@ sp {propose*put-down-object-location
    (<op> ^name op_put-down-object-location
    	 ^argument1 <obj>
 	 ^argument2 <loc>
+	 ^spatial-relationship <rel>
 	 ^category primitive-action)
+   (<rel> ^name in
+   	  ^argument1 <obj>
+	  ^argument2 <loc>)
 }
 
+### closed loop with SVS
+
+## elaborate the operator state
+sp {elaborate*op_put-down-object-location
+   (state <s> ^name op_put-down-object-location
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name op_put-down-object-location
+   	  ^argument1 <obj>
+	  ^argument2 <loc>
+	  ^spatial-relationship <rel>)
+-->
+   (<s> ^argument1 <obj>
+   	^argument2 <loc>
+	^spatial-relationship <rel>)
+}
+
+## determine the location x,y,z using SVS
+sp {propose*svs*find-projection
+   (state <s> ^name op_put-down-object-location
+   	      ^argument1 <obj>
+	      ^argument2 <loc>
+	      ^spatial-relationship <rel>
+	      -^projection-result)
+   (<rel> ^argument1 <obj>
+   	  ^argument2 <loc>)
+   (<obj> ^id <oid>)
+   (<loc> ^id <lid>)
+-->
+   (<s> ^operator <op> +)
+   (<o> ^name find-projection
+   	^a <oid>
+	^b <lid>)
+}
+
+
+## set up tracking in the superstate
+
+
+
+## put actions on the output-link
 sp {elaborate*put-down*location*location
    (state <s> ^operator <op> +)
    (<op> ^name op_put-down-object-location
-   	 ^argument1 <obj>
 	 ^argument2 <loc>)
 -->
    (<op> ^actions.put-down.location <loc>		 
@@ -23,7 +67,9 @@ sp {elaborate*put-down*location*location
    (<op> ^kind non-atomic)
 }
 
-### action model
+
+################################################################################
+### action model : dated action model
 sp {apply*put-down*location*action-model
    (state <s> ^operator <op>	
 	     -^io

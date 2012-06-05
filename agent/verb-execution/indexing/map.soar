@@ -23,7 +23,7 @@ sp {elaborate*indexed-operator
    (<s> ^indexed-operator <map-op>)
 }
 
-#### resolve verb arguments to objects in current perception or from semantic memory
+#### resolve verb arguments to objects in current perception (or from semantic memory)
 ### prefer the mapped operator
 sp {elaborate*attribute*match
    (state <s> ^indexed-operator <map-op> <> <op>
@@ -114,9 +114,9 @@ sp {apply*delete-indexed-operator
 sp {write*primitive-action*status*topstate
    (state <s> ^operator <op>
    	      ^topstate.status <status>)
-   (<op> ^category << primitive-action composite-action >>
-   	 ^information <info>
-	 ^success yes)
+   (<op> ^name delete-indexed-operator
+   	 ^indexed-operator <map-op>)
+   (<map-op> ^information <info>)
  -->
    (<status> ^performed.action-event <info>)
 }

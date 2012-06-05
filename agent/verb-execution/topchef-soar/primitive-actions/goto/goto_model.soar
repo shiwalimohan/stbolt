@@ -1,7 +1,0 @@
-### action model for the action goto
-sp {apply*goto*location*model
-   (state <s> ^operator <op>
-   	      -^io)
-   (<op> ^name op_goto
-   	 ^argument1 <loc>)
-   (<loc> 
