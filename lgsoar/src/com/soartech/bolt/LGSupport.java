@@ -71,7 +71,14 @@ public class LGSupport implements OutputEventInterface {
 
 		// call LG Parser
 		theParser.parseSentence(sentence);
-	}
+		
+		// add noun-phrase parses
+		// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
+		// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
+		// is a capitalized word in the middle of the sentence.
+		theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
+		
+	}	
 	
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
 		String result = "";
@@ -140,6 +147,7 @@ public class LGSupport implements OutputEventInterface {
             
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
+        agent.CreateIntWME(sentenceRoot, "unused-word-count", thisLinkage.linkage_unused_word_cost());
         
         String noStarsPattern = "\\*";
         String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.

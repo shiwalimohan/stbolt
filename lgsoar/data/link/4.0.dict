@@ -788,6 +788,12 @@ forsaken.v overridden.v overtaken.v rewritten.v undone.v beset.v mistaken.v unde
 /words/words.v.4.5: 
 (<vc-trans> & <verb-ge>) or <verb-ge-d>;
 
+% NOUN-PHRASE-WALL added by SBW 6/5/2012
+% like a plural/infinitive transitive verb, but don't allow any prepositional
+% phrases to attach (MV-)
+NOUN-PHRASE-WALL:
+<verb-pl,i> & (O+ or B-);
+
 <vc-kick>: ((K+ & {[[@MV+]]} & O*n+) or ((O+ or B-) & {K+}) or 
 [[@MV+ & O*n+]]) & {@MV+};
 % transitive verbs that can take particles like "up" and "out"

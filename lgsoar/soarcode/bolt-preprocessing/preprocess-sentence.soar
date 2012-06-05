@@ -35,6 +35,32 @@ sp {preprocess-sentence*elaborate*copy-word
                 ^parser-wvalue <wv>) # modify this to remap a word
 }
 
+sp {preprocess-sentence*elaborate*context-tag*which-question
+   (state <s> ^name preprocess-sentence
+              ^sentence.word <wd>)
+   (<wd> ^real-wvalue context_which_question
+         ^parser-wvalue context_which_question)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name substitute
+        ^word <wd>
+        ^old-value context_which_question
+        ^new-value | |)
+}
+
+sp {preprocess-sentence*apply*substitute
+   (state <s> ^name preprocess-sentence
+              ^operator <o>
+              ^sentence.word <wd>)
+   (<wd> ^parser-wvalue <old>)
+   (<o> ^name substitute
+        ^word <wd>
+        ^old-value <old>
+        ^new-value <new>)
+-->
+   (<wd> ^parser-wvalue <old> - <new>)
+}
+
 sp {preprocess-sentence*propose*output-preprocessed
    (state <s> ^name preprocess-sentence
               ^sentence <sent>)
@@ -92,6 +118,8 @@ sp {preprocess-sentence*apply*output-preprocessed*last-word
    (<os> ^preprocessed true)
    (<ts> ^sentence-mapping <sent>)
 }
+
+
 
 # if there is an expectation that a word is being implicitly quoted, substitute
 # it with a generic mass noun (word.n.3)
