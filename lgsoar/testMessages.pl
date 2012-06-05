@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-if ($ARGV[0] =~ /"--simple"/) {
+if ($ARGV[0] =~ /--simple/) {
 	$simple = 1;
 }
 else {

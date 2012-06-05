@@ -14,6 +14,7 @@ public class LGSupport implements OutputEventInterface {
 	private static Identifier lgInputRoot;
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
+	private static boolean phraseMode = false;
 	
 	public static parser theParser;
 	
@@ -76,8 +77,9 @@ public class LGSupport implements OutputEventInterface {
 		// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
 		// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
 		// is a capitalized word in the middle of the sentence.
+		phraseMode = true;
 		theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
-		
+		phraseMode = false;
 	}	
 	
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
@@ -145,8 +147,22 @@ public class LGSupport implements OutputEventInterface {
             String wordval = sent.sentence_get_word(wordx);
  
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
+
             agent.CreateIntWME(wordWME, "wcount", wordx);
             agent.CreateStringWME(wordWME, "wvalue", wordval);
+            
+            // if parsing as a phrase, we have added an extra word at the beginning
+            // Soar needs to know which words are equivalent across parses, so the
+            // phraseMode flag allows this to start phrases at index 0 rather than 1
+            // so word indices are equivalent
+            
+            // don't change the wcount, though, since LGSoar wants that to always start at 0
+            if (!phraseMode) {
+            	agent.CreateIntWME(wordWME, "global-wcount", wordx);
+            }
+            else {
+            	agent.CreateIntWME(wordWME, "global-wcount", wordx - 1);
+            }
         }
             
         // make a wme for the links
@@ -182,8 +198,10 @@ public class LGSupport implements OutputEventInterface {
             Identifier linkWME = agent.CreateIdWME(linksWME, "link");
                         
             agent.CreateStringWME(linkWME, "lvalue", linkLabel);
+            
             agent.CreateIntWME(linkWME, "lwleft", lWordIndex);
-            agent.CreateIntWME(linkWME, "lwright", rWordIndex);
+            agent.CreateIntWME(linkWME, "lwright", rWordIndex);	
+            
             agent.CreateStringWME(linkWME, "ltype", ltype);
            
             // make a separate WME for each subtype
