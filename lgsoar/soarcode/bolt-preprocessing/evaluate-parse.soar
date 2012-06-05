@@ -29,12 +29,38 @@ sp {evaluate-parse*elaborate*acceptable-parse
    (<s> ^acceptable-parse <parse>)
 }
 
+sp {evaluate-parse*elaborate*noun-phrase-cost*true
+   (state <s> ^name evaluate-parse
+              ^parse <parse>)
+   (<parse> ^words.word.wvalue NOUN-PHRASE-WALL)
+-->
+   (<parse> ^noun-phrase-cost 1)
+}
+
+sp {evaluate-parse*elaborate*noun-phrase-cost*false
+   (state <s> ^name evaluate-parse
+              ^parse <parse>)
+   (<parse> -^words.word.wvalue NOUN-PHRASE-WALL)
+-->
+   (<parse> ^noun-phrase-cost 0)
+}
+
+sp {evaluate-parse*elaborate*weighting*baseline
+   (state <s> ^name evaluate-parse
+              ^parse <parse>)
+   (<parse> ^expensive-link-cost <elc>
+            ^unused-word-cost <wc>
+            ^noun-phrase-cost <npc>)
+-->
+   (<parse> ^cost (+ <elc> (* 10 <wc>) <npc>))
+}
+
 sp {evaluate-parse*elaborate*minimal-acceptable-parse
    (state <s> ^name evaluate-parse
               ^acceptable-parse <parse>)
-   (<parse> ^parse-count <pc>)
+   (<parse> ^cost <pc>)
   -{(<s> ^acceptable-parse <parse2>)
-    (<parse2> ^parse-count < <pc>)}
+    (<parse2> ^cost < <pc>)}
 -->
    (<s> ^minimal-acceptable-parse <parse>)
 }
@@ -43,7 +69,7 @@ sp {evaluate-parse*propose*approve-minimal-parse
    (state <s> ^name evaluate-parse
               ^minimal-acceptable-parse <parse>)
 -->
-   (<s> ^operator <o> + <)
+   (<s> ^operator <o> + < =)
    (<o> ^name approve
         ^kind interpretation
         ^parse <parse>)
@@ -58,12 +84,39 @@ sp {evaluate-parse*apply*approve
   (<parse> ^parse-valid true)
 }
 
-# Consider redoing this by proposing operators to accept each parse, and doing
-# everything in preferences/tie impasse. This isn't done now since it seems
-# inefficient if the minimal acceptable parse isn't involved in a conflict,
-# there might be combinitorial matches of preferences rules that are
-# unnecessary.
+# "get the book on the table in the room" should be:
+# book (on (the table (in (the room)))
+# not book (on (the table)) (in (the room))
+# LG gives these both the same cost
 
+sp {evaluate-parse*elaborate*multiple-m
+   (state <s> ^name evaluate-parse
+              ^minimal-acceptable-parse <mp>)
+   (<mp> ^links.link <l1> {<> <l1> <l2>})
+   (<l1> ^lwleft <left>
+         ^ltype M)
+   (<l2> ^lwleft <left>
+         ^ltype M)
+-->
+   (<mp> ^has-multiple-m true)
+}
+
+sp {evaluate-parse*prefer*parse-without-multiple-M
+   (state <s> ^name evaluate-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name approve
+         ^parse <mp1>)
+   (<o2> ^name approve
+         ^parse <mp2>)
+   (<mp1> ^has-multiple-m true)
+   (<mp2> -^has-multiple-m)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+# Reject minimal-acceptable-parses with bad pp attachments, even though LG may
+# regard the proper attachment as worse (higher dis cost)
 
 # MV links are verb->preposition, M links are noun->preposition
 
@@ -94,7 +147,7 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
    (<p1> ^links.link <mv>
          ^words.word <mvlw>
          ^words.word <right-word>)
-   (<p2> ^parse-count <ct>
+   (<p2> ^cost <ct>
          ^links.link <m>
          ^words.word <mlw>)
    (<mv> ^ltype MV
@@ -124,7 +177,7 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
    (state <s> ^name evaluate-parse
               ^acceptable-parse <p1>
               ^minimal-acceptable-parse <p2>)
-   (<p1> ^parse-count <ct>
+   (<p1> ^cost <ct>
          ^links.link <mv>
          ^words.word <mvlw>
          ^words.word <right-word>)
@@ -210,27 +263,6 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*mv
    (<parse> ^rejected true)
    (write (crlf) |rejected parse | <rc> | in favor of | <gc> | due to |
          <right> | link|)
-}
-
-sp {evaluate-parse*propose*reject-unused-word-parse
-   (state <s> ^name evaluate-parse
-              ^minimal-acceptable-parse <mp>
-              ^acceptable-parse <op>)
-   (<mp> ^unused-word-count <mlc>)
-   (<op> ^unused-word-count < <mlc>)
--->
-   (<s> ^operator <o> + =) # identical props can tie otherwise
-   (<o> ^name reject-unused-word-parse
-        ^rejected <mp>)
-}
-
-sp {evaluate-parse*apply*reject-unused-word-parse
-   (state <s> ^name evaluate-parse
-              ^operator <op>)
-   (<op> ^name reject-unused-word-parse
-         ^rejected <mp>)
--->
-   (<mp> ^rejected true)
 }
 
 sp {evaluate-parse*elaborate*report-chosen

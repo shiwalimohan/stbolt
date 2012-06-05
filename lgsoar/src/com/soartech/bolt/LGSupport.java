@@ -111,6 +111,10 @@ public class LGSupport implements OutputEventInterface {
         
         String message = thisLinkage.linkage_print_diagram();
         System.out.println(message);
+        
+        int disCost = thisLinkage.linkage_disjunct_cost();
+        int unusedCost = thisLinkage.linkage_unused_word_cost();
+        System.out.println("DIS = " + disCost + " UNUSED = " + unusedCost);
 
 		// this ideally should be injected into the Soar print stream,
 		// but that doesn't seem possible. Echo command doesn't seem to do it.
@@ -147,7 +151,8 @@ public class LGSupport implements OutputEventInterface {
             
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
-        agent.CreateIntWME(sentenceRoot, "unused-word-count", thisLinkage.linkage_unused_word_cost());
+        agent.CreateIntWME(sentenceRoot, "unused-word-cost", unusedCost);
+        agent.CreateIntWME(sentenceRoot, "expensive-link-cost", disCost);
         
         String noStarsPattern = "\\*";
         String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
