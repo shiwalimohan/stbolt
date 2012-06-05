@@ -23,7 +23,7 @@ sp {apply*lookup-object*copy*match
 sp {apply*lookup-object*object
 	(state <s> ^operator <o>)
    (<o> ^name lookup-object
-        ^match failure
+       # ^match failure
         ^id <id>)
 -->
    (<o> ^object <obj>)
@@ -42,7 +42,7 @@ sp {apply*lookup-object*copy*object
 sp {apply*lookup-object*name
    (state <s> ^operator <o>)
    (<o> ^name lookup-object
-        ^match failure
+      #  ^match failure
         ^object <obj>)
 -->
    (<obj> ^property <prop>)
