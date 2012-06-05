@@ -12,34 +12,21 @@ smem --add {
      (<a1> ^linguistic <al1> ^procedural <ap1> ^type action)
      (<al1> ^verb put ^direct-object <obj>) 
      (<ap1> ^op_name op_put-down ^argument <obj>)
-  #   (<obj> ^type object)
 ##
      (<a2> ^linguistic <al2> ^procedural <ap2> ^type action)
      (<al2> ^verb put ^direct-object <obj2> ^in <loc2> ^verb keep) 
      (<ap2> ^op_name op_put-down-object-location ^argument1 <obj2> ^argument2 <loc2>)
- #   (<loc2> ^type location) 
- #    (<obj2> ^type object)
 ##
      (<a5> ^linguistic <al5> ^procedural <ap5> ^type action)
-     (<al5> ^verb put ^direct-object <obj5> ^on <loc5> ^verb keep) 
+     (<al5> ^verb put ^direct-object <obj5> ^right-of <loc5>) 
      (<ap5> ^op_name op_put-down-object-object ^argument1 <obj5> ^argument2 <loc5>)
 ##
      (<a3> ^linguistic <al3> ^procedural <ap3> ^type action)
      (<al3> ^verb go ^to <loc3>) 
      (<ap3> ^op_name op_goto ^argument1 <loc3>)
-#     (<loc3> ^type location)        
 ##
      (<a4> ^linguistic <al4> ^procedural <ap4> ^type action)
      (<al4> ^verb pick ^direct-object <obj4>) 
      (<ap4> ^op_name op_pick-up-object ^argument1 <obj4>)
-   #  (<obj4> ^type object)
 }
 
-#### add known locations to semantic memory
-smem --add {
-     (<l10> ^location <l1> ^location <l2> ^location <l3> ^location <l4>)
-     (<l1> ^o_type location ^color red  ^id 100 ^name stove ^shape cube ^size medium ^x 2.099522 ^y 0.901987 ^z 0.)
-     (<l2> ^o_type location ^color cyan ^id 110 ^name dishwasher ^shape cube ^x 1.108189 ^y 0.899097 ^z 0.)
-     (<l3> ^o_type location ^color green ^id 120 ^name pantry ^shape cube ^size large ^x 2.094982 ^y 0.202218 ^z 0.)
-     (<l4> ^o_type location ^name center ^x 1.5 ^y 0.5 ^z 0. ^id 130)
-}
