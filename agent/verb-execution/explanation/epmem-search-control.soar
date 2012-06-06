@@ -1,0 +1,91 @@
+#### search control to prefer instructed actions above all others. looked up in semantic memory
+
+sp {selecion*propose*find-next-sub-action
+   (state <s> ^name selection
+   	      ^superstate.superstate.epmem.result <res>
+	      -^episode-id <eid>)
+   (<res> ^retrieved <episode>)
+   (<episode> ^interaction.stack.segment.id <id>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name find-next-episode
+   	 ^segment-id <id>)
+}
+
+sp {selection*retrieve*next-episode
+   (state <s> ^name selection
+   	      ^episode-id <eid>
+	      ^epmem.command <ecomm>)
+-->
+   (<ecomm> ^retrieve <eid>)
+}
+
+sp {selection*elaborate*instructed*action
+   (state <s> ^name selection
+   	      ^epmem.result.retrieved <ret>)
+   (<ret> ^interaction.stack.segment.purpose.indexed-operator <iop>)
+-->
+   (<s> ^indexed-operator <iop>)
+}
+
+### if an object is hypothetical, add it to the current state description
+sp {explain*elaborate*hypothetical*objects*epmem
+   (state <s> ^name selection
+   	      ^indexed-operator <map-op>
+k	      ^superstate <ss>)
+   (<map-op> ^<arg> <val>)
+   (<val> ^hypothetical true
+   	  ^o_type <o-type>)
+-->
+   (<ss> ^<o-type> <val>)
+}
+
+
+#### SM: hack for the current chunks to form. only look at the focus objects
+### prefer the indexed operator
+sp {elaborate*attribute*match*epmem*arguments
+   (state <s> ^name selection
+   	      ^indexed-operator <map-op>
+   	      ^operator <o> +)
+   (<o> ^superoperator <sop>)
+   (<sop> ^<attr> <val>)
+   (<val> ^focus yes)
+   (<map-op> ^<attr> <anyval>) 
+-->
+   (<o> ^matched <attr>)
+}
+
+sp {elaborate*attribute*match*epmem*name
+   (state <s> ^name selection
+   	      ^indexed-operator <map-op>
+   	      ^operator <o> +)
+   (<o> ^superoperator <sop>)
+   (<sop> ^name <n>)
+   (<map-op> ^name <n>) 
+-->
+   (<o> ^matched name)
+}
+
+#### operator match is not complete untill all arguments are matched
+sp {elaborate*operator*match*epmem
+   (state <s> ^name selection
+   	      ^indexed-operator <map-op>
+   	      ^operator <o> +)
+   (<map-op> ^<attr> <val>)
+   (<o> -^matched <attr>)
+-->
+   (<o> ^not-matched <attr>)
+}
+
+### if there exists an operator for which all attributes match, give it a better preference than other operators
+
+sp {prefer*match*epmem
+   (state <s> ^name selection
+              ^indexed-operator <map-op>
+   	      ^operator <o> +)
+   (<o> -^not-matched <any>)
+   -->
+   (<s> ^operator <o> >)
+}
+
+

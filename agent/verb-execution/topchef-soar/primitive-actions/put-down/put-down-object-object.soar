@@ -1,0 +1,133 @@
+### put down an object in a location
+sp {propose*put-down-object-object
+   (state <s> ^grabbed <obj>
+	      ^object <loc>
+	     -^problem-space << lgsoar message-interpretation >>
+	     -^track-result success)
+   (<loc> -^category location)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name op_put-down-object-object
+   	 ^argument1 <obj>
+	 ^argument2 <loc>
+	 ^spatial-relationship <rel>
+	 ^category primitive-action)
+   (<rel> ^name right-of
+   	  ^argument1 <obj>
+	  ^argument2 <loc>)
+}
+
+### control in close loop with SVS
+## elaborate the operator state
+sp {elaborate*op_put-down-object-object
+   (state <s> ^name op_put-down-object-object
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name op_put-down-object-object
+   	  ^argument1 <obj>
+	  ^argument2 <loc>
+	  ^spatial-relationship <rel>)
+-->
+   (<s> ^argument1 <obj>
+   	^argument2 <loc>
+	^spatial-relationship <rel>)
+}
+
+## determine the location x,y,z using SVS
+sp {propose*svs*find-projection*object-object
+   (state <s> ^name op_put-down-object-object
+   	      ^argument1 <obj>
+	      ^argument2 <loc>
+	      ^spatial-relationship <rel>
+	      -^projection-result)
+   (<rel> ^argument1 <obj>
+   	  ^argument2 <loc>
+	  ^name <name>)
+   (<obj> ^id <oid>)
+   (<loc> ^id <lid>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name find-projection
+   	^a <oid>
+	^b <lid>
+	^type <name>
+	^category svs)
+}
+
+## set up tracking in the superstate
+sp {propose*svs*tracking*object-object
+   (state <s> ^name op_put-down-object-object
+   	      ^projection-result <res>
+	      ^argument1 <obj>
+	      ^argument2 <loc>
+	      ^spatial-relationship <rel>
+	      -^track-result )
+   (<rel> ^argument1 <obj>
+   	  ^argument2 <loc>
+	  ^name <name>)
+   (<obj> ^id <oid>)
+   (<loc> ^id <lid>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name svs-tracking
+   	 ^a <oid>
+	^b <lid>
+	^prep <name>
+	^category svs
+	^kind non-atomic)
+}
+
+## write tracking result to the superstate
+sp {write*tracking*superstate*object*object
+   (state <s> ^name op_put-down-object-object
+   	      ^superstate <ss>
+	      ^track-result <res>)
+-->
+   (<ss> ^track-result <res>)
+}
+
+
+## put actions on the output-link
+sp {elaborate*put-down*object*object*action
+   (state <s> ^name op_put-down-object-object
+   	      ^superstate <ss>
+	      ^projection-result <res>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name op_put-down-object-object)
+-->
+   (<sop> ^actions.put-down.location <res>		 
+   	 ^category primitive-action)
+   (<sop> ^kind non-atomic)
+}
+
+
+
+##############################################################################
+# clean up track-result
+sp {delete*track-result*object*object
+   (state <s> ^track-result <any>
+   	      ^operator <op>)
+   (<op> -^category << primitive-action composite-action >>)
+-->
+   (<s> ^track-result <any> -)
+}
+
+
+################################################################################
+### action model : dated action model
+sp {apply*put-down*object*object*action-model
+   (state <s> ^operator <op>	
+	     -^io
+	     ^grabbed <obj>)
+   (<op> ^name op_put-down-object-object
+   	 ^argument1 <obj>
+	 ^argument2 <loc>)
+   (<loc> ^x <s_x>
+   	  ^y <s_y>
+	  ^z <s_z>)
+-->
+   (<s> ^grabbed <obj> -)
+   (<obj>    ^x <s_x>
+   	     ^y <s_y>
+	     ^z <s_z>)
+}

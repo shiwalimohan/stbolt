@@ -1,48 +1,134 @@
 ### put down an object in a location
-
 sp {propose*put-down-object-location
-   (state <s> ^self.grabbed-object <id> <> -1
-   	      ^object <obj>
-	      ^location <loc>)
-   (<ob> ^id <id>)
+   (state <s> ^grabbed <obj>
+	      ^object <loc>
+	     -^problem-space << lgsoar message-interpretation >>
+	     -^track-result success)
+   (<loc> ^category location)
 -->
    (<s> ^operator <op> +)
-   (<op> ^name operator-pd2
+   (<op> ^name op_put-down-object-location
    	 ^argument1 <obj>
 	 ^argument2 <loc>
+	 ^spatial-relationship <rel>
 	 ^category primitive-action)
-}
-
-### apply put down an object in a location
-sp {put-down-object-location*elaborate*object*location
-   (state <s> ^name operator-pd2
-   	      ^superstate.operator <sop>)
-   (<sop> ^name operator-pd2
+   (<rel> ^name in
    	  ^argument1 <obj>
 	  ^argument2 <loc>)
--->
-   (<s> ^argument1 <obj> ^argument2 <loc>)
 }
 
+### control in close loop with SVS
+## elaborate the operator state
+sp {elaborate*op_put-down-object-location
+   (state <s> ^name op_put-down-object-location
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name op_put-down-object-location
+   	  ^argument1 <obj>
+	  ^argument2 <loc>
+	  ^spatial-relationship <rel>)
+-->
+   (<s> ^argument1 <obj>
+   	^argument2 <loc>
+	^spatial-relationship <rel>)
+}
 
-### if not at the location, goto that location
-sp {put-down-object-location*propose*goto
-   (state <s> ^argument2 <loc>)
-   (<loc> -^contains yes)
+## determine the location x,y,z using SVS
+sp {propose*svs*find-projection
+   (state <s> ^name op_put-down-object-location
+   	      ^argument1 <obj>
+	      ^argument2 <loc>
+	      ^spatial-relationship <rel>
+	      -^projection-result)
+   (<rel> ^argument1 <obj>
+   	  ^argument2 <loc>
+	  ^name <name>)
+   (<obj> ^id <oid>)
+   (<loc> ^id <lid>)
 -->
    (<s> ^operator <op> +)
-   (<op> ^name goto
-   	 ^location <loc>)
+   (<op> ^name find-projection
+   	^a <oid>
+	^b <lid>
+	^type <name>
+	^category svs)
 }
 
-### if at the location
-sp {put-down-object-location*propose*put-down
-   (state <s> ^argument1 <obj>
-   	      ^argument2 <loc>)
-   (<loc> ^contains yes)
+## set up tracking in the superstate
+sp {propose*svs*tracking
+   (state <s> ^name op_put-down-object-location
+   	      ^projection-result <res>
+	      ^argument1 <obj>
+	      ^argument2 <loc>
+	      ^spatial-relationship <rel>
+	      -^track-result )
+   (<rel> ^argument1 <obj>
+   	  ^argument2 <loc>
+	  ^name <name>)
+   (<obj> ^id <oid>)
+   (<loc> ^id <lid>)
 -->
    (<s> ^operator <op> +)
-   (<op> ^name put-down
-   	 ^object <obj>)
+   (<op> ^name svs-tracking
+   	^a <oid>
+	^b <lid>
+	^prep <name>
+	^category svs
+	^kind non-atomic)
 }
-   	      
+
+## write tracking result to the superstate
+sp {write*tracking*superstate
+   (state <s> ^name op_put-down-object-location
+   	      ^superstate <ss>
+	      ^track-result <res>)
+-->
+   (<ss> ^track-result <res>)
+}
+
+
+## put actions on the output-link
+sp {elaborate*put-down*object*location*action
+   (state <s> ^name op_put-down-object-location
+   	      ^superstate <ss>
+	      ^projection-result <res>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name op_put-down-object-location)
+-->
+   (<sop> ^actions.put-down.location <res>		 
+   	 ^category primitive-action)
+   (<sop> ^kind non-atomic)
+}
+
+
+
+##############################################################################
+# clean up track-result
+sp {delete*track-result
+   (state <s> ^track-result <any>
+   	      ^operator <op>)
+   (<op> -^category << primitive-action composite-action >>)
+-->
+   (<s> ^track-result <any> -)
+}
+
+
+################################################################################
+### action model : dated action model
+sp {apply*put-down*location*action-model
+   (state <s> ^operator <op>	
+	     -^io
+	     ^grabbed <obj>)
+   (<op> ^name op_put-down-object-location
+   	 ^argument1 <obj>
+	 ^argument2 <loc>)
+   (<loc> ^x <s_x>
+   	  ^y <s_y>
+	  ^z <s_z>)
+-->
+   (<s> ^grabbed <obj> -)
+   (<obj>    ^x <s_x>
+   	     ^y <s_y>
+	     ^z <s_z>)
+}
+

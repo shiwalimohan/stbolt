@@ -1,24 +1,4 @@
-### elaborate locations
-
-sp {elaborate*locations
-   (state <s> ^io.input-link <il>)
-   (<il> ^objects.object <obj>)
-   (<obj> ^name << dishwasher stove pantry >>)
--->
-   (<s> ^location <obj>)
-}
-
-
-### elaborate objects
-#sp {elaborate*objects
-#   (state <s> ^io.input-link <il>)
-#   (<il> ^objects.object <obj>)
-#   (<obj> -^name << dishwasher stove pantry >>)
-#-->
-#   (<s> ^object <obj>)
-#}
-
-### elaborate self
+## elaborate self
 sp {elaborate*self
    (state <s> ^io.input-link <il>)
    (<il> ^self <self>)
@@ -26,6 +6,74 @@ sp {elaborate*self
    (<s> ^self <self>)
 }
 
-### elaborate object
+## elaborate objects
+### as locations
+sp {elaborate*objects*locations
+   (state <s> ^topstate <s>)
+   (<s> ^object <obj>)
+   (<obj> ^property.word << table garbage pantry stove >>)
+-->
+   (<obj> ^category location)
+}
+### as blocks
+sp {elaborate*objects*blocks
+   (state <s> ^topstate <s>)
+   (<s> ^object <obj>)
+   (<obj> -^property.word << table garbage pantry stove >>)
+-->
+   (<obj> ^category block)
+}
 
- 
+
+## copy object/self to substate
+#sp {copy*object
+#   (state <s> ^superstate <ss>
+#   	      ^io)
+#   (<ss> -^name explain
+#    	  ^object <l>)
+#   (<l> ^category <any>)
+#-->
+#   (<s> ^object <l>)
+#}
+sp {copy*self
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> -^name explain
+    	  ^self <l>)
+-->
+   (<s> ^self <l>)
+}
+
+
+#### elaborate x,y,z for objects/locations
+sp {elaborate*xyz
+   (state <s> ^<< object location self >> <l>
+   	      ^io)
+   (<l> ^pose <lp>)
+   (<lp> ^x <x>
+   	 ^y <y>
+	 ^z <z>)
+-->
+   (<l> ^x <x>
+   	^y <y>
+	^z <z>)
+}
+
+## elaborate grabbed object from the id
+sp {elaborate*grabbed*object
+   (state <s> ^self <self>
+   	      ^object <obj>)
+   (<self> ^grabbed-object <id> <> -1)
+   (<obj> ^id <id>
+   	  ^category block)
+-->
+   (<s> ^grabbed <obj>)
+}   
+
+sp {copy*grabbed
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^grabbed <obj>)
+-->
+   (<s> ^grabbed <obj>)
+}
