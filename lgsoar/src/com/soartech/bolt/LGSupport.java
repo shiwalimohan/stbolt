@@ -14,6 +14,7 @@ public class LGSupport implements OutputEventInterface {
 	private static Identifier lgInputRoot;
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
+	private static boolean phraseMode = false;
 	
 	public static parser theParser;
 	
@@ -68,10 +69,19 @@ public class LGSupport implements OutputEventInterface {
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
-
+		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
+		
 		// call LG Parser
 		theParser.parseSentence(sentence);
-	}
+		
+		// add noun-phrase parses
+		// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
+		// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
+		// is a capitalized word in the middle of the sentence.
+		phraseMode = true;
+		theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
+		phraseMode = false;
+	}	
 	
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
 		String result = "";
@@ -104,6 +114,11 @@ public class LGSupport implements OutputEventInterface {
         
         String message = thisLinkage.linkage_print_diagram();
         System.out.println(message);
+        
+        int disCost = thisLinkage.linkage_disjunct_cost();
+        int unusedCost = thisLinkage.linkage_unused_word_cost();
+        int parseCount = nextParseCount(currentOutputSentenceCount);
+        System.out.println("^^ parse " + parseCount + ": DIS = " + disCost + " UNUSED = " + unusedCost);
 
 		// this ideally should be injected into the Soar print stream,
 		// but that doesn't seem possible. Echo command doesn't seem to do it.
@@ -122,7 +137,7 @@ public class LGSupport implements OutputEventInterface {
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
        
-        agent.CreateIntWME(sentenceRoot, "parse-count", nextParseCount(currentOutputSentenceCount));
+        agent.CreateIntWME(sentenceRoot, "parse-count", parseCount);
         	
         // make a wme for the words
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
@@ -134,12 +149,28 @@ public class LGSupport implements OutputEventInterface {
             String wordval = sent.sentence_get_word(wordx);
  
             Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
+
             agent.CreateIntWME(wordWME, "wcount", wordx);
             agent.CreateStringWME(wordWME, "wvalue", wordval);
+            
+            // if parsing as a phrase, we have added an extra word at the beginning
+            // Soar needs to know which words are equivalent across parses, so the
+            // phraseMode flag allows this to start phrases at index 0 rather than 1
+            // so word indices are equivalent
+            
+            // don't change the wcount, though, since LGSoar wants that to always start at 0
+            if (!phraseMode) {
+            	agent.CreateIntWME(wordWME, "global-wcount", wordx);
+            }
+            else {
+            	agent.CreateIntWME(wordWME, "global-wcount", wordx - 1);
+            }
         }
             
         // make a wme for the links
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
+        agent.CreateIntWME(sentenceRoot, "unused-word-cost", unusedCost);
+        agent.CreateIntWME(sentenceRoot, "expensive-link-cost", disCost);
         
         String noStarsPattern = "\\*";
         String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
@@ -169,8 +200,10 @@ public class LGSupport implements OutputEventInterface {
             Identifier linkWME = agent.CreateIdWME(linksWME, "link");
                         
             agent.CreateStringWME(linkWME, "lvalue", linkLabel);
+            
             agent.CreateIntWME(linkWME, "lwleft", lWordIndex);
-            agent.CreateIntWME(linkWME, "lwright", rWordIndex);
+            agent.CreateIntWME(linkWME, "lwright", rWordIndex);	
+            
             agent.CreateStringWME(linkWME, "ltype", ltype);
            
             // make a separate WME for each subtype
