@@ -75,8 +75,27 @@ sp {evaluate-parse*elaborate*weighting*baseline
             ^unused-word-cost <wc>
             ^noun-phrase-cost <npc>)
 -->
-   (<parse> ^cost (+ <elc> (* 10 <wc>) <npc>))
+   (<parse> ^cost (+ <elc> <npc>))
 }
+
+# eliminate all sentences completely that have excess unused words
+# Can't think of cases where the correct parse has more unused words than an
+# incorrect parse..
+# If one occurs, we will have to integrate unused-word-cost into the overall
+# score. This causes problems with pp-attachment reasoning, though, e.g., "the square
+# to the right". The pp system ignores all scores other than the minimal, so
+# will elevate the version where "to" attaches to the verb ("square" with "the"
+# unused) over the correct noun-phrase parse.
+
+sp {evaluate-parse*elevate*excess-unused-words
+   (state <s> ^name evaluate-parse
+              ^parse <p1>
+              ^parse.unused-word-cost < <uwc>)
+   (<p1> ^unused-word-cost <uwc>)
+-->
+   (<p1> ^rejected true)
+}
+
 
 sp {evaluate-parse*elaborate*minimal-acceptable-parse
    (state <s> ^name evaluate-parse

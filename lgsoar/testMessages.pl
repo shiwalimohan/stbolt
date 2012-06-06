@@ -411,7 +411,7 @@ else {
         p1 
           object o2
         p2 
-          object o4
+          object o3
             specifier DEF
             word yellow
             word square
@@ -420,7 +420,7 @@ else {
         p1 
           object o2
         p2 
-          object o3
+          object o4
             specifier DEF
             word red
             word triangle
