@@ -13,16 +13,14 @@
 #										    #
 # primitive-actions/								    #
 #										    #
-## pick-up-object
-### preconditions: an object <o> of category block, - grabbed <o>
-### termination: grabbed <o> on topstate
-#
-## put-down-object
-### preconditions:
-### termination:
-######################################################################################
-
-
+## pick-up-object								    #
+### preconditions: an object <o> of category block, - grabbed <o>		    #
+### termination: grabbed <o> on topstate     	      	      			    #
+#   		 	     							    #
+## put-down-object								    #
+### preconditions: object is in the gripper, location				    #
+### termination: object is 'in' the location 					    #
+#####################################################################################
 
 
 sp {apply*init-agent*topchef-soar

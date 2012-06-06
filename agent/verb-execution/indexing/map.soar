@@ -56,7 +56,6 @@ sp {prefer*match
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
-   (<map-op> -^applied true)
    -->
    (<s> ^operator <op> >)
    (<op> ^information <info>
@@ -70,7 +69,6 @@ sp {propose*indexed-operator*if*no-choices
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
 	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
-   (<map-op> -^applied true)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
