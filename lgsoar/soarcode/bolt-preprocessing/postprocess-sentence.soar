@@ -52,6 +52,26 @@ sp {postprocess-sentence*apply*remove-filler
    (<ps> ^predicate <pred> -)
 }
 
+sp {postprocess-sentence*propose*remove-noun-phrase-wall
+   (state <s> ^name postprocess-sentence
+              ^predicates.predicate <pred>)
+   (<pred> ^<< outer outer1 outer2 inner1 inner2 inner3 >> NOUN-PHRASE-WALL)
+-->
+   (<s> ^operator <o> + > =) # allow multiple filler removals with one application
+   (<o> ^name remove-noun-phrase-wall)
+}
+
+sp {postprocess-sentence*apply*remove-noun-phrase-wall
+   (state <s> ^name postprocess-sentence
+              ^operator.name remove-noun-phrase-wall
+              ^predicates <ps>)
+   (<ps> ^predicate <pred>)
+   (<pred> ^<< outer outer1 outer2 inner1 inner2 inner3 >> NOUN-PHRASE-WALL)
+-->
+   (<ps> ^predicate <pred> -)
+}
+
+
 sp {postprocess-sentence*elaborate*report-unmap
    (state <s> ^name postprocess-sentence
               ^map.word <wd>)
