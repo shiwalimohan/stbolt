@@ -69,7 +69,8 @@ public class LGSupport implements OutputEventInterface {
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
-
+		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
+		
 		// call LG Parser
 		theParser.parseSentence(sentence);
 		
@@ -116,7 +117,8 @@ public class LGSupport implements OutputEventInterface {
         
         int disCost = thisLinkage.linkage_disjunct_cost();
         int unusedCost = thisLinkage.linkage_unused_word_cost();
-        System.out.println("DIS = " + disCost + " UNUSED = " + unusedCost);
+        int parseCount = nextParseCount(currentOutputSentenceCount);
+        System.out.println("^^ parse " + parseCount + ": DIS = " + disCost + " UNUSED = " + unusedCost);
 
 		// this ideally should be injected into the Soar print stream,
 		// but that doesn't seem possible. Echo command doesn't seem to do it.
@@ -135,7 +137,7 @@ public class LGSupport implements OutputEventInterface {
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
        
-        agent.CreateIntWME(sentenceRoot, "parse-count", nextParseCount(currentOutputSentenceCount));
+        agent.CreateIntWME(sentenceRoot, "parse-count", parseCount);
         	
         // make a wme for the words
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");

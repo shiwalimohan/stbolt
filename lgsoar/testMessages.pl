@@ -452,7 +452,20 @@ else {
         word between
     word describe"],
 ["The goal of the action is to have the block on the table and an empty gripper.", ""],
-["The red square to the right of the circle.", ""],
+["context_which_question The red square to the right of the circle.", 
+"object-message 
+  object o1
+    specifier DEF
+    word square
+    word red
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word circle
+    word right-of"]
 
 );
 
