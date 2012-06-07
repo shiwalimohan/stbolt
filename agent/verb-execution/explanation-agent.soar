@@ -7,7 +7,7 @@ smem --set learning on
 epmem --set learning on
 epmem --set trigger dc
 #epmem --set database file
-# epmem --set path /home/shiwali/Instruction/memory-dump/tanksoar.db
+#epmem --set path /home/shiwali/BOLT/bolt.db
 epmem --set phase output
 
 

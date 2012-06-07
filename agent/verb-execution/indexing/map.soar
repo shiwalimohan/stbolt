@@ -70,7 +70,6 @@ sp {propose*indexed-operator*if*no-choices
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
 	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
-   (<map-op> -^applied true)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
