@@ -46,6 +46,17 @@ sp {apply*push-single-word-response*teaching-request*cancel
    (<obj> ^no-teaching true)
 }
 
+#JK for prepositions
+sp {apply*push-single-word-response*teaching-request*cancel*prep
+   (state <s> ^operator <o>)
+   (<o> ^name push-single-word-response
+        ^response cancel
+        ^message.query <q>)
+   (<q> ^status <stat>)
+-->
+   (<stat> ^no-teaching true)
+}
+
 sp {apply*push-single-word-response*mark*processed
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response
