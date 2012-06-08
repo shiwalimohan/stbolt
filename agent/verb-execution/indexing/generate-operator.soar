@@ -33,6 +33,15 @@ sp {generate*operator*arguments
    (<op> ^<arg> <obj>)
 }
 
+sp {generate*operator*goal
+   (state <s> ^name generate-operator
+   	      ^procedural-id <pid>
+	      ^index-operator <op>)
+   (<pid> ^goal <g>)
+-->
+   (<op> ^goal-lid <g>)
+}
+
 sp {generate*operator*arguments*write-to-superstate
    (state <s> ^name generate-operator
    	      ^index-operator <op>

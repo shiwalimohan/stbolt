@@ -76,7 +76,7 @@ sp {explain*elaborate*hypothetical*objects
    (<s> ^<o-type> <val>)
 }
 
-### in the generated state; proposed the verb on the segment
+### in the generated state, propose the verb on the segment
 sp {explain*propose*segment-verb
    (state <s> ^name explain
    	      ^segment <seg>)
