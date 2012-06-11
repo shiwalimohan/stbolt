@@ -905,7 +905,7 @@ public class Linkage {
         String gr_string;
         Dictionary dict = sent.dict;
         int x_screen_width = opts.parse_options_get_screen_width();
-
+        
         string = new StringBuffer();
 
         N_wall_connectors = 0;

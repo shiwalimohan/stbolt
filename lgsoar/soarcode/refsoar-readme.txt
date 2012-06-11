@@ -9,6 +9,7 @@ Basic flow:
 - predicates are built from ideas (in output code, not refsoar)
 
 TODO: what is filtered or added at each step (ref->center, center->idea, idea->predicate)?
+All refs get a center, the center adds a verb/first/second/third flag.
 
 refsoar files:
 global.soar
@@ -73,8 +74,8 @@ add-arg (interpret.soar)
     ^link: id of the link causing the add-arg
     ^main: id of the word structure for the ref 
 
-    Single add-args, which have another word in the arg, add a ref for that other word as a side effect. This appears to be how 
-		refs propogate.
+    Single (and single-side and double) add-args, which have another word in the arg, 
+		add a ref for that other word as a side effect. This appears to be how refs propogate.
 
 new-idea (realize.soar)
 	Each ref is "realized" as a new idea or a coref to an existing idea, this operator handles the

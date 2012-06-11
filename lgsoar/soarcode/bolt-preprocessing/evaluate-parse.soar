@@ -228,6 +228,21 @@ sp {evaluate-parse*elaborate*multiple-m
    (<mp> ^has-multiple-m true)
 }
 
+# similarly, for O links, "describe the relationship between X and Y" should
+# apply the "and" inside the relationship, not as two things to describe
+# In general, then, disprefer multiple verb objects if there is an alternative.
+sp {evaluate-parse*elaborate*multiple-o
+   (state <s> ^name evaluate-parse
+              ^minimal-acceptable-parse <mp>)
+   (<mp> ^sentence.links.link <l1> {<> <l1> <l2>})
+   (<l1> ^lwleft <left>
+         ^ltype O)
+   (<l2> ^lwleft <left>
+         ^ltype O)
+-->
+   (<mp> ^has-multiple-o true)
+}
+
 sp {evaluate-parse*prefer*parse-without-multiple-M
    (state <s> ^name evaluate-parse
               ^operator <o1> +
@@ -243,6 +258,23 @@ sp {evaluate-parse*prefer*parse-without-multiple-M
 -->
    (<s> ^operator <o2> > <o1>)
    (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple M links to a word.|)
+}
+
+sp {evaluate-parse*prefer*parse-without-multiple-0
+   (state <s> ^name evaluate-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name approve
+         ^parse <mp1>)
+   (<o2> ^name approve
+         ^parse <mp2>)
+   (<mp1> ^has-multiple-o true
+          ^parse-count <pc1>)
+   (<mp2> -^has-multiple-o
+           ^parse-count <pc2>)
+-->
+   (<s> ^operator <o2> > <o1>)
+   (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple O links to a word (likely an innermost "and" case).|)
 }
 
 # Reject minimal-acceptable-parses with bad pp attachments, even though LG may

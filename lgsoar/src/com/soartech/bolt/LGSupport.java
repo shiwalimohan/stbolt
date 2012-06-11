@@ -65,7 +65,6 @@ public class LGSupport implements OutputEventInterface {
 
 	}
 	
-	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
@@ -112,6 +111,36 @@ public class LGSupport implements OutputEventInterface {
         // combine all sublinkages to one
         thisLinkage.linkage_compute_union();
         
+        int numWords = sent.sentence_length();
+        
+        // identify guessed words. AFAIK, the only way these show up is in the linkage words,
+        // which are what printed in the parse picture:
+
+        //        +------------------Xp-----------------+
+        //        |         +---------Os---------+      |
+        //        +----Wi---+         +-----A----+      |
+        //        |         |         |          |      |
+        //    LEFT-WALL xget[?].v xthe[?].a xblock[?].n .
+        
+        // So we need to go through each word and look for a ? as the fourth-to-last character.
+        
+        int numGuesses = 0;
+        boolean isGuess[] = new boolean[numWords];
+        for (int i=0; i<numWords; i++) {
+        	String wordAsPrinted = thisLinkage.word[i];
+        	char c = 'x';
+        	if (wordAsPrinted.length() > 3) {
+        		c = wordAsPrinted.charAt(wordAsPrinted.length()-4);
+        	}
+        	if (c == '?') {
+        		isGuess[i] = true;
+        		numGuesses++;
+        	}
+        	else {
+        		isGuess[i] = false;
+        	}
+        }
+        
         String message = thisLinkage.linkage_print_diagram();
         System.out.println(message);
         
@@ -125,7 +154,6 @@ public class LGSupport implements OutputEventInterface {
 		
 		if (agent == null) {
 			// valid if run to print the parse alone
-
 			return;
 		}
 		
@@ -142,7 +170,6 @@ public class LGSupport implements OutputEventInterface {
         // make a wme for the words
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
         
-        int numWords = sent.sentence_length();
         // now load the words
         for (int wordx = 0; wordx < numWords; wordx++) {
             // add ^word information for this link
@@ -152,6 +179,10 @@ public class LGSupport implements OutputEventInterface {
 
             agent.CreateIntWME(wordWME, "wcount", wordx);
             agent.CreateStringWME(wordWME, "wvalue", wordval);
+            
+            if (isGuess[wordx]) {
+            	agent.CreateStringWME(wordWME, "guessed", "true");
+            }
             
             // if parsing as a phrase, we have added an extra word at the beginning
             // Soar needs to know which words are equivalent across parses, so the
@@ -171,6 +202,7 @@ public class LGSupport implements OutputEventInterface {
         Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
         agent.CreateIntWME(sentenceRoot, "unused-word-cost", unusedCost);
         agent.CreateIntWME(sentenceRoot, "expensive-link-cost", disCost);
+        agent.CreateIntWME(sentenceRoot, "unknown-word-cost", numGuesses);
         
         String noStarsPattern = "\\*";
         String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.

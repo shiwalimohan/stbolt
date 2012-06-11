@@ -153,6 +153,22 @@ sp	{anaphor*propose*add-third-center
         ^debug-info (concat |adding third-person center for reference for "| <wval> |"|))
 }
 
+sp	{anaphor*propose*add-third-center*out-of-order
+   (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
+   (<ref> -^rooted-in ^head.wvalue << its his her >> -^center)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-center-out-of-order ^priority 203 ^kind third ^ref <ref>
+        ^out-acount (- <acount> 1.5) )}
+
+sp	{anaphor*propose*add-first-center*out-of-order
+   (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
+   (<ref> -^rooted-in ^head.wvalue my -^center)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-center-out-of-order ^priority 203 ^kind first ^ref <ref>
+        ^out-acount (- <acount> 1.5) )}
+
 # if the ref has an order, copy it on the operator
 # (prevents ties for double-object prepositions like "between")
 sp	{anaphor*propose*add-center*order 
@@ -175,21 +191,6 @@ sp	{anaphor*apply*add-center
    (<ref> ^center <center> +)
 }
 
-sp	{anaphor*propose*add-third-center*out-of-order
-   (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> -^rooted-in ^head.wvalue << its his her >> -^center)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name add-center-out-of-order ^priority 203 ^kind third ^ref <ref>
-        ^out-acount (- <acount> 1.5) )}
-
-sp	{anaphor*propose*add-first-center*out-of-order
-   (state <s> ^refsets.refs.ref <ref> ^anaphor.acount <acount>)
-   (<ref> -^rooted-in ^head.wvalue my -^center)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name add-center-out-of-order ^priority 203 ^kind first ^ref <ref>
-        ^out-acount (- <acount> 1.5) )}
 
 sp	{anaphor*apply*add-center*out-of-order
 #  :o-support
