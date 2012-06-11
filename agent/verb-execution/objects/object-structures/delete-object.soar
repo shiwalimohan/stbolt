@@ -7,10 +7,16 @@ sp {apply*any-op*set*delete-time
              -^io.input-link.objects.object.id <id>
               ^io.input-link.time.seconds <sec>)
    (<obj> ^id <id>
+<<<<<<< HEAD
          -^held
           -^delete-time)
 -->
    (<obj> ^delete-time (+ <sec> 2))
+=======
+          -^delete-time)
+-->
+   (<obj> ^delete-time (+ <sec> 4))
+>>>>>>> master
 }
 
 sp {apply*any-op*remove*delete-time
@@ -27,6 +33,7 @@ sp {apply*any-op*remove*delete-time
 sp {propose*delete-object
    (state <s> ^topstate <s>
               ^object <obj>
+<<<<<<< HEAD
               ^io.input-link <in>)
    (<in> -^objects.object.id <id>
           ^self.action wait
@@ -34,6 +41,10 @@ sp {propose*delete-object
    (<obj> ^id <id>
           ^delete-time < <cur-time>
          -^held)
+=======
+             -^io.input-link.time.seconds <cur-time>)
+   (<obj> ^delete-time < <cur-time>)
+>>>>>>> master
 -->
    (<s> ^operator <o> + =)
    (<o> ^name delete-object
