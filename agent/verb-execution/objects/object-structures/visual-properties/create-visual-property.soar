@@ -8,7 +8,7 @@ sp {apply*lookup-object*create-visual-property
         ^object <obj>
         ^id <id>)
    (<il-obj> ^id <id>
-             ^category.name <cat-name>)
+             ^visual-prop.category <cat-name>)
 -->
    (<obj> ^property <prop>)
    (<prop> ^name <cat-name>

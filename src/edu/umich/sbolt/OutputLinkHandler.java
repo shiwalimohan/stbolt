@@ -10,7 +10,7 @@ import sml.WMElement;
 import abolt.lcmtypes.category_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_label_t;
-import edu.umich.sbolt.world.Category;
+import edu.umich.sbolt.world.VisualProperty;
 import april.util.TimeUtil;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
@@ -230,8 +230,6 @@ public class OutputLinkHandler implements OutputEventInterface
         command.dest = new double[6];
         sbolt.broadcastRobotCommand(command);
         
-        sbolt.getWorld().getRobotArm().pickup(Integer.parseInt(objectIdStr));
-        
         pickUpId.CreateStringWME("status", "complete");
     }
 
@@ -380,7 +378,7 @@ public class OutputLinkHandler implements OutputEventInterface
     	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", "No category on send-training-label");
     	
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = Category.getCategoryType(category);
+    	Integer catNum = VisualProperty.getCategoryType(category);
     	if(catNum == null){
     		return;
     	}

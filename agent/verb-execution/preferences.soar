@@ -61,7 +61,7 @@ sp {preference*indexing*better-than
    (state <s> ^operator <op1> +
    	      ^operator <op2> +) 
    (<op2> ^category indexing)
-   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action >>)
+   (<op1> ^category << primitive-action sub-primitive-action new-environmental-action object-processing >>)
 -->
    (<s> ^operator <op2> > <op1>)
 }

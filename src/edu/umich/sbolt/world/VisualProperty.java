@@ -24,7 +24,7 @@ import sml.WMElement;
  * @author mininger
  * 
  */
-public class Category implements IInputLinkElement
+public class VisualProperty implements IInputLinkElement
 {   
 	protected static HashMap<Integer, String> categoryNames = null;
 	public static String getCategoryName(Integer categoryType){
@@ -53,7 +53,7 @@ public class Category implements IInputLinkElement
 	}
     
     // Root identifier for the category
-    protected Identifier categoryID;
+    protected Identifier visualID;
     
     // Name of the category
     protected Integer categoryType;
@@ -66,8 +66,8 @@ public class Category implements IInputLinkElement
     
     protected HashMap<String, FloatElement> labelWMEs;
 
-    public Category(categorized_data_t category){
-    	categoryID = null;
+    public VisualProperty(categorized_data_t category){
+    	visualID = null;
     	nameWME = null;
     	categoryType = category.cat.cat;
     	labels = new HashMap<String, Double>();
@@ -93,9 +93,9 @@ public class Category implements IInputLinkElement
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
-    	if(categoryID == null){
-    		categoryID = parentIdentifier.CreateIdWME("category");
-    		nameWME = categoryID.CreateStringWME("name", getName());
+    	if(visualID == null){
+    		visualID = parentIdentifier.CreateIdWME("visual-prop");
+    		nameWME = visualID.CreateStringWME("category", getName());
     	}
     	
     	Set<String> labelsToDestroy = new HashSet<String>();
@@ -112,7 +112,7 @@ public class Category implements IInputLinkElement
     				labelWME.Update(label.getValue());
     			}
     		} else {
-    			labelWMEs.put(label.getKey(), categoryID.CreateFloatWME(label.getKey(), label.getValue()));
+    			labelWMEs.put(label.getKey(), visualID.CreateFloatWME(label.getKey(), label.getValue()));
     		}
     	}
     	
@@ -125,15 +125,15 @@ public class Category implements IInputLinkElement
     @Override
     public synchronized void destroy()
     {
-    	if(categoryID != null){
+    	if(visualID != null){
     		for(Map.Entry<String, FloatElement> wme : labelWMEs.entrySet()){
     			wme.getValue().DestroyWME();
     		}
     		labelWMEs.clear();
     		nameWME.DestroyWME();
     		nameWME = null;
-    		categoryID.DestroyWME();
-    		categoryID = null;
+    		visualID.DestroyWME();
+    		visualID = null;
     	}
     }
     
