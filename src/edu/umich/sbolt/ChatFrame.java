@@ -116,7 +116,7 @@ public class ChatFrame extends JFrame
         
         JMenuBar menuBar = new JMenuBar();        
         
-        JButton clearButton  = new JButton("Clear");
+        JButton clearButton  = new JButton("Clear Text");
         clearButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -124,6 +124,15 @@ public class ChatFrame extends JFrame
 			}
         });
         menuBar.add(clearButton);
+        
+        JButton resetButton  = new JButton("Reset Arm");
+        resetButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				resetArm();
+			}
+        });
+        menuBar.add(resetButton);
         
         stack = new InteractionStack();
         JButton stackButton = new JButton("Interaction Stack");
@@ -154,6 +163,14 @@ public class ChatFrame extends JFrame
     	chatArea.setText("");
     	sbolt.getInputLink().clearLGMessages();
     	sbolt.getWorld().destroyMessage();
+    }
+    
+    private void resetArm(){
+		robot_command_t command = new robot_command_t();
+		command.utime = TimeUtil.utime();
+		command.action = "RESET";
+		command.dest = new double[6];
+		sbolt.broadcastRobotCommand(command);
     }
     
     public void exit(){
@@ -189,19 +206,9 @@ public class ChatFrame extends JFrame
     	}
     	else if(message.length() > 0 && message.charAt(0) == ':'){
     		if(message.equals(":reset")){
-    			robot_command_t command = new robot_command_t();
-    			command.utime = TimeUtil.utime();
-    			command.action = "RESET";
-    			command.dest = new double[6];
-    			sbolt.broadcastRobotCommand(command);
-        		// Prefixing with a : goes to Soar's message processing
-    		} else if(message.equals(":drop")){
-    			robot_command_t command = new robot_command_t();
-    			command.utime = TimeUtil.utime();
-    			command.action = "DROP";
-    			command.dest = new double[6];
-    			sbolt.broadcastRobotCommand(command);
+    			resetArm();
     		} else {
+        		// Prefixing with a : goes to Soar's message processing
         		sbolt.getWorld().newMessage(message.substring(1));
     		}
     	} else {

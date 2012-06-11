@@ -10,20 +10,9 @@ sp {complete-index-object*propose*which-question
    (state <s> ^name complete-index-object
               ^superstate.final-matches.object <obj>)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + >)
    (<o> ^name which-question
-        ^category indexing
         ^object <obj>)
-}
-
-sp {complete-index-object*prefer*which-question*over*indicate-unresolved-tie
-   (state <s> ^name complete-index-object
-              ^operator <o1> +
-              ^operator <o2> +)
-   (<o1> ^name which-question)
-   (<o2> ^name indicate-unresolved-tie)
--->
-   (<s> ^operator <o1> > <o2>)
 }
 
 sp {complete-index-object*apply*which-question*create-query

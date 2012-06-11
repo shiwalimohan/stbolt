@@ -20,3 +20,5 @@ source object-info.soar
 
 # Prefer creating/deleting objects over properties
 source preferences.soar
+
+source held-object.soar

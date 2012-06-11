@@ -28,6 +28,8 @@ public class RobotArm implements IInputLinkElement
 	
 	private StringElement actionId;
 	
+	private StringElement prevActionId;
+	
 	private Pose pose;
 	// Position of the arm
 	
@@ -38,7 +40,7 @@ public class RobotArm implements IInputLinkElement
 	
 	private int curGrab = -1;
 	
-	private static LCM lcm = LCM.getSingleton();
+	private String prevAction = "";
 	
 
     public RobotArm(){
@@ -66,6 +68,7 @@ public class RobotArm implements IInputLinkElement
         	selfId = parentIdentifier.CreateIdWME("self");
         	grabbedId = selfId.CreateIntWME("grabbed-object", -1);
         	actionId = selfId.CreateStringWME("action", "wait");
+        	prevActionId = selfId.CreateStringWME("prev-action", "wait");
         	pose.updateInputLink(selfId);
         }
         if(robotAction != null){
@@ -75,10 +78,11 @@ public class RobotArm implements IInputLinkElement
         	if(!actionId.GetValue().equals(robotAction.action.toLowerCase())){
             	actionId.Update(robotAction.action.toLowerCase());
         	}
+        	if(!prevActionId.GetValue().equals(prevAction.toLowerCase())){
+        		prevActionId.Update(prevAction.toLowerCase());
+        	}
         	pose.updateInputLink(selfId);
         }
-        	
-        
         
         actionChanged = false;
     }
@@ -95,6 +99,7 @@ public class RobotArm implements IInputLinkElement
     }
     
     public void newRobotAction(robot_action_t action){
+    	prevAction = (robotAction == null ? action.action : robotAction.action);
     	robotAction = action;
     	pose.updateWithArray(action.xyz);
     	actionChanged = true;

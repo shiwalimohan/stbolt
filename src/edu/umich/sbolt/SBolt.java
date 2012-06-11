@@ -103,7 +103,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         agent = kernel.CreateAgent(agentName);
         if (agent == null)
         {
-            throw new IllegalStateException("Kernel created null agent");
+           throw new IllegalStateException("Kernel created null agent");
         }
 
         Properties props = new Properties();
@@ -241,6 +241,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
         agent.RunSelf(1);
+        //agent.RunSelfForever();
     }
 
     public void stop()

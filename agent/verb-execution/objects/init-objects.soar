@@ -60,9 +60,9 @@ sp {apply*init-agent*store*smem*word2cat
     (<v30> ^type word2cat ^word sphere ^category shape)
  
  	# Size
-#	(<v31> ^type word2cat ^word small ^category size)
-#	(<v32> ^type word2cat ^word medium ^category size)
-#	(<v33> ^type word2cat ^word large ^category size)
+	(<v31> ^type word2cat ^word small ^category size)
+	(<v32> ^type word2cat ^word medium ^category size)
+	(<v33> ^type word2cat ^word large ^category size)
  
  	# Name
 	(<v41> ^type word2cat ^word block ^category name)
