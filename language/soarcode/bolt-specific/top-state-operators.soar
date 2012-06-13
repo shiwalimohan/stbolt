@@ -14,7 +14,7 @@ sp {top-state*propose*preprocess-sentence
 
 # only matches for the 0th parse, but subgoal looks at all of them
 # one parse should get marked valid to get to interpret-sentence
-sp {top-state*propose*evaluate-parse
+sp {top-state*propose*select-parse
   (state <s> ^superstate nil
              ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> ^parse-count 0
@@ -24,7 +24,7 @@ sp {top-state*propose*evaluate-parse
              ^parse-valid true)}
 -->
   (<s> ^operator <o> +)
-  (<o> ^name evaluate-parse
+  (<o> ^name select-parse
        ^sentence-count <ct>
        ^kind interpretation)
 }
@@ -155,13 +155,13 @@ sp {top-state*prefer*preprocess-lower
 }
 
 
-sp {elaborate*evaluate-parse*prefer-older-sentences
+sp {elaborate*select-parse*prefer-older-sentences
    (state <s> ^superstate nil
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name evaluate-parse
+   (<o1> ^name select-parse
          ^sentence-count <ct1>)
-   (<o2> ^name evaluate-parse
+   (<o2> ^name select-parse
          ^sentence-count > <ct1>)
 -->
    (<s> ^operator <o1> > <o2>)
@@ -185,7 +185,7 @@ sp {elaborate*prefer*preprocess-over-evaluate
    (state <s> ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name preprocess-sentence)
-   (<o2> ^name evaluate-parse)
+   (<o2> ^name select-parse)
 -->
    (<s> ^operator <o1> > <o2>)
 }
@@ -193,7 +193,7 @@ sp {elaborate*prefer*preprocess-over-evaluate
 sp {elaborate*prefer*evaluate-over-interpret
    (state <s> ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name evaluate-parse)
+   (<o1> ^name select-parse)
    (<o2> ^name interpret-sentence)
 -->
    (<s> ^operator <o1> > <o2>)
@@ -219,11 +219,11 @@ sp {elaborate*process-over-interpret
    (<s> ^operator <o2> > <o1>)
 }
 
-sp {elaborate*handle-single-word*over*evaluate-parse
+sp {elaborate*handle-single-word*over*select-parse
    (state <s> ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name handle-single-word)
-   (<o2> ^name evaluate-parse)
+   (<o2> ^name select-parse)
 -->
    (<s> ^operator <o1> > <o2>)
 }

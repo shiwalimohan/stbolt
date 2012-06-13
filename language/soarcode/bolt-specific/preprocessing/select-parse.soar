@@ -35,8 +35,8 @@ sp {elaborate*parse*right
    (<lk> ^right <wd>)
 }
 
-sp {evaluate-parse*elaborate*init
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*init
+   (state <s> ^name select-parse
               ^superstate.operator.sentence-count <ct>
               ^top-state.io.input-link.lg.parsed-sentence <sent>)
    (<sent> ^sentence-count <ct>
@@ -52,8 +52,8 @@ sp {evaluate-parse*elaborate*init
          ^extra-cost 0)
 }
 
-sp {evaluate-parse*elaborate*context*which-question*from-stack
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*context*which-question*from-stack
+   (state <s> ^name select-parse
               ^top-state.interaction.stack.segment.purpose.type which-question)
 -->
    (<s> ^context which-question)
@@ -62,46 +62,46 @@ sp {evaluate-parse*elaborate*context*which-question*from-stack
 # Allow the input to force a context (for debugging) by prepending
 # context_which_question to the sentence. Preprocessing catches this and maps
 # it to null, use the presence of that mapping to adjust context here.
-sp {evaluate-parse*elaborate*context*which-question*from-input
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*context*which-question*from-input
+   (state <s> ^name select-parse
               ^top-state.sentence-mapping.word.real-wvalue context_which_question)
 -->
    (<s> ^context which-question)
 }
 
-sp {evaluate-parse*elaborate*report-context
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*report-context
+   (state <s> ^name select-parse
               ^context <context>)
 -->
    (write (crlf) |evaluating under context: | <context>)
 }
 
-sp {evaluate-parse*elaborate*acceptable-parse
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*acceptable-parse
+   (state <s> ^name select-parse
               ^parse <parse>)
    (<parse> -^rejected)
 -->
    (<s> ^acceptable-parse <parse>)
 }
 
-sp {evaluate-parse*elaborate*noun-phrase-cost*true
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*noun-phrase-cost*true
+   (state <s> ^name select-parse
               ^parse <parse>)
    (<parse> ^sentence.words.word.wvalue NOUN-PHRASE-WALL)
 -->
    (<parse> ^noun-phrase-cost 1)
 }
 
-sp {evaluate-parse*elaborate*noun-phrase-cost*false
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*noun-phrase-cost*false
+   (state <s> ^name select-parse
               ^parse <parse>)
    (<parse> -^sentence.words.word.wvalue NOUN-PHRASE-WALL)
 -->
    (<parse> ^noun-phrase-cost 0)
 }
 
-sp {evaluate-parse*elaborate*weighting*baseline
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*weighting*baseline
+   (state <s> ^name select-parse
              -^context which-question
               ^parse <parse>)
    (<parse> ^expensive-link-cost <elc>
@@ -112,8 +112,8 @@ sp {evaluate-parse*elaborate*weighting*baseline
 }
 
 # don't penalize noun phrases if we are expecting one
-sp {evaluate-parse*elaborate*weighting*which-question
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*weighting*which-question
+   (state <s> ^name select-parse
               ^context which-question
               ^parse <parse>)
    (<parse> ^expensive-link-cost <elc>
@@ -132,8 +132,8 @@ sp {evaluate-parse*elaborate*weighting*which-question
 # will elevate the version where "to" attaches to the verb ("square" with "the"
 # unused) over the correct noun-phrase parse.
 
-sp {evaluate-parse*elevate*excess-unused-words
-   (state <s> ^name evaluate-parse
+sp {select-parse*elevate*excess-unused-words
+   (state <s> ^name select-parse
               ^parse <p1>
               ^parse.unused-word-cost < <uwc>)
    (<p1> ^unused-word-cost <uwc>)
@@ -143,8 +143,8 @@ sp {evaluate-parse*elevate*excess-unused-words
 
 # make red.a square.n preferable to red.n square.a
 
-sp {evaluate-parse*propose*add-extra-cost*Ma
-   (state <s> ^name evaluate-parse
+sp {select-parse*propose*add-extra-cost*Ma
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <map>)
    (<map> ^sentence.links.link <lk>
          -^extra-cost-added Ma)
@@ -158,7 +158,7 @@ sp {evaluate-parse*propose*add-extra-cost*Ma
         ^type Ma)
 }
 
-sp {evaluate-parse*add-extra-cost*indifferent
+sp {select-parse*add-extra-cost*indifferent
    (state <s> ^operator <o1> +
               ^operator {<> <o1> <o2>} +)
    (<o1> ^name add-extra-cost)
@@ -167,8 +167,8 @@ sp {evaluate-parse*add-extra-cost*indifferent
    (<s> ^operator <o1> = <o2>)
 }
 
-sp {evaluate-parse*apply*add-extra-cost
-   (state <s> ^name evaluate-parse
+sp {select-parse*apply*add-extra-cost
+   (state <s> ^name select-parse
               ^operator <op>)
    (<op> ^name add-extra-cost
          ^parse <p>
@@ -182,8 +182,8 @@ sp {evaluate-parse*apply*add-extra-cost
 }
 
 
-sp {evaluate-parse*elaborate*minimal-acceptable-parse
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*minimal-acceptable-parse
+   (state <s> ^name select-parse
               ^acceptable-parse <parse>)
    (<parse> ^cost <pc>)
   -{(<s> ^acceptable-parse <parse2>)
@@ -192,8 +192,8 @@ sp {evaluate-parse*elaborate*minimal-acceptable-parse
    (<s> ^minimal-acceptable-parse <parse>)
 }
 
-sp {evaluate-parse*propose*approve-minimal-parse
-   (state <s> ^name evaluate-parse
+sp {select-parse*propose*approve-minimal-parse
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <parse>)
 -->
    (<s> ^operator <o> + < =)
@@ -202,8 +202,8 @@ sp {evaluate-parse*propose*approve-minimal-parse
         ^parse <parse>)
 }
 
-sp {evaluate-parse*apply*approve
-   (state <s> ^name evaluate-parse
+sp {select-parse*apply*approve
+   (state <s> ^name select-parse
               ^operator <o>)
    (<o> ^name approve
         ^parse.sentence <sent>)
@@ -216,8 +216,8 @@ sp {evaluate-parse*apply*approve
 # not book (on (the table)) (in (the room))
 # LG gives these both the same cost
 
-sp {evaluate-parse*elaborate*multiple-m
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*multiple-m
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <mp>)
    (<mp> ^sentence.links.link <l1> {<> <l1> <l2>})
    (<l1> ^lwleft <left>
@@ -231,8 +231,8 @@ sp {evaluate-parse*elaborate*multiple-m
 # similarly, for O links, "describe the relationship between X and Y" should
 # apply the "and" inside the relationship, not as two things to describe
 # In general, then, disprefer multiple verb objects if there is an alternative.
-sp {evaluate-parse*elaborate*multiple-o
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*multiple-o
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <mp>)
    (<mp> ^sentence.links.link <l1> {<> <l1> <l2>})
    (<l1> ^lwleft <left>
@@ -243,8 +243,8 @@ sp {evaluate-parse*elaborate*multiple-o
    (<mp> ^has-multiple-o true)
 }
 
-sp {evaluate-parse*prefer*parse-without-multiple-M
-   (state <s> ^name evaluate-parse
+sp {select-parse*prefer*parse-without-multiple-M
+   (state <s> ^name select-parse
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name approve
@@ -260,8 +260,8 @@ sp {evaluate-parse*prefer*parse-without-multiple-M
    (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple M links to a word.|)
 }
 
-sp {evaluate-parse*prefer*parse-without-multiple-0
-   (state <s> ^name evaluate-parse
+sp {select-parse*prefer*parse-without-multiple-0
+   (state <s> ^name select-parse
               ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name approve
@@ -307,16 +307,16 @@ sp {evaluate-parse*prefer*parse-without-multiple-0
 # added)
 
 # M links have a DIS cost of 1 more than the equivalent MV
-sp {evaluate-parse*elaborate*expensive-link-cost*plus-1
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*expensive-link-cost*plus-1
+   (state <s> ^name select-parse
               ^parse <ps>)
    (<ps> ^cost <elc>)
 -->
    (<ps> ^cost-plus-1 (+ <elc> 1))
 }
 
-sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*preposition-attachment-ambiguity*first-MV
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <p1>
               ^acceptable-parse <p2>)
    (<p1> ^sentence.links.link <mv>
@@ -343,8 +343,8 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-MV
 }
 
 
-sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*preposition-attachment-ambiguity*first-M
+   (state <s> ^name select-parse
               ^acceptable-parse <p1>
               ^minimal-acceptable-parse <p2>)
    (<p1> ^cost <ct>
@@ -370,8 +370,8 @@ sp {evaluate-parse*elaborate*preposition-attachment-ambiguity*first-M
           ^mv-parse <p1>)
 }
 
-sp {evaluate-parse*elaborate*leftmost-ambiguity
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*leftmost-ambiguity
+   (state <s> ^name select-parse
              -^preposition-attachment-ambiguity.prep-rank < <pr>
               ^preposition-attachment-ambiguity <paa>)
    (<paa> ^prep-rank <pr>)
@@ -379,8 +379,8 @@ sp {evaluate-parse*elaborate*leftmost-ambiguity
    (<paa> ^minimal-prep-rank true)
 }
 
-sp {evaluate-parse*elaborate*lowest-parse-ambiguity
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*lowest-parse-ambiguity
+   (state <s> ^name select-parse
               ^preposition-attachment-ambiguity <paa>)
    (<paa> ^parse-rank <pr>
           ^minimal-prep-rank true)
@@ -391,8 +391,8 @@ sp {evaluate-parse*elaborate*lowest-parse-ambiguity
    (<paa> ^minimal-parse-rank true)
 }
 
-sp {evaluate-parse*propose*resolve-ambiguous-preposition-attachment
-   (state <s> ^name evaluate-parse
+sp {select-parse*propose*resolve-ambiguous-preposition-attachment
+   (state <s> ^name select-parse
               ^preposition-attachment-ambiguity <paa>)
    (<paa> ^minimal-parse-rank true
           ^minimal-prep-rank true)
@@ -404,8 +404,8 @@ sp {evaluate-parse*propose*resolve-ambiguous-preposition-attachment
 
 # choose the M version, unless the word is "to"
 
-sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*m
-   (state <s> ^name evaluate-parse
+sp {select-parse*apply*resolve-ambiguous-preposition-attachment*m
+   (state <s> ^name select-parse
               ^operator <o>)
    (<o> ^name resolve-ambiguous-preposition-attachment
         ^info <paa>)
@@ -419,8 +419,8 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*m
    (write (crlf) |rejected parse | <rc> | in favor of | <gc> | due to | <right> | link|)
 }
 
-sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*mv
-   (state <s> ^name evaluate-parse
+sp {select-parse*apply*resolve-ambiguous-preposition-attachment*mv
+   (state <s> ^name select-parse
               ^operator <o>)
    (<o> ^name resolve-ambiguous-preposition-attachment
         ^info <paa>)
@@ -435,17 +435,17 @@ sp {evaluate-parse*apply*resolve-ambiguous-preposition-attachment*mv
          <right> | link|)
 }
 
-sp {evaluate-parse*elaborate*report-chosen
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*report-chosen
+   (state <s> ^name select-parse
               ^parse <parse>)
    (<parse> ^sentence.parse-valid true
             ^parse-count <ct>)
 -->
-   (write (crlf) |evaluate-parse chose parse | <ct> )
+   (write (crlf) |select-parse chose parse | <ct> )
 }
 
-sp {evaluate-parse*elaborate*report-not-chosen
-   (state <s> ^name evaluate-parse
+sp {select-parse*elaborate*report-not-chosen
+   (state <s> ^name select-parse
               ^minimal-acceptable-parse <map>
               ^parse {<> <map> <chosen>})
    (<chosen> ^sentence.parse-valid true)
