@@ -96,6 +96,30 @@ sp {elaborate*lgsoar-message-count
    (<s> ^next-lgsoar-message-id 0)
 }
 
+
+sp {top-state*propose*postprocess-sentence
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> -^postprocessed)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name postprocess-sentence
+        ^predicates <pred>
+        ^kind interpretation)
+}
+
+sp {top-state*propose*interpret-message
+   (state <s> ^superstate nil
+              ^lgsoar-predicates <pred>)
+   (<pred> -^interpretation
+            ^postprocessed true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-message
+        ^lgsoar-predicates <pred>
+        ^kind interpretation)
+}
+
 sp {propose*finish-interpretation
    (state <s> ^superstate nil
               ^lgsoar-predicates <pred>)
@@ -119,30 +143,6 @@ sp {apply*finish-interpretation
    (<s> ^lgsoar-predicates <pred> -
         ^next-lgsoar-message-id <id> -
         ^next-lgsoar-message-id (+ <id> 1))
-}
-
-sp {top-state*propose*postprocess-sentence
-   (state <s> ^superstate nil
-              ^lgsoar-predicates <pred>)
-   (<pred> -^postprocessed)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name postprocess-sentence
-        ^predicates <pred>
-        ^kind interpretation)
-}
-
-
-sp {top-state*propose*interpret-message
-   (state <s> ^superstate nil
-              ^lgsoar-predicates <pred>)
-   (<pred> -^interpretation
-            ^postprocessed true)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name interpret-message
-        ^lgsoar-predicates <pred>
-        ^kind interpretation)
 }
 
 # preference rules:
