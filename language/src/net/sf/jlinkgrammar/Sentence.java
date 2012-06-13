@@ -698,7 +698,7 @@ public class Sentence {
                 for (; e != null; e = e.next) {
                     t = e.string.indexOf('.');
                     if (t >= 0) {
-                        e.string = s + "[!]." + s.substring(t + 1);
+											e.string = s + "[!]." + e.string.substring(t + 1);
                     } else {
                         e.string = s + "[!]";
                     }
