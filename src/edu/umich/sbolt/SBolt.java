@@ -124,7 +124,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         boolean useLG = false;
         String lgSoarDictionary = "";
         if (useLGProp != null && useLGProp.equals("true")) {
-        	String lgSoarSource = props.getProperty("lgsoar-productions");
+        	String lgSoarSource = props.getProperty("language-productions");
         	lgSoarDictionary = props.getProperty("lgsoar-dictionary");
         	
         	if (lgSoarSource != null && lgSoarDictionary != null) {
