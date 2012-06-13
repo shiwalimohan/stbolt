@@ -1,8 +1,8 @@
 agent = agent/verb-execution/verb-execution.soar
 
 enable-lgsoar = true
-lgsoar-productions = lgsoar/soarcode/bolt-lgsoar.soar
-lgsoar-dictionary = lgsoar/data/link
+lgsoar-productions = language/soarcode/load.soar
+lgsoar-dictionary = language/data/link
 
 decision-throttle-ms = 10
 

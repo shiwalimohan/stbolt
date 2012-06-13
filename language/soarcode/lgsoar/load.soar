@@ -17,9 +17,6 @@ source refsoar/clause.soar
 source refsoar/global.soar
 source refsoar/activate.soar
 
-# misc. productions that need to be cleaned up
-source lg-misc.soar
-
 echo \n"Loading predicate output productions..."
 source output-code/output-flags.soar
 source output-code/output-adj.soar

@@ -1,7 +1,3 @@
-
-source bolt-preprocessing/load.soar
-source bolt-message-interpretation/load.soar
-
 # replace productions in refsoar/activate.soar to put lgsoar in a substate
 excise global*apply*processing-complete
 
