@@ -88,7 +88,7 @@ sp {push-segment*apply*mark-as-success
 }
 
    
-# AHM: Putting stack information on the output link
+# AM: Putting stack information on the output link
 sp {apply*mark-as-success*output-link
    (state <s> ^name push-segment
               ^operator.name mark-as-success

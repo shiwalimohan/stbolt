@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import sml.Agent.OutputEventInterface;
+import sml.Agent.RunEventInterface;
+import sml.Agent;
 import sml.Identifier;
 import sml.WMElement;
+import sml.smlRunEventId;
 import abolt.lcmtypes.category_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_label_t;
@@ -16,7 +19,7 @@ import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
 import edu.umich.sbolt.language.AgentMessageParser;
 
-public class OutputLinkHandler implements OutputEventInterface
+public class OutputLinkHandler implements OutputEventInterface, RunEventInterface
 {
 
     private SBolt sbolt;
@@ -27,13 +30,27 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         this.sbolt = sbolt;
         String[] outputHandlerStrings = { "goto", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state"};
         for (String outputHandlerString : outputHandlerStrings)
         {
            this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this, null);
         }
         
+
+        sbolt.getAgent().RegisterForRunEvent(
+                smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
+        
         newLabels = new ArrayList<training_label_t>();
+        
+    }
+    
+    public void runEventHandler(int eventID, Object data, Agent agent, int phase)
+    {
+    	Identifier outputLink = agent.GetOutputLink();
+    	if(outputLink != null){
+        	WMElement waitingWME = outputLink.FindByAttribute("waiting", 0);
+        	SBolt.getSingleton().getChatFrame().setReady(waitingWME != null);
+    	}
     }
     
     public List<training_label_t> extractNewLabels(){
@@ -283,14 +300,14 @@ public class OutputLinkHandler implements OutputEventInterface
             return;
         }
 
-        String objId = WorkingMemoryUtil.getValueOfAttribute(id, "object-id",
-                "action does not have an ^object-id attribute");
-        String attribute = WorkingMemoryUtil.getValueOfAttribute(id,
-                "attribute", "action does not have an ^attribute attribute");
+        String objId = WorkingMemoryUtil.getValueOfAttribute(id, "id",
+                "action does not have an ^id attribute");
+        String name = WorkingMemoryUtil.getValueOfAttribute(id,
+                "name", "action does not have a ^name attribute");
         String value = WorkingMemoryUtil.getValueOfAttribute(id, "value",
                 "action does not have a ^value attribute");
 
-        String action = String.format("ID=%s,%s=%s", objId, attribute, value);
+        String action = String.format("ID=%s,%s=%s", objId, name, value);
         robot_command_t command = new robot_command_t();
         command.utime = TimeUtil.utime();
         command.action = action;

@@ -1,5 +1,6 @@
 package edu.umich.sbolt;
 
+import java.awt.Color;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,8 @@ public class ChatFrame extends JFrame
     private JTextArea chatArea;
 
     private JTextField chatField;
+    
+    private JButton sendButton;
 
     private List<String> chatMessages;
 
@@ -48,6 +51,8 @@ public class ChatFrame extends JFrame
     private int historyIndex = 0;
     
     private InteractionStack stack;
+    
+    private boolean ready = false;
 
     public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
@@ -87,23 +92,18 @@ public class ChatFrame extends JFrame
         });
         
         
-        JButton button = new JButton("Send Message");
-        button.addActionListener(new ActionListener()
+        sendButton = new JButton("Send Message");
+        sendButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-            	history.add(chatField.getText());
-            	historyIndex = history.size();
-                addMessage(chatField.getText());
-                sendSoarMessage(chatField.getText());
-                chatField.setText("");
-                chatField.requestFocus();
+            	sendButtonClicked();
             }
         });
 
         JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                chatField, button);
+                chatField, sendButton);
         JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane,
                 pane2);
 
@@ -112,7 +112,7 @@ public class ChatFrame extends JFrame
 
         this.add(pane1);
         this.setSize(800, 450);
-        this.getRootPane().setDefaultButton(button);
+        this.getRootPane().setDefaultButton(sendButton);
         
         JMenuBar menuBar = new JMenuBar();        
         
@@ -151,11 +151,37 @@ public class ChatFrame extends JFrame
         		exit();
         	}
      	});
+        
+        setReady(false);
+    }
+    
+    public void setReady(boolean isReady){
+    	ready = isReady;
+    	if(ready){
+    		sendButton.setBackground(new Color(150, 255, 150));
+    		sendButton.setText("Send Message");
+    	} else {
+    		sendButton.setBackground(new Color(255, 100, 100));
+    		sendButton.setText("Not Ready");
+    	}
     }
     
     public InteractionStack getStack(){
     	return stack;
     }
+    
+    private void sendButtonClicked(){
+    	if(!ready){
+    		return;
+    	}
+    	history.add(chatField.getText());
+    	historyIndex = history.size();
+        addMessage(chatField.getText());
+        sendSoarMessage(chatField.getText());
+        chatField.setText("");
+        chatField.requestFocus();
+    }
+    
     
     public void clear(){
     	chatMessages.clear();
