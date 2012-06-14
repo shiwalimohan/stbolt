@@ -108,6 +108,18 @@ sp {interpret*propose*S-I*as*inflected
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <S-link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
+     
+sp {interpret*propose*SI*as*external
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word <ext> <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<ext> ^wcount <ext-count>)
+   (<link> ^ltype SI ^lwright <ext-count> ^lwleft <main-count> -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <link>
+   	 ^kind single ^order <ext-count> ^level-two-order <main-count>
+   	 )}
 	
 # SBW 5/30/12
 # change for BOLT:

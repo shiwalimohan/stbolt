@@ -83,7 +83,7 @@ sp {global*propose*find-root
 	(<parent> ^wcount <new> ^wvalue <newVal>)
 	(<link> ^lwleft <old> ^lwright <new>)
 	(<link> ^ltype {<< AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
-					           NR NS NT NW S SX TD TH TI TM TO W WR Y YP YS  >> <type>})
+					           NR NS NT NW Q S SX TD TH TI TM TO W WR Y YP YS  >> <type>})
 -->
 	(<s> ^operator <o> + >)
 	(<o> ^name find-root ^priority 170 ^new <new> 
@@ -167,6 +167,16 @@ sp	{global*prefer*operator-with-lowest-order*if-order-is-equal
    (<preferred> ^priority <priority> ^order <order> ^level-two-order <first> < <last>)
 -->
    (<s> ^operator <preferred> > <deferred>)}
+
+sp {global*prefer*operator-with-earliest-word*if-priority-and-order-are-equal*use-arg
+    (state <s> ^operator <deferred> + ^operator <preferred> +)
+    (<deferred> ^arg <a*2> ^main <mainval> ^order <ord> ^priority <priority>)
+    (<preferred> ^main <mainval> ^order <ord> ^priority <priority> ^arg <a*1>)
+    (<a*2> ^wcount <wc2>)
+    (<a*1> ^wcount { < <wc2> <wc1> })
+    -->
+    (<s> ^operator <preferred> > <deferred>)
+}
 
 # SBW added some indifferent rules to handle identical priorities
 # these cases probably represent bugs!
