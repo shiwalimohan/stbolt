@@ -1,5 +1,12 @@
 package com.soartech.bolt;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sf.jlinkgrammar.Linkage;
 import net.sf.jlinkgrammar.Sentence;
 import net.sf.jlinkgrammar.parser;
@@ -17,10 +24,18 @@ public class LGSupport implements OutputEventInterface {
 	private static boolean phraseMode = false;
 	
 	public static parser theParser;
+	private static boolean filterWords = false;
+	private static Set<String> legalWords;
 	
-	public LGSupport(Agent _agent, String dictionary) {
+
+	public LGSupport(Agent _agent, String dictionary, String legalWordList) {
 		agent = _agent;
 		dictionaryPath = dictionary;
+		
+		if (legalWordList != null) {
+			fillLegalWordSet(legalWordList);
+		}
+		
 		theParser = new parser();
 		
 		// make a root lg-input WME
@@ -29,6 +44,52 @@ public class LGSupport implements OutputEventInterface {
 
 			agent.AddOutputHandler("preprocessed-sentence", this, null);
 		}
+	}
+	
+	private void fillLegalWordSet(String file) {
+		// format for legal word file:
+		// each line is a single word (spaces will be removed)
+		// if the first character (in the first col) is #, it will be skipped
+		
+		legalWords = new HashSet<String>();
+		
+		// fake words used in the LG algorithm
+		legalWords.add("LEFT-WALL");
+		legalWords.add("RIGHT-WALL");
+		legalWords.add("UNKNOWN-WORD");
+		legalWords.add("NOUN-PHRASE-WALL");
+		
+		// punctuation
+		legalWords.add("?");
+		legalWords.add(".");
+		legalWords.add(",");
+		legalWords.add(";");
+		legalWords.add(":");
+		legalWords.add("!");
+		
+		// add words read from file
+		
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(file));
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("ERROR: legal word file does not exist: " + file);
+			return;
+		}
+		String line;
+		try {
+			while((line = reader.readLine() ) != null) {
+				if (line.length() > 0 && line.charAt(0) != '#') {
+					// remove all chars that aren't a unicode letter
+					line = line.replaceAll("[^\\p{L}]", "");
+					legalWords.add(line);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		filterWords = true;
 	}
 	
 	public void handleSentence(String sentence) {
@@ -262,5 +323,25 @@ public class LGSupport implements OutputEventInterface {
 			currentParseCount++;
 		}
 		return currentParseCount;
+	}
+	
+	public static boolean isAllowedDictionaryWord(String word) {
+		// return true if we will permit the LG parser to use its dictionary entry (assuming there is one) for the word
+		if (!filterWords) {
+			return true;
+		}
+		
+		if (word.length() == 0) {
+			return false;
+		}
+		
+		if (word.substring(0,1).equals("/")) {
+			// all generics/placeholders are prefixed with a slash
+			return true;
+		}
+		
+		else {
+			return legalWords.contains(word);
+		}
 	}
 }

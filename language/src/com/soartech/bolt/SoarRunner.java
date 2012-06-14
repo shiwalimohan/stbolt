@@ -76,7 +76,7 @@ public class SoarRunner implements PrintEventInterface {
 			agent.LoadProductions(soarFile);
 		}
 	
-		LGSupport lgSupport = new LGSupport(agent, "data/link");
+		LGSupport lgSupport = new LGSupport(agent, "data/link", "data/legal-words.txt");
 		for (String sentence: sentences) {
 			lgSupport.handleSentence(sentence);
 		}

@@ -661,7 +661,7 @@ public class Sentence {
         DictNode dn;
         XNode x, y;
 
-        dn = dict.dictionary_lookup(s);
+        dn = dict.filtered_dictionary_lookup(s);
 
         x = null;
         while (dn != null) {

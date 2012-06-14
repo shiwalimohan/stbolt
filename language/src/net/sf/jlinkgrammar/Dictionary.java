@@ -370,14 +370,21 @@ public class Dictionary {
      *      the program merely examines the list (doesn't change it) 
      */
     public DictNode dictionary_lookup(String s) {
-        
-
+					
         lookup_list = null;
         rdictionary_lookup(root, s);
         prune_lookup_list(s);
         return lookup_list;
     }
 
+		public DictNode filtered_dictionary_lookup(String s) {
+				if (!LGSupport.isAllowedDictionaryWord(s)) {
+					return null;
+				} 
+
+				return dictionary_lookup(s);
+		}
+				
     /**
      * 
      * @param s 
@@ -1287,7 +1294,7 @@ public class Dictionary {
 
         for (; !is_equal(':'); advance()) {
             if (is_special) {
-                dict_error("I expected a word but didn't get it.");
+            	dict_error("I expected a word but didn't get it.");
                 throw new RuntimeException(GlobalBean.lperrmsg);
             }
             
