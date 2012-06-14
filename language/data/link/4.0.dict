@@ -3299,13 +3299,70 @@ S-WORDS.n: ({@AN-} & {@A- & {[[@AN-]]}} & (({Dmc-} & <noun-sub-p> &
 LY-WORDS: {EE- or EF+} & (({Xd- & Xc+} & MVa-) or Em+ or ({Xc+ & 
 {Xd-}} & CO+) or Qe+ or Ca+ or [[EA+]]);
 
-UNKNOWN-WORD.n: ({@AN-} & {@A- & {[[@AN-]]}} & (({D*u-} & <noun-sub-s> & 
+<generic-noun>: ({@AN-} & {@A- & {[[@AN-]]}} & (({D*u-} & <noun-sub-s> & 
 (<noun-main-m> or Bsm+))
 or (YS+ & {D*u-}) or (GN+ & (DD- or [()])) or U-));
-UNKNOWN-WORD.v: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & {B- or O+}
+
+<generic-verb>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & {B- or O+}
  & {@MV+};
-UNKNOWN-WORD.a: {EA- or EF+} & (({[[@Ec-]]} & {Xc+} & A+) or ((Pa- or AF+ or
+
+<generic-adjective>: {EA- or EF+} & (({[[@Ec-]]} & {Xc+} & A+) or ((Pa- or AF+ or
  Ma-)  & {@MV+}) or AA+ or <adj-op>);
+
+UNKNOWN-WORD.n 
+*noun
+*noun1
+*noun2
+*noun3
+*noun4
+*noun5
+*noun6
+*noun7
+*noun8
+*noun9
+*noun10
+: <generic-noun>;
+
+UNKNOWN-WORD.v 
+*verb
+*verb1
+*verb2
+*verb3
+*verb4
+*verb5
+*verb6
+*verb7
+*verb8
+*verb9
+*verb10
+: <generic-verb>;
+
+UNKNOWN-WORD.a
+*adjective
+*adjective1
+*adjective2
+*adjective3
+*adjective4
+*adjective5
+*adjective6
+*adjective7
+*adjective8
+*adjective9
+*adjective10
+: <generic-adjective>;
+
+*nounjective
+*nounjective1
+*nounjective2
+*nounjective3
+*nounjective4
+*nounjective5
+*nounjective6
+*nounjective7
+*nounjective8
+*nounjective9
+*nounjective10
+: <generic-noun> or <generic-adjective>;
 
 LEFT-WALL: (Wd+ or Wq+ or Ws+ or Wj+ or Wc+ or Wi+ or Qd+) & 
 {CP+} & {Xx+} & {RW+ or Xp+};       

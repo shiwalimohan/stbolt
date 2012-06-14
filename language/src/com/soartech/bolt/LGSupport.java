@@ -33,7 +33,7 @@ public class LGSupport implements OutputEventInterface {
 		dictionaryPath = dictionary;
 		
 		if (legalWordList != null) {
-			fillLegalWordSet(legalWordList);
+			//fillLegalWordSet(legalWordList);
 		}
 		
 		theParser = new parser();
@@ -335,8 +335,8 @@ public class LGSupport implements OutputEventInterface {
 			return false;
 		}
 		
-		if (word.substring(0,1).equals("/")) {
-			// all generics/placeholders are prefixed with a slash
+		if (word.substring(0,1).equals("*")) {
+			// all generics/placeholders are prefixed with a star
 			return true;
 		}
 		
