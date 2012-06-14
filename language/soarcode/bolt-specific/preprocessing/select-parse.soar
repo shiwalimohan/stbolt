@@ -154,7 +154,7 @@ sp {select-parse*propose*add-extra-cost*Ma
    (<s> ^operator <o> + >)
    (<o> ^name add-extra-cost
         ^parse <map>
-        ^amount 1
+        ^amount 2
         ^type Ma)
 }
 

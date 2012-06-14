@@ -25,8 +25,8 @@ public class SoarRunner implements PrintEventInterface {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// two args: first a sentence (quoted) to parse
-		// second is a (optional) --debug or --silent flag
+		// at least one arg: first a (optional) --debug or --silent flag
+		// then a sentence
 		if (args.length < 2) {
 			System.out.println("SoarRunner needs a sentence to parse!");
 			return;
@@ -37,28 +37,39 @@ public class SoarRunner implements PrintEventInterface {
 		boolean debug = false;
 		boolean silent = false;
 		boolean runSoar = true;
-		int sentenceStart = 1;
-		if (args.length >= 3 && args[1].equals("--debug")) {
-			debug = true;
-			sentenceStart = 2;
+		String whitelist = null;
+		int sentenceStart = args.length;
+
+		int argNum = 1;
+		while (argNum < args.length) {
+			if (args[argNum].equals("--debug")) {
+				debug = true;
+			}
+			else if (args[argNum].equals("--silent")) {
+				silent = true;
+			}
+			else if (args[argNum].equals("--parse-only")) {
+				runSoar = false;
+			}
+			else if (args[argNum].equals("--whitelist")) {
+				whitelist = args[argNum+1];
+				argNum++;
+			}
+			else {
+				sentenceStart = argNum;
+				argNum = args.length;
+			}
+			argNum++;
 		}
-		else if (args.length >= 3 && args[1].equals("--silent")) {
-			silent = true;
-			sentenceStart = 2;
-		}
-		else if (args.length >= 3 && args[1].equals("--parse-only")) {
-			runSoar = false;
-			sentenceStart = 2;
-		}
+
 		ArrayList<String> sentences = new ArrayList<String>();
 		for (int i=sentenceStart; i<args.length; i++) {
 			sentences.add(args[i]);
 		}
-		
-		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent, runSoar);
+		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent, runSoar, whitelist);
 	}
 	
-	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar) {
+	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar, String whitelist) {
 		if (runSoar) {
 			if (debug) {
 				kernel = Kernel.CreateKernelInNewThread();
@@ -76,7 +87,7 @@ public class SoarRunner implements PrintEventInterface {
 			agent.LoadProductions(soarFile);
 		}
 	
-		LGSupport lgSupport = new LGSupport(agent, "data/link", "data/legal-words.txt");
+		LGSupport lgSupport = new LGSupport(agent, "data/link", whitelist);
 		for (String sentence: sentences) {
 			lgSupport.handleSentence(sentence);
 		}

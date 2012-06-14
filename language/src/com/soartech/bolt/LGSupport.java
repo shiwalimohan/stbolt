@@ -33,7 +33,7 @@ public class LGSupport implements OutputEventInterface {
 		dictionaryPath = dictionary;
 		
 		if (legalWordList != null) {
-			//fillLegalWordSet(legalWordList);
+			fillLegalWordSet(legalWordList);
 		}
 		
 		theParser = new parser();
@@ -74,7 +74,7 @@ public class LGSupport implements OutputEventInterface {
 			reader = new BufferedReader(new FileReader(file));
 		}
 		catch (FileNotFoundException e) {
-			System.out.println("ERROR: legal word file does not exist: " + file);
+			System.out.println("ERROR: whitelist file does not exist: " + file);
 			return;
 		}
 		String line;
