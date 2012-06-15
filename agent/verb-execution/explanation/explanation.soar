@@ -76,10 +76,23 @@ sp {explain*elaborate*hypothetical*objects
    (<s> ^<o-type> <val>)
 }
 
+## in the explanation state, generate the desired state
+sp {explain*propose*assign-goal
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <iop>
+	      -^desired <any>)
+   (<iop> ^goal-lid <glid>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name assign-goal
+   	 ^long-term-id <glid>)
+}
+
 ### in the generated state, propose the verb on the segment
 sp {explain*propose*segment-verb
    (state <s> ^name explain
-   	      ^segment <seg>)
+   	      ^segment <seg>
+	      ^desired <d>)
    (<seg> ^purpose <p>)
    (<p> ^indexed-operator <map-op>) 
    (<map-op> ^name <name>)
@@ -104,20 +117,20 @@ sp {explain*propose*segment-verb*elaborate
 }
 
 ##### more generalized version of desired
-sp {new-operator*desired*generalized
-   (state <s> ^name <sname>
-   	      ^superstate.operator <sop>)
-   (<sop> ^name <sname>
-   	  ^{<arg1> <> name} <val1>
-	  ^{<arg2> <> name} <val2>)
-   (<val2> ^o_type location)
-   (<val1> -^o_type location)
--->
-   (<s> ^desired <d>)
-   (<d> ^in <in-p>)
-   (<in-p> ^object <val1>
-   	   ^location <val2>)
-}
+#sp {new-operator*desired*generalized
+#   (state <s> ^name <sname>
+#   	      ^superstate.operator <sop>)
+#   (<sop> ^name <sname>
+#   	  ^{<arg1> <> name} <val1>
+#	  ^{<arg2> <> name} <val2>)
+#   (<val2> ^o_type location)
+#   (<val1> -^o_type location)
+#-->
+#   (<s> ^desired <d>)
+#   (<d> ^in <in-p>)
+#   (<in-p> ^object <val1>
+#   	   ^location <val2>)
+#}
 
 ### --- reject operator if desired state is reached
 
