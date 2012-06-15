@@ -123,9 +123,23 @@ sp {global*apply*handle-guessed-word
         ^word <w>)
    (<w> ^wvalue <wval>)
 -->
-   (<ol> ^guess-message <g>)
-   (<g> ^response |I did not understand |
-        ^word <wval>)
+   (<ol> ^message <g>)
+   (<g> ^first <w1>
+        ^word <w1>
+        ^word <w1>
+        ^word <w2>
+        ^word <w3>
+        ^word <w4>
+        ^word <w5>)
+   (<w1> ^value I
+         ^next <w2>)
+   (<w2> ^value did
+         ^next <w3>)
+   (<w3> ^value not
+         ^next <w4>)
+   (<w4> ^value understand
+         ^next <w5>)
+   (<w5> ^value <wval>)
    (<w> ^handled true)
 #   (<s> ^lgsoar-predicates <pred> -
 #        ^next-lgsoar-message-id <id> -

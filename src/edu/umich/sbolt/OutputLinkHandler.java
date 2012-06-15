@@ -26,7 +26,7 @@ public class OutputLinkHandler implements OutputEventInterface
     public OutputLinkHandler(SBolt sbolt)
     {
         this.sbolt = sbolt;
-        String[] outputHandlerStrings = { "guess-message", "goto", "action", "pick-up", "push-segment", "pop-segment",
+        String[] outputHandlerStrings = { "message", "goto", "action", "pick-up", "push-segment", "pop-segment",
                 "put-down", "point", "send-message","remove-message","send-training-label"};
         for (String outputHandlerString : outputHandlerStrings)
         {
@@ -79,7 +79,7 @@ public class OutputLinkHandler implements OutputEventInterface
             }
             System.out.println(wme.GetAttribute());
             
-            if(wme.GetAttribute().equals("guess-message")) {
+            if(wme.GetAttribute().equals("message")) {
             	processMessage(wme.ConvertToIdentifier());
             }else if (wme.GetAttribute().equals("goto"))
             {
@@ -135,11 +135,14 @@ public class OutputLinkHandler implements OutputEventInterface
             throw new IllegalStateException("Message has no children");
         }
         
-        String resp = WorkingMemoryUtil.getValueOfAttribute(messageId, "response");
-        String gWord = WorkingMemoryUtil.getValueOfAttribute(messageId, "word"); 
+        Identifier cur = WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first");
+        String msg = new String();
+        while(cur != null) {
+        	msg += WorkingMemoryUtil.getValueOfAttribute(cur, "value")+" ";
+        	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
+        }
         
-        sbolt.getChatFrame().addMessage("Agent: "+resp+gWord);
-        messageId.delete();
+        sbolt.getChatFrame().addMessage("Agent: "+msg);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
