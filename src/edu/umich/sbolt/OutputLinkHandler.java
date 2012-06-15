@@ -139,6 +139,7 @@ public class OutputLinkHandler implements OutputEventInterface
         String gWord = WorkingMemoryUtil.getValueOfAttribute(messageId, "word"); 
         
         sbolt.getChatFrame().addMessage("Agent: "+resp+gWord);
+        messageId.delete();
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
