@@ -109,11 +109,6 @@ sp {global*apply*handle-guessed-word
         ^sentence <sent>
         ^word.wvalue <w>)
 -->
-   (<sent> ^final-predicates <fp>
-           ^parse-valid false)
-   (<fp> ^predicate <pred>)
-   (<pred> ^outer guessed-word
-           ^inner1 <w>)
    (<ol> ^guess-message <g>)
    (<g> ^response |I did not understand |
         ^word <w>)
