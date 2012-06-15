@@ -1,8 +1,6 @@
 ### constraints on the objects selection are provided by the linguistic knowledge in the instruction and the objects in the verbs
 
 
-#### first try locating with working memory/input-link
-
 sp {elaborate*index-arguments
    (state <s> ^name index-argument
    	      ^superstate.operator <sop>)
@@ -33,11 +31,13 @@ sp {propose*index-object
 ### copy the correct object if find-object is successful
 sp {copy*matched*object
    (state <s> ^name index-argument
-   	      ^operator <op>) 
+   	      ^operator <op>
+	      ^argument <arg>) 
    (<op> ^match <obj>
    	 ^name index-object)
  -->   
     (<s> ^match <obj>)
+    (<obj> ^_ldesc <arg>)
 }
 
 ### write matched object to the superstate

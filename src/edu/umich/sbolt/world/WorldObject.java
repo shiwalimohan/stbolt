@@ -157,8 +157,10 @@ public class WorldObject implements IInputLinkElement
         	bbox.destroy();
         	idWME.DestroyWME();
         	idWME = null;
-        	nameWME.DestroyWME();
-        	nameWME = null;
+        	if(nameWME != null){
+            	nameWME.DestroyWME();
+            	nameWME = null;
+        	}
             objectId.DestroyWME();
             objectId = null;
         }

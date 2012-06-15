@@ -13,7 +13,7 @@ sp {propose*ask-query
 -->
    (<s> ^operator <o> + =)
    (<o> ^name ask-query
-        ^category object-processing
+        ^category communication
         ^query <q>
         ^fields <f>)
 }
