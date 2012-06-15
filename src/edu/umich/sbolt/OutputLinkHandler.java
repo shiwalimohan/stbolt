@@ -26,7 +26,7 @@ public class OutputLinkHandler implements OutputEventInterface
     public OutputLinkHandler(SBolt sbolt)
     {
         this.sbolt = sbolt;
-        String[] outputHandlerStrings = { "goto", "action", "pick-up", "push-segment", "pop-segment",
+        String[] outputHandlerStrings = { "guess-message", "goto", "action", "pick-up", "push-segment", "pop-segment",
                 "put-down", "point", "send-message","remove-message","send-training-label"};
         for (String outputHandlerString : outputHandlerStrings)
         {
@@ -78,8 +78,10 @@ public class OutputLinkHandler implements OutputEventInterface
                 return;
             }
             System.out.println(wme.GetAttribute());
-
-            if (wme.GetAttribute().equals("goto"))
+            
+            if(wme.GetAttribute().equals("guess-message")) {
+            	processMessage(wme.ConvertToIdentifier());
+            }else if (wme.GetAttribute().equals("goto"))
             {
                 processGoto(wme.ConvertToIdentifier());
             }
@@ -119,6 +121,24 @@ public class OutputLinkHandler implements OutputEventInterface
                 this.sbolt.getAgent().Commit();
             }
     	}
+    }
+    
+    private void processMessage(Identifier messageId) {
+    	if (messageId == null)
+        {
+            return;
+        }
+
+        if (messageId.GetNumberChildren() == 0)
+        {
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Message has no children");
+        }
+        
+        String resp = WorkingMemoryUtil.getValueOfAttribute(messageId, "response");
+        String gWord = WorkingMemoryUtil.getValueOfAttribute(messageId, "word"); 
+        
+        sbolt.getChatFrame().addMessage("Agent: "+resp+gWord);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
@@ -160,7 +180,7 @@ public class OutputLinkHandler implements OutputEventInterface
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
         if(!message.equals("")){
-            sbolt.getChatFrame().addMessage(message);
+            sbolt.getChatFrame().addMessage("Agent: "+message);
         }
         messageId.CreateStringWME("status", "complete");
     }
@@ -204,7 +224,7 @@ public class OutputLinkHandler implements OutputEventInterface
         }
 
         message += ".";
-        sbolt.getChatFrame().addMessage(
+        sbolt.getChatFrame().addMessage("Agent: "+
                 message.substring(0, message.length() - 1));
         messageId.CreateStringWME("status", "complete");
     }

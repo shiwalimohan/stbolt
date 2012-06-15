@@ -88,8 +88,7 @@ sp {global*apply*handle-single-word
 
 sp {global*propose*handle-guessed-word
    (state <s> ^superstate nil
-              ^io.input-link.lg.parsed-sentence <sent>
-              ^io.output-link.message <msg>)
+              ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> -^final-predicates
             ^words <wds>
             ^parse-count 0)
@@ -100,23 +99,24 @@ sp {global*propose*handle-guessed-word
    (<o> ^name handle-guessed-word
         ^kind interpretation
         ^sentence <sent>
-        ^word <w>
-        ^message <msg>)
+        ^word <w>)
 }
 
 sp {global*apply*handle-guessed-word
-   (state <s> ^operator <o>)
+   (state <s> ^operator <o>
+              ^io.output-link <ol>)
    (<o> ^name handle-guessed-word
         ^sentence <sent>
-        ^word <w>
-        ^message <msg>)
+        ^word.wvalue <w>)
 -->
    (<sent> ^final-predicates <fp>
            ^parse-valid false)
    (<fp> ^predicate <pred>)
    (<pred> ^outer guessed-word
            ^inner1 <w>)
-#   (<msg> ^guess I did not understand <w>)
+   (<ol> ^guess-message <g>)
+   (<g> ^response |I did not understand |
+        ^word <w>)
 }
 
 sp {elaborate*lgsoar-message-count

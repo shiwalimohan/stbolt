@@ -9,6 +9,15 @@ sp {elaborate*print-structure
    (halt)
 }
 
+sp {elaborate*print-guessed-word
+   (state <s> ^io.output-link.guess-message <g>)
+   (<g> ^response <r>
+        ^word <w>)
+-->
+   (write (crlf) <r> <w>)
+   (halt)
+}
+
 sp {elaborate*state-name
    (state <s> ^superstate.operator.name <nm>)
 -->

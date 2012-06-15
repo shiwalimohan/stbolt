@@ -95,7 +95,7 @@ public class ChatFrame extends JFrame
             {
             	history.add(chatField.getText());
             	historyIndex = history.size();
-                addMessage(chatField.getText());
+                addMessage("Mentor: "+chatField.getText());
                 sendSoarMessage(chatField.getText());
                 chatField.setText("");
                 chatField.requestFocus();
