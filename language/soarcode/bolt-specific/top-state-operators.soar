@@ -86,6 +86,39 @@ sp {global*apply*handle-single-word
            ^inner1 <wd>)
 }
 
+sp {global*propose*handle-guessed-word
+   (state <s> ^superstate nil
+              ^io.input-link.lg.parsed-sentence <sent>
+              ^io.output-link.message <msg>)
+   (<sent> -^final-predicates
+            ^words <wds>
+            ^parse-count 0)
+   (<wds> ^word <w>)
+   (<w> ^guessed true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name handle-guessed-word
+        ^kind interpretation
+        ^sentence <sent>
+        ^word <w>
+        ^message <msg>)
+}
+
+sp {global*apply*handle-guessed-word
+   (state <s> ^operator <o>)
+   (<o> ^name handle-guessed-word
+        ^sentence <sent>
+        ^word <w>
+        ^message <msg>)
+-->
+   (<sent> ^final-predicates <fp>
+           ^parse-valid false)
+   (<fp> ^predicate <pred>)
+   (<pred> ^outer guessed-word
+           ^inner1 <w>)
+#   (<msg> ^guess I did not understand <w>)
+}
+
 sp {elaborate*lgsoar-message-count
    (state <s> ^superstate nil)
 -->
@@ -226,5 +259,34 @@ sp {elaborate*handle-single-word*over*select-parse
    (<o2> ^name select-parse)
 -->
    (<s> ^operator <o1> > <o2>)
+}
+
+sp {elaborate*handle-guessed-word*over*select-parse
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-guessed-word)
+   (<o2> ^name select-parse)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {elaborate*handle-guessed-word*over*handle-single-word
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-guessed-word)
+   (<o2> ^name handle-single-word)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {elaborate*equal*handle-guessed-word
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-guessed-word
+         ^word <w1>)
+   (<o2> ^name handle-guessed-word
+         ^word <w2> <> <w1>)
+-->
+   (<s> ^operator <o1> = <o2>)
 }
 
