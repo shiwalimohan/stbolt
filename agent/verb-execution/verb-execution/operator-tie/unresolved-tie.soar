@@ -3,6 +3,7 @@
 
 sp {topstate*operator-tie*propose*write-unresolved-tie-topstate
    (state <s> -^superstate.superstate.name explain
+#   	      -^name selection   SM: removed because all tied states are name selection
    	      ^name operator-tie)
 -->
    (<s> ^operator <op> + >)

@@ -1,5 +1,5 @@
 ### put down an object in a location
-sp {propose*put-down-object-object
+sp {propose*put-down-object-object*next-to
    (state <s> ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
@@ -11,11 +11,7 @@ sp {propose*put-down-object-object
    (<op> ^name op_put-down-object-object
    	 ^argument1 <obj>
 	 ^argument2 <loc>
-	 ^spatial-relationship <rel>
-	 ^category primitive-action)
-   (<rel> ^name right-of
-   	  ^argument1 <obj>
-	  ^argument2 <loc>)
+	 ^category primitive-action) ### a general next-to operator
 }
 
 ### control in close loop with SVS
@@ -41,9 +37,6 @@ sp {propose*svs*find-projection*object-object
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
 	      -^projection-result)
-   (<rel> ^argument1 <obj>
-   	  ^argument2 <loc>
-	  ^name <name>)
    (<obj> ^id <oid>)
    (<loc> ^id <lid>)
 -->
@@ -51,7 +44,7 @@ sp {propose*svs*find-projection*object-object
    (<op> ^name find-projection
    	^a <oid>
 	^b <lid>
-	^type <name>
+	^type <rel>
 	^category svs)
 }
 
@@ -63,9 +56,6 @@ sp {propose*svs*tracking*object-object
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
 	      -^track-result )
-   (<rel> ^argument1 <obj>
-   	  ^argument2 <loc>
-	  ^name <name>)
    (<obj> ^id <oid>)
    (<loc> ^id <lid>)
 -->
@@ -73,7 +63,7 @@ sp {propose*svs*tracking*object-object
    (<op> ^name svs-tracking
    	 ^a <oid>
 	^b <lid>
-	^prep <name>
+	^prep <rel>
 	^category svs
 	^kind non-atomic)
 }

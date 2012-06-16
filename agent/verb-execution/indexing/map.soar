@@ -39,7 +39,7 @@ sp {elaborate*attribute*match
 sp {elaborate*operator*match
    (state <s> ^operator <op> + 
    	      ^indexed-operator <map-op> <> <op>)
-   (<map-op> ^{<attr> <> applied <> information} <val>)
+   (<map-op> ^{<attr> <> applied <> information <> spatial-relationship} <val>)
    (<op> -^matched <attr>
    	 ^category << primitive-action composite-action >>)
 -->
@@ -56,12 +56,27 @@ sp {prefer*match
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
-   (<map-op> -^applied true)
+   (<map-op> -^applied true
+   	     ^spatial-relationship <rel>)
    -->
    (<s> ^operator <op> >)
    (<op> ^information <info>
    	 ^indexed-operator <map-op>)
 }
+
+sp {prefer*match*elaborate*relationship
+   (state <s> ^indexed-operator <map-op> <> <op>
+   	      ^operator <op>
+	      ^interaction.stack.segment.purpose.satisfaction.action-event <info>
+	      ^topstate <s>)
+   (<op> -^op-matched no
+   	 ^category << primitive-action composite-action >>)
+   (<map-op> ^spatial-relationship <rel>)
+   -->
+   (<op> ^spatial-relationship <rel>)
+} 
+
+
 
 sp {propose*indexed-operator*if*no-choices
    (state <s> ^superstate <ss>

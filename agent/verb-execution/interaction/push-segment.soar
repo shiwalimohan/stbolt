@@ -14,7 +14,9 @@ sp {push-segment*create-segment
    	      ^superstate <ss>
 	      ^epmem.present-id <eid>)
    (<ss> ^operator <sop>
-   	 ^interaction.stack.segment <prev-segment>)
+   	 ^interaction <i>)
+   (<i> ^action-counter <count>
+   	^stack.segment <prev-segment>)
    (<prev-segment> ^id <id>)
    (<sop> ^name push-segment
    	  ^originator <init>
@@ -27,7 +29,8 @@ sp {push-segment*create-segment
        ^info <i>  #JK
 	  ^id ( + <id> 1)
 	  ^next <prev-segment>
-	  ^epmem-id <eid>)
+	  ^epmem-id <eid>
+	  ^action-id <count>)
    (<np> ^type <type>
          ^parameters <params>
    	^satisfaction <new-sat>)

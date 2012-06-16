@@ -28,10 +28,24 @@ sp {generate*operator*arguments
 	      ^index-operator <op>)
    (<cue> ^<connect> <obj>)
    (<lid> ^<connect> <lobj>)
-   (<pid> ^<arg> <lobj>)
+   (<pid> ^{<arg> <> spatial-relationship} <lobj>)
 -->
    (<op> ^<arg> <obj>)
-   (<obj> ^_ltid <lobj>)
+#   (<obj> ^_ltid <lobj>)
+}
+
+#### associate spatial-relationships
+sp {associate*spatial*relations
+   (state <s> ^name generate-operator
+   	      ^procedural-id <pid>
+	      ^linguistic-id <lid>
+	      ^index-operator <op>
+	      ^cue <cue>)
+   (<pid> ^spatial-relationship <obj>)
+   (<lid> ^<connect> <obj>)
+   (<cue> ^<connect> <lobj>)
+-->
+   (<op> ^spatial-relationship <connect>)
 }
 
 sp {generate*operator*goal
