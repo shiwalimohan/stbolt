@@ -65,34 +65,24 @@ sp {explain*copy*retrieved*episode*self
    (<s> ^self <obj>)
 }
 
-### if an object is hypothetical, add it to the current state description
-sp {explain*elaborate*hypothetical*objects
-   (state <s> ^name explain
-   	      ^segment.purpose.indexed-operator <map-op>)
-   (<map-op> ^<arg> <val>)
-   (<val> ^hypothetical true
-   	  ^o_type <o-type>)
--->
-   (<s> ^<o-type> <val>)
-}
+
 
 ## in the explanation state, generate the desired state
-sp {explain*propose*assign-goal
-   (state <s> ^name explain
-   	      ^segment.purpose.indexed-operator <iop>
-	      -^desired <any>)
-   (<iop> ^goal-lid <glid>)
--->
-   (<s> ^operator <op> + >)
-   (<op> ^name assign-goal
-   	 ^long-term-id <glid>)
-}
+#sp {explain*propose*assign-goal
+#   (state <s> ^name explain
+#   	      ^segment.purpose.indexed-operator <iop>
+#	      -^desired <any>)
+#   (<iop> ^goal-lid <glid>)
+#-->
+#   (<s> ^operator <op> + >)
+#   (<op> ^name assign-goal
+#   	 ^long-term-id <glid>)
+#}
 
 ### in the generated state, propose the verb on the segment
 sp {explain*propose*segment-verb
    (state <s> ^name explain
-   	      ^segment <seg>
-	      ^desired <d>)
+   	      ^segment <seg>)
    (<seg> ^purpose <p>)
    (<p> ^indexed-operator <map-op>) 
    (<map-op> ^name <name>)
@@ -105,7 +95,7 @@ sp {explain*propose*segment-verb*elaborate
    (state <s> ^name explain
    	      ^segment.purpose.indexed-operator <map-op>	
 	      ^operator <op> +
-	      ^<< object location >> <obj>)
+	      ^object <obj>)
    (<op> ^name <name>)
    (<map-op> ^name <name>
    	     ^<arg> <val>)
@@ -117,20 +107,20 @@ sp {explain*propose*segment-verb*elaborate
 }
 
 ##### more generalized version of desired
-#sp {new-operator*desired*generalized
-#   (state <s> ^name <sname>
-#   	      ^superstate.operator <sop>)
-#   (<sop> ^name <sname>
-#   	  ^{<arg1> <> name} <val1>
-#	  ^{<arg2> <> name} <val2>)
-#   (<val2> ^o_type location)
-#   (<val1> -^o_type location)
-#-->
-#   (<s> ^desired <d>)
-#   (<d> ^in <in-p>)
-#   (<in-p> ^object <val1>
-#   	   ^location <val2>)
-#}
+sp {new-operator*desired*generalized
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>)
+   (<sop> ^name <sname>
+   	  ^{<arg1> <> name} <val1>
+	  ^{<arg2> <> name} <val2>)
+   (<val2> ^o_type location)
+   (<val1> -^o_type location)
+-->
+   (<s> ^desired <d>)
+   (<d> ^in <in-p>)
+   (<in-p> ^object <val1>
+   	   ^location <val2>)
+}
 
 ### --- reject operator if desired state is reached
 
@@ -206,42 +196,4 @@ sp {composite*operator*elaborate*focus
  -->
    (<val2> ^focus yes)
    (<val1> ^focus yes)
-}
-
-
-##### hack to clean up objects after composite action has been executed
-sp {composite*action*cleanup*x
-   (state <s> ^topstate <s>
-   	      ^object <ob>
-	      ^operator <op>)
-   (<op> ^name pop-segment)
-   (<ob> ^pose <p>)
-   (<p> ^x <x>)
-   (<ob> ^x <nx> <> <x>)
--->
-   (<ob> ^x <nx> -)
-}
-
-sp {composite*action*cleanup*y
-   (state <s> ^topstate <s>
-   	      ^object <ob>
-	      ^operator <op>)
-   (<op> ^name pop-segment)
-   (<ob> ^pose <p>)
-   (<p> ^y <x>)
-   (<ob> ^y <nx> <> <x>)
--->
-   (<ob> ^y <nx> -)
-}
-
-sp {composite*action*cleanup*z
-   (state <s> ^topstate <s>
-   	      ^object <ob>
-	      ^operator <op>)
-   (<op> ^name pop-segment)
-   (<ob> ^pose <p>)
-   (<p> ^z <x>)
-   (<ob> ^z <nx> <> <x>)
--->
-   (<ob> ^z <nx> -)
 }

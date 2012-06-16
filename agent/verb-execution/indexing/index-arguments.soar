@@ -37,7 +37,7 @@ sp {copy*matched*object
    	 ^name index-object)
  -->   
     (<s> ^match <obj>)
-    (<obj> ^_ldesc <arg>)
+  #  (<obj> ^_ldesc <arg>)
 }
 
 ### write matched object to the superstate

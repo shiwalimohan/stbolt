@@ -22,11 +22,13 @@ sp {explain*copy*superstate*relevant*structures*object
    (<ss> ^name explain
    	 ^object <m>)
    (<m> ^id <mid>
-   	-^focus yes)
+   	-^focus yes
+	^category <cat>)
 -->
    (<s> ^object <nm>)
 #   (<nm> ^id (make-constant-symbol))
-   (<nm> ^id <mid>)
+   (<nm> ^id <mid>
+   	 ^category <cat>)
 }
 
 sp {explain*copy*superstate*relevant*structures*object*focus
@@ -34,22 +36,16 @@ sp {explain*copy*superstate*relevant*structures*object*focus
    (<ss> ^name explain
    	 ^object <m>)
    (<m> ^id <mid>
-   	^focus yes)
+   	^focus yes
+	^category <cat>)
 -->
    (<s> ^object <nm>)
    (<nm> ^id <mid>
 #   (<nm> ^id (make-constant-symbol)
-   	 ^focus yes)
+   	 ^focus yes
+	 ^category <cat>)
 }
 
-
-sp {explain*copy*superstate*relevant*structures*location
-   (state <s> ^superstate <ss>)
-   (<ss> ^name explain
-   	 ^location <m>)
--->
-   (<s> ^location <m>)
-}
 
 sp {explain*copy*superstate*relevant*structures*self
    (state <s> ^superstate <ss>)

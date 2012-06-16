@@ -31,7 +31,7 @@ sp {generate*operator*arguments
    (<pid> ^<arg> <lobj>)
 -->
    (<op> ^<arg> <obj>)
-   (<obj> ^_ltid <lobj>)
+#   (<obj> ^_ltid <lobj>)
 }
 
 sp {generate*operator*goal
