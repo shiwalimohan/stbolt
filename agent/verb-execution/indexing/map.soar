@@ -56,26 +56,12 @@ sp {prefer*match
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
-   (<map-op> -^applied true
-   	     ^spatial-relationship <rel>)
+   (<map-op> -^applied true)
    -->
    (<s> ^operator <op> >)
    (<op> ^information <info>
    	 ^indexed-operator <map-op>)
 }
-
-sp {prefer*match*elaborate*relationship
-   (state <s> ^indexed-operator <map-op> <> <op>
-   	      ^operator <op>
-	      ^interaction.stack.segment.purpose.satisfaction.action-event <info>
-	      ^topstate <s>)
-   (<op> -^op-matched no
-   	 ^category << primitive-action composite-action >>)
-   (<map-op> ^spatial-relationship <rel>)
-   -->
-   (<op> ^spatial-relationship <rel>)
-} 
-
 
 
 sp {propose*indexed-operator*if*no-choices
@@ -92,12 +78,22 @@ sp {propose*indexed-operator*if*no-choices
 	     ^indexed-operator <map-op>)
 }
 
-### set indexed-operator as applied
-sp {mark*indexed-operator*applied
+### augment spatial-relationship to the primitive operator
+sp {augment*spatial-relationship
    (state <s> ^indexed-operator <iop>
    	      ^operator <op>)
-   (<op> ^indexed-operator <map-op>)
-   (<op> ^information <info>)
+   (<iop> ^spatial-relationship <rel>)
+   (<op> ^category primitive-action)
+-->
+   (<op> ^spatial-relationship <rel>)
+}
+
+### set indexed-operator as applied
+sp {mark*indexed-operator*applied
+   (state <s> ^indexed-operator <map-op>
+   	      ^operator <op>)
+   (<op> ^indexed-operator <map-op>
+   	 ^information <info>)
 -->
    (<map-op> ^applied true
    	     ^information <info>)
