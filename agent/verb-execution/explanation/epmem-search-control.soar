@@ -28,19 +28,6 @@ sp {selection*elaborate*instructed*action
    (<s> ^indexed-operator <iop>)
 }
 
-### if an object is hypothetical, add it to the current state description
-sp {explain*elaborate*hypothetical*objects*epmem
-   (state <s> ^name selection
-   	      ^indexed-operator <map-op>
-k	      ^superstate <ss>)
-   (<map-op> ^<arg> <val>)
-   (<val> ^hypothetical true
-   	  ^o_type <o-type>)
--->
-   (<ss> ^<o-type> <val>)
-}
-
-
 #### SM: hack for the current chunks to form. only look at the focus objects
 ### prefer the indexed operator
 sp {elaborate*attribute*match*epmem*arguments
