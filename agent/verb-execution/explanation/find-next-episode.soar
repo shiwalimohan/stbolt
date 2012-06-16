@@ -19,9 +19,7 @@ sp {find-next-episode*query*episodic*memory
 -->
    (<ecomm> ^query <q>)
    (<q> ^interaction.stack.segment <seg>)
-   (<seg> ^id <seg-id>
-   	  ^originator instructor
-	  ^purpose.type external-action)
+   (<seg> ^id <seg-id>)
 }
 
 ### write the episode id to the superstate for retrieval

@@ -1,3 +1,8 @@
+
+## create the ^desired attribute in the explanation state. 
+## if the operator is associated with a long-term id corresponding to the goal, retrieve the children.
+## if no children are retrieved, pose a 'goal-query'
+
 ### elaborate assign-goal
 sp {assign-goal*elaborate*state
    (state <s> ^name assign-goal
