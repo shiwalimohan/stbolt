@@ -83,6 +83,7 @@ sp {augment*spatial-relationship
    (state <s> ^indexed-operator <iop>
    	      ^operator <op>)
    (<iop> ^spatial-relationship <rel>)
+   (<op> ^category primitive-action)
 -->
    (<op> ^spatial-relationship <rel>)
 }
