@@ -3,7 +3,8 @@ sp {propose*put-down-object-location
    (state <s> ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
-	     -^track-result success)
+	     -^track-result success
+         -^io.input-link.self.action drop)
    (<loc> ^category location)
 -->
    (<s> ^operator <op> +)
