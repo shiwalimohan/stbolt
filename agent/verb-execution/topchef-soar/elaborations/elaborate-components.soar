@@ -24,17 +24,6 @@ sp {elaborate*objects*blocks
    (<obj> ^category block)
 }
 
-
-## copy object/self to substate
-#sp {copy*object
-#   (state <s> ^superstate <ss>
-#   	      ^io)
-#   (<ss> -^name explain
-#    	  ^object <l>)
-#   (<l> ^category <any>)
-#-->
-#   (<s> ^object <l>)
-#}
 sp {copy*self
    (state <s> ^superstate <ss>
    	      ^io)
@@ -77,3 +66,11 @@ sp {copy*grabbed
 -->
    (<s> ^grabbed <obj>)
 }
+
+## copy track-relations to substates
+sp {copy*track-relations
+   (state <s> ^superstate.track-relation <rel>)
+-->
+   (<s> ^track-relation <rel>)
+}
+   

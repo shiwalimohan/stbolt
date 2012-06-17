@@ -31,7 +31,8 @@ sp {elaborate*op_put-down-object-location
 -->
    (<s> ^argument1 <obj>
    	^argument2 <loc>
-	^spatial-relationship <rel>)
+	^spatial-relationship <rel>
+	^track-relation <trel>)
 }
 
 ## determine the location x,y,z using SVS
@@ -55,14 +56,15 @@ sp {propose*svs*find-projection
 	^category svs)
 }
 
-## set up tracking in the superstate
+## set up tracking
+## SM 06/17/2012: changed to work with tracking in the superstate
 sp {propose*svs*tracking
    (state <s> ^name op_put-down-object-location
    	      ^projection-result <res>
 	      ^argument1 <obj>
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
-	      -^track-result )
+	      ^relationship-name <rel-name>)
    (<rel> ^argument1 <obj>
    	  ^argument2 <loc>
 	  ^name <name>)
