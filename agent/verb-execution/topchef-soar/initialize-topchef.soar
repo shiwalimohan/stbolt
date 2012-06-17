@@ -29,9 +29,3 @@ sp {apply*init-agent*topchef-soar
 -->
    (<s> ^name topchef-soar)   
 }
-
-sp {elaborate*predicates*for*all*states
-   (state <s> ^superstate <any>)
--->
-   (<s> ^vpredicates <p>)
-}
