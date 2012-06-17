@@ -15,6 +15,7 @@ sp {elaborate*objects*locations
 -->
    (<obj> ^category location)
 }
+
 ### as blocks
 sp {elaborate*objects*blocks
    (state <s> ^topstate <s>)
@@ -33,20 +34,6 @@ sp {copy*self
    (<s> ^self <l>)
 }
 
-
-#### elaborate x,y,z for objects/locations
-sp {elaborate*xyz
-   (state <s> ^<< object location self >> <l>
-   	      ^io)
-   (<l> ^pose <lp>)
-   (<lp> ^x <x>
-   	 ^y <y>
-	 ^z <z>)
--->
-   (<l> ^x <x>
-   	^y <y>
-	^z <z>)
-}
 
 ## elaborate grabbed object from the id
 sp {elaborate*grabbed*object
