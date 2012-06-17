@@ -14,4 +14,25 @@ sp {new-operator*detect*goal
 -->
    (<s> ^success <d>)
 }
+
+
+### detect track-relation success (based on the action-model) ### HACKY, only one track relation
+sp {new-operator*detect*track-relation*success
+   (state <s> ^desired <d>
+   	      ^track-relation <tr>)
+   (<d> ^track-relation <dtr>)
+   (<dtr> ^object1 <val1>
+   	  ^object2 <val2>
+	  ^prep <prep>)
+   (<tr> ^complete success
+   	 ^object1 <val3>
+	 ^object2 <val4>
+	 ^prep <prep>)
+   (<val1> ^focus yes)
+   (<val2> ^focus yes)
+   (<val3> ^focus yes)
+   (<val4> ^focus yes)
+-->
+   (<s> ^success <d>)
+}
    

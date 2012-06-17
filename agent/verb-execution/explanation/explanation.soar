@@ -111,15 +111,16 @@ sp {new-operator*desired*generalized
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>)
    (<sop> ^name <sname>
-   	  ^{<arg1> <> name} <val1>
-	  ^{<arg2> <> name} <val2>)
-   (<val2> ^o_type location)
-   (<val1> -^o_type location)
+   	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information} <val1>
+	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information} <val2>)
+   (<val2> ^category location)
+   (<val1> -^category location)
 -->
    (<s> ^desired <d>)
-   (<d> ^in <in-p>)
-   (<in-p> ^object <val1>
-   	   ^location <val2>)
+   (<d> ^track-relation <in-p>)
+   (<in-p> ^object1 <val1>
+   	   ^object2 <val2>
+	   ^prep in)
 }
 
 ### --- reject operator if desired state is reached
@@ -191,8 +192,8 @@ sp {composite*operator*elaborate*focus
    	  ^name <sname>
    	  ^{<arg1> <> name} <val1>
 	  ^{<arg2> <> name} <val2>)
-   (<val2> ^o_type location)
-   (<val1> -^o_type location)
+   (<val2> ^category location)
+   (<val1> -^category location)
  -->
    (<val2> ^focus yes)
    (<val1> ^focus yes)
