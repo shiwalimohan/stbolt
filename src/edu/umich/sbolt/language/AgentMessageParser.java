@@ -29,7 +29,7 @@ public class AgentMessageParser
         } else if(type.equals("dont-know")){
         	message = "I don't know";
         } else if(type.equals("no-prep")){
-            message = "I don't know that preposition. Please give an example:";
+            message = "I don't know that preposition.";
         } else if(type.equals("single-word")){
         	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
         } else if(type.equals("no-object")){
@@ -48,7 +48,11 @@ public class AgentMessageParser
     
     private static String translateTeachingRequest(Identifier id){
     	LingObject obj = LingObject.createFromSoarSpeak(id, "description");
-    	return "I don't see " + obj.toString() + ".\nPlease teach me to recognize one";
+    	//JK different syntax for prepositions
+    	if (obj.toString().contains("preposition"))
+    	    return "I don't know the " + obj.toString() + ".\nPlease teach me with examples";
+    	else
+    	    return "I don't see " + obj.toString() + ".\nPlease teach me to recognize one";
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){
