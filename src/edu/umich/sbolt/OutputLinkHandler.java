@@ -280,7 +280,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
                     locationId, "z",
                     "put-down.location does not have an ^z attribute"));
             command.action = "DROP";
-            command.dest = new double[]{x, y, z, 0, 0, 0};
+            command.dest = new double[]{x, y, 0, 0, 0, 0};
             sbolt.broadcastRobotCommand(command);
             
             putDownId.CreateStringWME("status", "complete");

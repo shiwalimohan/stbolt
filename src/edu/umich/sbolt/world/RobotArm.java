@@ -83,8 +83,10 @@ public class RobotArm implements IInputLinkElement
         	}
         	pose.updateInputLink(selfId);
         }
-	
+        	
+
   //      grabbedId.Update(curGrab);
+
         
         actionChanged = false;
     }

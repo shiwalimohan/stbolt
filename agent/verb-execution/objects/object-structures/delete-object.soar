@@ -29,7 +29,7 @@ sp {propose*delete-object
               ^object <obj>
               ^io.input-link <in>)
    (<in> -^objects.object.id <id>
-          ^self.action wait
+          ^self.action << wait failure >>
           ^time.seconds <cur-time>)
    (<obj> ^id <id>
           ^delete-time < <cur-time>
