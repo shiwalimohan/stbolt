@@ -109,10 +109,13 @@ sp {explain*propose*segment-verb*elaborate
 ##### more generalized version of desired
 sp {new-operator*desired*generalized
    (state <s> ^name <sname>
-   	      ^superstate.operator <sop>)
+   	      ^superstate <ss>
+	      ^object <val1>
+	      ^object <val2>)
+   (<ss> ^operator <sop>)
    (<sop> ^name <sname>
-   	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information} <val1>
-	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information} <val2>)
+   	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val1>
+	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val2>)
    (<val2> ^category location)
    (<val1> -^category location)
 -->
