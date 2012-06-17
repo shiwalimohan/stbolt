@@ -3,6 +3,7 @@ package edu.umich.sbolt;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -45,6 +46,8 @@ public class ChatFrame extends JFrame
     private ArrayList<String> history;
     
     private int historyIndex = 0;
+    
+    private InteractionStack stack;
 
     public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
@@ -59,7 +62,7 @@ public class ChatFrame extends JFrame
         chatArea = new JTextArea();
         JScrollPane pane = new JScrollPane(chatArea);
         chatField = new JTextField();
-        chatField.addKeyListener(new KeyListener(){
+        chatField.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_UP) {
@@ -80,14 +83,6 @@ public class ChatFrame extends JFrame
 						chatField.setText(history.get(historyIndex));
 					}
 				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
 			}
         });
         
@@ -130,6 +125,16 @@ public class ChatFrame extends JFrame
         });
         menuBar.add(clearButton);
         
+        stack = new InteractionStack();
+        JButton stackButton = new JButton("Interaction Stack");
+        stackButton.addActionListener(new ActionListener(){
+        	@Override
+			public void actionPerformed(ActionEvent arg0) {
+				stack.showFrame();
+			}
+        });
+        menuBar.add(stackButton);
+       
         setJMenuBar(menuBar);
         
         addWindowListener(new WindowAdapter() {
@@ -137,6 +142,10 @@ public class ChatFrame extends JFrame
         		exit();
         	}
      	});
+    }
+    
+    public InteractionStack getStack(){
+    	return stack;
     }
     
     public void clear(){

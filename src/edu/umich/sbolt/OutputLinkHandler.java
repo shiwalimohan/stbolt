@@ -26,7 +26,7 @@ public class OutputLinkHandler implements OutputEventInterface
     public OutputLinkHandler(SBolt sbolt)
     {
         this.sbolt = sbolt;
-        String[] outputHandlerStrings = { "goto", "action", "pick-up",
+        String[] outputHandlerStrings = { "goto", "action", "pick-up", "push-segment", "pop-segment",
                 "put-down", "point", "send-message","remove-message","send-training-label"};
         for (String outputHandlerString : outputHandlerStrings)
         {
@@ -108,6 +108,10 @@ public class OutputLinkHandler implements OutputEventInterface
             	processRemoveMesageCommand(wme.ConvertToIdentifier());
             } else if(wme.GetAttribute().equals("send-training-label")){
             	processSendTrainingLabelCommand(wme.ConvertToIdentifier());
+            } else if(wme.GetAttribute().equals("push-segment")){
+            	processPushSegmentCommand(wme.ConvertToIdentifier());
+            } else if(wme.GetAttribute().equals("pop-segment")){
+            	processPopSegmentCommand(wme.ConvertToIdentifier());
             }
 
             if (this.sbolt.getAgent().IsCommitRequired())
@@ -387,5 +391,18 @@ public class OutputLinkHandler implements OutputEventInterface
     	newLabel.label = label;
     	
     	newLabels.add(newLabel);
+    	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processPushSegmentCommand(Identifier id){
+    	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type", "No type on push-segment");
+    	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator", "No originator on push-segment");
+    	sbolt.getChatFrame().getStack().pushSegment(type, originator);
+    	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processPopSegmentCommand(Identifier id){
+    	sbolt.getChatFrame().getStack().popSegment();
+    	id.CreateStringWME("status", "complete");
     }
 }
