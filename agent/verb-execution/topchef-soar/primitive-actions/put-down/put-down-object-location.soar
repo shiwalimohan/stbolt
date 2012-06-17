@@ -44,7 +44,7 @@ sp {propose*svs*lookup-preposition
 	      ^spatial-relationship <rel>
 	      -^found-prep <fprep>)
 -->
-  (<s> ^operator <op> +)
+  (<s> ^operator <op> + >)
   (<op> ^name lookup-preposition
   	^type <rel>)
 }
@@ -58,7 +58,7 @@ sp {propose*svs*find-projection
 	      ^found-prep <fprep>
 	      -^projection-result)
 -->
-   (<s> ^operator <op> +)
+   (<s> ^operator <op> + >)
    (<op> ^name find-projection
    	^a <obj>
 	^b <loc>
