@@ -112,8 +112,7 @@ sp {new-operator*desired*generalized
    	      ^superstate <ss>
 	      ^object <val1>
 	      ^object <val2>)
-   (<ss> ^operator <sop>
-   	 ^category composite-action)
+   (<ss> ^operator <sop>)
    (<sop> ^name <sname>
    	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val1>
 	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val2>)
