@@ -96,14 +96,14 @@ sp {elaborate*put-down*object*object
 
 ##############################################################################
 # clean up track-result
-sp {delete*track-result*object
-   (state <s> ^topstate <s>
-   	      ^track-relation <any>
-   	      ^operator <op>)
-   (<op> -^category << primitive-action composite-action >>)
--->
-   (<s> ^track-relation <any> -)
-}
+#sp {delete*track-result*object
+#   (state <s> ^topstate <s>
+#   	      ^track-relation <any>
+#   	      ^operator <op>)
+#   (<op> -^category << primitive-action composite-action >>)
+#-->
+#   (<s> ^track-relation <any> -)
+#}
 
 
 ################################################################################
