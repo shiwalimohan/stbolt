@@ -124,6 +124,7 @@ sp {new-operator*desired*generalized
    (<in-p> ^object1 <val1>
    	   ^object2 <val2>
 	   ^prep in)
+   (<ss> ^track-relation <in-p>)
 }
 
 ### --- reject operator if desired state is reached
