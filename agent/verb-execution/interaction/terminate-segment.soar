@@ -18,7 +18,7 @@ sp {propose*pop-segment*agent
 }
 
 
-### the segment was originated by the instructo and an action-event/learning-event was expected from the agent
+### the segment was originated by the instructor and an action-event/learning-event was expected from the agent
 
 sp {propose*pop-segment*instructor
    (state <s> ^interaction.stack.segment <segment>

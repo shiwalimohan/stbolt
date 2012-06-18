@@ -157,25 +157,66 @@ sp {explain*success
 
 
 ### temporary composite operator reject
-sp {composite*operator*elaborate*success
+#sp {composite*operator*elaborate*success
+#   (state <s> ^name <sname>
+#   	      ^superstate <ss>)
+#   (<ss> ^operator <sop>
+#   	 ^indexed-operator <iop>)
+#   (<sop> ^category composite-action)
+#   (<sop> ^name <sname>)
+#   (<s> ^desired <d>
+#   	^success <d>)
+#-->
+#   (<ss> ^composite-success <sop>)
+#   (<iop> ^applied true)
+#}
+
+### o-support
+sp {propose*composite*operator*elaborate*success
    (state <s> ^name <sname>
-   	      ^superstate <ss>)
-   (<ss> ^operator <sop>)
+   	      ^superstate <ss>
+	      -^learning-operator <any>)
+   (<ss> ^operator <sop>
+   	 ^indexed-operator <iop>)
    (<sop> ^category composite-action)
    (<sop> ^name <sname>)
    (<s> ^desired <d>
    	^success <d>)
 -->
-   (<sop> ^success yes)
+   (<s> ^operator <op> + >)
+   (<op> ^name mark-success
+	 ^indexed-operator <iop>)
+}
+sp {apply*composite*operator*elaborate*success
+   (state <s> ^operator <op>
+   	      ^superstate <ss>
+	      ^topstate.status <status>)
+   (<op> ^name mark-success
+	 ^indexed-operator <iop>)
+   (<iop> ^information <info>)
+ -->
+   (<ss> ^indexed-operator <iop> -)
+   (<status> ^performed.action-event <info>)
 }
 
-sp {composite*operator*success*write-to-superstate
-   (state <s> ^operator <op>)
-   (<op> ^category composite-action
-   	 ^success yes)
+## prefer mark success to primitive actions
+sp {prefer*mark*success
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name mark-success)
+   (<op2> ^category primitive-action)
 -->
-   (<s> ^composite-success <op>)
+   (<s> ^operator <op1> > <op2>)
 }
+   	 
+
+#sp {composite*operator*success*write-to-superstate
+#   (state <s> ^operator <op>)
+#   (<op> ^category composite-action
+#   	 ^success yes)
+#-->
+#   (<s> ^composite-success <op>)
+#}
 
 sp {composite*operator*retract
    (state <s> ^composite-success <op>
@@ -189,7 +230,9 @@ sp {composite*operator*retract
 ### get focus to work
 sp {composite*operator*elaborate*focus
    (state <s> ^name <sname>
-   	      ^superstate <ss>)
+   	      ^superstate <ss>
+	      ^object <val1>
+	      ^object <val2>)
    (<ss> ^operator <sop>)
    (<sop> ^category composite-action
    	  ^name <sname>
@@ -200,4 +243,15 @@ sp {composite*operator*elaborate*focus
  -->
    (<val2> ^focus yes)
    (<val1> ^focus yes)
+}
+
+### clean up focus
+sp {object*clean-up*focus
+   (state <s> ^topstate <s>
+   	      ^object <obj>
+	      ^operator <op>)
+   (<op> ^category << interaction-stack communication >>)
+   (<obj> ^focus yes)
+-->
+   (<obj> ^focus yes -)
 }
