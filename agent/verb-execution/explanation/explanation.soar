@@ -112,7 +112,8 @@ sp {new-operator*desired*generalized
    	      ^superstate <ss>
 	      ^object <val1>
 	      ^object <val2>)
-   (<ss> ^operator <sop>)
+   (<ss> ^operator <sop>
+   	 ^category composite-action)
    (<sop> ^name <sname>
    	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val1>
 	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val2>)
@@ -124,7 +125,6 @@ sp {new-operator*desired*generalized
    (<in-p> ^object1 <val1>
    	   ^object2 <val2>
 	   ^prep in)
-   (<ss> ^track-relation <in-p>)
 }
 
 ### --- reject operator if desired state is reached

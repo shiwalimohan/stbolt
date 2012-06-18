@@ -67,7 +67,6 @@ sp {propose*svs*find-projection
 
 ## set up tracking
 ## SM 06/17/2012: changed to work with tracking in the superstate
-### :o support
 sp {set*svs*tracking
    (state <s> ^name op_put-down-object-location
    	      ^projection-result <res>
