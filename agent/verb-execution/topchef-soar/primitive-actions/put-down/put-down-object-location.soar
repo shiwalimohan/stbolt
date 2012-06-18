@@ -105,7 +105,7 @@ sp {delete*track-result
    (state <s> ^topstate <s>
    	      ^track-relation <any>
    	      ^operator <op>)
-   (<op> -^category << primitive-action composite-action >>)
+   (<op> ^category << interaction-stack communication >>)
 -->
    (<s> ^track-relation <any> -)
 }
