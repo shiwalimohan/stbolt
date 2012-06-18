@@ -2,8 +2,7 @@
 sp {propose*pickup*object
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	      -^grabbed <obj>
-	     -^io.input-link.self.action grab) # either no io or not already executing a grab command
+	      -^grabbed <obj>)
    (<obj> ^category block)
  -->
    (<s> ^operator <op> +)
