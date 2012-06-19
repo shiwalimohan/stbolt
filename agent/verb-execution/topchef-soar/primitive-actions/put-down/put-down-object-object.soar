@@ -1,6 +1,7 @@
 ### put down an object in a location
 sp {propose*put-down-object-object*next-to
-   (state <s> ^grabbed <obj>
+   (state <s> ^name <any-name>
+   	      ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
 	     -^track-relation.complete success ## SM: HACKY!! figure out a way to to this more generally

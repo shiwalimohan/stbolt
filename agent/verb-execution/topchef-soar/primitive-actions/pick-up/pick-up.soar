@@ -2,7 +2,8 @@
 sp {propose*pickup*object
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	      -^grabbed <obj>)
+	      -^grabbed <obj>
+	      ^name {<any> <> evaluate-operator})
    (<obj> ^category block)
  -->
    (<s> ^operator <op> +)

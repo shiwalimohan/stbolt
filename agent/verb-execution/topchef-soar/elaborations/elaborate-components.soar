@@ -1,6 +1,7 @@
 ## elaborate self
 sp {elaborate*self
-   (state <s> ^io.input-link <il>)
+   (state <s> ^io.input-link <il>
+   	      ^topstate <s>)
    (<il> ^self <self>)
  -->
    (<s> ^self <self>)
@@ -37,20 +38,11 @@ sp {copy*objects
   (<s> ^object <obj>)
 }
 
-sp {copy*self
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> -^name explain
-    	  ^self <l>)
--->
-   (<s> ^self <l>)
-}
-
-
 ## elaborate grabbed object from the id
 sp {elaborate*grabbed*object
    (state <s> ^self <self>
-   	      ^object <obj>)
+   	      ^object <obj>
+	      ^topstate <s>)
    (<self> ^grabbed-object <id> <> -1)
    (<obj> ^id <id>
    	  ^category block)

@@ -132,3 +132,6 @@ sp {copy*topstate*top-state
 -->
    (<s> ^top-state <ts>)
 }
+
+
+##### any time an object has a highest preference, make it a required prefrence
