@@ -50,7 +50,8 @@ sp {copy*self
 ## elaborate grabbed object from the id
 sp {elaborate*grabbed*object
    (state <s> ^self <self>
-   	      ^object <obj>)
+   	      ^object <obj>
+          ^topstate <s>)
    (<self> ^grabbed-object <id> <> -1)
    (<obj> ^id <id>
    	  ^category block)
