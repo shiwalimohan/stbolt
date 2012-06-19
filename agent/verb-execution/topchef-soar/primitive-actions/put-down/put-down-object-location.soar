@@ -67,7 +67,7 @@ sp {propose*svs*find-projection
 
 ## set up tracking
 ## SM 06/17/2012: changed to work with tracking in the superstate
-sp {set*svs*tracking
+sp {propose*set*svs*tracking
    (state <s> ^name op_put-down-object-location
    	      ^projection-result <res>
 	      ^io
@@ -75,7 +75,7 @@ sp {set*svs*tracking
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
 	      ^found-prep <fprep>
-	      ^topstate <ts>)
+          ^topstate <ts>)
 -->
    (<ts> ^track-relation <relation>)
    (<relation> ^object1 <obj>
@@ -108,6 +108,7 @@ sp {delete*track-result
    (<op> ^category << interaction-stack communication >>)
 -->
    (<s> ^track-relation <any> -)
+   (interrupt)
 }
 
 
