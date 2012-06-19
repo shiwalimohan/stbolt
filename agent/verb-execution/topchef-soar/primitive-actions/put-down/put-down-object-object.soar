@@ -1,11 +1,10 @@
 ### put down an object in a location
 sp {propose*put-down-object-object*next-to
-   (state <s> ^name <any-name>
+   (state <s> ^name {<any> <> evaluate-operator}
    	      ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
 	     -^track-relation.complete success ## SM: HACKY!! figure out a way to to this more generally
-	     -^io.input-link.self.action drop) ### either io is absent (explanation), or the arm is not busy
    (<loc> -^category location)
 -->
    (<s> ^operator <op> +)
@@ -62,23 +61,7 @@ sp {propose*svs*find-projection*object
 }
 
 ## set up tracking
-## SM 06/17/2012: changed to work with tracking in the superstate
-sp {set*svs*tracking*object
-   (state <s> ^name op_put-down-object-object
-   	      ^projection-result <res>
-	      ^io
-	      ^argument1 <obj>
-	      ^argument2 <loc>
-	      ^spatial-relationship <rel>
-	      ^found-prep <fprep>
-	      ^topstate <ts>)
--->
-   (<ts> ^track-relation <relation>)
-   (<relation> ^object1 <obj>
-   	       ^object2 <loc>
-	       ^found-prep <fprep>
-	       ^vprep <rel>)
-}
+### in put-down-object-location
 
 ## put actions on the output-link
 sp {elaborate*put-down*object*object
@@ -95,19 +78,6 @@ sp {elaborate*put-down*object*object
 
 
 
-##############################################################################
-# clean up track-result
-#sp {delete*track-result*object
-#   (state <s> ^topstate <s>
-#   	      ^track-relation <any>
-#   	      ^operator <op>)
-#   (<op> -^category << primitive-action composite-action >>)
-#-->
-#   (<s> ^track-relation <any> -)
-#}
-
-
-################################################################################
 ### action model : action model
 sp {apply*put-down*location*action-model*object
    (state <s> ^operator <op>	
