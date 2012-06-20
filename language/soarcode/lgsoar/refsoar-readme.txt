@@ -2,9 +2,9 @@ This file contains notes on how refsoar works. This is all of LGSoar up until ge
 which involves the Soar rules in the output/ directory.
 
 Basic flow:
-- references from one word to another are identified, starting with the main
+- referents are identified based on the individual words, starting with the main
 	verb and extending to its arguments and other things connected there
-- centers are determined from references
+- discourse centers are determined from referents
 - ideas are determined from centers
 - predicates are built from ideas (in output code, not refsoar)
 
@@ -22,10 +22,10 @@ clause.soar
 
 refsoar files currently not used:
 build.soar
-identify.soar
-linkage.soar
+identify.soar <- two referents to the same individual
+linkage.soar <- allows processing multiple sentences
 transfer.soar
-antecedent.soar
+antecedent.soar <- cross-sentence coreference
 
 
 LGSoar terminology:
