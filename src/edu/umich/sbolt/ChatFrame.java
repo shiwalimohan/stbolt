@@ -1,6 +1,7 @@
 package edu.umich.sbolt;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,8 +66,11 @@ public class ChatFrame extends JFrame
         chatMessages = new ArrayList<String>();
 
         chatArea = new JTextArea();
+        chatArea.setFont(new Font("Serif",Font.PLAIN,18));
         JScrollPane pane = new JScrollPane(chatArea);
+        
         chatField = new JTextField();
+        chatField.setFont(new Font("Serif",Font.PLAIN,18));
         chatField.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyPressed(KeyEvent arg0) {

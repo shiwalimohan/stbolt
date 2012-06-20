@@ -90,7 +90,7 @@ public class AgentMessageParser
     
     private static String translateCategoryQuestion(Identifier id){
         String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
-        return String.format("What category does %s belong to?", word);
+        return String.format("What kind of attribute is %s?", word);
     }
     
     private static String translateValueQuestion(Identifier id){
@@ -126,7 +126,7 @@ public class AgentMessageParser
     	if (objectId == null)
     		return "nothing";
     	
-        return LingObject.createFromSoarSpeak(id, "object").toString();
+        return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
     }
     
     private static String translateWhichQuestion(Identifier id){

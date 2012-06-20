@@ -33,7 +33,7 @@ source all_source.soar
 popd
 
 pushd ./indexing
-#source all_source.soar
+source all_source.soar
 popd
 
 

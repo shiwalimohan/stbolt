@@ -214,10 +214,23 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
             messageId.CreateStringWME("status", "error");
             throw new IllegalStateException("Message was empty");
         }
-
-        message += ".";
+        
+        // hack remove later JK
+        if (message.equals("get-next-task "))
+        {
+        	message = "Waiting for next command...";
+        }
+        else if (message.equals("get-next-subaction "))
+        {
+        	message = "What action should I take next?";
+        }
+        else
+        {
+        	 message += ".";
+        }
+        
         sbolt.getChatFrame().addMessage(
-                message.substring(0, message.length() - 1));
+                message.substring(0, message.length()));
         messageId.CreateStringWME("status", "complete");
     }
 
