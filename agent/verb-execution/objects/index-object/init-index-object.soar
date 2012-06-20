@@ -155,7 +155,7 @@ sp {index-object*apply*init-index-object*copy*created*context
 
 sp {index-object*apply*init-index-object*copy*created*context*topstate
    (state <s> ^name index-object
-              ^use-interaction false
+              ^use-interaction true
               ^operator.name init-index-object
               ^copy-context <cc>
               ^topstate <top>)

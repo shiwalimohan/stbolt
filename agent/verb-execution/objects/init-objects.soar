@@ -65,10 +65,11 @@ sp {apply*init-agent*store*smem*word2cat
 	(<v33> ^type word2cat ^word large ^category size)
  
  	# Name
-	(<v41> ^type word2cat ^word block ^category name)
- 	(<v42> ^type word2cat ^word one ^category generic)
-	(<v43> ^type word2cat ^word ball ^category name)
-	(<v44> ^type word2cat ^word object ^category generic)
+ 	(<v41> ^type word2cat ^word one ^category generic)
+	(<v42> ^type word2cat ^word object ^category generic)
+ 
+	(<v43> ^type word2cat ^word block ^category name)
+	(<v44> ^type word2cat ^word ball ^category name)
 	(<v45> ^type word2cat ^word stove ^category name)
 	(<v46> ^type word2cat ^word pantry ^category name)
 	(<v47> ^type word2cat ^word dishwasher ^category name)

@@ -18,6 +18,17 @@ sp {propose*ask-query
         ^fields <f>)
 }
 
+sp {ask-query*prefer*others*over*ask-query
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name ask-query)
+   (<o2> ^category communication
+         ^name <> ask-query)
+-->
+   (<s> ^operator <o1> < <o2>)
+}
+
+
 sp {apply*ask-query*create-status
    (state <s> ^status <status>
               ^operator <o>)
