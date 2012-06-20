@@ -98,8 +98,8 @@ sp {propose*generate-operator
   (<op> ^name generate-operator
   	^procedural-id <pid>
 	^linguistic-id <lid>
-	^map-id <map>
 	^cue <cue>
+	^map-id <map>
 	^category indexing)
 }
   

@@ -1,0 +1,72 @@
+#### retrieve goal-id, this state will retract if this knowledge already exists, no need to re-learn this knowledge
+sp {retrieve*goal-id
+   (state <s> ^name create-goal-predicate
+   	      ^smem.command <scomm>
+	      ^superstate.operator.goal-id <gid>)
+-->
+   (<scomm> ^retrieve <gid>)
+}
+
+#### create state
+sp {elaborate*create-goal-predicate
+   (state <s> ^name create-goal-predicate
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name create-goal-predicate
+   	  ^goal-id <gid>
+	  ^information <pred>
+	  ^map-id <map>
+	  ^indexed-operator <iop>)
+-->
+   (<s> ^preposition-id <id>	
+   	^information <pred>
+	^map-id <map>
+	^bit flip
+	^indexed-operator <iop>)
+}
+
+#### index arguments
+sp {propose*index*argument
+   (state <s> ^name create-goal-predicate
+   	      ^information <info>
+	      ^bit flip)
+   (<info> ^{<argattr> <> word} <arg>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name index-object
+   	 ^category indexing
+	 ^use-interaction true
+	 ^return-all true
+	 ^object <arg>)
+}
+
+sp {apply*index*argument*success
+   (state <s> ^name create-goal-predicate
+   	      ^operator <op>
+	      ^information <info>
+	      ^preposition-id <id>)
+   (<info> ^{<argattr> <> word} <arg>)
+   (<op> ^name index-object
+   	 ^object <arg>
+	 ^match <arg>)
+-->
+   (<id> ^<argattr> <arg>)
+   (<s> ^bit flip)
+}
+
+## we have grounded arguments to objects. now pick the ones that are associated with the indexed-operator
+
+sp {
+   (state <s> ^name create-goal-predicate
+   	      ^indexed-operator <iop>
+	      ^map-id.procedural <pid>
+	      ^preposition-id <prep-id>
+	      ^information <info>)
+   (<info> ^{<argattr> <> word} <arg>)
+   (<prep-id> ^<argattr> <obj>)
+   (<iop> ^<argument> <obj>)
+   (<pid> ^<argument> <obj-id>)
+-->
+   
+
+
