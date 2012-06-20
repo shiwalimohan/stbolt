@@ -2,9 +2,13 @@ sp {elaborate*state*index-goal
    (state <s> ^name index-goal
    	      ^superstate.operator <sop>)
    (<sop> ^name index-goal
-   	  ^information <info>)
+   	  ^information <info>
+	  ^indexed-operator._metadata.map-id <met>)
    -->
-   (<s> ^information <info>)
+   (<s> ^information <info>
+   	^indexed-operator <iop>)
 }
+
+sp {
 
 ### 
