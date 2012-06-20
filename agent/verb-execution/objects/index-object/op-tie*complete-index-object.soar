@@ -6,6 +6,14 @@ sp {complete-index-object*elaborate*name
    (<s> ^name complete-index-object)
 }
 
+sp {complete-index-object*reject*indicate-unresolved-tie
+   (state <s> ^name complete-index-object
+              ^operator <o> +)
+   (<o> ^name indicate-unresolved-tie)
+-->
+   (<s> ^operator <o> -)
+}
+
 sp {complete-index-object*propose*which-question
    (state <s> ^name complete-index-object
               ^superstate.final-matches.object <obj>)

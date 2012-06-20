@@ -183,7 +183,7 @@ sp {propose*composite*operator*elaborate*success
    (<s> ^desired <d>
    	^success <d>)
 -->
-   (<s> ^operator <op> + >)
+   (<s> ^operator <op> + > !)
    (<op> ^name mark-success
 	 ^indexed-operator <iop>)
 }

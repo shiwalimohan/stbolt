@@ -150,6 +150,8 @@ public class VisualProperty implements IInputLinkElement
     			labelsToRemove.remove(category.label[i].toLowerCase());
     		}
 			labels.put(category.label[i].toLowerCase(), category.confidence[i]);
+			// AM: only consider the first one
+			break;
     	}
     	for(String label : labelsToRemove){
     		labels.remove(label);

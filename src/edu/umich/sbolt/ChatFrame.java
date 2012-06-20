@@ -223,6 +223,7 @@ public class ChatFrame extends JFrame
             }
         }
         chatArea.setText(sb.toString());
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
 
     private void sendSoarMessage(String message)

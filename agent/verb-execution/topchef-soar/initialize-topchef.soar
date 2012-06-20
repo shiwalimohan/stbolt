@@ -23,9 +23,9 @@
 #####################################################################################
 
 
-sp {apply*init-agent*topchef-soar
-   (state <s> ^operator <op>)
-   (<op> ^name init-agent)
--->
-   (<s> ^name topchef-soar)   
-}
+#sp {apply*init-agent*topchef-soar
+#   (state <s> ^operator <op>)
+#   (<op> ^name init-agent)
+#-->
+#   (<s> ^name topchef-soar)   
+#}
