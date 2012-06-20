@@ -209,15 +209,6 @@ sp {prefer*mark*success
    (<s> ^operator <op1> > <op2>)
 }
    	 
-
-#sp {composite*operator*success*write-to-superstate
-#   (state <s> ^operator <op>)
-#   (<op> ^category composite-action
-#   	 ^success yes)
-#-->
-#   (<s> ^composite-success <op>)
-#}
-
 sp {composite*operator*retract
    (state <s> ^composite-success <op>
    	      ^operator <op>

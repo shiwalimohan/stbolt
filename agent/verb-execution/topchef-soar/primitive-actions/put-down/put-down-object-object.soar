@@ -4,7 +4,7 @@ sp {propose*put-down-object-object*next-to
    	      ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
-	     -^track-relation.complete success ## SM: HACKY!! figure out a way to to this more generally
+	     -^track-relation.complete success) ## SM: HACKY!! figure out a way to to this more generally
    (<loc> -^category location)
 -->
    (<s> ^operator <op> +)
