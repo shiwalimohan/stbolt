@@ -1,6 +1,5 @@
 ### using templates in semantic memory, map verbs to operators 
 
-
 ### results in a mapped operator 
 sp {propose*map*verb
    (state <s> ^interaction.stack.segment <top>)

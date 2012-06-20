@@ -33,7 +33,7 @@ source all_source.soar
 popd
 
 pushd ./indexing
-source all_source.soar
+#source all_source.soar
 popd
 
 
@@ -49,7 +49,6 @@ popd
 
 
 ## source LGSoar
-##pushd /home/shiwali/soar/stbolt/lgsoar/soarcode/
 ##source bolt-lgsoar.soar
 ##popd
 

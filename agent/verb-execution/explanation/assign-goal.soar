@@ -1,7 +1,7 @@
-
 ## create the ^desired attribute in the explanation state. 
 ## if the operator is associated with a long-term id corresponding to the goal, retrieve the children.
 ## if no children are retrieved, pose a 'goal-query'
+## SM: will not work! The goal has to be grounded before this stage. Possibly comprehension.
 
 ### elaborate assign-goal
 sp {assign-goal*elaborate*state
@@ -43,7 +43,7 @@ sp {assign-goal*elaborate*desired*state
 	      ^long-term-id <glid>)
    (<glid> ^predicate <p1>)
 -->
-   (<d> ^predicate <p1>)
+   (<d> ^track-relation <p1>)
 }
 
 ### create the desired attribute on the state
