@@ -151,11 +151,15 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         Identifier cur = WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first");
         String msg = new String();
         while(cur != null) {
-        	msg += WorkingMemoryUtil.getValueOfAttribute(cur, "value")+" ";
+        	String word = WorkingMemoryUtil.getValueOfAttribute(cur, "value");
+        	if(word.equals(".") || word.equals("?") || word.equals("!"))
+        		msg += word;
+        	else
+        		msg += " "+word;
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
         }
         
-        sbolt.getChatFrame().addMessage("Agent: "+msg);
+        sbolt.getChatFrame().addMessage("Agent:"+msg);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
