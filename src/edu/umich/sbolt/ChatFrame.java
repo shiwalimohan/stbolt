@@ -180,7 +180,7 @@ public class ChatFrame extends JFrame
     	}
     	history.add(chatField.getText());
     	historyIndex = history.size();
-        addMessage(chatField.getText());
+        addMessage("I:" + chatField.getText());
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
