@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-if ($ARGV[0] =~ /"--simple"/) {
+if ($ARGV[0] =~ /--simple/) {
 	$simple = 1;
 }
 else {
@@ -413,6 +413,31 @@ else {
         p2 
           object o3
             specifier DEF
+            word yellow
+            word square
+        word between
+      relation 
+        p1 
+          object o2
+        p2 
+          object o4
+            specifier DEF
+            word red
+            word triangle
+        word between
+    word describe",
+"verb-command 
+  verb 
+    direct-object o1
+      object o2
+        specifier DEF
+        word relationship
+      relation 
+        p1 
+          object o2
+        p2 
+          object o3
+            specifier DEF
             word red
             word triangle
         word between
@@ -426,7 +451,22 @@ else {
             word square
         word between
     word describe"],
-["The goal of the action is to have the block on the table and an empty gripper.", ""]
+["The goal of the action is to have the block on the table and an empty gripper.", ""],
+["context_which_question The red square to the right of the circle.", 
+"object-message 
+  object o1
+    specifier DEF
+    word square
+    word red
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word circle
+    word right-of"]
+
 );
 
 $passCount = 0;
@@ -435,12 +475,19 @@ $failCount = 0;
 for ($i=0; $i<=$#sentences; $i++) {
 	$sentence = $sentences[$i][0];
 	$correctMessage = $sentences[$i][1];
+	@struct = @{$sentences[$i]};
+	if ($#struct > 1) {
+		$alternateCorrectMessage = $sentences[$i][2];
+	}
+	else {
+		$alternateCorrectMessage = "NO_ALTERNATE";
+	}
 
 	$outMessage = `./runMessageInterpretation.pl "$sentence" | ./extractMessage.pl`;
 
 	chomp $outMessage;
 	
-	if ($outMessage eq $correctMessage and $outMessage ne "") {
+	if (($outMessage eq $correctMessage or $outMessage eq $alternateCorrectMessage) and $outMessage ne "") {
 		if ($simple == 0) {
 			print "test sentence: $sentence\n";
 			print "PASSED:\n$correctMessage\n";

@@ -18,7 +18,7 @@ sp {apply*pop-segment
    (<cs> ^segment <next-segment>)
 }
 
-# AHM: putting stack information on the OL link
+# AM: putting stack information on the OL link
 sp {apply*pop-segment*output-link
    (state <s> ^interaction.stack <stack>
               ^operator.name pop-segment

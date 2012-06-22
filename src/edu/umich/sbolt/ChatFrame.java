@@ -1,5 +1,7 @@
 package edu.umich.sbolt;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +38,8 @@ public class ChatFrame extends JFrame
     private JTextArea chatArea;
 
     private JTextField chatField;
+    
+    private JButton sendButton;
 
     private List<String> chatMessages;
 
@@ -48,6 +52,8 @@ public class ChatFrame extends JFrame
     private int historyIndex = 0;
     
     private InteractionStack stack;
+    
+    private boolean ready = false;
 
     public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
@@ -60,8 +66,11 @@ public class ChatFrame extends JFrame
         chatMessages = new ArrayList<String>();
 
         chatArea = new JTextArea();
+        chatArea.setFont(new Font("Serif",Font.PLAIN,18));
         JScrollPane pane = new JScrollPane(chatArea);
+        
         chatField = new JTextField();
+        chatField.setFont(new Font("Serif",Font.PLAIN,18));
         chatField.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -87,23 +96,18 @@ public class ChatFrame extends JFrame
         });
         
         
-        JButton button = new JButton("Send Message");
-        button.addActionListener(new ActionListener()
+        sendButton = new JButton("Send Message");
+        sendButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-            	history.add(chatField.getText());
-            	historyIndex = history.size();
-                addMessage(chatField.getText());
-                sendSoarMessage(chatField.getText());
-                chatField.setText("");
-                chatField.requestFocus();
+            	sendButtonClicked();
             }
         });
 
         JSplitPane pane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                chatField, button);
+                chatField, sendButton);
         JSplitPane pane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pane,
                 pane2);
 
@@ -112,11 +116,11 @@ public class ChatFrame extends JFrame
 
         this.add(pane1);
         this.setSize(800, 450);
-        this.getRootPane().setDefaultButton(button);
+        this.getRootPane().setDefaultButton(sendButton);
         
         JMenuBar menuBar = new JMenuBar();        
         
-        JButton clearButton  = new JButton("Clear");
+        JButton clearButton  = new JButton("Clear Text");
         clearButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -124,6 +128,15 @@ public class ChatFrame extends JFrame
 			}
         });
         menuBar.add(clearButton);
+        
+        JButton resetButton  = new JButton("Reset Arm");
+        resetButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				resetArm();
+			}
+        });
+        menuBar.add(resetButton);
         
         stack = new InteractionStack();
         JButton stackButton = new JButton("Interaction Stack");
@@ -142,11 +155,37 @@ public class ChatFrame extends JFrame
         		exit();
         	}
      	});
+        
+        setReady(false);
+    }
+    
+    public void setReady(boolean isReady){
+    	ready = isReady;
+    	if(ready){
+    		sendButton.setBackground(new Color(150, 255, 150));
+    		sendButton.setText("Send Message");
+    	} else {
+    		sendButton.setBackground(new Color(255, 100, 100));
+    		sendButton.setText("Not Ready");
+    	}
     }
     
     public InteractionStack getStack(){
     	return stack;
     }
+    
+    private void sendButtonClicked(){
+    	if(!ready){
+    		return;
+    	}
+    	history.add(chatField.getText());
+    	historyIndex = history.size();
+        addMessage(chatField.getText());
+        sendSoarMessage(chatField.getText());
+        chatField.setText("");
+        chatField.requestFocus();
+    }
+    
     
     public void clear(){
     	chatMessages.clear();
@@ -154,6 +193,14 @@ public class ChatFrame extends JFrame
     	chatArea.setText("");
     	sbolt.getInputLink().clearLGMessages();
     	sbolt.getWorld().destroyMessage();
+    }
+    
+    private void resetArm(){
+		robot_command_t command = new robot_command_t();
+		command.utime = TimeUtil.utime();
+		command.action = "RESET";
+		command.dest = new double[6];
+		sbolt.broadcastRobotCommand(command);
     }
     
     public void exit(){
@@ -180,6 +227,7 @@ public class ChatFrame extends JFrame
             }
         }
         chatArea.setText(sb.toString());
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
 
     private void sendSoarMessage(String message)
@@ -189,19 +237,9 @@ public class ChatFrame extends JFrame
     	}
     	else if(message.length() > 0 && message.charAt(0) == ':'){
     		if(message.equals(":reset")){
-    			robot_command_t command = new robot_command_t();
-    			command.utime = TimeUtil.utime();
-    			command.action = "RESET";
-    			command.dest = new double[6];
-    			sbolt.broadcastRobotCommand(command);
-        		// Prefixing with a : goes to Soar's message processing
-    		} else if(message.equals(":drop")){
-    			robot_command_t command = new robot_command_t();
-    			command.utime = TimeUtil.utime();
-    			command.action = "DROP";
-    			command.dest = new double[6];
-    			sbolt.broadcastRobotCommand(command);
+    			resetArm();
     		} else {
+        		// Prefixing with a : goes to Soar's message processing
         		sbolt.getWorld().newMessage(message.substring(1));
     		}
     	} else {

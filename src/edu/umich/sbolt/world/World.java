@@ -60,7 +60,6 @@ public class World implements IInputLinkElement
     {
         for(IInputLinkElement element : inputLinkElements){
             element.updateInputLink(parentIdentifier);
-            
         }
     }
 

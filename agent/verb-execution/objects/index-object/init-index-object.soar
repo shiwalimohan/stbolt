@@ -146,12 +146,23 @@ sp {index-object*apply*init-index-object*copy*objects*relations*depth2*resolve*r
 sp {index-object*apply*init-index-object*copy*created*context
    (state <s> ^name index-object
               ^operator.name init-index-object
+              ^copy-context <cc>)
+   (<cc> ^copied-depth2 true
+         ^context <context>)
+-->
+   (<s> ^index-object-context <context>)
+}
+
+sp {index-object*apply*init-index-object*copy*created*context*topstate
+   (state <s> ^name index-object
+              ^use-interaction true
+              ^operator.name init-index-object
               ^copy-context <cc>
               ^topstate <top>)
    (<cc> ^copied-depth2 true
          ^context <context>)
 -->
-   (<s> ^index-object-context <context>)
    (<top> ^index-object-context <context>)
 }
+     
               

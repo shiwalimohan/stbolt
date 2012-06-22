@@ -110,11 +110,6 @@ public class ObjectCollection implements IInputLinkElement
             }
         }
         
-        // don't remove the object currently being grabbed
-        if(objectsToRemove.contains(world.getRobotArm().getGrabbedId())){
-        	objectsToRemove.remove(world.getRobotArm().getGrabbedId());
-        }
-        
         for(Integer id : objectsToRemove){
             objects.get(id).destroy();
             objects.remove(id);

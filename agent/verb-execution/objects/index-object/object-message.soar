@@ -8,7 +8,7 @@ sp {this-object-message*apply*complete-this-object-message*resolve*which-questio
    (state <s> ^name this-object-message
               ^operator.name complete-this-object-message
               ^topstate.queries.query <q>
-              ^object <obj>)
+              ^this-object <obj>)
    (<q> ^type which-question
         ^active true
         ^object <query-obj>)
