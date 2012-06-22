@@ -172,7 +172,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
         if(!message.equals("")){
-            sbolt.getChatFrame().addMessage(message);
+            sbolt.getChatFrame().addMessage("A:" + message);
         }
         messageId.CreateStringWME("status", "complete");
     }
