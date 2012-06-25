@@ -40,6 +40,11 @@ import com.soartech.bolt.BOLTLGSupport;
 public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterface
 
 {
+	public static SBolt getSingleton(){
+		return sboltInstance;
+	}
+	private static SBolt sboltInstance = null;
+	
     private LCM lcm;
 
     private Kernel kernel;
@@ -85,6 +90,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 
     public SBolt(String channel, String agentName, boolean headless)
     {
+    	sboltInstance = this;
         // LCM Channel, listen for observations_t
         try
         {
@@ -103,7 +109,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         agent = kernel.CreateAgent(agentName);
         if (agent == null)
         {
-            throw new IllegalStateException("Kernel created null agent");
+           throw new IllegalStateException("Kernel created null agent");
         }
 
         Properties props = new Properties();
@@ -241,6 +247,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         timer = new Timer();
         timer.schedule(timerTask, 1000, 500);
         agent.RunSelf(1);
+        //agent.RunSelfForever();
     }
 
     public void stop()
@@ -320,10 +327,10 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     		// (currently, properties filename is hardcoded)
     		headless = true;
     	}
-        SBolt sbolt = new SBolt("OBSERVATIONS", "sbolt", headless);
-        sbolt.start();
+    	sboltInstance = new SBolt("OBSERVATIONS", "sbolt", headless);
+    	sboltInstance.start();
         if (headless) {
-        	sbolt.agent.RunSelfForever();
+        	sboltInstance.agent.RunSelfForever();
         }
     }
 	@Override

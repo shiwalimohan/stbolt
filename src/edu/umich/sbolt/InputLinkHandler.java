@@ -42,7 +42,7 @@ public class InputLinkHandler implements RunEventInterface
     // Called right before the Agent's Input Phase,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
-    {
+    {    	
     	SBolt.lockInputLink();
         world.updateInputLink(inputLinkId);
         world.updateSVS(agent);

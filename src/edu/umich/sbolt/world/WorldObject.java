@@ -48,11 +48,13 @@ public class WorldObject implements IInputLinkElement
     // Root identifier for the object
     protected Identifier objectId;
     
-    // Name of the object (may be empty if not named)
+    // Name of the object (may be null if not named)
     protected String name;
+    protected StringElement nameWME;
     
     // Id of the object 
     protected Integer id;
+    protected IntElement idWME;
     
     // Pose of the object
     protected Pose pose;
@@ -60,10 +62,9 @@ public class WorldObject implements IInputLinkElement
     // Bounding box of the object
     protected BBox bbox;
     
-    // Attributes, value pairs of the object
-    protected Map<String, String> attributes;
+    protected Map<String, VisualProperty> categories;
     
-    protected Map<String, Category> categories;
+    protected Map<String, Property> properties;
 
      // svs added
     protected boolean isNew;
@@ -81,13 +82,15 @@ public class WorldObject implements IInputLinkElement
     
     private void initMembers(){
         objectId = null;
+        idWME = null;
+        nameWME = null;
         
-        name = "";
+        name = null;
         id = -1;
         pose = new Pose();
         bbox = new BBox();
-        attributes = new HashMap<String, String>();
-        categories = new HashMap<String, Category>();
+        properties = new HashMap<String, Property>();
+        categories = new HashMap<String, VisualProperty>();
         isNew = true;
     }
     
@@ -109,7 +112,7 @@ public class WorldObject implements IInputLinkElement
     }
     
     public synchronized String getValue(String attribute){
-        return attributes.get(attribute);
+        return properties.get(attribute).getValue();
     }
     
 
@@ -120,17 +123,26 @@ public class WorldObject implements IInputLinkElement
     {
         if(objectId == null){
             objectId = parentIdentifier.CreateIdWME("object");
+            idWME = objectId.CreateIntWME("id", id);
         } 
+        if(name != null){
+        	if(nameWME == null){
+        		nameWME = objectId.CreateStringWME("name", name);
+        	}
+        	if(!nameWME.GetValueAsString().equals(name)){
+        		nameWME.Update(name);
+        	}
+        }
         
-        for(Category category : categories.values()){
+        for(VisualProperty category : categories.values()){
         	category.updateInputLink(objectId);
         }
         
         pose.updateInputLink(objectId);
         bbox.updateInputLink(objectId);
         
-        for(Map.Entry<String, String> att : attributes.entrySet()){
-        	WorkingMemoryUtil.updateWME(objectId, att.getKey(), att.getValue());
+        for(Property prop : properties.values()){
+        	prop.updateInputLink(objectId);
         }
     }
 
@@ -138,11 +150,17 @@ public class WorldObject implements IInputLinkElement
     public synchronized void destroy()
     {
         if(objectId != null){
-        	for(Category category : categories.values()){
+        	for(VisualProperty category : categories.values()){
         		category.destroy();
         	}
         	pose.destroy();
         	bbox.destroy();
+        	idWME.DestroyWME();
+        	idWME = null;
+        	if(nameWME != null){
+            	nameWME.DestroyWME();
+            	nameWME = null;
+        	}
             objectId.DestroyWME();
             objectId = null;
         }
@@ -164,10 +182,6 @@ public class WorldObject implements IInputLinkElement
             if (keyVal[0].equals("id"))
             {
                 id = Integer.parseInt(keyVal[1]);
-        		attributes.put("id", keyVal[1].toLowerCase());
-            } else if(keyVal[0].equals("name")){
-                name = keyVal[1];
-                attributes.put("name", keyVal[1].toLowerCase());
             } else if(keyVal[0].equals("pose")){
                 if (!pose.equals(keyVal[1]))
                 {
@@ -176,6 +190,8 @@ public class WorldObject implements IInputLinkElement
                 
                 pose.updateWithString(keyVal[1]);
                 continue;
+            } else if(keyVal[0].equals("name")){
+            	name = keyVal[1].toLowerCase();
             } else if(keyVal[0].equals("bbox")){
             	bbox.updateWithString(keyVal[1]);
             	continue;
@@ -183,9 +199,9 @@ public class WorldObject implements IInputLinkElement
             	categorized_data_t category = new categorized_data_t();
             	String categoryName = keyVal[0].toLowerCase();
             	category.cat = new category_t();
-            	Integer catType = Category.getCategoryType(categoryName);
+            	Integer catType = VisualProperty.getCategoryType(categoryName);
             	if(catType == null){
-            		attributes.put(keyVal[0].toLowerCase(), keyVal[1].toLowerCase());
+            		updateProperty(keyVal[0], keyVal[1]);
             		continue;
             	}
             	category.cat.cat = catType;
@@ -197,10 +213,20 @@ public class WorldObject implements IInputLinkElement
             	if(categories.containsKey(categoryName)){
             		categories.get(categoryName).updateCategoryInfo(category);
             	} else {
-            		categories.put(categoryName, new Category(category));
+            		categories.put(categoryName, new VisualProperty(category));
             	}
             }        
         }
+    }
+    
+    public void updateProperty(String name, String value){
+    	name = name.toLowerCase();
+    	value = value.toLowerCase();
+    	if(properties.containsKey(name)){
+    		properties.get(name).update(value);
+    	} else {
+    		properties.put(name, new Property("state", name, value));
+    	}
     }
 
     public synchronized void newObjectData(object_data_t objectData){        
@@ -211,15 +237,13 @@ public class WorldObject implements IInputLinkElement
            hasChanged = true;
         pose.updateWithArray(objectData.pos);
         bbox.updateWithArray(objectData.bbox);
-       
-        attributes.put("id", id.toString());
         
         for(categorized_data_t category : objectData.cat_dat){
-        	String categoryName = Category.getCategoryName(category.cat.cat);
+        	String categoryName = VisualProperty.getCategoryName(category.cat.cat);
         	if(categories.containsKey(categoryName)){
         		categories.get(categoryName).updateCategoryInfo(category);
         	} else {
-        		categories.put(categoryName, new Category(category));
+        		categories.put(categoryName, new VisualProperty(category));
         	}
         }
     }

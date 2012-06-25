@@ -5,18 +5,21 @@ import java.util.List;
 import java.util.Set;
 
 import sml.Agent.OutputEventInterface;
+import sml.Agent.RunEventInterface;
+import sml.Agent;
 import sml.Identifier;
 import sml.WMElement;
+import sml.smlRunEventId;
 import abolt.lcmtypes.category_t;
 import abolt.lcmtypes.robot_command_t;
 import abolt.lcmtypes.training_label_t;
-import edu.umich.sbolt.world.Category;
+import edu.umich.sbolt.world.VisualProperty;
 import april.util.TimeUtil;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
 import edu.umich.sbolt.world.WorldObject;
 import edu.umich.sbolt.language.AgentMessageParser;
 
-public class OutputLinkHandler implements OutputEventInterface
+public class OutputLinkHandler implements OutputEventInterface, RunEventInterface
 {
 
     private SBolt sbolt;
@@ -27,14 +30,27 @@ public class OutputLinkHandler implements OutputEventInterface
     {
         this.sbolt = sbolt;
         String[] outputHandlerStrings = { "message", "goto", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state"};
         for (String outputHandlerString : outputHandlerStrings)
         {
-            this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this,
-                    null);
+           this.sbolt.getAgent().AddOutputHandler(outputHandlerString, this, null);
         }
         
+
+        sbolt.getAgent().RegisterForRunEvent(
+                smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
+        
         newLabels = new ArrayList<training_label_t>();
+        
+    }
+    
+    public void runEventHandler(int eventID, Object data, Agent agent, int phase)
+    {
+    	Identifier outputLink = agent.GetOutputLink();
+    	if(outputLink != null){
+        	WMElement waitingWME = outputLink.FindByAttribute("waiting", 0);
+        	SBolt.getSingleton().getChatFrame().setReady(waitingWME != null);
+    	}
     }
     
     public List<training_label_t> extractNewLabels(){
@@ -85,9 +101,9 @@ public class OutputLinkHandler implements OutputEventInterface
             {
                 processGoto(wme.ConvertToIdentifier());
             }
-            else if (wme.GetAttribute().equals("action"))
+            else if (wme.GetAttribute().equals("set-state"))
             {
-                processActionCommand(wme.ConvertToIdentifier());
+                processSetCommand(wme.ConvertToIdentifier());
             }
             else if (wme.GetAttribute().equals("send-message"))
             {
@@ -253,9 +269,7 @@ public class OutputLinkHandler implements OutputEventInterface
         command.action = String.format("GRAB=%d", Integer.parseInt(objectIdStr));
         command.dest = new double[6];
         sbolt.broadcastRobotCommand(command);
-        
-        sbolt.getWorld().getRobotArm().pickup(Integer.parseInt(objectIdStr));
-        
+    //    sbolt.getWorld().getRobotArm().pickup(Integer.parseInt(objectIdStr));
         pickUpId.CreateStringWME("status", "complete");
     }
 
@@ -294,7 +308,7 @@ public class OutputLinkHandler implements OutputEventInterface
                     locationId, "z",
                     "put-down.location does not have an ^z attribute"));
             command.action = "DROP";
-            command.dest = new double[]{x, y, z, 0, 0, 0};
+            command.dest = new double[]{x, y, 0, 0, 0, 0};
             sbolt.broadcastRobotCommand(command);
             
             putDownId.CreateStringWME("status", "complete");
@@ -304,64 +318,31 @@ public class OutputLinkHandler implements OutputEventInterface
     }
 
     /**
-     * Takes a goto command on the output link given as an identifier and uses
-     * it to update the internal robot_command_t command
-     */
-    private void processGoto(Identifier gotoId)
-    {
-        if (gotoId == null)
-        {
-            return;
-        }
-
-        Identifier locationId = WorkingMemoryUtil.getIdentifierOfAttribute(
-                gotoId, "location",
-                "put-down does not have a ^location identifier");
-        double x = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
-                locationId, "x",
-                "put-down.location does not have an ^x attribute"));
-        double y = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
-                locationId, "y",
-                "put-down.location does not have an ^y attribute"));
-        double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
-                locationId, "z",
-                "put-down.location does not have an ^z attribute"));
-        
-        robot_command_t command = new robot_command_t();
-        command.utime = TimeUtil.utime();
-        command.action = String.format("POINT");
-        command.dest = new double[]{x, y, z, 0, 0, 0};
-        sbolt.broadcastRobotCommand(command);
-        
-        gotoId.CreateStringWME("status", "complete");
-    }
-
-    /**
-     * Takes an action command on the output link given as an identifier and
+     * Takes a set-state command on the output link given as an identifier and
      * uses it to update the internal robot_command_t command
      */
-    private void processActionCommand(Identifier actionId)
+    private void processSetCommand(Identifier id)
     {
-        if (actionId == null)
+        if (id == null)
         {
             return;
         }
 
-        String id = WorkingMemoryUtil.getValueOfAttribute(actionId, "id",
+        String objId = WorkingMemoryUtil.getValueOfAttribute(id, "id",
                 "action does not have an ^id attribute");
-        String attribute = WorkingMemoryUtil.getValueOfAttribute(actionId,
-                "attribute", "action does not have an ^attribute attribute");
-        String value = WorkingMemoryUtil.getValueOfAttribute(actionId, "value",
+        String name = WorkingMemoryUtil.getValueOfAttribute(id,
+                "name", "action does not have a ^name attribute");
+        String value = WorkingMemoryUtil.getValueOfAttribute(id, "value",
                 "action does not have a ^value attribute");
 
-        String action = String.format("ID=%s,%s=%s", id, attribute, value);
+        String action = String.format("ID=%s,%s=%s", objId, name, value);
         robot_command_t command = new robot_command_t();
         command.utime = TimeUtil.utime();
         command.action = action;
         command.dest = new double[6];
         sbolt.broadcastRobotCommand(command);
 
-        actionId.CreateStringWME("status", "complete");
+        id.CreateStringWME("status", "complete");
     }
 
     private void processPointCommand(Identifier pointId)
@@ -381,14 +362,7 @@ public class OutputLinkHandler implements OutputEventInterface
         command.utime = TimeUtil.utime();
         if(x != null && y != null && z != null){
             command.dest = new double[]{Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z), 0, 0, 0};
-        	if(objectIdStr != null){
-        		command.action = String.format("POINT=%d", Integer.parseInt(objectIdStr));
-        	} else {
-        		command.action = "POINT";
-        	}
-        } else if(objectIdStr != null){
-        	command.action = String.format("POINT=%d", Integer.parseInt(objectIdStr));
-        	command.dest = new double[6];
+        	command.action = "POINT";
         } else {
             pointId.CreateStringWME("status", "error");
             return;
@@ -404,7 +378,7 @@ public class OutputLinkHandler implements OutputEventInterface
     	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", "No category on send-training-label");
     	
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = Category.getCategoryType(category);
+    	Integer catNum = VisualProperty.getCategoryType(category);
     	if(catNum == null){
     		return;
     	}
