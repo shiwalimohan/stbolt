@@ -45,13 +45,19 @@ sp {handle-skipped-word*apply*init-msg
 -->
    (<s> ^msg <msg>)
    (<msg> ^first <w1>
-          ^word <w1> <w2> <w3>
-          ^last <w3>)
-   (<w1> ^value Did
+          ^word <w1> <w2> <w3> <w4> <w5> <w6>
+          ^last <w6>)
+   (<w1> ^value Please
          ^next <w2>)
-   (<w2> ^value you
+   (<w2> ^value rephrase
          ^next <w3>)
-   (<w3> ^value mean)
+   (<w3> ^value your
+         ^next <w4>)
+   (<w4> ^value request
+         ^next <w5>)
+   (<w5> ^value |.|
+         ^next <w6>)
+   (<w6> ^value |(Consider:|)
 }
 
 sp {handle-skipped-word*propose*add-word-to-msg
@@ -121,7 +127,7 @@ sp {handle-skipped-word*apply*copy-to-output-link
 -->
    (<msg> ^last <last> - <q>
           ^word <q>)
-   (<q> ^value |?|)
+   (<q> ^value |)|)
    (<last> ^next <q>)
    (<ol> ^message <msg>)
    (<w> ^handled true)
