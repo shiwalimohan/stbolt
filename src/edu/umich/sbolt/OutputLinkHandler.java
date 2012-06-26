@@ -97,9 +97,6 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
             
             if(wme.GetAttribute().equals("message")) {
             	processMessage(wme.ConvertToIdentifier());
-            }else if (wme.GetAttribute().equals("goto"))
-            {
-                processGoto(wme.ConvertToIdentifier());
             }
             else if (wme.GetAttribute().equals("set-state"))
             {

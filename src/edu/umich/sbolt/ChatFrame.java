@@ -102,12 +102,6 @@ public class ChatFrame extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-            	history.add(chatField.getText());
-            	historyIndex = history.size();
-                addMessage("Mentor: "+chatField.getText());
-                sendSoarMessage(chatField.getText());
-                chatField.setText("");
-                chatField.requestFocus();
             	sendButtonClicked();
             }
         });
@@ -186,7 +180,7 @@ public class ChatFrame extends JFrame
     	}
     	history.add(chatField.getText());
     	historyIndex = history.size();
-        addMessage("I:" + chatField.getText());
+        addMessage("Mentor: " + chatField.getText());
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
