@@ -6,7 +6,7 @@ sp {handle-skipped-word*propose*init-state
         ^word <w>
         ^sent <sent>)
 -->
-   (<s> ^operator <o2> +)
+   (<s> ^operator <o2> + >)
    (<o2> ^name init-state
          ^word <w>
          ^sent <sent>)
@@ -19,7 +19,8 @@ sp {handle-skipped-word*apply*init-state
         ^word <w>
         ^sent <sent>)
 -->
-   (<s> ^name handle-skipped-word
+   (<s> ^problem-space lgsoar
+		^name handle-skipped-word
         ^word <w>
         ^sent <sent>)
 }
