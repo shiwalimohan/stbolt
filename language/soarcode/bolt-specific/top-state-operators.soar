@@ -35,10 +35,31 @@ sp {top-state*propose*select-parse
        ^kind interpretation)
 }
 
+# if the chosen parse contains a skipped word ask
+# for clarification
+sp {global*propose*handle-skipped-word
+   (state <s> ^superstate nil
+             ^io.input-link.lg.parsed-sentence <sent>)
+   (<sent> -^final-predicates
+            ^parse-valid true
+            ^words <wds>)
+   (<wds> ^word <w>)
+   (<w> ^skipped true
+       -^handled true)
+-->
+  (<s> ^operator <o> + >)
+  (<o> ^name handle-skipped-word
+       ^word <w>
+       ^sent <sent>
+       ^added-word-num 0)
+}
+   
+
 sp {top-state*propose*interpret-sentence
   (state <s> ^superstate nil
              ^io.input-link.lg.parsed-sentence <sent>)
    (<sent> -^final-predicates
+           -^parse-skipped-word true
             ^parse-valid true)
 -->
   (<s> ^operator <o> +)

@@ -187,6 +187,7 @@ public class LGSupport implements OutputEventInterface {
         
         int numGuesses = 0;
         boolean isGuess[] = new boolean[numWords];
+        boolean isSkip[] = new boolean[numWords];
         for (int i=0; i<numWords; i++) {
         	String wordAsPrinted = thisLinkage.word[i];
         	char c = 'x';
@@ -199,6 +200,12 @@ public class LGSupport implements OutputEventInterface {
         	}
         	else {
         		isGuess[i] = false;
+        	}
+        	c = wordAsPrinted.charAt(0);
+        	if (c == '[') {
+        		isSkip[i] = true;
+        	} else {
+        		isSkip[i] = false;
         	}
         }
         
@@ -243,6 +250,9 @@ public class LGSupport implements OutputEventInterface {
             
             if (isGuess[wordx]) {
             	agent.CreateStringWME(wordWME, "guessed", "true");
+            }
+            if(isSkip[wordx]) {
+            	agent.CreateStringWME(wordWME, "skipped", "true");
             }
             
             // if parsing as a phrase, we have added an extra word at the beginning

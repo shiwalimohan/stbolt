@@ -3,3 +3,4 @@
 source top-state-operators.soar
 source preprocessing/load.soar
 source message-interpretation/load.soar
+source skipped-word/load.soar
