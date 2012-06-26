@@ -3,14 +3,6 @@
 ##############------- CONFIGURATION -----############
 smem --set learning on
 
-#########------- SETUP AND INITIALIZATION -----#######
-#  init-objects
-######################################################
-
-source init-objects.soar
-# Initializes objects and adds knowledge to semantic memory
-
-
 ########------- ELABORATIONS and PREFERENCES -----#######
 #  elaborations
 #  preferences
@@ -79,6 +71,10 @@ popd
 
 pushd communication
 source communication_source.soar
+popd
+
+pushd report-interaction
+source report-interaction_source.soar
 popd
 
 

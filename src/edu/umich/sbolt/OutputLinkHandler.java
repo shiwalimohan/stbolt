@@ -12,9 +12,11 @@ import april.util.TimeUtil;
 
 import edu.umich.sbolt.world.*;
 import edu.umich.sbolt.language.AgentMessageParser;
+import edu.umich.sbolt.language.Patterns.LingObject;
 
 public class OutputLinkHandler implements OutputEventInterface, RunEventInterface
 {
+	
     private List<training_label_t> newLabels;
     
     private Agent agent;
@@ -23,7 +25,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     {
     	this.agent = agent;
         String[] outputHandlerStrings = { "message", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label", "set-state"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", "report-interaction"};
         for (String outputHandlerString : outputHandlerStrings)
         {
            agent.AddOutputHandler(outputHandlerString, this, null);
@@ -106,6 +108,9 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	            else if(wme.GetAttribute().equals("pop-segment"))
 	            {
 	            	processPopSegmentCommand(id);
+	            }
+	            else if(wme.GetAttribute().equals("report-interaction")){
+	            	processReportInteraction(id);
 	            }
 	
 	            if (agent.IsCommitRequired())
@@ -282,5 +287,33 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     private void processPopSegmentCommand(Identifier id){
     	ChatFrame.Singleton().getStack().popSegment();
     	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processReportInteraction(Identifier id){
+    	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type");
+    	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator");
+    	Identifier sat = WorkingMemoryUtil.getIdentifierOfAttribute(id, "satisfaction");
+    	String eventType = sat.GetChild(0).GetAttribute();
+    	String eventName = sat.GetChild(0).GetValueAsString();
+    	Identifier context = WorkingMemoryUtil.getIdentifierOfAttribute(id, "context");
+    	
+    	String message = "";
+    	if(type.equals("get-next-task")){
+    		message = "I am idle and waiting for you to initiate a new interaction";
+    	} else if(type.equals("get-next-subaction")){
+    		message = "I cannot continue further with the current action and I need the next step";
+    	} else if(type.equals("category-of-word")){
+    		String word = WorkingMemoryUtil.getValueOfAttribute(context, "word");
+    		message = "I do not know the category of " + word + ".\n" + 
+    		"You can say something like 'a shape' or 'blue is a color'";
+    	} else if(type.equals("which-question")){
+    		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
+    		message = "I see multiple examples of '" + objStr + "' and I need clarification";
+    	} else if(type.equals("teaching-request")){
+    		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
+    		message = "I do not perceive '" + objStr + "'\n" + 
+    		"Please give more teaching examples and tell me 'finished' when you are done";
+    	}
+    	ChatFrame.Singleton().addMessage("Agent: " + message);
     }
 }

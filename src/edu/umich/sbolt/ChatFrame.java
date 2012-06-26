@@ -13,11 +13,15 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import sml.Agent;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
@@ -53,7 +57,7 @@ public class ChatFrame extends JFrame
     public ChatFrame(BOLTLGSupport lg) {
         super("SBolt");
         
-        instance = null;
+        instance = this;
         
         history = new ArrayList<String>();
 
@@ -125,24 +129,63 @@ public class ChatFrame extends JFrame
         });
         menuBar.add(clearButton);
         
-        JButton resetButton  = new JButton("Reset Arm");
-        resetButton.addActionListener(new ActionListener(){
+        JButton armResetButton  = new JButton("Reset Arm");
+        armResetButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				resetArm();
 			}
         });
-        menuBar.add(resetButton);
+        menuBar.add(armResetButton);
         
+        JMenu agentMenu = new JMenu("Agent");
+        JMenuItem initButton = new JMenuItem("Reinitialize");
+        initButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		SBolt.Singleton().reloadAgent(true);
+        	}
+        });
+        agentMenu.add(initButton);
+        
+        JMenuItem resetButton = new JMenuItem("Reset");
+        resetButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		resetAgent();
+        	}
+        });
+        agentMenu.add(resetButton);
+        
+        JMenuItem backupButton = new JMenuItem("Backup Agent");
+        backupButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		backup();
+        	}
+        });
+        agentMenu.add(backupButton);  
+        
+        JMenuItem restoreButton = new JMenuItem("Restore Agent");
+        restoreButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		restore();
+        	}
+        });
+        agentMenu.add(restoreButton);  
+
         stack = new InteractionStack();
-        JButton stackButton = new JButton("Interaction Stack");
+        JMenuItem stackButton = new JMenuItem("Interaction Stack");
         stackButton.addActionListener(new ActionListener(){
         	@Override
 			public void actionPerformed(ActionEvent arg0) {
 				stack.showFrame();
 			}
         });
-        menuBar.add(stackButton);
+        agentMenu.add(stackButton);
+        
+        menuBar.add(agentMenu);
        
         setJMenuBar(menuBar);
         
@@ -153,6 +196,21 @@ public class ChatFrame extends JFrame
      	});
         
         setReady(false);
+    }
+
+    public void showFrame()
+    {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+    }
+
+    public void hideFrame()
+    {
+        this.setVisible(false);
+    }
+    
+    public InteractionStack getStack(){
+    	return stack;
     }
     
     public void setReady(boolean isReady){
@@ -166,48 +224,12 @@ public class ChatFrame extends JFrame
     	}
     }
     
-    public InteractionStack getStack(){
-    	return stack;
-    }
-    
-    private void sendButtonClicked(){
-    	if(!ready){
-    		return;
-    	}
-    	history.add(chatField.getText());
-    	historyIndex = history.size();
-        addMessage("Mentor: " + chatField.getText());
-        sendSoarMessage(chatField.getText());
-        chatField.setText("");
-        chatField.requestFocus();
-    }
-    
-    
     public void clear(){
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");
     	InputLinkHandler.Singleton().clearLGMessages();
     	World.Singleton().destroyMessage();
-    }
-    
-    private void resetArm(){
-		robot_command_t command = new robot_command_t();
-		command.utime = TimeUtil.utime();
-		command.action = "RESET";
-		command.dest = new double[6];
-		SBolt.broadcastRobotCommand(command);
-    }
-    
-    public void exit(){
-    	SBolt.Singleton().getAgent().KillDebugger();
-    	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
-    	
-    	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
-    	// (even when the KillDebugger isn't there)
-    	// I don't think there's any consequence to simply exiting instead.
-    	
-    	System.exit(0);
     }
 
     public void addMessage(String message)
@@ -225,26 +247,71 @@ public class ChatFrame extends JFrame
         chatArea.setText(sb.toString());
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
+    
+    public void exit(){
+    	SBolt.Singleton().getAgent().KillDebugger();
+    	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
+    	
+    	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
+    	// (even when the KillDebugger isn't there)
+    	// I don't think there's any consequence to simply exiting instead.
+    	
+    	System.exit(0);
+    }
+    
+    private void resetArm(){
+		robot_command_t command = new robot_command_t();
+		command.utime = TimeUtil.utime();
+		command.action = "RESET";
+		command.dest = new double[6];
+		SBolt.broadcastRobotCommand(command);
+    }
+    
+    private void sendButtonClicked(){
+    	if(!ready){
+    		return;
+    	}
+    	history.add(chatField.getText());
+    	historyIndex = history.size();
+        addMessage("Mentor: " + chatField.getText());
+        sendSoarMessage(chatField.getText());
+        chatField.setText("");
+        chatField.requestFocus();
+    }
 
     private void sendSoarMessage(String message)
     {
     	if (lgSupport == null) {
     		World.Singleton().newMessage(message);
     	} else if(message.length() > 0){
-    		// LGSupport has access to the agent object and handles all WM interaction from here
-    		lgSupport.handleInput(message);
+    		if(message.charAt(0) == ':'){
+    			World.Singleton().newMessage(message.substring(1));
+    		} else {
+        		// LGSupport has access to the agent object and handles all WM interaction from here
+        		lgSupport.handleInput(message);
+    		}
     	}
     }
-
-    public void showFrame()
-    {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+    
+    private void resetAgent(){
+    	backup();
+    	restore();
     }
-
-    public void hideFrame()
-    {
-        this.setVisible(false);
+    
+    private void backup(){
+    	Agent agent = SBolt.Singleton().getAgent();
+    	System.out.println("Performing backup");
+    	System.out.println(agent.ExecuteCommandLine("epmem --backup epmem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("smem --backup smem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("command-to-file chunks_backup.soar pc"));
+    }
+    
+    private void restore(){
+    	SBolt.Singleton().reloadAgent(false);
+    	Agent agent = SBolt.Singleton().getAgent();
+    	System.out.println(agent.ExecuteCommandLine("epmem --set path epmem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("smem --set path smem_backup.db"));
+    	agent.LoadProductions("chunks_backup.soar");
     }
 
 }

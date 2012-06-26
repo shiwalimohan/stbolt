@@ -73,7 +73,8 @@ sp {propose*init-agent
 sp {apply*init-agent
    (state <s> ^operator.name init-agent)
 -->
-   (<s> ^topstate <s>)
+   (<s> ^topstate <s>
+        ^name bolt-agent)
 }
 
 ## Elaborate a state as non-atomic/atomic if the operator proposed in superstate in non-atomic/atomic

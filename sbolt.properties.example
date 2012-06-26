@@ -1,4 +1,5 @@
 agent = agent/verb-execution/verb-execution.soar
+smem-source = agent/verb-execution/smem_source.soar
 
 enable-lgsoar = true
 language-productions = language/soarcode/load.soar

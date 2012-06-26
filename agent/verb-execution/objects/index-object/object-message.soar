@@ -83,7 +83,7 @@ sp {index-object*purpose*apply*add*candidate
    (<o> ^name index-object
         ^match {<m> <> failure})
    (<p> ^type index-object
-        ^parameters.query <q>)
+        ^parameters.context <context>)
    (<context> ^cause which-question
         		^object <obj>)
         
