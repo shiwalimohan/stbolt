@@ -1,19 +1,8 @@
 package edu.umich.sbolt;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.awt.*;
 import java.util.Stack;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 public class InteractionStack extends JFrame{
 	

@@ -13,11 +13,8 @@ public class WorldTime implements IInputLinkElement
     
     private Identifier timeId;
     
-    private boolean hasChanged;
-    
     public WorldTime(){
         timeId = null;
-        hasChanged = false;
     }
 
     @Override
@@ -31,7 +28,6 @@ public class WorldTime implements IInputLinkElement
         WorkingMemoryUtil.updateIntWME(timeId, "steps", getSteps());
         WorkingMemoryUtil.updateIntWME(timeId, "seconds", (int)getSeconds());
         WorkingMemoryUtil.updateIntWME(timeId, "microseconds", (int)getMicroseconds());
-        hasChanged = false;
     }
     
     public synchronized void newObservation(observations_t observation){
@@ -39,7 +35,6 @@ public class WorldTime implements IInputLinkElement
             startTime = observation.utime;
         }
         currentTime = observation.utime;
-        hasChanged = true;
     }
 
     @Override

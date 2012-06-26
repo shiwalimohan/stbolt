@@ -1,23 +1,7 @@
 package edu.umich.sbolt.world;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import lcm.lcm.LCM;
-import lcm.lcm.LCMDataInputStream;
-import lcm.lcm.LCMSubscriber;
-
-import abolt.lcmtypes.bolt_arm_command_t;
 import abolt.lcmtypes.robot_action_t;
-import abolt.lcmtypes.robot_command_t;
-
-import edu.umich.sbolt.language.BOLTDictionary;
-import edu.umich.sbolt.language.Parser;
-import sml.Identifier;
-import sml.IntElement;
-import sml.StringElement;
-import sml.WMElement;
+import sml.*;
 
 public class RobotArm implements IInputLinkElement
 {

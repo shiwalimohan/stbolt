@@ -74,20 +74,12 @@ popd
 
 
 ########----------- COMMUNICATION ----------#######
-#  ask-query
 #  communication
 #########################################################
 
 pushd communication
 source communication_source.soar
 popd
-
-pushd ask-query
- source ask-query_source.soar
-#	If there is a query structure on the top state and no current-query
-#		this operator will ask the query by creating a structure on the output link
-popd
-
 
 
 pushd learning

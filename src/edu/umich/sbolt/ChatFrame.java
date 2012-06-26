@@ -2,38 +2,35 @@ package edu.umich.sbolt;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
-import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
-
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
 
+import edu.umich.sbolt.world.World;
+
 public class ChatFrame extends JFrame
 {
+	public static ChatFrame Singleton(){
+		return instance;
+	}
+	private static ChatFrame instance = null;
 
     private JTextArea chatArea;
 
@@ -42,8 +39,6 @@ public class ChatFrame extends JFrame
     private JButton sendButton;
 
     private List<String> chatMessages;
-
-    private SBolt sbolt;
     
     private BOLTLGSupport lgSupport;
     
@@ -55,12 +50,13 @@ public class ChatFrame extends JFrame
     
     private boolean ready = false;
 
-    public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
+    public ChatFrame(BOLTLGSupport lg) {
         super("SBolt");
+        
+        instance = null;
         
         history = new ArrayList<String>();
 
-        this.sbolt = sbolt;
         lgSupport = lg;
         
         chatMessages = new ArrayList<String>();
@@ -180,7 +176,7 @@ public class ChatFrame extends JFrame
     	}
     	history.add(chatField.getText());
     	historyIndex = history.size();
-        addMessage("I:" + chatField.getText());
+        addMessage("Mentor: " + chatField.getText());
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
@@ -191,8 +187,8 @@ public class ChatFrame extends JFrame
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");
-    	sbolt.getInputLink().clearLGMessages();
-    	sbolt.getWorld().destroyMessage();
+    	InputLinkHandler.Singleton().clearLGMessages();
+    	World.Singleton().destroyMessage();
     }
     
     private void resetArm(){
@@ -200,11 +196,11 @@ public class ChatFrame extends JFrame
 		command.utime = TimeUtil.utime();
 		command.action = "RESET";
 		command.dest = new double[6];
-		sbolt.broadcastRobotCommand(command);
+		SBolt.broadcastRobotCommand(command);
     }
     
     public void exit(){
-    	sbolt.getAgent().KillDebugger();
+    	SBolt.Singleton().getAgent().KillDebugger();
     	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
     	
     	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
@@ -233,24 +229,16 @@ public class ChatFrame extends JFrame
     private void sendSoarMessage(String message)
     {
     	if (lgSupport == null) {
-    		sbolt.getWorld().newMessage(message);
-    	}
-    	else if(message.length() > 0 && message.charAt(0) == ':'){
-    		if(message.equals(":reset")){
-    			resetArm();
-    		} else {
-        		// Prefixing with a : goes to Soar's message processing
-        		sbolt.getWorld().newMessage(message.substring(1));
-    		}
-    	} else {
-    		lgSupport.handleInput(message);
+    		World.Singleton().newMessage(message);
+    	} else if(message.length() > 0){
     		// LGSupport has access to the agent object and handles all WM interaction from here
+    		lgSupport.handleInput(message);
     	}
     }
 
     public void showFrame()
     {
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 

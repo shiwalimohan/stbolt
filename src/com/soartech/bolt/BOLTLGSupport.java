@@ -6,6 +6,8 @@ public class BOLTLGSupport {
 	private LGSupport lgSupport = null;
 	
 	public BOLTLGSupport(Agent agent, String dictionary) {
+		String s = null;
+		//lgSupport = new LGSupport(agent, dictionary, s);
 		lgSupport = new LGSupport(agent, dictionary);
 	}
 	

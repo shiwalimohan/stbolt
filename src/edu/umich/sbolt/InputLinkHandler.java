@@ -1,60 +1,50 @@
 package edu.umich.sbolt;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import edu.umich.sbolt.world.*;
 
-import edu.umich.sbolt.world.WorkingMemoryUtil;
-import edu.umich.sbolt.world.World;
-
-import sml.Agent;
+import sml.*;
 import sml.Agent.RunEventInterface;
-import sml.Identifier;
-import sml.WMElement;
-import sml.smlRunEventId;
-import sml.Agent.OutputEventInterface;
-import abolt.lcmtypes.object_data_t;
-import abolt.lcmtypes.observations_t;
 
 public class InputLinkHandler implements RunEventInterface
 {
+	public static InputLinkHandler Singleton(){
+		return instance;
+	}
+	private static InputLinkHandler instance = null;
     // Root identifier for all messages the robot receives
     private Identifier inputLinkId;
-
-    private World world;
     
     private boolean needToClearLGMessages = false;
+    
+    private Agent agent;
 
-    public InputLinkHandler(World world, SBolt sbolt)
+    public InputLinkHandler(Agent agent)
     {
+    	instance = this;
+    	this.agent = agent;
+        inputLinkId = agent.GetInputLink();
 
-        inputLinkId = sbolt.getAgent().GetInputLink();
-
-        sbolt.getAgent().RegisterForRunEvent(
-                smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
-
-        this.world = world;
+        agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
     }
 
     // Called right before the Agent's Input Phase,
     // Update the Input Link Here
     public void runEventHandler(int eventID, Object data, Agent agent, int phase)
     {    	
-    	SBolt.lockInputLink();
-        world.updateInputLink(inputLinkId);
-        world.updateSVS(agent);
-        if(needToClearLGMessages){
-        	clearLGMessages_internal();
-        }
+    	synchronized(InputLinkHandler.Singleton()){
+            World.Singleton().updateInputLink(inputLinkId);
+            SVSConnector.Singleton().updateSVS(agent);
+            if(needToClearLGMessages){
+            	clearLGMessages_internal();
+            }
 
-        if (agent.IsCommitRequired())
-        {
-            agent.Commit();
-        }
-        SBolt.unlockInputLink();
+            if (agent.IsCommitRequired())
+            {
+                agent.Commit();
+            }
+    	}
     }
     
     public void clearLGMessages(){

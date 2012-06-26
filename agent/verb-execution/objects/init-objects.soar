@@ -13,14 +13,6 @@ sp {apply*init-agent*name
    (<s> ^name object-analyzer)
 }
 
-
-sp {apply*init-agent*augment*topstate
-   (state <s> ^operator.name init-agent)
--->
-   (<s> ^queries <q>)
-}
-
-
 sp {apply*init-agent*store*smem*word2cat
    (state <s> ^io.input-link <in>
               ^operator.name init-agent

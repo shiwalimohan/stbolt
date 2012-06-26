@@ -11,8 +11,9 @@ public class AgentMessageParser
     public static String translateAgentMessage(Identifier id){
         String message = null;
         String type = WorkingMemoryUtil.getValueOfAttribute(id, "type");
+        System.out.println(type);
         Identifier fieldsId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "fields");
-        if(type == null || fieldsId == null){
+        if(type == null){
             return null;
         } else if(type.equals("different-attribute-question")){
             message = translateDifferentAttributeQuestion(fieldsId);
@@ -42,6 +43,10 @@ public class AgentMessageParser
         	message = translateTeachingRequest(fieldsId);
         } else if(type.equals("which-question")){
         	message = translateWhichQuestion(fieldsId);
+        } else if(type.equals("get-next-task")){
+        	message = "Waiting for next command...";
+        } else if(type.equals("get-next-subaction")){
+        	message = "What action should I take next?";
         }
         return message;
     }

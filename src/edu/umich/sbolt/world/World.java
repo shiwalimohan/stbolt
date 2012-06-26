@@ -1,19 +1,16 @@
 package edu.umich.sbolt.world;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import edu.umich.sbolt.InputLinkHandler;
 
 import abolt.lcmtypes.observations_t;
 import sml.Identifier;
-import sml.Agent;
 public class World implements IInputLinkElement
 {
-    
-    private Identifier parentId;
+    public static World Singleton(){
+    	return instance;
+    }
+    private static World instance = null;
     
     private ObjectCollection objects;
     
@@ -25,23 +22,26 @@ public class World implements IInputLinkElement
     
     private Set<IInputLinkElement> inputLinkElements;
     
-    private Set<Integer> svsObjects;
+    private SVSConnector svsConnector;
+    
 
     private RobotArm robotArm;
 
 
     public World(){
+    	instance = this;
+    	
         inputLinkElements = new HashSet<IInputLinkElement>();
         
-        objects = new ObjectCollection(this);
+        objects = new ObjectCollection();
+        
+        svsConnector = new SVSConnector();
 
         worldTime = new WorldTime();
         
-        messages = new Messages(this);
+        messages = new Messages();
         
         pointedObject = new PointedObject(-1);
-        
-        svsObjects = new HashSet<Integer>();
         
         robotArm = new RobotArm();
         
@@ -111,58 +111,4 @@ public class World implements IInputLinkElement
     public RobotArm getRobotArm(){
     	return robotArm;
     }
-    
-    
-    public synchronized void updateSVS(Agent agent)
-    {
-        WorldObject object;
-        String s = "";
-       
-        Set<Integer> removeObjects = objects.getObjectsToRemove();
-        for(Integer id : removeObjects){
-        	if(svsObjects.contains(id)){
-        		svsObjects.remove(id);
-                s+= "d " + id + "\n";
-                System.out.println("d " + id + "\n");
-        	}
-        }
-        if(removeObjects.size() > 0){
-            agent.SendSVSInput(s);
-        	objects.clearObjectsToRemove();
-        	return;
-        }
-    	objects.clearObjectsToRemove();
-    	 
-    	
-        while ((object = objects.getNextChangedObject()) != null)
-        {
-        	if(svsObjects.contains(object.getId())){
-                Pose pose = object.pose;
-
-                //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + 
-                //            pose.getY() + " " + pose.getZ() + "\n");
-                s+= "c " + object.getId() + " p " + pose.getX() + " " + 
-                            pose.getY() + " " + pose.getZ() + "\n";
-
-                
-                //System.out.println("c " + object.getId() + " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n");
-        	}
-        }
-
-        while ((object = objects.getNextNewObject()) != null)
-        {
-        	if(!svsObjects.contains(object.getId())){
-                Pose pose = object.pose;
-                svsObjects.add(object.getId());
-                
-                s+= "a " + object.getId() + " world v ";
-                //System.out.println(object.getId());
-                s+= object.getBBox().getFullPoints();
-                System.out.println("a " + object.getId() + " world v " + object.getBBox().getFullPoints());
-                s+= " p " + pose.getX() + " " + pose.getY() + " " + pose.getZ() + "\n";
-        	}
-        }
-        agent.SendSVSInput(s);
-    }
-    
 }
