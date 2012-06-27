@@ -96,6 +96,6 @@ public class SVSConnector {
     	}
     	newObjects.clear();
     	
-        agent.SendSVSInput(s);
+    	agent.SendSVSInput(s);
     }
 }

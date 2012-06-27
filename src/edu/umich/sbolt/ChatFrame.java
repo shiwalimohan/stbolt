@@ -138,7 +138,7 @@ public class ChatFrame extends JFrame
         });
         menuBar.add(armResetButton);
         
-        JMenu agentMenu = new JMenu("Agent");
+        JMenu agentMenu = new JMenu("Full Reset");
         JMenuItem initButton = new JMenuItem("Reinitialize");
         initButton.addActionListener(new ActionListener(){
         	@Override
@@ -148,16 +148,7 @@ public class ChatFrame extends JFrame
         });
         agentMenu.add(initButton);
         
-        JMenuItem resetButton = new JMenuItem("Reset");
-        resetButton.addActionListener(new ActionListener(){
-        	@Override
-        	public void actionPerformed(ActionEvent e){
-        		resetAgent();
-        	}
-        });
-        agentMenu.add(resetButton);
-        
-        JMenuItem backupButton = new JMenuItem("Backup Agent");
+        JMenuItem backupButton = new JMenuItem("Backup");
         backupButton.addActionListener(new ActionListener(){
         	@Override
         	public void actionPerformed(ActionEvent e){
@@ -166,7 +157,7 @@ public class ChatFrame extends JFrame
         });
         agentMenu.add(backupButton);  
         
-        JMenuItem restoreButton = new JMenuItem("Restore Agent");
+        JMenuItem restoreButton = new JMenuItem("Restore");
         restoreButton.addActionListener(new ActionListener(){
         	@Override
         	public void actionPerformed(ActionEvent e){
@@ -291,11 +282,6 @@ public class ChatFrame extends JFrame
         		lgSupport.handleInput(message);
     		}
     	}
-    }
-    
-    private void resetAgent(){
-    	backup();
-    	restore();
     }
     
     private void backup(){

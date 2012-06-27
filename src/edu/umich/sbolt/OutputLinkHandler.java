@@ -44,6 +44,10 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         	WMElement waitingWME = outputLink.FindByAttribute("waiting", 0);
         	ChatFrame.Singleton().setReady(waitingWME != null);
     	}
+    	if(newLabels.size() > 0){
+        	SBolt.broadcastTrainingData(newLabels);
+        	newLabels.clear();
+    	}
     }
     
     public List<training_label_t> extractNewLabels(){

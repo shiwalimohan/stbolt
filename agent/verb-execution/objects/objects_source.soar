@@ -73,10 +73,6 @@ pushd communication
 source communication_source.soar
 popd
 
-pushd report-interaction
-source report-interaction_source.soar
-popd
-
 
 pushd learning
 source learning_source.soar

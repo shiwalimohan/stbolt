@@ -47,6 +47,8 @@ public class AgentMessageParser
         	message = "Waiting for next command...";
         } else if(type.equals("get-next-subaction")){
         	message = "What action should I take next?";
+        } else if(type.equals("confirmation")){
+        	message = "Okay.";
         }
         return message;
     }

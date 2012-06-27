@@ -36,6 +36,9 @@ pushd ./indexing
 source all_source.soar
 popd
 
+pushd message-interpretation
+source message-interpretation_source.soar
+popd
 
 ### source objects code
 pushd ./objects
