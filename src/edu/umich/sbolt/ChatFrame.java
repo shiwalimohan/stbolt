@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -31,6 +32,10 @@ import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
+import com.soartech.bolt.testing.Action;
+import com.soartech.bolt.testing.ActionType;
+import com.soartech.bolt.testing.ParseScript;
+import com.soartech.bolt.testing.Script;
 
 public class ChatFrame extends JFrame
 {
@@ -54,6 +59,8 @@ public class ChatFrame extends JFrame
     private InteractionStack stack;
     
     private boolean ready = false;
+    
+    private Script script;
 
     public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
         super("SBolt");
@@ -147,6 +154,28 @@ public class ChatFrame extends JFrame
 			}
         });
         menuBar.add(stackButton);
+        
+        JButton btnLoadScript = new JButton("Load Script");
+		btnLoadScript.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					script = ParseScript.parse(chooser.getSelectedFile());
+				}
+			}
+		});
+		menuBar.add(btnLoadScript);
+		
+		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleNextScriptAction();
+			}
+		});
+		menuBar.add(btnNext);
        
         setJMenuBar(menuBar);
         
@@ -157,6 +186,30 @@ public class ChatFrame extends JFrame
      	});
         
         setReady(false);
+    }
+    
+    private void handleNextScriptAction() {
+    	Action next = script.getNextAction();
+    	if(next.getType() == ActionType.Mentor) {
+    		chatField.setText(next.getAction());
+    	}
+    	if(next.getType() == ActionType.Agent) {
+    		//check if response is correct
+    		String observed = chatMessages.get(chatMessages.size()-1);
+    		String expected = next.getAction();
+    		if(!observed.contains(expected)) {
+    			addMessage("- Error - Expected: ");
+    			addMessage("Agent: "+expected);
+    		} else {
+    			addMessage("- Correct -");
+    		}
+    	}
+    	if(next.getType() == ActionType.Check) {
+    		addMessage("Check: "+next.getAction());
+    	}
+    	if(next.getType() == ActionType.Direction) {
+    		addMessage("Directions: "+next.getAction());
+    	}
     }
     
     public void setReady(boolean isReady){
