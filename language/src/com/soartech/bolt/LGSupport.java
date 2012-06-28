@@ -135,13 +135,15 @@ public class LGSupport implements OutputEventInterface {
 		for (Identifier id: inputWMEs) {
 			 agent.DestroyWME(id);
 		}
-		sentenceCount = -1;
+		inputWMEs.clear();	// AM: If you don't clear this list bad things will happen
+		//sentenceCount = -1; AM: Setting this back to -1 causes problems with duplicate id's on the output-link
 	}
 	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
 		if(sentence == null){
+			System.err.println("NULL SENTENCE ON OL");
 			return;
 		}
 		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
@@ -156,6 +158,9 @@ public class LGSupport implements OutputEventInterface {
 		phraseMode = true;
 		theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
 		phraseMode = false;
+		
+		// AM: Causes the preprocessed sentence to be removed from the ol link
+		pWmeAdded.ConvertToIdentifier().CreateStringWME("status", "complete");
 	}	
 	
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {

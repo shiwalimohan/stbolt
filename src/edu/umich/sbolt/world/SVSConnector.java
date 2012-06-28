@@ -96,6 +96,18 @@ public class SVSConnector {
     	}
     	newObjects.clear();
     	
-    	agent.SendSVSInput(s);
+    	if(!s.isEmpty()){
+    		System.out.println("------ SVS ------");
+    		System.out.println(s);
+        	agent.SendSVSInput(s);
+        	System.out.println("FINISHED");
+    	}
+    }
+    
+    public synchronized void reset(){
+    	for(WorldObject obj : existingObjects.values()){
+    		newObjects.put(obj.getId(), obj);
+    	}
+    	oldObjects.clear();
     }
 }

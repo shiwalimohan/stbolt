@@ -56,6 +56,30 @@ sp {apply*push-single-word-response*teaching-request*cancel*prep
    (<stat> ^no-teaching true)
 }
 
+# AM: Saying clear will cause the stack to clear
+sp {apply*push-single-word-response*clear*start-clear-stack
+   (state <s> ^operator <o>
+              ^topstate <top>)
+   (<o> ^name push-single-word-response
+        ^response clear
+        ^message <msg>)
+-->
+   (<top> ^clear-interaction-stack true)
+   (<top> ^instructor-message <msg> -)
+}
+
+# AM: Saying status will cause the agent to describe the current interaction
+sp {apply*push-single-word-response*status*start-clear-stack
+   (state <s> ^operator <o>)
+   (<o> ^name push-single-word-response
+        ^response status
+        ^message <msg>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type report-interaction
+        ^satisfaction.dialog-event report-interaction)
+}
+
 sp {apply*push-single-word-response*mark*processed
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response

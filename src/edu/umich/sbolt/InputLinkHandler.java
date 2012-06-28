@@ -43,10 +43,6 @@ public class InputLinkHandler implements RunEventInterface
     	synchronized(InputLinkHandler.Singleton()){
             World.Singleton().updateInputLink(inputLinkId);
             SVSConnector.Singleton().updateSVS(agent);
-            if(needToClearLGMessages){
-            	clearLGMessages_internal();
-            }
-
             if (agent.IsCommitRequired())
             {
                 agent.Commit();
@@ -55,10 +51,10 @@ public class InputLinkHandler implements RunEventInterface
     }
     
     public void clearLGMessages(){
-    	needToClearLGMessages = true;
-    }
-    
-    private void clearLGMessages_internal(){
     	lgSupport.clear();
+        if (agent.IsCommitRequired())
+        {
+            agent.Commit();
+        }
     }
 }
