@@ -1,23 +1,7 @@
 package edu.umich.sbolt.world;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import lcm.lcm.LCM;
-import lcm.lcm.LCMDataInputStream;
-import lcm.lcm.LCMSubscriber;
-
-import abolt.lcmtypes.bolt_arm_command_t;
 import abolt.lcmtypes.robot_action_t;
-import abolt.lcmtypes.robot_command_t;
-
-import edu.umich.sbolt.language.BOLTDictionary;
-import edu.umich.sbolt.language.Parser;
-import sml.Identifier;
-import sml.IntElement;
-import sml.StringElement;
-import sml.WMElement;
+import sml.*;
 
 public class RobotArm implements IInputLinkElement
 {
@@ -27,6 +11,8 @@ public class RobotArm implements IInputLinkElement
 	private IntElement grabbedId;
 	
 	private StringElement actionId;
+	
+	private StringElement prevActionId;
 	
 	private Pose pose;
 	// Position of the arm
@@ -38,7 +24,7 @@ public class RobotArm implements IInputLinkElement
 	
 	private int curGrab = -1;
 	
-	private static LCM lcm = LCM.getSingleton();
+	private String prevAction = "";
 	
 
     public RobotArm(){
@@ -66,6 +52,7 @@ public class RobotArm implements IInputLinkElement
         	selfId = parentIdentifier.CreateIdWME("self");
         	grabbedId = selfId.CreateIntWME("grabbed-object", -1);
         	actionId = selfId.CreateStringWME("action", "wait");
+        	prevActionId = selfId.CreateStringWME("prev-action", "wait");
         	pose.updateInputLink(selfId);
         }
         if(robotAction != null){
@@ -75,13 +62,15 @@ public class RobotArm implements IInputLinkElement
         	if(!actionId.GetValue().equals(robotAction.action.toLowerCase())){
             	actionId.Update(robotAction.action.toLowerCase());
         	}
+        	if(!prevActionId.GetValue().equals(prevAction.toLowerCase())){
+        		prevActionId.Update(prevAction.toLowerCase());
+        	}
         	pose.updateInputLink(selfId);
         }
         	
 
   //      grabbedId.Update(curGrab);
 
-        
         
         actionChanged = false;
     }
@@ -98,6 +87,7 @@ public class RobotArm implements IInputLinkElement
     }
     
     public void newRobotAction(robot_action_t action){
+    	prevAction = (robotAction == null ? action.action : robotAction.action);
     	robotAction = action;
     	pose.updateWithArray(action.xyz);
     	actionChanged = true;

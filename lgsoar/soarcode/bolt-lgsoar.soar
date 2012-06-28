@@ -1,4 +1,0 @@
-# loader for LGSoar + bolt-specific additions
-
-source load.soar
-source bolt-top-state-operators.soar

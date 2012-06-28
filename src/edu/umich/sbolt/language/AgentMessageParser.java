@@ -11,8 +11,9 @@ public class AgentMessageParser
     public static String translateAgentMessage(Identifier id){
         String message = null;
         String type = WorkingMemoryUtil.getValueOfAttribute(id, "type");
+        System.out.println(type);
         Identifier fieldsId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "fields");
-        if(type == null || fieldsId == null){
+        if(type == null){
             return null;
         } else if(type.equals("different-attribute-question")){
             message = translateDifferentAttributeQuestion(fieldsId);
@@ -42,6 +43,12 @@ public class AgentMessageParser
         	message = translateTeachingRequest(fieldsId);
         } else if(type.equals("which-question")){
         	message = translateWhichQuestion(fieldsId);
+        } else if(type.equals("get-next-task")){
+        	message = "Waiting for next command...";
+        } else if(type.equals("get-next-subaction")){
+        	message = "What action should I take next?";
+        } else if(type.equals("confirmation")){
+        	message = "Okay.";
         }
         return message;
     }
@@ -90,7 +97,7 @@ public class AgentMessageParser
     
     private static String translateCategoryQuestion(Identifier id){
         String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
-        return String.format("What category does %s belong to?", word);
+        return String.format("What kind of attribute is %s?", word);
     }
     
     private static String translateValueQuestion(Identifier id){
@@ -126,7 +133,7 @@ public class AgentMessageParser
     	if (objectId == null)
     		return "nothing";
     	
-        return LingObject.createFromSoarSpeak(id, "object").toString();
+        return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
     }
     
     private static String translateWhichQuestion(Identifier id){

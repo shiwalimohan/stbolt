@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soaragent sourceCommandChangesDirectory="false">
+  <startfile path="load-standalone.soar" />
+  <members>
+    <member path="" />
+    <member path="bolt-specific" />
+    <member path="bolt-specific/preprocessing" />
+    <member path="lgsoar" />
+    <member path="lgsoar/output-code" />
+    <member path="lgsoar/refsoar" />
+    <member path="lgsoar/unchanged-2.0.0" />
+    <member path="lgsoar/unchanged-2.0.0/output-code" />
+    <member path="lgsoar/unchanged-2.0.0/refsoar" />
+    <member path="lgsoar/unused-refsoar" />
+    <member path="bolt-specific/message-interpretation/general.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-goal-object-message.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-goal-relation-message.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-message.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-object-message.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-object-question.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-object.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-preposition.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-primitive-object.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-relation-question.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-relation.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-verb-command.soar" />
+    <member path="bolt-specific/message-interpretation/interpret-verb.soar" />
+    <member path="bolt-specific/message-interpretation/load.soar" />
+    <member path="bolt-specific/guessed-word" />
+  </members>
+</soaragent>
+

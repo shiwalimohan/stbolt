@@ -1,15 +1,9 @@
 package edu.umich.sbolt.world;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import sml.FloatElement;
-import sml.Identifier;
-import sml.IntElement;
-import sml.StringElement;
-import sml.WMElement;
+import sml.*;
 
 /**
  * Provides some utility functions to better manipulate working memory
@@ -145,7 +139,9 @@ public class WorkingMemoryUtil
         }
     }
    
-    
+    /**
+     * Given id and attribute, returns value for WME (id ^attribute value)
+     */
     public static String getValueOfAttribute(Identifier id, String attribute){
         WMElement wme = id.FindByAttribute(attribute, 0);
         if(wme == null || wme.GetValueAsString().length() == 0){
@@ -154,7 +150,12 @@ public class WorkingMemoryUtil
         return wme.GetValueAsString();
     }
     
-    public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage){
+    /**
+     * Given id and attribute, returns value for WME (id ^attribute value)
+     * If that attribute doesn't exist, throws an IllegalStateException using the given errorMessage
+     * and adds (id ^status error)
+     */
+    public static String getValueOfAttribute(Identifier id, String attribute, String errorMessage) throws IllegalStateException{
         String attString = getValueOfAttribute(id, attribute);
         if(attString == null){
             id.CreateStringWME("status", "error");
@@ -163,6 +164,9 @@ public class WorkingMemoryUtil
         return attString;
     }
 
+    /**
+     * Given id and attribute, returns the child identifier for WME (id ^attribute childId)
+     */
     public static Identifier getIdentifierOfAttribute(Identifier id, String attribute){
         WMElement wme = id.FindByAttribute(attribute, 0);
         if(wme == null || !wme.IsIdentifier()){
@@ -171,6 +175,11 @@ public class WorkingMemoryUtil
         return wme.ConvertToIdentifier();
     }    
     
+    /**
+     * Given id and attribute, returns the child identifier for WME (id ^attribute childId)
+     * If that attribute doesn't exist, throws an IllegalStateException using the given errorMessage
+     * and adds (id ^status error)
+     */
     public static Identifier getIdentifierOfAttribute(Identifier id, String attribute, String errorMessage){
         WMElement wme = id.FindByAttribute(attribute, 0);
         if(wme == null || !wme.IsIdentifier()){
@@ -180,6 +189,10 @@ public class WorkingMemoryUtil
         return wme.ConvertToIdentifier();
     }
     
+    /**
+     * Given id and attribute, returns a set of mutli-valued attributes for each WME matching
+     * (id ^attribute value)
+     */
     public static Set<String> getAllValuesOfAttribute(Identifier id, String attribute){
         Set<String> attStrings = new HashSet<String>();
         for(int index = 0; index < id.GetNumberChildren(); index++){

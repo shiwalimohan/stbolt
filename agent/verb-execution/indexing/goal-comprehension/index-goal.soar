@@ -50,3 +50,9 @@ sp {
 
    	      
    	      
+=======
+   	  ^information <info>)
+   -->
+   (<s> ^information <info>)
+}
+>>>>>>> origin/master

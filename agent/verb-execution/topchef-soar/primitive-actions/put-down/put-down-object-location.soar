@@ -42,12 +42,13 @@ sp {elaborate*op_put-down-object-location
 sp {propose*svs*lookup-preposition
    (state <s> ^name op_put-down-object-location
    	      ^io
+          ^projection-result <any>
 	      ^spatial-relationship <rel>
 	      -^found-prep <fprep>)
 -->
   (<s> ^operator <op> + >)
   (<op> ^name lookup-preposition
-  	^type <rel>)
+  	^type <rel> ^category svs)
 }
 ## determine the location x,y,z using SVS
 sp {propose*svs*find-projection
@@ -56,11 +57,11 @@ sp {propose*svs*find-projection
    	      ^argument1 <obj>
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
-	      ^found-prep <fprep>
 	      -^projection-result)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name find-projection
+         ^interaction true
    	^a <obj>
 	^b <loc>
 	^type <rel>
@@ -69,18 +70,18 @@ sp {propose*svs*find-projection
 
 ## set up tracking
 ## SM 06/17/2012: changed to work with tracking in the superstate
-#### o-support
 sp {set*svs*tracking
-   (state <s> ^name op_put-down-object-location
+(state <s> ^name << op_put-down-object-location op_put-down-object-object >> #AM: Is this the right merge?
+#(state <s> ^name op_put-down-object-location
    	      ^projection-result <res>
 	      ^io
 	      ^argument1 <obj>
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
 	      ^found-prep <fprep>
-	      ^topstate <ts>) 
+	      ^topstate <ts>)
    (<ts> ^object <obj>
-   	 ^object <loc>)
+      ^object <loc>)
 -->
    (<ts> ^track-relation <relation>)
    (<relation> ^object1 <obj>

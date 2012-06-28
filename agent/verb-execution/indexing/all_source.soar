@@ -1,4 +1,5 @@
-source initialize-linguistic-indexing.soar
+#AM: Changed the way smem is loaded by default
+#source initialize-linguistic-indexing.soar
 source preferences.soar
 
 #### map verbs to operators

@@ -1,7 +1,6 @@
 package edu.umich.sbolt.world;
 
 import sml.Identifier;
-import sml.WMElement;
 
 /**
  * An interface for objects that will get written to the InputLink

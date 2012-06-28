@@ -6,7 +6,8 @@ public class BOLTLGSupport {
 	private LGSupport lgSupport = null;
 	
 	public BOLTLGSupport(Agent agent, String dictionary) {
-		lgSupport = new LGSupport(agent, dictionary);
+		String s = null;
+		lgSupport = new LGSupport(agent, dictionary, s);
 	}
 	
 	public void handleInput(String input) {
@@ -25,5 +26,9 @@ public class BOLTLGSupport {
 		for (String sentence : sentences) {
 			lgSupport.handleSentence(sentence);
 		}
+	}
+	
+	public void clear() {
+		lgSupport.clear();
 	}
 }
