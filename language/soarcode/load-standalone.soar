@@ -17,12 +17,9 @@ sp {elaborate*msg
 }
 
 sp {elaborate*state-name
-   (state <s> ^superstate <s2>)
-   (<s2> ^operator.name <nm>
-         ^io <io>)
+   (state <s> ^superstate.operator.name <nm>)
 -->
-   (<s> ^name <nm>
-        ^io <io>)
+   (<s> ^name <nm>)
 }
 
 sp {elaborate*nli

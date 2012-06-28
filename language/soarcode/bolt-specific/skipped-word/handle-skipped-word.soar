@@ -118,7 +118,7 @@ sp {handle-skipped-word*propose*copy-to-output-link
 sp {handle-skipped-word*apply*copy-to-output-link
    (state <s> ^name handle-skipped-word
               ^operator <o>
-              ^io.output-link <ol>
+              ^top-state.io.output-link <ol>
               ^word <w>
               ^sent <sent>)
    (<o> ^name copy-to-output-link
@@ -133,69 +133,3 @@ sp {handle-skipped-word*apply*copy-to-output-link
    (<w> ^handled true)
    (<sent> ^parse-skipped-word true)
 }
-
-#sp {handle-skipped-word*apply*handle-skipped-word
-#   (state <s> ^operator <o>
-#              ^io.output-link <ol>)
-#   (<o> ^name handle-skipped-word
-#        ^word <w>
-#        ^sent <sent>)
-#   (<w> ^wvalue <wval>)
-#-->
-#  # (<w> ^handled true)
-#   (<sent> ^parse-skipped-word true)
-#   (<ol> ^message <g>)
-#   (<g> ^first <w1>
-#        ^word <w1>
-#        ^word <w1>
-#        ^word <w2>
-#        ^word <w3>
-#        ^last <w3>)
-#   (<w1> ^value Did
-#         ^next <w2>)
-#   (<w2> ^value you
-#         ^next <w3>)
-#   (<w3> ^value mean)
-#}
-#
-#
-#sp {handle-skipped-word*apply*increment-word-num
-#   (state <s> ^operator <o>
-#              ^io.output-link <ol>)
-#   (<o> ^name handle-skipped-word
-#        ^added-word-num <num>)
-#-->
-#   (<o> ^added-word-num <num> - (+ <num> 1))
-# }
-#
-#sp {handle-skipped-word*apply*finished-constructing-msg
-#   (state <s> ^operator <o>
-#              ^io.output-link <ol>)
-#   (<o> ^name handle-skipped-word
-#        ^added-word-num <num>
-#       -^sent.words.word.wcount <num>
-#        ^word <w>)
-#-->
-#   (<w> ^handled true)
-# }
-#
-#sp {handle-skipped-word*apply*add-skipped-sentence-to-message
-#   (state <s> ^operator <o>
-#              ^io.output-link.message <msg>)
-#   (<msg> ^last <last>)
-#   (<o> ^name handle-skipped-word
-#        ^sent <sent>
-#        ^added-word-num)
-#   (<sent> ^words <wds>)
-#   (<wds> ^word <w>)
-#   (<w> ^wcount <wnum>
-#        ^wvalue <wval>
-#       -^wvalue << LEFT-WALL RIGHT-WALL NOUN-PHRASE-WALL >>
-#       -^skipped true)
-#-->
-#   (<msg> ^word <nword>
-#          ^last <last> -
-#          ^last <nword>)
-#   (<last> ^next <nword>)
-#   (<nword> ^value <wval>)
-#}
