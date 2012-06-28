@@ -44,15 +44,3 @@ sp {propose*create-goal-predicate
 	 ^map-id <map>
 	 ^indexed-operator <iop>)
 }
-
-### 
-sp {
-
-   	      
-   	      
-=======
-   	  ^information <info>)
-   -->
-   (<s> ^information <info>)
-}
->>>>>>> origin/master
