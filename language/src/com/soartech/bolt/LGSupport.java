@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import net.sf.jlinkgrammar.Linkage;
 import net.sf.jlinkgrammar.Sentence;
@@ -22,6 +23,8 @@ public class LGSupport implements OutputEventInterface {
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
 	private static boolean phraseMode = false;
+	private static Vector<Identifier> inputWMEs = new Vector<Identifier>();
+	
 	
 	public static parser theParser;
 	private static boolean filterWords = false;
@@ -112,6 +115,8 @@ public class LGSupport implements OutputEventInterface {
 	private void originalSentenceToWM(String sentence) {
 		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
         agent.CreateIntWME(root, "sentence-count", sentenceCount);
+        inputWMEs.add(root);
+        
         Identifier wordsWME = agent.CreateIdWME(root, "words");
         sentence = sentence.replaceAll("(\\W)", " $1");
         //System.out.println("padded: " + sentence);
@@ -124,6 +129,13 @@ public class LGSupport implements OutputEventInterface {
         	//System.out.println("wd " + words[i]);
         }
 
+	}
+	
+	public void clear() {
+		for (Identifier id: inputWMEs) {
+			 agent.DestroyWME(id);
+		}
+		sentenceCount = -1;
 	}
 	
 	public void outputEventHandler(Object data, String agentName,
@@ -241,6 +253,7 @@ public class LGSupport implements OutputEventInterface {
         
        // make a root for this sentence
         Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
+        inputWMEs.add(sentenceRoot);
         
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);

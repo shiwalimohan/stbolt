@@ -3,6 +3,8 @@ package edu.umich.sbolt;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soartech.bolt.BOLTLGSupport;
+
 import april.util.TimeUtil;
 import edu.umich.sbolt.world.*;
 
@@ -20,14 +22,17 @@ public class InputLinkHandler implements RunEventInterface
     
     private boolean needToClearLGMessages = false;
     
+    private BOLTLGSupport lgSupport;
+
     private Agent agent;
 
-    public InputLinkHandler(Agent agent)
+    public InputLinkHandler(Agent agent, BOLTLGSupport lgs)
     {
     	instance = this;
     	this.agent = agent;
         inputLinkId = agent.GetInputLink();
 
+        lgSupport = lgs;
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
     }
 
@@ -54,19 +59,6 @@ public class InputLinkHandler implements RunEventInterface
     }
     
     private void clearLGMessages_internal(){
-    	Identifier lgID = WorkingMemoryUtil.getIdentifierOfAttribute(inputLinkId, "lg");
-    	if(lgID != null){
-    		List<WMElement> wmesToDestroy = new ArrayList<WMElement>();
-    		int i = 0;
-    		for(WMElement wme = lgID.GetChild(i); wme != null; wme = lgID.GetChild(++i)){
-    			if(wme.GetAttribute().equals("sentence")){
-    				wmesToDestroy.add(wme);
-    			}
-    		}
-    		for(WMElement wme : wmesToDestroy){
-    			wme.DestroyWME();
-    		}
-    	}
-    	needToClearLGMessages = false;
+    	lgSupport.clear();
     }
 }

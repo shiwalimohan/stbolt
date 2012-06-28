@@ -23,9 +23,11 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 
     public OutputLinkHandler(Agent agent)
     {
+
     	this.agent = agent;
         String[] outputHandlerStrings = { "message", "action", "pick-up", "push-segment", "pop-segment",
                 "put-down", "point", "send-message","remove-message","send-training-label", "set-state", "report-interaction"};
+
         for (String outputHandlerString : outputHandlerStrings)
         {
            agent.AddOutputHandler(outputHandlerString, this, null);
@@ -72,6 +74,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		Identifier id = wme.ConvertToIdentifier();
             System.out.println(wme.GetAttribute());
             
+
             try{
 	            if (wme.GetAttribute().equals("set-state"))
 	            {
@@ -131,7 +134,11 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         Identifier cur = WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first");
         String msg = "";
         while(cur != null) {
-        	msg += WorkingMemoryUtil.getValueOfAttribute(cur, "value")+" ";
+        	String word = WorkingMemoryUtil.getValueOfAttribute(cur, "value");
+        	if(word.equals(".") || word.equals("?") || word.equals("!"))
+        		msg += word;
+        	else
+        		msg += " "+word;
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
         }
         
@@ -145,34 +152,81 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	}
 
 	private void processOutputLinkMessage(Identifier messageId)
+    {	
+		if (messageId == null)
+        {
+            return;
+        }
+
+        if (messageId.GetNumberChildren() == 0)
+        {
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Message has no children");
+        }
+        
+        if(WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first") == null){
+        	processAgentMessageStructureCommand(messageId);
+        } else {
+        	processAgentMessageStringCommand(messageId);
+        }
+    }
+	
+    private void processAgentMessageStructureCommand(Identifier messageId)
     {
-        String message = AgentMessageParser.translateAgentMessage(messageId);
-        ChatFrame.Singleton().addMessage("Agent: "+ message);
+        String type = WorkingMemoryUtil.getValueOfAttribute(messageId, "type",
+                "Message does not have ^type");
+        String message = "";
+        message = AgentMessageParser.translateAgentMessage(messageId);
+        if(!message.equals("")){
+            ChatFrame.Singleton().addMessage("Agent: "+message);
+        }
         messageId.CreateStringWME("status", "complete");
     }
-//	
-//	private void processAgentMessageStringCommand(Identifier messageId){
-//
-//        String message = "";
-//        WMElement wordsWME = messageId.FindByAttribute("first", 0);
-//        if (wordsWME == null || !wordsWME.IsIdentifier())
-//        {
-//            messageId.CreateStringWME("status", "error");
-//            throw new IllegalStateException("Message has no first attribute");
-//        }
-//        Identifier currentWordId = wordsWME.ConvertToIdentifier();
-//
-//        // Follows the linked list down until it can't find the 'next' attribute
-//        // of a WME
-//        while(currentWordId != null) {
-//        	message += WorkingMemoryUtil.getValueOfAttribute(currentWordId, "word")+" ";
-//        	currentWordId = WorkingMemoryUtil.getIdentifierOfAttribute(currentWordId, "next");
-//        }
-//        message = "Agent: " + message.substring(0, message.length()-1) + ".";
-//        
-//        sbolt.getChatFrame().addMessage(message);
-//        messageId.CreateStringWME("status", "complete");
-//    }
+	
+	private void processAgentMessageStringCommand(Identifier messageId){
+
+        String message = "";
+        WMElement wordsWME = messageId.FindByAttribute("first", 0);
+        if (wordsWME == null || !wordsWME.IsIdentifier())
+        {
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Message has no first attribute");
+        }
+        Identifier currentWordId = wordsWME.ConvertToIdentifier();
+
+        // Follows the linked list down until it can't find the 'rest' attribute
+        // of a WME
+        while (currentWordId != null)
+        {
+            Identifier nextWordId = null;
+            for (int i = 0; i < currentWordId.GetNumberChildren(); i++)
+            {
+                WMElement child = currentWordId.GetChild(i);
+                if (child.GetAttribute().equals("word"))
+                {
+                    message += child.GetValueAsString() + " ";
+                }
+                else if (child.GetAttribute().equals("next")
+                        && child.IsIdentifier())
+                {
+                    nextWordId = child.ConvertToIdentifier();
+                }
+            }
+            currentWordId = nextWordId;
+        }
+
+        if (message == "")
+        {
+            messageId.CreateStringWME("status", "error");
+            throw new IllegalStateException("Message was empty");
+        }
+
+        message += ".";
+        ChatFrame.Singleton().addMessage("Agent: "+
+                message.substring(0, message.length() - 1));
+
+        messageId.CreateStringWME("status", "complete");
+    }
 
     /**
      * Takes a pick-up command on the output link given as an identifier and

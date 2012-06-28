@@ -127,9 +127,9 @@ sp {preprocess-sentence*apply*output-preprocessed*last-word
 # define a word for me", that word should be quoted in the response
 sp {preprocess-sentence*elaborate*implicit-quote
    (state <s> ^name preprocess-sentence
-              ^top-state.interaction.stack.segment.purpose.parameters.query <q>)
+              ^top-state.interaction.stack.segment.purpose.parameters.message <q>)
    (<q> ^type category-of-word
-        ^word <wd>)
+        ^fields.word <wd>)
 -->
    (<s> ^implicitly-quoted-word <wd>)
    (write (crlf) |"| <wd> |" will be implicitly quoted due to dialog context|)

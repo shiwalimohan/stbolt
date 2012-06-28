@@ -151,7 +151,8 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         world = new World();
 
         // Setup InputLink
-        inputLink = new InputLinkHandler(agent);
+        inputLink = new InputLinkHandler(agent, lgSupport);
+
 
         // Setup OutputLink
         outputLink = new OutputLinkHandler(agent);
