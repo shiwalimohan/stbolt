@@ -105,6 +105,28 @@ sp {handle-skipped-word*apply*add-word-to-msg
    (<lword> ^next <nword>)
 }
 
+sp {handle-skipped-word*propose*end-msg
+   (state <s> ^name handle-skipped-word
+              ^msg <msg>)
+   (<msg> ^last.value <> |)|)
+-->
+   (<s> ^operator <o> + <)
+   (<o> ^name end-msg)
+}
+
+sp {handle-skipped-word*apply*end*msg
+   (state <s> ^name handle-skipped-word
+              ^operator <o>
+              ^msg <msg>)
+   (<o> ^name end-msg)
+   (<msg> ^last <oldlast>)
+-->
+   (<msg> ^word <newlast>
+          ^last <oldlast> - <newlast>)
+   (<newlast> ^value |)|)
+   (<oldlast> ^next <newlast>)
+}
+
 sp {handle-skipped-word*propose*copy-to-output-link
    (state <s> ^name handle-skipped-word
               ^msg <msg>
@@ -123,13 +145,16 @@ sp {handle-skipped-word*apply*copy-to-output-link
               ^sent <sent>)
    (<o> ^name copy-to-output-link
         ^msg <msg>)
-   (<msg> ^last <last>)
 -->
-   (<msg> ^last <last> - <q>
-          ^word <q>)
-   (<q> ^value |)|)
-   (<last> ^next <q>)
    (<ol> ^message <msg>)
    (<w> ^handled true)
    (<sent> ^parse-skipped-word true)
 }
+
+sp {handle-skipped-word*prefer*end-msg*to*copy-to-output-link
+   (state <s> ^operator <o1> + <o2> +)
+   (<o1> ^name end-msg)
+   (<o2> ^name copy-to-output-link)
+-->
+   (<s> ^operator <o2> < <o1>)
+ }

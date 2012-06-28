@@ -12,7 +12,7 @@ sp {elaborate*print-structure
 sp {elaborate*msg
    (state <s> ^io.output-link.message <msg>)
 -->
-   (write (crlf) |Received output message|)
+   (write (crlf) |Received output message:| (crlf) (cmd print -d 10 -t <msg>))
    (halt)
 }
 
