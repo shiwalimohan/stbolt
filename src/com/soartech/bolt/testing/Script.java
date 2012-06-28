@@ -16,4 +16,8 @@ public class Script {
 	public Action getNextAction() {
 		return actions.pop();
 	}
+	
+	public boolean hasNextAction() {
+		return !(actions.peek() == null);
+	}
 }

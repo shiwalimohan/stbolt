@@ -189,17 +189,28 @@ public class ChatFrame extends JFrame
     }
     
     private void handleNextScriptAction() {
+    	if(script == null) {
+    		addMessage("No script loaded!");
+    		return;
+    	}
+    	if(!script.hasNextAction()) {
+    		addMessage("Script finished.");
+    		return;
+    	}
     	Action next = script.getNextAction();
     	if(next.getType() == ActionType.Mentor) {
-    		chatField.setText(next.getAction());
+    		//chatField.setText(next.getAction());
+    		sendSoarMessage(next.getAction());
+    		history.add(next.getAction());
+        	historyIndex = history.size();
+            addMessage("Mentor: " + next.getAction());
     	}
     	if(next.getType() == ActionType.Agent) {
     		//check if response is correct
     		String observed = chatMessages.get(chatMessages.size()-1);
     		String expected = next.getAction();
     		if(!observed.contains(expected)) {
-    			addMessage("- Error - Expected: ");
-    			addMessage("Agent: "+expected);
+    			addMessage("- Error - Expected: "+expected);
     		} else {
     			addMessage("- Correct -");
     		}
