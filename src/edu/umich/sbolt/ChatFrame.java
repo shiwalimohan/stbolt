@@ -2,15 +2,12 @@ package edu.umich.sbolt;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +20,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
-import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
+import sml.Agent;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
 
+import edu.umich.sbolt.world.World;
+
 public class ChatFrame extends JFrame
 {
+	public static ChatFrame Singleton(){
+		return instance;
+	}
+	private static ChatFrame instance = null;
 
     private JTextArea chatArea;
 
@@ -42,8 +43,6 @@ public class ChatFrame extends JFrame
     private JButton sendButton;
 
     private List<String> chatMessages;
-
-    private SBolt sbolt;
     
     private BOLTLGSupport lgSupport;
     
@@ -55,12 +54,13 @@ public class ChatFrame extends JFrame
     
     private boolean ready = false;
 
-    public ChatFrame(SBolt sbolt, BOLTLGSupport lg) {
+    public ChatFrame(BOLTLGSupport lg) {
         super("SBolt");
+        
+        instance = this;
         
         history = new ArrayList<String>();
 
-        this.sbolt = sbolt;
         lgSupport = lg;
         
         chatMessages = new ArrayList<String>();
@@ -129,24 +129,54 @@ public class ChatFrame extends JFrame
         });
         menuBar.add(clearButton);
         
-        JButton resetButton  = new JButton("Reset Arm");
-        resetButton.addActionListener(new ActionListener(){
+        JButton armResetButton  = new JButton("Reset Arm");
+        armResetButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				resetArm();
 			}
         });
-        menuBar.add(resetButton);
+        menuBar.add(armResetButton);
         
+        JMenu agentMenu = new JMenu("Full Reset");
+        JMenuItem initButton = new JMenuItem("Reinitialize");
+        initButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		SBolt.Singleton().reloadAgent(true);
+        	}
+        });
+        agentMenu.add(initButton);
+        
+        JMenuItem backupButton = new JMenuItem("Backup");
+        backupButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		backup();
+        	}
+        });
+        agentMenu.add(backupButton);  
+        
+        JMenuItem restoreButton = new JMenuItem("Restore");
+        restoreButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		restore();
+        	}
+        });
+        agentMenu.add(restoreButton);  
+
         stack = new InteractionStack();
-        JButton stackButton = new JButton("Interaction Stack");
+        JMenuItem stackButton = new JMenuItem("Interaction Stack");
         stackButton.addActionListener(new ActionListener(){
         	@Override
 			public void actionPerformed(ActionEvent arg0) {
 				stack.showFrame();
 			}
         });
-        menuBar.add(stackButton);
+        agentMenu.add(stackButton);
+        
+        menuBar.add(agentMenu);
        
         setJMenuBar(menuBar);
         
@@ -157,6 +187,21 @@ public class ChatFrame extends JFrame
      	});
         
         setReady(false);
+    }
+
+    public void showFrame()
+    {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+    }
+
+    public void hideFrame()
+    {
+        this.setVisible(false);
+    }
+    
+    public InteractionStack getStack(){
+    	return stack;
     }
     
     public void setReady(boolean isReady){
@@ -170,48 +215,12 @@ public class ChatFrame extends JFrame
     	}
     }
     
-    public InteractionStack getStack(){
-    	return stack;
-    }
-    
-    private void sendButtonClicked(){
-    	if(!ready){
-    		return;
-    	}
-    	history.add(chatField.getText());
-    	historyIndex = history.size();
-        addMessage("Mentor: " + chatField.getText());
-        sendSoarMessage(chatField.getText());
-        chatField.setText("");
-        chatField.requestFocus();
-    }
-    
-    
     public void clear(){
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");
-    	sbolt.getInputLink().clearLGMessages();
-    	sbolt.getWorld().destroyMessage();
-    }
-    
-    private void resetArm(){
-		robot_command_t command = new robot_command_t();
-		command.utime = TimeUtil.utime();
-		command.action = "RESET";
-		command.dest = new double[6];
-		sbolt.broadcastRobotCommand(command);
-    }
-    
-    public void exit(){
-    	sbolt.getAgent().KillDebugger();
-    	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
-    	
-    	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
-    	// (even when the KillDebugger isn't there)
-    	// I don't think there's any consequence to simply exiting instead.
-    	
-    	System.exit(0);
+    	InputLinkHandler.Singleton().clearLGMessages();
+    	World.Singleton().destroyMessage();
     }
 
     public void addMessage(String message)
@@ -229,34 +238,66 @@ public class ChatFrame extends JFrame
         chatArea.setText(sb.toString());
         chatArea.setCaretPosition(chatArea.getDocument().getLength());
     }
+    
+    public void exit(){
+    	SBolt.Singleton().getAgent().KillDebugger();
+    	// sbolt.getKernel().DestroyAgent(sbolt.getAgent());
+    	
+    	// SBW removed DestroyAgent call, it hangs in headless mode for some reason
+    	// (even when the KillDebugger isn't there)
+    	// I don't think there's any consequence to simply exiting instead.
+    	
+    	System.exit(0);
+    }
+    
+    private void resetArm(){
+		robot_command_t command = new robot_command_t();
+		command.utime = TimeUtil.utime();
+		command.action = "RESET";
+		command.dest = new double[6];
+		SBolt.broadcastRobotCommand(command);
+    }
+    
+    private void sendButtonClicked(){
+    	if(!ready){
+    		return;
+    	}
+    	history.add(chatField.getText());
+    	historyIndex = history.size();
+        addMessage("Mentor: " + chatField.getText());
+        sendSoarMessage(chatField.getText());
+        chatField.setText("");
+        chatField.requestFocus();
+    }
 
     private void sendSoarMessage(String message)
     {
     	if (lgSupport == null) {
-    		sbolt.getWorld().newMessage(message);
-    	}
-    	else if(message.length() > 0 && message.charAt(0) == ':'){
-    		if(message.equals(":reset")){
-    			resetArm();
+    		World.Singleton().newMessage(message);
+    	} else if(message.length() > 0){
+    		if(message.charAt(0) == ':'){
+    			World.Singleton().newMessage(message.substring(1));
     		} else {
-        		// Prefixing with a : goes to Soar's message processing
-        		sbolt.getWorld().newMessage(message.substring(1));
+        		// LGSupport has access to the agent object and handles all WM interaction from here
+        		lgSupport.handleInput(message);
     		}
-    	} else {
-    		lgSupport.handleInput(message);
-    		// LGSupport has access to the agent object and handles all WM interaction from here
     	}
     }
-
-    public void showFrame()
-    {
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
+    
+    private void backup(){
+    	Agent agent = SBolt.Singleton().getAgent();
+    	System.out.println("Performing backup");
+    	System.out.println(agent.ExecuteCommandLine("epmem --backup epmem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("smem --backup smem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("command-to-file chunks_backup.soar pc"));
     }
-
-    public void hideFrame()
-    {
-        this.setVisible(false);
+    
+    private void restore(){
+    	SBolt.Singleton().reloadAgent(false);
+    	Agent agent = SBolt.Singleton().getAgent();
+    	System.out.println(agent.ExecuteCommandLine("epmem --set path epmem_backup.db"));
+    	System.out.println(agent.ExecuteCommandLine("smem --set path smem_backup.db"));
+    	agent.LoadProductions("chunks_backup.soar");
     }
 
 }

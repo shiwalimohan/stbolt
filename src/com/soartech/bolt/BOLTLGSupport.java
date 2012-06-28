@@ -27,4 +27,8 @@ public class BOLTLGSupport {
 			lgSupport.handleSentence(sentence);
 		}
 	}
+	
+	public void clear() {
+		lgSupport.clear();
+	}
 }

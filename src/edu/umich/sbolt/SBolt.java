@@ -1,101 +1,62 @@
 package edu.umich.sbolt;
 
-import java.awt.Rectangle;
-import java.io.File;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashSet;
+import java.io.*;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import lcm.lcm.LCM;
-import lcm.lcm.LCMDataInputStream;
-import lcm.lcm.LCMSubscriber;
+import lcm.lcm.*;
+import abolt.lcmtypes.*;
 import sml.Agent;
 import sml.Agent.PrintEventInterface;
 import sml.Agent.RunEventInterface;
 import sml.Kernel;
 import sml.smlPrintEventId;
 import sml.smlRunEventId;
-import abolt.lcmtypes.observations_t;
-import abolt.lcmtypes.robot_action_t;
-import abolt.lcmtypes.robot_command_t;
-import abolt.lcmtypes.training_data_t;
-import abolt.lcmtypes.training_label_t;
 import april.util.TimeUtil;
-import edu.umich.sbolt.world.Pose;
 import edu.umich.sbolt.world.World;
-import edu.umich.sbolt.world.WorldObject;
-
 import com.soartech.bolt.BOLTLGSupport;
 
 public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterface
-
 {
-	public static SBolt getSingleton(){
+	public static SBolt Singleton(){
 		return sboltInstance;
 	}
 	private static SBolt sboltInstance = null;
+	
+	private InputLinkHandler inputLink;
+	
+	private OutputLinkHandler outputLink;
+
+    private ChatFrame chatFrame;
+
+    private World world;
 	
     private LCM lcm;
 
     private Kernel kernel;
 
     private Agent agent;
-
-    private Timer timer;
-
-    private TimerTask timerTask;
-
-    private boolean running;
-
-    private InputLinkHandler inputLinkHandler;
-
-    private OutputLinkHandler outputLinkHandler;
-
-    private ChatFrame chatFrame;
-
-    private World world;
    
     private PrintWriter logWriter;
     
     private int throttleMS = 0;
     
-    private boolean ready = true;
+    private boolean running = false;
     
-   
+    private String agentSource = null;
     
-    private static boolean inputLinkLocked = false;
-    public static void lockInputLink(){
-    	while(inputLinkLocked){
-    		try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-    	}
-    	inputLinkLocked = true;
-    }
-    public static void unlockInputLink(){
-    	inputLinkLocked = false;
-    }
+    private String lgSoarSource = null;
+    
+    private String smemSource = null;
+    
 
-    public SBolt(String channel, String agentName, boolean headless)
+    public SBolt(String agentName, boolean headless)
     {
     	sboltInstance = this;
         // LCM Channel, listen for observations_t
         try
         {
             lcm = new LCM();
-            lcm.subscribe(channel, this);
+            lcm.subscribe("OBSERVATIONS", this);
             lcm.subscribe("ROBOT_ACTION", this);
         }
         catch (IOException e)
@@ -112,6 +73,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
            throw new IllegalStateException("Kernel created null agent");
         }
 
+        // Load the properties file
         Properties props = new Properties();
         try {
 			props.load(new FileReader("sbolt.properties"));
@@ -119,10 +81,16 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 			e.printStackTrace();
 		}
         
-        String agentSource = props.getProperty("agent");
+        // Source the agent code
+        agentSource = props.getProperty("agent");
         
         if (agentSource != null) {
         	agent.LoadProductions(agentSource);
+        }
+        
+        smemSource = props.getProperty("smem-source");
+        if(smemSource != null){
+        	agent.LoadProductions(smemSource);
         }
         
         String useLGProp = props.getProperty("enable-lgsoar");
@@ -130,7 +98,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         boolean useLG = false;
         String lgSoarDictionary = "";
         if (useLGProp != null && useLGProp.equals("true")) {
-        	String lgSoarSource = props.getProperty("language-productions");
+        	lgSoarSource = props.getProperty("language-productions");
         	lgSoarDictionary = props.getProperty("lgsoar-dictionary");
         	
         	if (lgSoarSource != null && lgSoarDictionary != null) {
@@ -147,8 +115,6 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         if (useLG) {
         	lgSupport = new BOLTLGSupport(agent, lgSoarDictionary);
         }
-        
-        
         
         // !!! Important !!!
         // We set AutoCommit to false, and only commit inside of the event
@@ -185,25 +151,15 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         world = new World();
 
         // Setup InputLink
-        inputLinkHandler = new InputLinkHandler(world, this, lgSupport);
+        inputLink = new InputLinkHandler(agent, lgSupport);
+
 
         // Setup OutputLink
-        outputLinkHandler = new OutputLinkHandler(this);
+        outputLink = new OutputLinkHandler(agent);
 
         // Setup ChatFrame
-        chatFrame = new ChatFrame(this, lgSupport);
+        chatFrame = new ChatFrame(lgSupport);
 
-        // Start broadcasting
-        timerTask = new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                SBolt.this.broadcastLcmCommand();
-            }
-        };
-
-        running = false;
         chatFrame.showFrame();
         
     }
@@ -216,38 +172,27 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     {
         return agent;
     }
-
-    public ChatFrame getChatFrame()
-    {
-        return chatFrame;
-    }
-
-    public InputLinkHandler getInputLink()
-    {
-        return inputLinkHandler;
-    }
-
-    public OutputLinkHandler getOutputLink()
-    {
-        return outputLinkHandler;
-    }
-
-    public World getWorld()
-    {
-        return world;
+    
+    public void reloadAgent(boolean loadSmem){
+    	System.out.println("Re-initializing the agent");
+    	agent.ExecuteCommandLine("smem --init");
+    	if(agentSource != null){
+    		agent.LoadProductions(agentSource);
+    	}
+    	if(lgSoarSource != null){
+    		agent.LoadProductions(lgSoarSource);
+    	}
+    	if(loadSmem && smemSource != null){
+    		agent.LoadProductions(smemSource);
+    	}
     }
 
     public void start()
     {
-        if (running)
-        {
-            return;
-        }
-        running = true;
-        timer = new Timer();
-        timer.schedule(timerTask, 1000, 500);
-        agent.RunSelf(1);
-        //agent.RunSelfForever();
+    	if(!running){
+    		running = true;
+            //agent.RunSelfForever();
+    	}
     }
 
     public void stop()
@@ -258,7 +203,6 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         }
         running = false;
         agent.StopSelf();
-        timer.cancel();
     }
 
     @Override
@@ -272,50 +216,40 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	} else if(channel.equals("OBSERVATIONS")){
-    		if (inputLinkHandler == null || !ready)
-                return;
-            ready = false;
-            SBolt.lockInputLink();
-            
-            observations_t obs = null;
-            try
-            {
-                obs = new observations_t(ins);
-                world.newObservation(obs);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-                return;
-            }
-            SBolt.unlockInputLink();
-            ready = true;
+    	} else if(channel.equals("OBSERVATIONS") && inputLink != null){
+    		synchronized(inputLink){
+                observations_t obs = null;
+                try {
+                    obs = new observations_t(ins);
+                    world.newObservation(obs);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                    return;
+                }
+    		}
     	}
     }
 
     /**
-     * Sends out the robot_command_t command via LCM
+     * Sends out training_data_t over LCM
      */
-    private void broadcastLcmCommand()
+    public static void broadcastTrainingData(List<training_label_t> newLabels)
     {
-        synchronized (outputLinkHandler){
-        	List<training_label_t> newLabels = outputLinkHandler.extractNewLabels();
-        	if(newLabels != null){
-            	training_data_t trainingData = new training_data_t();
-            	trainingData.utime = TimeUtil.utime();
-            	trainingData.num_labels = newLabels.size();
-            	trainingData.labels = new training_label_t[newLabels.size()];
-            	for(int i = 0; i < newLabels.size(); i++){
-            		trainingData.labels[i] = newLabels.get(i);
-            	}
-            	lcm.publish("TRAINING_DATA", trainingData);
+    	if(newLabels != null){
+        	training_data_t trainingData = new training_data_t();
+        	trainingData.utime = TimeUtil.utime();
+        	trainingData.num_labels = newLabels.size();
+        	trainingData.labels = new training_label_t[newLabels.size()];
+        	for(int i = 0; i < newLabels.size(); i++){
+        		trainingData.labels[i] = newLabels.get(i);
         	}
-        }
+        	LCM.getSingleton().publish("TRAINING_DATA", trainingData);
+    	}
     }
     
-    public void broadcastRobotCommand(robot_command_t command){
-        lcm.publish("ROBOT_COMMAND", command);
+    public static void broadcastRobotCommand(robot_command_t command){
+        LCM.getSingleton().publish("ROBOT_COMMAND", command);
     }
 
     public static void main(String[] args)
@@ -327,12 +261,13 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     		// (currently, properties filename is hardcoded)
     		headless = true;
     	}
-    	sboltInstance = new SBolt("OBSERVATIONS", "sbolt", headless);
+    	sboltInstance = new SBolt("sbolt", headless);
     	sboltInstance.start();
         if (headless) {
         	sboltInstance.agent.RunSelfForever();
         }
     }
+    
 	@Override
 	public void printEventHandler(int eventID, Object data, Agent agent, String message) {
 		synchronized(logWriter) {
@@ -347,5 +282,4 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 			e.printStackTrace();
 		}
 	}
-
 }

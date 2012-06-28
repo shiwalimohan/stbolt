@@ -22,17 +22,15 @@ sp {elaborate*push-single-word-response*response
    (<o> ^response <response>)
 }
 
-# teaching-requestion - respond with finished or cancel
-sp {apply*push-single-word-response*teaching-request*remove*query
+# teaching-request - respond with finished or cancel
+sp {apply*push-single-word-response*teaching-request*remove*message
    (state <s> ^operator <o>
-              ^instructor-message <msg>
-              ^queries <qs>)
+              ^instructor-message <msg>)
    (<o> ^name push-single-word-response
         ^response << finished cancel >>
         ^message <msg>)
-   (<msg> ^query <q>)
+   (<msg> ^context.cause teaching-request)
 -->
-   (<qs> ^query <q> -)
    (<s> ^instructor-message <msg> -)
 }
 
@@ -40,8 +38,9 @@ sp {apply*push-single-word-response*teaching-request*cancel
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response
         ^response cancel
-        ^message.query <q>)
-   (<q> ^object <obj>)
+        ^message.context <context>)
+   (<context> ^cause teaching-request
+              ^object <obj>)
 -->
    (<obj> ^no-teaching true)
 }
@@ -51,8 +50,8 @@ sp {apply*push-single-word-response*teaching-request*cancel*prep
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response
         ^response cancel
-        ^message.query <q>)
-   (<q> ^status <stat>)
+        ^message.context <context>)
+   (<context> ^status <stat>)
 -->
    (<stat> ^no-teaching true)
 }

@@ -1,36 +1,4 @@
-# Adds needed structures to the topstate upon initialization
-sp {propose*init-agent
-   (state <s> -^name
-   	      ^superstate nil)
--->
-   (<s> ^operator <op> + >)
-   (<op> ^name init-agent)
-}
-
-sp {apply*init-agent*name
-   (state <s> ^operator.name init-agent)
--->
-   (<s> ^name object-analyzer)
-}
-
-
-sp {apply*init-agent*augment*topstate
-   (state <s> ^operator.name init-agent)
--->
-   (<s> ^queries <q>)
-}
-
-
-sp {apply*init-agent*store*smem*word2cat
-   (state <s> ^io.input-link <in>
-              ^operator.name init-agent
-              ^smem.command <cmd>)
--->
-   (<cmd> ^store <c0> <c1> <c2> <c3> <c4> <c5> # Categories
-          		 <v11> <v12> <v13> <v14> <v15> <v16> # Color
-          		 <v21> <v22> <v23> <v24> <v25> <v26> <v27> <v28> <v29> <v30> # Shape
-				 <v31> <v32> <v33>  # Size
-				 <v41> <v42> <v43> <v44> <v45> <v46> <v47> <v48> <v49>) # Name
+smem --add {
 	# Categories
    (<c0> ^type word2cat ^word category ^category category) # How meta is this!
    (<c1> ^type word2cat ^word color ^category category)
@@ -77,19 +45,13 @@ sp {apply*init-agent*store*smem*word2cat
 	(<v49> ^type word2cat ^word garbage ^category name)
 }
 
-## Example way to pre-store labels
-sp {apply*init-agent*store*smem*label-map
-   (state <s> ^io.input-link <in>
-              ^operator.name init-agent
-              ^smem.command <cmd>)
--->
-   (<cmd> ^store <v1> <v2> <v3> <v4> <v5> <v6> <v7>)
-   (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
-   (<v2> ^type label-map ^word green ^category color ^label color-green)
-   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
-   (<v5> ^type label-map ^word red ^category color ^label color-red)
-   (<v6> ^type label-map ^word yellow ^category color ^label color-yellow)
-   (<v7> ^type label-map ^word rectangle ^category shape ^label shape-rectangle)
-   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
-}
-   
+# Example of how to prestore labels
+#smem --add{
+#   (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
+#   (<v2> ^type label-map ^word green ^category color ^label color-green)
+#   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
+#   (<v5> ^type label-map ^word red ^category color ^label color-red)
+#   (<v6> ^type label-map ^word yellow ^category color ^label color-yellow)
+#   (<v7> ^type label-map ^word rectangle ^category shape ^label shape-rectangle)
+#   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
+#}
