@@ -175,21 +175,21 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     
     public void reloadAgent(boolean loadSmem){
     	System.out.println("Re-initializing the agent");
-    	agent.ExecuteCommandLine("smem --init");
-    	agent.ExecuteCommandLine("epmem --init");
+    	System.out.println("  smem --init:  " + agent.ExecuteCommandLine("smem --init"));
+    	System.out.println("  epmem --init: " + agent.ExecuteCommandLine("epmem --init"));
     	if(loadSmem && smemSource != null){
         	agent.ExecuteCommandLine("smem --set path empty");
         	agent.ExecuteCommandLine("epmem --set path empty");
     		agent.LoadProductions(smemSource);
-    		System.out.println("SOURCED: " + smemSource);
+    		System.out.println("  source " + smemSource);
     	}
     	if(agentSource != null){
     		agent.LoadProductions(agentSource);
-    		System.out.println("SOURCED: " + agentSource);
+    		System.out.println("  source " + agentSource);
     	}
     	if(lgSoarSource != null){
     		agent.LoadProductions(lgSoarSource);
-    		System.out.println("SOURCED: " + lgSoarSource);
+    		System.out.println("  source " + lgSoarSource);
     	}
     	System.out.println("Agent re-initialized");
     }

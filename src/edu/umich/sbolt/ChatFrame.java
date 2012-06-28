@@ -202,8 +202,8 @@ public class ChatFrame extends JFrame implements RunEventInterface
         	public void actionPerformed(ActionEvent e){
         		if(!isAgentRunning){
         			clear();
-        	    	SVSConnector.Singleton().reset();
         			SBolt.Singleton().reloadAgent(true);
+        	    	SVSConnector.Singleton().reset();
         		} else {
         			JOptionPane.showMessageDialog(null, "The agent must be stopped first");
         		}
@@ -348,6 +348,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void clear(){
+    	System.out.println("CLEAR: All messages have been cleared");
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");
@@ -430,20 +431,22 @@ public class ChatFrame extends JFrame implements RunEventInterface
     private void backup(String name){
     	Agent agent = SBolt.Singleton().getAgent();
     	System.out.println("Performing backup: " + name);
-    	System.out.println("epmem:" + agent.ExecuteCommandLine(String.format("epmem --backup backups/%s_epmem.db", name)));
-    	System.out.println("smem:" + agent.ExecuteCommandLine(String.format("smem --backup backups/%s_smem.db", name)));
-    	System.out.println("chunks:" + agent.ExecuteCommandLine(String.format("command-to-file backups/%s_chunks.soar pc -f", name)));
+    	System.out.println("  epmem: " + agent.ExecuteCommandLine(String.format("epmem --backup backups/%s_epmem.db", name)));
+    	System.out.println("  smem: " + agent.ExecuteCommandLine(String.format("smem --backup backups/%s_smem.db", name)));
+    	System.out.println("  chunks: " + agent.ExecuteCommandLine(String.format("command-to-file backups/%s_chunks.soar pc -f", name)));
+    	System.out.println("Completed Backup");
     }
     
     private void restore(String name){
     	clear();
     	Agent agent = SBolt.Singleton().getAgent();
     	System.out.println("Restoring agent: " + name);
-    	SVSConnector.Singleton().reset();
     	SBolt.Singleton().reloadAgent(false);
-    	System.out.println("epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", name)));
-    	System.out.println("smem:" + agent.ExecuteCommandLine(String.format("smem --set path backups/%s_smem.db", name)));
+    	System.out.println("  epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", name)));
+    	System.out.println("  smem:" + agent.ExecuteCommandLine(String.format("smem --set path backups/%s_smem.db", name)));
     	agent.LoadProductions(String.format("backups/%s_chunks.soar", name));
-    	System.out.println("chunks loaded");
+    	System.out.println("  source: " + String.format("backups/%s_chunks.soar", name));
+    	SVSConnector.Singleton().reset();
+    	System.out.println("Completed Restore");
     }
 }
