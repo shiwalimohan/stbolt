@@ -18,7 +18,6 @@ sp {elaborate*instructor-message*purpose*case1
     	   ^learning-event explanation)
 }
 
-
 sp {elaborate*instructor-message*purpose*case1*done
    (state <s> ^topstate <s>
 	       ^instructor-message <m>)

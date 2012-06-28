@@ -1,6 +1,4 @@
-##### 
-
-### if the interaction-stack has a goal statement map the goal 
+### if the interaction-stack has a goal statement map the goal to objects in semantic memory and object present in the environment
 sp {propose*map*goal
    (state <s> ^interaction.stack.segment <top>)
    (<top> ^originator instructor
