@@ -241,6 +241,7 @@ public class LGSupport implements OutputEventInterface {
         
        // make a root for this sentence
         Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
+        inputWMEs.add(sentenceRoot);
         
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
