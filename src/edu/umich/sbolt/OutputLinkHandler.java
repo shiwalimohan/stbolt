@@ -137,6 +137,8 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         	String word = WorkingMemoryUtil.getValueOfAttribute(cur, "value");
         	if(word.equals(".") || word.equals("?") || word.equals("!") || word.equals(")"))
         		msg += word;
+        	else if(msg.equals(""))
+        		msg += word;
         	else
         		msg += " "+word;
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
