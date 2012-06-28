@@ -157,7 +157,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         outputLink = new OutputLinkHandler(agent);
 
         // Setup ChatFrame
-        chatFrame = new ChatFrame(lgSupport);
+        chatFrame = new ChatFrame(lgSupport, agent);
 
         chatFrame.showFrame();
         
@@ -175,6 +175,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     public void reloadAgent(boolean loadSmem){
     	System.out.println("Re-initializing the agent");
     	agent.ExecuteCommandLine("smem --init");
+    	agent.ExecuteCommandLine("epmem --init");
     	if(agentSource != null){
     		agent.LoadProductions(agentSource);
     	}
@@ -184,24 +185,6 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     	if(loadSmem && smemSource != null){
     		agent.LoadProductions(smemSource);
     	}
-    }
-
-    public void start()
-    {
-    	if(!running){
-    		running = true;
-            //agent.RunSelfForever();
-    	}
-    }
-
-    public void stop()
-    {
-        if (!running)
-        {
-            return;
-        }
-        running = false;
-        agent.StopSelf();
     }
 
     @Override
@@ -261,10 +244,11 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     		headless = true;
     	}
     	sboltInstance = new SBolt("sbolt", headless);
-    	sboltInstance.start();
-        if (headless) {
-        	sboltInstance.agent.RunSelfForever();
-        }
+//        if (headless) {
+//        	sboltInstance.agent.RunSelfForever();
+//        }
+//        sboltInstance.agent.RunSelfForever();
+//        System.out.println("IM DONE");
     }
     
 	@Override

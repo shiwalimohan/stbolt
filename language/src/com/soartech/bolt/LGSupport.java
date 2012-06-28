@@ -129,6 +129,9 @@ public class LGSupport implements OutputEventInterface {
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
+		if(sentence == null){
+			return;
+		}
 		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
 		
 		// call LG Parser
@@ -146,9 +149,18 @@ public class LGSupport implements OutputEventInterface {
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
 		String result = "";
 		
-		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
+		if (pWmeAdded == null) {
+			System.err.println("LGSupport.preprocessedSentenceFromWM: pWmeAdded is null");
+			return null;
+		}
 		
-		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
+		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
+		String param = pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count");
+		if (param == null) {
+			System.err.println("LGSupport.preprocessedSentenceFromWM: no sentence-count");
+			return null;
+		}
+		currentOutputSentenceCount = Integer.parseInt(param);
 		
 		while (currentWME != null) {
 			String word = currentWME.ConvertToIdentifier().GetParameterValue("word");

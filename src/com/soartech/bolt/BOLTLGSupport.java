@@ -7,8 +7,7 @@ public class BOLTLGSupport {
 	
 	public BOLTLGSupport(Agent agent, String dictionary) {
 		String s = null;
-		//lgSupport = new LGSupport(agent, dictionary, s);
-		lgSupport = new LGSupport(agent, dictionary);
+		lgSupport = new LGSupport(agent, dictionary, s);
 	}
 	
 	public void handleInput(String input) {

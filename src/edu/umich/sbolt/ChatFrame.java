@@ -16,12 +16,17 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import sml.Agent;
+import sml.Identifier;
+import sml.WMElement;
+import sml.smlRunEventId;
+import sml.Agent.RunEventInterface;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
@@ -29,18 +34,23 @@ import com.soartech.bolt.BOLTLGSupport;
 
 import edu.umich.sbolt.world.World;
 
-public class ChatFrame extends JFrame
+public class ChatFrame extends JFrame implements RunEventInterface
 {
+	
 	public static ChatFrame Singleton(){
 		return instance;
 	}
 	private static ChatFrame instance = null;
+	
+	private Agent agent;
 
     private JTextArea chatArea;
 
     private JTextField chatField;
     
     private JButton sendButton;
+    
+    private JButton startStopButton;
 
     private List<String> chatMessages;
     
@@ -53,9 +63,20 @@ public class ChatFrame extends JFrame
     private InteractionStack stack;
     
     private boolean ready = false;
+    
+    private Thread agentThread = null;
+    
+    private boolean isAgentRunning = false;
+    
+    private boolean stopAgent = false;
 
-    public ChatFrame(BOLTLGSupport lg) {
+    public ChatFrame(BOLTLGSupport lg, Agent agent) {
         super("SBolt");
+        
+        this.agent = agent;
+
+        agent.RegisterForRunEvent(
+                smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
         
         instance = this;
         
@@ -118,7 +139,21 @@ public class ChatFrame extends JFrame
         this.setSize(800, 450);
         this.getRootPane().setDefaultButton(sendButton);
         
-        JMenuBar menuBar = new JMenuBar();        
+        JMenuBar menuBar = new JMenuBar();     
+
+
+        startStopButton  = new JButton("START");
+        startStopButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		    	if(isAgentRunning){
+		    		stopAgent = true;
+		    	} else {
+		    		runAgent();
+		    	}
+			}
+        });
+        menuBar.add(startStopButton);
         
         JButton clearButton  = new JButton("Clear Text");
         clearButton.addActionListener(new ActionListener(){
@@ -133,26 +168,54 @@ public class ChatFrame extends JFrame
         armResetButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				resetArm();
+				robot_command_t command = new robot_command_t();
+				command.utime = TimeUtil.utime();
+				command.action = "RESET";
+				command.dest = new double[6];
+				SBolt.broadcastRobotCommand(command);
 			}
         });
         menuBar.add(armResetButton);
+
+        JMenu agentMenu = new JMenu("Agent");
+
         
-        JMenu agentMenu = new JMenu("Full Reset");
-        JMenuItem initButton = new JMenuItem("Reinitialize");
-        initButton.addActionListener(new ActionListener(){
+        JMenuItem resetButton = new JMenuItem("Full Reset");
+        resetButton.addActionListener(new ActionListener(){
         	@Override
         	public void actionPerformed(ActionEvent e){
-        		SBolt.Singleton().reloadAgent(true);
+        		if(!isAgentRunning){
+        			SBolt.Singleton().reloadAgent(true);
+        		}
         	}
         });
-        agentMenu.add(initButton);
+        agentMenu.add(resetButton);
+        
+//        JMenuItem commandButton = new JMenuItem("Enter SML Command");
+//        commandButton.addActionListener(new ActionListener(){
+//        	@Override
+//        	public void actionPerformed(ActionEvent e){
+//        		String command = JOptionPane.showInputDialog(null, 
+//            			  "Enter the SML Command to execute",
+//            			  "Enter SML Command",
+//            			  JOptionPane.QUESTION_MESSAGE);
+//        	}
+//        });
+//        agentMenu.add(commandButton);
+        
+        
+        agentMenu.addSeparator();
+
         
         JMenuItem backupButton = new JMenuItem("Backup");
         backupButton.addActionListener(new ActionListener(){
         	@Override
         	public void actionPerformed(ActionEvent e){
-        		backup();
+        		if(!isAgentRunning){
+        			backup("default");
+        		} else {
+        			JOptionPane.showMessageDialog(null, "The agent must be stopped");
+        		}
         	}
         });
         agentMenu.add(backupButton);  
@@ -161,10 +224,50 @@ public class ChatFrame extends JFrame
         restoreButton.addActionListener(new ActionListener(){
         	@Override
         	public void actionPerformed(ActionEvent e){
-        		restore();
+        		if(!isAgentRunning){
+        			restore("default");
+        		} else {
+        			JOptionPane.showMessageDialog(null, "The agent must be stopped");
+        		}
         	}
         });
         agentMenu.add(restoreButton);  
+        
+        JMenuItem backupToFileButton = new JMenuItem("Backup To File");
+        backupToFileButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		if(!isAgentRunning){
+            		String name = JOptionPane.showInputDialog(null, 
+                			  "Enter the session name to backup",
+                			  "Backup To File",
+                			  JOptionPane.QUESTION_MESSAGE);
+        			backup(name);
+        		} else {
+        			JOptionPane.showMessageDialog(null, "The agent must be stopped");
+        		}
+        	}
+        });
+        agentMenu.add(backupToFileButton);  
+        
+        JMenuItem restoreFromFileButton = new JMenuItem("Restore From File");
+        restoreFromFileButton.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		if(!isAgentRunning){
+            		String name = JOptionPane.showInputDialog(null, 
+              			  "Enter the session name to restore",
+              			  "Restore From File",
+              			  JOptionPane.QUESTION_MESSAGE);
+        			restore(name);
+        		} else {
+        			JOptionPane.showMessageDialog(null, "The agent must be stopped");
+        		}
+        	}
+        });
+        agentMenu.add(restoreFromFileButton);  
+        
+        agentMenu.addSeparator();
 
         stack = new InteractionStack();
         JMenuItem stackButton = new JMenuItem("Interaction Stack");
@@ -187,6 +290,29 @@ public class ChatFrame extends JFrame
      	});
         
         setReady(false);
+    }
+    
+    private void runAgent(){
+    	class AgentThread implements Runnable{
+    		public void run(){
+    			SBolt.Singleton().getAgent().ExecuteCommandLine("run");
+    			
+    		}
+    	}
+    	agentThread = new Thread(new AgentThread());
+    	agentThread.start();
+    	isAgentRunning = true;
+		startStopButton.setText("STOP");
+    }
+    
+    public void runEventHandler(int eventID, Object data, Agent agent, int phase)
+    {
+    	if(stopAgent){
+    		agent.ExecuteCommandLine("stop");
+    		isAgentRunning = false;
+    		startStopButton.setText("START");
+    		stopAgent = false;
+    	}
     }
 
     public void showFrame()
@@ -250,14 +376,6 @@ public class ChatFrame extends JFrame
     	System.exit(0);
     }
     
-    private void resetArm(){
-		robot_command_t command = new robot_command_t();
-		command.utime = TimeUtil.utime();
-		command.action = "RESET";
-		command.dest = new double[6];
-		SBolt.broadcastRobotCommand(command);
-    }
-    
     private void sendButtonClicked(){
     	if(!ready){
     		return;
@@ -284,20 +402,21 @@ public class ChatFrame extends JFrame
     	}
     }
     
-    private void backup(){
+    private void backup(String name){
     	Agent agent = SBolt.Singleton().getAgent();
-    	System.out.println("Performing backup");
-    	System.out.println(agent.ExecuteCommandLine("epmem --backup epmem_backup.db"));
-    	System.out.println(agent.ExecuteCommandLine("smem --backup smem_backup.db"));
-    	System.out.println(agent.ExecuteCommandLine("command-to-file chunks_backup.soar pc"));
+    	System.out.println("Performing backup: " + name);
+    	System.out.println("epmem:" + agent.ExecuteCommandLine(String.format("epmem --backup backups/%s_epmem.db", name)));
+    	System.out.println("smem:" + agent.ExecuteCommandLine(String.format("smem --backup backups/%s_smem.db", name)));
+    	System.out.println("chunks:" + agent.ExecuteCommandLine(String.format("command-to-file backups/%s_chunks.soar pc", name)));
     }
     
-    private void restore(){
-    	SBolt.Singleton().reloadAgent(false);
+    private void restore(String name){
     	Agent agent = SBolt.Singleton().getAgent();
-    	System.out.println(agent.ExecuteCommandLine("epmem --set path epmem_backup.db"));
-    	System.out.println(agent.ExecuteCommandLine("smem --set path smem_backup.db"));
-    	agent.LoadProductions("chunks_backup.soar");
+    	System.out.println("Restoring agent: " + name);
+    	SBolt.Singleton().reloadAgent(false);
+    	System.out.println("epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", name)));
+    	System.out.println("smem:" + agent.ExecuteCommandLine(String.format("smem --set path backups/%s_smem.db", name)));
+    	agent.LoadProductions(String.format("backups/%s_chunks.soar", name));
+    	System.out.println("chunks loaded");
     }
-
 }
