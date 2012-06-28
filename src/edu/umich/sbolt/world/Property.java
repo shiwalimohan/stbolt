@@ -1,15 +1,7 @@
 package edu.umich.sbolt.world;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import sml.FloatElement;
 import sml.Identifier;
 import sml.StringElement;
-import abolt.lcmtypes.categorized_data_t;
-import abolt.lcmtypes.category_t;
 
 public class Property implements IInputLinkElement{
     

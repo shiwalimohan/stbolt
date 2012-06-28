@@ -1,21 +1,12 @@
 package edu.umich.sbolt.world;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.umich.sbolt.InputLinkHandler;
-
-import abolt.lcmtypes.categorized_data_t;
-import abolt.lcmtypes.category_t;
-import abolt.lcmtypes.object_data_t;
-import sml.Identifier;
-import sml.IntElement;
-import sml.StringElement;
-import sml.WMElement;
+import abolt.lcmtypes.*;
+import sml.*;
 
 /**
  * A single Object in the world, can be created using either a sensable or an object_data_t

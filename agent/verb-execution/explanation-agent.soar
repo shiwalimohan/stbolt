@@ -36,6 +36,9 @@ pushd ./indexing
 source all_source.soar
 popd
 
+pushd message-interpretation
+source message-interpretation_source.soar
+popd
 
 ### source objects code
 pushd ./objects
@@ -73,7 +76,8 @@ sp {propose*init-agent
 sp {apply*init-agent
    (state <s> ^operator.name init-agent)
 -->
-   (<s> ^topstate <s>)
+   (<s> ^topstate <s>
+        ^name bolt-agent)
 }
 
 ## Elaborate a state as non-atomic/atomic if the operator proposed in superstate in non-atomic/atomic
