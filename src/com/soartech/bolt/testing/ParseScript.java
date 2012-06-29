@@ -10,12 +10,70 @@ public class ParseScript {
 
 		try {
 			Scanner s = new Scanner(f);
-			while(s.hasNextLine()) {
-				script.addAction(new Action(s.nextLine()));
+			if(s.hasNext("#!BechtelFormat")) {
+				s.nextLine();
+				return parseBechtelFormatScript(script, s);
+			} else {
+				return parseDefaultFormatScript(script, s);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return script;
+	}
+	
+	public static Script parseDefaultFormatScript(Script script, Scanner s) {
+		while(s.hasNextLine()) {
+			String scriptLine = s.nextLine();
+			String[] lineType = scriptLine.split(":");
+			ActionType type = null;
+			
+			if(lineType[0].equals("Agent")) {
+				type = ActionType.Agent;
+			} else if(lineType[0].equals("Mentor")) {
+				type = ActionType.Mentor;
+			} else if(lineType[0].equals("Direction")) {
+				type = ActionType.Direction;
+			} else if(lineType[0].equals("Check")) {
+				type = ActionType.Check;
+			}
+			
+			if(type == null)
+				throw new RuntimeException("Invalid script line: "+scriptLine);
+			
+			String action = scriptLine.substring(lineType[0].length()+1).trim();
+			script.addAction(new Action(type, action));
+		}
+		return script;
+	}
+	public static Script parseBechtelFormatScript(Script script, Scanner s) {
+		while(s.hasNextLine()) {
+			String line = s.nextLine();
+			char lineType = line.charAt(0);
+			ActionType type = null;
+			switch(lineType) {
+			case '#':
+				type = ActionType.Direction;
+				break;
+			case '{':
+				type = ActionType.Check;
+				break;
+			case '<':
+				type = ActionType.Agent;
+				break;
+			case '>':
+				type = ActionType.Mentor;
+				break;
+			}
+			
+			if(type == null)
+				throw new RuntimeException("Invalid script line: "+line);
+			
+			String action = line.substring(1);
+			action = action.trim();
+			
+			script.addAction(new Action(type, action));
 		}
 		return script;
 	}

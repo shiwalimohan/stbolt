@@ -5,23 +5,9 @@ public class Action {
 	private ActionType type;
 	private String action;
 	
-	public Action(String scriptLine) {
-		String[] lineType = scriptLine.split(":");
-		
-		if(lineType[0].equals("Agent")) {
-			type = ActionType.Agent;
-		} else if(lineType[0].equals("Mentor")) {
-			type = ActionType.Mentor;
-		} else if(lineType[0].equals("Direction")) {
-			type = ActionType.Direction;
-		} else if(lineType[0].equals("Check")) {
-			type = ActionType.Check;
-		}
-		
-		if(type == null)
-			throw new RuntimeException("Invalid script line: "+scriptLine);
-		
-		action = scriptLine.substring(lineType[0].length()+2);
+	public Action(ActionType type, String action) {
+		this.type = type;
+		this.action = action;
 	}
 	
 	public ActionType getType() {
