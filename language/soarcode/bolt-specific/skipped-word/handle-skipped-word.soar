@@ -105,10 +105,74 @@ sp {handle-skipped-word*apply*add-word-to-msg
    (<lword> ^next <nword>)
 }
 
+sp {handle-skipped-word*propose*add-generic-word-to-msg
+   (state <s> ^name handle-skipped-word
+              ^top-state.sentence-mapping.word <w>
+              ^msg <msg>
+              ^sent.words.word <w2>
+             -^word.handled true
+             -^handled-nums <wcount>)
+   (<w> ^parser-wvalue <pval>
+        ^real-wvalue {<rval> <> <pval>}
+       -^replaced)
+   (<w2> ^wvalue <pval>
+        -^wvalue << LEFT-WALL RIGHT-WALL NOUN-PHRASE-WALL >>
+         ^wcount <wcount>
+        -^skipped)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-generic-word-to-msg
+        ^rword <w>
+        ^rval <rval>
+        ^wcount <wcount>)
+}
+
+sp {handle-skipped-word*apply*add-generic-word-to-msg
+   (state <s> ^name handle-skipped-word
+              ^operator <o>
+              ^sent.words.word <word>
+              ^msg <msg>)
+   (<word> ^wvalue <pval>)
+   (<msg> ^last <lword>)
+   (<o> ^name add-generic-word-to-msg
+        ^rword <w>
+        ^rval <rval>
+        ^wcount <wcount>)
+-->
+   (<s> ^handled-nums <wcount>)
+   (<msg> ^last <lword> - <nword>)
+   (<msg> ^word <nword>)
+   (<nword> ^value <rval>)
+   (<lword> ^next <nword>)
+   (<w> ^replaced true)
+}
+
+sp {handle-skipped-word*elaborate*prefer*add-generic-word-to-msg
+   (state <s> ^name handle-skipped-word
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-word-to-msg)
+   (<o2> ^name add-generic-word-to-msg)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+sp {handle-skipped-word*elaborate*prefer*lower-word-count*generic
+   (state <s> ^name handle-skipped-word
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-generic-word-to-msg
+         ^wcount <c1>)
+   (<o2> ^name add-generic-word-to-msg
+         ^wcount < <c1>)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
 sp {handle-skipped-word*propose*end-msg
    (state <s> ^name handle-skipped-word
-              ^msg <msg>)
-   (<msg> ^last.value <> |)|)
+              ^msg <msg>
+             -^msgfinished)
 -->
    (<s> ^operator <o> + <)
    (<o> ^name end-msg)
@@ -121,6 +185,7 @@ sp {handle-skipped-word*apply*end*msg
    (<o> ^name end-msg)
    (<msg> ^last <oldlast>)
 -->
+   (<s> ^msgfinished true)
    (<msg> ^word <newlast>
           ^last <oldlast> - <newlast>)
    (<newlast> ^value |)|)
