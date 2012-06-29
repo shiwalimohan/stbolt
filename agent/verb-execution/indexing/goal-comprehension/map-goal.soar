@@ -1,13 +1,14 @@
 ### if the interaction-stack has a goal statement map the goal to objects in semantic memory and object present in the environment
+
 sp {propose*map*goal
    (state <s> ^interaction.stack.segment <top>)
    (<top> ^originator instructor
    	  ^purpose <p>)
-   (<p> ^type goal
+   (<p> ^type goal-acquisition
    	^satisfaction <ps>
 	^indexed-operator <iop>)
-   (<iop> -^goal <any>)0
-   (<ps> ^learning-event <info>)
+   (<iop> -^goal <any>)
+   (<ps> ^learning-event verb-semantic-learning)
 -->
    (<s> ^operator <op> +)
    (<op> ^name index-goal
