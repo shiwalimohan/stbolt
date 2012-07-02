@@ -1,13 +1,8 @@
 package com.soartech.bolt;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import net.sf.jlinkgrammar.Linkage;
-import net.sf.jlinkgrammar.Sentence;
-
 import sml.Agent;
-import sml.Identifier;
 import sml.smlPrintEventId;
 import sml.Agent.PrintEventInterface;
 import sml.Kernel;

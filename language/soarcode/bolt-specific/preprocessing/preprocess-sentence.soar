@@ -264,18 +264,16 @@ sp {elaborate*preprocessing*operators*are*interpretation*operators
 }
 
 # smem --set learning on
-
 # smem --add {
 #   (<wd1> ^word red
 #         ^parse-class *nounjective)
 #   (<wd2> ^word square
 #         ^parse-class *nounjective)
 #   (<wd3> ^word get
-#         ^parse-class *verb-with-direct-object)
+#         ^parse-class *verb+with+direct+object)
 #   (<wd4> ^word move
-#         ^parse-class *verb-with-preposition-and-direct-object
-#         ^parse-class *verb-with-direct-object
-#         ^parse-class *verb-with-preposition
-#         ^parse-class *verb)
+#         ^parse-class *verb+with+direct+object+and+preposition
+#         ^parse-class *verb+with+direct+object
+#         ^parse-class *verb+with+preposition)
 # }
 

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -141,31 +142,33 @@ public class LGSupport implements OutputEventInterface {
 	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
-		String sentence = preprocessedSentenceFromWM(pWmeAdded);
-		if(sentence == null){
+		ArrayList<String> sentences = preprocessedSentencesFromWM(pWmeAdded);
+		if(sentences == null){
 			System.err.println("NULL SENTENCE ON OL");
 			return;
 		}
-		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
+		for (String sentence: sentences) {
+			sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
 		
-		// call LG Parser
-		theParser.parseSentence(sentence);
-		
-		// add noun-phrase parses
-		// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
-		// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
-		// is a capitalized word in the middle of the sentence.
-		phraseMode = true;
-		theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
-		phraseMode = false;
+			// call LG Parser
+			theParser.parseSentence(sentence);
+			
+			// add noun-phrase parses
+			// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
+			// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
+			// is a capitalized word in the middle of the sentence.
+			phraseMode = true;
+			theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
+			phraseMode = false;
+		}
 		
 		// AM: Causes the preprocessed sentence to be removed from the ol link
 		pWmeAdded.ConvertToIdentifier().CreateStringWME("status", "complete");
 	}	
 	
-	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
-		String result = "";
-		
+	private ArrayList<String> preprocessedSentencesFromWM(WMElement pWmeAdded) {
+		ArrayList<String> results = new ArrayList<String>();
+				
 		if (pWmeAdded == null) {
 			System.err.println("LGSupport.preprocessedSentenceFromWM: pWmeAdded is null");
 			return null;
@@ -179,16 +182,39 @@ public class LGSupport implements OutputEventInterface {
 		}
 		currentOutputSentenceCount = Integer.parseInt(param);
 		
-		while (currentWME != null) {
-			String word = currentWME.ConvertToIdentifier().GetParameterValue("word");
-			if (word != null) {
-				result += " " + word;
-			}
-			currentWME = currentWME.ConvertToIdentifier().FindByAttribute("next", 0);
-		}
+		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
 		
 		//System.out.println("got sentence: " + result);
-		return result;
+		return results;
+	}
+	
+	// agent can add in multiple word values, so we want a set of all possible alternate sentences
+	private ArrayList<String> sentencesFromWMRecursive(String prefix, Identifier wordId, int child) {
+		WMElement nextWord = wordId.FindByAttribute("word", child);
+		if (nextWord == null) {
+			return null;
+		}
+		
+		String wordValue = nextWord.GetValueAsString();		
+		String newPrefix = prefix + " " + wordValue;
+		
+		// try to get an alternate version of this word and add all its sentences to our result
+		ArrayList<String> subList = sentencesFromWMRecursive(prefix, wordId, child + 1);	
+		ArrayList<String> results = null;
+		
+		WMElement nextWME = wordId.FindByAttribute("next", 0);
+		if (nextWME == null) {
+			// end of the sentence
+			results = new ArrayList<String>();
+			results.add(newPrefix);
+		}
+		else {
+			results = sentencesFromWMRecursive(newPrefix, nextWME.ConvertToIdentifier(), 0);
+		}
+		if (subList != null) 
+			results.addAll(subList);
+		
+		return results;
 	}
 	
 	// called from parser.java
