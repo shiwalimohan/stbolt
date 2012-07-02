@@ -79,9 +79,11 @@ sp {global*apply*processing-complete*save-predicates
 sp {top-state*lgsoar-predicates*to-state
    (state <s> ^superstate nil
               ^io.input-link.lg.parsed-sentence <lgs>)
-   (<lgs> ^final-predicates <fp>)
+   (<lgs> ^final-predicates <fp>
+          ^sentence-count <sc>)
 -->
    (<s> ^lgsoar-predicates <fp>)
+   (<fp> ^sentence-count <sc>)
 }
 
 sp {global*propose*handle-single-word
@@ -165,16 +167,6 @@ sp {global*apply*handle-guessed-word
 #   (<s> ^lgsoar-predicates <pred> -
 #        ^next-lgsoar-message-id <id> -
 #        ^next-lgsoar-message-id (+ <id> 1))
-}
-
-sp {global*apply*handle-guessed-word*clean-up-map
-   (state <s> ^operator <o>
-              ^sentence-mapping <sm>)
-   (<o> ^name handle-guessed-word
-        ^sentence.sentence-count <sc>)
-   (<sm> ^sentence-count <sc>)
--->
-   (<s> ^sentence-mapping <sm> -)
 }
 
 sp {elaborate*lgsoar-message-count
