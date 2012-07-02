@@ -167,6 +167,16 @@ sp {global*apply*handle-guessed-word
 #        ^next-lgsoar-message-id (+ <id> 1))
 }
 
+sp {global*apply*handle-guessed-word*clean-up-map
+   (state <s> ^operator <o>
+              ^sentence-mapping <sm>)
+   (<o> ^name handle-guessed-word
+        ^sentence.sentence-count <sc>)
+   (<sm> ^sentence-count <sc>)
+-->
+   (<s> ^sentence-mapping <sm> -)
+}
+
 sp {elaborate*lgsoar-message-count
    (state <s> ^superstate nil)
 -->
