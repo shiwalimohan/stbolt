@@ -3311,6 +3311,7 @@ or (YS+ & {D*u-}) or (GN+ & (DD- or [()])) or U-));
 
 UNKNOWN-WORD.n 
 *noun
+*noun0
 *noun1
 *noun2
 *noun3
@@ -3325,6 +3326,7 @@ UNKNOWN-WORD.n
 
 UNKNOWN-WORD.v 
 *verb
+*verb0
 *verb1
 *verb2
 *verb3
@@ -3339,6 +3341,7 @@ UNKNOWN-WORD.v
 
 UNKNOWN-WORD.a
 *adjective
+*adjective0
 *adjective1
 *adjective2
 *adjective3
@@ -3352,6 +3355,7 @@ UNKNOWN-WORD.a
 : <generic-adjective>;
 
 *nounjective
+*nounjective0
 *nounjective1
 *nounjective2
 *nounjective3

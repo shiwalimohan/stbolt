@@ -145,17 +145,38 @@ sp {preprocess-sentence*propose*implicit-quote
         ^kind interpretation)
 }
 
+# all generic types should be defined in the dictionary *type0 .. *typeN, where
+# N is an upper bound on the sentence length we expect (30?)
+
+# so to assign a generic to a word, we concat the generic type with the word
+# index in the sentence, this allows the system to uniquely identify
+# the-noun-that-was-in-position-2 without having to jump through a ton of hoops
+# to keep a counter of nouns, verbs, etc. in the sentence
+
 sp {preprocess-sentence*apply*implicit-quote
    (state <s> ^name preprocess-sentence
               ^operator.name implicit-quote
               ^implicitly-quoted-word <wd>
               ^sentence.word <wds>)
    (<wds> ^real-wvalue <wd>
+          ^wcount <ct>
           ^parser-wvalue <wd>)
 -->
    (<wds> ^parser-wvalue <wd> -
-          ^parser-wvalue |generic-word.n.3[0]|)
+          ^parser-wvalue (concat |*noun| <ct>))
 }
-# TODO:
-# if any other preprocessing replacements are added, need a replacement
-# incrementation scheme of some sort!
+
+smem --add {
+  (<wd1> ^word red
+         ^parse-class nounjective)
+  (<wd2> ^word square
+         ^parse-class nounjective)
+  (<wd3> ^word get
+         ^parse-class verb-with-direct-object)
+  (<wd4> ^word move
+         ^parse-class verb-with-preposition-and-direct-object
+         ^parse-class verb-with-direct-object
+         ^parse-class verb-with-preposition
+         ^parse-class verb)
+}
+
