@@ -371,7 +371,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		message = "I see multiple examples of '" + objStr + "' and I need clarification";
     	} else if(type.equals("teaching-request")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
-    		message = "I do not perceive '" + objStr + "'\n" + 
+    		message = "I do not know '" + objStr + "'\n" + 
     		"Please give more teaching examples and tell me 'finished' when you are done";
     	}
     	ChatFrame.Singleton().addMessage("Agent: " + message);

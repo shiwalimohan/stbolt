@@ -2,6 +2,8 @@ sp {postprocess-sentence*elaborate*init
    (state <s> ^name postprocess-sentence
               ^superstate.operator.predicates <pred>
               ^top-state.sentence-mapping <map>)
+   (<pred> ^sentence-count <sc>)
+   (<map> ^sentence-count <sc>)
 -->
    (<s> ^predicates <pred> # add ^postprocessed true to this
         ^map <map>)
@@ -21,7 +23,7 @@ sp {postprocess-sentence*apply*finish-postprocessing
               ^top-state <ts>
               ^map <sm>
               ^predicates <pred>)
-   (<ts> ^sentence-mapping <sm>)
+   (<ts> ^sentence-mapping <sm>) # note this can match mappings with other sentence counts-- keep this to clean up guess/skip sentences
 -->
    (<ts> ^sentence-mapping <sm> -)
    (<pred> ^postprocessed true)

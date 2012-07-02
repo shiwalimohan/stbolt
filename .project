@@ -11,13 +11,17 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.soartech.soar.ide.builder</name>
+			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<triggers>full,incremental,</triggers>
 			<arguments>
+				<dictionary>
+					<key>LaunchConfigHandle</key>
+					<value>&lt;project&gt;/.externalToolBuilders/Ant Builder (stbolt).launch</value>
+				</dictionary>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.soartech.soar.ide.nature</nature>
 	</natures>
 </projectDescription>
