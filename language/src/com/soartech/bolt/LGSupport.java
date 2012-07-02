@@ -104,7 +104,7 @@ public class LGSupport implements OutputEventInterface {
 		else {
 			// load the sentence into WM
 			sentenceCount++;
-			originalSentenceToWM(sentence);
+			originalSentenceToWM(sentence.toLowerCase());
 			
 			// Soar rules may modify it
 			
