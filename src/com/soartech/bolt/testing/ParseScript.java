@@ -33,10 +33,12 @@ public class ParseScript {
 				type = ActionType.Agent;
 			} else if(lineType[0].equals("Mentor")) {
 				type = ActionType.Mentor;
-			} else if(lineType[0].equals("Direction")) {
-				type = ActionType.Direction;
-			} else if(lineType[0].equals("Check")) {
-				type = ActionType.Check;
+			} else if(lineType[0].equals("Comment")) {
+				type = ActionType.Comment;
+			} else if(lineType[0].equals("AgentAction")) {
+				type = ActionType.AgentAction;
+			} else if(lineType[0].equals("MentorAction")) {
+				type = ActionType.MentorAction;
 			}
 			
 			if(type == null)
@@ -54,10 +56,13 @@ public class ParseScript {
 			ActionType type = null;
 			switch(lineType) {
 			case '#':
-				type = ActionType.Direction;
+				type = ActionType.Comment;
 				break;
 			case '{':
-				type = ActionType.Check;
+				type = ActionType.AgentAction;
+				break;
+			case '}':
+				type = ActionType.MentorAction;
 				break;
 			case '<':
 				type = ActionType.Agent;

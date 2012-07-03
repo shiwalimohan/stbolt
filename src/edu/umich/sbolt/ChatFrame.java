@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +25,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import sml.Agent;
-import sml.Agent;
-import sml.Identifier;
-import sml.WMElement;
 import sml.smlRunEventId;
 import sml.Agent.RunEventInterface;
 import abolt.lcmtypes.robot_command_t;
@@ -37,11 +35,11 @@ import com.soartech.bolt.testing.Action;
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.ParseScript;
 import com.soartech.bolt.testing.Script;
+import com.soartech.bolt.testing.Util;
 
 import edu.umich.sbolt.world.World;
 
 import edu.umich.sbolt.world.SVSConnector;
-import edu.umich.sbolt.world.World;
 
 public class ChatFrame extends JFrame implements RunEventInterface
 {
@@ -74,7 +72,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
     private List<String> chatMessages = new ArrayList<String>();
     // A list of all the messages currently in the chatArea
     
-    private ArrayList<String> history = new ArrayList<String>();
+    private List<String> history = new ArrayList<String>();
     // A list of all messages typed into the chatField
     
     private int historyIndex = 0;
@@ -208,6 +206,19 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			}
 		});
 		menuBar.add(btnNext);
+		
+		JButton btnSaveScript = new JButton("Save Script");
+		btnSaveScript.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					Util.saveFile(chooser.getSelectedFile(), chatMessages);
+				}
+			}
+		});
+		menuBar.add(btnSaveScript);
        
         setJMenuBar(menuBar);
         
@@ -231,27 +242,30 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	}
     	Action next = script.getNextAction();
     	if(next.getType() == ActionType.Mentor) {
-    		//chatField.setText(next.getAction());
-    		sendSoarMessage(next.getAction());
-    		history.add(next.getAction());
-        	historyIndex = history.size();
-            addMessage("Mentor: " + next.getAction());
+    		chatField.setText(next.getAction());
+//    		sendSoarMessage(next.getAction());
+//    		history.add(next.getAction());
+//        	historyIndex = history.size();
+//          addMessage("Mentor: " + next.getAction());
     	}
     	if(next.getType() == ActionType.Agent) {
     		//check if response is correct
     		String observed = chatMessages.get(chatMessages.size()-1);
     		String expected = next.getAction();
     		if(!observed.contains(expected)) {
-    			addMessage("- Error - Expected: "+expected);
+    			addMessage("    - Error - Expected: "+expected);
     		} else {
-    			addMessage("- Correct -");
+    			addMessage("    - Correct -");
     		}
     	}
-    	if(next.getType() == ActionType.Check) {
-    		addMessage("Check: "+next.getAction());
+    	if(next.getType() == ActionType.Comment) {
+    		addMessage("Comment: "+next.getAction());
     	}
-    	if(next.getType() == ActionType.Direction) {
-    		addMessage("Directions: "+next.getAction());
+    	if(next.getType() == ActionType.AgentAction) {
+    		addMessage("AgentAction: "+next.getAction());
+    	}
+    	if(next.getType() == ActionType.MentorAction) {
+    		addMessage("MentorAction: "+next.getAction());
     	}
     }
     
