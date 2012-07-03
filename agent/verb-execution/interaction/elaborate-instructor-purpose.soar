@@ -44,5 +44,6 @@ sp {elaborate*instructor-message*purpose*case3
    (<m> ^purpose <p>)
    (<p> ^type goal-acquisition
    	^satisfaction <sat>)
-   (<sat> ^learning-event verb-semantic-learning)
+   (<sat> ^learning-event verb-semantic-learning
+   	  ^information <info>)
 }

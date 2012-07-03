@@ -8,10 +8,12 @@ sp {assign-goal*elaborate*state
    (state <s> ^name assign-goal
    	      ^superstate.operator <sop>)
    (<sop> ^name assign-goal
-   	  ^long-term-id <glid>) ### pass verb here :SM
+   	  ^long-term-id <glid>
+	  ^indexed-operator <iop>) 
 -->
   (<s> ^long-term-id <glid>
-       ^desired <d>)
+       ^desired <d>
+       ^indexed-operator <iop>)
 }
 
 ### retrieve the long-term-id corresponding to the goal of the indexed-operator
@@ -30,7 +32,7 @@ sp {assign-goal*unknown-goal
 	      ^smem.result <sres>
 	      ^topstate <ts>)
    (<sres> ^success <glid>) ## correctly retrieved
-   (<glid> -^predicate <any>) ## no predicates in goal
+   (<glid> -^<predicate> <any>) ## no predicates in goal
    (<ts> ^status <stat>)
 -->
    (<stat> ^type unknown-goal)
@@ -41,10 +43,40 @@ sp {assign-goal*elaborate*desired*state
    (state <s> ^name assign-goal
    	      ^desired <d>
 	      ^long-term-id <glid>)
-   (<glid> ^predicate <p1>)
+   (<glid> ^<prep> <p1>)
 -->
-   (<d> ^track-relation <p1>)
+   (<d> ^track-relation <rel>)
+   (<rel> ^prep <prep>)
 }
+
+### connect desired to the objects in the indexed-operator
+sp {assign-goal*elaborate*objects
+   (state <s> ^name assign-goal
+   	      ^desired.track-relation <tr>
+	      ^long-term-id <glid>
+	      ^indexed-operator <iop>)
+   (<glid> ^<prep> <p1>)
+   (<tr> ^prep <prep>)
+   (<p1> ^<parg> <sobj>)
+   (<iop> ^_metadata.map-id.procedural.<varg> <sobj>
+   	  ^<varg> <obj>)
+-->
+   (<tr> ^<parg> <obj>)
+}
+
+
+### if state-no-change, write desired to the superstate
+sp {assign-goal*write*superstate*desired
+   (state <s> ^impasse no-change
+   	      ^attribute state
+	      ^superstate <ss>)
+   (<ss> ^name assign-goal
+   	 ^superstate <sss>
+	 ^desired <d>)
+-->
+   (<sss> ^desired <d>)
+}
+
 
 ### create the desired attribute on the state
 sp {assign-goal*propsoe*retrieve-predicate
@@ -52,7 +84,7 @@ sp {assign-goal*propsoe*retrieve-predicate
    	      ^long-term-id <glid>
 	      ^smem.result <sres>)
    (<sres> ^success <glid>)
-   (<glid> ^predicate <p1>)
+   (<glid> ^<predicate> <p1>)
    (<p1> -^name <any>)
 -->
    (<s> ^operator <op> + >)

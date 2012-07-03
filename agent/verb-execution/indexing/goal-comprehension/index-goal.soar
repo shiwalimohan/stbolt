@@ -33,7 +33,8 @@ sp {propose*create-goal-predicate
    	      ^goal-id <gid>
 	      ^information.relation <rel>
 	      ^bit flip
-	      ^indexed-operator <iop>)
+	      ^indexed-operator <iop>
+	      ^map-id <map>)
    (<rel> ^word <pword>)
    (<gid> -^<pword> <any>)
 -->
@@ -43,4 +44,26 @@ sp {propose*create-goal-predicate
 	 ^information <rel>
 	 ^map-id <map>
 	 ^indexed-operator <iop>)
+}
+
+### store goal predicates
+sp {store*goal-predicate
+   (state <s> ^name index-goal
+   	      ^goal-id <gid>
+	      ^smem.command <scomm>)
+   (<gid> ^<predicate> <rel>)
+-->
+   (<scomm> ^store <rel> <gid>)
+}
+
+### result success
+sp {write*status*topstate
+   (state <s> ^name index-goal
+   	      ^goal-id <gid>
+	      ^information.relation <rel>
+	      ^indexed-operator <iop>)
+   -{(<rel> ^word <pword>)
+    (<gid> -^<pword> <any>)}
+-->
+   (<iop> ^goal <gid>)
 }
