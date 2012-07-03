@@ -135,12 +135,17 @@ public class LGSupport implements OutputEventInterface {
 		for (Identifier id: inputWMEs) {
 			 agent.DestroyWME(id);
 		}
+		inputWMEs.clear();	// AM: If you don't clear this list bad things will happen
 		sentenceCount = -1;
 	}
 	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
 		String sentence = preprocessedSentenceFromWM(pWmeAdded);
+		if(sentence == null){
+			System.err.println("NULL SENTENCE ON OL");
+			return;
+		}
 		sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
 		
 		// call LG Parser
@@ -157,8 +162,16 @@ public class LGSupport implements OutputEventInterface {
 	
 	private String preprocessedSentenceFromWM(WMElement pWmeAdded) {
 		String result = "";
-		
+		if (pWmeAdded == null) {
+			System.err.println("LGSupport.preprocessedSentenceFromWM: pWmeAdded is null");
+			return null;
+		}
 		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
+		String param = pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count");
+		if (param == null) {
+			System.err.println("LGSupport.preprocessedSentenceFromWM: no sentence-count");
+			return null;
+		}
 		
 		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
 		

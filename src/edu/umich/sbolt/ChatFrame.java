@@ -240,7 +240,9 @@ public class ChatFrame extends JFrame implements RunEventInterface
     		addMessage("Script finished.");
     		return;
     	}
+    	String observed = chatMessages.get(chatMessages.size()-1);
     	Action next = script.getNextAction();
+    	
     	if(next.getType() == ActionType.Mentor) {
     		chatField.setText(next.getAction());
 //    		sendSoarMessage(next.getAction());
@@ -248,9 +250,11 @@ public class ChatFrame extends JFrame implements RunEventInterface
 //        	historyIndex = history.size();
 //          addMessage("Mentor: " + next.getAction());
     	}
+    	if(observed != null && observed.contains("Agent:") && next.getType() != ActionType.Agent) {
+    		addMessage("    - Error - was not expecting Agent response");
+    	}
     	if(next.getType() == ActionType.Agent) {
     		//check if response is correct
-    		String observed = chatMessages.get(chatMessages.size()-1);
     		String expected = next.getAction();
     		if(!observed.contains(expected)) {
     			addMessage("    - Error - Expected: "+expected);
