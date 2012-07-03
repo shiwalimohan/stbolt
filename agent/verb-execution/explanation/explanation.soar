@@ -6,7 +6,8 @@ sp {topstate*propose*explain*operator
    (state <s> ^topstate <s>
    	      ^interaction.stack.segment <top>
 	      -^operator.name push-segment
-	      -^status.performed.learning-event explanation)
+	      -^status.performed.learning-event explanation
+	      -^status.type unknown-goal)
    (<top> ^purpose <p>
    	  ^next <next>)
    (<p> ^type explanation)
@@ -68,21 +69,22 @@ sp {explain*copy*retrieved*episode*self
 
 
 ## in the explanation state, generate the desired state
-#sp {explain*propose*assign-goal
-#   (state <s> ^name explain
-#   	      ^segment.purpose.indexed-operator <iop>
-#	      -^desired <any>)
-#   (<iop> ^goal-lid <glid>)
-#-->
-#   (<s> ^operator <op> + >)
-#   (<op> ^name assign-goal
-#   	 ^long-term-id <glid>)
-#}
+sp {explain*propose*assign-goal
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <iop>
+	      -^desired <any>)
+   (<iop> ^_metadata.map-id.goal <glid>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name assign-goal
+   	 ^long-term-id <glid>)
+}
 
 ### in the generated state, propose the verb on the segment
 sp {explain*propose*segment-verb
    (state <s> ^name explain
-   	      ^segment <seg>)
+   	      ^segment <seg>
+	      ^desired <any>)
    (<seg> ^purpose <p>)
    (<p> ^indexed-operator <map-op>) 
    (<map-op> ^name <name>)

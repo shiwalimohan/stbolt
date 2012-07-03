@@ -60,17 +60,17 @@ sp {apply*index*argument*success
 
 ## we have grounded arguments to objects. now pick the ones that are associated with the indexed-operator
 
-sp {
-   (state <s> ^name create-goal-predicate
-   	      ^indexed-operator <iop>
-	      ^map-id.procedural <pid>
-	      ^preposition-id <prep-id>
-	      ^information <info>)
-   (<info> ^{<argattr> <> word} <arg>)
-   (<prep-id> ^<argattr> <obj>)
-   (<iop> ^<argument> <obj>)
-   (<pid> ^<argument> <obj-id>)
--->
+# sp {
+#    (state <s> ^name create-goal-predicate
+#    	      ^indexed-operator <iop>
+# 	      ^map-id.procedural <pid>
+# 	      ^preposition-id <prep-id>
+# 	      ^information <info>)
+#    (<info> ^{<argattr> <> word} <arg>)
+#    (<prep-id> ^<argattr> <obj>)
+#    (<iop> ^<argument> <obj>)
+#    (<pid> ^<argument> <obj-id>)
+# -->
 	   
 
 

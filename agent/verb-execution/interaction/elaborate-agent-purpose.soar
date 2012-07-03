@@ -29,4 +29,16 @@ sp {elaborate*agent-purpose*next-subaction
    (<sat> ^dialog-event verb-command
    	  ^dialog-event successful-completion)
 }
-	     
+
+## case 3: agent does not know the goal of the verb
+sp {elaborate*agent-purpose*get-goal
+   (state <s> ^topstate <s>
+   	      ^status <status>)
+   (<status> ^type unknown-goal)
+-->
+   (<status> ^purpose <p>)
+   (<p> ^type get-goal
+        ^parameters.message.type get-goal
+   	^satisfaction <sat>)
+   (<sat> ^dialog-event goal-relation-message)
+}	     

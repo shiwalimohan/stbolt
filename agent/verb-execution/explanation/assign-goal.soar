@@ -50,7 +50,7 @@ sp {assign-goal*elaborate*desired*state
 sp {assign-goal*propsoe*retrieve-predicate
    (state <s> ^name assign-goal
    	      ^long-term-id <glid>
-	      ^smem.result <sres>
+	      ^smem.result <sres>)
    (<sres> ^success <glid>)
    (<glid> ^predicate <p1>)
    (<p1> -^name <any>)
@@ -65,7 +65,7 @@ sp {assign-goal*propsoe*retrieve-predicate
 sp {retrieve-predicate*retrieve-predicate
    (state <s> ^name retrieve-predicate
    	      ^superstate.operator.predicate <p1>
-	      ^smem.command <scomm>
+	      ^smem.command <scomm>)
   -->
    (<scomm> ^retrieve <p1>)
 }

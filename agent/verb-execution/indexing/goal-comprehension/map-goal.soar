@@ -16,4 +16,3 @@ sp {propose*map*goal
 	 ^indexed-operator <iop>
 	 ^category indexing)
 }
-

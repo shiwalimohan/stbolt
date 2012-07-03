@@ -9,6 +9,7 @@ sp {elaborate*generate*operator
 -->
    (<s> ^procedural-id <pid>
    	^linguistic-id <lid>
+	^map-id <map>
 	^cue <cue>)
 }
 
@@ -19,7 +20,7 @@ sp {generate*operator*name
 -->
    (<s> ^index-operator <op>)
    (<op> ^name <op-name>)
-}
+  }
 
 sp {generate*operator*arguments
    (state <s> ^name generate-operator
@@ -32,7 +33,7 @@ sp {generate*operator*arguments
    (<pid> ^{<arg> <> spatial-relationship} <lobj>)
 -->
    (<op> ^<arg> <obj>)
-#   (<obj> ^_ltid <lobj>)
+  #   (<obj> ^_ltid <lobj>)
 }
 
 #### associate spatial-relationships
@@ -63,7 +64,7 @@ sp {copy*map-id*metadata
    	      ^index-operator <op>
 	      ^map-id <map>)
 -->
-   (<map> ^_metadata <met>)
+   (<op> ^_metadata <met>)
    (<met> ^map-id <map>)
 }
 

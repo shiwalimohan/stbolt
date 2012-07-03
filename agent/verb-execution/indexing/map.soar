@@ -38,7 +38,7 @@ sp {elaborate*attribute*match
 sp {elaborate*operator*match
    (state <s> ^operator <op> + 
    	      ^indexed-operator <map-op> <> <op>)
-   (<map-op> ^{<attr> <> applied <> information <> spatial-relationship} <val>)
+   (<map-op> ^{<attr> <> applied <> information <> spatial-relationship <> _metadata} <val>)
    (<op> -^matched <attr>
    	 ^category << primitive-action composite-action >>)
 -->
