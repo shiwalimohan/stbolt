@@ -78,7 +78,7 @@ sp {interpret-message*propose*interpret-goal-relation-message
          ^inner2 <i2>
         -^ignored)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + =)
    (<o> ^name interpret-goal-relation-message
         ^predicates <pred>
         ^objects <ob>)
