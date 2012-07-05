@@ -59,7 +59,7 @@ sp {elaborate*proposed*add-arg*debug-info*single
   (<wleft> ^wcount <left> ^wvalue <leftword>)
   (<wright> ^wcount <right> ^wvalue <rightword>)
 -->
-  (<o> ^debug-info (concat |on reference for "| <wval> |", adding "| <arg-wvalue> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+  (<o> ^debug-info (concat |on referent for "| <wval> |", adding "| <arg-wvalue> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
        ^base-debug-added true)
 }
 
@@ -80,7 +80,7 @@ sp {elaborate*proposed*add-arg*debug-info*constant-deep
   (<wleft> ^wcount <left> ^wvalue <leftword>)
   (<wright> ^wcount <right> ^wvalue <rightword>)
 -->
-  (<o> ^debug-info (concat |on reference for "| <wval> |", adding | <feat> | "| <word> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+  (<o> ^debug-info (concat |on referent for "| <wval> |", adding | <feat> | "| <word> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
        ^base-debug-added true)
 }
 
@@ -101,7 +101,7 @@ sp {elaborate*proposed*add-arg*debug-info*constant-surface
   (<wleft> ^wcount <left> ^wvalue <leftword>)
   (<wright> ^wcount <right> ^wvalue <rightword>)
 -->
-  (<o> ^debug-info (concat |on reference for "| <wval> |", adding | <arg> | as | <aug> | due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
+  (<o> ^debug-info (concat |on referent for "| <wval> |", adding "| <arg> |" as | <aug> |, due to | <ltype> | link from "| <leftword> |" to "| <rightword> |"|)
        ^base-debug-added true)
 }
 sp {elaborate*proposed*add-arg*debug-info*side

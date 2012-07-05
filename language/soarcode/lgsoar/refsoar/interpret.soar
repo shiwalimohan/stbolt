@@ -326,7 +326,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant -^arg.feature)
    (<main> ^ref <main-ref>)
 -->
-   (<main-ref> ^<aug> <arg> +)
+   (<main-ref> ^<aug> <cons-arg> +)
    (<link> ^handled-as <aug> +) 
 }
 
