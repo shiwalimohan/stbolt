@@ -13,7 +13,7 @@ public class Util {
 		try {
 			Writer output = new BufferedWriter(new FileWriter(f));
 			for(String str : history)
-				output.write(str);
+				output.write(str+"\n");
 			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
