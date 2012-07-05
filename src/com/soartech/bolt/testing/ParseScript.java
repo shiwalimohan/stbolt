@@ -42,8 +42,10 @@ public class ParseScript {
 				type = ActionType.MentorAction;
 			}
 			
-			if(type == null && prev != null)
-				type = prev;
+			if(type == null && prev != null) {
+				script.addAction(new Action(type, scriptLine.trim()));
+				continue;
+			}
 			
 			if(type == null)
 				throw new RuntimeException("Invalid script line: "+scriptLine);
