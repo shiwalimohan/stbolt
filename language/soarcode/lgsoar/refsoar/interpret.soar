@@ -423,6 +423,19 @@ sp {interpret*propose*P*as*internal
 		 ^kind single ^order <main-count> ^level-two-order <int-count>)
 }
 
+# SBW 7/5/2012: Handle "the stove is on", but also "pick up the phone"
+#                                   ^K-link             ^K-link
+sp {interpret*propose*K*as*internal
+	(state <s> ^current-sentence <lgs>)
+	(<lgs> ^links.link <link> ^words.word <int> <main>)
+	(<main> ^ref <ref> ^wcount <main-count> ^wvalue << is are am were be was >>)
+	(<int> ^wcount <int-count>)
+	(<link> ^ltype K ^lwleft <main-count> ^lwright <int-count> -^handled-as)
+-->
+	(<s> ^operator <o> +)
+	(<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
+		 ^kind single ^order <main-count> ^level-two-order <int-count>)
+}
 
 sp {|interpret*propose*A*as*adj-auging-noun|
     (state <s> ^current-sentence <cs>)
