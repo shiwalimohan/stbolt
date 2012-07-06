@@ -83,9 +83,9 @@ sp {activate*create-space*in-subgoal*current-sentence
 
 sp {activate*create-space*in-subgoal*other-sentence
    (state <s> ^name interpret-sentences
-              ^superstate.operator.sentence <sent>
+              ^any-sentence <sent>
               ^any-sentence.sentence-count <count>)
-   (<sent> ^sentence-count < <count>)
+   (<sent> ^sentence-count > <count>)
 -->
    (<s> ^other-sentence <sent>)
 }

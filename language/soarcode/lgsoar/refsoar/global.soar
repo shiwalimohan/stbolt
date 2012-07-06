@@ -78,7 +78,7 @@ sp {global*elaborate*generate-predicates*failed
 
 sp {global*propose*find-root
 	(state <s> ^current-sentence <cs> ^root <old>)
-	(<cs> ^links.link <link> ^words.word <child> <parent>)
+	(<cs> ^links.link <link> ^words.word <child> <parent> -^inhibited-link <link>)
 	(<child> ^wcount <old> ^wvalue <oldVal>)
 	(<parent> ^wcount <new> ^wvalue <newVal>)
 	(<link> ^lwleft <old> ^lwright <new>)
@@ -86,8 +86,49 @@ sp {global*propose*find-root
 					           NR NS NT NW Q S SX TD TH TI TM TO W WR Y YP YS  >> <type>})
 -->
 	(<s> ^operator <o> + >)
-	(<o> ^name find-root ^priority 170 ^new <new> 
+	(<o> ^name find-root ^priority 170 ^new <new> ^link <link> 
        ^debug-info (concat |finding root verb: traversed | <type> | link from "| <oldVal> |" to "| <newVal> |"|))
+}
+
+# use find-root ties to identify sentence-level conjunctions and split off a new sentence
+# e.g.,        "pick up the block and put it over there" -> "pick up the block" "put it over there"
+# LEFT-WALL-Wi-
+#          ---------------Wi---------- <- find root tries to follow both Wi links
+# tie should split off another sentence with the leftmost link inhibited, and
+# inhibit the rightmost in the current sentence
+sp {global*propose*split-sentence
+	(state <s> ^current-sentence <cs> ^root <old>)
+	(<cs> ^links.link <link> <link2>
+      -^inhibited-link <link>
+      -^inhibited-link <link2>)
+	(<link> ^lwleft <old> ^lwright <min>)
+	(<link> ^ltype << AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
+					           NR NS NT NW Q S SX TD TH TI TM TO W WR Y YP YS  >> )
+	(<link2> ^lwleft <old> ^lwright > <min>)
+	(<link2> ^ltype << AN D A AA AF AM AN BW D DD DG DP DT E EA EC EE EI EN EZ G GN H I MF
+					           NR NS NT NW Q S SX TD TH TI TM TO W WR Y YP YS  >> )
+-->
+	(<s> ^operator <o> +)
+	(<o> ^name split-sentence ^priority 175 ^leftmost-link <link> ^rightmost-link <link2>)
+}
+
+sp {global*apply*split-sentence
+   (state <s> ^problem-space lgsoar
+              ^operator <o> 
+              ^current-sentence <cs>)
+   (<o> ^name split-sentence
+        ^leftmost-link <left>
+        ^rightmost-link <right>)
+   (<cs> ^sentence-count <sc>
+         ^words <words>
+         ^links <links>)
+-->
+   (<s> ^any-sentence <split>)
+   (<split> ^words <words>
+            ^links <links>
+            ^sentence-count (+ <sc> .5) # note this means we can't resplit
+            ^inhibited-link <left>) 
+   (<cs> ^inhibited-link <right>)
 }
 
 sp	{global*apply*find-root
