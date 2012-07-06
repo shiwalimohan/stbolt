@@ -27,7 +27,7 @@ sp {global*propose*start-next-sentence
          ^current-sentence.sentence-count <count>
          ^other-sentence <os>)
    (<os> ^sentence-count { <next-count> > <count> })
-  -{(<ss> ^other-sentence.sentence-count < <next-count>)}
+  -{(<ss> ^other-sentence.sentence-count {< <next-count> > <count>})}
 -->
    (<ss> ^operator <o> + >)
    (<o> ^name start-next-sentence ^priority -1
@@ -221,6 +221,17 @@ sp {global*apply*processing-complete*cleanup
 sp {global*apply*processing-complete
    (state <s> ^operator.name processing-complete)
 -->
+   (halt)
+}
+
+sp {global*halt-on-deep-snc
+   (state <s> ^impasse no-change
+              ^attribute state
+              ^superstate <ss>)
+   (<ss> ^impasse no-change
+         ^attribute state)
+-->
+   (write (crlf) |Halting due to multiple state no-change.|)
    (halt)
 }
 

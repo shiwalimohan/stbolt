@@ -44,7 +44,7 @@
 
 
 sp {activate*create-space*in-substate
-   (state <s> ^name interpret-sentence)
+   (state <s> ^name interpret-sentences)
 -->
    (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp>)
@@ -56,43 +56,47 @@ sp {activate*create-space*in-substate
                   ^kind first +, second +, third +, verb +)
 }
 
-sp {activate*create-space*in-subgoal*current-sentence
-   (state <s> ^name interpret-sentence
-              ^refsets <rs>
+sp {activate*create-space*in-subgoal*any-sentence
+   (state <s> ^name interpret-sentences
               ^superstate.operator.sentence <sent>)
-              # operator proposal assures this is minimal-count and a valid
-              # parse
-   (<sent> ^sentence-count <count>)
 -->
-   (<s> ^current-sentence <copy> ^current-refset <r>)
-   (<rs> ^refs <r>)
-   (<r> ^count <count>)
+   (<s> ^any-sentence <copy>)
    (<copy> ^source-sentence <sent>)
 }
 
-sp {activate*create-space*in-subgoal*other-sentence
-   (state <s> ^name interpret-sentence
-              ^superstate.operator.sentence <sent>
-              ^top-state.io.input-link.lg.parsed-sentence {<> <sent> <ps>})
-   (<ps> ^parse-valid true)
+# current/next sentences are set up here, and later advanced by
+# start-next-sentence in global.soar
+#
+# these init rules keep matching, but their results might be overwritten by
+# start-next-sentence
+sp {activate*create-space*in-subgoal*current-sentence
+   (state <s> ^name interpret-sentences
+              ^refsets <rs>
+              ^any-sentence <sent>
+             -^any-sentence.sentence-count < <count>)
+   (<sent> ^sentence-count <count>)
 -->
-   (<s> ^other-sentence <copy>)
-   (<copy> ^source-sentence <ps>)
+   (<s> ^current-sentence <sent> ^current-refset <r>)
+   (<rs> ^refs <r>)
+   (<r> ^count <count>)
 }
 
-sp {activate*create-space*in-subgoal*any-sentence
-   (state <s> ^name interpret-sentence
-              ^<< current-sentence other-sentence >> <sent>)
+sp {activate*create-space*in-subgoal*other-sentence
+   (state <s> ^name interpret-sentences
+              ^superstate.operator.sentence <sent>
+              ^any-sentence.sentence-count <count>)
+   (<sent> ^sentence-count < <count>)
 -->
-   (<s> ^any-sentence <sent>)
+   (<s> ^other-sentence <sent>)
 }
+
 
 # deep copies for sentence parses
 # this is because LGSoar will add ref structures to the words,
 # and doing that in a subgoal to a topstate structure will invoke the GDS
 
 sp {activate*elaborate*sentence-copy*init
-   (state <s> ^name interpret-sentence
+   (state <s> ^name interpret-sentences
               ^any-sentence <sent>)
    (<sent> ^source-sentence.sentence-count <count>)
 -->
@@ -103,7 +107,7 @@ sp {activate*elaborate*sentence-copy*init
 }
 
 sp {activate*elaborate*sentence-copy*word
-   (state <s> ^name interpret-sentence
+   (state <s> ^name interpret-sentences
               ^any-sentence <sent>)
    (<sent> ^source-sentence.words.word <wd>
            ^words <cwd>)
@@ -116,7 +120,7 @@ sp {activate*elaborate*sentence-copy*word
 }
 
 sp {activate*elaborate*sentence-copy*link
-   (state <s> ^name interpret-sentence
+   (state <s> ^name interpret-sentences
               ^any-sentence <sent>)
    (<sent> ^source-sentence.links.link <lk>
            ^links <clk>)
@@ -133,7 +137,7 @@ sp {activate*elaborate*sentence-copy*link
 }
 
 sp {activate*elaborate*sentence-copy*link*typesub
-   (state <s> ^name interpret-sentence
+   (state <s> ^name interpret-sentences
               ^any-sentence <sent>)
    (<sent> ^source-sentence.links.link <lk>
            ^links <clk>)
