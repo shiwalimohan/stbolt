@@ -71,7 +71,8 @@ sp {elaborate*interpret-sentences*sentences
    (state <s> ^superstate nil
               ^io.input-link.lg.parsed-sentence <sent>
               ^operator <o1> +)
-   (<sent> ^parse-valid true)
+   (<sent> ^parse-valid true
+          -^final-predicates <fp>)
    (<o1> ^name interpret-sentences)
 -->
    (<o1> ^sentence <sent>)
