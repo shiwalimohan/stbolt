@@ -25,13 +25,13 @@ sp {realize*propose*ref*as*new-idea
 }
 
 sp {realize*apply*ref*as*new-idea
-	(state <s> ^operator <o> ^model <m>)
+	(state <s> ^operator <o> ^model <m> ^current-sentence.sentence-count <sc>)
 	(<o> ^name new-idea ^ref <ref>)
 	(<ref> ^head <head>)
 	(<head> ^wvalue <nuc> ^wcount <wcount>)
 -->
-	(<m> ^idea <new> +)
-	(<new> ^nuc <nuc> ^wcount <wcount> +)
+	(<m> ^idea <new>)
+	(<new> ^nuc <nuc> ^wcount <wcount> ^sentence-count <sc>)
 	(<ref> ^pointer <new>)
 }
 

@@ -7,10 +7,12 @@ sp {global*apply*generate-predicates*goal-predicate
    (<idea> ^aug <aug>
           -^annotation pred-adj/noun)
    (<aug> ^annotation copula
+          ^sentence-count <sc>
           ^annotation pred-adj/noun-tested
           ^infl << should must >>)
 -->
    (<fp> ^predicate <pred>)
    (<pred> ^outer goal
-           ^inner1 <idea>)
+           ^inner1 <idea>
+           ^originating-sentence <sc>)
 }

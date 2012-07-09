@@ -11,12 +11,12 @@ sp {global*apply*generate-predicates*output*ext*imperative
     (<rf> ^rooted-in <something> ^head <some>)
     (<o> ^name generate-predicates)
     (<mod> ^idea <idea>)
-    (<idea> -^annotation imperative -^ext <extvalx> ^wcount 1 ^nuc {<> is <> was <> are <> were <nucval>})
+    (<idea> -^annotation imperative -^ext <extvalx> ^wcount 1 ^nuc {<> is <> was <> are <> were <nucval>} ^sentence-count <sc>)
     # rule out bare-NP subjects of intransitives
     (<idea> -^aug.ext <idea>)
 -->
-    (<mod> ^idea <newm> +)
-    (<newm> ^nuc HEARER + ^annotation imperative +)
-    (<idea> ^ext <newm> +)
+    (<mod> ^idea <newm>)
+    (<newm> ^nuc HEARER ^annotation imperative ^sentence-count <sc>)
+    (<idea> ^ext <newm>)
 }
 
