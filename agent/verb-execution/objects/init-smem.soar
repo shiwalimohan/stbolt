@@ -1,11 +1,15 @@
 smem --add {
 	# Categories
    (<c0> ^type word2cat ^word category ^category category) # How meta is this!
-   (<c1> ^type word2cat ^word color ^category category)
-   (<c2> ^type word2cat ^word shape ^category category)
-   (<c3> ^type word2cat ^word size ^category category)
-   (<c4> ^type word2cat ^word name ^category category)
-   (<c5> ^type word2cat ^word generic ^category category)
+   (<c1> ^type word2cat ^word color ^category visual)
+   (<c2> ^type word2cat ^word shape ^category visual)
+   (<c3> ^type word2cat ^word size ^category visual)
+   (<c4> ^type word2cat ^word name ^category linguistic)
+   (<c5> ^type word2cat ^word generic ^category linguistic)
+   (<c6> ^type word2cat ^word firmness ^category measurable)
+   (<c7> ^type word2cat ^word visual ^category property-type)
+   (<c8> ^type word2cat ^word linguistic ^category property-type)
+   (<c9> ^type word2cat ^word measurable ^category property-type)
 
    # Color
 #   (<v11> ^type word2cat ^word red ^category color)
@@ -44,14 +48,3 @@ smem --add {
 	(<v48> ^type word2cat ^word table ^category name)
 	(<v49> ^type word2cat ^word garbage ^category name)
 }
-
-# Example of how to prestore labels
-#smem --add{
-#   (<v1> ^type label-map ^word sphere ^category shape ^label shape-sphere)
-#   (<v2> ^type label-map ^word green ^category color ^label color-green)
-#   (<v3> ^type label-map ^word blue ^category color ^label color-blue)
-#   (<v5> ^type label-map ^word red ^category color ^label color-red)
-#   (<v6> ^type label-map ^word yellow ^category color ^label color-yellow)
-#   (<v7> ^type label-map ^word rectangle ^category shape ^label shape-rectangle)
-#   (<v4> ^type label-map ^word cylinder ^category shape ^label shape-cylinder)
-#}

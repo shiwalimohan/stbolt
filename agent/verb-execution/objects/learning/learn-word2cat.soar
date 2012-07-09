@@ -4,13 +4,74 @@
 #	   ^parameters.category <category>
 #      ^parameters.word <word>)
   
+sp {learn-word2cat*propose*lookup-category
+   (state <s> ^topstate <s>
+              ^interaction.stack.segment.purpose <p>)
+   (<p> ^type learn-word2cat
+	   	^parameters <params>)
+   (<params> ^category <word>
+            -^cat-type)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name lookup-smem
+        ^category smem
+        ^ask-user false
+        ^lookup-type category
+        ^query <q>
+        ^desired.category true)
+   (<q> ^type word2cat ^word <word> ^category <cat>)
+}
+
+# Copy the result
+sp {learn-word2cat*apply*lookup-category*success
+   (state <s> ^topstate <s>
+              ^operator <o>
+              ^interaction.stack.segment.purpose.parameters <params>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^result {<result> <> failure})
+-->
+   (<params> ^cat-type <result>)
+}
+
+# Failure - ask the user
+sp {learn-word2cat*apply*lookup-category*failure
+   (state <s> ^topstate <s>
+              ^operator <o>
+              ^interaction.stack.segment.purpose.parameters <params>
+              ^status <status>)
+   (<params> ^category <word>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^result failure)
+-->
+  (<status> ^type category-of-word
+         ^state-name topstate
+         ^purpose <p>)
+   (<p> ^type category-of-word
+        ^context <context>
+        ^parameters <params>
+        ^satisfaction.dialog-event object-message)
+   # Segment context - the word being asked about
+   (<context> ^cause category-of-word-query
+              ^word <word>)
+   # Segment parameters - A message to send 
+   (<params> ^message <msg>)
+   (<msg> ^type category-of-property
+          ^originator agent
+          ^fields.word <word>)
+}
+
+
 # Proposes learn-word2cat when the top segment on the interaction stack has the purpose of learning a value
 sp {propose*learn-word2cat
    (state <s> ^topstate <s>
               ^interaction.stack.segment.purpose <p>)
    (<p> ^type learn-word2cat
-	   	^parameters.category <cat>
-      	^parameters.word <word>)
+	   	^parameters <params>)
+   (<params> ^category <cat>
+      		^word <word>
+        	^cat-type)
 -->
    (<s> ^operator <o> +)
    (<o> ^name learn-word2cat

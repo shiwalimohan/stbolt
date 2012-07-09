@@ -1,15 +1,15 @@
-# Knows a query is processed if there is a success or failure result
+# If reutrn-all false 
 sp {lookup-smem*propose*complete-lookup-smem
    (state <s> ^name lookup-smem
-              ^smem <smem>)
-   (<smem> ^command.query <query>
-           ^result.{<< success failure >>} <query>)
+              ^return-all false
+              ^result )
 -->
    (<s> ^operator <o> +)
    (<o> ^name complete-lookup-smem
-        ^category smem
-        ^query <query>)
+        ^category smem)
 }
+
+
 
 # Remove the query from the smem.command link
 sp {lookup-smem*apply*complete-lookup-smem*remove*query

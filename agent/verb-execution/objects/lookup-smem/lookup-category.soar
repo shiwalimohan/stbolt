@@ -11,17 +11,6 @@
 # Optional paramerter (<o> ^ask-user true) will cause the agent
 #   to ask the user if the category of a word is unknown
 
-# The category is cached in working memory, use it
-sp {apply*lookup-smem*category*working-mem
-   (state <s> ^operator <o>
-              ^topstate.mappings.word2cat <w2c>)
-   (<o> ^name lookup-smem
-        ^lookup-type category
-        ^query.word <word>)
-   (<w2c> ^<word> <cat>)
--->
-   (<o> ^result <cat>)
-}
 
 # If this is a new word with an unknown category ask the user
 sp {apply*lookup-smem*category*failure*new-interaction

@@ -25,6 +25,8 @@ public class AgentMessageParser
             message = translateAttributePresenceQuestion(fieldsId);
         } else if(type.equals("category-of-word")){
             message = translateCategoryQuestion(fieldsId);
+        } else if(type.equals("category-of-property")){
+            message = translateCategoryPropertyQuestion(fieldsId);
         } else if(type.equals("describe-object")){
             message = translateDescription(fieldsId);
         } else if(type.equals("dont-know")){
@@ -98,6 +100,11 @@ public class AgentMessageParser
     private static String translateCategoryQuestion(Identifier id){
         String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
         return String.format("What kind of attribute is %s?", word);
+    }
+
+    private static String translateCategoryPropertyQuestion(Identifier id){
+        String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+        return String.format("What type of property is %s?", word);
     }
     
     private static String translateValueQuestion(Identifier id){

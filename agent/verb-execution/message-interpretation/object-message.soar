@@ -66,7 +66,7 @@ sp {apply*push-object-message*learn-word2cat
    (<o> ^name push-object-message
         ^message <msg>
         ^specifier INDEF
-        ^object.word {<category> <> <word>}
+        ^object.word {<category> <> <word> <> property <> one}
        -^relation)
    (<msg> ^context <context>)
    (<context> ^cause category-of-word-query

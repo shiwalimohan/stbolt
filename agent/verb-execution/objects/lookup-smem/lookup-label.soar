@@ -8,18 +8,6 @@
 #   (<q> ^type label-map ^word <word> ^category <cat> ^label l32)
 # Both word and category are specified
 
-# The label is cached in working memory, use it
-sp {lookup-smem*label*working-mem
-   (state <s> ^operator <o>
-              ^topstate.mappings.label-map <lm>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.word <word>
-        ^query.category <cat>)
-   (<lm> ^<word>.<cat> <label>)
--->
-   (<o> ^result <label>)
-}
 
 # Create the new label
 sp {lookup-smem*label*failure*create*new-label
