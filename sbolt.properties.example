@@ -1,8 +1,9 @@
-agent = agent/verb-execution/verb-execution.soar
+agent = agent/verb-execution/explanation-agent.soar
+smem-source = agent/verb-execution/smem_source.soar
 
 enable-lgsoar = true
-lgsoar-productions = lgsoar/soarcode/bolt-lgsoar.soar
-lgsoar-dictionary = lgsoar/data/link
+language-productions = language/soarcode/load.soar
+lgsoar-dictionary = language/data/link
 
 decision-throttle-ms = 10
 

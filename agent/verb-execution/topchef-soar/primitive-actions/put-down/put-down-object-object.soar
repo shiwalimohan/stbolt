@@ -36,11 +36,12 @@ sp {propose*svs*lookup-preposition*object
    (state <s> ^name op_put-down-object-object
    	      ^io
 	      ^spatial-relationship <rel>
-	      -^found-prep <fprep>)
+	      -^found-prep <fprep>
+         ^projection-result)
 -->
-  (<s> ^operator <op> +)
+  (<s> ^operator <op> + >)
   (<op> ^name lookup-preposition
-  	^type <rel>)
+  	^type <rel> ^category svs)
 }
 ## determine the location x,y,z using SVS
 sp {propose*svs*find-projection*object
@@ -49,10 +50,10 @@ sp {propose*svs*find-projection*object
    	      ^argument1 <obj>
 	      ^argument2 <loc>
 	      ^spatial-relationship <rel>
-	      ^found-prep <fprep>
-	      -^projection-result)
+       -^projection-result
+	      )
 -->
-   (<s> ^operator <op> +)
+   (<s> ^operator <op> + >)
    (<op> ^name find-projection
    	^a <obj>
 	^b <loc>

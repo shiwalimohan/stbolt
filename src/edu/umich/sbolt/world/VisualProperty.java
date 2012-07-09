@@ -1,22 +1,8 @@
 package edu.umich.sbolt.world;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import edu.umich.sbolt.InputLinkHandler;
-
-import abolt.lcmtypes.categorized_data_t;
-import abolt.lcmtypes.category_t;
-import abolt.lcmtypes.object_data_t;
-import sml.FloatElement;
-import sml.Identifier;
-import sml.IntElement;
-import sml.StringElement;
-import sml.WMElement;
+import java.util.*;
+import abolt.lcmtypes.*;
+import sml.*;
 
 /**
  * A category for each object, which contains several possible labels and their confidences

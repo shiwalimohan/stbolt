@@ -1,0 +1,38 @@
+# run through message interpretation without the rest of the BOLT system
+source lgsoar/load.soar
+source bolt-specific/load.soar
+
+sp {elaborate*print-structure
+   (state <s> ^nl.input-link.message <m>)
+-->
+   (write (crlf) |message structure:| (crlf) (cmd print --depth 30 --tree <m>))
+   (halt)
+}
+
+sp {elaborate*print-guessed-word
+   (state <s> ^io.output-link.guess-message <g>)
+   (<g> ^response <r>
+        ^word <w>)
+-->
+   (write (crlf) <r> <w>)
+   (halt)
+}
+
+sp {elaborate*state-name
+   (state <s> ^superstate.operator.name <nm>)
+-->
+   (<s> ^name <nm>)
+}
+
+sp {elaborate*nli
+   (state <s> ^superstate nil)
+-->
+   (<s> ^nl.input-link <nli>)
+}
+
+sp {elaborate*top-state
+   (state <s> ^superstate nil)
+   (state <s2>)
+-->
+   (<s2> ^top-state <s>)
+}

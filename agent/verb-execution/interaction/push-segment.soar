@@ -27,6 +27,7 @@ sp {push-segment*create-segment
    (<seg> ^originator <init>
     	  ^purpose <np>
        ^info <info>  #JK
+       ^context <context> #AM: Information about why the segment was initiated
 	  ^id ( + <id> 1)
 	  ^next <prev-segment>
 	  ^epmem-id <eid>
@@ -44,6 +45,16 @@ sp {push-segment*purpose*copy-parameters
          ^purpose.parameters.<param-arg> <param-val>)
 -->
    (<params> ^<param-arg> <param-val>)
+}
+
+sp {push-segment*apply*copy-context
+   (state <s> ^name push-segment
+              ^superstate.operator <op>
+              ^segment.context <context>)
+   (<op> ^name push-segment
+         ^purpose.context.<att> <val>)
+-->
+   (<context> ^<att> <val>)
 }
 
 sp {push-segment*create-satisfaction

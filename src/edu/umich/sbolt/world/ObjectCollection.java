@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import abolt.lcmtypes.object_data_t;
 import abolt.lcmtypes.observations_t;
 import sml.Identifier;
@@ -29,16 +26,10 @@ public class ObjectCollection implements IInputLinkElement
     // True if a new observations_t has arrived since the last update
     private boolean hasChanged;
     
-    Set<Integer> svsObjectsToRemove;
-    
-    private World world;
-    
-    public ObjectCollection(World world){
+    public ObjectCollection(){
         objectsId = null;
-        svsObjectsToRemove = new HashSet<Integer>();
         objects = new HashMap<Integer, WorldObject>();
         hasChanged = false;
-        this.world = world;
     }
     
 
@@ -51,7 +42,9 @@ public class ObjectCollection implements IInputLinkElement
         
         if(hasChanged){
             for(WorldObject object : objects.values()){
-                object.updateInputLink(objectsId);
+            	synchronized(object){
+                    object.updateInputLink(objectsId);
+            	}
             }
         }
         hasChanged = false;
@@ -71,17 +64,22 @@ public class ObjectCollection implements IInputLinkElement
     
     public synchronized void newObservation(observations_t observation){
     	Set<Integer> objectsToRemove = new HashSet<Integer>();
-        Set<Integer> observedIds = new HashSet<Integer>();
+    	for(WorldObject object : objects.values()){
+    		objectsToRemove.add(object.getId());
+    	}
         
         // update each object from the object_data_t
         for(object_data_t objectData : observation.observations){
-            observedIds.add(objectData.id);
+            objectsToRemove.remove(objectData.id);
             WorldObject object = objects.get(objectData.id);
             if(object == null){
                 object = new WorldObject(objectData);
                 objects.put(objectData.id, object);
+                SVSConnector.Singleton().addObject(object);
             } else {
-                object.newObjectData(objectData);
+            	synchronized(object){
+                    object.newObjectData(objectData);
+            	}
             }   
         }
         
@@ -93,67 +91,28 @@ public class ObjectCollection implements IInputLinkElement
             if(id == null){
                 continue;
             }
+            objectsToRemove.remove(id);
             WorldObject object = objects.get(id);
-            observedIds.add(id);
             if(object == null){
                 object = new WorldObject(sensable);
                 objects.put(id, object);
+                SVSConnector.Singleton().addObject(object);
             } else {
-                object.newSensableString(sensable);
+            	synchronized(object){
+                    object.newSensableString(sensable);
+            	}
             }   
         }
         
-        objectsToRemove.clear();
-        for(Integer id : objects.keySet()){
-            if(!observedIds.contains(id)){
-                objectsToRemove.add(id);
-            }
-        }
-        
         for(Integer id : objectsToRemove){
+        	SVSConnector.Singleton().removeObject(objects.get(id));
             objects.get(id).destroy();
             objects.remove(id);
         }
         hasChanged = true;
-        svsObjectsToRemove.addAll(objectsToRemove);
-    }
-    public Set<Integer> getObjectsToRemove()
-    {     
-        return svsObjectsToRemove;
     }
     
-    //for SVS use
-    public void clearObjectsToRemove()
-    {     
-    	svsObjectsToRemove.clear();
-    }
     public synchronized WorldObject getObject(Integer id){
         return objects.get(id);
     }
-    
-    //svs added
-    public synchronized WorldObject getNextNewObject(){
-        for(WorldObject object : objects.values()){
-            if (object.isNew)
-            {
-                object.isNew = false;
-                return object;
-            }
-        }
-        //else no new objects
-        return null;
-    }
-    
-    public synchronized WorldObject getNextChangedObject(){
-        for(WorldObject object : objects.values()){
-            if ((object.hasChanged) && (object.isNew == false))
-            {
-                object.hasChanged = false;
-                return object;
-            }
-        }
-        //else no changed objects
-        return null; 
-    }
-    
 }

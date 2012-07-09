@@ -1,12 +1,8 @@
 package edu.umich.sbolt.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.umich.sbolt.language.BOLTDictionary;
 import edu.umich.sbolt.language.Parser;
 import sml.Identifier;
-import sml.WMElement;
 /**
  * Represents the latest message from the user on the input link
  * 
@@ -27,9 +23,6 @@ public class Messages implements IInputLinkElement
     // True if a new message was received since the last update
     private Boolean messageChanged;
     
-    // Reference to the world (used to get the time)
-    private World world;
-    
     // Represents an invalid id, or that no message is on the input-link
     private final Integer INVALID_ID = -1;
     
@@ -37,16 +30,13 @@ public class Messages implements IInputLinkElement
     
 
     private int messageNumber;
-  
 
     private Parser parser;
-    
 
-    public Messages(World world){
+    public Messages(){
         latestMessage = "";
         latestMessageId = INVALID_ID;   
         messageChanged = false;
-        this.world = world;
         parser = new Parser(dictionary);
     }
 
@@ -65,10 +55,11 @@ public class Messages implements IInputLinkElement
         messageId = parentIdentifier.CreateIdWME("message");
         messageNumber = latestMessageId;
         messageId.CreateIntWME("id", latestMessageId);
-        if(!parser.getSoarSpeak(latestMessage, messageId)){
-        	messageId.DestroyWME();
-        	messageId = null;
-        }
+        messageId.CreateStringWME("type", latestMessage);
+//        if(!parser.getSoarSpeak(latestMessage, messageId)){
+//        	messageId.DestroyWME();
+//        	messageId = null;
+//        }
         messageChanged = false;
     }
 
