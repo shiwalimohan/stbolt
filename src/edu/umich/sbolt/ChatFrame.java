@@ -284,6 +284,19 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			}
         });
         agentMenu.add(stackButton);
+        
+        // Restore From File: Allows the user to specify the name to use when restoring
+        JMenuItem commandButton = new JMenuItem("Enter SML Command");
+        commandButton.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		String name = JOptionPane.showInputDialog(null, 
+            			  "Enter the command",
+            			  "SML COmmand",
+            			  JOptionPane.QUESTION_MESSAGE);
+      			System.out.println(SBolt.Singleton().getAgent().ExecuteCommandLine(name));
+        	}
+        });
+        agentMenu.add(commandButton);  
 
         menuBar.add(agentMenu);
     }
