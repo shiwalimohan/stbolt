@@ -31,7 +31,8 @@ sp {interpret-verb*apply*identify-verb-word*direct-object
    (<s> ^verb-predicate <vw>
         ^direct-object <do>
         ^verb-word <word>)
-   (<vw> ^accounted-for true)
+   (<vw> ^accounted-for true
+         ^is-verb true)
    (<hearer> ^accounted-for true)
 }
 
@@ -54,7 +55,8 @@ sp {interpret-verb*apply*identify-verb-word*no-direct-object
    (<s> ^verb-predicate <pred>
         ^no-direct-object true
         ^verb-word <word>)
-   (<hearer> ^accounted-for true)
+   (<hearer> ^accounted-for true
+             ^is-verb true)
 }
 
 

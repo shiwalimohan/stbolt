@@ -20,3 +20,20 @@ sp {global*apply*generate-predicates*output*ext*imperative
     (<idea> ^ext <newm>)
 }
 
+# new rule to partially address the todo above: let some ideas be flagged
+# explicitly. This is used for the second verb in "drop the block and get the
+# ball."
+sp {global*apply*generate-predicates*output*ext*imperative*marked
+    (state <s> ^operator <o> ^model <mod> ^current-refset.ref <rf>)
+    (<rf> ^rooted-in <something> ^head <some>)
+    (<o> ^name generate-predicates)
+    (<mod> ^idea <idea>)
+    (<idea> -^annotation imperative -^ext <extvalx> ^potential-imperative true ^nuc {<> is <> was <> are <> were <nucval>} ^sentence-count <sc>)
+    # rule out bare-NP subjects of intransitives
+    (<idea> -^aug.ext <idea>)
+-->
+    (<mod> ^idea <newm>)
+    (<newm> ^nuc HEARER ^annotation imperative ^sentence-count <sc>)
+    (<idea> ^ext <newm>)
+}
+

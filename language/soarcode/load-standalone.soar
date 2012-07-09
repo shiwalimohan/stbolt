@@ -9,6 +9,7 @@ sp {elaborate*print-structure
    (halt)
 }
 
+
 sp {elaborate*print-guessed-word
    (state <s> ^io.output-link.guess-message <g>)
    (<g> ^response <r>

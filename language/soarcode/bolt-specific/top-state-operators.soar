@@ -129,7 +129,8 @@ sp {global*apply*handle-single-word
            ^parse-valid true)
    (<fp> ^predicate <pred>)
    (<pred> ^outer single-word
-           ^inner1 <wd>)
+           ^inner1 <wd>
+           ^accounted-for true)
 }
 
 sp {global*propose*handle-guessed-word
@@ -234,6 +235,16 @@ sp {apply*finish-interpretation
         ^next-lgsoar-message-id <id> -
         ^next-lgsoar-message-id (+ <id> 1))
 }
+
+sp {finish-interpretation*report-unaccounted-for
+   (state <s> ^lgsoar-predicates.predicate <p>
+              ^operator.name finish-interpretation)
+   (<p> -^accounted-for true
+        -^ignored true)
+-->
+   (write (crlf) |Predicate unaccounted for: | (crlf) (cmd print --depth 1 --tree <p>))
+}
+
 
 # preference rules:
 

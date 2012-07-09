@@ -118,17 +118,21 @@ sp {global*apply*split-sentence
               ^current-sentence <cs>)
    (<o> ^name split-sentence
         ^leftmost-link <left>
-        ^rightmost-link <right>)
+        ^rightmost-link <rightmost>)
    (<cs> ^sentence-count <sc>
          ^words <words>
          ^links <links>)
+  (<rightmost> ^lwright <right-wc>)
+   (<words> ^word <right>)
+   (<right> ^wcount <right-wc>)
 -->
    (<s> ^any-sentence <split>)
    (<split> ^words <words>
             ^links <links>
             ^sentence-count (+ <sc> .5) # note this means we can't resplit
             ^inhibited-link <left>) 
-   (<cs> ^inhibited-link <right>)
+   (<cs> ^inhibited-link <rightmost>)
+   (<right> ^potential-imperative true) # flag that is copied to the idea so output code can see this word as potentially a command verb
 }
 
 sp	{global*apply*find-root

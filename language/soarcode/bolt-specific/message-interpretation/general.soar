@@ -22,8 +22,7 @@ sp {interpretation*elaborate*unignored-predicates
               ^predicates <p>)
    (<o> ^kind message-interpretation
         ^predicates.predicate <pred>)
-   (<pred> -^ignored
-           -^accounted-for)
+   (<pred> -^ignored)
 -->
    (<p> ^predicate <pred>)
 }

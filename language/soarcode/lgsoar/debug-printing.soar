@@ -4,9 +4,10 @@ sp {elaborate*report-predicate*from-wmes*1
               ^final-predicates.predicate <p>)
    (<p> ^outer <out>
         ^inner1 <in1>
+        ^originating-sentence <os>
        -^inner2)
 -->
-   (write (crlf) (concat <out> |(| <in1> |)|))
+   (write (crlf) (concat <out> |(| <in1> |) from sentence | <os>))
 }
 
 sp {elaborate*report-predicate*from-wmes*2
@@ -15,9 +16,10 @@ sp {elaborate*report-predicate*from-wmes*2
    (<p> ^outer <out>
         ^inner1 <in1>
         ^inner2 <in2>
+        ^originating-sentence <os>
        -^inner3)
 -->
-   (write (crlf) (concat <out> |(| <in1> |,| <in2> |)|))
+   (write (crlf) (concat <out> |(| <in1> |,| <in2> |) from sentence | <os>))
 }
 
 sp {elaborate*report-predicate*from-wmes*3
@@ -26,9 +28,10 @@ sp {elaborate*report-predicate*from-wmes*3
    (<p> ^outer <out>
         ^inner1 <in1>
         ^inner2 <in2>
-        ^inner3 <in3>)
+        ^inner3 <in3>
+        ^originating-sentence <os>)
 --> 
-   (write (crlf) (concat <out> |(| <in1> |,| <in2> |,| <in3> |)|))
+   (write (crlf) (concat <out> |(| <in1> |,| <in2> |,| <in3> |) from sentence | <os>))
 }
 
 sp {elaborate*report-predicate*from-wmes*4
@@ -38,9 +41,10 @@ sp {elaborate*report-predicate*from-wmes*4
         ^outer2 <out2>
         ^inner1 <in1>
         ^inner2 <in2>
-       -^inner3)
+       -^inner3
+        ^originating-sentence <os>)
 -->
-   (write (crlf) (concat <out1> |-| <out2> |(| <in1> |,| <in2> |)|))
+   (write (crlf) (concat <out1> |-| <out2> |(| <in1> |,| <in2> |) from sentence | <os>))
 }
 
 sp {elaborate*proposed*add-arg*debug-info*single
