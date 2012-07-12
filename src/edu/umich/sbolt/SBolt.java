@@ -1,20 +1,31 @@
 package edu.umich.sbolt;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
-import lcm.lcm.*;
-import abolt.lcmtypes.*;
+
+import lcm.lcm.LCM;
+import lcm.lcm.LCMDataInputStream;
+import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.PrintEventInterface;
 import sml.Agent.RunEventInterface;
 import sml.Kernel;
 import sml.smlPrintEventId;
 import sml.smlRunEventId;
+import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_action_t;
+import abolt.lcmtypes.robot_command_t;
+import abolt.lcmtypes.training_data_t;
+import abolt.lcmtypes.training_label_t;
 import april.util.TimeUtil;
-import edu.umich.sbolt.language.BOLTDictionary;
-import edu.umich.sbolt.world.World;
+
 import com.soartech.bolt.BOLTLGSupport;
+
+import edu.umich.sbolt.world.World;
 
 public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterface
 {
@@ -244,10 +255,6 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 
     public static void main(String[] args)
     {
-    	ClassLoader classLoader = SBolt.class.getClassLoader();
-	    File classpathRoot = new File(classLoader.getResource("").getPath());
-
-	    System.out.println(classpathRoot.getPath());
     	boolean headless = false;
     	if (args.length > 0 && args[0].equals("--headless")) {
     		// it might make sense to instead always make the parameter
