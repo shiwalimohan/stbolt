@@ -78,10 +78,15 @@ public class ParseScript {
 			case '>':
 				type = ActionType.Mentor;
 				break;
+			default:
+				type = ActionType.Invalid;
+				break;
 			}
 			
-			if(type == null)
-				throw new RuntimeException("Invalid script line: "+line);
+			if(type == ActionType.Invalid) {
+				System.out.println("Ignoring script line: "+line);
+				continue;
+			}
 			
 			String action = line.substring(1);
 			action = action.trim();

@@ -5,5 +5,6 @@ public enum ActionType {
 	Agent,
 	Comment,
 	AgentAction,
-	MentorAction
+	MentorAction,
+	Invalid
 }
