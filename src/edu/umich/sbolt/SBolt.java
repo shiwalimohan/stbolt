@@ -12,6 +12,7 @@ import sml.Kernel;
 import sml.smlPrintEventId;
 import sml.smlRunEventId;
 import april.util.TimeUtil;
+import edu.umich.sbolt.language.BOLTDictionary;
 import edu.umich.sbolt.world.World;
 import com.soartech.bolt.BOLTLGSupport;
 
@@ -242,7 +243,11 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     }
 
     public static void main(String[] args)
-    {    	
+    {
+    	ClassLoader classLoader = SBolt.class.getClassLoader();
+	    File classpathRoot = new File(classLoader.getResource("").getPath());
+
+	    System.out.println(classpathRoot.getPath());
     	boolean headless = false;
     	if (args.length > 0 && args[0].equals("--headless")) {
     		// it might make sense to instead always make the parameter
