@@ -45,6 +45,10 @@
 
 sp {activate*create-space*in-substate
    (state <s> ^name interpret-sentences)
+#              ^top-state.language.model <m>)
+# TODO: share the model across lgsoar runs, as above
+# This almost works, but it generates all predicates from all previous
+# sentences. Waiting to turn it on when there is an actual need.
 -->
    (<s> ^problem-space lgsoar ^refsets <refsets> ^model <m> ^root 0 ^anaphor <a>
         ^clauses <clauses> ^next-unidentified-individual 1 ^final-predicates <fp>)
