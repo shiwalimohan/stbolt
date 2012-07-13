@@ -1,0 +1,30 @@
+Agent: Waiting for next command...
+Comment: Simulator should have all data cleared, a blue sphere in the pantry, red cube in the stove, red triangle in the garbage, and green tee in the table.
+Mentor: move the red square to the pantry
+Agent: What kind of attribute is red?
+Mentor: red is a color
+Agent: What kind of attribute is square?
+Mentor: square is a shape
+Agent: I don't see a red square.
+Please teach me to recognize one
+Comment: Click on the red square in the simulator.
+Mentor: this is a red square
+Agent: Okay.
+Mentor: finished
+Agent: What action should I take next?
+Mentor: pick up the red square
+Agent: What action should I take next?
+Mentor: put the red square in the pantry
+Agent: I don't know the preposition in.
+Please teach me with examples
+Mentor: the red triangle is in the garbage
+Agent: What kind of attribute is triangle?
+Mentor: triangle is a shape
+Agent: I don't see a red triangle.
+Please teach me to recognize one
+Comment: Click on the red triangle in the simulator.
+Mentor: this is a red triangle
+Agent: Okay.
+Mentor: finished
+Agent: What action should I take next?
+Comment: BUG: Isn't the preposition learning done now? The simulator doesn't move the arm.

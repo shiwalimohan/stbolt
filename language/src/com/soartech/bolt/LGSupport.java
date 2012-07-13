@@ -114,6 +114,8 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	private void originalSentenceToWM(String sentence) {
+		clearAllInputWMEs();
+		
 		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
         agent.CreateIntWME(root, "sentence-count", sentenceCount);
         inputWMEs.add(root);
@@ -132,11 +134,15 @@ public class LGSupport implements OutputEventInterface {
 
 	}
 	
-	public void clear() {
+	private void clearAllInputWMEs() {
 		for (Identifier id: inputWMEs) {
 			 agent.DestroyWME(id);
 		}
-		inputWMEs.clear();	// AM: If you don't clear this list bad things will happen
+		inputWMEs.clear();
+	}
+	
+	public void clear() {
+		clearAllInputWMEs();
 		sentenceCount = -1;
 	}
 	
@@ -180,7 +186,7 @@ public class LGSupport implements OutputEventInterface {
 			return null;
 		}
 		
-		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
+		currentOutputSentenceCount = Integer.parseInt(param);
 		
 		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
 		

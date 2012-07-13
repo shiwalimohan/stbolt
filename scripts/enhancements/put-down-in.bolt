@@ -1,0 +1,16 @@
+Agent: Waiting for next command...
+Mentor: move the red square to the pantry
+Agent: What kind of attribute is red?
+Mentor: red is a color
+Agent: What kind of attribute is square?
+Mentor: square is a shape
+Agent: I don't see a red square.
+Please teach me to recognize one
+Mentor: this is a red square
+Agent: Okay.
+Mentor: finished
+Agent: What action should I take next?
+Mentor: pick up the red square
+Agent: What action should I take next?
+Mentor: put down the red square in the pantry
+Agent: Waiting for next command...
