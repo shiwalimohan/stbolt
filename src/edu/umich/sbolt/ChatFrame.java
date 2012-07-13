@@ -8,10 +8,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -23,17 +25,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import sml.Agent;
-import sml.Identifier;
-import sml.WMElement;
 import sml.smlRunEventId;
 import sml.Agent.RunEventInterface;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
+import com.soartech.bolt.testing.Action;
+import com.soartech.bolt.testing.ActionType;
+import com.soartech.bolt.testing.ParseScript;
+import com.soartech.bolt.testing.Script;
+import com.soartech.bolt.testing.Util;
+
+import edu.umich.sbolt.world.World;
 
 import edu.umich.sbolt.world.SVSConnector;
-import edu.umich.sbolt.world.World;
 
 public class ChatFrame extends JFrame implements RunEventInterface
 {
@@ -66,7 +72,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
     private List<String> chatMessages = new ArrayList<String>();
     // A list of all the messages currently in the chatArea
     
-    private ArrayList<String> history = new ArrayList<String>();
+    private List<String> history = new ArrayList<String>();
     // A list of all messages typed into the chatField
     
     private int historyIndex = 0;
@@ -89,12 +95,14 @@ public class ChatFrame extends JFrame implements RunEventInterface
     
     private boolean clearAgent = false;
     // True if the user has indicated he wants to clear the text information
+    
+    private Script script;
 
     public ChatFrame(BOLTLGSupport lg, Agent agent) {
         super("SBolt");
         instance = this;
         lgSupport = lg;
-
+        
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
  
 
@@ -174,9 +182,43 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			}
         });
         menuBar.add(armResetButton);
-
+        
         createAgentMenu(menuBar);
         
+        JButton btnLoadScript = new JButton("Load Script");
+		btnLoadScript.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					script = ParseScript.parse(chooser.getSelectedFile());
+				}
+			}
+		});
+		menuBar.add(btnLoadScript);
+		
+		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handleNextScriptAction();
+			}
+		});
+		menuBar.add(btnNext);
+		
+		JButton btnSaveScript = new JButton("Save Script");
+		btnSaveScript.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					Util.saveFile(chooser.getSelectedFile(), chatMessages);
+				}
+			}
+		});
+		menuBar.add(btnSaveScript);
        
         setJMenuBar(menuBar);
         
@@ -187,6 +229,48 @@ public class ChatFrame extends JFrame implements RunEventInterface
      	});
         
         setReady(false);
+    }
+    
+    private void handleNextScriptAction() {
+    	if(script == null) {
+    		addMessage("No script loaded!");
+    		return;
+    	}
+    	if(!script.hasNextAction()) {
+    		addMessage("Script finished.");
+    		return;
+    	}
+    	String observed = chatMessages.get(chatMessages.size()-1);
+    	Action next = script.getNextAction();
+    	
+    	if(next.getType() == ActionType.Mentor) {
+    		chatField.setText(next.getAction());
+//    		sendSoarMessage(next.getAction());
+//    		history.add(next.getAction());
+//        	historyIndex = history.size();
+//          addMessage("Mentor: " + next.getAction());
+    	}
+    	if(observed != null && observed.contains("Agent:") && next.getType() != ActionType.Agent) {
+    		addMessage("    - Error - was not expecting Agent response");
+    	}
+    	if(next.getType() == ActionType.Agent) {
+    		//check if response is correct
+    		String expected = next.getAction();
+    		if(!observed.contains(expected)) {
+    			addMessage("    - Error - Expected: "+expected);
+    		} else {
+    			addMessage("    - Correct -");
+    		}
+    	}
+    	if(next.getType() == ActionType.Comment) {
+    		addMessage("Comment: "+next.getAction());
+    	}
+    	if(next.getType() == ActionType.AgentAction) {
+    		addMessage("AgentAction: "+next.getAction());
+    	}
+    	if(next.getType() == ActionType.MentorAction) {
+    		addMessage("MentorAction: "+next.getAction());
+    	}
     }
     
     /*** 
@@ -348,7 +432,6 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void clear(){
-    	System.out.println("CLEAR: All messages have been cleared");
     	chatMessages.clear();
     	chatField.setText("");
     	chatArea.setText("");

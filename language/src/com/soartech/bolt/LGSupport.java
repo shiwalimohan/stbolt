@@ -137,7 +137,7 @@ public class LGSupport implements OutputEventInterface {
 			 agent.DestroyWME(id);
 		}
 		inputWMEs.clear();	// AM: If you don't clear this list bad things will happen
-		//sentenceCount = -1; AM: Setting this back to -1 causes problems with duplicate id's on the output-link
+		sentenceCount = -1;
 	}
 	
 	public void outputEventHandler(Object data, String agentName,
@@ -173,14 +173,14 @@ public class LGSupport implements OutputEventInterface {
 			System.err.println("LGSupport.preprocessedSentenceFromWM: pWmeAdded is null");
 			return null;
 		}
-		
 		WMElement currentWME = pWmeAdded.ConvertToIdentifier().FindByAttribute("start", 0);
 		String param = pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count");
 		if (param == null) {
 			System.err.println("LGSupport.preprocessedSentenceFromWM: no sentence-count");
 			return null;
 		}
-		currentOutputSentenceCount = Integer.parseInt(param);
+		
+		currentOutputSentenceCount = Integer.parseInt(pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count"));
 		
 		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
 		
