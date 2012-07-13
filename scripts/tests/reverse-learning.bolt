@@ -7,7 +7,7 @@ Agent: What kind of attribute is square?
 Mentor: square is a shape
 Agent: I don't see a red square.
 Please teach me to recognize one
-Comment: Click on the red square in the simulator.
+MentorAction: Click on the red square in the simulator.
 Mentor: this is a red square
 Agent: Okay.
 Mentor: finished
@@ -22,9 +22,15 @@ Agent: What kind of attribute is triangle?
 Mentor: triangle is a shape
 Agent: I don't see a red triangle.
 Please teach me to recognize one
-Comment: Click on the red triangle in the simulator.
+MentorAction: Click on the red triangle in the simulator.
 Mentor: this is a red triangle
 Agent: Okay.
 Mentor: finished
+Agent: Okay.
+Mentor: finished
 Agent: What action should I take next?
-Comment: BUG: Isn't the preposition learning done now? The simulator doesn't move the arm.
+Mentor: You are done.
+Agent: Waiting for next command...
+Mentor: Move the red triangle to the stove.
+Agent: Waiting for next command...
+Comment: Agent should have moved the triangle.
