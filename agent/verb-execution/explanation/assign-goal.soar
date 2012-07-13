@@ -1,4 +1,4 @@
-## create the ^desired attribute in the explanation state. 
+## create the ^desired attribute in the composite operator state
 ## if the operator is associated with a long-term id corresponding to the goal, retrieve the children.
 ## if no children are retrieved, pose a 'goal-query'
 ## SM: will not work! The goal has to be grounded before this stage. Possibly comprehension.
@@ -9,11 +9,11 @@ sp {assign-goal*elaborate*state
    	      ^superstate.operator <sop>)
    (<sop> ^name assign-goal
    	  ^long-term-id <glid>
-	  ^indexed-operator <iop>) 
+	  ^superoperator <iop>) 
 -->
   (<s> ^long-term-id <glid>
        ^desired <d>
-       ^indexed-operator <iop>)
+       ^superoperator <iop>)
 }
 
 ### retrieve the long-term-id corresponding to the goal of the indexed-operator
@@ -54,7 +54,7 @@ sp {assign-goal*elaborate*objects
    (state <s> ^name assign-goal
    	      ^desired.track-relation <tr>
 	      ^long-term-id <glid>
-	      ^indexed-operator <iop>)
+	      ^superoperator <iop>)
    (<glid> ^<prep> <p1>)
    (<tr> ^prep <prep>)
    (<p1> ^<parg> <sobj>)
@@ -84,8 +84,7 @@ sp {assign-goal*propsoe*retrieve-predicate
    	      ^long-term-id <glid>
 	      ^smem.result <sres>)
    (<sres> ^success <glid>)
-   (<glid> ^<predicate> <p1>)
-   (<p1> -^name <any>)
+   (<glid> -^<predicate> <p1>)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name retrieve-predicate

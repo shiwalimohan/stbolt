@@ -68,7 +68,7 @@ sp {explain*propose*assign-goal
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
 	      -^desired <any>)
-   (<sop> ^_metadata.map-id.goal <glid>)
+   (<sop> ^_metadata.map-id.goal <glid>)		
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
