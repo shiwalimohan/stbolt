@@ -108,6 +108,8 @@ public class ChatFrame extends JFrame implements RunEventInterface
 
         chatArea = new JTextArea();
         chatArea.setFont(new Font("Serif",Font.PLAIN,18));
+        chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
         JScrollPane pane = new JScrollPane(chatArea);
         
         chatField = new JTextField();
@@ -190,6 +192,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					script = ParseScript.parse(chooser.getSelectedFile());
@@ -212,6 +215,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
 				int returnVal = chooser.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					Util.saveFile(chooser.getSelectedFile(), chatMessages);
