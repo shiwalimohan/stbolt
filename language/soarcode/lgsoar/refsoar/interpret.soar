@@ -109,6 +109,8 @@ sp {interpret*propose*S-I*as*inflected
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <S-link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
      
+
+# added for interrogatives
 sp {interpret*propose*SI*as*external
    (state <s> ^current-sentence <cs>)
    (<cs> ^links.link <link> ^words.word <ext> <main>)
@@ -119,6 +121,17 @@ sp {interpret*propose*SI*as*external
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count>
+   	 )}
+
+sp {interpret*propose*Q*as*question
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word  <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<link> ^ltype Q ^lwright <main-count> -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug questioned ^arg true ^link <link>
+   	 ^kind constant ^order <main-count> ^level-two-order <main-count> )
    	 )}
 	
 # SBW 5/30/12

@@ -16,3 +16,6 @@ sp {global*apply*generate-predicates*goal-predicate
            ^inner1 <idea>
            ^originating-sentence <sc>)
 }
+
+# This isn't in caps like "DEF" or "QUESTIONED" since we want it to be
+# conflated with predicates from the actual word "goal" in BOLT

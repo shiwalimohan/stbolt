@@ -100,6 +100,22 @@ sp {interpret-message*propose*interpret-goal-object-message
         ^objects <ob>)
 }
 
+sp {interpret-message*propose*interpret-object-is-question
+   (state <s> ^name interpret-message
+              ^predicate-set <pred>
+              ^objects <ob>)
+   (<pred> -^interpretation
+            ^predicate <pr>)
+   (<pr> ^outer QUESTIONED
+        -^ignored)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-object-is-question
+        ^predicates <pred>
+        ^objects <ob>)
+}
+
+
 # relation-message must have a 2-parameter predicate
 # DEPRECATED
 
@@ -380,6 +396,25 @@ sp {interpret-message*prefer*identify-to-the-x-of-relation
         -^name identify-to-the-x-of-relation)
 -->
    (<s> ^operator <o1> > <o2>)
+}
+
+# make a new QUESTIONED predicate for the collapsed reln
+sp {interpret-message*apply*identify-to-the-x-of-relation*questioned
+   (state <s> ^name interpret-message
+              ^predicate-set <ps>
+              ^operator <o>)
+   (<ps> ^predicate <pred>)
+   (<pred> ^outer QUESTIONED
+           ^inner1 <to-or-on>)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer <out>
+        ^inhibit <too-pred>)
+   (<too-pred> ^outer <to-or-on>)
+-->
+   (<pred> ^ignored true)
+   (<ps> ^predicate <p2>)
+   (<p2> ^outer QUESTIONED
+         ^inner1 <out>)
 }
 
 # noun phrases get reparsed as commands with a fake verb,

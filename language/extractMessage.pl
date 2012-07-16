@@ -27,7 +27,7 @@ foreach $line (<>) {
 		$line =~ s/\b[A-Z]+[0-9]+\b//g;
 		$line =~ s/\^//g;
 		$line =~ s/^ //;
-		if (not $line =~ /id 0/) {
+		if (not $line =~ /id / and not $line =~ /\d+:/ and not $line =~ /message structure/) {
 			print "$line\n";
 		}
 	}

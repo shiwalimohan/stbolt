@@ -43,6 +43,7 @@ sp {misc*elaborate*interpretation-operators
                  interpret-object interpret-primitive-object interpret-relation 
                  interpret-verb interpret-preposition
                  interpret-goal-relation-message interpret-goal-object-message
+                 interpret-object-is-question
                  interpret-single-word-response finish-interpretation >>)
 -->
    (<o> ^kind message-interpretation)
