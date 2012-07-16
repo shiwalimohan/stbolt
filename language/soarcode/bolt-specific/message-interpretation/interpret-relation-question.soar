@@ -28,6 +28,7 @@ sp {interpret-relation-question*apply*identify-question-word
    (<s> ^question-predicate <pred>)
    (<s> ^question-relation-predicate <pred2>)
    (<s> ^question-object <qo>)
+   (<pred> ^accounted-for true)
 }
 
 sp {interpret-relation-question*propose*collect-predicates

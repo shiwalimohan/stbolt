@@ -8,7 +8,7 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
    (<ref> ^desc <desc> ^pointer <pointer>)
    (<desc> ^feature <feavalue> ^word <word>)
    (<word> ^wcount <countvalue> ^wvalue <wordvalue>)
-   (<pointer> ^nuc <nounvalue>)
+   (<pointer> ^nuc <nounvalue> ^sentence-count <sc>)
   -{(<pointer> ^aug <aug>)
     (<aug> ^annotation copula
            ^int <pointer>)}
@@ -16,8 +16,8 @@ sp {global*apply*generate-predicates*cligdump*feature-feature
    (<pointer> ^feat-dumped <feavalue> +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <feavalue>
-           ^inner1 <pointer>)
-   #(write (crlf) feature-feature: | | <feavalue> |(| <pointer> |)|)
+           ^inner1 <pointer>
+           ^originating-sentence <sc>)
 }
 
 # SBW adding this to fix problems where "is" causes the DEF/INDEF to attach to
@@ -34,10 +34,11 @@ sp {global*apply*generate-predicates*cligdump*feature-feature*copula
    (<pointer2> ^annotation copula
                ^int <pointer>
                ^ext <pointer3>)
+  (<pointer3> ^sentence-count <sc>)
 -->
    (<pointer> ^feat-dumped <feavalue> +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <feavalue>
-           ^inner1 <pointer3>)
-  # (write (crlf) feature-feature: | | <feavalue> |(| <pointer3> |)|)
+           ^inner1 <pointer3>
+           ^originating-sentence <sc>)
 }

@@ -27,6 +27,7 @@ sp {interpret-object-question*apply*identify-question-word
    (<int> ^question-word <qword>)
    (<s> ^exclude <pred>
         ^questioned-object <obj>)
+   (<pred> ^accounted-for true)
 }
 
 sp {interpret-object-question*propose*collect-predicates

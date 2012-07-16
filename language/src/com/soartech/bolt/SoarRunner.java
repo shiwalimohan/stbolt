@@ -1,13 +1,8 @@
 package com.soartech.bolt;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import net.sf.jlinkgrammar.Linkage;
-import net.sf.jlinkgrammar.Sentence;
-
 import sml.Agent;
-import sml.Identifier;
 import sml.smlPrintEventId;
 import sml.Agent.PrintEventInterface;
 import sml.Kernel;
@@ -32,15 +27,16 @@ public class SoarRunner implements PrintEventInterface {
 			return;
 		}
 		
-		String soarFile = args[0];
-		
 		boolean debug = false;
 		boolean silent = false;
 		boolean runSoar = true;
 		String whitelist = null;
 		int sentenceStart = args.length;
 
-		int argNum = 1;
+		ArrayList<String> sourceFiles = new ArrayList<String>();
+		ArrayList<String> commands = new ArrayList<String>();
+
+		int argNum = 0;
 		while (argNum < args.length) {
 			if (args[argNum].equals("--debug")) {
 				debug = true;
@@ -55,6 +51,14 @@ public class SoarRunner implements PrintEventInterface {
 				whitelist = args[argNum+1];
 				argNum++;
 			}
+			else if (args[argNum].equals("--source")) {
+				sourceFiles.add(args[argNum+1]);
+				argNum++;
+			}
+			else if (args[argNum].equals("--command")) {
+				commands.add(args[argNum+1]);
+				argNum++;
+			}
 			else {
 				sentenceStart = argNum;
 				argNum = args.length;
@@ -66,10 +70,10 @@ public class SoarRunner implements PrintEventInterface {
 		for (int i=sentenceStart; i<args.length; i++) {
 			sentences.add(args[i]);
 		}
-		SoarRunner sr = new SoarRunner(soarFile, sentences, debug, silent, runSoar, whitelist);
+		SoarRunner sr = new SoarRunner(sourceFiles, sentences, debug, silent, runSoar, whitelist, commands);
 	}
 	
-	public SoarRunner(String soarFile, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar, String whitelist) {
+	public SoarRunner(ArrayList<String> soarFiles, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar, String whitelist, ArrayList<String> commands) {
 		if (runSoar) {
 			if (debug) {
 				kernel = Kernel.CreateKernelInNewThread();
@@ -84,7 +88,14 @@ public class SoarRunner implements PrintEventInterface {
 			}
 			
 			agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
-			agent.LoadProductions(soarFile);
+
+			for (String soarFile: soarFiles) {
+				agent.LoadProductions(soarFile);
+			}
+			
+			for (String command: commands) {
+				agent.ExecuteCommandLine(command);
+			}
 		}
 	
 		LGSupport lgSupport = new LGSupport(agent, "data/link", whitelist);

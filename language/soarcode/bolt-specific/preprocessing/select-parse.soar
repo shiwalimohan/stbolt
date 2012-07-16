@@ -158,6 +158,22 @@ sp {select-parse*propose*add-extra-cost*Ma
         ^type Ma)
 }
 
+
+# fix "is the block on the table red?"
+sp {select-parse*propose*add-extra-cost*AN
+   (state <s> ^name select-parse
+              ^minimal-acceptable-parse <map>)
+   (<map> ^sentence.links.link <lk>
+         -^extra-cost-added AN)
+   (<lk> ^ltype AN)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name add-extra-cost
+        ^parse <map>
+        ^amount .1
+        ^type AN)
+}
+
 sp {select-parse*add-extra-cost*indifferent
    (state <s> ^operator <o1> +
               ^operator {<> <o1> <o2>} +)

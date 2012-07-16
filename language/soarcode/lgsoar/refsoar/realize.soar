@@ -24,17 +24,27 @@ sp {realize*propose*ref*as*new-idea
      ^debug-info (concat |realizing reference of "| <val> |" as new idea|))
 }
 
-sp {realize*apply*ref*as*new-idea
-	(state <s> ^operator <o> ^model <m>)
+sp {realize*apply*ref*as*new-idea*no-potential-imperative
+	(state <s> ^operator <o> ^model <m> ^current-sentence.sentence-count <sc>)
 	(<o> ^name new-idea ^ref <ref>)
 	(<ref> ^head <head>)
-	(<head> ^wvalue <nuc> ^wcount <wcount>)
+	(<head> ^wvalue <nuc> ^wcount <wcount> -^potential-imperative)
 -->
-	(<m> ^idea <new> +)
-	(<new> ^nuc <nuc> ^wcount <wcount> +)
+	(<m> ^idea <new>)
+	(<new> ^nuc <nuc> ^wcount <wcount> ^sentence-count <sc>)
 	(<ref> ^pointer <new>)
 }
 
+sp {realize*apply*ref*as*new-idea*potential-imperative
+	(state <s> ^operator <o> ^model <m> ^current-sentence.sentence-count <sc>)
+	(<o> ^name new-idea ^ref <ref>)
+	(<ref> ^head <head>)
+	(<head> ^wvalue <nuc> ^wcount <wcount> ^potential-imperative true)
+-->
+	(<m> ^idea <new>)
+	(<new> ^nuc <nuc> ^wcount <wcount> ^sentence-count <sc> ^potential-imperative true)
+	(<ref> ^pointer <new>)
+}
 
 ## realize as coref
 # def-desc

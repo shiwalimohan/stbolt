@@ -107,14 +107,6 @@ else {
         word one
       word at
     word point"],
-["Describe the blocks.",
-"verb-command 
-  verb 
-    direct-object o1
-      object o2
-        specifier DEF
-        word blocks
-    word describe"],
 ["What is to the left of the red block?",
 "relation-question 
   question-word what
@@ -188,7 +180,7 @@ else {
         word pantry
       word to
     word move"],
-["Pick up the yellow block.",
+["Pickup the yellow block.",
 "verb-command 
   verb 
     direct-object o1
@@ -196,7 +188,7 @@ else {
         specifier DEF
         word block
         word yellow
-    word pick"],
+    word pickup"],
 ["Put the yellow block on the pantry.",
 "verb-command 
   verb 
@@ -297,12 +289,12 @@ else {
         specifier DEF
         word stove
     word on"],
-["The goal is an empty stove.",
+["The goal is an empty gripper.",
 "goal-object-message 
   object o1
     specifier DEF
     word empty
-    word stove"],
+    word gripper"],
 ["What color is this?",
 "object-question 
   object o1
@@ -310,7 +302,7 @@ else {
     word color
     word UNKNOWN
   question-word what"],
-["Pick up the square on the right of the triangle.",
+["Pickup the square on the right of the triangle.",
 "verb-command 
   verb 
     direct-object o1
@@ -325,7 +317,7 @@ else {
             specifier DEF
             word triangle
         word right-of
-    word pick"],
+    word pickup"],
 ["The color of this is red.",
 "object-message 
   object o1
@@ -399,42 +391,6 @@ else {
         specifier DEF
         word left
     word on"],
-["Is this triangle blue?", 
-"object-is-question 
-  object o1
-    questioned blue
-    specifier this
-    word blue
-    word triangle"],
-["Is the triangle to the left of the square?", 
-"object-is-question 
-  object o1
-    specifier DEF
-    word triangle
-  relation 
-    p1 
-      object o1
-    p2 
-      object o2
-        specifier DEF
-        word square
-    questioned true
-    word left-of"],
-["Is the triangle on the table blue?", 
-"object-is-question 
-  object o1
-    questioned blue
-    specifier DEF
-    word blue
-    word triangle
-  relation 
-    p1 
-      object o1
-    p2 
-      object o2
-        specifier DEF
-        word table
-    word on"],
 ["Describe the relationship between the red triangle and the yellow square",
 "verb-command 
   verb 
@@ -499,25 +455,50 @@ else {
       object o2
         specifier DEF
         word circle
-    word right-of"],
-["The pan should be on the stove and the stove should be on.",
-"goal-relation-message 
-  relation 
-    p1 
-      object o1
-        specifier DEF
-        word pan
-    p2 
-      object o2
-        specifier DEF
-        word stove
-    word on
-goal-object-message 
-  object o3
-    specifier DEF
-    word stove
-    word on"]
+    word right-of"]
+
 );
+
+@wordKnowledge = (
+	["red", "*nounjective"],
+	["block", "*nounjective"],
+	["yellow", "*nounjective"],
+	["blue", "*nounjective"],
+	["orange", "*nounjective"],
+	["triangular", "*nounjective"],
+	["square", "*nounjective"],
+	["triangle", "*nounjective"],
+	["circle", "*nounjective"],
+	["right", "*nounjective"],
+	["left", "*nounjective"],
+	["pantry", "*nounjective"],
+	["table", "*nounjective"],
+	["stove", "*nounjective"],
+	["sink", "*nounjective"],
+	["kitchen", "*nounjective"],
+	["area", "*nounjective"],
+	["empty", "*nounjective"],
+	["gripper", "*nounjective"],
+	["relationship", "*nounjective"],
+	["point", "*verb+with+preposition"],
+	["put", "*verb+with+direct+object+and+preposition"],
+	["move", "*verb+generic"],
+	["moved", "*verb+generic"],
+	["describe", "*verb+generic"],
+	["pickup", "*verb+with+direct+object"],
+);
+
+$addCount = 0;
+$smemString = "smem --add { "; 
+for ($i=0; $i<=$#wordKnowledge; $i++) {
+	$word = $wordKnowledge[$i][0];
+	$type = $wordKnowledge[$i][1];
+	
+	$smemString .= " (<wd$addCount> ^word $word ^parse-class $type)";
+	$addCount++;
+}
+
+$smemString .= "}";
 
 $passCount = 0;
 $failCount = 0;
@@ -533,7 +514,8 @@ for ($i=0; $i<=$#sentences; $i++) {
 		$alternateCorrectMessage = "NO_ALTERNATE";
 	}
 
-	$outMessage = `./runMessageInterpretation.pl "$sentence" | ./extractMessage.pl`;
+	$command = "./runMessageInterpretation.pl --command \"excise preprocess-sentence*elaborate*no-learning\" --command \"smem --set learning on\" --command \"$smemString\" \"$sentence\"";
+	$outMessage = `$command | ./extractMessage.pl`;
 
 	chomp $outMessage;
 	
@@ -553,6 +535,7 @@ for ($i=0; $i<=$#sentences; $i++) {
 			print "FAILED:\n";	
 			print "expected \n$correctMessage\n";
 			print "got \n$outMessage\n";
+			print "command: $command\n";
 		}
 		else {
 			print "$sentence FAILED\n";

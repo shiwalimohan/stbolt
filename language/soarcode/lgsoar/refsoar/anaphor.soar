@@ -213,7 +213,7 @@ sp	{anaphor*propose*resolve*I-me*as*first
               ^head.wvalue << I me >>)
    (<ante-center> ^blocked? no ^kind first ^ccount <ccount> ^ref <ante-ref>)
    (<ante-ref> ^pointer <idea>)
-   (<ante-ref> -^head.gender neuter)
+ #  (<ante-ref> -^head.gender neuter)
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pronoun ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
@@ -236,7 +236,7 @@ sp	{anaphor*propose*resolve*he-she-him-her*as*third
               ^head.wvalue << he him she her >>)
    (<ante-center> ^blocked? no ^kind third ^ccount <ccount> ^ref <ante-ref>)
    (<ante-ref> ^pointer <idea>)
-   (<ante-ref> -^head.gender neuter)
+ #  (<ante-ref> -^head.gender neuter)
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind pronoun ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
@@ -256,7 +256,8 @@ sp	{anaphor*propose*resolve*it*as*phrase
    (state <s> ^refsets.refs.ref <ana-ref> ^anaphor.centers.center <ante-center>)
    (<ana-ref> ^center <ana-center> ^head.wvalue it -^pointer)
    (<ante-center> ^blocked? no ^kind third ^ccount <ccount> ^ref <ante-ref>)
-   (<ante-ref> ^head.gender neuter)
+ #  (<ante-ref> ^head.gender neuter) # SBW genders aren't created anywehere.
+ #  This still doesn't work, but closer?
 -->
    (<s> ^operator <o> +)
    (<o> ^name resolve ^kind phrase-ellipsis ^priority 201 ^ana-ref <ana-ref> ^ante-ref <ante-ref>
