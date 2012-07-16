@@ -9,12 +9,10 @@ sp {elaborate*print-structure
    (halt)
 }
 
-sp {elaborate*print-guessed-word
-   (state <s> ^io.output-link.guess-message <g>)
-   (<g> ^response <r>
-        ^word <w>)
+sp {elaborate*msg
+   (state <s> ^io.output-link.message <msg>)
 -->
-   (write (crlf) <r> <w>)
+   (write (crlf) |Received output message:| (crlf) (cmd print -d 10 -t <msg>))
    (halt)
 }
 
