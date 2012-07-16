@@ -57,9 +57,9 @@ public class AgentMessageParser
     	LingObject obj = LingObject.createFromSoarSpeak(id, "description");
     	//JK different syntax for prepositions
     	if (obj.toString().contains("preposition"))
-    	    return "I don't know the " + obj.toString() + ".\nPlease teach me with examples";
+    	    return "I don't know the " + obj.toString() + ". Please teach me with examples";
     	else
-    	    return "I don't see " + obj.toString() + ".\nPlease teach me to recognize one";
+    	    return "I don't see " + obj.toString() + ". Please teach me to recognize one";
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){

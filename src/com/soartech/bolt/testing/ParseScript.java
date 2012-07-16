@@ -24,7 +24,6 @@ public class ParseScript {
 	}
 	
 	public static Script parseDefaultFormatScript(Script script, Scanner s) {
-		ActionType prev = null;
 		while(s.hasNextLine()) {
 			String scriptLine = s.nextLine();
 			String[] lineType = scriptLine.split(":");
@@ -40,17 +39,14 @@ public class ParseScript {
 				type = ActionType.AgentAction;
 			} else if(lineType[0].equals("MentorAction")) {
 				type = ActionType.MentorAction;
+			} else {
+				type = ActionType.Invalid;
 			}
 			
-			if(type == null && prev != null) {
-				script.addAction(new Action(type, scriptLine.trim()));
+			if(type == ActionType.Invalid) {
+				System.out.println("Ignoring script line: "+scriptLine);
 				continue;
 			}
-			
-			if(type == null)
-				throw new RuntimeException("Invalid script line: "+scriptLine);
-			
-			prev = type;
 			
 			String action = scriptLine.substring(lineType[0].length()+1).trim();
 			script.addAction(new Action(type, action));
