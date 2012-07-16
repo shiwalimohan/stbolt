@@ -35,6 +35,7 @@ import com.soartech.bolt.testing.Action;
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.ParseScript;
 import com.soartech.bolt.testing.Script;
+import com.soartech.bolt.testing.Settings;
 import com.soartech.bolt.testing.Util;
 
 import edu.umich.sbolt.world.World;
@@ -102,7 +103,6 @@ public class ChatFrame extends JFrame implements RunEventInterface
         super("SBolt");
         instance = this;
         lgSupport = lg;
-        
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
  
 
@@ -240,7 +240,12 @@ public class ChatFrame extends JFrame implements RunEventInterface
     		addMessage("Script finished.");
     		return;
     	}
-    	String observed = chatMessages.get(chatMessages.size()-1);
+    	String observed;
+    	if(chatMessages.size() > 0) {
+    		observed = chatMessages.get(chatMessages.size()-1);
+    	} else {
+    		observed = "";
+    	}
     	Action next = script.getNextAction();
     	
     	if(next.getType() == ActionType.Mentor) {

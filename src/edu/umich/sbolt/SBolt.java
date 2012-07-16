@@ -24,6 +24,7 @@ import abolt.lcmtypes.training_label_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
+import com.soartech.bolt.testing.Settings;
 
 import edu.umich.sbolt.world.World;
 
