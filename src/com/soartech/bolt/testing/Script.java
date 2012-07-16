@@ -33,6 +33,8 @@ public class Script {
 	}
 	
 	public boolean nextActionRequiresMentorAttention() {
+		if(actions.peek() == null)
+			return false;
 		ActionType type = actions.peek().getType();
 		if(type == null)
 			return false;
