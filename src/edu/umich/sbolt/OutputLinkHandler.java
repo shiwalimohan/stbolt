@@ -321,7 +321,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", 
     			"Error (send-training-label): No ^category attribute");
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = VisualProperty.getCategoryType(category);
+    	Integer catNum = PerceptualProperty.getCategoryID(category);
     	if(catNum == null){
     		return;
     	}

@@ -59,7 +59,10 @@ sp {index-object*purpose*apply*perform*indexing
    (<o> ^name index-object
         ^finished true)
 -->
-   (<status> ^performed.internal-event indexing)
+   #(<status> ^performed.internal-event indexing)
+   # AM: Changed performed structure
+   (<status> ^performed.internal-event <e>)
+   (<e> ^type indexing)
 }
 
 sp {index-object*purpose*apply*failure*send-message

@@ -1,5 +1,6 @@
 package edu.umich.sbolt.language;
 
+import java.util.List;
 import java.util.Set;
 
 import edu.umich.sbolt.language.Patterns.LingObject;
@@ -27,6 +28,10 @@ public class AgentMessageParser
             message = translateCategoryQuestion(fieldsId);
         } else if(type.equals("category-of-property")){
             message = translateCategoryPropertyQuestion(fieldsId);
+        } else if(type.equals("how-to-measure")){
+        	message = String.format("How do I measure %s?", WorkingMemoryUtil.getValueOfAttribute(fieldsId, "property"));
+        } else if(type.equals("ambiguous-category")){
+        	message = translateAmbiguousCategory(fieldsId);
         } else if(type.equals("describe-object")){
             message = translateDescription(fieldsId);
         } else if(type.equals("dont-know")){
@@ -105,6 +110,21 @@ public class AgentMessageParser
     private static String translateCategoryPropertyQuestion(Identifier id){
         String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
         return String.format("What type of property is %s?", word);
+    }
+    
+    private static String translateAmbiguousCategory(Identifier id){
+    	Set<String> cats = WorkingMemoryUtil.getAllValuesOfAttribute(id, "result");
+    	String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+    	String s = "By " + word + " do you mean ";
+    	int i = 0;
+    	for(String cat : cats){
+    		if((++i) == cats.size()){
+    			s += "or " + cat + "?";
+    		} else {
+    			s += cat + ", ";
+    		}
+    	}
+    	return s;
     }
     
     private static String translateValueQuestion(Identifier id){

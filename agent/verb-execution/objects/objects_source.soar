@@ -15,12 +15,6 @@ popd
 
 source preferences.soar
 
-source mappings.soar
-# Creates a working memory cache of mappings, these are only those mappings that exist in working memory
-# If an object is removed or changed then the mapping dissappears
-# Only the smem mappings are long-term
-
-
 
 
 ########------- SMEM OPERATIONS ------######

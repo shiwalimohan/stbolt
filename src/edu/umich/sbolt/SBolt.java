@@ -93,6 +93,11 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
         	agent.LoadProductions(smemSource);
         }
         
+        if (!headless) {
+        	System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
+        	// Requires the SOAR_HOME environment variable
+        }
+        
         String useLGProp = props.getProperty("enable-lgsoar");
         
         boolean useLG = false;
@@ -143,10 +148,6 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 			throttleMS = Integer.parseInt(throttleMSString);
 			agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_DECISION_CYCLE, this, this);
 		}
-        if (!headless) {
-        	System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
-        	// Requires the SOAR_HOME environment variable
-        }
       
         world = new World();
 
@@ -178,8 +179,8 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     	System.out.println("  smem --init:  " + agent.ExecuteCommandLine("smem --init"));
     	System.out.println("  epmem --init: " + agent.ExecuteCommandLine("epmem --init"));
     	if(loadSmem && smemSource != null){
-        	agent.ExecuteCommandLine("smem --set path empty");
-        	agent.ExecuteCommandLine("epmem --set path empty");
+        	agent.ExecuteCommandLine("smem --set database memory");
+        	agent.ExecuteCommandLine("epmem --set database memory");
     		agent.LoadProductions(smemSource);
     		System.out.println("  source " + smemSource);
     	}

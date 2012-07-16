@@ -80,6 +80,24 @@ sp {apply*push-single-word-response*status*start-clear-stack
         ^satisfaction.dialog-event report-interaction)
 }
 
+# Response to an abiguous category
+sp {apply*push-single-word-response*ambiguous-category
+   (state <s> ^operator <o>
+              ^instructor-message <msg>
+              ^interaction.stack.segment.info <info>)
+   (<o> ^name push-single-word-response
+        ^response <cat>
+        ^message.context <context>)
+   (<context> ^cause ambiguous-category
+              ^word <word>
+              ^result <cat>)
+-->
+   (<info> ^nounjective <nj>)
+   (<nj> ^word <word>
+         ^category <cat>)
+   (<s> ^instructor-message <msg> -)
+}
+
 sp {apply*push-single-word-response*mark*processed
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response

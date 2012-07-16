@@ -73,7 +73,9 @@ sp {relation-messaging*apply*index-object*failure
    (<out> ^send-message <msg>)
    (<msg> ^type no-object
           ^fields.object failure)
-   (<status> ^performed.learning-event preposition)
+   # AM: Changed performed structure
+   (<status> ^performed.learning-event <e>)
+   (<e> ^type preposition)
 }
 
 

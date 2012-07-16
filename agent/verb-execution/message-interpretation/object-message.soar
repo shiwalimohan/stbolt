@@ -141,8 +141,7 @@ sp {apply*push-object-message*which-question-response*relation
    (<p> ^type index-object
         ^parameters <params>
         ^satisfaction <sat>)
-   (<params> ^relation <rel2>
-             ^context <context>)
+   (<params> ^relation <rel2>)
    (<rel2> ^object1 <obja>
           ^object2 <objb>
           ^word <prep>)

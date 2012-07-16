@@ -73,7 +73,10 @@ sp {which-question*apply*index-object
    (<o> ^name index-object
         ^finished true)
 -->
-   (<status> ^performed.action-event point)
+  #(<status> ^performed.action-event point)
+   # AM: Changed performed structure
+   (<status> ^performed.action-event <e>)
+   (<e> ^type point)
 }
 
 sp {recogition-question*apply*failure*send-message

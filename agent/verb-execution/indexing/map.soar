@@ -129,7 +129,10 @@ sp {write*primitive-action*status*topstate
    	 ^indexed-operator <map-op>)
    (<map-op> ^information <info>)
  -->
-   (<status> ^performed.action-event <info>)
+   #(<status> ^performed.action-event <info>)
+   # AM: Changed performed structure
+   (<status> ^performed.action-event <e>)
+   (<e> ^type <info>)
 }
 
 

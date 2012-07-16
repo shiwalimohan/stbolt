@@ -58,7 +58,9 @@ sp {write*primitive-action*status*topstate
    (<op> ^category primitive-action
    	 ^information <info>)
  -->
-   (<status> ^performed.action-event <info>)
+   # AM: Changed performed structure
+   (<status> ^performed.action-event <e>)
+   (<e> ^type <info>)
 }
   
    	     
