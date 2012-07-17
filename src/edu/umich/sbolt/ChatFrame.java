@@ -266,10 +266,12 @@ public class ChatFrame extends JFrame implements RunEventInterface
         
         StyleConstants.setForeground(defaultStyle, Color.BLACK);
         StyleConstants.setFontSize(defaultStyle, 18);
+        StyleConstants.setFontFamily(defaultStyle, "SansSerif");
         
         StyleConstants.setForeground(agentActionStyle, new Color(225, 225, 0));
         StyleConstants.setForeground(agentStyle, Color.BLACK);
         StyleConstants.setItalic(agentStyle, true);
+        StyleConstants.setFontFamily(agentStyle, "Serif");
         StyleConstants.setForeground(commentStyle, Color.BLUE);
         StyleConstants.setForeground(mentorStyle, Color.BLACK);
         StyleConstants.setForeground(mentorActionStyle, new Color(205, 0, 0));
