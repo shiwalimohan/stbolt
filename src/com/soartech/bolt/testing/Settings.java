@@ -16,6 +16,11 @@ public class Settings {
 		} catch (IOException e) {
 			dir = new File("");
 		}
+		File[] files = dir.listFiles();
+		for(File f : files) {
+			if(f.getName().equals("scripts"))
+				dir = f;
+		}
 		sboltDirectory = dir;
 	}
 

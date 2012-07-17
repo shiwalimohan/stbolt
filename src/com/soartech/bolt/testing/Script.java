@@ -32,10 +32,10 @@ public class Script {
 		return !(actions.peek() == null);
 	}
 	
-	public boolean nextActionRequiresMentorAttention() {
-		if(actions.peek() == null)
+	public boolean actionRequiresMentorAttention(Action action) {
+		if(action == null)
 			return false;
-		ActionType type = actions.peek().getType();
+		ActionType type = action.getType();
 		if(type == null)
 			return false;
 		switch(type) {

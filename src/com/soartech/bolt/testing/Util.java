@@ -60,15 +60,17 @@ public class Util {
     		}
     	}
     	if(next.getType() == ActionType.Comment) {
-    		ChatFrame.Singleton().addMessage("Comment: "+next.getAction());
+    		ChatFrame.Singleton().addMessage("Comment: "+next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.AgentAction) {
-    		ChatFrame.Singleton().addMessage("AgentAction: "+next.getAction());
+    		ChatFrame.Singleton().addMessage("AgentAction: "+next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.MentorAction) {
-    		ChatFrame.Singleton().addMessage("MentorAction: "+next.getAction());
+    		ChatFrame.Singleton().addMessage("MentorAction: "+next.getAction(), next.getType());
     	}
-    	if(!script.nextActionRequiresMentorAttention())
+    	if(!script.actionRequiresMentorAttention(next))
     		handleNextScriptAction(script, chatMessages);
+    	else
+    		ChatFrame.Singleton().setWaitingForScript(true);
     }
 }

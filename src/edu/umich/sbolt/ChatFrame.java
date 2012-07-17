@@ -87,8 +87,11 @@ public class ChatFrame extends JFrame implements RunEventInterface
     
     // AGENT STATUS AND CONTROL
     
-    private boolean waiting = false;
+    private boolean waitingForAgentResponse = false;
     // True if the script is waiting for an agent response
+    
+    private boolean waitingForAdvanceScript = false;
+    // True if the system is waiting for the script to be advanced
     
     private boolean ready = false;
     // True if the agent is ready for a new message from the user
@@ -264,14 +267,14 @@ public class ChatFrame extends JFrame implements RunEventInterface
         StyleConstants.setForeground(defaultStyle, Color.BLACK);
         StyleConstants.setFontSize(defaultStyle, 18);
         
-        StyleConstants.setForeground(agentActionStyle, Color.BLACK);
+        StyleConstants.setForeground(agentActionStyle, new Color(225, 225, 0));
         StyleConstants.setForeground(agentStyle, Color.BLACK);
         StyleConstants.setItalic(agentStyle, true);
         StyleConstants.setForeground(commentStyle, Color.BLUE);
         StyleConstants.setForeground(mentorStyle, Color.BLACK);
-        StyleConstants.setForeground(mentorActionStyle, Color.BLACK);
-        StyleConstants.setForeground(correctStyle, Color.GREEN);
-        StyleConstants.setForeground(incorrectStyle, Color.RED);   
+        StyleConstants.setForeground(mentorActionStyle, new Color(205, 0, 0));
+        StyleConstants.setForeground(correctStyle, new Color(0, 200, 0));
+        StyleConstants.setForeground(incorrectStyle, new Color(205, 0, 0));   
     }
     
     /*** 
@@ -427,13 +430,21 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void setWaiting(boolean isWaiting) {
-    	waiting = isWaiting;
+    	waitingForAgentResponse = isWaiting;
+    	updateSendButtonStatus();
+    }
+    
+    public void setWaitingForScript(boolean waiting) {
+    	waitingForAdvanceScript = waiting;
     	updateSendButtonStatus();
     }
     
     private void updateSendButtonStatus() {
-    	if(ready){
-    		if(waiting) {
+    	if(waitingForAdvanceScript) {
+    		sendButton.setBackground(new Color(100, 255, 255));
+    		sendButton.setText("Next Script Entry");
+    	} else if(ready) {
+    		if(waitingForAgentResponse) {
     			sendButton.setBackground(new Color(255, 255, 100));
         		sendButton.setText("Waiting for response");
     		} else {
@@ -494,7 +505,11 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     private void sendButtonClicked(){
-    	if(!ready || waiting){
+    	if(waitingForAdvanceScript) {
+    		setWaitingForScript(false);
+    		Util.handleNextScriptAction(script, chatMessages);
+    	}
+    	if(!ready || waitingForAgentResponse){
     		return;
     	}
     	history.add(chatField.getText());
