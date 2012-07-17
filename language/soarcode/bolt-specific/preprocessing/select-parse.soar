@@ -143,16 +143,16 @@ sp {select-parse*elevate*excess-unused-words
 
 # make red.a square.n preferable to red.n square.a
 
-sp {select-parse*propose*add-extra-cost*Ma
+sp {select-parse*propose*adjust-extra-cost*Ma
    (state <s> ^name select-parse
               ^minimal-acceptable-parse <map>)
    (<map> ^sentence.links.link <lk>
-         -^extra-cost-added Ma)
+         -^extra-cost-adjusted Ma)
    (<lk> ^ltype M
          ^ltypesub a)
 -->
    (<s> ^operator <o> + >)
-   (<o> ^name add-extra-cost
+   (<o> ^name adjust-extra-cost
         ^parse <map>
         ^amount 2
         ^type Ma)
@@ -160,33 +160,48 @@ sp {select-parse*propose*add-extra-cost*Ma
 
 
 # fix "is the block on the table red?"
-sp {select-parse*propose*add-extra-cost*AN
+sp {select-parse*propose*adjust-extra-cost*AN
    (state <s> ^name select-parse
               ^minimal-acceptable-parse <map>)
    (<map> ^sentence.links.link <lk>
-         -^extra-cost-added AN)
+         -^extra-cost-adjusted AN)
    (<lk> ^ltype AN)
 -->
    (<s> ^operator <o> + >)
-   (<o> ^name add-extra-cost
+   (<o> ^name adjust-extra-cost
         ^parse <map>
         ^amount .1
         ^type AN)
 }
 
-sp {select-parse*add-extra-cost*indifferent
+# if there is a parse with an idiom, give it a bonus (negative added cost)
+sp {select-parse*propose*adjust-extra-cost*idiom
+   (state <s> ^name select-parse
+              ^minimal-acceptable-parse <map>)
+   (<map> ^sentence.links.link <lk>
+         -^extra-cost-adjusted ID)
+   (<lk> ^ltype ID)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name adjust-extra-cost
+        ^parse <map>
+        ^amount -.1
+        ^type ID)
+}
+
+sp {select-parse*adjust-extra-cost*indifferent
    (state <s> ^operator <o1> +
               ^operator {<> <o1> <o2>} +)
-   (<o1> ^name add-extra-cost)
-   (<o2> ^name add-extra-cost)
+   (<o1> ^name adjust-extra-cost)
+   (<o2> ^name adjust-extra-cost)
 -->
    (<s> ^operator <o1> = <o2>)
 }
 
-sp {select-parse*apply*add-extra-cost
+sp {select-parse*apply*adjust-extra-cost
    (state <s> ^name select-parse
               ^operator <op>)
-   (<op> ^name add-extra-cost
+   (<op> ^name adjust-extra-cost
          ^parse <p>
          ^amount <a>
          ^type <ty>)
@@ -194,7 +209,7 @@ sp {select-parse*apply*add-extra-cost
 -->
    (<p> ^extra-cost <old> - 
         ^extra-cost (+ <old> <a>)
-        ^extra-cost-added <ty>)
+        ^extra-cost-adjusted <ty>)
 }
 
 
