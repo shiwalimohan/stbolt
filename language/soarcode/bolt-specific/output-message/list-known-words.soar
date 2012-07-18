@@ -1,0 +1,175 @@
+sp {list-words*propose
+   (state <s> ^nl.input-link.message <message>
+              ^superstate nil) 
+   (<message> ^verb-command.verb <verb>)
+   (<verb> ^word list
+           ^direct-object.object.word words)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name list-words
+        ^nl-message <message>)
+}
+
+sp {list-words*propose*init-state
+   (state <s> ^superstate.mappings.word2cat <w2c>
+              ^superstate.operator <o>
+             -^word2cat)
+   (<o> ^name list-words
+        ^nl-message <message>)
+-->
+   (<s> ^operator <o2> + >)
+   (<o2> ^name init-state
+         ^word2cat <w2c>
+         ^nl-message <message>)
+}
+
+sp {list-words*apply*init-state
+   (state <s> ^operator <o>)
+   (<o> ^name init-state
+        ^word2cat <w2c>
+        ^nl-message <message>)
+-->
+   (<s> ^problem-space lgsoar
+        ^name list-words
+        ^word2cat <w2c>
+        ^nl-message <message>)
+}
+
+sp {list-words*propose*no-words
+   (state <s> ^name list-words
+             -^msg <msg>
+              ^word2cat <w2c>)
+   (<w2c> -^<word>)
+-->
+  (<s> ^operator <o> + =)
+  (<o> ^name no-words)
+}
+
+# create a message which says "I don't know any words."
+sp {list-words*apply*no-words
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name no-words)
+-->
+   (<s> ^msg <msg>)
+   (<msg> ^word <word>
+          ^category <cat>
+          ^first <w1>
+          ^word <w1> <w2> <w3> <w4> <w5> <w6>
+          ^last <w6>)
+   (<w1> ^value I
+         ^next <w2>)
+   (<w2> ^value |don't|
+         ^next <w3>)
+   (<w3> ^value know
+         ^next <w4>)
+   (<w4> ^value any
+         ^next <w5>)
+   (<w5> ^value words
+         ^next <w6>)
+   (<w6> ^value |.|)
+}
+
+sp {list-words*propose*create-message
+   (state <s> ^name list-words
+             -^msg <msg>
+              ^word2cat.<word> <cat>)
+-->
+  (<s> ^operator <o> + =)
+  (<o> ^name create-message
+       ^word <word>
+       ^category <cat>)
+}
+
+# create a message which says "<word> is a <category>"
+sp {list-words*apply*create-message
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name create-message
+        ^word <word>
+        ^category <cat>)
+-->
+   (<s> ^msg <msg>)
+   (<msg> ^word <word>
+          ^category <cat>
+          ^first <w1>
+          ^word <w1> <w2> <w3> <w4> <w5>
+          ^last <w5>)
+   (<w1> ^value (capitalize-symbol <word>)
+         ^next <w2>)
+   (<w2> ^value is
+         ^next <w3>)
+   (<w3> ^value a
+         ^next <w4>)
+   (<w4> ^value <cat>
+         ^next <w5>)
+   (<w5> ^value |.|)
+}
+
+# change "a" to "an" if first letter in next word is a vowel
+# (not handling h-words and acronyms) a e i o u
+#sp {list-words*propose*use-an
+#   (state <s> ^name list-words
+#              ^msg <msg>)
+#   (<msg> ^word <word>)
+#   (<word> ^value a
+#           ^next <nword>)
+#   (<nword> ^value {>= a < b})
+#-->
+#   (<s> ^operator <o> + =)
+#   (<o> ^name use-an
+#        ^word <word>)
+#}
+#
+#sp {list-words*apply*use-an
+#   (state <s> ^name list-words
+#              ^operator <o>)
+#   (<o> ^name use-an
+#        ^word <word>)
+#-->
+#   (<word> ^value a - an)
+#}
+
+sp {list-words*propose*copy-to-output-link
+   (state <s> ^name list-words
+              ^msg <msg>
+             -^copied)
+-->
+   (<s> ^operator <o> + <)
+   (<o> ^name copy-to-output-link
+        ^msg <msg>)
+}
+
+sp {list-words*apply*copy-to-output-link
+   (state <s> ^name list-words
+              ^operator <o>
+              ^top-state.io.output-link <ol>)
+   (<o> ^name copy-to-output-link
+        ^msg <msg>)
+-->
+   (<ol> ^message <msg>)
+   (<s> ^copied true)
+}
+
+sp {list-words*propose*delete-nl-message
+   (state <s> ^name list-words
+              ^copied true
+              ^nl-message <message>
+              ^top-state <ts>)
+   (<ts> ^nl.input-link <nl-il>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name delete-nl-message
+        ^nl-message <message>
+        ^nl-input-link <nl-il>)
+}
+
+sp {list-words*apply*delete-nl-message
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name delete-nl-message
+        ^nl-message <message>
+        ^nl-input-link <nl-il>)
+-->
+   (<nl-il> ^message <message> -)
+}
