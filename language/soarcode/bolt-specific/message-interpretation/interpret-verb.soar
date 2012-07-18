@@ -19,8 +19,8 @@ sp {interpret-verb*apply*identify-verb-word*direct-object
               ^interpretation <int>
               ^predicates.predicate <hearer>
               ^predicates.predicate {<> <hearer> <vw>} )
-   (<hearer> ^outer << HEARER you >>
-            -^accounted-for
+   (<hearer> ^outer SELF
+            -^is-verb
              ^inner1 <hearer-obj>)
    (<vw> ^outer <word>
          ^inner1 <hearer-obj>
@@ -45,11 +45,11 @@ sp {interpret-verb*apply*identify-verb-word*no-direct-object
               ^operator.name identify-verb-word
               ^interpretation <int>
               ^predicates.predicate <hearer>)
-   (<hearer> ^outer << HEARER you >>
-            -^accounted-for
+   (<hearer> ^outer SELF
+            -^is-verb
              ^inner1 <hearer-obj>)
    (<hearer-obj> ^predicates.predicate <pred>)
-   (<pred> ^outer <word>)
+   (<pred> ^outer <word> <> SELF)
 -->
    (<int> ^word <word>)
    (<s> ^verb-predicate <pred>
