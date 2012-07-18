@@ -3,6 +3,8 @@ package edu.umich.sbolt;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soartech.bolt.testing.ActionType;
+
 import sml.*;
 import sml.Agent.OutputEventInterface;
 import sml.Agent.RunEventInterface;
@@ -144,7 +146,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
         }
         
-        ChatFrame.Singleton().addMessage("Agent: "+msg);
+        ChatFrame.Singleton().addMessage("Agent: "+msg, ActionType.Agent);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
@@ -180,7 +182,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
         if(!message.equals("")){
-            ChatFrame.Singleton().addMessage("Agent: "+message);
+            ChatFrame.Singleton().addMessage("Agent: "+message, ActionType.Agent);
         }
         messageId.CreateStringWME("status", "complete");
     }
@@ -225,7 +227,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 
         message += ".";
         ChatFrame.Singleton().addMessage("Agent: "+
-                message.substring(0, message.length() - 1));
+                message.substring(0, message.length() - 1), ActionType.Agent);
 
         messageId.CreateStringWME("status", "complete");
     }
@@ -364,16 +366,16 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		message = "I cannot continue further with the current action and I need the next step";
     	} else if(type.equals("category-of-word")){
     		String word = WorkingMemoryUtil.getValueOfAttribute(context, "word");
-    		message = "I do not know the category of " + word + ".\n" + 
+    		message = "I do not know the category of " + word + ". " + 
     		"You can say something like 'a shape' or 'blue is a color'";
     	} else if(type.equals("which-question")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
     		message = "I see multiple examples of '" + objStr + "' and I need clarification";
     	} else if(type.equals("teaching-request")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
-    		message = "I do not know '" + objStr + "'\n" + 
+    		message = "I do not know '" + objStr + "' " + 
     		"Please give more teaching examples and tell me 'finished' when you are done";
     	}
-    	ChatFrame.Singleton().addMessage("Agent: " + message);
+    	ChatFrame.Singleton().addMessage("Agent: " + message, ActionType.Agent);
     }
 }
