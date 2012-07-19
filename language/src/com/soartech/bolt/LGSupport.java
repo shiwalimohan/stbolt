@@ -97,7 +97,7 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	public void handleSentence(String sentence) {
-		
+		System.out.println("sending to Soar for preprocessing: " + sentence);
 		if (agent == null) {
 			// no Soar, run parser directly on sentence
 			theParser.parseSentence(sentence);
@@ -189,8 +189,9 @@ public class LGSupport implements OutputEventInterface {
 		currentOutputSentenceCount = Integer.parseInt(param);
 		
 		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
-		
-		//System.out.println("got sentence: " + result);
+		for (String result: results) {
+			System.out.println("got preprocessed sentence: " + result);
+		}
 		return results;
 	}
 	
