@@ -54,7 +54,7 @@ sp {list-words*propose*look-up-noun-adjective
 -->
    (<s> ^operator <o> + =)
    (<o> ^name look-up-noun-adjective
-        ^type name)
+        ^category name)
 }
 
 sp {list-words*propose*no-words
