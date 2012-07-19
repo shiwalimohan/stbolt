@@ -64,6 +64,15 @@ public class Util {
     		} else {
     			ChatFrame.Singleton().addMessage("    - Correct -", ActionType.Correct);
     		}
+    		if(observed.contains("Okay") && Settings.getInstance().isAutomated()) {
+    			long t0,t1;
+    			//TODO intelligently wait for knn to update
+    	        t0=System.currentTimeMillis();
+    	        do{
+    	            t1=System.currentTimeMillis();
+    	        }
+    	        while (t1-t0<1000);
+    		}
     	}
     	if(next.getType() == ActionType.Comment) {
     		ChatFrame.Singleton().addMessage("Comment: "+next.getAction(), next.getType());
