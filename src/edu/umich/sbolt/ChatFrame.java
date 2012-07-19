@@ -520,7 +520,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
-        if(script.peekType() == ActionType.Agent)
+        if(script != null && script.peekType() == ActionType.Agent)
     		ChatFrame.Singleton().setWaiting(true);
     }
     
