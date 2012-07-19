@@ -8,6 +8,8 @@ public class Settings {
 	// final static private String scriptDirectory = "/script";
 
 	private File sboltDirectory;
+	
+	private boolean automated;
 
 	private Settings() {
 		File dir;
@@ -22,6 +24,8 @@ public class Settings {
 				dir = f;
 		}
 		sboltDirectory = dir;
+		
+		automated = false;
 	}
 
 	public static Settings getInstance() {
@@ -34,5 +38,13 @@ public class Settings {
 
 	public void setSboltDirectory(File sboltDirectory) {
 		this.sboltDirectory = sboltDirectory;
+	}
+
+	public boolean isAutomated() {
+		return automated;
+	}
+
+	public void setAutomated(boolean automated) {
+		this.automated = automated;
 	}
 }

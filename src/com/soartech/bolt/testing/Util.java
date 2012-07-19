@@ -43,6 +43,12 @@ public class Util {
     	Action next = script.getNextAction();
     	
     	if(next.getType() == ActionType.Mentor) {
+    		if(Settings.getInstance().isAutomated()) {
+    			ChatFrame.Singleton().addMessage("Mentor: " + next.getAction(), ActionType.Mentor);
+    	        ChatFrame.Singleton().sendSoarMessage(next.getAction());
+    			handleNextScriptAction(script, chatMessages);
+    			return;
+    		}
     		ChatFrame.Singleton().preSetMentorMessage(next.getAction());
     	}
     	if(next.getType() == ActionType.Agent) {

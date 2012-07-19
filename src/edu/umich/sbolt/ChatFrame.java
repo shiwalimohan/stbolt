@@ -543,7 +543,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 		}
     }
 
-    private void sendSoarMessage(String message)
+    public void sendSoarMessage(String message)
     {
     	if (lgSupport == null) {
     		World.Singleton().newMessage(message);
