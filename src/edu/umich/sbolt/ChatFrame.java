@@ -410,6 +410,10 @@ public class ChatFrame extends JFrame implements RunEventInterface
     		clearAgent = false;
     	}
     }
+    
+    public void stopAgent() {
+    	stopAgent = true;
+    }
 
     public void showFrame()
     {

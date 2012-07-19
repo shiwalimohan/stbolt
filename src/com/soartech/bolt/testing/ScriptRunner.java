@@ -52,6 +52,10 @@ public class ScriptRunner extends Thread {
     		ChatFrame.Singleton().setWaiting(false);
     		if(!observed.contains(expected)) {
     			ChatFrame.Singleton().addMessage("    - Error - Expected: "+expected, ActionType.Incorrect);
+    			if(Settings.getInstance().isAutomated()) {
+    				ChatFrame.Singleton().stopAgent();
+    				return;
+    			}
     		} else {
     			ChatFrame.Singleton().addMessage("    - Correct -", ActionType.Correct);
     		}
