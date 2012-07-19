@@ -1,2 +1,3 @@
 source handle-skipped-word.soar
 source list-known-words.soar
+source look-up-noun-adjective.soar

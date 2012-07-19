@@ -1,9 +1,25 @@
+# create substate when the following state
+#(I10 ^relation-question I6)
+#  (I6 ^question-word what)
+#  (I6 ^relation R42)
+#    (R42 ^p1 P30)
+#      (P30 ^object I4)
+#        (I4 ^specifier none)
+#        (I4 ^word words)
+#        (I4 ^word UNKNOWN)
+#    (R42 ^p2 P31)
+#      (P31 ^object I5)
+#        (I5 ^specifier none)
+#        (I5 ^word SELF)
+#    (R42 ^word known-by)
 sp {list-words*propose
    (state <s> ^nl.input-link.message <message>
               ^superstate nil) 
-   (<message> ^verb-command.verb <verb>)
-   (<verb> ^word list
-           ^direct-object.object.word words)
+   (<message> ^relation-question <rq>)
+   (<rq> ^question-word what
+         ^relation.p1.object.word words
+         ^relation.p2.object.word SELF
+         ^relation.word known-by)
 -->
    (<s> ^operator <o> + >)
    (<o> ^name list-words
@@ -11,38 +27,43 @@ sp {list-words*propose
 }
 
 sp {list-words*propose*init-state
-   (state <s> ^superstate.mappings.word2cat <w2c>
-              ^superstate.operator <o>
-             -^word2cat)
+   (state <s> ^superstate.operator <o>
+             -^nl-message)
    (<o> ^name list-words
         ^nl-message <message>)
 -->
    (<s> ^operator <o2> + >)
    (<o2> ^name init-state
-         ^word2cat <w2c>
          ^nl-message <message>)
 }
 
 sp {list-words*apply*init-state
    (state <s> ^operator <o>)
    (<o> ^name init-state
-        ^word2cat <w2c>
         ^nl-message <message>)
 -->
    (<s> ^problem-space lgsoar
         ^name list-words
-        ^word2cat <w2c>
         ^nl-message <message>)
+}
+
+# propose subgoal to look up noun/adjective
+sp {list-words*propose*look-up-noun-adjective
+   (state <s> ^name list-words
+             -^nouns finished)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name look-up-noun-adjective
+        ^type name)
 }
 
 sp {list-words*propose*no-words
    (state <s> ^name list-words
              -^msg <msg>
-              ^word2cat <w2c>)
-   (<w2c> -^<word>)
+              ^smem.result.failure)
 -->
-  (<s> ^operator <o> + =)
-  (<o> ^name no-words)
+   (<s> ^operator <o> + =)
+   (<o> ^name no-words)
 }
 
 # create a message which says "I don't know any words."
@@ -52,9 +73,7 @@ sp {list-words*apply*no-words
    (<o> ^name no-words)
 -->
    (<s> ^msg <msg>)
-   (<msg> ^word <word>
-          ^category <cat>
-          ^first <w1>
+   (<msg> ^first <w1>
           ^word <w1> <w2> <w3> <w4> <w5> <w6>
           ^last <w6>)
    (<w1> ^value I
@@ -72,13 +91,22 @@ sp {list-words*apply*no-words
 
 sp {list-words*propose*create-message
    (state <s> ^name list-words
-             -^msg <msg>
-              ^word2cat.<word> <cat>)
+              ^smem.result.success <cue>
+              ^smem.result.retrieved <identifier>)
+   (<identifier> ^category <cat>
+          ^word <word>)
+ -{(<s> ^msg <msg>
+        ^name list-words)
+   (<msg> ^word <word>
+          ^category <cat>
+          ^smem-id)}
 -->
   (<s> ^operator <o> + =)
   (<o> ^name create-message
        ^word <word>
-       ^category <cat>)
+       ^category <cat>
+       ^smem-cue <cue>
+       ^smem-id <id>)
 }
 
 # create a message which says "<word> is a <category>"
@@ -87,9 +115,12 @@ sp {list-words*apply*create-message
               ^operator <o>)
    (<o> ^name create-message
         ^word <word>
-        ^category <cat>)
+        ^category <cat>
+        ^smem-cue <cue>
+        ^smem-id <id>)
 -->
-   (<s> ^msg <msg>)
+   (<s> ^msg <msg>
+        ^smem.command.store <id>)
    (<msg> ^word <word>
           ^category <cat>
           ^first <w1>
@@ -104,6 +135,7 @@ sp {list-words*apply*create-message
    (<w4> ^value <cat>
          ^next <w5>)
    (<w5> ^value |.|)
+   (<id> ^looked-up true)
 }
 
 # change "a" to "an" if first letter in next word is a vowel
