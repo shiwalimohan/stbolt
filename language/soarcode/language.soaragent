@@ -27,6 +27,7 @@
     <member path="bolt-specific/message-interpretation/interpret-verb.soar" />
     <member path="bolt-specific/message-interpretation/load.soar" />
     <member path="bolt-specific/output-message/look-up-noun-adjective.soar" />
+    <member path="bolt-specific/output-message/load.soar" />
   </members>
 </soaragent>
 
