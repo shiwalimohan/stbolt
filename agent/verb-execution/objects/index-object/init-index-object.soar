@@ -57,7 +57,7 @@ sp {index-object*apply*init-index-object*copy*parameters
               ^copy-context <cc>)
    (<cc> ^context <context>
         -^copied-parameters)
-   (<s> ^{<arg> << use-interaction allow-ties return-all context-id >>} <val>)
+   (<s> ^{<arg> << use-interaction allow-ties return-all context-id infer-match >>} <val>)
 -->
    (<context> ^<arg> <val>)
 }

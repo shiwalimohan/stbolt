@@ -77,7 +77,55 @@ sp {apply*push-single-word-response*status*start-clear-stack
 -->
    (<msg> ^purpose <p>)
    (<p> ^type report-interaction
-        ^satisfaction.dialog-event report-interaction)
+        # AM: Changed satisfaction structure
+        ^satisfaction.dialog-event.type report-interaction)
+}
+
+# Response to asking for confirmation on an indexing
+sp {apply*push-single-word-response*request-index-confirmation*remove-message
+   (state <s> ^operator <o>
+              ^instructor-message <msg>)
+   (<o> ^name push-single-word-response
+        ^message <msg>)
+   (<msg> ^context.cause request-index-confirmation)
+-->
+   (<s> ^instructor-message <msg> -)
+}
+
+
+sp {apply*push-single-word-response*request-index-confirmation*yes
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<o> ^name push-single-word-response
+        ^response yes
+        ^message <msg>)
+   (<msg> ^context <context>)
+   (<context> ^cause request-index-confirmation
+              ^object <obj>
+              ^index-object <i-obj>)
+   (<obj> ^id <id>)
+   (<i-obj> ^property <prop>)
+   (<prop> ^label <label>
+           ^category <cat>)
+-->
+   (<out> ^send-training-label <stl>)
+   (<stl> ^id <id> ^label <label> ^category <cat>)
+   (<i-obj> ^candidate <obj>)
+}
+
+sp {apply*push-single-word-response*request-index-confirmation*no
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<o> ^name push-single-word-response
+        ^response no
+        ^message <msg>)
+   (<msg> ^context <context>)
+   (<context> ^cause request-index-confirmation
+              ^index-object-context <i-context>)
+   (<i-context> ^infer-match true)
+-->
+   (<i-context> ^infer-match true -
+                ^infer-match false)
 }
 
 # Response to an abiguous category

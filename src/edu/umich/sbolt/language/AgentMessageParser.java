@@ -56,6 +56,8 @@ public class AgentMessageParser
         	message = "What action should I take next?";
         } else if(type.equals("confirmation")){
         	message = "Okay.";
+        } else if(type.equals("request-index-confirmation")){
+        	message = translateRequestIndexConfirmation(fieldsId);
         }
         return message;
     }
@@ -170,4 +172,10 @@ public class AgentMessageParser
     	
         return "Which " + LingObject.createFromSoarSpeak(id, "description") + "?";
     }
+
+    private static String translateRequestIndexConfirmation(Identifier id){
+    	LingObject obj = LingObject.createFromSoarSpeak(id, "object");
+    	return "Is this " + obj.toString() + "?";
+    }
+    
 }

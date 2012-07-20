@@ -41,7 +41,8 @@ sp {apply*push-unknown-message*mark-purpose
 -->
    (<msg> ^purpose <p>)
    (<p> ^type unknown-message
-        ^satisfaction.dialog-event unknown-message)
+        # AM: Changed satisfaction structure
+        ^satisfaction.dialog-event.type unknown-message)
 }
 
 sp {propose*unknown-message

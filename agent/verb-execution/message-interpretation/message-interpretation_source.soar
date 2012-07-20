@@ -18,3 +18,6 @@ source get-status.soar
 
 # clear-stack: A request from the user to clear the interaction stack to start over
 source clear-stack.soar
+
+# verb-command: A request from the user to perform a certain action
+source verb-command.soar

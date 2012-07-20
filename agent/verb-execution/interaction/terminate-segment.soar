@@ -8,7 +8,7 @@ sp {propose*pop-segment*agent
               ^instructor-message <m>)
    (<segment> ^purpose.satisfaction <sat>
    	      ^originator agent)
-   (<sat> ^dialog-event <etype>)
+   (<sat> ^dialog-event.type <etype>)
    (<m> ^type <etype>)
 -->
    (<s> ^operator <op> +)
@@ -30,7 +30,7 @@ sp {propose*pop-segment*satisfaction*performed
    (<performed> ^<event> <status-event>)
    (<status-event> ^type <event-type>)
    # Everything listed in the satisfaction is on the status
-   -{(<sat-event> ^<att> <val>)
+   -{(<sat-event> ^{<att> <> info} <val>)
      (<status-event> -^<att> <val>)}
 -->
    (<s> ^operator <op> +)
@@ -81,7 +81,7 @@ sp {elaborate*pop-segment*next-is-satisfied
    (<performed> ^<event> <status-event>)
    (<status-event> ^type <event-type>)
    # Everything listed in the satisfaction is on the status
-   -{(<sat-event> ^<att> <val>)
+   -{(<sat-event> ^{<att> <> info} <val>)
      (<status-event> -^<att> <val>)}
 	(<o> ^name pop-segment)
 -->

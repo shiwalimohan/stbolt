@@ -49,7 +49,7 @@ sp {index-object*elaborate*label-query
 sp {index-object*elaborate*boolean*parameter*copy
    (state <s> ^name index-object
               ^superstate.operator <ss-op>)
-   (<ss-op> ^{<par> << use-interaction allow-ties return-all context-id >>} <val>)
+   (<ss-op> ^{<par> << use-interaction allow-ties return-all context-id infer-match >>} <val>)
 -->
    (<s> ^<par> <val>)
 }
@@ -73,6 +73,13 @@ sp {index-object*elaborate*return-all*default
               -^superstate.operator.return-all)
 -->
    (<s> ^return-all false)
+}
+
+sp {index-object*elaborate*infer-match*default
+   (state <s> ^name index-object
+             -^superstate.operator.infer-match)
+-->
+   (<s> ^infer-match false)
 }
 
 # final-matches structure on the substate

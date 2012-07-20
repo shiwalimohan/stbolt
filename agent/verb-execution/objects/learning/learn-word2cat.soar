@@ -56,7 +56,8 @@ sp {learn-word2cat*apply*lookup-category*failure
    (<p> ^type category-of-word
         ^context <context>
         ^parameters <params>
-        ^satisfaction.dialog-event object-message)
+        # AM: Changed the satisfaction structure
+        ^satisfaction.dialog-event.type object-message)
    # Segment context - the word being asked about
    (<context> ^cause category-of-word-query
               ^word <word>)
@@ -118,7 +119,8 @@ sp {learn-word2cat*apply*lookup-measure*failure
    (<p> ^type how-to-measure
         ^context <context>
         ^parameters <params>
-        ^satisfaction.dialog-event verb-command)
+        # AM: Changed the satisfaction structure
+        ^satisfaction.dialog-event.type verb-command)
    # Segment context - the word being asked about
    (<context> ^cause how-to-measure-query
               ^property <property>)
@@ -182,13 +184,16 @@ sp {apply*learn-word2cat*update*smem
 }
 
 sp {apply*learn-word2cat*mark*satisfied
-   (state <s> ^operator.name learn-word2cat
+   (state <s> ^operator <o>
               ^status <status>)
+   (<o> ^name learn-word2cat
+        ^word <word>)
 -->
   # (<status> ^performed.learning-event word2cat)
    # AM: Changed performed structure
    (<status> ^performed.learning-event <e>)
-   (<e> ^type word2cat)
+   (<e> ^type word2cat
+        ^word <word>)
 }
 
               

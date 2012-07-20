@@ -8,7 +8,9 @@ sp {propose*map*verb
    (<p> ^type external-action
    	^satisfaction <ps>
 	-^indexed-operator <map-op>)  
-   (<ps> ^action-event <info>)
+# AM: Moved satisfaction info to inside the event
+   #(<ps> ^action-event <info>)
+   (<ps> ^action-event.type <info>)
 -->
    (<s> ^operator <op> +)
    (<op> ^name index-verb
@@ -51,7 +53,8 @@ sp {elaborate*operator*match
 sp {prefer*match
    (state <s> ^indexed-operator <map-op> <> <op>
    	      ^operator <op> +
-	      ^interaction.stack.segment.purpose.satisfaction.action-event <info>
+          # AM: Moved satisfaction info inside the event
+	      ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
@@ -69,7 +72,8 @@ sp {propose*indexed-operator*if*no-choices
 	      ^attribute state)
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
-	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
+          # AM: Moved satisfaction info inside the event
+	  ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action

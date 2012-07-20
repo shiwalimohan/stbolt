@@ -39,7 +39,8 @@ sp {apply*lookup-smem*category*failure*new-interaction
    (<p> ^type category-of-word
         ^context <context>
         ^parameters <params>
-        ^satisfaction.dialog-event object-message)
+        # AM: Changed the satisfaction structure
+        ^satisfaction.dialog-event.type object-message)
    # Segment context - the word being asked about
    (<context> ^cause category-of-word-query
               ^word <word>)
@@ -96,7 +97,8 @@ sp {this-object-message*apply*lookup-smem*cateogry*multiple*ask-user
    (<p> ^type ambiguous-category
         ^context <context>
         ^parameters <params>
-        ^satisfaction.dialog-event single-word-response)
+        # AM: Changed the satisfaction structure
+        ^satisfaction.dialog-event.type single-word-response)
    # Segment parameters - A message to send 
    (<params> ^message <msg>)
    (<msg> ^type ambiguous-category

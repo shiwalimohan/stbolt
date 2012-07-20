@@ -62,7 +62,8 @@ sp {apply*push-object-question*which-question
    (<p> ^type which-question
         ^parameters <params>
         ^satisfaction <sat>)
-   (<sat> ^action-event point)
+    # AM: Changed satisfaction structure
+   (<sat> ^action-event.type point)
    (<params> ^description <obj>)
 }
 
@@ -94,7 +95,8 @@ sp {apply*push-object-question*description-request
    (<msg> ^purpose <p>)
    (<p> ^type description-request
         ^satisfaction <sat>)
-   (<sat> ^action-event describe)
+        # AM: Changed satisfaction structure
+   (<sat> ^action-event.type describe)
 }
 
 # Handles 'what color is this' questions
@@ -112,7 +114,8 @@ sp {apply*push-object-question*category-question
         ^parameters <params>
         ^satisfaction <sat>)
    (<params> ^category <word>)
-   (<sat> ^dialog-event category-response)
+        # AM: Changed satisfaction structure
+   (<sat> ^dialog-event.type category-response)
 }
 
 
