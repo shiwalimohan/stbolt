@@ -50,10 +50,21 @@ sp {list-words*apply*init-state
 # propose subgoal to look up noun/adjective
 sp {list-words*propose*look-up-noun-adjective
    (state <s> ^name list-words
-             -^nouns finished)
+             -^nouns.name finished)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name look-up-noun-adjective
+        ^category name)
+}
+
+# propose subgoal to generate noun message
+sp {list-words*propose*generate-noun-message
+   (state <s> ^name list-words
+              ^nouns.name finished
+             -^nouns.name message-generated)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name generate-noun-message
         ^category name)
 }
 
