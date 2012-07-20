@@ -1,39 +1,41 @@
 sp {look-up-noun-adjective*propose*init-state
-   (state <s> ^superstate.operator <o>
-             -^name look-up-noun-adjective)
+   (state <s> ^superstate.operator <o>)
    (<o> ^name look-up-noun-adjective
         ^category <cat>)
 -->
-   (<s> ^operator <o2> + >)
-   (<o2> ^name init-look-up-noun-adjective
-         ^category <cat>)
-}
-
-sp {look-up-noun-adjective*apply*init-state
-   (state <s> ^operator <o>)
-   (<o> ^name init-look-up-noun-adjective)
--->
-   (<s> ^problem-space lgsoar
+   (<s> ^problem-space message-interpretation
         ^name look-up-noun-adjective
         ^category <cat>)
 }
 
-sp {look-up-noun-adjective*smem*lookup-color
+sp {look-up-noun-adjective*propose*lookup-category
    (state <s> ^name look-up-noun-adjective
               ^category <cat>
               ^smem.command <sc>
-             -^lookup finished)
+             -^lookup true)
 -->
    (<sc> ^query <q>)
    (<q> ^type word2cat
         ^category <cat>)
+   (<s> ^operator <o> +)
+   (<o> ^name lookup-category)
+}
+
+sp {look-up-noun-adjective*apply*lookup-category
+   (state <s> ^name look-up-noun-adjective
+              ^operator.name lookup-category
+              ^smem.result.retrieved <id>)
+   (<id> ^word <word>)
+-->
+   (<s> ^lookup true)
+   (<s> ^words <word>
+        ^id <id>)
 }
 
 sp {look-up-noun-adjective*propose*add-word
    (state <s> ^name look-up-noun-adjective
-              ^smem.result.retrieved <id>
-              ^smem.command <cmd>)
-   (<cmd> ^store <id>)
+              ^id <id>
+             -^mark)
    (<id> ^word <word>)
 -->
    (<s> ^operator <o> +)
@@ -47,21 +49,47 @@ sp {look-up-noun-adjective*apply*add-word
               ^category <cat>
               ^operator <o>
               ^smem.command <cmd>)
-   (<cmd> ^store <id>)
    (<o> ^name add-word
         ^smem-id <id>
         ^word <word>)
 -->
-   (<s> ^<cat> <word>)
+   (<s> ^id <id> -
+        ^mark <id>)
+   (<cmd> ^store <id>)
    (<id> ^type word2cat -)
    (<id> ^type word2cat-lookedup)
 }
 
+sp {look-up-noun-adjective*propose*mark-lookedup
+   (state <s> ^name look-up-noun-adjective
+              ^mark <id>
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+   (<id> ^word <word>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name mark-lookedup)
+}
+
+sp {look-up-noun-adjective*apply*mark-lookedup
+   (state <s> ^name look-up-noun-adjective
+              ^mark <id>
+              ^operator <o>
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+   (<o> ^name mark-lookedup)
+-->
+   (<s> ^lookup true -
+        ^mark <id> -)
+}
+
+# go back to look-up
+    
 sp {look-up-noun-adjective*propose*finished-lookup
    (state <s> ^name look-up-noun-adjective
               ^smem.result.failure <f>)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + >)
    (<o> ^name finished-lookup)
 }
 
@@ -73,60 +101,8 @@ sp {look-up-noun-adjective*apply*finished-lookup
    (<s> ^lookup finished)
 }
 
-sp {look-up-noun-adjective*smem*lookup-modified
-   (state <s> ^name look-up-noun-adjective
-              ^category <cat>
-              ^smem.command <sc>
-              ^lookup finished
-             -^revert finished)
--->
-   (<sc> ^query <q>)
-   (<q> ^type word2cat-lookedup
-        ^category <cat>)
-}
+# change ^word2cat-lookedup back to ^word2cat
 
-sp {look-up-noun-adjective*propose*revert-type
-   (state <s> ^name look-up-noun-adjective
-              ^lookup finished
-              ^smem.result.retrieved <id>
-              ^smem.command <cmd>)
-   (<cmd> ^store <id>)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name revert-type
-        ^smem-id <id>)
-}
-
-sp {look-up-noun-adjective*apply*revert-type
-   (state <s> ^name look-up-noun-adjective
-              ^lookup finished
-              ^operator <o>
-              ^smem.command <cmd>)
-   (<cmd> ^store <id>)
-   (<o> ^name revert-type
-        ^smem-id <id>)
--->
-   (<id> ^type word2cat)
-   (<id> ^type word2cat-lookedup -)
-}
-
-sp {look-up-noun-adjective*propose*finished-revert
-   (state <s> ^name look-up-noun-adjective
-              ^smem.result.failure <f>
-              ^lookup finished
-             -^revert finished)
--->
-   (<s> ^operator <o> +)
-   (<o> ^name finished-revert)
-}
-
-sp {look-up-noun-adjective*apply*finished-revert
-   (state <s> ^name look-up-noun-adjective
-              ^operator <o>)
-   (<o> ^name finished-revert)
--->
-   (<s> ^revert finished)
-}  
 
 #sp {look-up-noun-adjective*propose*create-message
 #   (state <s> ^name look-up-noun-adjective

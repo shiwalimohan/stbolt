@@ -42,7 +42,7 @@ sp {list-words*apply*init-state
    (<o> ^name init-state
         ^nl-message <message>)
 -->
-   (<s> ^problem-space lgsoar
+   (<s> ^problem-space message-interpretation
         ^name list-words
         ^nl-message <message>)
 }
