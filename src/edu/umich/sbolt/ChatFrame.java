@@ -520,12 +520,17 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	}
     	history.add(chatField.getText());
     	historyIndex = history.size();
+    	if(chatField.getText().charAt(0) == '#') {
+    		addMessage("Comment: "+chatField.getText().substring(1).trim());
+    		return;
+    	}
         addMessage("Mentor: " + chatField.getText(), ActionType.Mentor);
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
-        if(script != null && script.peekType() == ActionType.Agent)
+        if(script != null && script.peekType() == ActionType.Agent) {
     		ChatFrame.Singleton().setWaiting(true);
+        }
     }
     
     private void upPressed(){
