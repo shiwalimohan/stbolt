@@ -4,7 +4,7 @@ $started = 0;
 $idCount = 0;
 foreach $line (<>) {
 	chomp $line;
-	if ($started == 0 and $line =~/message structure/) {
+	if ($started == 0 and $line =~/message structure/ or $line =~/unaccounted/) {
 		$started = 1;
 	}
 	elsif ($started == 1 and $line =~ /\w/) {
@@ -27,7 +27,7 @@ foreach $line (<>) {
 		$line =~ s/\b[A-Z]+[0-9]+\b//g;
 		$line =~ s/\^//g;
 		$line =~ s/^ //;
-		if (not $line =~ /id 0/) {
+		if (not $line =~ /id / and not $line =~ /\d+:/ and not $line =~ /message structure/) {
 			print "$line\n";
 		}
 	}

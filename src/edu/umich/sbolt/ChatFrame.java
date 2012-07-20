@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,26 +20,29 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import sml.Agent;
-import sml.smlRunEventId;
 import sml.Agent.RunEventInterface;
+import sml.smlRunEventId;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
-import com.soartech.bolt.testing.Action;
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.ParseScript;
 import com.soartech.bolt.testing.Script;
 import com.soartech.bolt.testing.Settings;
 import com.soartech.bolt.testing.Util;
 
-import edu.umich.sbolt.world.World;
-
 import edu.umich.sbolt.world.SVSConnector;
+import edu.umich.sbolt.world.World;
 
 public class ChatFrame extends JFrame implements RunEventInterface
 {
@@ -51,9 +53,9 @@ public class ChatFrame extends JFrame implements RunEventInterface
 	private static ChatFrame instance = null;
 	
 	// GUI COMPONENTS
-
-    private JTextArea chatArea;
-    // The box which messages are displayed to
+	
+	private StyledDocument chatDoc;
+    // The document which messages are displayed to
 
     private JTextField chatField;
     // The text field the user can type messages to the agent in
@@ -85,6 +87,12 @@ public class ChatFrame extends JFrame implements RunEventInterface
     
     // AGENT STATUS AND CONTROL
     
+    private boolean waitingForAgentResponse = false;
+    // True if the script is waiting for an agent response
+    
+    private boolean waitingForAdvanceScript = false;
+    // True if the system is waiting for the script to be advanced
+    
     private boolean ready = false;
     // True if the agent is ready for a new message from the user
     
@@ -105,10 +113,23 @@ public class ChatFrame extends JFrame implements RunEventInterface
         lgSupport = lg;
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
  
-
+        /*
         chatArea = new JTextArea();
         chatArea.setFont(new Font("Serif",Font.PLAIN,18));
+        chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
         JScrollPane pane = new JScrollPane(chatArea);
+        */
+        
+        JTextPane tPane = new JTextPane();
+        tPane.setEditable(false);
+        JScrollPane pane = new JScrollPane(tPane);
+        DefaultCaret caret = (DefaultCaret)tPane.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		pane.setViewportView(tPane);
+		chatDoc = (StyledDocument)tPane.getDocument();
+
+		setupStyles();
         
         chatField = new JTextField();
         chatField.setFont(new Font("Serif",Font.PLAIN,18));
@@ -190,6 +211,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
 				int returnVal = chooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					script = ParseScript.parse(chooser.getSelectedFile());
@@ -202,7 +224,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 		btnNext.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleNextScriptAction();
+				Util.handleNextScriptAction(script, chatMessages);
 			}
 		});
 		menuBar.add(btnNext);
@@ -212,6 +234,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
 				int returnVal = chooser.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					Util.saveFile(chooser.getSelectedFile(), chatMessages);
@@ -231,51 +254,29 @@ public class ChatFrame extends JFrame implements RunEventInterface
         setReady(false);
     }
     
-    private void handleNextScriptAction() {
-    	if(script == null) {
-    		addMessage("No script loaded!");
-    		return;
-    	}
-    	if(!script.hasNextAction()) {
-    		addMessage("Script finished.");
-    		return;
-    	}
-    	String observed;
-    	if(chatMessages.size() > 0) {
-    		observed = chatMessages.get(chatMessages.size()-1);
-    	} else {
-    		observed = "";
-    	}
-    	Action next = script.getNextAction();
-    	
-    	if(next.getType() == ActionType.Mentor) {
-    		chatField.setText(next.getAction());
-//    		sendSoarMessage(next.getAction());
-//    		history.add(next.getAction());
-//        	historyIndex = history.size();
-//          addMessage("Mentor: " + next.getAction());
-    	}
-    	if(observed != null && observed.contains("Agent:") && next.getType() != ActionType.Agent) {
-    		addMessage("    - Error - was not expecting Agent response");
-    	}
-    	if(next.getType() == ActionType.Agent) {
-    		//check if response is correct
-    		String expected = next.getAction();
-    		if(!observed.contains(expected)) {
-    			addMessage("    - Error - Expected: "+expected);
-    		} else {
-    			addMessage("    - Correct -");
-    		}
-    	}
-    	if(next.getType() == ActionType.Comment) {
-    		addMessage("Comment: "+next.getAction());
-    	}
-    	if(next.getType() == ActionType.AgentAction) {
-    		addMessage("AgentAction: "+next.getAction());
-    	}
-    	if(next.getType() == ActionType.MentorAction) {
-    		addMessage("MentorAction: "+next.getAction());
-    	}
+    private void setupStyles() {
+    	Style defaultStyle = chatDoc.addStyle(ActionType.Default.toString(), null);
+    	Style agentStyle = chatDoc.addStyle(ActionType.Agent.toString(), defaultStyle);
+        Style agentActionStyle = chatDoc.addStyle(ActionType.AgentAction.toString(), defaultStyle);
+        Style commentStyle = chatDoc.addStyle(ActionType.Comment.toString(), defaultStyle);
+        Style mentorStyle = chatDoc.addStyle(ActionType.Mentor.toString(), defaultStyle);
+        Style mentorActionStyle = chatDoc.addStyle(ActionType.MentorAction.toString(), defaultStyle);
+        Style correctStyle = chatDoc.addStyle(ActionType.Correct.toString(), defaultStyle);
+        Style incorrectStyle = chatDoc.addStyle(ActionType.Incorrect.toString(), defaultStyle);
+        
+        StyleConstants.setForeground(defaultStyle, Color.BLACK);
+        StyleConstants.setFontSize(defaultStyle, 18);
+        StyleConstants.setFontFamily(defaultStyle, "SansSerif");
+        
+        StyleConstants.setForeground(agentActionStyle, new Color(225, 225, 0));
+        StyleConstants.setForeground(agentStyle, Color.BLACK);
+        StyleConstants.setItalic(agentStyle, true);
+        StyleConstants.setFontFamily(agentStyle, "Serif");
+        StyleConstants.setForeground(commentStyle, Color.BLUE);
+        StyleConstants.setForeground(mentorStyle, Color.BLACK);
+        StyleConstants.setForeground(mentorActionStyle, new Color(205, 0, 0));
+        StyleConstants.setForeground(correctStyle, new Color(0, 200, 0));
+        StyleConstants.setForeground(incorrectStyle, new Color(205, 0, 0));   
     }
     
     /*** 
@@ -440,9 +441,31 @@ public class ChatFrame extends JFrame implements RunEventInterface
     
     public void setReady(boolean isReady){
     	ready = isReady;
-    	if(ready){
-    		sendButton.setBackground(new Color(150, 255, 150));
-    		sendButton.setText("Send Message");
+    	updateSendButtonStatus();
+    }
+    
+    public void setWaiting(boolean isWaiting) {
+    	waitingForAgentResponse = isWaiting;
+    	updateSendButtonStatus();
+    }
+    
+    public void setWaitingForScript(boolean waiting) {
+    	waitingForAdvanceScript = waiting;
+    	updateSendButtonStatus();
+    }
+    
+    private void updateSendButtonStatus() {
+    	if(waitingForAdvanceScript) {
+    		sendButton.setBackground(new Color(100, 255, 255));
+    		sendButton.setText("Next Script Entry");
+    	} else if(ready) {
+    		if(waitingForAgentResponse) {
+    			sendButton.setBackground(new Color(255, 255, 100));
+        		sendButton.setText("Waiting for response");
+    		} else {
+    			sendButton.setBackground(new Color(150, 255, 150));
+    			sendButton.setText("Send Message");
+    		}
     	} else {
     		sendButton.setBackground(new Color(255, 100, 100));
     		sendButton.setText("Not Ready");
@@ -452,25 +475,37 @@ public class ChatFrame extends JFrame implements RunEventInterface
     public void clear(){
     	chatMessages.clear();
     	chatField.setText("");
-    	chatArea.setText("");
+    	try {
+			chatDoc.remove(0, chatDoc.getLength());
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	InputLinkHandler.Singleton().clearLGMessages();
     	World.Singleton().destroyMessage();
+    }
+    
+    public void addMessage(String message, ActionType type) {
+    	if(chatDoc.getStyle(type.toString()) == null)
+    		type = ActionType.Default;
+    	chatMessages.add(message);
+        try {
+			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        if(type == ActionType.Agent && script != null && script.hasNextAction())
+        	Util.handleNextScriptAction(script, chatMessages);
     }
 
     public void addMessage(String message)
     {
-        chatMessages.add(message);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < chatMessages.size(); ++i)
-        {
-            sb.append(chatMessages.get(i));
-            if (i + 1 < chatMessages.size())
-            {
-                sb.append('\n');
-            }
-        }
-        chatArea.setText(sb.toString());
-        chatArea.setCaretPosition(chatArea.getDocument().getLength());
+        addMessage(message, ActionType.Default);
+    }
+    
+    public void preSetMentorMessage(String message) {
+    	chatField.setText(message);
     }
     
     public void exit(){
@@ -485,15 +520,21 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     private void sendButtonClicked(){
-    	if(!ready){
+    	if(waitingForAdvanceScript) {
+    		setWaitingForScript(false);
+    		Util.handleNextScriptAction(script, chatMessages);
+    	}
+    	if(!ready || waitingForAgentResponse){
     		return;
     	}
     	history.add(chatField.getText());
     	historyIndex = history.size();
-        addMessage("Mentor: " + chatField.getText());
+        addMessage("Mentor: " + chatField.getText(), ActionType.Mentor);
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
+        if(script.peekType() == ActionType.Agent)
+    		ChatFrame.Singleton().setWaiting(true);
     }
     
     private void upPressed(){

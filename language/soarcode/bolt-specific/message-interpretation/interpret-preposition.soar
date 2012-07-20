@@ -29,6 +29,7 @@ sp {interpret-preposition*apply*identify-preposition
    (<s> ^preposition-identified true
         ^object <p2-val>)
    (<rm> ^word <preposition>)
+   (<pr> ^accounted-for true)
 }
 
 sp {interpret-preposition*apply*identify-preposition*two-part-outer*of
@@ -45,6 +46,7 @@ sp {interpret-preposition*apply*identify-preposition*two-part-outer*of
    (<s> ^preposition-identified true
         ^object <p2-val>)
    (<rm> ^word (concat <o1> |-| <o2>))
+   (<pr> ^accounted-for true)
 }
 
 sp {interpret-preposition*propose*collect-object

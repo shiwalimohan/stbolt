@@ -5,7 +5,7 @@
 #		SoarJavaDebugger.jar (/opt/bolt/soar/out/SoarJavaDebugger.jar)
 #   sml.jar    (/opt/bolt/soar/out/java/sml.jar)
 
-$cmd = "java  com.soartech.bolt.SoarRunner soarcode/load-standalone.soar";
+$cmd = "java  com.soartech.bolt.SoarRunner --source soarcode/load-standalone.soar";
 
 # need to preserve quoted arguments
 foreach $arg (@ARGV) {

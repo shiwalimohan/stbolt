@@ -47,7 +47,8 @@ sp {apply*push-relation-question*what
    # AM: Changed satisfaction structure
    (<sat> ^action-event.type describe)
 }
-##################
+
+
 sp {apply*push-relation-question*which
    (state <s> ^operator <o>)
    (<o> ^name push-relation-question

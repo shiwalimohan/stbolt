@@ -101,7 +101,7 @@ sp {postprocess-sentence*propose*unmap
    (state <s> ^name postprocess-sentence
               ^should-be <sb>)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + =)
    (<o> ^name unmap
         ^kind interpretation)
 }

@@ -5,13 +5,14 @@ sp {global*apply*generate-predicates*output*ext/int*arg
    (state <s> ^model.idea <idea> ^final-predicates <fp>
               ^operator.name generate-predicates) 
    (<idea> ^<< ext int int-second >> <thisroleval> ^nuc <nucval> ^annotation pred-adj/noun-tested)
-   (<thisroleval> ^nuc <thisnucval> -^annotation pred-adj/noun 
+   (<thisroleval> ^nuc <thisnucval> -^annotation pred-adj/noun ^sentence-count <sc> 
                  -^annotation in-n-n)
 -->
    (<thisroleval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <thisnucval>
-           ^inner1 <thisroleval>)
+           ^inner1 <thisroleval>
+           ^originating-sentence <sc>)
 }
 
 # now output the term for the predicate adjective; NOTE: have to find the subject's variable
@@ -19,34 +20,36 @@ sp {global*apply*generate-predicates*output*int*pred-adj
    (state <s> ^model.idea <idea> ^final-predicates <fp>
               ^operator.name generate-predicates) 
    (<idea> ^int <thisroleval> ^nuc <nucval>)
-   (<thisroleval> ^nuc <thisnucval> ^annotation pred-adj/noun ^aug.ext <thesubject> -^annotation pred-pp
+   (<thisroleval> ^nuc <thisnucval> ^annotation pred-adj/noun ^aug.ext <thesubject> -^annotation pred-pp ^sentence-count <sc>
    -^annotation in-n-n)
 -->
    (<thisroleval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie 
    (<fp> ^predicate <pred>)
    (<pred> ^outer <thisnucval>
-           ^inner1 <thesubject>)
+           ^inner1 <thesubject>
+           ^originating-sentence <sc>)
 }
 
 # intransitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-itrx
    (state <s> ^model.idea <idea> ^final-predicates <fp>
               ^operator.name generate-predicates)
-   (<idea> ^ext <extval> ^nuc <nucval> -^int <any> -^int-second <any> -^annotation copula)
+   (<idea> ^ext <extval> ^nuc <nucval> -^int <any> -^int-second <any> -^annotation copula ^sentence-count <sc>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<idea> ^annotation pred-dumped + ^annotation intransitive +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
-           ^inner1 <extval>)
+           ^inner1 <extval>
+           ^originating-sentence <sc>)
 }
 
 
 # transitive predicate terms
 sp {global*apply*generate-predicates*output*predicate-trx
    (state <s> ^model.idea <idea> ^final-predicates <fp> ^operator.name generate-predicates)
-   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> -^annotation copula)
+   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> -^annotation copula ^sentence-count <sc>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<extval> ^annotation pred-dumped +)
@@ -55,7 +58,8 @@ sp {global*apply*generate-predicates*output*predicate-trx
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
            ^inner1 <extval>
-           ^inner2 <intval>)
+           ^inner2 <intval>
+           ^originating-sentence <sc>)
 }
 
 # the man sent the lawyer a letter .
@@ -63,7 +67,7 @@ sp {global*apply*generate-predicates*output*predicate-trx
 # ditransitive predicates
 sp {global*apply*generate-predicates*output*predicate-ditrx
    (state <s> ^model.idea <idea> ^final-predicates <fp> ^operator.name generate-predicates) 
-   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> ^int-second <int2val>)
+   (<idea> ^ext <extval> ^nuc <nucval> ^int <intval> ^int-second <int2val> ^sentence-count <sc>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<extval> ^annotation pred-dumped +)
@@ -74,7 +78,8 @@ sp {global*apply*generate-predicates*output*predicate-ditrx
    (<pred> ^outer <nucval>
            ^inner1 <extval>
            ^inner2 <intval>
-           ^inner3 <int2val>)
+           ^inner3 <int2val>
+           ^originating-sentence <sc>)
 }
 
 # transitive predicate terms, marked as ditransitive
@@ -83,7 +88,7 @@ sp {global*apply*generate-predicates*output*predicate-ditrx
 sp {global*apply*generate-predicates*output*predicate-trx*fake-ditrx
    (state <s> ^model.idea <idea> ^final-predicates <fp>
               ^operator.name generate-predicates)
-   (<idea> ^ext <extval> ^nuc <nucval> -^int <int-plain-val> ^int-second <intval>)
+   (<idea> ^ext <extval> ^nuc <nucval> -^int <int-plain-val> ^int-second <intval> ^sentence-count <sc>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
 -->
    (<extval> ^annotation pred-dumped +)
@@ -92,5 +97,6 @@ sp {global*apply*generate-predicates*output*predicate-trx*fake-ditrx
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nucval>
            ^inner1 <extval>
-           ^inner2 <intval>)
+           ^inner2 <intval>
+           ^originating-sentence <sc>)
 }

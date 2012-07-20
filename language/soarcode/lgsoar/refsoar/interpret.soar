@@ -109,6 +109,8 @@ sp {interpret*propose*S-I*as*inflected
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <S-link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count> )}
      
+
+# added for interrogatives
 sp {interpret*propose*SI*as*external
    (state <s> ^current-sentence <cs>)
    (<cs> ^links.link <link> ^words.word <ext> <main>)
@@ -119,6 +121,17 @@ sp {interpret*propose*SI*as*external
    (<s> ^operator <o> +)
    (<o> ^name add-arg ^priority 150 ^main <main> ^aug ext ^arg <ext> ^link <link>
    	 ^kind single ^order <ext-count> ^level-two-order <main-count>
+   	 )}
+
+sp {interpret*propose*Q*as*question
+   (state <s> ^current-sentence <cs>)
+   (<cs> ^links.link <link> ^words.word  <main>)
+   (<main> ^ref <ref> ^wcount <main-count>)
+   (<link> ^ltype Q ^lwright <main-count> -^handled-as)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name add-arg ^priority 150 ^main <main> ^aug questioned ^arg true ^link <link>
+   	 ^kind constant ^order <main-count> ^level-two-order <main-count> )
    	 )}
 	
 # SBW 5/30/12
@@ -326,7 +339,7 @@ sp {interpret*apply*single-add-arg*if*arg-is-constant*no-substructure
    (<o> ^name add-arg ^main <main> ^aug <aug> ^arg <cons-arg> ^link <link> ^kind constant -^arg.feature)
    (<main> ^ref <main-ref>)
 -->
-   (<main-ref> ^<aug> <arg> +)
+   (<main-ref> ^<aug> <cons-arg> +)
    (<link> ^handled-as <aug> +) 
 }
 
@@ -423,6 +436,19 @@ sp {interpret*propose*P*as*internal
 		 ^kind single ^order <main-count> ^level-two-order <int-count>)
 }
 
+# SBW 7/5/2012: Handle "the stove is on", but also "pick up the phone"
+#                                   ^K-link             ^K-link
+sp {interpret*propose*K*as*internal
+	(state <s> ^current-sentence <lgs>)
+	(<lgs> ^links.link <link> ^words.word <int> <main>)
+	(<main> ^ref <ref> ^wcount <main-count> ^wvalue << is are am were be was >>)
+	(<int> ^wcount <int-count>)
+	(<link> ^ltype K ^lwleft <main-count> ^lwright <int-count> -^handled-as)
+-->
+	(<s> ^operator <o> +)
+	(<o> ^name add-arg ^priority 150 ^main <main> ^aug int ^arg <int> ^link <link>
+		 ^kind single ^order <main-count> ^level-two-order <int-count>)
+}
 
 sp {|interpret*propose*A*as*adj-auging-noun|
     (state <s> ^current-sentence <cs>)
