@@ -31,8 +31,6 @@ import javax.swing.text.StyledDocument;
 import sml.Agent;
 import sml.Agent.RunEventInterface;
 import sml.smlRunEventId;
-import abolt.lcmtypes.robot_command_t;
-import april.util.TimeUtil;
 
 import com.soartech.bolt.BOLTLGSupport;
 import com.soartech.bolt.testing.ActionType;
@@ -195,11 +193,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
         JButton armResetButton  = new JButton("Reset Arm");
         armResetButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				robot_command_t command = new robot_command_t();
-				command.utime = TimeUtil.utime();
-				command.action = "RESET";
-				command.dest = new double[6];
-				SBolt.broadcastRobotCommand(command);
+				Util.resetArm();
 			}
         });
         menuBar.add(armResetButton);
@@ -210,12 +204,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 		btnLoadScript.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
-				int returnVal = chooser.showOpenDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					script = ParseScript.parse(chooser.getSelectedFile());
-				}
+				script = Util.loadScript();
 			}
 		});
 		menuBar.add(btnLoadScript);
@@ -233,12 +222,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 		btnSaveScript.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
-				int returnVal = chooser.showSaveDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					Util.saveFile(chooser.getSelectedFile(), chatMessages);
-				}
+				Util.saveScript(chatMessages);
 			}
 		});
 		menuBar.add(btnSaveScript);
@@ -514,18 +498,20 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	if(waitingForAdvanceScript) {
     		setWaitingForScript(false);
     		Util.handleNextScriptAction(script, chatMessages);
+    		return;
     	}
     	if(!ready || waitingForAgentResponse){
     		return;
     	}
-    	history.add(chatField.getText());
+    	String msg = chatField.getText();
+    	history.add(msg);
     	historyIndex = history.size();
-    	if(chatField.getText().charAt(0) == '#') {
-    		addMessage("Comment: "+chatField.getText().substring(1).trim());
+    	if(msg.length() > 0 && msg.charAt(0) == '#') {
+    		addMessage("Comment: "+msg.substring(1).trim(), ActionType.Comment);
     		return;
     	}
-        addMessage("Mentor: " + chatField.getText(), ActionType.Mentor);
-        sendSoarMessage(chatField.getText());
+        addMessage("Mentor: " + msg, ActionType.Mentor);
+        sendSoarMessage(msg);
         chatField.setText("");
         chatField.requestFocus();
         if(script != null && script.peekType() == ActionType.Agent) {

@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import edu.umich.sbolt.ChatFrame;
+import javax.swing.JFileChooser;
+
+import abolt.lcmtypes.robot_command_t;
+import april.util.TimeUtil;
 import edu.umich.sbolt.SBolt;
 
 public class Util {
@@ -24,7 +27,34 @@ public class Util {
 		}
 	}
 	
+	public static Script loadScript() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return ParseScript.parse(chooser.getSelectedFile());
+		}
+		return null;
+	}
+	
+	public static void saveScript(List<String> chatMessages) {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
+		int returnVal = chooser.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			Util.saveFile(chooser.getSelectedFile(), chatMessages);
+		}
+	}
+	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
     	new ScriptRunner(script, chatMessages).start();
     }
+    
+    public static void resetArm() {
+		robot_command_t command = new robot_command_t();
+		command.utime = TimeUtil.utime();
+		command.action = "RESET";
+		command.dest = new double[6];
+		SBolt.broadcastRobotCommand(command);
+	}
 }
