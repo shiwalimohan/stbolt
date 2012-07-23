@@ -39,6 +39,8 @@ public class ParseScript {
 				type = ActionType.AgentAction;
 			} else if(lineType[0].equals("MentorAction")) {
 				type = ActionType.MentorAction;
+			} else if(lineType[0].equals("UiAction")) {
+				type = ActionType.UiAction;
 			} else {
 				type = ActionType.Invalid;
 			}
@@ -73,6 +75,9 @@ public class ParseScript {
 				break;
 			case '>':
 				type = ActionType.Mentor;
+				break;
+			case '@':
+				type = ActionType.UiAction;
 				break;
 			default:
 				type = ActionType.Invalid;

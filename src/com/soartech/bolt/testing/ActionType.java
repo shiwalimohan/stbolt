@@ -9,5 +9,6 @@ public enum ActionType {
 	Invalid,
 	Default,
 	Correct,
-	Incorrect
+	Incorrect,
+	UiAction
 }

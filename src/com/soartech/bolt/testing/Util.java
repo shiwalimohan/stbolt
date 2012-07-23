@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 import edu.umich.sbolt.SBolt;
+import edu.umich.sbolt.world.World;
 
 public class Util {
 	
@@ -48,6 +49,23 @@ public class Util {
 	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
     	new ScriptRunner(script, chatMessages).start();
+    }
+    
+    public static void handleUiAction(String action) throws UnhandledUiAction {
+    	if(action.contains("point")) {
+    		try {
+    			String rep = action.replace("point", "").trim();
+    			int id = Integer.parseInt(rep);
+        		World.Singleton().setPointedObjectID(id);
+    		} catch (NumberFormatException e) {
+    			new UnhandledUiAction("Invalid number in point UiAction: "+action);
+    		}
+    		return;
+    	} else if(action.contains("automated")) {
+    		boolean auto = Boolean.parseBoolean(action.replace("automated", "").trim());
+    		Settings.getInstance().setAutomated(auto);
+    	}
+    	throw new UnhandledUiAction("Unrecognized action.");
     }
     
     public static void resetArm() {

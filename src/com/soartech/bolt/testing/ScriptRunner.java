@@ -79,6 +79,14 @@ public class ScriptRunner extends Thread {
     	if(next.getType() == ActionType.MentorAction) {
     		ChatFrame.Singleton().addMessage("MentorAction: "+next.getAction(), next.getType());
     	}
+    	if(next.getType() == ActionType.UiAction) {
+    		try {
+				Util.handleUiAction(next.getAction());
+			} catch (UnhandledUiAction e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	if(!script.actionRequiresMentorAttention(next))
     		Util.handleNextScriptAction(script, chatMessages);
     	else

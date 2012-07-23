@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -34,14 +33,13 @@ import sml.smlRunEventId;
 
 import com.soartech.bolt.BOLTLGSupport;
 import com.soartech.bolt.testing.ActionType;
-import com.soartech.bolt.testing.ParseScript;
 import com.soartech.bolt.testing.Script;
-import com.soartech.bolt.testing.Settings;
 import com.soartech.bolt.testing.Util;
 
 import edu.umich.sbolt.world.SVSConnector;
 import edu.umich.sbolt.world.World;
 
+@SuppressWarnings("serial")
 public class ChatFrame extends JFrame implements RunEventInterface
 {
 	// Singleton instance to access the ChatFrame from other places
@@ -107,6 +105,8 @@ public class ChatFrame extends JFrame implements RunEventInterface
 
     public ChatFrame(BOLTLGSupport lg, Agent agent) {
         super("SBolt");
+        System.out.println("Set object");
+        World.Singleton().setPointedObjectID(0);
         instance = this;
         lgSupport = lg;
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
@@ -461,8 +461,9 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void addMessage(String message, ActionType type) {
-    	if(chatDoc.getStyle(type.toString()) == null)
+    	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
+    	}
     	chatMessages.add(message);
         try {
 			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
@@ -470,8 +471,9 @@ public class ChatFrame extends JFrame implements RunEventInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if(type == ActionType.Agent && script != null && script.hasNextAction())
+        if(type == ActionType.Agent && script != null && script.hasNextAction()) {
         	Util.handleNextScriptAction(script, chatMessages);
+        }
     }
 
     public void addMessage(String message)

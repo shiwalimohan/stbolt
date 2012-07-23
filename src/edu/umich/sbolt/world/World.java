@@ -3,8 +3,8 @@ package edu.umich.sbolt.world;
 import java.util.HashSet;
 import java.util.Set;
 
-import abolt.lcmtypes.observations_t;
 import sml.Identifier;
+import abolt.lcmtypes.observations_t;
 public class World implements IInputLinkElement
 {
     public static World Singleton(){
@@ -24,6 +24,7 @@ public class World implements IInputLinkElement
     
     private SVSConnector svsConnector;
     
+    private boolean ignoreLcmPointedObject = false;
 
     private RobotArm robotArm;
 
@@ -85,11 +86,18 @@ public class World implements IInputLinkElement
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
         worldTime.newObservation(observation);
-        pointedObject.setObjectID(observation.click_id);
+        if(!ignoreLcmPointedObject) {
+        	pointedObject.setObjectID(observation.click_id);
+        }
     }
     
     public synchronized void newMessage(String message){
         messages.addMessage(message);
+    }
+    
+    public synchronized void setPointedObjectID(int id) {
+    	ignoreLcmPointedObject = true;
+    	pointedObject.setObjectID(id);
     }
     
     public int getPointedObjectID(){
