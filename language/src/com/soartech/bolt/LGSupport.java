@@ -14,10 +14,12 @@ import net.sf.jlinkgrammar.Sentence;
 import net.sf.jlinkgrammar.parser;
 import sml.Agent;
 import sml.Agent.OutputEventInterface;
+import sml.Agent.RunEventInterface;
 import sml.Identifier;
 import sml.WMElement;
+import sml.smlRunEventId;
 
-public class LGSupport implements OutputEventInterface {
+public class LGSupport implements OutputEventInterface, RunEventInterface {
 	private static Agent agent;
 	public static String dictionaryPath = ""; 
 	private static Identifier lgInputRoot;
@@ -31,6 +33,7 @@ public class LGSupport implements OutputEventInterface {
 	private static boolean filterWords = false;
 	private static Set<String> legalWords;
 	
+	private Vector<String> inputSentences = new Vector<String>();
 
 	public LGSupport(Agent _agent, String dictionary, String legalWordList) {
 		agent = _agent;
@@ -47,6 +50,9 @@ public class LGSupport implements OutputEventInterface {
 			lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
 
 			agent.AddOutputHandler("preprocessed-sentence", this, null);
+			
+			// generic output event where we can safely add sentences to input while in the Soar thread
+			agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
 		}
 	}
 	
@@ -97,21 +103,36 @@ public class LGSupport implements OutputEventInterface {
 	}
 	
 	public void handleSentence(String sentence) {
-		
 		if (agent == null) {
 			// no Soar, run parser directly on sentence
 			theParser.parseSentence(sentence);
 		}
 		else {
-			// load the sentence into WM
-			sentenceCount++;
-			originalSentenceToWM(sentence.toLowerCase());
-			
-			// Soar rules may modify it
-			
-			// wait for preprocessed sentence on output
+			synchronized (inputSentences) {
+				// this may not be called from the Soar thread, so wait for an input event to add to WM
+				inputSentences.add(sentence);
+			}
 		}
 	}
+	
+	
+	public void runEventHandler(int arg0, Object arg1, Agent arg2, int arg3) {
+		synchronized (inputSentences) {	
+			for (String sentence: inputSentences) {
+				System.out.println("sending to Soar for preprocessing (output event): " + sentence);
+	
+				// load the sentence into WM
+				sentenceCount++;
+				originalSentenceToWM(sentence.toLowerCase());
+				
+				// Soar rules may modify it
+				
+				// wait for preprocessed sentence on output
+			}
+			inputSentences.clear();
+		}
+	}
+	
 	
 	private void originalSentenceToWM(String sentence) {
 		clearAllInputWMEs();
@@ -189,8 +210,9 @@ public class LGSupport implements OutputEventInterface {
 		currentOutputSentenceCount = Integer.parseInt(param);
 		
 		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
-		
-		//System.out.println("got sentence: " + result);
+		for (String result: results) {
+			System.out.println("got preprocessed sentence: " + result);
+		}
 		return results;
 	}
 	
@@ -416,4 +438,6 @@ public class LGSupport implements OutputEventInterface {
 			return legalWords.contains(word);
 		}
 	}
+
+
 }
