@@ -2381,6 +2381,10 @@ or (Wj- & Qd+) or [Wq- & PF+];
 under beneath:
 ({Yd-} & {JQ+} & J+ & (<prep-main-a> or FM-)) or (MVp- & B-);
 below above behind.p: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-);
+
+# SBW added for BOLT
+diagonal_with aligned_with diagonal_to aligned_to diagonal_from far_from close_to known_by: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-);
+
 within: ({JQ+} & J+ & <prep-main-a>) or (MVp- & B-);
 during: ({JQ+} & J+ & (<prep-main-a> or UN-)) or (MVp- & B-);
 from:

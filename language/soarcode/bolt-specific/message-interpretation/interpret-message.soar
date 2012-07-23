@@ -35,7 +35,7 @@ sp {interpret-message*elaborate*object*collect
               ^objects.object <po>
               ^predicate-set.predicate <pr>)
    (<pr> ^inner1 <po>
-        -^outer << HEARER you goal >> 
+        -^outer goal
         -^inner2)
    (<po> ^predicates <prp>)
 -->
@@ -57,16 +57,19 @@ sp {interpret-message*propose*interpret-primitive-object
 # a message structure
 
 
-# verb-commands have the HEARER
+# verb-commands have the SELF
 sp {interpret-message*propose*interpret-verb-command
    (state <s> ^name interpret-message
               ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
-            ^predicate <p1>)
-   (<p1> ^outer << HEARER you >>
+            ^predicate <p1> <p2>)
+   (<p1> ^outer SELF
          ^inner1 <hearer>
         -^ignored)
+   (<p2> -^outer SELF 
+        ^inner1 <hearer>
+       -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-verb-command
@@ -418,20 +421,35 @@ sp {interpret-message*apply*identify-to-the-x-of-relation*questioned
 }
 
 # noun phrases get reparsed as commands with a fake verb,
-# postprocessing removes the fake verb but not the HEARER object
+# postprocessing removes the fake verb but not the SELF object
 
-# remove any HEARER object that isn't referred to elsewhere
+# remove any SELF object that isn't referred to elsewhere
 sp {interpret-message*elaborate*ignore-phantom-hearer
    (state <s> ^name interpret-message
               ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
             ^predicate <p1>)
-   (<p1> ^outer HEARER
+   (<p1> ^outer SELF
          ^inner1 <hearer>)
   -{(<pred> ^predicate {<> <p1> <p2>})
     (<p2> ^<< inner1 inner2 inner3 >> <hearer>)}
 -->
    (<p1> ^ignored true)
    (<s> ^ignored-object <hearer>)
+}
+
+# replace "you" and HEARER with SELF
+sp {interpret-message*elaborate*you-to-hearer
+   (state <s> ^name interpret-message
+              ^predicate-set <pred>)
+   (<pred> ^predicate <you>)
+   (<you> ^outer << you HEARER >>
+          ^inner1 <you-obj>
+         -^inner2)
+-->
+   (<pred> ^predicate <you> -
+           ^predicate <hearer>)
+   (<hearer> ^outer SELF
+             ^inner1 <you-obj>)
 }
