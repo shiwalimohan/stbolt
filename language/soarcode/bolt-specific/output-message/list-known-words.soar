@@ -44,173 +44,75 @@ sp {list-words*apply*init-state
 -->
    (<s> ^problem-space message-interpretation
         ^name list-words
-        ^nl-message <message>)
+        ^nl-message <message>
+        ^nouns <nouns>
+        ^nounjective-lookups name color shape size)
+}
+
+# prefer generate message to look-up
+sp {list-words*prefer*generate*look-up
+   (state <s> ^name list-words
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name look-up-noun-adjective)
+   (<o2> ^name generate-noun-message)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
+# do lookups in alphabetical order
+sp {list-words*prefer*lookup*alphabetical
+   (state <s> ^name list-words
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name look-up-noun-adjective
+         ^category <cat1>)
+   (<o2> ^name look-up-noun-adjective
+         ^category {<cat2> < <cat1>})
+-->
+   (<s> ^operator <o2> > <o1>)
 }
 
 # propose subgoal to look up noun/adjective
 sp {list-words*propose*look-up-noun-adjective
    (state <s> ^name list-words
-             -^nouns.name finished)
+              ^nounjective-lookups <njl>
+             -^nouns.<njl> finished)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name look-up-noun-adjective
-        ^category name)
+        ^category <njl>)
 }
 
 # propose subgoal to generate noun message
 sp {list-words*propose*generate-noun-message
    (state <s> ^name list-words
-              ^nouns.name finished
-             -^nouns.name message-generated)
+              ^nouns <nouns>)
+   (<nouns> ^<njl> finished
+           -^<njl> message-generated)
 -->
    (<s> ^operator <o> +)
    (<o> ^name generate-noun-message
-        ^category name)
+        ^category <njl>)
 }
 
-sp {list-words*propose*no-words
+# propose operator to end the state
+sp {list-words*propose*end-state
    (state <s> ^name list-words
-             -^msg <msg>
-              ^smem.result.failure)
--->
-   (<s> ^operator <o> + =)
-   (<o> ^name no-words)
-}
-
-# create a message which says "I don't know any words."
-sp {list-words*apply*no-words
-   (state <s> ^name list-words
-              ^operator <o>)
-   (<o> ^name no-words)
--->
-   (<s> ^msg <msg>)
-   (<msg> ^first <w1>
-          ^word <w1> <w2> <w3> <w4> <w5> <w6>
-          ^last <w6>)
-   (<w1> ^value I
-         ^next <w2>)
-   (<w2> ^value |don't|
-         ^next <w3>)
-   (<w3> ^value know
-         ^next <w4>)
-   (<w4> ^value any
-         ^next <w5>)
-   (<w5> ^value words
-         ^next <w6>)
-   (<w6> ^value |.|)
-}
-
-sp {list-words*propose*create-message
-   (state <s> ^name list-words
-              ^smem.result.success <cue>
-              ^smem.result.retrieved <identifier>)
-   (<identifier> ^category <cat>
-          ^word <word>)
- -{(<s> ^msg <msg>
-        ^name list-words)
-   (<msg> ^word <word>
-          ^category <cat>
-          ^smem-id)}
--->
-  (<s> ^operator <o> + =)
-  (<o> ^name create-message
-       ^word <word>
-       ^category <cat>
-       ^smem-cue <cue>
-       ^smem-id <id>)
-}
-
-# create a message which says "<word> is a <category>"
-sp {list-words*apply*create-message
-   (state <s> ^name list-words
-              ^operator <o>)
-   (<o> ^name create-message
-        ^word <word>
-        ^category <cat>
-        ^smem-cue <cue>
-        ^smem-id <id>)
--->
-   (<s> ^msg <msg>
-        ^smem.command.store <id>)
-   (<msg> ^word <word>
-          ^category <cat>
-          ^first <w1>
-          ^word <w1> <w2> <w3> <w4> <w5>
-          ^last <w5>)
-   (<w1> ^value (capitalize-symbol <word>)
-         ^next <w2>)
-   (<w2> ^value is
-         ^next <w3>)
-   (<w3> ^value a
-         ^next <w4>)
-   (<w4> ^value <cat>
-         ^next <w5>)
-   (<w5> ^value |.|)
-   (<id> ^looked-up true)
-}
-
-# change "a" to "an" if first letter in next word is a vowel
-# (not handling h-words and acronyms) a e i o u
-#sp {list-words*propose*use-an
-#   (state <s> ^name list-words
-#              ^msg <msg>)
-#   (<msg> ^word <word>)
-#   (<word> ^value a
-#           ^next <nword>)
-#   (<nword> ^value {>= a < b})
-#-->
-#   (<s> ^operator <o> + =)
-#   (<o> ^name use-an
-#        ^word <word>)
-#}
-#
-#sp {list-words*apply*use-an
-#   (state <s> ^name list-words
-#              ^operator <o>)
-#   (<o> ^name use-an
-#        ^word <word>)
-#-->
-#   (<word> ^value a - an)
-#}
-
-sp {list-words*propose*copy-to-output-link
-   (state <s> ^name list-words
-              ^msg <msg>
-             -^copied)
--->
-   (<s> ^operator <o> + <)
-   (<o> ^name copy-to-output-link
-        ^msg <msg>)
-}
-
-sp {list-words*apply*copy-to-output-link
-   (state <s> ^name list-words
-              ^operator <o>
-              ^top-state.io.output-link <ol>)
-   (<o> ^name copy-to-output-link
-        ^msg <msg>)
--->
-   (<ol> ^message <msg>)
-   (<s> ^copied true)
-}
-
-sp {list-words*propose*delete-nl-message
-   (state <s> ^name list-words
-              ^copied true
               ^nl-message <message>
               ^top-state <ts>)
    (<ts> ^nl.input-link <nl-il>)
 -->
-   (<s> ^operator <o> +)
-   (<o> ^name delete-nl-message
+   (<s> ^operator <o> + <)
+   (<o> ^name end-state
         ^nl-message <message>
         ^nl-input-link <nl-il>)
 }
 
-sp {list-words*apply*delete-nl-message
+sp {list-words*apply*end-state
    (state <s> ^name list-words
               ^operator <o>)
-   (<o> ^name delete-nl-message
+   (<o> ^name end-state
         ^nl-message <message>
         ^nl-input-link <nl-il>)
 -->

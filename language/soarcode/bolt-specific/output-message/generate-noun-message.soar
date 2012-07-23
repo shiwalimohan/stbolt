@@ -25,17 +25,59 @@ sp {generate-noun-message*apply*init-message
 -->
    (<s> ^msg <msg>)
    (<msg> ^first <w1>
-          ^word <w1> <w2> <w3> <w4> <w5>
-          ^last <w5>)
+          ^word <w1> <w2> <w3> <w4>
+          ^last <w4>)
    (<w1> ^value I
          ^next <w2>)
    (<w2> ^value know
          ^next <w3>)
    (<w3> ^value the
          ^next <w4>)
-   (<w4> ^value (concat <cat> s)
+   (<w4> ^value (concat <cat> |s:|))
+}
+
+sp {generate-noun-message*prefer*init-message*not-empty
+   (state <s> ^name generate-noun-message
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name init-message-empty)
+   (<o2> ^name init-message)
+-->
+   (<s> ^operator <o2> < <o1>)
+}
+
+sp {generate-noun-message*propose*init-message-empty
+   (state <s> ^name generate-noun-message
+              ^superstate <s2>
+              ^category <cat>
+             -^msg)
+   (<s2> -^nouns.<cat>.words <word>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name init-message-empty)
+}
+
+sp {generate-noun-message*apply*init-message-empty
+   (state <s> ^name generate-noun-message
+              ^category <cat>
+              ^operator <o>)
+   (<o> ^name init-message-empty)
+-->
+   (<s> ^msg <msg>)
+   (<msg> ^first <w1>
+          ^word <w1> <w2> <w3> <w4> <w5> <w6>
+          ^last <w6>)
+   (<w1> ^value I
+         ^next <w2>)
+   (<w2> ^value |don't|
+         ^next <w3>)
+   (<w3> ^value know
+         ^next <w4>)
+   (<w4> ^value any
          ^next <w5>)
-   (<w5> ^value |:|)
+   (<w5> ^value (concat <cat> s)
+         ^next <w6>)
+   (<w6> ^value |.|)
 }
 
 sp {generate-noun-message*prefer*lower*add-word-to-msg
@@ -67,7 +109,8 @@ sp {generate-noun-message*apply*add-word-to-msg
    (state <s> ^name generate-noun-message
               ^msg <msg>
               ^superstate <s2>
-              ^operator <o>)
+              ^operator <o>
+              ^category <cat>)
    (<o> ^name add-word-to-msg
         ^word <word>)
    (<msg> ^last <oldlast>)

@@ -211,9 +211,10 @@ sp {look-up-noun-adjective*apply*end-revert
               ^superstate <s2>
               ^category <cat>)
    (<o> ^name end-revert)
+   (<s2> ^nouns <nouns>)
 -->
    (<s> ^finished-revert true)
-   (<s2> ^nouns.<cat> <nc>)
+   (<nouns> ^<cat> <nc>)
 }
 
 #sp {look-up-noun-adjective*prefer*lower-word*copy-result
@@ -269,55 +270,7 @@ sp {look-up-noun-adjective*apply*end-state
               ^superstate <s2>
               ^category <cat>)
    (<o> ^name end-state)
+   (<s2> ^nouns <nouns>)
 -->
-   (<s2> ^nouns.<cat> finished)
+   (<nouns> ^<cat> finished)
 }
-
-#sp {look-up-noun-adjective*propose*create-message
-#   (state <s> ^name look-up-noun-adjective
-#              ^smem.result.success <cue>
-#              ^smem.result.retrieved <identifier>
-#              ^superstate <s2>)
-#   (<identifier> ^category <cat>
-#          ^word <word>)
-# -{(<s2> ^msg <msg>
-#        ^name list-words)
-#   (<msg> ^word <word>
-#          ^category <cat>)}
-#-->
-#  (<s> ^operator <o> + =)
-#  (<o> ^name create-message
-#       ^word <word>
-#       ^category <cat>
-#       ^smem-cue <cue>
-#       ^smem-id <id>)
-#}
-#
-## create a message which says "<word> is a <category>"
-#sp {list-words*apply*create-message
-#   (state <s> ^name list-words
-#              ^operator <o>
-#              ^superstate <s2>)
-#   (<o> ^name create-message
-#        ^word <word>
-#        ^category <cat>
-#        ^smem-cue <cue>
-#        ^smem-id <id>)
-#-->
-#   (<s2> ^msg <msg>)
-#   (<msg> ^word <word>
-#          ^category <cat>
-#          ^first <w1>
-#          ^word <w1> <w2> <w3> <w4> <w5>
-#          ^last <w5>)
-#   (<w1> ^value (capitalize-symbol <word>)
-#         ^next <w2>)
-#   (<w2> ^value is
-#         ^next <w3>)
-#   (<w3> ^value a
-#         ^next <w4>)
-#   (<w4> ^value <cat>
-#         ^next <w5>)
-#   (<w5> ^value |.|)
-#}
-
