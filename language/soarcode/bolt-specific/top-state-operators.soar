@@ -372,15 +372,18 @@ sp {elaborate*select-parse*prefer-older-sentences
    (<s> ^operator <o1> > <o2>)
 }
 
-# if multiple unprocessed sentences are available, preprocess all of them
-# before LGSoar takes over
-sp {elaborate*prefer*preprocess-over-evaluate
+# ordering: select should always happen after preprocess (in case later
+# preprocessing needs to commit to learned parse-classes from earlier
+# select-parse)
+# ALL sentences should have preprocess and select done before
+# interpret-sentences (LGSoar)
+sp {elaborate*prefer*select*over*preprocess
    (state <s> ^operator <o1> +
               ^operator <o2> +)
    (<o1> ^name preprocess-sentence)
    (<o2> ^name select-parse)
 -->
-   (<s> ^operator <o1> > <o2>)
+   (<s> ^operator <o2> > <o1>)
 }
 
 sp {elaborate*prefer*evaluate-over-interpret
@@ -392,6 +395,14 @@ sp {elaborate*prefer*evaluate-over-interpret
    (<s> ^operator <o1> > <o2>)
 }
 
+sp {elaborate*prefer*preprocess-over-interpret
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name preprocess-sentence)
+   (<o2> ^name interpret-sentences)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
 # prefer any operator without a priority (non-LGSoar) to one with a priority
 sp {prefer*non-LG
    (state <s> ^operator <o> +

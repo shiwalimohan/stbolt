@@ -75,11 +75,14 @@ sp {postprocess-sentence*apply*remove-noun-phrase-wall
 
 sp {postprocess-sentence*elaborate*should-be
    (state <s> ^name postprocess-sentence
-              ^map.word <wd>
+              ^map <mp>
               ^predicates.predicate <pred>)
+   (<mp> ^word <wd>
+         ^sentence-count <sc>)
    (<wd> ^real-wvalue <rv>
          ^parser-wvalue {<> <rv> <pv>})
-   (<pred> ^{<< outer outer1 outer2 inner1 inner2 inner3 >> <field>} <pv>)
+   (<pred> ^{<< outer outer1 outer2 inner1 inner2 inner3 >> <field>} <pv>
+           ^originating-sentence <sc>)
 -->
    (write (crlf) |will unmap | <pv> | -> | <rv>)
    (<s> ^should-be <sb>)

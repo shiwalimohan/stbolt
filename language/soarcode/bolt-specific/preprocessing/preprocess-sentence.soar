@@ -20,11 +20,11 @@ sp {preprocess-sentence*elaborate*init
 -->
    (<s> ^sentence <copy>)
    (<copy> ^sentence-count <sc>)
-   (<s> ^learnable-word-type *nounjective
-        ^learnable-word-type *verb+with+nothing
-        ^learnable-word-type *verb+with+preposition
-        ^learnable-word-type *verb+with+direct+object
-        ^learnable-word-type *verb+with+direct+object+and+preposition)
+   (<s> ^learnable-parse-class *nounjective
+        ^learnable-parse-class *verb+with+nothing
+        ^learnable-parse-class *verb+with+preposition
+        ^learnable-parse-class *verb+with+direct+object
+        ^learnable-parse-class *verb+with+direct+object+and+preposition)
 }
 
 sp {preprocess-sentence*elaborate*copy-word
@@ -89,6 +89,16 @@ sp {preprocess-sentence*apply*clean-old-input
 }
 # proposal will unmatch since the effect of this will be removing the
 # original-sentence (done in Java land)
+
+sp {preprocess-sentence*clean-old-input*over*others
+   (state <s> ^name preprocess-sentence
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name clean-old-input)
+   (<o2> ^name << substitute lookup-word >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
 
 sp {preprocess-sentence*elaborate*context-tag*which-question
    (state <s> ^name preprocess-sentence
@@ -230,6 +240,7 @@ sp {preprocess-sentence*propose*implicit-quote
 
 sp {preprocess-sentence*propose*lookup-word
    (state <s> ^name preprocess-sentence
+             -^queried <ct>
               ^sentence.word <wd>)
    (<wd> ^real-wvalue <wv>
         -^parser-wvalue
@@ -238,7 +249,7 @@ sp {preprocess-sentence*propose*lookup-word
    (<s> ^operator <o> +)
    (<o> ^name lookup-word
         ^word <wv>
-        ^position <ct>)
+        ^wcount <ct>)
 }
 
 sp {preprocess-sentence*apply*lookup-word
@@ -246,7 +257,8 @@ sp {preprocess-sentence*apply*lookup-word
               ^operator <o>
               ^smem.command <sc>)
    (<o> ^name lookup-word
-        ^word <wd>)
+        ^word <wd>
+        ^wcount <ct>)
 -->
    (<sc> ^query <qr>)
    (<qr> ^word <wd>
@@ -259,7 +271,7 @@ sp {preprocess-sentence*apply*lookup-word*after-retrieval
               ^smem <sm>
               ^sentence.word <wd>)
    (<o> ^name lookup-word
-        ^position <ct>)
+        ^wcount <ct>)
    (<sm> ^command <c>
          ^result.retrieved <ret>)
    (<ret> ^word <wval>
@@ -267,6 +279,7 @@ sp {preprocess-sentence*apply*lookup-word*after-retrieval
    (<wd> ^wcount <ct>)
    (<c> ^query <qr>)
 -->
+   (<s> ^queried <ct>)
    (<c> ^query <qr> -)
    (<wd> ^parser-wvalue (concat <pc> <ct>))
    (write (crlf) |Retrieved class | <pc> | for "| <wval> |"|)
@@ -276,39 +289,112 @@ sp {preprocess-sentence*apply*lookup-word*fail
    (state <s> ^name preprocess-sentence
               ^operator <o>
               ^smem <sm>
-              ^learnable-word-type <lwt> # many matches due to this
               ^sentence.word <wd>)
    (<o> ^name lookup-word
-        ^position <ct>)
+        ^wcount <ct>)
    (<sm> ^command <c>
          ^result.failure)
    (<c> ^query <qr>)
    (<wd> ^wcount <ct>
          ^real-wvalue <wval>)
 -->
+   (<s> ^queried <ct>)
    (<c> ^query <qr> -)
    (write (crlf) |Retrieval failed for "| <wval> |"|)
-   # assume word is all possible types
-   (<wd> ^parser-wvalue (concat <lwt> <ct>))
-   (<wd> ^unlearned true)
+   (<s> ^failed-lookup <fl>)
+   (<fl> ^wvalue <wval>
+         ^wcount <ct>)
 }
 
-sp {preprocess-sentence*prefer*earlier-lookup
+sp {preprocess-sentence*propose*handle-unlearned-word
+   (state <s> ^name preprocess-sentence
+              ^failed-lookup <fl>
+              ^sentence.word <wd>)
+   (<fl> ^wvalue <wv>
+         ^wcount <wc>)
+   (<wd> ^wcount <wc>
+        -^parser-wvalue)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name handle-unlearned-word
+        ^wvalue <wv>
+        ^wcount <wc>)
+}
+
+sp {preprocess-sentence*apply*handle-unlearned-word
+   (state <s> ^name preprocess-sentence
+              ^operator <o>
+              ^top-state.language <lan>
+              ^sentence.sentence-count <sc>
+              ^learnable-parse-class <lpc> # many matches due to this
+              ^sentence.word <wd>)
+   (<o> ^name handle-unlearned-word
+        ^wcount <ct>)
+   (<wd> ^wcount <ct>
+         ^real-wvalue <wval>)
+-->
+   # assume word is all possible types
+   (<wd> ^parser-wvalue (concat <lpc> <ct>))
+   (<lan> ^pending-dictionary-example <pde>)
+   (<pde> ^sentence-count <sc>
+          ^wcount <ct>
+          ^word <wval>
+          ^parse-class <lpc>
+          ^parser-wvalue (concat <lpc> <ct>))
+}
+
+sp {preprocess-sentence*prefer*lookup-word*over*handle-unlearned-word
    (state <s> ^name preprocess-sentence
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name lookup-word
-         ^position <ct1>)
-   (<o2> ^name lookup-word
-         ^position > <ct1>)
+   (<o1> ^name lookup-word)
+   (<o2> ^name handle-unlearned-word)
 -->
    (<s> ^operator <o1> > <o2>)
 }
 
+sp {preprocess-sentence*prefer*lower-wc
+   (state <s> ^name preprocess-sentence
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name {<< lookup-word handle-unlearned-word >> <name>} ^wcount <wc>)
+   (<o2> ^name <name> ^wcount > <wc>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# commit examples to smem if there is more than one failed lookup and an
+# example exists for one of the words
+# sp {preprocess-sentence*propose*commit-dictionary-example
+#    (state <s> ^name preprocess-sentence
+#               ^failed-lookup <f1>
+#               ^failed-lookup {<> <f1> <f2>}
+#               ^top-state.language.dictionary-example <de>)
+#    (<de> ^word <f1>)
+# -->
+#    (write (crlf) |Committing learned example of "| <f1> |" before proceeding.|)
+#    (<s> ^operator <o> + >)
+#    (<o> ^name commit-dictionary-example
+#         ^example <de>)
+# }
+
+# sp {preprocess-sentence*apply*commit-dictionary-example
+#    (state <s> ^name preprocess-sentence
+#               ^operator <o>
+#               ^smem.command <c>)
+#    (<o> ^name commit-dictionary-example
+#         ^example <de>)
+#    (<de> ^word <wd>
+#          ^parse-class <pc>)
+# -->
+#    (<c> ^store <de>)
+# }
+
+
 sp {elaborate*preprocessing*operators*are*interpretation*operators
    (state <s> ^name preprocess-sentence
               ^operator <o> +)
-   (<o> ^name << lookup-word substitute output-preprocessed >>)
+   (<o> ^name << lookup-word substitute output-preprocessed commit-dictionary-example handle-unlearned-word >>)
 -->
    (<o> ^kind interpretation)
 }

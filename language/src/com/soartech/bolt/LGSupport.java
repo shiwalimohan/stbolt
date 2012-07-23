@@ -310,6 +310,18 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
         Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
         
         // now load the words
+				
+				int globalOffset = 0;
+				if (phraseMode) {
+					globalOffset--;
+				}
+
+				if (sent.sentence_get_word(0).equals("LEFT-WALL")) {
+					// this may push LEFT-WALL to index -1, but nothing is looking for
+					// that anyway so its OK if rules think the sentence starts at 0
+					globalOffset--;
+				}
+
         for (int wordx = 0; wordx < numWords; wordx++) {
             // add ^word information for this link
             String wordval = sent.sentence_get_word(wordx);
@@ -332,12 +344,7 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
             // so word indices are equivalent
             
             // don't change the wcount, though, since LGSoar wants that to always start at 0
-            if (!phraseMode) {
-            	agent.CreateIntWME(wordWME, "global-wcount", wordx);
-            }
-            else {
-            	agent.CreateIntWME(wordWME, "global-wcount", wordx - 1);
-            }
+						agent.CreateIntWME(wordWME, "global-wcount", wordx + globalOffset);
         }
             
         // make a wme for the links
