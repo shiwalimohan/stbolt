@@ -508,6 +508,8 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	historyIndex = history.size();
     	if(msg.length() > 0 && msg.charAt(0) == '#') {
     		addMessage("Comment: "+msg.substring(1).trim(), ActionType.Comment);
+    		chatField.setText("");
+            chatField.requestFocus();
     		return;
     	}
         addMessage("Mentor: " + msg, ActionType.Mentor);
