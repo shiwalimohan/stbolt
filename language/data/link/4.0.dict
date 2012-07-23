@@ -3313,8 +3313,9 @@ or (YS+ & {D*u-}) or (GN+ & (DD- or [()])) or U-));
 <generic-adjective>: {EA- or EF+} & (({[[@Ec-]]} & {Xc+} & A+) or ((Pa- or AF+ or
  Ma-)  & {@MV+}) or AA+ or <adj-op>);
 
-<verb-with-preposition>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & {B- or O+}
- & @MV+;
+<verb-with-nothing>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-);
+
+<verb-with-preposition>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & @MV+;
 
 <verb-with-direct-object>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & (B- or O+);
 
@@ -3369,6 +3370,40 @@ UNKNOWN-WORD.v
 *verb+generic29
 *verb+generic30
 : <generic-verb>;
+
+*verb+with+nothing
+*verb+with+nothing0
+*verb+with+nothing1
+*verb+with+nothing2
+*verb+with+nothing3
+*verb+with+nothing4
+*verb+with+nothing5
+*verb+with+nothing6
+*verb+with+nothing7
+*verb+with+nothing8
+*verb+with+nothing9
+*verb+with+nothing10
+*verb+with+nothing11
+*verb+with+nothing12
+*verb+with+nothing13
+*verb+with+nothing14
+*verb+with+nothing15
+*verb+with+nothing16
+*verb+with+nothing17
+*verb+with+nothing18
+*verb+with+nothing19
+*verb+with+nothing20
+*verb+with+nothing21
+*verb+with+nothing22
+*verb+with+nothing23
+*verb+with+nothing24
+*verb+with+nothing25
+*verb+with+nothing26
+*verb+with+nothing27
+*verb+with+nothing28
+*verb+with+nothing29
+*verb+with+nothing30
+: <verb-with-nothing>;
 
 *verb+with+preposition
 *verb+with+preposition0

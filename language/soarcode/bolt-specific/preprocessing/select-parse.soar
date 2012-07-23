@@ -484,3 +484,12 @@ sp {select-parse*elaborate*report-not-chosen
 -->
    (write (crlf) |indifferent selection could have chosen | <pc> | instead.|)
 }
+
+#sp {select-parse*apply*approve*save-word-example
+#   (state <s> ^name select-parse
+#              ^operator <o>)
+#   (<o> ^name approve
+#        ^parse.sentence <sent>)
+#   (<sent> ^words.word <wd>)
+#   (<wd> ^unlearned true) # need to copy from preprocessed-sentence
+#-->

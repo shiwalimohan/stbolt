@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import net.sf.jlinkgrammar.Linkage;
@@ -26,22 +28,15 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 	private static int sentenceCount = -1;
 	private static int currentOutputSentenceCount = -1;
 	private static boolean phraseMode = false;
-	private static Vector<Identifier> inputWMEs = new Vector<Identifier>();
-	
+	private static Map<Integer, Vector<Identifier> > inputWMEs = new TreeMap<Integer, Vector<Identifier> >();
 	
 	public static parser theParser;
-	private static boolean filterWords = false;
-	private static Set<String> legalWords;
 	
 	private Vector<String> inputSentences = new Vector<String>();
 
-	public LGSupport(Agent _agent, String dictionary, String legalWordList) {
+	public LGSupport(Agent _agent, String dictionary) {
 		agent = _agent;
 		dictionaryPath = dictionary;
-		
-		if (legalWordList != null) {
-			fillLegalWordSet(legalWordList);
-		}
 		
 		theParser = new parser();
 		
@@ -50,58 +45,13 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 			lgInputRoot = agent.CreateIdWME(agent.GetInputLink(), "lg");
 
 			agent.AddOutputHandler("preprocessed-sentence", this, null);
+			agent.AddOutputHandler("sentence-done", this, null);
 			
 			// generic output event where we can safely add sentences to input while in the Soar thread
 			agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
 		}
 	}
-	
-	private void fillLegalWordSet(String file) {
-		// format for legal word file:
-		// each line is a single word (spaces will be removed)
-		// if the first character (in the first col) is #, it will be skipped
-		
-		legalWords = new HashSet<String>();
-		
-		// fake words used in the LG algorithm
-		legalWords.add("LEFT-WALL");
-		legalWords.add("RIGHT-WALL");
-		legalWords.add("UNKNOWN-WORD");
-		legalWords.add("NOUN-PHRASE-WALL");
-		
-		// punctuation
-		legalWords.add("?");
-		legalWords.add(".");
-		legalWords.add(",");
-		legalWords.add(";");
-		legalWords.add(":");
-		legalWords.add("!");
-		
-		// add words read from file
-		
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(file));
-		}
-		catch (FileNotFoundException e) {
-			System.out.println("ERROR: whitelist file does not exist: " + file);
-			return;
-		}
-		String line;
-		try {
-			while((line = reader.readLine() ) != null) {
-				if (line.length() > 0 && line.charAt(0) != '#') {
-					// remove all chars that aren't a unicode letter
-					line = line.replaceAll("[^\\p{L}]", "");
-					legalWords.add(line);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		filterWords = true;
-	}
-	
+
 	public void handleSentence(String sentence) {
 		if (agent == null) {
 			// no Soar, run parser directly on sentence
@@ -135,11 +85,13 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 	
 	
 	private void originalSentenceToWM(String sentence) {
-		clearAllInputWMEs();
+		//clearAllInputWMEs();
 		
 		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
         agent.CreateIntWME(root, "sentence-count", sentenceCount);
-        inputWMEs.add(root);
+        
+        inputWMEs.put(sentenceCount, new Vector<Identifier>());
+        inputWMEs.get(sentenceCount).add(root);
         
         Identifier wordsWME = agent.CreateIdWME(root, "words");
         sentence = sentence.replaceAll("(\\W)", " $1");
@@ -156,8 +108,10 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 	}
 	
 	private void clearAllInputWMEs() {
-		for (Identifier id: inputWMEs) {
-			 agent.DestroyWME(id);
+		for (Integer sc: inputWMEs.keySet()) {
+			for (Identifier id: inputWMEs.get(sc)) {
+				agent.DestroyWME(id);
+			}
 		}
 		inputWMEs.clear();
 	}
@@ -169,28 +123,54 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 	
 	public void outputEventHandler(Object data, String agentName,
 			String attributeName, WMElement pWmeAdded) {
-		ArrayList<String> sentences = preprocessedSentencesFromWM(pWmeAdded);
-		if(sentences == null){
-			System.err.println("NULL SENTENCE ON OL");
-			return;
-		}
-		for (String sentence: sentences) {
-			sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
+		String commandName = pWmeAdded.GetAttribute();
 		
-			// call LG Parser
-			theParser.parseSentence(sentence);
+		if (commandName.equals("preprocessed-sentence")) {	
+			ArrayList<String> sentences = preprocessedSentencesFromWM(pWmeAdded);
+			if(sentences == null){
+				System.err.println("NULL SENTENCE ON OL");
+				return;
+			}
+			for (String sentence: sentences) {
+				sentence = sentence.trim(); // some substitutions in Soar may cause leading spaces
 			
-			// add noun-phrase parses
-			// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
-			// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
-			// is a capitalized word in the middle of the sentence.
-			phraseMode = true;
-			theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
-			phraseMode = false;
+				// call LG Parser
+				theParser.parseSentence(sentence);
+				
+				// add noun-phrase parses
+				// NOUN-PHRASE-WALL should be in words.v.4.1, it is a verb that will let any valid noun phrase attach to it
+				// Also make sure the first letter of the input isn't capitalized, otherwise LG won't recognize it since it
+				// is a capitalized word in the middle of the sentence.
+				phraseMode = true;
+				theParser.parseSentence("NOUN-PHRASE-WALL " + sentence.substring(0,2).toLowerCase() + sentence.substring(2)); 
+				phraseMode = false;
+			}
+			
+			// AM: Causes the preprocessed sentence to be removed from the ol link
+			pWmeAdded.ConvertToIdentifier().AddStatusComplete();
 		}
-		
-		// AM: Causes the preprocessed sentence to be removed from the ol link
-		pWmeAdded.ConvertToIdentifier().CreateStringWME("status", "complete");
+		else if (commandName.equals("sentence-done")) {
+			String param = pWmeAdded.ConvertToIdentifier().GetParameterValue("sentence-count");
+			if (param == null) {
+				System.err.println("LGSupport.preprocessedSentenceFromWM: no sentence-count");
+				return;
+			}
+			
+			int count = Integer.parseInt(param);
+			
+			if (inputWMEs.containsKey(count)) {
+				for (Identifier id: inputWMEs.get(count)) {
+					agent.DestroyWME(id);
+				}
+				inputWMEs.remove(count);
+			}
+			// else this was probably a sentence-count for the second part of a split-and sentence, and there are no corresponding input WMEs
+			
+			pWmeAdded.ConvertToIdentifier().AddStatusComplete();
+		}
+		else {
+			System.out.println("ERROR: handler got bad command: " + commandName);
+		}
 	}	
 	
 	private ArrayList<String> preprocessedSentencesFromWM(WMElement pWmeAdded) {
@@ -208,6 +188,13 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 		}
 		
 		currentOutputSentenceCount = Integer.parseInt(param);
+		
+		if (!inputWMEs.containsKey(currentOutputSentenceCount)) {
+			// currentOutputSentenceCount may not be the regular sentence-count, since Soar may have a preprocessing backlog and give preprocessed
+			// results for an old sentence. But it should always be for a sentence where the original-sentence exists and has not been cleared.
+			System.out.println("ERROR: Soar returned a preprocessed sentence that Java never provided to it (bad sentence-count)");
+			inputWMEs.put(currentOutputSentenceCount, new Vector<Identifier>()); // carry on anyway
+		}
 		
 		results = sentencesFromWMRecursive("", currentWME.ConvertToIdentifier(), 0);
 		for (String result: results) {
@@ -312,7 +299,7 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
         
        // make a root for this sentence
         Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
-        inputWMEs.add(sentenceRoot);
+        inputWMEs.get(currentOutputSentenceCount).add(sentenceRoot);
         
         // make a wme for the count
         agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
@@ -418,26 +405,5 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 		}
 		return currentParseCount;
 	}
-	
-	public static boolean isAllowedDictionaryWord(String word) {
-		// return true if we will permit the LG parser to use its dictionary entry (assuming there is one) for the word
-		if (!filterWords) {
-			return true;
-		}
-		
-		if (word.length() == 0) {
-			return false;
-		}
-		
-		if (word.substring(0,1).equals("*")) {
-			// all generics/placeholders are prefixed with a star
-			return true;
-		}
-		
-		else {
-			return legalWords.contains(word);
-		}
-	}
-
 
 }

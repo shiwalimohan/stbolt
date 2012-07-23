@@ -482,9 +482,12 @@ else {
 	["relationship", "*nounjective"],
 	["point", "*verb+with+preposition"],
 	["put", "*verb+with+direct+object+and+preposition"],
-	["move", "*verb+generic"],
-	["moved", "*verb+generic"],
-	["describe", "*verb+generic"],
+	["move", "*verb+with+direct+object+and+preposition"],
+	["moved", "*verb+with+direct+object+and+preposition"],
+	#["move", "*verb+generic"],
+	#["moved", "*verb+generic"],
+	#["describe", "*verb+generic"],
+	["describe", "*verb+with+direct+object"],
 	["pickup", "*verb+with+direct+object"],
 );
 

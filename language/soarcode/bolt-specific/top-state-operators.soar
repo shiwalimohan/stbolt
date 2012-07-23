@@ -136,6 +136,9 @@ sp {top-state*lgsoar-predicate-set*to-state
 # should then cause the observed-sentence-count to retract, and then the
 # message-predicate-set(s).
 
+# (lgsoar-predicate-set for current sentence being finished can't be removed,
+# since it may have other uninterpreted sentences in it)
+
 sp {top-state*elaborate*observed-sentence-count
    (state <s> ^superstate nil
               ^language <l>
@@ -320,6 +323,18 @@ sp {apply*finish-interpretation*clean-predicates
 -->
    (<l> ^lgsoar-predicate-set <lps> -)
 }
+
+# remove the original-sentence and parsed-sentences for the 
+# sp {apply*finish-interpretation*clean-io
+#    (state <s> ^superstate nil
+#               ^io.output-link <ol>
+#               ^operator <o>)
+#    (<o> ^name finish-interpretation
+#         ^message-predicate-set.sentence-count <sc>)
+# -->
+#    (<ol> ^sentence-done <sd>)
+#    (<sd> ^sentence-count <sc>)
+# }
 
 # sp {finish-interpretation*report-unaccounted-for
 #    (state <s> ^language.lgsoar-predicate-set.predicate <p>
