@@ -161,6 +161,13 @@ sp {preprocess-sentence*elaborate*implicit-quote
    (write (crlf) |"| <wd> |" will be implicitly quoted due to dialog context|)
 }
 
+# special word that is always implicitly quoted
+sp {preprocess-sentence*iqw
+   (state <s> ^name preprocess-sentence)
+-->
+   (<s> ^implicitly-quoted-word iqw)
+}
+
 sp {preprocess-sentence*propose*implicit-quote
    (state <s> ^name preprocess-sentence
               ^implicitly-quoted-word <wd>

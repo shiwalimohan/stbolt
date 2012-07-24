@@ -423,6 +423,10 @@ public class ChatFrame extends JFrame implements RunEventInterface
     		clearAgent = false;
     	}
     }
+    
+    public void stopAgent() {
+    	stopAgent = true;
+    }
 
     public void showFrame()
     {
@@ -533,7 +537,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
         sendSoarMessage(chatField.getText());
         chatField.setText("");
         chatField.requestFocus();
-        if(script.peekType() == ActionType.Agent)
+        if(script != null && script.peekType() == ActionType.Agent)
     		ChatFrame.Singleton().setWaiting(true);
     }
     
@@ -556,7 +560,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
 		}
     }
 
-    private void sendSoarMessage(String message)
+    public void sendSoarMessage(String message)
     {
     	if (lgSupport == null) {
     		World.Singleton().newMessage(message);
