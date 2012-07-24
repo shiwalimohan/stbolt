@@ -584,6 +584,8 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	Agent agent = SBolt.Singleton().getAgent();
     	System.out.println("Restoring agent: " + name);
     	SBolt.Singleton().reloadAgent(false);
+    	agent.ExecuteCommandLine("smem --set database file");
+    	agent.ExecuteCommandLine("epmem --set database file");
     	System.out.println("  epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", name)));
     	System.out.println("  smem:" + agent.ExecuteCommandLine(String.format("smem --set path backups/%s_smem.db", name)));
     	agent.LoadProductions(String.format("backups/%s_chunks.soar", name));
