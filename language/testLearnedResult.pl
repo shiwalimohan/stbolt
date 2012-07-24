@@ -487,7 +487,7 @@ else {
 	["left", "*nounjective"],
 	["pantry", "*nounjective"],
 	["table", "*nounjective"],
-	["above", "*nounjective"],
+	["above", "*preposition"],
 	["stove", "*nounjective"],
 	["sink", "*nounjective"],
 	["kitchen", "*nounjective"],
@@ -533,8 +533,8 @@ for ($i=0; $i<=$#sentences; $i++) {
 	}
 
 	$command = "./runMessageInterpretation.pl --command \"excise preprocess-sentence*elaborate*no-learning\" --command \"smem --set learning on\" --command \"$smemString\" \"$sentence\"";
-	print $command;
-	die;
+#	print $command;
+#	die;
 	$outMessage = `$command | ./extractMessage.pl`;
 
 	chomp $outMessage;
