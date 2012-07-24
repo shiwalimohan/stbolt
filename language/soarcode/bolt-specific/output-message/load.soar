@@ -2,3 +2,4 @@ source handle-skipped-word.soar
 source list-known-words.soar
 source look-up-noun-adjective.soar
 source generate-noun-message.soar
+source smem-lookup.soar

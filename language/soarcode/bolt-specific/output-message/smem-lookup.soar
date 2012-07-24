@@ -1,0 +1,229 @@
+sp {smem-lookup*propose*init-state
+   (state <s> ^superstate.operator <o>)
+   (<o> ^name smem-lookup
+        ^query <query>
+        ^query-mark <mark>
+        ^results <result>)
+-->
+   (<s> ^problem-space message-interpretation
+        ^name smem-lookup
+        ^query <query>
+        ^query-mark <mark>
+        ^results <result>)
+}
+
+# start looping through all smem entries with ^type word2cat and ^category <cat>
+
+sp {smem-lookup*propose*lookup-query
+   (state <s> ^name smem-query
+              ^query <q>
+              ^smem.command <sc>
+             -^lookup true
+             -^start-revert true)
+-->
+   (<sc> ^query <q>)
+   (<s> ^operator <o> +)
+   (<o> ^name lookup-query)
+}
+
+sp {smem-lookup*apply*lookup-query
+   (state <s> ^name smem-lookup
+              ^operator.name lookup-query
+              ^smem.result.retrieved <id>
+              ^results <results>)
+-->
+   (<s> ^lookup true)
+   (<results> ^result <id>)
+}
+
+sp {smem-lookup*propose*mark-query
+   (state <s> ^name smem-lookup
+              ^lookup true
+             -^start-revert true
+             -^mark)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name mark-query)
+}
+
+sp {smem-lookup*apply*mark-query
+   (state <s> ^name smem-lookup
+              ^category <cat>
+              ^operator <o>
+              ^smem.command <cmd>
+              ^query-mark <qm>
+              ^id <id>)
+   (<o> ^name mark-query)
+-->
+   (<s> ^id <id> -
+        ^mark <id>)
+   (<cmd> ^store <id>)
+   (<id> ^<qm> true)
+}
+
+sp {smem-lookup*propose*finish-lookup
+   (state <s> ^name smem-lookup
+             -^start-revert true
+              ^mark <id>
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name finish-lookup)
+}
+
+sp {smem-lookup*apply*finish-lookup
+   (state <s> ^name smem-lookup
+              ^mark <id>
+              ^operator <o>
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+   (<o> ^name finish-lookup)
+-->
+   (<s> ^lookup true -
+        ^mark <id> -)
+}
+
+# go back to start of loop
+    
+sp {smem-lookup*propose*start-revert
+   (state <s> ^name smem-lookup
+              ^smem.result.failure <f>
+             -^start-revert true)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name start-revert)
+}
+
+sp {smem-lookup*apply*start-revert
+   (state <s> ^name smem-lookup
+              ^operator <o>)
+   (<o> ^name start-revert)
+-->
+   (<s> ^start-revert true)
+}
+
+#
+# start revert loop
+
+sp {smem-lookup*propose*lookup-category-revert
+   (state <s> ^name smem-lookup
+              ^query <q>
+              ^query-mark <qm>
+              ^smem.command <sc>
+             -^lookup true
+              ^start-revert true
+             -^finished-revert true)
+-->
+   (<sc> ^query <q>)
+   (<q> ^<qm> true)
+   (<s> ^operator <o> +)
+   (<o> ^name lookup-category-revert)
+}
+
+sp {smem-lookup*apply*lookup-category-revert
+   (state <s> ^name smem-lookup
+              ^operator.name lookup-category-revert
+              ^smem.result.retrieved <id>)
+-->
+   (<s> ^lookup true)
+}
+
+sp {smem-lookup*propose*mark-word-revert
+   (state <s> ^name smem-lookup
+              ^lookup true
+              ^start-revert true
+             -^mark)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name mark-word-revert)
+}
+
+sp {smem-lookup*apply*mark-word-revert
+   (state <s> ^name smem-lookup
+              ^query-mark <qm>
+              ^operator <o>
+              ^smem.command <cmd>
+              ^id <id>)
+   (<o> ^name mark-word-revert)
+-->
+   (<s> ^id <id> -
+        ^mark <id>)
+   (<cmd> ^store <id>) #not needed?
+   (<id> ^<qm> true -)
+}
+
+sp {smem-lookup*propose*finish-lookup-revert
+   (state <s> ^name smem-lookup
+              ^mark <id>
+              ^start-revert true
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name finish-lookup-revert)
+}
+
+sp {smem-lookup*apply*finish-lookup-revert
+   (state <s> ^name smem-lookup
+              ^mark <id>
+              ^operator <o>
+              ^smem.command <cmd>)
+   (<cmd> ^store <id>)
+   (<o> ^name finish-lookup-revert)
+-->
+   (<s> ^lookup true -
+        ^mark <id> -)
+}
+
+# go back to start of loop
+
+sp {smem-lookup*prefer*end-revert
+   (state <s> ^name smem-lookup
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name lookup-category-revert)
+   (<o2> ^name end-revert)
+-->
+   (<s> ^operator <o1> < <o2>)
+}
+
+sp {smem-lookup*propose*end-revert
+   (state <s> ^name smem-lookup
+              ^smem.result.failure <f>
+              ^start-revert true
+             -^finished-revert true)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name end-revert)
+}
+
+sp {smem-lookup*apply*end-revert
+   (state <s> ^name smem-lookup
+              ^operator <o>
+              ^superstate <s2>
+              ^category <cat>)
+   (<o> ^name end-revert)
+   (<s2> ^nouns <nouns>)
+-->
+   (<s> ^finished-revert true)
+   (<nouns> ^<cat> <nc>)
+}
+
+sp {smem-lookup*propose*end-state
+   (state <s> ^name smem-lookup
+              ^finished-revert true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name end-state)
+}
+
+sp {smem-lookup*apply*end-state
+   (state <s> ^name smem-lookup
+              ^operator <o>
+              ^superstate <s2>
+              ^results <r>)
+   (<o> ^name end-state)
+-->
+   (<r> ^finished true)
+}
