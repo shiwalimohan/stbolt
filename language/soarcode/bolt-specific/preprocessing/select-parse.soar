@@ -308,6 +308,31 @@ sp {select-parse*prefer*parse-without-multiple-0
    (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple O links to a word (likely an innermost "and" case).|)
 }
 
+# prefer adjectives over prepositions in general, this occurs with
+# "This is (unlearned word)"
+sp {select-parse*prefer*Pa*versus*others
+   (state <s> ^name select-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name approve
+         ^parse <pa>)
+   (<o2> ^name approve
+         ^parse <other>)
+   (<pa> ^sentence.links.link <pal>
+         ^parse-count <pac>)
+   (<pal> ^lvalue Pa
+          ^left.global-wcount <lc>
+          ^right.global-wcount <rc>)
+   (<other> ^sentence.links.link <ol>
+            ^parse-count <oc>)
+   (<ol> ^lvalue << Pp MVp Ost >>
+         ^left.global-wcount <lc>
+         ^right.global-wcount <rc>)
+-->
+   (<s> ^operator <o1> > <o2>)
+   (write (crlf) |Preferring parse |<pac> | over |<oc> | due to Pa link preference.|)
+}
+
 # Reject minimal-acceptable-parses with bad pp attachments, even though LG may
 # regard the proper attachment as worse (higher dis cost)
 
