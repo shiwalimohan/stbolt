@@ -3321,6 +3321,8 @@ or (YS+ & {D*u-}) or (GN+ & (DD- or [()])) or U-));
 
 <verb-with-direct-object-and-preposition>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & (B- or O+) & @MV+;
 
+<generic-preposition>: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-); # "above" def
+
 UNKNOWN-WORD.n 
 *noun
 *noun0
@@ -3555,6 +3557,40 @@ UNKNOWN-WORD.a
 *nounjective29
 *nounjective30
 : <generic-noun> or <generic-adjective>;
+
+*preposition
+*preposition0
+*preposition1
+*preposition2
+*preposition3
+*preposition4
+*preposition5
+*preposition6
+*preposition7
+*preposition8
+*preposition9
+*preposition10
+*preposition11
+*preposition12
+*preposition13
+*preposition14
+*preposition15
+*preposition16
+*preposition17
+*preposition18
+*preposition19
+*preposition20
+*preposition21
+*preposition22
+*preposition23
+*preposition24
+*preposition25
+*preposition26
+*preposition27
+*preposition28
+*preposition29
+*preposition30
+: <generic-preposition>;
 
 LEFT-WALL: (Wd+ or Wq+ or Ws+ or Wj+ or Wc+ or Wi+ or Qd+) & 
 {CP+} & {Xx+} & {RW+ or Xp+};       

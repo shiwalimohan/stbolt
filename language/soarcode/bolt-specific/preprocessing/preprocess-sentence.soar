@@ -21,6 +21,7 @@ sp {preprocess-sentence*elaborate*init
    (<s> ^sentence <copy>)
    (<copy> ^sentence-count <sc>)
    (<s> ^learnable-parse-class *nounjective
+        ^learnable-parse-class *preposition
         ^learnable-parse-class *verb+with+nothing
         ^learnable-parse-class *verb+with+preposition
         ^learnable-parse-class *verb+with+direct+object

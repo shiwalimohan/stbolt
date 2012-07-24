@@ -10,7 +10,21 @@ else {
 # sentences structure:
 # sentence, correct structure 
 
-@sentences = (
+@sentences = (	
+["The orange block is above the table.",
+"object-message 
+  object o1
+    specifier DEF
+    word block
+    word orange
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word table
+    word above"],
 ["What is the color of this?",
 "relation-question 
   question-word what
@@ -473,6 +487,7 @@ else {
 	["left", "*nounjective"],
 	["pantry", "*nounjective"],
 	["table", "*nounjective"],
+	["above", "*nounjective"],
 	["stove", "*nounjective"],
 	["sink", "*nounjective"],
 	["kitchen", "*nounjective"],
@@ -518,6 +533,8 @@ for ($i=0; $i<=$#sentences; $i++) {
 	}
 
 	$command = "./runMessageInterpretation.pl --command \"excise preprocess-sentence*elaborate*no-learning\" --command \"smem --set learning on\" --command \"$smemString\" \"$sentence\"";
+	print $command;
+	die;
 	$outMessage = `$command | ./extractMessage.pl`;
 
 	chomp $outMessage;
