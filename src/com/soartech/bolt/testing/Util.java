@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import abolt.classify.ClassifierManager;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
 import edu.umich.sbolt.ChatFrame;
@@ -21,8 +20,27 @@ public class Util {
 	public static void saveFile(File f, List<String> history) {
 		try {
 			Writer output = new BufferedWriter(new FileWriter(f));
-			for(String str : history)
+			for(String str : history) {
 				output.write(str+"\n");
+			}
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveFileBechtelFormat(File f, List<String> history) {
+		try {
+			Writer output = new BufferedWriter(new FileWriter(f));
+			output.write("#!BechtelFormat\n");
+			for(String str : history) {
+				String[] res = str.split(":");
+				if(res.length > 1 && res[0] != null && res[1] != null) {
+					String charString = ActionTypeMap.getInstance().getChar(res[0]+":").toString();
+					output.write(charString+" "+res[1].trim()+"\n");
+				}
+			}
 			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,7 +63,7 @@ public class Util {
 		chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
 		int returnVal = chooser.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			Util.saveFile(chooser.getSelectedFile(), chatMessages);
+			Util.saveFileBechtelFormat(chooser.getSelectedFile(), chatMessages);
 		}
 	}
 	
@@ -69,10 +87,12 @@ public class Util {
     	} else if(action.contains("automated")) {
     		boolean auto = Boolean.parseBoolean(action.replace("automated", "").trim());
     		automateScript(auto);
+    		return;
     	} else if(action.contains("simulator clear")) {
     		clearSimulatorData();
+    		return;
     	}
-    	throw new UnhandledUiAction("Unrecognized action.");
+    	throw new UnhandledUiAction("Unrecognized action: "+action);
     }
     
     public static void resetArm() {

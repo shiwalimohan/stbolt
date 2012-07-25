@@ -82,8 +82,10 @@ public class ScriptRunner extends Thread {
     		ChatFrame.Singleton().addMessage(next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.UiAction) {
+    		String a = next.getAction();
     		try {
-				Util.handleUiAction(next.getAction());
+				Util.handleUiAction(a);
+				ChatFrame.Singleton().addMessage(a, ActionType.UiAction);
 			} catch (UnhandledUiAction e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

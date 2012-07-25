@@ -462,10 +462,10 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void addMessage(String message, ActionType type) {
+    	message = ActionTypeMap.getInstance().getString(type)+" "+message.trim();
     	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
     	}
-    	message = ActionTypeMap.getInstance().getString(type)+" "+message.trim();
     	chatMessages.add(message);
         try {
 			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));

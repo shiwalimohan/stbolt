@@ -31,6 +31,10 @@ public class ActionTypeMap {
 		}
 	}
 	
+	public Character getChar(String startString) {
+		return charMap.getLeft(stringMap.getRight(startString));
+	}
+	
 	/**
 	 * Get the string associated with an ActionType.
 	 * @param type
