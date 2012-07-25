@@ -1,15 +1,14 @@
 package edu.umich.sbolt;
 
-import java.util.ArrayList;
-import java.util.List;
+import sml.Agent;
+import sml.Agent.RunEventInterface;
+import sml.Identifier;
+import sml.smlRunEventId;
 
 import com.soartech.bolt.BOLTLGSupport;
 
-import april.util.TimeUtil;
-import edu.umich.sbolt.world.*;
-
-import sml.*;
-import sml.Agent.RunEventInterface;
+import edu.umich.sbolt.world.SVSConnector;
+import edu.umich.sbolt.world.World;
 
 public class InputLinkHandler implements RunEventInterface
 {

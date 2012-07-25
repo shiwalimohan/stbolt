@@ -62,7 +62,9 @@ public class ScriptRunner extends Thread {
     		if(observed.contains("Okay") && Settings.getInstance().isAutomated()) {
     			synchronized(this) {
     				try {
+    					ChatFrame.Singleton().setWaiting(true);
 						this.wait(1000);
+						ChatFrame.Singleton().setWaiting(false);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

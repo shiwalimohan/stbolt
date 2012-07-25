@@ -1,4 +1,5 @@
 Agent: Waiting for next command...
+UiAction: simulator clear
 UiAction: automated true
 Comment: Simulator should have all data cleared, a blue sphere in the pantry, red cube in the stove, red triangle in the garbage, and green tee in the table.
 Mentor: move the red square to the pantry

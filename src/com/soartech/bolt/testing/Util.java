@@ -9,8 +9,10 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import abolt.classify.ClassifierManager;
 import abolt.lcmtypes.robot_command_t;
 import april.util.TimeUtil;
+import edu.umich.sbolt.ChatFrame;
 import edu.umich.sbolt.SBolt;
 import edu.umich.sbolt.world.World;
 
@@ -49,6 +51,9 @@ public class Util {
 	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
     	new ScriptRunner(script, chatMessages).start();
+    	if(script != null && script.peekType() == ActionType.Agent) {
+    		ChatFrame.Singleton().setWaiting(true);
+        }
     }
     
     public static void handleUiAction(String action) throws UnhandledUiAction {
@@ -56,14 +61,16 @@ public class Util {
     		try {
     			String rep = action.replace("point", "").trim();
     			int id = Integer.parseInt(rep);
-        		World.Singleton().setPointedObjectID(id);
+        		pointAt(id);
     		} catch (NumberFormatException e) {
     			new UnhandledUiAction("Invalid number in point UiAction: "+action);
     		}
     		return;
     	} else if(action.contains("automated")) {
     		boolean auto = Boolean.parseBoolean(action.replace("automated", "").trim());
-    		Settings.getInstance().setAutomated(auto);
+    		automateScript(auto);
+    	} else if(action.contains("simulator clear")) {
+    		clearSimulatorData();
     	}
     	throw new UnhandledUiAction("Unrecognized action.");
     }
@@ -75,4 +82,16 @@ public class Util {
 		command.dest = new double[6];
 		SBolt.broadcastRobotCommand(command);
 	}
+    
+    public static void clearSimulatorData() {
+    	//TODO implement function
+    }
+    
+    public static void automateScript(boolean isAutomated) {
+    	Settings.getInstance().setAutomated(isAutomated);
+    }
+    
+    public static void pointAt(int objectId) {
+    	World.Singleton().setPointedObjectID(objectId);
+    }
 }

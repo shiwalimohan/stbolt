@@ -118,7 +118,8 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	            {
 	            	processPopSegmentCommand(id);
 	            }
-	            else if(wme.GetAttribute().equals("report-interaction")){
+	            else if(wme.GetAttribute().equals("report-interaction"))
+	            {
 	            	processReportInteraction(id);
 	            }
 	
