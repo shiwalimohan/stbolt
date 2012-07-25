@@ -147,7 +147,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
         }
         
-        ChatFrame.Singleton().addMessage("Agent: "+msg, ActionType.Agent);
+        ChatFrame.Singleton().addMessage(msg, ActionType.Agent);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
@@ -183,7 +183,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
         if(!message.equals("")){
-            ChatFrame.Singleton().addMessage("Agent: "+message, ActionType.Agent);
+            ChatFrame.Singleton().addMessage(message, ActionType.Agent);
         }
         messageId.CreateStringWME("status", "complete");
     }
@@ -227,8 +227,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         }
 
         message += ".";
-        ChatFrame.Singleton().addMessage("Agent: "+
-                message.substring(0, message.length() - 1), ActionType.Agent);
+        ChatFrame.Singleton().addMessage(message.substring(0, message.length() - 1), ActionType.Agent);
 
         messageId.CreateStringWME("status", "complete");
     }
@@ -377,6 +376,6 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		message = "I do not know '" + objStr + "' " + 
     		"Please give more teaching examples and tell me 'finished' when you are done";
     	}
-    	ChatFrame.Singleton().addMessage("Agent: " + message, ActionType.Agent);
+    	ChatFrame.Singleton().addMessage(message, ActionType.Agent);
     }
 }

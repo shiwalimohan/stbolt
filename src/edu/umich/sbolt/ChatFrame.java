@@ -33,6 +33,7 @@ import sml.smlRunEventId;
 
 import com.soartech.bolt.BOLTLGSupport;
 import com.soartech.bolt.testing.ActionType;
+import com.soartech.bolt.testing.ActionTypeMap;
 import com.soartech.bolt.testing.Script;
 import com.soartech.bolt.testing.Util;
 
@@ -464,6 +465,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
     	}
+    	message = ActionTypeMap.getInstance().getString(type)+" "+message.trim();
     	chatMessages.add(message);
         try {
 			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
@@ -509,12 +511,12 @@ public class ChatFrame extends JFrame implements RunEventInterface
     	history.add(msg);
     	historyIndex = history.size();
     	if(msg.length() > 0 && msg.charAt(0) == '#') {
-    		addMessage("Comment: "+msg.substring(1).trim(), ActionType.Comment);
+    		addMessage(msg.substring(1).trim(), ActionType.Comment);
     		chatField.setText("");
             chatField.requestFocus();
     		return;
     	}
-        addMessage("Mentor: " + msg, ActionType.Mentor);
+        addMessage(msg, ActionType.Mentor);
         sendSoarMessage(msg);
         chatField.setText("");
         chatField.requestFocus();

@@ -35,7 +35,7 @@ public class ScriptRunner extends Thread {
     	
     	if(next.getType() == ActionType.Mentor) {
     		if(Settings.getInstance().isAutomated()) {
-    			ChatFrame.Singleton().addMessage("Mentor: " + next.getAction(), ActionType.Mentor);
+    			ChatFrame.Singleton().addMessage(next.getAction(), ActionType.Mentor);
     	        ChatFrame.Singleton().sendSoarMessage(next.getAction());
     			Util.handleNextScriptAction(script, chatMessages);
     			return;
@@ -51,13 +51,13 @@ public class ScriptRunner extends Thread {
     		}
     		ChatFrame.Singleton().setWaiting(false);
     		if(!observed.contains(expected)) {
-    			ChatFrame.Singleton().addMessage("    - Error - Expected: "+expected, ActionType.Incorrect);
+    			ChatFrame.Singleton().addMessage("- Error - Expected: "+expected, ActionType.Incorrect);
     			if(Settings.getInstance().isAutomated()) {
     				ChatFrame.Singleton().stopAgent();
     				return;
     			}
     		} else {
-    			ChatFrame.Singleton().addMessage("    - Correct -", ActionType.Correct);
+    			ChatFrame.Singleton().addMessage("- Correct -", ActionType.Correct);
     		}
     		if(observed.contains("Okay") && Settings.getInstance().isAutomated()) {
     			synchronized(this) {
@@ -73,13 +73,13 @@ public class ScriptRunner extends Thread {
     		}
     	}
     	if(next.getType() == ActionType.Comment) {
-    		ChatFrame.Singleton().addMessage("Comment: "+next.getAction(), next.getType());
+    		ChatFrame.Singleton().addMessage(next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.AgentAction) {
-    		ChatFrame.Singleton().addMessage("AgentAction: "+next.getAction(), next.getType());
+    		ChatFrame.Singleton().addMessage(next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.MentorAction) {
-    		ChatFrame.Singleton().addMessage("MentorAction: "+next.getAction(), next.getType());
+    		ChatFrame.Singleton().addMessage(next.getAction(), next.getType());
     	}
     	if(next.getType() == ActionType.UiAction) {
     		try {
