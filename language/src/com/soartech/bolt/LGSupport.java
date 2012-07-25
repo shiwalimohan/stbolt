@@ -1,13 +1,7 @@
 package com.soartech.bolt;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
@@ -255,9 +249,13 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
         
         // So we need to go through each word and look for a ? as the fourth-to-last character.
         
-        int numGuesses = 0;
+        int numGuesses = 0;        
+        int numSkips = 0;
+
         boolean isGuess[] = new boolean[numWords];
         boolean isSkip[] = new boolean[numWords];
+        
+        
         for (int i=0; i<numWords; i++) {
         	String wordAsPrinted = thisLinkage.word[i];
         	char c = 'x';
@@ -274,9 +272,15 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
         	c = wordAsPrinted.charAt(0);
         	if (c == '[') {
         		isSkip[i] = true;
+        		numSkips++;
         	} else {
         		isSkip[i] = false;
         	}
+        }
+        
+        if (numSkips > 1) {
+        	System.out.println("ignoring parse with multiple skips");
+        	return;
         }
         
         String message = thisLinkage.linkage_print_diagram();
