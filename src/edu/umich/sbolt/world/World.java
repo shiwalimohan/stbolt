@@ -23,10 +23,10 @@ public class World implements IInputLinkElement
     private Set<IInputLinkElement> inputLinkElements;
     
     private SVSConnector svsConnector;
-    
-    private boolean ignoreLcmPointedObject = false;
 
     private RobotArm robotArm;
+    
+    private int last_click_id = -1;
 
 
     public World(){
@@ -86,9 +86,10 @@ public class World implements IInputLinkElement
     public synchronized void newObservation(observations_t observation){
         objects.newObservation(observation);
         worldTime.newObservation(observation);
-        if(!ignoreLcmPointedObject) {
+        if(last_click_id != observation.click_id) {
         	pointedObject.setObjectID(observation.click_id);
         }
+        last_click_id = observation.click_id;
     }
     
     public synchronized void newMessage(String message){
@@ -96,7 +97,6 @@ public class World implements IInputLinkElement
     }
     
     public synchronized void setPointedObjectID(int id) {
-    	ignoreLcmPointedObject = true;
     	pointedObject.setObjectID(id);
     }
     
