@@ -96,15 +96,61 @@ sp {list-words*propose*generate-noun-message
         ^category <njl>)
 }
 
+sp {list-words*apply*generate-noun-message
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name generate-noun-message
+        ^category <njl>)
+-->
+   (<s> ^nounjective-lookups <njl> -)
+}
+
+# prefer generate-noun-message to smem lookup
+sp {list-words*prefer*generate*smem-look-up
+   (state <s> ^name list-words
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name smem-lookup)
+   (<o2> ^name generate-noun-message)
+-->
+   (<s> ^operator <o2> > <o1>)
+}
+
 # propose subgoal to lookup prepositions
 sp {list-words*propose*lookup-prepositions
-   (state <s> ^name list-words)
+   (state <s> ^name list-words
+             -^nounjective-lookups <njl>
+             -^preposition-results.finished true)
 -->
    (<s> ^operator <o> +)
    (<o> ^name smem-lookup
-        ^query <query>
-        ^query-mark <mark>
+        ^query <q>
+        ^query-mark type
         ^results <result>)
+   (<q> ^name <temp1>
+        ^relation <temp2>)
+}
+
+# copy ^results to the state
+sp {list-words*apply*lookup-prepositions
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name smem-lookup
+        ^results <rs>)
+-->
+   (<s> ^preposition-results <rs>)
+}
+
+# propose subgoal to generate preposition-message
+sp {list-words*propose*generate-preposition-message
+   (state <s> ^name list-words
+              ^preposition-results <r>)
+   (<r> ^finished true
+       -^message-generated true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name generate-preposition-message
+        ^results <r>)
 }
 
 # propose operator to end the state
@@ -127,5 +173,6 @@ sp {list-words*apply*end-state
         ^nl-message <message>
         ^nl-input-link <nl-il>)
 -->
+#   (halt)
    (<nl-il> ^message <message> -)
 }
