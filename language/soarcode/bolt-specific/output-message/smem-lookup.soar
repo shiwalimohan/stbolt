@@ -2,13 +2,11 @@ sp {smem-lookup*propose*init-state
    (state <s> ^superstate.operator <o>)
    (<o> ^name smem-lookup
         ^query <query>
-        ^query-mark <mark>
         ^results <result>)
 -->
    (<s> ^problem-space message-interpretation
         ^name smem-lookup
         ^query <query>
-        ^query-mark <mark>
         ^results <result>)
 }
 

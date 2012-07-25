@@ -4,3 +4,4 @@ source look-up-noun-adjective.soar
 source generate-noun-message.soar
 source smem-lookup.soar
 source generate-preposition-message.soar
+source generate-verb-message.soar

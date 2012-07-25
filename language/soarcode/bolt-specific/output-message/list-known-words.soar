@@ -124,8 +124,8 @@ sp {list-words*propose*lookup-prepositions
 -->
    (<s> ^operator <o> +)
    (<o> ^name smem-lookup
+        ^type prep
         ^query <q>
-        ^query-mark type
         ^results <result>)
    (<q> ^name <temp1>
         ^relation <temp2>)
@@ -136,6 +136,7 @@ sp {list-words*apply*lookup-prepositions
    (state <s> ^name list-words
               ^operator <o>)
    (<o> ^name smem-lookup
+        ^type prep
         ^results <rs>)
 -->
    (<s> ^preposition-results <rs>)
@@ -150,6 +151,44 @@ sp {list-words*propose*generate-preposition-message
 -->
    (<s> ^operator <o> +)
    (<o> ^name generate-preposition-message
+        ^results <r>)
+}
+
+# propose subgoal to lookup verbs after preposition lookup is finished
+sp {list-words*propose*lookup-verbs
+   (state <s> ^name list-words
+              ^preposition-results.message-generated true
+             -^verb-results.finished true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name smem-lookup
+        ^type verb
+        ^query <q>
+        ^results <result>)
+   (<q> ^verb <temp1>)
+}
+
+# copy ^results to the state
+sp {list-words*apply*lookup-verbs
+   (state <s> ^name list-words
+              ^operator <o>)
+   (<o> ^name smem-lookup
+        ^type verb
+        ^results <rs>)
+-->
+   (<s> ^verb-results <rs>)
+}
+
+# propose subgoal to generate verb-message
+sp {list-words*propose*generate-verb-message
+   (state <s> ^name list-words
+             -^verb-results.message-generated true
+              ^verb-results <r>)
+   (<r> ^finished true
+       -^message-generated true)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name generate-verb-message
         ^results <r>)
 }
 
