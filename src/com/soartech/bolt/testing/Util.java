@@ -9,11 +9,11 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import abolt.lcmtypes.robot_command_t;
-import april.util.TimeUtil;
+import com.soartech.bolt.script.ui.command.AutomateScript;
+import com.soartech.bolt.script.ui.command.PointAtObject;
+import com.soartech.bolt.script.ui.command.ResetRobotArm;
+
 import edu.umich.sbolt.ChatFrame;
-import edu.umich.sbolt.SBolt;
-import edu.umich.sbolt.world.World;
 
 public class Util {
 	
@@ -37,7 +37,7 @@ public class Util {
 			for(String str : history) {
 				String[] res = str.split(":");
 				if(res.length > 1 && res[0] != null && res[1] != null) {
-					String charString = ActionTypeMap.getInstance().getChar(res[0]+":").toString();
+					String charString = ScriptDataMap.getInstance().getChar(res[0]+":").toString();
 					output.write(charString+" "+res[1].trim()+"\n");
 				}
 			}
@@ -74,44 +74,11 @@ public class Util {
         }
     }
     
-    public static void handleUiAction(String action) throws UnhandledUiAction {
-    	if(action.contains("point")) {
-    		try {
-    			String rep = action.replace("point", "").trim();
-    			int id = Integer.parseInt(rep);
-        		pointAt(id);
-    		} catch (NumberFormatException e) {
-    			new UnhandledUiAction("Invalid number in point UiAction: "+action);
-    		}
-    		return;
-    	} else if(action.contains("automated")) {
-    		boolean auto = Boolean.parseBoolean(action.replace("automated", "").trim());
-    		automateScript(auto);
-    		return;
-    	} else if(action.contains("simulator clear")) {
-    		clearSimulatorData();
-    		return;
-    	}
-    	throw new UnhandledUiAction("Unrecognized action: "+action);
-    }
-    
-    public static void resetArm() {
-		robot_command_t command = new robot_command_t();
-		command.utime = TimeUtil.utime();
-		command.action = "RESET";
-		command.dest = new double[6];
-		SBolt.broadcastRobotCommand(command);
-	}
-    
-    public static void clearSimulatorData() {
-    	//TODO implement function
-    }
-    
-    public static void automateScript(boolean isAutomated) {
-    	Settings.getInstance().setAutomated(isAutomated);
-    }
-    
-    public static void pointAt(int objectId) {
-    	World.Singleton().setPointedObjectID(objectId);
+    public static void executeUiAction(String action) {
+    	try {
+			ScriptDataMap.getInstance().getUiCommand(action).execute();
+		} catch (UiCommandNotFoundException e) {
+			e.printStackTrace();
+		}
     }
 }

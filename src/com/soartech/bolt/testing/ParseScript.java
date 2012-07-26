@@ -27,7 +27,7 @@ public class ParseScript {
 		while(s.hasNextLine()) {
 			String scriptLine = s.nextLine();
 			String[] lineType = scriptLine.split(":");
-			ActionType type = ActionTypeMap.getInstance().getType(lineType[0]+":");
+			ActionType type = ScriptDataMap.getInstance().getType(lineType[0]+":");
 			
 			if(type == ActionType.Invalid) {
 				System.out.println("Ignoring script line: "+scriptLine);
@@ -44,7 +44,7 @@ public class ParseScript {
 		while(s.hasNextLine()) {
 			String line = s.nextLine();
 			char lineType = line.charAt(0);
-			ActionType type = ActionTypeMap.getInstance().getType(lineType);
+			ActionType type = ScriptDataMap.getInstance().getType(lineType);
 			
 			if(type == ActionType.Invalid) {
 				System.out.println("Ignoring script line: "+line);

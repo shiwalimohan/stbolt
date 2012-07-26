@@ -32,8 +32,9 @@ import sml.Agent.RunEventInterface;
 import sml.smlRunEventId;
 
 import com.soartech.bolt.BOLTLGSupport;
+import com.soartech.bolt.script.ui.command.ResetRobotArm;
 import com.soartech.bolt.testing.ActionType;
-import com.soartech.bolt.testing.ActionTypeMap;
+import com.soartech.bolt.testing.ScriptDataMap;
 import com.soartech.bolt.testing.Script;
 import com.soartech.bolt.testing.Util;
 
@@ -194,7 +195,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
         JButton armResetButton  = new JButton("Reset Arm");
         armResetButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				Util.resetArm();
+				new ResetRobotArm().execute();
 			}
         });
         menuBar.add(armResetButton);
@@ -462,7 +463,7 @@ public class ChatFrame extends JFrame implements RunEventInterface
     }
     
     public void addMessage(String message, ActionType type) {
-    	message = ActionTypeMap.getInstance().getString(type)+" "+message.trim();
+    	message = ScriptDataMap.getInstance().getString(type)+" "+message.trim();
     	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
     	}

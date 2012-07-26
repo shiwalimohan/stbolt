@@ -1,26 +1,44 @@
 package com.soartech.bolt.testing;
 
-public class ActionTypeMap {
-	private static final ActionTypeMap instance = new ActionTypeMap();
+import com.soartech.bolt.script.ui.command.AutomateScript;
+import com.soartech.bolt.script.ui.command.PointAtObject;
+import com.soartech.bolt.script.ui.command.ResetRobotArm;
+import com.soartech.bolt.script.ui.command.UiCommand;
+
+public class ScriptDataMap {
+	private static final ScriptDataMap instance = new ScriptDataMap();
 	private BijectiveMap<ActionType, Character> charMap = new BijectiveMap<ActionType, Character>();
 	private BijectiveMap<ActionType, String> stringMap = new BijectiveMap<ActionType, String>();
+	private BijectiveMap<String, UiCommand> uiCommandMap = new BijectiveMap<String, UiCommand>();
 	
-	public static ActionTypeMap getInstance() {
+	public static ScriptDataMap getInstance() {
 		return instance;
 	}
 	
-	private ActionTypeMap() {
+	private ScriptDataMap() {
 		add(ActionType.Comment, "Comment:", '#');
 		add(ActionType.AgentAction, "AgentAction:", '{');
 		add(ActionType.MentorAction, "MentorAction:", '}');
 		add(ActionType.Agent, "Agent:", '<');
 		add(ActionType.Mentor, "Mentor:", '>');
 		add(ActionType.UiAction, "UiAction:", '@');
+		
+		addUiCommand("automated true", new AutomateScript(true));
+		addUiCommand("automated false", new AutomateScript(false));
+		addUiCommand("arm reset", new ResetRobotArm());
+		addUiCommand("point 0", new PointAtObject(0));
+		addUiCommand("point 1", new PointAtObject(1));
+		addUiCommand("point 2", new PointAtObject(2));
+		addUiCommand("point 3", new PointAtObject(3));
 	}
 	
 	public void add(ActionType type, String s, char c) {
 		charMap.add(type, new Character(c));
 		stringMap.add(type, s);
+	}
+	
+	public void addUiCommand(String commandString, UiCommand command) {
+		uiCommandMap.add(commandString, command);
 	}
 	
 	private ActionType checkNull(ActionType type) {
@@ -29,6 +47,13 @@ public class ActionTypeMap {
 		} else {
 			return type;
 		}
+	}
+	
+	public UiCommand getUiCommand(String commandString) throws UiCommandNotFoundException {
+		UiCommand res = uiCommandMap.getLeft(commandString);
+		if(res != null)
+			return res;
+		throw new UiCommandNotFoundException("Could not find UiCommand for: "+commandString);
 	}
 	
 	public Character getChar(String startString) {

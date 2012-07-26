@@ -83,13 +83,9 @@ public class ScriptRunner extends Thread {
     	}
     	if(next.getType() == ActionType.UiAction) {
     		String a = next.getAction();
-    		try {
-				Util.handleUiAction(a);
-				ChatFrame.Singleton().addMessage(a, ActionType.UiAction);
-			} catch (UnhandledUiAction e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Util.executeUiAction(a);
+			ChatFrame.Singleton().addMessage(a, ActionType.UiAction);
+
     	}
     	if(!script.actionRequiresMentorAttention(next))
     		Util.handleNextScriptAction(script, chatMessages);
