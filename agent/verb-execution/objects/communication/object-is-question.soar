@@ -32,7 +32,7 @@ sp {object-is-question*index-object*elaborate*relation
    (state <s> ^operator <o> +
               ^interaction.stack.segment.purpose <p>)
    (<o> ^name index-object)
-   (<p> ^type bject-is-question
+   (<p> ^type object-is-question
         ^parameters.relation <rel>)
    (<rel> ^object1 <obj1>
           ^object2 <obj2>)
@@ -70,9 +70,9 @@ sp {object-is-question*propose*lookup-category
         ^category smem
         ^lookup-type category
         ^ask-user true
-        ^query <q>
+        ^query <query>
         ^desired.category true)
-   (<q> ^type word2cat ^word <word> ^category <cat>)
+   (<query> ^type word2cat ^word <q> ^category <cat>)
 }
 
 sp {object-is-question*apply*lookup-category
@@ -84,13 +84,13 @@ sp {object-is-question*apply*lookup-category
         ^parameters <params>)
    (<o> ^name lookup-smem
         ^lookup-type category
-        ^result <cat>)
+        ^result {<cat> <> failure})
 -->
    (<params> ^category <cat>)
 }
 
 # Lookup the label
-sp {object-is-question*propose*lookup-category
+sp {object-is-question*propose*lookup-label
    (state <s> ^topstate <s>
               ^interaction.stack.segment <seg>)
    (<seg> ^purpose <p>
@@ -117,7 +117,7 @@ sp {object-is-question*apply*lookup-label*mark*performed
               ^status <status>)
    (<o> ^name lookup-smem
         ^lookup-type label
-        ^result <label>)
+        ^result {<label> <> failure})
 -->
 	(<status> ^performed.dialog-event.type single-word-response)
 }
@@ -127,12 +127,11 @@ sp {object-is-question*apply*lookup-label*match
               ^io.output-link <out>
               ^operator <o>
               ^interaction.stack.segment <seg>)
-   (<seg> ^purpose <p>)
-   (<p> ^type object-is-question
-        ^parameters.object-match <m>)
+   (<seg> ^purpose.type object-is-question
+          ^info.object-match <m>)
    (<o> ^name lookup-smem
         ^lookup-type label
-        ^result <label>)
+        ^result {<label> <> failure})
    (<m> ^property.label <label>)
 -->
    (<out> ^send-message <msg>)
@@ -145,12 +144,11 @@ sp {object-is-question*apply*lookup-label*no-match
               ^io.output-link <out>
               ^operator <o>
               ^interaction.stack.segment <seg>)
-   (<seg> ^purpose <p>)
-   (<p> ^type object-is-question
-        ^parameters.object-match <m>)
+   (<seg> ^purpose.type object-is-question
+          ^info.object-match <m>)
    (<o> ^name lookup-smem
         ^lookup-type label
-        ^result <label>)
+        ^result {<label> <> failure})
    (<m> -^property.label <label>)
 -->
    (<out> ^send-message <msg>)
