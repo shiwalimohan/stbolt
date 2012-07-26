@@ -28,7 +28,8 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 
     	this.agent = agent;
         String[] outputHandlerStrings = { "message", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", "report-interaction"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", 
+                "report-interaction", "home"};
 
         for (String outputHandlerString : outputHandlerStrings)
         {
@@ -120,6 +121,9 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	            }
 	            else if(wme.GetAttribute().equals("report-interaction")){
 	            	processReportInteraction(id);
+	            } else if(wme.GetAttribute().equals("home")){
+	            	processHomeCommand(id);
+	            
 	            }
 	
 	            if (agent.IsCommitRequired())
@@ -349,6 +353,16 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     private void processPopSegmentCommand(Identifier id){
     	ChatFrame.Singleton().getStack().popSegment();
     	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processHomeCommand(Identifier id){
+    	robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.dest = new double[6];
+    	command.action = "HOME";
+    	SBolt.broadcastRobotCommand(command);
+        
+        id.CreateStringWME("status", "complete");
     }
     
     private void processReportInteraction(Identifier id){

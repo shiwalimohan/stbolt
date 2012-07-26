@@ -191,6 +191,15 @@ sp {identify-object*apply*infer-match*point
             ^pose <pose>)
 }
 
+sp {identify-object*reject*infer-match*holding
+   (state <s> ^name identify-object
+              ^operator <o> +
+              ^io.input-link.self.grabbed-object <> -1)
+   (<o> ^name infer-match)
+-->
+   (<s> ^operator <o> -)
+}
+
 # Creates a teaching-request context 
 sp {identify-object*apply*infer-match*create*context
    (state <s> ^name identify-object

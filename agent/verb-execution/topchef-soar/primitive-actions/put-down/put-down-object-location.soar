@@ -101,8 +101,6 @@ sp {elaborate*put-down*object*location*action
    (<sop> ^actions.put-down.location <res>		 
    	 ^category primitive-action)
    (<sop> ^kind non-atomic)
-   
-   (interrupt)
 }
 
 

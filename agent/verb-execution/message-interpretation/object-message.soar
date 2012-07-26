@@ -47,7 +47,7 @@ sp {apply*push-object-message*this-object-message
    (state <s> ^operator <o>)
    (<o> ^name push-object-message
         ^message <msg>
-        ^specifier this
+        ^specifier << this that >>
         ^object <obj>
        -^relation)
 -->

@@ -32,6 +32,8 @@ sp {index-object*elaborate*operator*default*context-id
 }
 
 
+
+
 # For each property of an object, create a label-query structure to 
 # look up the label for that word
 

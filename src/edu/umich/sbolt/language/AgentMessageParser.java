@@ -38,7 +38,7 @@ public class AgentMessageParser
         	message = "I don't know";
         } else if(type.equals("no-prep")){
             message = "I don't know that preposition.";
-        } else if(type.equals("single-word")){
+        } else if(type.equals("single-word-response")){
         	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
         } else if(type.equals("no-object")){
         	message = "I do not see the object you are talking about";
