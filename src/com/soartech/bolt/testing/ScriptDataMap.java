@@ -26,10 +26,10 @@ public class ScriptDataMap {
 		addUiCommand("automated true", new AutomateScript(true));
 		addUiCommand("automated false", new AutomateScript(false));
 		addUiCommand("arm reset", new ResetRobotArm());
-		addUiCommand("point 0", new PointAtObject(0));
-		addUiCommand("point 1", new PointAtObject(1));
-		addUiCommand("point 2", new PointAtObject(2));
-		addUiCommand("point 3", new PointAtObject(3));
+		addUiCommand("point square", new PointAtObject(0));
+		addUiCommand("point circle", new PointAtObject(1));
+		addUiCommand("point tee", new PointAtObject(2));
+		addUiCommand("point triangle", new PointAtObject(3));
 	}
 	
 	public void add(ActionType type, String s, char c) {
