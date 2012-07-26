@@ -138,7 +138,6 @@ sp {generate-verb-message*apply*copy-to-output-link
               ^results <r>)
    (<o> ^name copy-to-output-link
         ^msg <msg>)
-   (<s2> ^nouns <n>)
 -->
    (<ol> ^message <msg>)
    (<r> ^message-generated true)
