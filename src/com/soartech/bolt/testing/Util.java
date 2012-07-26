@@ -9,10 +9,6 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import com.soartech.bolt.script.ui.command.AutomateScript;
-import com.soartech.bolt.script.ui.command.PointAtObject;
-import com.soartech.bolt.script.ui.command.ResetRobotArm;
-
 import edu.umich.sbolt.ChatFrame;
 
 public class Util {
@@ -69,7 +65,7 @@ public class Util {
 	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
     	new ScriptRunner(script, chatMessages).start();
-    	if(script != null && script.peekType() == ActionType.Agent) {
+    	if(script != null && script.peekType() == ActionType.Agent && Settings.getInstance().isAutomated()) {
     		ChatFrame.Singleton().setWaiting(true);
         }
     }
