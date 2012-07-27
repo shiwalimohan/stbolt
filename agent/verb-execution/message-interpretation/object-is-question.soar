@@ -5,7 +5,7 @@ sp {propose*push-object-is-question*object-question
    (state <s> ^topstate <s>
               ^instructor-message <msg>)
    (<msg> ^type object-is-question
-         -^relation.questioned true
+         -^information.relation.questioned true
          -^processed)
 -->
    (<s> ^operator <o> +)
