@@ -1,6 +1,13 @@
 # can have some preposition already built in
 # loads in basic definitions of left,right,behind,in front, in, and near
 
+#sp {initialize*prep-list
+#   (state <s> ^superstate nil
+#              ^prepositions <p>)
+#-->
+#   (<p> ^prep left-of ^prep right-of ^prep behind ^prep in-front-of ^prep near ^prep in)
+#}
+
 # smem --add {
 # (<P345> ^all-aligned false ^name left-of ^relation <R209> <R210> <R211> )
 # (<P502> ^all-aligned false ^name right-of ^relation <R325> <R326> <R327> )
