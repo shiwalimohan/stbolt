@@ -1,6 +1,7 @@
 package com.soartech.bolt.testing;
 
 import com.soartech.bolt.script.ui.command.AutomateScript;
+import com.soartech.bolt.script.ui.command.ClearClassifierData;
 import com.soartech.bolt.script.ui.command.PointAtObject;
 import com.soartech.bolt.script.ui.command.ResetRobotArm;
 import com.soartech.bolt.script.ui.command.UiCommand;
@@ -30,6 +31,7 @@ public class ScriptDataMap {
 		addUiCommand("point circle", new PointAtObject(1));
 		addUiCommand("point tee", new PointAtObject(2));
 		addUiCommand("point triangle", new PointAtObject(3));
+		addUiCommand("classifier clear", new ClearClassifierData());
 	}
 	
 	public void add(ActionType type, String s, char c) {
