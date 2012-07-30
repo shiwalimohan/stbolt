@@ -27,21 +27,7 @@ public class ParseScript {
 		while(s.hasNextLine()) {
 			String scriptLine = s.nextLine();
 			String[] lineType = scriptLine.split(":");
-			ActionType type = null;
-			
-			if(lineType[0].equals("Agent")) {
-				type = ActionType.Agent;
-			} else if(lineType[0].equals("Mentor")) {
-				type = ActionType.Mentor;
-			} else if(lineType[0].equals("Comment")) {
-				type = ActionType.Comment;
-			} else if(lineType[0].equals("AgentAction")) {
-				type = ActionType.AgentAction;
-			} else if(lineType[0].equals("MentorAction")) {
-				type = ActionType.MentorAction;
-			} else {
-				type = ActionType.Invalid;
-			}
+			ActionType type = ScriptDataMap.getInstance().getType(lineType[0]+":");
 			
 			if(type == ActionType.Invalid) {
 				System.out.println("Ignoring script line: "+scriptLine);
@@ -53,31 +39,12 @@ public class ParseScript {
 		}
 		return script;
 	}
+	
 	public static Script parseBechtelFormatScript(Script script, Scanner s) {
 		while(s.hasNextLine()) {
 			String line = s.nextLine();
 			char lineType = line.charAt(0);
-			ActionType type = null;
-			switch(lineType) {
-			case '#':
-				type = ActionType.Comment;
-				break;
-			case '{':
-				type = ActionType.AgentAction;
-				break;
-			case '}':
-				type = ActionType.MentorAction;
-				break;
-			case '<':
-				type = ActionType.Agent;
-				break;
-			case '>':
-				type = ActionType.Mentor;
-				break;
-			default:
-				type = ActionType.Invalid;
-				break;
-			}
+			ActionType type = ScriptDataMap.getInstance().getType(lineType);
 			
 			if(type == ActionType.Invalid) {
 				System.out.println("Ignoring script line: "+line);

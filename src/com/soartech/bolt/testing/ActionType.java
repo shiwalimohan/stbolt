@@ -1,9 +1,5 @@
 package com.soartech.bolt.testing;
 
-import java.util.HashMap;
-
-import javax.swing.text.Style;
-
 public enum ActionType {
 	Mentor,
 	Agent,
@@ -13,5 +9,6 @@ public enum ActionType {
 	Invalid,
 	Default,
 	Correct,
-	Incorrect
+	Incorrect,
+	UiAction
 }

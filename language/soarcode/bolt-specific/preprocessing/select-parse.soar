@@ -308,6 +308,31 @@ sp {select-parse*prefer*parse-without-multiple-0
    (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple O links to a word (likely an innermost "and" case).|)
 }
 
+# prefer adjectives over prepositions in general, this occurs with
+# "This is (unlearned word)"
+sp {select-parse*prefer*Pa*versus*others
+   (state <s> ^name select-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name approve
+         ^parse <pa>)
+   (<o2> ^name approve
+         ^parse <other>)
+   (<pa> ^sentence.links.link <pal>
+         ^parse-count <pac>)
+   (<pal> ^lvalue Pa
+          ^left.global-wcount <lc>
+          ^right.global-wcount <rc>)
+   (<other> ^sentence.links.link <ol>
+            ^parse-count <oc>)
+   (<ol> ^lvalue << Pp MVp Ost >>
+         ^left.global-wcount <lc>
+         ^right.global-wcount <rc>)
+-->
+   (<s> ^operator <o1> > <o2>)
+   (write (crlf) |Preferring parse |<pac> | over |<oc> | due to Pa link preference.|)
+}
+
 # Reject minimal-acceptable-parses with bad pp attachments, even though LG may
 # regard the proper attachment as worse (higher dis cost)
 
@@ -483,4 +508,46 @@ sp {select-parse*elaborate*report-not-chosen
    (<map> ^parse-count <pc>)
 -->
    (write (crlf) |indifferent selection could have chosen | <pc> | instead.|)
+}
+
+# For unlearned words,
+# there will be one pending-dictionary-example for each parse-class passed to
+# the parser. Convert that for the chosen parse to a dictionary-example, and
+# remove all the pending structures.
+
+sp {select-parse*apply*approve*save-word-example
+   (state <s> ^name select-parse
+              ^top-state.language <lang>
+              ^operator <o>)
+   (<o> ^name approve
+        ^parse.sentence <sent>
+        ^parse.parse-count <pc>)
+   (<sent> ^words.word <wd>
+        ^sentence-count <sc>)
+   (<wd> ^wvalue <val>  # e.g., *nounjective3
+         ^global-wcount <wc>)
+   (<lang> ^pending-dictionary-example <pde>)
+   (<pde> ^sentence-count <sc>
+          ^wcount <wc>
+          ^word <orig>           # e.g., red
+          ^parser-wvalue <val>   # e.g., *nounjective3
+          ^parse-class <pclass>) # e.g., *nounjective
+-->
+   (<lang> ^dictionary-example <de>)
+   (<de> ^word <orig>
+         ^parse-class <pclass>
+         ^sentence-count <sc>
+         ^parse-count <pc>) # if this sentence or parse is later rejected, this example should be removed
+}
+
+sp {select-parse*apply*approve*remove-pending
+   (state <s> ^name select-parse
+              ^top-state.language <lang>
+              ^operator <o>)
+   (<o> ^name approve
+        ^parse.sentence.sentence-count <sc>)
+   (<lang> ^pending-dictionary-example <pde>)
+   (<pde> ^sentence-count <sc>)
+-->
+   (<lang> ^pending-dictionary-example <pde> -)
 }

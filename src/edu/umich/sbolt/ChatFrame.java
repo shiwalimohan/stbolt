@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -28,20 +25,13 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import sml.Agent;
-import sml.Agent.RunEventInterface;
-import sml.smlRunEventId;
-import abolt.lcmtypes.robot_command_t;
-import april.util.TimeUtil;
-
 import com.soartech.bolt.BOLTLGSupport;
+import com.soartech.bolt.script.ui.command.ResetRobotArm;
 import com.soartech.bolt.testing.ActionType;
-import com.soartech.bolt.testing.ParseScript;
 import com.soartech.bolt.testing.Script;
-import com.soartech.bolt.testing.Settings;
+import com.soartech.bolt.testing.ScriptDataMap;
 import com.soartech.bolt.testing.Util;
 
-import edu.umich.sbolt.world.SVSConnector;
 import edu.umich.sbolt.world.World;
 
 public class ChatFrame extends JFrame
@@ -98,6 +88,8 @@ public class ChatFrame extends JFrame
 
     public ChatFrame(BOLTLGSupport lg, BoltAgent agent) {
         super("SBolt");
+        System.out.println("Set object");
+        World.Singleton().setPointedObjectID(0);
         instance = this;
         lgSupport = lg;
  
@@ -186,11 +178,7 @@ public class ChatFrame extends JFrame
         JButton armResetButton  = new JButton("Reset Arm");
         armResetButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				robot_command_t command = new robot_command_t();
-				command.utime = TimeUtil.utime();
-				command.action = "RESET";
-				command.dest = new double[6];
-				SBolt.broadcastRobotCommand(command);
+				new ResetRobotArm().execute();
 			}
         });
         menuBar.add(armResetButton);
@@ -201,12 +189,7 @@ public class ChatFrame extends JFrame
 		btnLoadScript.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
-				int returnVal = chooser.showOpenDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					script = ParseScript.parse(chooser.getSelectedFile());
-				}
+				script = Util.loadScript();
 			}
 		});
 		menuBar.add(btnLoadScript);
@@ -224,12 +207,7 @@ public class ChatFrame extends JFrame
 		btnSaveScript.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
-				int returnVal = chooser.showSaveDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					Util.saveFile(chooser.getSelectedFile(), chatMessages);
-				}
+				Util.saveScript(chatMessages);
 			}
 		});
 		menuBar.add(btnSaveScript);
@@ -327,8 +305,10 @@ public class ChatFrame extends JFrame
     }
     
     public void addMessage(String message, ActionType type) {
-    	if(chatDoc.getStyle(type.toString()) == null)
+    	message = ScriptDataMap.getInstance().getString(type)+" "+message.trim();
+    	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
+    	}
     	chatMessages.add(message);
         try {
 			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
@@ -339,8 +319,9 @@ public class ChatFrame extends JFrame
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if(type == ActionType.Agent && script != null && script.hasNextAction())
+        if(type == ActionType.Agent && script != null && script.hasNextAction()) {
         	Util.handleNextScriptAction(script, chatMessages);
+        }
     }
 
     public void addMessage(String message)
@@ -367,18 +348,27 @@ public class ChatFrame extends JFrame
     	if(waitingForAdvanceScript) {
     		setWaitingForScript(false);
     		Util.handleNextScriptAction(script, chatMessages);
+    		return;
     	}
     	if(!ready || waitingForAgentResponse){
     		return;
     	}
-    	history.add(chatField.getText());
+    	String msg = chatField.getText();
+    	history.add(msg);
     	historyIndex = history.size();
-        addMessage("Mentor: " + chatField.getText(), ActionType.Mentor);
-        sendSoarMessage(chatField.getText());
+    	if(msg.length() > 0 && msg.charAt(0) == '#') {
+    		addMessage(msg.substring(1).trim(), ActionType.Comment);
+    		chatField.setText("");
+            chatField.requestFocus();
+    		return;
+    	}
+        addMessage(msg, ActionType.Mentor);
+        sendSoarMessage(msg);
         chatField.setText("");
         chatField.requestFocus();
-        if(script != null && script.peekType() == ActionType.Agent)
+        if(script != null && script.peekType() == ActionType.Agent) {
     		ChatFrame.Singleton().setWaiting(true);
+        }
     }
     
     private void upPressed(){
