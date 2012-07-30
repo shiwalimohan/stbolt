@@ -90,7 +90,9 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
         inputWMEs.get(sentenceCount).add(root);
         
         Identifier wordsWME = agent.CreateIdWME(root, "words");
-        sentence = sentence.replaceAll("(\\W)", " $1");
+
+        // replace all nonword characters, except hyphens, with a single space
+        sentence = sentence.replaceAll("([^a-zA-Z_0-9-])", " $1");
         //System.out.println("padded: " + sentence);
         String[] words = sentence.split("\\s+");
         
