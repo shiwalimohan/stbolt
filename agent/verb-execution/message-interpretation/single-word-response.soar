@@ -82,16 +82,6 @@ sp {apply*push-single-word-response*status*start-clear-stack
 }
 
 # Response to asking for confirmation on an indexing
-sp {apply*push-single-word-response*request-index-confirmation*remove-message
-   (state <s> ^operator <o>
-              ^instructor-message <msg>)
-   (<o> ^name push-single-word-response
-        ^message <msg>)
-   (<msg> ^context.cause request-index-confirmation)
--->
-   (<s> ^instructor-message <msg> -)
-}
-
 sp {apply*push-single-word-response*request-index-confirmation*clear-arm
    (state <s> ^operator <o>
               ^io.output-link <out>)
@@ -99,6 +89,27 @@ sp {apply*push-single-word-response*request-index-confirmation*clear-arm
         ^message.context.cause request-index-confirmation)
 -->
    (<out> ^home <h>)
+}
+
+sp {apply*push-single-word-response*request-index-confirmation*index-confirmation
+   (state <s> ^operator <o>
+              ^io.output-link <out>)
+   (<o> ^name push-single-word-response
+        ^response <resp>
+        ^message <msg>)
+   (<msg> ^context <context>)
+   (<context> ^cause request-index-confirmation
+              ^object.id <id>
+              ^index-object <i-obj>)
+-->
+   (<msg> ^purpose <p>)
+   (<p> ^type index-confirmation
+        ^parameters <params>
+        ^satisfaction <sat>)
+   (<sat> ^action-event.type home)
+   (<params> ^object-id <id>
+             ^object-desc <i-obj>
+             ^response <resp>)
 }
 
 
@@ -112,14 +123,8 @@ sp {apply*push-single-word-response*request-index-confirmation*yes
    (<context> ^cause request-index-confirmation
               ^object <obj>
               ^index-object <i-obj>)
-   (<obj> ^id <id>)
-   (<i-obj> ^property <prop>)
-   (<prop> ^label <label>
-           ^category <cat>)
 -->
-   (<out> ^send-training-label <stl>)
-   (<stl> ^id <id> ^label <label> ^category <cat>)
-   (<i-obj> ^candidate <obj>)
+   (<i-obj> ^match <obj>)
 }
 
 sp {apply*push-single-word-response*request-index-confirmation*no

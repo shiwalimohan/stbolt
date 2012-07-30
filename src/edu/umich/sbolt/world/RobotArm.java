@@ -71,7 +71,8 @@ public class RobotArm implements IInputLinkElement
 
   //      grabbedId.Update(curGrab);
 
-        
+
+    	prevAction = (robotAction == null ? "wait" : robotAction.action);
         actionChanged = false;
     }
 
@@ -87,7 +88,6 @@ public class RobotArm implements IInputLinkElement
     }
     
     public void newRobotAction(robot_action_t action){
-    	prevAction = (robotAction == null ? action.action : robotAction.action);
     	robotAction = action;
     	pose.updateWithArray(action.xyz);
     	actionChanged = true;

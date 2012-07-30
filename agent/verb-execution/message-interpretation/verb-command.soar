@@ -5,6 +5,7 @@ sp {propose*push-verb-command
    (state <s> ^topstate <s>
               ^instructor-message <msg>)
    (<msg> ^type verb-command
+         -^information.verb.word describe # JK: Don't do describe the scene
          -^processed)
 -->
    (<s> ^operator <o> +)
@@ -52,6 +53,8 @@ sp {apply*push-verb-command*done
         ^satisfaction <sat>)
    (<sat> ^learning-event.type explanation)
 }
+
+# Result when the user says 'describe the scene'
 
 sp {apply*push-verb-command*mark*processed
    (state <s> ^operator <o>)

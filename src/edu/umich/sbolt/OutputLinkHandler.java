@@ -361,7 +361,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator");
     	Identifier sat = WorkingMemoryUtil.getIdentifierOfAttribute(id, "satisfaction");
     	String eventType = sat.GetChild(0).GetAttribute();
-    	String eventName = sat.GetChild(0).GetValueAsString();
+    	String eventName = sat.GetChild(0).ConvertToIdentifier().FindByAttribute("type", 0).GetValueAsString();
     	Identifier context = WorkingMemoryUtil.getIdentifierOfAttribute(id, "context");
     	
     	String message = "";

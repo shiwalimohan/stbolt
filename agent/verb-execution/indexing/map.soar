@@ -8,9 +8,10 @@ sp {propose*map*verb
    (<p> ^type external-action
    	^satisfaction <ps>
 	-^indexed-operator <map-op>)  
-# AM: Moved satisfaction info to inside the event
+	# AM: Moved satisfaction info to inside the event
    #(<ps> ^action-event <info>)
    (<ps> ^action-event.type <info>)
+   (<info> -^verb.word describe) #JK for describe the scene-shouldn't be handled as a verb
 -->
    (<s> ^operator <op> +)
    (<op> ^name index-verb

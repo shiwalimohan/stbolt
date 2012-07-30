@@ -1,7 +1,6 @@
 package edu.umich.sbolt.language;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import edu.umich.sbolt.language.Patterns.LingObject;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
@@ -58,6 +57,12 @@ public class AgentMessageParser
         	message = "Okay.";
         } else if(type.equals("request-index-confirmation")){
         	message = translateRequestIndexConfirmation(fieldsId);
+        } else if(type.equals("describe-scene")){
+            message = translateSceneQuestion(fieldsId);
+        } else if(type.equals("describe-scene-objects")){
+            message = translateSceneObjectsQuestion(fieldsId);
+        } else if(type.equals("list-objects")){
+            message = translateObjectsQuestion(fieldsId);
         }
         return message;
     }
@@ -129,6 +134,72 @@ public class AgentMessageParser
     	return s;
     }
     
+    private static String translateSceneObjectsQuestion(Identifier id){
+        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        
+        Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
+        String message = "The objects in the scene are";
+        Iterator<LingObject> it = object.iterator();
+        if (object.isEmpty())
+            return "There are no objects in the scene.";
+        while(it.hasNext())
+        {
+            String obj = it.next().toString();
+            if (!it.hasNext() && object.size() > 1)
+                message+= " and";
+            if (obj.startsWith(" a") || obj.startsWith(" e") || obj.startsWith(" i") || 
+                    obj.startsWith(" o") || obj.startsWith(" u"))
+            {
+                message += " an";
+            }
+            else
+            {
+                message += " a";
+            }
+            message += obj;
+            if (it.hasNext() && object.size() > 2)
+                message+= ",";
+        }
+        return message;
+    }
+    
+    private static String translateObjectsQuestion(Identifier id){
+        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        
+        Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
+        String message = "";
+        
+        Iterator<LingObject> it = object.iterator();
+        if (object.isEmpty())
+            return "Nothing.";
+        while(it.hasNext())
+        {
+            String obj = it.next().toString();
+            if (!it.hasNext() && object.size() > 1)
+                message+= " and";
+            if (obj.startsWith(" a") || obj.startsWith(" e") || obj.startsWith(" i") || 
+                    obj.startsWith(" o") || obj.startsWith(" u"))
+            {
+                message += " an";
+            }
+            else
+            {
+                message += " a";
+            }
+            message += obj;
+            if (it.hasNext() && object.size() > 2)
+                message+= ",";
+        }
+        return message;
+    }
+    private static String translateSceneQuestion(Identifier id){
+      String prep = WorkingMemoryUtil.getValueOfAttribute(id, "prep");
+      String prep2 = prep.replaceAll("-", " ");
+      String object1 = LingObject.createFromSoarSpeak(id, "object1").toString();
+      String object2 = LingObject.createFromSoarSpeak(id, "object2").toString();
+      return "The" + object1 + " is " + prep2 + " the" + object2;
+  }
+    
     private static String translateValueQuestion(Identifier id){
         Identifier attRelationId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "attribute-relation");
         String objString = LingObject.createFromSoarSpeak(attRelationId, "object1").toString();
@@ -164,6 +235,7 @@ public class AgentMessageParser
     	
         return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
     }
+    
     
     private static String translateWhichQuestion(Identifier id){
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "description");

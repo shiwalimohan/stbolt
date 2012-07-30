@@ -13,7 +13,7 @@ sp {this-object-message*apply*complete-this-object-message*resolve*which-questio
    (<context> ^cause which-question
               ^object <context-obj>)
 -->
-   (<context-obj> ^candidate <obj>)
+   (<context-obj> ^match <obj>)
 }
 
 # Results when an object-message with a relation is sent in response to a which-question
@@ -86,7 +86,7 @@ sp {index-object*purpose*apply*add*candidate
    (<o> ^name index-object
         ^match {<m> <> failure})
    (<seg> ^purpose.type index-object
-          ^context.cause which-question)
+          ^context <context>)
    (<context> ^cause which-question
         		^object <obj>)
         

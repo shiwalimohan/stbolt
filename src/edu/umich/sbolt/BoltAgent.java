@@ -14,6 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import abolt.lcmtypes.robot_command_t;
+import april.util.TimeUtil;
+
 import edu.umich.sbolt.world.SVSConnector;
 
 public class BoltAgent implements RunEventInterface{
@@ -34,6 +37,7 @@ public class BoltAgent implements RunEventInterface{
     private boolean queueStop = false;
 	
 	public BoltAgent(Kernel kernel, String agentName, Properties props, boolean useLG){
+        stack = new InteractionStack();
         
         // Get the various sources
         agentSource = props.getProperty("agent");
@@ -54,7 +58,6 @@ public class BoltAgent implements RunEventInterface{
 
         agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
 
-        stack = new InteractionStack();
 	}
 	
 	public Agent getSoarAgent(){
@@ -113,6 +116,7 @@ public class BoltAgent implements RunEventInterface{
 	
 	/* IMPORTANT: Do not call if the agent is running */
 	public void sourceAgent(boolean includeSmem){
+		stack.clear();
     	System.out.println("Re-initializing the agent");
     	System.out.println("  smem --init:  " + agent.ExecuteCommandLine("smem --init"));
     	System.out.println("  epmem --init: " + agent.ExecuteCommandLine("epmem --init"));
@@ -271,6 +275,19 @@ public class BoltAgent implements RunEventInterface{
         	}
         });
         agentMenu.add(commandButton);  
+        
+        JMenuItem clearDataButton = new JMenuItem("Clear Classifier Data");
+        clearDataButton.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		robot_command_t cmd = new robot_command_t();
+        		cmd.utime = TimeUtil.utime();
+        		cmd.dest = new double[6];
+        		cmd.updateDest = false;
+        		cmd.action = "CLEAR";
+        		SBolt.broadcastRobotCommand(cmd);
+        	}
+        });
+        agentMenu.add(clearDataButton);  
 
         menuBar.add(agentMenu);
     }
