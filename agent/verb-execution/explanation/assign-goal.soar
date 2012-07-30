@@ -84,7 +84,8 @@ sp {assign-goal*propsoe*retrieve-predicate
    	      ^long-term-id <glid>
 	      ^smem.result <sres>)
    (<sres> ^success <glid>)
-   (<glid> -^<predicate> <p1>)
+   (<glid> ^<prep> <p1>)
+   (<p1> -^<parg> <pval>)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name retrieve-predicate

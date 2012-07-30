@@ -69,7 +69,7 @@ sp {elaborate*operator*match*epmem
    (state <s> ^name selection
    	      ^indexed-operator <map-op>
    	      ^operator <o> +)
-   (<map-op> ^{<attr> <> applied <> information} <val>) ### excluded agent architecture arguments from matching: SM
+   (<map-op> ^{<attr> <> applied <> information <> _metadata} <val>) ### excluded agent architecture arguments from matching: SM
    (<o> -^matched <attr>)
 -->
    (<o> ^not-matched <attr>)
