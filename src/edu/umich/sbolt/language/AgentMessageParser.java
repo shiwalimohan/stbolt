@@ -49,6 +49,8 @@ public class AgentMessageParser
         	message = "What action should I take next?";
         } else if(type.equals("confirmation")){
         	message = "Okay.";
+        } else if (type.equals("get-goal")){
+        	message = "What is the goal of the action?";
         }
         return message;
     }
