@@ -65,7 +65,20 @@ sp {propose*index*argument
 #### using dialog context, resolve the referent
 #### improper dialog context
 
-sp {create*relation
+sp {create*relation*visual-objects
+   (state <s> ^name create-goal-predicate
+   	      ^preposition-id <id>
+	      ^relation <rel>
+	      ^indexed-operator <iop>
+	      ^map-id.procedural <map>)
+   (<id> ^{<arg> <> word} <obj>)
+   (<iop> ^<op-arg> <obj>)
+   (<map> ^<op-arg> <sobj>)
+-->
+   (<rel> ^<arg> <sobj>)
+}
+
+sp {create*relation*semantic-object
    (state <s> ^name create-goal-predicate
    	      ^preposition-id <id>
 	      ^relation <rel>
@@ -73,11 +86,27 @@ sp {create*relation
 	      ^map-id.procedural <map>
 	      ^smem.command <scomm>)
    (<id> ^{<arg> <> word} <obj>)
-   (<iop> ^<op-arg> <obj>)
-   (<map> ^<op-arg> <sobj>)
+   (<iop> -^<op-arg> <obj>)
 -->
-   (<rel> ^<arg> <sobj>)
+   (<rel> ^<arg> <obj>)
+   (<obj> ^focus yes)
+   (<scomm> ^store <obj>)
 }
+
+
+sp {create*relation*semantic-object*substructure
+   (state <s> ^name create-goal-predicate
+	      ^relation <rel>
+	      ^smem.command <scomm>)   
+   (<rel> ^<arg> <obj>)
+   (<scomm> ^store <obj>)
+   (<obj> ^<oarg> <oval>)
+   (<oval> ^<oval-arg> <ovval>)
+-->
+   (<scomm> ^store <oval>
+   	    ^store <ovval>)
+}
+
 
 
 ### write to the superstate

@@ -107,6 +107,21 @@ sp {explain*propose*segment-verb*elaborate
    (<obj> ^focus yes)
 }
 
+sp {explain*propose*segment-verb*elaborate*goal
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <map-op>
+	      ^operator <op> +
+	      ^object <obj>)
+   (<op> ^name <name>)
+   (<map-op> ^name <name>
+	     ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+   (<sobj> ^id <id>)
+   (<obj> ^id <id>)
+   -->
+   (<op> ^<arg> <obj>)
+   (<obj> ^focus yes)
+}
+
 ##### more generalized version of desired
 # sp {new-operator*desired*generalized
 #    (state <s> ^name <sname>
@@ -225,17 +240,12 @@ sp {composite*operator*retract
 sp {composite*operator*elaborate*focus
    (state <s> ^name <sname>
    	      ^superstate <ss>
-	      ^object <val1>
-	      ^object <val2>)
+	      ^object <val1>)
    (<ss> ^operator <sop>)
    (<sop> ^category composite-action
    	  ^name <sname>
-   	  ^{<arg1> <> name} <val1>
-	  ^{<arg2> <> name} <val2>)
-   (<val2> ^category location)
-   (<val1> -^category location)
+   	  ^{<arg1> <> name <> applied <> _metadata <> indexed-operator <> information <> category} <val1>)
  -->
-   (<val2> ^focus yes)
    (<val1> ^focus yes)
 }
 
