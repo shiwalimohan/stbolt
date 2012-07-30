@@ -54,9 +54,6 @@ sp {apply*push-verb-command*done
    (<sat> ^learning-event.type explanation)
 }
 
-<<<<<<< HEAD
-=======
-# Result when the user issues a count command
 sp {apply*push-verb-command*count*no*relation
    (state <s> ^operator <o>)
    (<o> ^name push-verb-command
@@ -87,7 +84,6 @@ sp {apply*push-verb-command*count*no*relation
 #   (<rel2> ^object1 <obja> ^object2 <objb> ^word <prep>)
 #}
 
->>>>>>> st/master
 # Result when the user says 'describe the scene'
 
 sp {apply*push-verb-command*mark*processed

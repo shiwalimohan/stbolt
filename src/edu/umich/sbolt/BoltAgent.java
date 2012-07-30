@@ -111,6 +111,7 @@ public class BoltAgent implements RunEventInterface{
 	
 	public String sendCommand(String command){
 		return agent.ExecuteCommandLine(command);
+		
 	}
 	
 	/* IMPORTANT: Do not call if the agent is running */
