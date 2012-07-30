@@ -63,7 +63,7 @@ sp {explain*copy*retrieved*episode*self
 
 
 
-## in the explanation state, generate the desired state
+## in the explanation state, generate the desired state//
 sp {explain*propose*assign-goal
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>

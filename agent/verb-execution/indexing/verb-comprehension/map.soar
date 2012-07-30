@@ -131,7 +131,3 @@ sp {write*primitive-action*status*topstate
  -->
    (<status> ^performed.action-event <info>)
 }
-
-
-
-

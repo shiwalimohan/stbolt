@@ -6,7 +6,7 @@ sp {elaborate*goal-acquistion*indexed-operator
    	  ^purpose <p>)
    (<p> ^type goal-acquisition
    	^satisfaction <ps>)
-   (<top> ^next.next.purpose.indexed-operator <iop>)
+   (<top> ^next.purpose.indexed-operator <iop>)
 -->
    (<p> ^indexed-operator <iop>)
 }
