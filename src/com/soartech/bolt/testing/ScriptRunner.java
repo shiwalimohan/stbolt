@@ -3,6 +3,7 @@ package com.soartech.bolt.testing;
 import java.util.List;
 
 import edu.umich.sbolt.ChatFrame;
+import edu.umich.sbolt.SBolt;
 
 public class ScriptRunner extends Thread {
 	private Script script;
@@ -53,7 +54,9 @@ public class ScriptRunner extends Thread {
     		if(!observed.contains(expected)) {
     			ChatFrame.Singleton().addMessage("- Error - Expected: "+expected, ActionType.Incorrect);
     			if(Settings.getInstance().isAutomated()) {
-    				ChatFrame.Singleton().stopAgent();
+    				// AM: Changed so it refences the 
+    				SBolt.Singleton().getBoltAgent().stop();
+    				//ChatFrame.Singleton().stopAgent();
     				return;
     			}
     		} else {

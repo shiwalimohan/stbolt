@@ -3,7 +3,7 @@ package edu.umich.sbolt.world;
 import sml.Identifier;
 import sml.StringElement;
 
-public class Property implements IInputLinkElement{
+public class StateProperty implements IInputLinkElement{
     
     // Root identifier for the category
     protected Identifier propertyID;
@@ -20,7 +20,7 @@ public class Property implements IInputLinkElement{
     protected String value;
     protected StringElement valueWME;
     
-    public Property(String type, String name, String value){
+    public StateProperty(String type, String name, String value){
     	propertyID = null;
     	
     	this.type = type.toLowerCase();
@@ -51,7 +51,7 @@ public class Property implements IInputLinkElement{
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
     	if(propertyID == null){
-    		propertyID = parentIdentifier.CreateIdWME("property");
+    		propertyID = parentIdentifier.CreateIdWME("state-property");
     		typeWME = propertyID.CreateStringWME("type", type);
     		nameWME = propertyID.CreateStringWME("name", name);
     		valueWME = propertyID.CreateStringWME("value", value);

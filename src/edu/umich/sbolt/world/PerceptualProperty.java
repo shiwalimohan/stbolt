@@ -10,21 +10,22 @@ import sml.*;
  * @author mininger
  * 
  */
-public class VisualProperty implements IInputLinkElement
+public class PerceptualProperty implements IInputLinkElement
 {   
 	protected static HashMap<Integer, String> categoryNames = null;
-	public static String getCategoryName(Integer categoryType){
+	public static String getCategoryName(Integer categoryID){
 		if(categoryNames == null){
 			categoryNames = new HashMap<Integer, String>();
 			categoryNames.put(category_t.CAT_COLOR, "color");
 			categoryNames.put(category_t.CAT_SHAPE, "shape");
 			categoryNames.put(category_t.CAT_SIZE, "size");
 			categoryNames.put(category_t.CAT_TEXTURE, "texture");
+			categoryNames.put(category_t.CAT_WEIGHT, "weight");
 		}
-		return categoryNames.get(categoryType);
+		return categoryNames.get(categoryID);
 	}
 	
-	public static Integer getCategoryType(String categoryName){
+	public static Integer getCategoryID(String categoryName){
 		if(categoryName.equals("color")){
 			return category_t.CAT_COLOR;
 		} else if(categoryName.equals("shape")){
@@ -33,13 +34,23 @@ public class VisualProperty implements IInputLinkElement
 			return category_t.CAT_SIZE;
 		} else if(categoryName.equals("texture")){
 			return category_t.CAT_TEXTURE;
+		} else if(categoryName.equals("weight")){
+			return category_t.CAT_WEIGHT;
 		} else {
 			return null;
 		}
 	}
+	
+	public static String getCategoryType(String categoryName){
+		if(categoryName.equals("weight")){
+			return "measurable-prop";
+		} else {
+			return "visual-prop";
+		}
+	}
     
     // Root identifier for the category
-    protected Identifier visualID;
+    protected Identifier propertyID;
     
     // Name of the category
     protected Integer categoryType;
@@ -51,13 +62,22 @@ public class VisualProperty implements IInputLinkElement
     protected HashMap<String, Double> labels;
     
     protected HashMap<String, FloatElement> labelWMEs;
+    
+    protected Identifier featuresID;
+    
+    protected ArrayList<Double> features;
+    
+    protected ArrayList<FloatElement> featureWMEs;
 
-    public VisualProperty(categorized_data_t category){
-    	visualID = null;
+    public PerceptualProperty(categorized_data_t category){
+    	propertyID = null;
     	nameWME = null;
     	categoryType = category.cat.cat;
     	labels = new HashMap<String, Double>();
     	labelWMEs = new HashMap<String, FloatElement>();
+    	featuresID = null;
+    	features = new ArrayList<Double>();
+    	featureWMEs = new ArrayList<FloatElement>();
     	updateCategoryInfo(category);
     }
     
@@ -79,9 +99,25 @@ public class VisualProperty implements IInputLinkElement
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
-    	if(visualID == null){
-    		visualID = parentIdentifier.CreateIdWME("visual-prop");
-    		nameWME = visualID.CreateStringWME("category", getName());
+    	if(propertyID == null){
+    		propertyID = parentIdentifier.CreateIdWME(getCategoryType(getName()));
+    		nameWME = propertyID.CreateStringWME("category", getName());
+    		if(features.size() > 0){
+        		featuresID = propertyID.CreateIdWME("features");
+        		for(int i = 0; i < features.size(); i++){
+        			Identifier featureID = featuresID.CreateIdWME("feature");
+        			featureID.CreateIntWME("index", i);
+        			FloatElement featureWME = featureID.CreateFloatWME("value", features.get(i));
+        			featureWMEs.add(featureWME);
+        		}
+    		}
+    		
+    	}
+    	
+    	for(int i = 0; i < features.size(); i++){
+    		if(featureWMEs.get(i).GetValue() != features.get(i)){
+    			featureWMEs.get(i).Update(features.get(i));
+    		}
     	}
     	
     	Set<String> labelsToDestroy = new HashSet<String>();
@@ -98,7 +134,7 @@ public class VisualProperty implements IInputLinkElement
     				labelWME.Update(label.getValue());
     			}
     		} else {
-    			labelWMEs.put(label.getKey(), visualID.CreateFloatWME(label.getKey(), label.getValue()));
+    			labelWMEs.put(label.getKey(), propertyID.CreateFloatWME(label.getKey(), label.getValue()));
     		}
     	}
     	
@@ -111,15 +147,17 @@ public class VisualProperty implements IInputLinkElement
     @Override
     public synchronized void destroy()
     {
-    	if(visualID != null){
+    	if(propertyID != null){
     		for(Map.Entry<String, FloatElement> wme : labelWMEs.entrySet()){
-    			wme.getValue().DestroyWME();
+    			//wme.getValue().DestroyWME();
     		}
     		labelWMEs.clear();
-    		nameWME.DestroyWME();
-    		nameWME = null;
-    		visualID.DestroyWME();
-    		visualID = null;
+    		//nameWME.DestroyWME();
+    		//nameWME = null;
+    		propertyID.DestroyWME();
+    		propertyID = null;
+    		//featuresID.DestroyWME();
+    		//featuresID = null;
     	}
     }
     
@@ -141,6 +179,13 @@ public class VisualProperty implements IInputLinkElement
     	}
     	for(String label : labelsToRemove){
     		labels.remove(label);
+    	}
+    	for(int i = 0; i < category.num_features; i++){
+    		if(i >= features.size()){
+    			features.add(category.features[i]);
+    		} else {
+    			features.set(i, category.features[i]);
+    		}
     	}
     }
 }

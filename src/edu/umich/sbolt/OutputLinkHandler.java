@@ -20,22 +20,19 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 {
 	
     private List<training_label_t> newLabels;
-    
-    private Agent agent;
 
-    public OutputLinkHandler(Agent agent)
+    public OutputLinkHandler(BoltAgent boltAgent)
     {
-
-    	this.agent = agent;
         String[] outputHandlerStrings = { "message", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", "report-interaction"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", 
+                "report-interaction", "home"};
 
         for (String outputHandlerString : outputHandlerStrings)
         {
-           agent.AddOutputHandler(outputHandlerString, this, null);
+        	boltAgent.getSoarAgent().AddOutputHandler(outputHandlerString, this, null);
         }
         
-        agent.RegisterForRunEvent(
+        boltAgent.getSoarAgent().RegisterForRunEvent(
                 smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
         
         newLabels = new ArrayList<training_label_t>();
@@ -121,12 +118,10 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	            else if(wme.GetAttribute().equals("report-interaction"))
 	            {
 	            	processReportInteraction(id);
+	            } else if(wme.GetAttribute().equals("home")){
+	            	processHomeCommand(id);
 	            }
-	
-	            if (agent.IsCommitRequired())
-	            {
-	            	agent.Commit();
-	            }
+	            SBolt.Singleton().getBoltAgent().commitChanges();
             } catch (IllegalStateException e){
             	System.out.println(e.getMessage());
             }
@@ -325,7 +320,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", 
     			"Error (send-training-label): No ^category attribute");
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = VisualProperty.getCategoryType(category);
+    	Integer catNum = PerceptualProperty.getCategoryID(category);
     	if(catNum == null){
     		return;
     	}
@@ -342,13 +337,23 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     private void processPushSegmentCommand(Identifier id){
     	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type", "Error (push-segment): No ^type attribute");
     	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator", "Error (push-segment): No ^originator attribute");
-    	ChatFrame.Singleton().getStack().pushSegment(type, originator);
+    	SBolt.Singleton().getBoltAgent().getStack().pushSegment(type, originator);
     	id.CreateStringWME("status", "complete");
     }
     
     private void processPopSegmentCommand(Identifier id){
-    	ChatFrame.Singleton().getStack().popSegment();
+    	SBolt.Singleton().getBoltAgent().getStack().popSegment();
     	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processHomeCommand(Identifier id){
+    	robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.dest = new double[6];
+    	command.action = "HOME";
+    	SBolt.broadcastRobotCommand(command);
+        
+        id.CreateStringWME("status", "complete");
     }
     
     private void processReportInteraction(Identifier id){
@@ -356,7 +361,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator");
     	Identifier sat = WorkingMemoryUtil.getIdentifierOfAttribute(id, "satisfaction");
     	String eventType = sat.GetChild(0).GetAttribute();
-    	String eventName = sat.GetChild(0).GetValueAsString();
+    	String eventName = sat.GetChild(0).ConvertToIdentifier().FindByAttribute("type", 0).GetValueAsString();
     	Identifier context = WorkingMemoryUtil.getIdentifierOfAttribute(id, "context");
     	
     	String message = "";

@@ -19,10 +19,16 @@ public class InteractionStack extends JFrame{
 		this.add(pane);
 		
         this.setSize(200, 50);
-        this.setDefaultCloseOperation(this.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         hideFrame();
         
         pushSegment("<------ Bottom ------>", "none");
+	}
+	
+	public void clear(){
+		while(stack.size() > 1){
+			popSegment();
+		}
 	}
 	
 	public void showFrame()
