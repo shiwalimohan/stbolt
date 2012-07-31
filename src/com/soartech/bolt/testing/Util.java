@@ -7,16 +7,18 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import edu.umich.sbolt.ChatFrame;
-import edu.umich.sbolt.SBolt;
 
 public class Util {
 	
 	public static void saveFile(File f, List<String> history) {
 		try {
 			Writer output = new BufferedWriter(new FileWriter(f));
-			for(String str : history)
+			for(String str : history) {
 				output.write(str+"\n");
+			}
 			output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -24,7 +26,55 @@ public class Util {
 		}
 	}
 	
+	public static void saveFileBechtelFormat(File f, List<String> history) {
+		try {
+			Writer output = new BufferedWriter(new FileWriter(f));
+			output.write("#!BechtelFormat\n");
+			for(String str : history) {
+				String[] res = str.split(":");
+				if(res.length > 1 && res[0] != null && res[1] != null) {
+					String charString = ScriptDataMap.getInstance().getChar(res[0]+":").toString();
+					output.write(charString+" "+res[1].trim()+"\n");
+				}
+			}
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static Script loadScript() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return ParseScript.parse(chooser.getSelectedFile());
+		}
+		return null;
+	}
+	
+	public static void saveScript(List<String> chatMessages) {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(Settings.getInstance().getSboltDirectory());
+		int returnVal = chooser.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			Util.saveFileBechtelFormat(chooser.getSelectedFile(), chatMessages);
+		}
+	}
+	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
     	new ScriptRunner(script, chatMessages).start();
+    	if(script != null && script.peekType() == ActionType.Agent && Settings.getInstance().isAutomated()) {
+    		ChatFrame.Singleton().setWaiting(true);
+        }
+    }
+    
+    public static void executeUiAction(String action) {
+    	try {
+			ScriptDataMap.getInstance().getUiCommand(action).execute();
+		} catch (UiCommandNotFoundException e) {
+			e.printStackTrace();
+		}
     }
 }

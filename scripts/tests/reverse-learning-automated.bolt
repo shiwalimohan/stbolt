@@ -1,5 +1,7 @@
 #!BechtelFormat
 < Waiting for next command...
+@ classifier clear
+@ automated true
 # Simulator should have all data cleared, a blue sphere in the pantry, red cube in the stove, red triangle in the garbage, and green tee in the table.
 > move the red square to the pantry
 < What kind of attribute is red?
@@ -7,7 +9,7 @@
 < What kind of attribute is square?
 > square is a shape
 < I don't see a red square. Please teach me to recognize one
-} point at the red square
+@ point square
 > this is a red square
 < Okay.
 > finished
@@ -20,7 +22,7 @@
 < What kind of attribute is triangle?
 > triangle is a shape
 < I don't see a red triangle. Please teach me to recognize one
-} point at the red triangle
+@ point triangle
 > this is a red triangle
 < Okay.
 > finished

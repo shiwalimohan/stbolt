@@ -70,10 +70,10 @@ public class SoarRunner implements PrintEventInterface {
 		for (int i=sentenceStart; i<args.length; i++) {
 			sentences.add(args[i]);
 		}
-		SoarRunner sr = new SoarRunner(sourceFiles, sentences, debug, silent, runSoar, whitelist, commands);
+		SoarRunner sr = new SoarRunner(sourceFiles, sentences, debug, silent, runSoar, commands);
 	}
 	
-	public SoarRunner(ArrayList<String> soarFiles, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar, String whitelist, ArrayList<String> commands) {
+	public SoarRunner(ArrayList<String> soarFiles, ArrayList<String> sentences, boolean debug, boolean silent, boolean runSoar, ArrayList<String> commands) {
 		if (runSoar) {
 			if (debug) {
 				kernel = Kernel.CreateKernelInNewThread();
@@ -98,7 +98,7 @@ public class SoarRunner implements PrintEventInterface {
 			}
 		}
 	
-		LGSupport lgSupport = new LGSupport(agent, "data/link", whitelist);
+		LGSupport lgSupport = new LGSupport(agent, "data/link"/*, whitelist*/);
 		for (String sentence: sentences) {
 			lgSupport.handleSentence(sentence);
 		}

@@ -376,15 +376,7 @@ public class Dictionary {
         prune_lookup_list(s);
         return lookup_list;
     }
-
-		public DictNode filtered_dictionary_lookup(String s) {
-				if (!LGSupport.isAllowedDictionaryWord(s)) {
-					return null;
-				} 
-
-				return dictionary_lookup(s);
-		}
-				
+		
     /**
      * 
      * @param s 

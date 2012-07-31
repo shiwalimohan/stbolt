@@ -25,7 +25,7 @@ public class Settings {
 		}
 		sboltDirectory = dir;
 		
-		automated = true;
+		automated = false;
 	}
 
 	public static Settings getInstance() {
