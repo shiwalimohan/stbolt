@@ -54,6 +54,7 @@ sp {apply*push-verb-command*done
    (<sat> ^learning-event.type explanation)
 }
 
+# Result when the user issues a count command
 sp {apply*push-verb-command*count*no*relation
    (state <s> ^operator <o>)
    (<o> ^name push-verb-command
