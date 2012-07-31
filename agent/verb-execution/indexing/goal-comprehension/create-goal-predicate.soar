@@ -89,7 +89,6 @@ sp {create*relation*semantic-object
    (<iop> -^<op-arg> <obj>)
 -->
    (<rel> ^<arg> <obj>)
-   (<obj> ^focus yes)
    (<scomm> ^store <obj>)
 }
 
@@ -125,21 +124,3 @@ sp {write*superstate
    (<sss> ^bit flip)
 }
 
-
-
-#### if the arguments of the goal do not exist in the dialog context, store them in semantic memory
-
-#sp {create*relation*semantic
-#   (state <s> ^name create-goal-predicate
-#   	      ^preposition-id <id>
-#	      ^relation <rel>
-## 	      ^indexed-operator <iop>
-# 	      ^map-id <map>
-# 	      ^smem.command <scomm>) 
-#    (<id> ^{<arg> <> word} <obj>)
-#    (<iop> ^<op-arg> <obj>)
-#    (<map> ^<op-arg> <sobj>)
-# -->
-#    (<rel> ^<arg> <sobj>)
-#    (<scomm> ^store <rel> <sobj>)
-# }

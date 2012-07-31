@@ -104,7 +104,7 @@ sp {explain*propose*segment-verb*elaborate
    (<obj> ^id <id>)
    -->
    (<op> ^<arg> <obj>)
-   (<obj> ^focus yes)
+   (<obj> ^focus (concat <name> <arg>))
 }
 
 sp {explain*propose*segment-verb*elaborate*goal
@@ -118,29 +118,8 @@ sp {explain*propose*segment-verb*elaborate*goal
    (<sobj> ^id <id>)
    (<obj> ^id <id>)
    -->
-   (<op> ^<arg> <obj>)
-   (<obj> ^focus yes)
+   (<obj> ^focus (concat <name> <arg>))
 }
-
-##### more generalized version of desired
-# sp {new-operator*desired*generalized
-#    (state <s> ^name <sname>
-#    	      ^superstate <ss>
-# 	      ^object <val1>
-# 	      ^object <val2>)
-#    (<ss> ^operator <sop>)
-#    (<sop> ^name <sname>
-#    	  ^{<arg1> <> name <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val1>
-# 	  ^{<arg2> <> name  <> goal-lid <> applied <> category <> indexed-operator <> information <> success} <val2>)
-#    (<val2> ^category location)
-#    (<val1> -^category location)
-# -->
-#    (<s> ^desired <d>)
-#    (<d> ^track-relation <in-p>)
-#    (<in-p> ^object1 <val1>
-#    	   ^object2 <val2>
-# 	   ^prep in)
-# }
 
 ### --- reject operator if desired state is reached
 
@@ -171,22 +150,6 @@ sp {explain*success
    (<p> ^learning-event explanation)
 }
 	      
-
-
-### temporary composite operator reject
-#sp {composite*operator*elaborate*success
-#   (state <s> ^name <sname>
-#   	      ^superstate <ss>)
-#   (<ss> ^operator <sop>
-#   	 ^indexed-operator <iop>)
-#   (<sop> ^category composite-action)
-#   (<sop> ^name <sname>)
-#   (<s> ^desired <d>
-#   	^success <d>)
-#-->
-#   (<ss> ^composite-success <sop>)
-#   (<iop> ^applied true)
-#}
 
 ### o-support
 sp {propose*composite*operator*elaborate*success
@@ -236,7 +199,7 @@ sp {composite*operator*retract
 }
 
 
-### get focus to work
+### focus for operator arguments
 sp {composite*operator*elaborate*focus
    (state <s> ^name <sname>
    	      ^superstate <ss>
@@ -246,8 +209,24 @@ sp {composite*operator*elaborate*focus
    	  ^name <sname>
    	  ^{<arg1> <> name <> applied <> _metadata <> indexed-operator <> information <> category} <val1>)
  -->
-   (<val1> ^focus yes)
+   (<val1> ^focus (concat <sname> <arg1>))
 }
+
+### focus for operator goal
+sp {composite*operator*elaborate*goal*focus
+   (state <s> ^name <sname>
+   	      ^superstate <ss>
+	      ^object <val1>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name <sname>
+   	  ^category composite-action
+	  ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+   (<sobj> ^id <id>)
+   (<val1> ^id <id>)
+   -->
+   (<val1> ^focus (concat <sname> <arg>))
+}
+
 
 ### clean up focus
 sp {object*clean-up*focus
@@ -255,7 +234,7 @@ sp {object*clean-up*focus
    	      ^object <obj>
 	      ^operator <op>)
    (<op> ^category << interaction-stack communication >>)
-   (<obj> ^focus yes)
+   (<obj> ^focus <any>)
 -->
-   (<obj> ^focus yes -)
+   (<obj> ^focus <any> -)
 }

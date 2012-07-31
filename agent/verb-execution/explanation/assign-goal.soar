@@ -75,10 +75,11 @@ sp {assign-goal*elaborate*semantic-objects
    (<glid> ^<prep> <p1>)
    (<tr> ^prep <prep>)
    (<p1> ^<parg> <sobj>)
-   (<iop> -^_metadata.map-id.procedural.<varg> <sobj>)
+   (<iop> -^_metadata.map-id.procedural.<varg> <sobj>
+   	  ^name <opname>)
 -->
    (<tr> ^<parg> <sobj>)
-   (<sobj> ^focus yes)
+   (<sobj> ^focus (concat <opname> <parg>))
 }
 
 ### if state-no-change, write desired to the superstate

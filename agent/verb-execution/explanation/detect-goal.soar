@@ -10,10 +10,10 @@ sp {new-operator*detect*track-relation*success
    	 ^object1 <val3>
 	 ^object2 <val4>
 	 ^prep <prep>)
-   (<val1> ^focus yes)
-   (<val2> ^focus yes)
-   (<val3> ^focus yes)
-   (<val4> ^focus yes)
+   (<val1> ^focus <fval1>)
+   (<val2> ^focus <fval2>)
+   (<val3> ^focus <fval1>)
+   (<val4> ^focus <fval2>)
 -->
    (<s> ^success <d>)
 }
