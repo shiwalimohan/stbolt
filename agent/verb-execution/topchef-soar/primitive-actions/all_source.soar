@@ -1,6 +1,6 @@
-#pushd ./point
-#source all_source.soar
-#popd
+pushd ./point
+source all_source.soar
+popd
 
 pushd ./pick-up
 source all_source.soar
