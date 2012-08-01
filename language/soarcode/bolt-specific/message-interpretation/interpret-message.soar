@@ -1,21 +1,75 @@
 sp {interpret-message*elaborate*init
    (state <s> ^name interpret-message
-              ^superstate.operator.lgsoar-predicates <pred>)
+              ^superstate.operator.predicate-set <pred>)
 -->
-   (<s> ^lgsoar-predicates <pred>)
+   (<s> ^predicate-set <pred>)
+}
+
+# primitive objects are always interpreted first
+# all primitive objects are interpreted regardless of originating sentence
+# TODO: to do multi-sentence references, need to:
+# - keep around interpreted primitive-object structures for some amount of time
+# - allow interpret-primitive-object to add new information to an existing interpretation
+
+sp {interpret-message*elaborate*primitive-object-symbol
+   (state <s> ^name interpret-message
+              ^objects <ob>
+             -^ignored-object <val>
+              ^predicate-set.predicate <pr>)
+   (<pr> ^<< inner1 inner2 inner3 >> <val>)
+   (<val> ^<is-an-identifier>)
+-->
+   (<ob> ^object <val>)
+}
+
+sp {interpret-message*elaborate*object*predicates
+   (state <s> ^name interpret-message
+              ^objects.object <po>)
+-->
+   (<po> ^predicates <pr>)
 }
 
 
-# verb-commands have the HEARER
+sp {interpret-message*elaborate*object*collect
+   (state <s> ^name interpret-message
+              ^objects.object <po>
+              ^predicate-set.predicate <pr>)
+   (<pr> ^inner1 <po>
+        -^outer goal
+        -^inner2)
+   (<po> ^predicates <prp>)
+-->
+   (<prp> ^predicate <pr>)
+}
+
+sp {interpret-message*propose*interpret-primitive-object
+   (state <s> ^name interpret-message
+              ^objects.object <pi>)
+   (<pi> ^predicates <pr>)
+   (<pr> -^interpretation)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name interpret-primitive-object
+        ^predicates <pr>)
+}
+
+# once primitive-objects are interpreted, interpret each original sentence into
+# a message structure
+
+
+# verb-commands have the SELF
 sp {interpret-message*propose*interpret-verb-command
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
-            ^predicate <p1>)
-   (<p1> ^outer << HEARER you >>
+            ^predicate <p1> <p2>)
+   (<p1> ^outer SELF
          ^inner1 <hearer>
         -^ignored)
+   (<p2> -^outer SELF 
+        ^inner1 <hearer>
+       -^ignored)
 -->
    (<s> ^operator <o> +)
    (<o> ^name interpret-verb-command
@@ -26,7 +80,7 @@ sp {interpret-message*propose*interpret-verb-command
 # anything might be an object-message
 sp {interpret-message*propose*interpret-object-message
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation)
 -->
@@ -38,7 +92,7 @@ sp {interpret-message*propose*interpret-object-message
 
 sp {interpret-message*propose*interpret-goal-object-message
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
             ^predicate.outer goal)
@@ -49,12 +103,28 @@ sp {interpret-message*propose*interpret-goal-object-message
         ^objects <ob>)
 }
 
+sp {interpret-message*propose*interpret-object-is-question
+   (state <s> ^name interpret-message
+              ^predicate-set <pred>
+              ^objects <ob>)
+   (<pred> -^interpretation
+            ^predicate <pr>)
+   (<pr> ^outer QUESTIONED
+        -^ignored)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name interpret-object-is-question
+        ^predicates <pred>
+        ^objects <ob>)
+}
+
+
 # relation-message must have a 2-parameter predicate
 # DEPRECATED
 
 # sp {interpret-message*propose*interpret-relation-message
 #    (state <s> ^name interpret-message
-#               ^lgsoar-predicates <pred>)
+#               ^predicate-set <pred>)
 #    (<pred> -^interpretation
 #             ^predicate <p1>)
 #    (<p1> ^inner1 <i1>
@@ -69,7 +139,7 @@ sp {interpret-message*propose*interpret-goal-object-message
 # goal-relation-message same but with goal predicate
 sp {interpret-message*propose*interpret-goal-relation-message
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <on>)
    (<pred> -^interpretation
             ^predicate <p1>
@@ -78,7 +148,7 @@ sp {interpret-message*propose*interpret-goal-relation-message
          ^inner2 <i2>
         -^ignored)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + =)
    (<o> ^name interpret-goal-relation-message
         ^predicates <pred>
         ^objects <ob>)
@@ -87,7 +157,7 @@ sp {interpret-message*propose*interpret-goal-relation-message
 # object-questions must have a what or which or where pred
 sp {interpret-message*propose*interpret-object-question
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
             ^predicate <p1>)
@@ -103,7 +173,7 @@ sp {interpret-message*propose*interpret-object-question
 # relation-questions must have a what or which pred and a relation
 sp {interpret-message*propose*interpret-relation-question
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
             ^predicate <p1>
@@ -122,7 +192,7 @@ sp {interpret-message*propose*interpret-relation-question
 
 sp {interpret-message*propose*interpret-single-word-response
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>)
+              ^predicate-set <pred>)
    (<pred> -^interpretation
             ^predicate <p1>)
    (<p1> ^outer single-word
@@ -252,7 +322,7 @@ sp {interpret-message*elaborate*objects
 
 sp {elaborate*ignore-redundant
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>)
+              ^predicate-set <pred>)
    (<pred> ^predicate <rp>
            ^predicate <propp>
            ^predicate <predp>)
@@ -272,7 +342,7 @@ sp {elaborate*ignore-redundant
 
 sp {interpret-message*propose*identify-to-the-x-of-relation
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <ap>)
+              ^predicate-set <ap>)
    (<ap> ^predicate <to> <the> <x-of>)
    (<to> ^outer << to on >>
          ^inner1 <p1>
@@ -297,7 +367,7 @@ sp {interpret-message*propose*identify-to-the-x-of-relation
 
 sp {interpret-message*apply*identify-to-the-x-of-relation
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^operator <o>)
    (<o> ^name identify-to-the-x-of-relation
         ^outer <out>
@@ -312,7 +382,7 @@ sp {interpret-message*apply*identify-to-the-x-of-relation
 
 sp {interpret-message*apply*identify-to-the-x-of-relation*inhibit
    (state <s> ^name interpret-message
-              ^lgsoar-predicates.predicate <pred>
+              ^predicate-set.predicate <pred>
               ^operator <o>)
    (<o> ^name identify-to-the-x-of-relation
         ^inhibit <pred>)
@@ -331,63 +401,55 @@ sp {interpret-message*prefer*identify-to-the-x-of-relation
    (<s> ^operator <o1> > <o2>)
 }
 
-sp {interpret-message*elaborate*primitive-object-symbol
+# make a new QUESTIONED predicate for the collapsed reln
+sp {interpret-message*apply*identify-to-the-x-of-relation*questioned
    (state <s> ^name interpret-message
-              ^objects <ob>
-             -^ignored-object <val>
-              ^lgsoar-predicates.predicate <pr>)
-   (<pr> ^<< inner1 inner2 inner3 >> <val>)
-   (<val> ^<is-an-identifier>)
+              ^predicate-set <ps>
+              ^operator <o>)
+   (<ps> ^predicate <pred>)
+   (<pred> ^outer QUESTIONED
+           ^inner1 <to-or-on>)
+   (<o> ^name identify-to-the-x-of-relation
+        ^outer <out>
+        ^inhibit <too-pred>)
+   (<too-pred> ^outer <to-or-on>)
 -->
-   (<ob> ^object <val>)
-}
-
-sp {interpret-message*elaborate*object*predicates
-   (state <s> ^name interpret-message
-              ^objects.object <po>)
--->
-   (<po> ^predicates <pr>)
-}
-
-
-sp {interpret-message*elaborate*object*collect
-   (state <s> ^name interpret-message
-              ^objects.object <po>
-              ^lgsoar-predicates.predicate <pr>)
-   (<pr> ^inner1 <po>
-        -^outer << HEARER you goal >> 
-        -^inner2)
-   (<po> ^predicates <prp>)
--->
-   (<prp> ^predicate <pr>)
-}
-
-sp {interpret-message*propose*interpret-primitive-object
-   (state <s> ^name interpret-message
-              ^objects.object <pi>)
-   (<pi> ^predicates <pr>)
-   (<pr> -^interpretation)
--->
-   (<s> ^operator <o> + =)
-   (<o> ^name interpret-primitive-object
-        ^predicates <pr>)
+   (<pred> ^ignored true)
+   (<ps> ^predicate <p2>)
+   (<p2> ^outer QUESTIONED
+         ^inner1 <out>)
 }
 
 # noun phrases get reparsed as commands with a fake verb,
-# postprocessing removes the fake verb but not the HEARER object
+# postprocessing removes the fake verb but not the SELF object
 
-# remove any HEARER object that isn't referred to elsewhere
+# remove any SELF object that isn't referred to elsewhere
 sp {interpret-message*elaborate*ignore-phantom-hearer
    (state <s> ^name interpret-message
-              ^lgsoar-predicates <pred>
+              ^predicate-set <pred>
               ^objects <ob>)
    (<pred> -^interpretation
             ^predicate <p1>)
-   (<p1> ^outer HEARER
+   (<p1> ^outer SELF
          ^inner1 <hearer>)
   -{(<pred> ^predicate {<> <p1> <p2>})
     (<p2> ^<< inner1 inner2 inner3 >> <hearer>)}
 -->
    (<p1> ^ignored true)
    (<s> ^ignored-object <hearer>)
+}
+
+# replace "you" and HEARER with SELF
+sp {interpret-message*elaborate*you-to-hearer
+   (state <s> ^name interpret-message
+              ^predicate-set <pred>)
+   (<pred> ^predicate <you>)
+   (<you> ^outer << you HEARER >>
+          ^inner1 <you-obj>
+         -^inner2)
+-->
+   (<pred> ^predicate <you> -
+           ^predicate <hearer>)
+   (<hearer> ^outer SELF
+             ^inner1 <you-obj>)
 }

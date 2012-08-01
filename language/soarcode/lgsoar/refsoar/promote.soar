@@ -89,6 +89,16 @@ sp {promote*propose*feature-promotion*mode
    (<o> ^name feature ^priority 70 ^imain <imain> ^aug mode ^feature <mode>
    	 ^order <main-wcount> ^level-two-order 2 )}
 
+sp {promote*propose*feature-promotion*questioned
+   (state <s> ^current-refset <refs> ^model <m>)
+   (<refs> ^ref <main>)
+   (<main> ^pointer <imain> ^questioned <feature> ^head.wcount <main-wcount>)
+   (<imain> -^questioned <feature>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name feature ^priority 70 ^imain <imain> ^aug questioned ^feature <feature>
+   	 ^order <main-wcount> ^level-two-order 0 )}
+
 sp {promote*apply*feature-promotion
 #  :o-support
    (state <s> ^operator <o>)

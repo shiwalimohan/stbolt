@@ -1,19 +1,31 @@
 package edu.umich.sbolt;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
-import lcm.lcm.*;
-import abolt.lcmtypes.*;
+
+import lcm.lcm.LCM;
+import lcm.lcm.LCMDataInputStream;
+import lcm.lcm.LCMSubscriber;
 import sml.Agent;
 import sml.Agent.PrintEventInterface;
 import sml.Agent.RunEventInterface;
 import sml.Kernel;
 import sml.smlPrintEventId;
 import sml.smlRunEventId;
+import abolt.lcmtypes.observations_t;
+import abolt.lcmtypes.robot_action_t;
+import abolt.lcmtypes.robot_command_t;
+import abolt.lcmtypes.training_data_t;
+import abolt.lcmtypes.training_label_t;
 import april.util.TimeUtil;
-import edu.umich.sbolt.world.World;
+
 import com.soartech.bolt.BOLTLGSupport;
+
+import edu.umich.sbolt.world.World;
 
 public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterface
 {
@@ -31,22 +43,16 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     private World world;
 	
     private LCM lcm;
-
+    
     private Kernel kernel;
-
-    private Agent agent;
+    
+    private BoltAgent boltAgent;
    
     private PrintWriter logWriter;
     
     private int throttleMS = 0;
     
     private boolean running = false;
-    
-    private String agentSource = null;
-    
-    private String lgSoarSource = null;
-    
-    private String smemSource = null;
     
 
     public SBolt(String agentName, boolean headless)
@@ -64,14 +70,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
             e.printStackTrace();
             System.exit(1);
         }
-
-        // Initialize Soar Agent
-        kernel = Kernel.CreateKernelInNewThread();
-        agent = kernel.CreateAgent(agentName);
-        if (agent == null)
-        {
-           throw new IllegalStateException("Kernel created null agent");
-        }
+        
 
         // Load the properties file
         Properties props = new Properties();
@@ -81,39 +80,34 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 			e.printStackTrace();
 		}
         
-        // Source the agent code
-        agentSource = props.getProperty("agent");
-        
-        if (agentSource != null) {
-        	agent.LoadProductions(agentSource);
-        }
-        
-        smemSource = props.getProperty("smem-source");
-        if(smemSource != null){
-        	agent.LoadProductions(smemSource);
-        }
-        
         String useLGProp = props.getProperty("enable-lgsoar");
         
         boolean useLG = false;
         String lgSoarDictionary = "";
         if (useLGProp != null && useLGProp.equals("true")) {
-        	lgSoarSource = props.getProperty("language-productions");
         	lgSoarDictionary = props.getProperty("lgsoar-dictionary");
-        	
+        	String lgSoarSource = props.getProperty("language-productions");
         	if (lgSoarSource != null && lgSoarDictionary != null) {
         		useLG = true;
-        		agent.LoadProductions(lgSoarSource);
         	}
         	else {
         		System.out.println("ERROR: LGSoar misconfigured, not enabled.");
         	}
         }
+
+        kernel = Kernel.CreateKernelInNewThread();
+        boltAgent = new BoltAgent(kernel, agentName, props, useLG);
+
+        
+        if (!headless) {
+        	System.out.println("Spawn Debugger: " + boltAgent.getSoarAgent().SpawnDebugger(kernel.GetListenerPort()));
+        	// Requires the SOAR_HOME environment variable
+        }
         
         BOLTLGSupport lgSupport = null;
         
         if (useLG) {
-        	lgSupport = new BOLTLGSupport(agent, lgSoarDictionary);
+        	lgSupport = new BOLTLGSupport(boltAgent.getSoarAgent(), lgSoarDictionary);
         }
         
         // !!! Important !!!
@@ -130,68 +124,41 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			agent.RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
+			boltAgent.getSoarAgent().RegisterForPrintEvent(smlPrintEventId.smlEVENT_PRINT, this, this);
 		}
 		
 		String watchLevel = props.getProperty("watch-level");
 		if (watchLevel != null) {
-			agent.ExecuteCommandLine("watch " + watchLevel);
+			boltAgent.getSoarAgent().ExecuteCommandLine("watch " + watchLevel);
 		}
 
 		String throttleMSString = props.getProperty("decision-throttle-ms");
 		if (throttleMSString != null) {
 			throttleMS = Integer.parseInt(throttleMSString);
-			agent.RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_DECISION_CYCLE, this, this);
+			boltAgent.getSoarAgent().RegisterForRunEvent(smlRunEventId.smlEVENT_AFTER_DECISION_CYCLE, this, this);
 		}
-        if (!headless) {
-        	System.out.println("Spawn Debugger: " + agent.SpawnDebugger(kernel.GetListenerPort()));
-        	// Requires the SOAR_HOME environment variable
-        }
       
         world = new World();
 
         // Setup InputLink
-        inputLink = new InputLinkHandler(agent, lgSupport);
-
+        inputLink = new InputLinkHandler(boltAgent, lgSupport);
 
         // Setup OutputLink
-        outputLink = new OutputLinkHandler(agent);
+        outputLink = new OutputLinkHandler(boltAgent);
 
         // Setup ChatFrame
-        chatFrame = new ChatFrame(lgSupport, agent);
+        chatFrame = new ChatFrame(lgSupport, boltAgent);
 
         chatFrame.showFrame();
         
     }
     
-    public Kernel getKernel(){
-    	return kernel;
+    public BoltAgent getBoltAgent(){
+    	return boltAgent;
     }
 
-    public Agent getAgent()
-    {
-        return agent;
-    }
-    
-    public void reloadAgent(boolean loadSmem){
-    	System.out.println("Re-initializing the agent");
-    	System.out.println("  smem --init:  " + agent.ExecuteCommandLine("smem --init"));
-    	System.out.println("  epmem --init: " + agent.ExecuteCommandLine("epmem --init"));
-    	if(loadSmem && smemSource != null){
-        	agent.ExecuteCommandLine("smem --set path empty");
-        	agent.ExecuteCommandLine("epmem --set path empty");
-    		agent.LoadProductions(smemSource);
-    		System.out.println("  source " + smemSource);
-    	}
-    	if(agentSource != null){
-    		agent.LoadProductions(agentSource);
-    		System.out.println("  source " + agentSource);
-    	}
-    	if(lgSoarSource != null){
-    		agent.LoadProductions(lgSoarSource);
-    		System.out.println("  source " + lgSoarSource);
-    	}
-    	System.out.println("Agent re-initialized");
+    public Kernel getKernel(){
+    	return kernel;
     }
 
     @Override
@@ -242,7 +209,7 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
     }
 
     public static void main(String[] args)
-    {    	
+    {
     	boolean headless = false;
     	if (args.length > 0 && args[0].equals("--headless")) {
     		// it might make sense to instead always make the parameter

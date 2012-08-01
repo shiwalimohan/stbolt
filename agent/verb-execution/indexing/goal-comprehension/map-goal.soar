@@ -20,8 +20,9 @@ sp {propose*map*goal
    	^satisfaction <ps>
 	^indexed-operator <iop>)
 #   (<iop> -^goal <any>)
-   (<ps> ^learning-event verb-semantic-learning
-   	 ^information <info>)
+   (<ps> ^learning-event <le>)
+   (<le> ^type verb-semantic-learning
+         ^information <info>)
 -->
    (<s> ^operator <op> +)
    (<op> ^name index-goal

@@ -8,7 +8,8 @@ sp {propose*map*verb
    (<p> ^type external-action
    	^satisfaction <ps>
 	-^indexed-operator <map-op>)  
-   (<ps> ^action-event <info>)
+   (<ps> ^action-event.type <info>)
+   (<info> -^verb.word describe) #JK for describe the scene-shouldn't be handled as a verb
 -->
    (<s> ^operator <op> +)
    (<op> ^name index-verb
@@ -53,7 +54,7 @@ sp {elaborate*operator*match
 sp {prefer*match
    (state <s> ^indexed-operator <map-op> <> <op>
    	      ^operator <op> +
-	      ^interaction.stack.segment.purpose.satisfaction.action-event <info>
+	      ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>
 	      ^topstate <s>)
    (<op> -^op-matched no
    	 ^category << primitive-action composite-action >>)
@@ -71,7 +72,7 @@ sp {propose*indexed-operator*if*no-choices
 	      ^attribute state)
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
-	  ^interaction.stack.segment.purpose.satisfaction.action-event <info>)
+	 ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
@@ -133,6 +134,7 @@ sp {write*primitive-action*status*topstate
    (<map-op> ^information <info>
    	     ^applied true)
  -->
-   (<status> ^performed.action-event <info>)
    (<map-op> ^applied true -)
+   (<status> ^performed.action-event <e>)
+   (<e> ^type <info>)
 }

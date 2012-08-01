@@ -22,8 +22,7 @@ sp {interpretation*elaborate*unignored-predicates
               ^predicates <p>)
    (<o> ^kind message-interpretation
         ^predicates.predicate <pred>)
-   (<pred> -^ignored
-           -^accounted-for)
+   (<pred> -^ignored)
 -->
    (<p> ^predicate <pred>)
 }
@@ -44,6 +43,7 @@ sp {misc*elaborate*interpretation-operators
                  interpret-object interpret-primitive-object interpret-relation 
                  interpret-verb interpret-preposition
                  interpret-goal-relation-message interpret-goal-object-message
+                 interpret-object-is-question
                  interpret-single-word-response finish-interpretation >>)
 -->
    (<o> ^kind message-interpretation)

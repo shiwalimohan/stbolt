@@ -5,19 +5,34 @@
 sp {index-object*propose*lookup-smem*category
    (state <s> ^name index-object
               ^index-object-context
-              ^label-query <lq>
-              ^use-interaction <ask>)
+              ^label-query <lq>)
    (<lq> -^category
           ^word <word>)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name lookup-smem
         ^category smem
-        ^ask-user <ask>
+        ^ask-user true
         ^lookup-type category
         ^query <q>
         ^desired.category true)
    (<q> ^type word2cat ^word <word> ^category <cat>)
+}
+
+# go through words in alphabetical order
+sp {index-object*prefer*lookup-smem*category*lower-word
+   (state <s> ^name index-object
+              ^index-object-context
+              ^label-query <lq>
+              ^use-interaction <ask>
+              ^operator <o1> + <o2> +)
+   (<o1> ^name lookup-smem
+         ^query.word <w1>)
+   (<o2> ^name lookup-smem
+         ^query.word <w2> < <w1>)
+   
+-->
+   (<s> ^operator <o1> < <o2>)
 }
 
 # Copy the result
@@ -28,7 +43,8 @@ sp {index-object*apply*lookup-smem*copy*result
    (<o> ^name lookup-smem
         ^lookup-type category
         ^query.word <word>
-        ^result <result>)
+        ^result <result>
+       -^multiple-results)
    (<lq> ^word <word>)
 -->
    (<lq> ^category <result>)
@@ -42,7 +58,8 @@ sp {index-object*apply*lookup-smem*success*copy*result*object
    (<o> ^name lookup-smem
         ^lookup-type category
         ^query.word <word>
-        ^result {<result> <> failure <> generic})
+        ^result {<result> <> failure <> generic}
+       -^multiple-results)
    (<prop> ^word <word>)
 -->
    (<prop> ^category <result>)

@@ -1,15 +1,14 @@
 package edu.umich.sbolt;
 
-import java.util.ArrayList;
-import java.util.List;
+import sml.Agent;
+import sml.Agent.RunEventInterface;
+import sml.Identifier;
+import sml.smlRunEventId;
 
 import com.soartech.bolt.BOLTLGSupport;
 
-import april.util.TimeUtil;
-import edu.umich.sbolt.world.*;
-
-import sml.*;
-import sml.Agent.RunEventInterface;
+import edu.umich.sbolt.world.SVSConnector;
+import edu.umich.sbolt.world.World;
 
 public class InputLinkHandler implements RunEventInterface
 {
@@ -24,16 +23,16 @@ public class InputLinkHandler implements RunEventInterface
     
     private BOLTLGSupport lgSupport;
 
-    private Agent agent;
+    private BoltAgent boltAgent;
 
-    public InputLinkHandler(Agent agent, BOLTLGSupport lgs)
+    public InputLinkHandler(BoltAgent boltAgent, BOLTLGSupport lgs)
     {
     	instance = this;
-    	this.agent = agent;
-        inputLinkId = agent.GetInputLink();
+    	this.boltAgent = boltAgent;
+        inputLinkId = boltAgent.getSoarAgent().GetInputLink();
 
         lgSupport = lgs;
-        agent.RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
+        boltAgent.getSoarAgent().RegisterForRunEvent(smlRunEventId.smlEVENT_BEFORE_INPUT_PHASE, this, null);
     }
 
     // Called right before the Agent's Input Phase,
@@ -52,9 +51,6 @@ public class InputLinkHandler implements RunEventInterface
     
     public void clearLGMessages(){
     	lgSupport.clear();
-        if (agent.IsCommitRequired())
-        {
-            agent.Commit();
-        }
+    	boltAgent.commitChanges();
     }
 }

@@ -1,6 +1,7 @@
 package edu.umich.sbolt.world;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,9 +54,9 @@ public class WorldObject implements IInputLinkElement
     // Bounding box of the object
     protected BBox bbox;
     
-    protected Map<String, VisualProperty> categories;
+    protected Map<String, PerceptualProperty> perceptualProperties;
     
-    protected Map<String, Property> properties;
+    protected Map<String, StateProperty> stateProperties;
 
      // svs added
     protected boolean isNew;
@@ -80,8 +81,8 @@ public class WorldObject implements IInputLinkElement
         id = -1;
         pose = new Pose();
         bbox = new BBox();
-        properties = new HashMap<String, Property>();
-        categories = new HashMap<String, VisualProperty>();
+        stateProperties = new HashMap<String, StateProperty>();
+        perceptualProperties = new HashMap<String, PerceptualProperty>();
         isNew = true;
     }
     
@@ -103,7 +104,7 @@ public class WorldObject implements IInputLinkElement
     }
     
     public synchronized String getValue(String attribute){
-        return properties.get(attribute).getValue();
+        return stateProperties.get(attribute).getValue();
     }
     
 
@@ -125,14 +126,14 @@ public class WorldObject implements IInputLinkElement
         	}
         }
         
-        for(VisualProperty category : categories.values()){
+        for(PerceptualProperty category : perceptualProperties.values()){
         	category.updateInputLink(objectId);
         }
         
         pose.updateInputLink(objectId);
         bbox.updateInputLink(objectId);
         
-        for(Property prop : properties.values()){
+        for(StateProperty prop : stateProperties.values()){
         	prop.updateInputLink(objectId);
         }
     }
@@ -141,8 +142,8 @@ public class WorldObject implements IInputLinkElement
     public synchronized void destroy()
     {
         if(objectId != null){
-        	for(VisualProperty category : categories.values()){
-        		category.destroy();
+        	for(PerceptualProperty prop : perceptualProperties.values()){
+        		prop.destroy();
         	}
         	pose.destroy();
         	bbox.destroy();
@@ -190,7 +191,7 @@ public class WorldObject implements IInputLinkElement
             	categorized_data_t category = new categorized_data_t();
             	String categoryName = keyVal[0].toLowerCase();
             	category.cat = new category_t();
-            	Integer catType = VisualProperty.getCategoryType(categoryName);
+            	Integer catType = PerceptualProperty.getCategoryID(categoryName);
             	if(catType == null){
             		updateProperty(keyVal[0], keyVal[1]);
             		continue;
@@ -201,10 +202,10 @@ public class WorldObject implements IInputLinkElement
             	category.label[0] = keyVal[1].toLowerCase();
             	category.confidence = new double[1];
             	category.confidence[0] = 1;
-            	if(categories.containsKey(categoryName)){
-            		categories.get(categoryName).updateCategoryInfo(category);
+            	if(perceptualProperties.containsKey(categoryName)){
+            		perceptualProperties.get(categoryName).updateCategoryInfo(category);
             	} else {
-            		categories.put(categoryName, new VisualProperty(category));
+            		perceptualProperties.put(categoryName, new PerceptualProperty(category));
             	}
             }        
         }
@@ -213,10 +214,10 @@ public class WorldObject implements IInputLinkElement
     public void updateProperty(String name, String value){
     	name = name.toLowerCase();
     	value = value.toLowerCase();
-    	if(properties.containsKey(name)){
-    		properties.get(name).update(value);
+    	if(stateProperties.containsKey(name)){
+    		stateProperties.get(name).update(value);
     	} else {
-    		properties.put(name, new Property("state", name, value));
+    		stateProperties.put(name, new StateProperty("state", name, value));
     	}
     }
 
@@ -229,13 +230,24 @@ public class WorldObject implements IInputLinkElement
         pose.updateWithArray(objectData.pos);
         bbox.updateWithArray(objectData.bbox);
         
+        HashSet<String> propertiesToRemove = new HashSet<String>();
+        for(String propName : perceptualProperties.keySet()){
+        	propertiesToRemove.add(propName);
+        }
+        
         for(categorized_data_t category : objectData.cat_dat){
-        	String categoryName = VisualProperty.getCategoryName(category.cat.cat);
-        	if(categories.containsKey(categoryName)){
-        		categories.get(categoryName).updateCategoryInfo(category);
+        	String propName = PerceptualProperty.getCategoryName(category.cat.cat);
+        	if(perceptualProperties.containsKey(propName)){
+        		perceptualProperties.get(propName).updateCategoryInfo(category);
+        		propertiesToRemove.remove(propName);
         	} else {
-        		categories.put(categoryName, new VisualProperty(category));
+        		perceptualProperties.put(propName, new PerceptualProperty(category));
         	}
+        }
+        
+        for(String propName : propertiesToRemove){
+        	perceptualProperties.get(propName).destroy();
+        	perceptualProperties.remove(propName);
         }
     }
 }

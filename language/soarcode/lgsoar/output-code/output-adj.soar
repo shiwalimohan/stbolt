@@ -7,7 +7,7 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj
    (<mod> ^idea <idea>
           # hack! constraint: have already tested for copula
           ^idea.annotation pred-adj/noun-tested)
-   (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
+   (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>} ^sentence-count <sc>)
    (<aval> ^aug1 <idea>
           -^annotation pred-adj/noun)
           # isn't a copula
@@ -15,7 +15,8 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj
    (<idea> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <wvalue>
-           ^inner1 <aval>)
+           ^inner1 <aval>
+           ^originating-sentence <sc>)
 }
 
 # have to treat this separately since we need to re-use the head's var
@@ -24,11 +25,12 @@ sp {global*apply*generate-predicates*output*nuc-n-aug*adj*copula
    (state <s> ^operator.name generate-predicates  
               ^final-predicates <fp>
               ^model.idea <idea>)
-   (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>})
+   (<idea> ^nuc <wvalue> ^aug {<> <wvalue> <aval>} ^sentence-count <sc>)
    (<aval> ^aug1 <idea> ^annotation pred-adj/noun ^aug.ext <thesubject>)
 -->
    (<idea> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <wvalue>
-           ^inner1 <thesubject>)
+           ^inner1 <thesubject>
+           ^originating-sentence <sc>)
 }
