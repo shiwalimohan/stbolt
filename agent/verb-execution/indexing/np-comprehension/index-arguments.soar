@@ -5,11 +5,11 @@ sp {elaborate*index-arguments
    (state <s> ^name index-argument
    	      ^superstate.operator <sop>)
    (<sop> ^name index-argument
-   	  ^verb-cue <cue>
+   	  ^cue <cue>
 	  ^connector <con>
 	  ^argument <obj>)
 -->
-  (<s> ^verb-cue <cue>
+  (<s> ^cue <cue>
        ^connector <con>
        ^argument <obj>)
 }
@@ -46,7 +46,7 @@ sp {write*matched*object*superstate
    (state <s> ^name index-argument
    	      ^match <obj>
 	      ^superstate <ss>
-	      ^verb-cue <cue>
+	      ^cue <cue>
 	      ^connector <con>
 	      ^superstate <ss>
 	      ^argument <arg>)
