@@ -153,4 +153,10 @@ sp {copy*topstate*top-state
 }
 
 
-##### any time an object has a highest preference, make it a required prefrence
+### elaborate problem space for lgsoar operator
+# sp {elaborate*problem-space*lgsoar
+#    (state <s> ^name preprocess-sentence)
+# -->
+#    (<s> ^problem-space lgsoar)
+# }
+   
