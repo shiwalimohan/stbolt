@@ -49,12 +49,16 @@ sp {propose*index-argument*direct-object
 	 ^category indexing)
 }
 
+
 sp {propose*index-argument*preposition-object
    (state <s> ^name create-cue
    	      ^information.verb <info>
 	      ^cue <cue>
 	      -^matched <obj>
-	      ^bit flip)
+	      ^bit flip
+	      ^spatial-relationship <rel>)
+   (<rel> ^preposition <p>
+   	  ^concept-id <cid>)
    (<info> ^preposition <p>)
    (<p> ^word <pword>
    	^object <obj>)
@@ -64,7 +68,7 @@ sp {propose*index-argument*preposition-object
    (<op> ^name index-argument
    	 ^cue <cue>
 	 ^argument <obj>
-	 ^connector <pword>
+	 ^preposition <p>
 	 ^category indexing)
 }
 

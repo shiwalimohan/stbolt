@@ -4,7 +4,15 @@ sp {elaborate*state*index-verb
    (<sop> ^name index-verb
    	  ^information <info>)
    -->
-   (<s> ^information <info>)
+   (<s> ^information <info>
+   	^_metadata <met>)
+}
+
+### copy _metadata in all substates
+sp {copy*_metadata
+   (state <s> ^superstate._metadata <met>)
+-->
+   (<s> ^_metadata <met>)
 }
 
 

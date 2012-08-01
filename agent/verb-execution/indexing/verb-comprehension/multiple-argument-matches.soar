@@ -1,22 +1,47 @@
 #### process multiple matches to one argument, rely on interaction
-
 sp {multiple*argument*matches*elaborate*name
    (state <s> ^impasse tie
-   	      ^superstate <ss>)
-   (<ss> ^indexed-operator <iop>)
-   (<iop> ^<arg> <val1> <val2>)
+   	      ^superstate.indexed-operator <iop>)
+   (<iop> ^<arg> <val1> {<> <val1> <val2>}
+   	  ^_metadata <met>)   
+   (<met> ^arg-data <a1>)
+   (<a1> ^argument <arg>
+   	 ^context-id <con>)
 -->
    (<s> ^name complete-index-object
-   	^tied-argument <arg>)
+   	^indexed-operator <iop>
+	^argument <arg>
+	^context-id <con>)
 }
 
-sp {multiple*argument*matches*propose*which-question
+sp {multiple*argument*match*propose*which-question
    (state <s> ^name complete-index-object
-   	      ^tied-argument <arg>
-              ^superstate.indexed-operator <iop>)
+   	      ^superstate.indexed-operator <iop>
+	      ^argument <arg>)
    (<iop> ^<arg> <obj>)
 -->
-   (<s> ^operator <o> + >)
-   (<o> ^name which-question
-        ^object <obj>)
+   (<s> ^operator <op> + =)
+   (<op> ^name which-question
+   	 ^object <obj>)
 }
+
+sp {multiple*argument*match*apply*which-question*create*status
+   (state <s> ^name complete-index-object
+              ^operator.name which-question
+              ^context <context>
+	      ^context-id <con>)
+-->
+    (<context> ^context-id <con>)
+}
+
+## prefer which-question to primitives
+sp {prefer*which-question*primitive-actions
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name which-question)
+   (<op2> ^category primitive-action)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+
