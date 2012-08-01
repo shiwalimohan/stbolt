@@ -143,34 +143,65 @@ sp {select-parse*elevate*excess-unused-words
 
 # make red.a square.n preferable to red.n square.a
 
-sp {select-parse*propose*add-extra-cost*Ma
+sp {select-parse*propose*adjust-extra-cost*Ma
    (state <s> ^name select-parse
               ^minimal-acceptable-parse <map>)
    (<map> ^sentence.links.link <lk>
-         -^extra-cost-added Ma)
+         -^extra-cost-adjusted Ma)
    (<lk> ^ltype M
          ^ltypesub a)
 -->
    (<s> ^operator <o> + >)
-   (<o> ^name add-extra-cost
+   (<o> ^name adjust-extra-cost
         ^parse <map>
         ^amount 2
         ^type Ma)
 }
 
-sp {select-parse*add-extra-cost*indifferent
+
+# fix "is the block on the table red?"
+sp {select-parse*propose*adjust-extra-cost*AN
+   (state <s> ^name select-parse
+              ^minimal-acceptable-parse <map>)
+   (<map> ^sentence.links.link <lk>
+         -^extra-cost-adjusted AN)
+   (<lk> ^ltype AN)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name adjust-extra-cost
+        ^parse <map>
+        ^amount .1
+        ^type AN)
+}
+
+# if there is a parse with an idiom, give it a bonus (negative added cost)
+sp {select-parse*propose*adjust-extra-cost*idiom
+   (state <s> ^name select-parse
+              ^minimal-acceptable-parse <map>)
+   (<map> ^sentence.links.link <lk>
+         -^extra-cost-adjusted ID)
+   (<lk> ^ltype ID)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name adjust-extra-cost
+        ^parse <map>
+        ^amount -.1
+        ^type ID)
+}
+
+sp {select-parse*adjust-extra-cost*indifferent
    (state <s> ^operator <o1> +
               ^operator {<> <o1> <o2>} +)
-   (<o1> ^name add-extra-cost)
-   (<o2> ^name add-extra-cost)
+   (<o1> ^name adjust-extra-cost)
+   (<o2> ^name adjust-extra-cost)
 -->
    (<s> ^operator <o1> = <o2>)
 }
 
-sp {select-parse*apply*add-extra-cost
+sp {select-parse*apply*adjust-extra-cost
    (state <s> ^name select-parse
               ^operator <op>)
-   (<op> ^name add-extra-cost
+   (<op> ^name adjust-extra-cost
          ^parse <p>
          ^amount <a>
          ^type <ty>)
@@ -178,7 +209,7 @@ sp {select-parse*apply*add-extra-cost
 -->
    (<p> ^extra-cost <old> - 
         ^extra-cost (+ <old> <a>)
-        ^extra-cost-added <ty>)
+        ^extra-cost-adjusted <ty>)
 }
 
 
@@ -275,6 +306,31 @@ sp {select-parse*prefer*parse-without-multiple-0
 -->
    (<s> ^operator <o2> > <o1>)
    (write (crlf) |Preferring | <pc2> | over | <pc1> | due to lack of multiple O links to a word (likely an innermost "and" case).|)
+}
+
+# prefer adjectives over prepositions in general, this occurs with
+# "This is (unlearned word)"
+sp {select-parse*prefer*Pa*versus*others
+   (state <s> ^name select-parse
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name approve
+         ^parse <pa>)
+   (<o2> ^name approve
+         ^parse <other>)
+   (<pa> ^sentence.links.link <pal>
+         ^parse-count <pac>)
+   (<pal> ^lvalue Pa
+          ^left.global-wcount <lc>
+          ^right.global-wcount <rc>)
+   (<other> ^sentence.links.link <ol>
+            ^parse-count <oc>)
+   (<ol> ^lvalue << Pp MVp Ost >>
+         ^left.global-wcount <lc>
+         ^right.global-wcount <rc>)
+-->
+   (<s> ^operator <o1> > <o2>)
+   (write (crlf) |Preferring parse |<pac> | over |<oc> | due to Pa link preference.|)
 }
 
 # Reject minimal-acceptable-parses with bad pp attachments, even though LG may
@@ -452,4 +508,46 @@ sp {select-parse*elaborate*report-not-chosen
    (<map> ^parse-count <pc>)
 -->
    (write (crlf) |indifferent selection could have chosen | <pc> | instead.|)
+}
+
+# For unlearned words,
+# there will be one pending-dictionary-example for each parse-class passed to
+# the parser. Convert that for the chosen parse to a dictionary-example, and
+# remove all the pending structures.
+
+sp {select-parse*apply*approve*save-word-example
+   (state <s> ^name select-parse
+              ^top-state.language <lang>
+              ^operator <o>)
+   (<o> ^name approve
+        ^parse.sentence <sent>
+        ^parse.parse-count <pc>)
+   (<sent> ^words.word <wd>
+        ^sentence-count <sc>)
+   (<wd> ^wvalue <val>  # e.g., *nounjective3
+         ^global-wcount <wc>)
+   (<lang> ^pending-dictionary-example <pde>)
+   (<pde> ^sentence-count <sc>
+          ^wcount <wc>
+          ^word <orig>           # e.g., red
+          ^parser-wvalue <val>   # e.g., *nounjective3
+          ^parse-class <pclass>) # e.g., *nounjective
+-->
+   (<lang> ^dictionary-example <de>)
+   (<de> ^word <orig>
+         ^parse-class <pclass>
+         ^sentence-count <sc>
+         ^parse-count <pc>) # if this sentence or parse is later rejected, this example should be removed
+}
+
+sp {select-parse*apply*approve*remove-pending
+   (state <s> ^name select-parse
+              ^top-state.language <lang>
+              ^operator <o>)
+   (<o> ^name approve
+        ^parse.sentence.sentence-count <sc>)
+   (<lang> ^pending-dictionary-example <pde>)
+   (<pde> ^sentence-count <sc>)
+-->
+   (<lang> ^pending-dictionary-example <pde> -)
 }

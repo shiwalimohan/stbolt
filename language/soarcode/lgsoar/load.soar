@@ -25,5 +25,7 @@ source output-code/output-vpred.soar
 source output-code/output-imperative.soar
 source output-code/output-prondets.soar
 source output-code/output-role-prepositions.soar
+source output-code/output-goal.soar
+source output-code/output-question.soar
 
 source debug-printing.soar

@@ -12,6 +12,7 @@ sp {relation-messaging*propose*index-object1
    (<o> ^name index-object
         ^use-interaction true
 		^allow-ties true
+  		^infer-match true # AM: Allows index-object to guess a match if there is only one partial match
         ^obj 1
         ^category object-processing
 	    ^object <obj1>)
@@ -30,6 +31,7 @@ sp {relation-messaging*propose*index-object2
    (<o> ^name index-object
         ^use-interaction true
 		^allow-ties true
+  		^infer-match true # AM: Allows index-object to guess a match if there is only one partial match
         ^obj 2
         ^category object-processing
 	    ^object <obj2>)
@@ -73,50 +75,15 @@ sp {relation-messaging*apply*index-object*failure
    (<out> ^send-message <msg>)
    (<msg> ^type no-object
           ^fields.object failure)
-   (<status> ^performed.learning-event preposition)
+   # AM: Changed performed structure
+   (<status> ^performed.learning-event <e>)
+   (<e> ^type preposition)
 }
-
-
-#sp {relation-messaging*propose*svs-tracking
-#   (state <s> ^topstate <s>
-#              ^object <a>
-#              ^object <b>
-#              ^interaction.stack.segment <seg>)
-#   (<seg> ^purpose <p>
-#          ^info.obj1 <id1>
-#          ^info.obj2 <id2>)
-#   (<p> ^type relation-message
-#        ^parameters.prep <prep>)
-#   (<a> ^id <id1>)
-#   (<b> ^id <id2>)
-#-->
-#   (<s> ^track-relation <relation>)
-#   (<relation> ^object1 <a>
-#               ^object2  <b>
-#               ^prep <prep>)
-#}
-
-#sp {relation-messaging*propose*svs-tracking1
-#   (state <s> ^topstate <s>
-#              ^object <a>
-#             -^object.id 3
-#              ^object <b>)
-#   (<a> ^id 0)
-#   (<b> ^id 1)
-#-->
-#   (<s> ^track-relation <relation>)
-#   (<relation> ^object1 <a>
-#               ^object2  <b>
-#               ^prep right-of)
-#}
-#
-
 
 
 
 sp {relation-messaging*propose*process-svs-message
-   (state <s> #-^processed
-               ^interaction.stack.segment <seg>)
+   (state <s> ^interaction.stack.segment <seg>)
    (<seg> ^purpose <p>
           ^info.obj1 <id1>
           ^info.obj2 <id2>)

@@ -11,3 +11,4 @@ source interpret-relation-question.soar
 source interpret-verb-command.soar
 source interpret-goal-object-message.soar
 source interpret-goal-relation-message.soar
+source interpret-object-is-question.soar

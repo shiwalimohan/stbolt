@@ -8,18 +8,18 @@ sp {global*apply*generate-predicates*output*predicate-PP
               ^operator.name generate-predicates) 
    (<idea> ^ext <extval> ^annotation copula ^annotation pred-pp ^preposition-lex <plex> ^<plex> <plexval>)
    (<extval> ^nuc <extnucval> ^annotation pred-dumped)
-   (<plexval> ^nuc <pobjlex>) 
+   (<plexval> ^nuc <pobjlex> ^sentence-count <sc>) 
 -->
    (<plexval> ^annotation pred-dumped +)
    (<idea> ^annotation pred-dumped +) # a white lie
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <extval>
-           ^inner2 <plexval>)
+           ^inner2 <plexval>
+           ^originating-sentence <sc>)
  #  (<fp> ^predicate <pred2>)
  #  (<pred2> ^outer PRIMARY_OBJECT
  #          ^inner1 <extval>)
-#   (write (crlf) predicate-pp: | | <plex> |(| <extval> |,| <plexval> |)|)
 }
 
 
@@ -36,7 +36,7 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
            -^int <intval> -^ext <extval>
             ^nuc <nucval>
             ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^sentence-count <sc>)
 
     # SBW added
   -{(<idea> ^aug <idea2>)
@@ -47,8 +47,8 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <idea>
-           ^inner2 <pobjval>)
-#    (write (crlf) nuc-ppobj*seq: <plex> |(| <idea> |,| <pobjval> |)|)
+           ^inner2 <pobjval>
+           ^originating-sentence <sc>)
 }
 
 # SBW added this
@@ -62,7 +62,7 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
            -^int <intval> -^ext <extval>
             ^nuc <nucval>
             ^preposition-lex <plex> ^<plex> <pobjval> -^annotation pred-pp)
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^sentence-count <sc>)
 
    (<idea> ^aug <idea2>)
    (<idea2> ^annotation copula
@@ -73,8 +73,8 @@ sp {global*apply*generate-predicates*output*nuc+ppobj*predicate*through-copula
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <idea3>
-           ^inner2 <pobjval>)
-#    (write (crlf) nuc-ppobj*seq: <plex> |(| <idea3> |,| <pobjval> |)|)
+           ^inner2 <pobjval>
+           ^originating-sentence <sc>)
 }
 
 # can't output predicate for PP on internal arg because LG parser always attaches PP to verb
@@ -94,13 +94,14 @@ sp {global*apply*generate-predicates*output*PP*v-attached
     # this makes "the ball is to the left of the block" the same as "put the
     # ball to the left of the block". In both cases, need to stop of(left,N7)
    (<idea> -^aug.preposition-lex) 
+   (<pobjval> ^sentence-count <sc>)
 -->
    (<pobjval> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <plex>
            ^inner1 <nucval>
-           ^inner2 <pobjval>)
-    #(write (crlf) nuc-ppobj*seq: <plex> |(| <nucval> |,| <pobjval> |)|)
+           ^inner2 <pobjval>
+           ^originating-sentence <sc>)
 }
 
 ### output a predicate for the object of any pp
@@ -109,13 +110,13 @@ sp {global*apply*generate-predicates*cligdump*ppobj*arg
    (state <s> ^model.idea <idea> ^final-predicates <fp>
               ^operator.name generate-predicates)
    (<idea> ^nuc <nucval> ^preposition-lex <plex> ^<plex> <pobjval>)
-   (<pobjval> ^nuc <nuc2val> ^aug <aug2val>)
+   (<pobjval> ^nuc <nuc2val> ^aug <aug2val> ^sentence-count <sc>)
 -->
    (<pobjval> ^annotation pred-dumped +)
    #(<nuc2val> ^annotation pred-dumped +)
    (<fp> ^predicate <pred>)
    (<pred> ^outer <nuc2val>
-           ^inner1 <pobjval>)
-#   (write (crlf) ext/int-arg: <nuc2val> |(| <pobjval> |)|)
+           ^inner1 <pobjval>
+           ^originating-sentence <sc>)
 }
 

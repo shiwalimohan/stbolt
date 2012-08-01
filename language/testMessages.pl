@@ -297,12 +297,12 @@ else {
         specifier DEF
         word stove
     word on"],
-["The goal is an empty gripper.",
+["The goal is an empty stove.",
 "goal-object-message 
   object o1
     specifier DEF
     word empty
-    word gripper"],
+    word stove"],
 ["What color is this?",
 "object-question 
   object o1
@@ -399,7 +399,42 @@ else {
         specifier DEF
         word left
     word on"],
-["Is this triangle blue?", " "],
+["Is this triangle blue?", 
+"object-is-question 
+  object o1
+    questioned blue
+    specifier this
+    word blue
+    word triangle"],
+["Is the triangle to the left of the square?", 
+"object-is-question 
+  object o1
+    specifier DEF
+    word triangle
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word square
+    questioned true
+    word left-of"],
+["Is the triangle on the table blue?", 
+"object-is-question 
+  object o1
+    questioned blue
+    specifier DEF
+    word blue
+    word triangle
+  relation 
+    p1 
+      object o1
+    p2 
+      object o2
+        specifier DEF
+        word table
+    word on"],
 ["Describe the relationship between the red triangle and the yellow square",
 "verb-command 
   verb 
@@ -451,7 +486,6 @@ else {
             word square
         word between
     word describe"],
-["The goal of the action is to have the block on the table and an empty gripper.", ""],
 ["context_which_question The red square to the right of the circle.", 
 "object-message 
   object o1
@@ -465,8 +499,24 @@ else {
       object o2
         specifier DEF
         word circle
-    word right-of"]
-
+    word right-of"],
+["The pan should be on the stove and the stove should be on.",
+"goal-relation-message 
+  relation 
+    p1 
+      object o1
+        specifier DEF
+        word pan
+    p2 
+      object o2
+        specifier DEF
+        word stove
+    word on
+goal-object-message 
+  object o3
+    specifier DEF
+    word stove
+    word on"]
 );
 
 $passCount = 0;

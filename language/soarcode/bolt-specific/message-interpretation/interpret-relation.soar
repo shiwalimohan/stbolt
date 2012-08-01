@@ -31,6 +31,7 @@ sp {interpret-relation*apply*identify-relation
         ^p1 <p1-val>
         ^p2 <p2-val>)
    (<rm> ^word <relation>)
+   (<pr> ^accounted-for true)
 }
 
 sp {interpret-relation*apply*identify-relation*two-part-outer*of
@@ -48,6 +49,7 @@ sp {interpret-relation*apply*identify-relation*two-part-outer*of
         ^p1 <p1-val>
         ^p2 <p2-val>)
    (<rm> ^word (concat <o1> |-| <o2>))
+   (<pr> ^accounted-for true)
 }
 
 sp {interpret-relation*propose*collect-p1

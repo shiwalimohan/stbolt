@@ -3,7 +3,7 @@ sp {interpret-goal-relation-message*propose*mark-goal-predicate
    (state <s> ^name interpret-goal-relation-message
              -^goal-predicate)
 -->
-   (<s> ^operator <o> +)
+   (<s> ^operator <o> + =)
    (<o> ^name mark-goal-predicate)
 }
 
@@ -24,11 +24,22 @@ sp {interpret-goal-relation-message*apply*mark-goal-predicate
 
 sp {interpret-goal-relation-message*propose*collect-predicates
    (state <s> ^name interpret-goal-relation-message
-              ^goal-predicate
              -^predicates-collected)
 -->
    (<s> ^operator <o> +)
    (<o> ^name collect-predicates)
+}
+
+# can have multiple goal predicates: "the block should be on the table" makes
+# one for both block and table
+sp {interpret-goal-relation-message*mark-goal-predicate*over*collect-predicates
+  (state <s> ^name interpret-goal-relation-message
+             ^operator <o1> +
+             ^operator <o2> +)
+   (<o1> ^name mark-goal-predicate)
+   (<o2> ^name collect-predicates)
+-->
+   (<s> ^operator <o1> > <o2>)
 }
 
 sp {interpret-goal-relation-message*apply*collect-predicates*root

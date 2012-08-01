@@ -1,6 +1,6 @@
 package edu.umich.sbolt.language;
 
-import java.util.Set;
+import java.util.*;
 
 import edu.umich.sbolt.language.Patterns.LingObject;
 import edu.umich.sbolt.world.WorkingMemoryUtil;
@@ -25,18 +25,25 @@ public class AgentMessageParser
             message = translateAttributePresenceQuestion(fieldsId);
         } else if(type.equals("category-of-word")){
             message = translateCategoryQuestion(fieldsId);
+        } else if(type.equals("category-of-property")){
+            message = translateCategoryPropertyQuestion(fieldsId);
+        } else if(type.equals("how-to-measure")){
+        	message = String.format("How do I measure %s?", WorkingMemoryUtil.getValueOfAttribute(fieldsId, "property"));
+        } else if(type.equals("ambiguous-category")){
+        	message = translateAmbiguousCategory(fieldsId);
         } else if(type.equals("describe-object")){
             message = translateDescription(fieldsId);
         } else if(type.equals("dont-know")){
         	message = "I don't know";
         } else if(type.equals("no-prep")){
             message = "I don't know that preposition.";
-        } else if(type.equals("single-word")){
+        } else if(type.equals("single-word-response")){
         	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
         } else if(type.equals("no-object")){
         	message = "I do not see the object you are talking about";
         } else if(type.equals("count-response")){
-        	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
+        	int count = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count"));
+        	message = "There " + (count == 1 ? "is" : "are") + " " + count;
         } else if(type.equals("unknown-message")){
         	message = "I was not able to understand your last message";
         } else if(type.equals("teaching-request")){
@@ -51,6 +58,14 @@ public class AgentMessageParser
         	message = "Okay.";
         } else if (type.equals("get-goal")){
         	message = "What is the goal of the action?";
+        } else if(type.equals("request-index-confirmation")){
+        	message = translateRequestIndexConfirmation(fieldsId);
+        } else if(type.equals("describe-scene")){
+            message = translateSceneQuestion(fieldsId);
+        } else if(type.equals("describe-scene-objects")){
+            message = translateSceneObjectsQuestion(fieldsId);
+        } else if(type.equals("list-objects")){
+            message = translateObjectsQuestion(fieldsId);
         }
         return message;
     }
@@ -59,9 +74,9 @@ public class AgentMessageParser
     	LingObject obj = LingObject.createFromSoarSpeak(id, "description");
     	//JK different syntax for prepositions
     	if (obj.toString().contains("preposition"))
-    	    return "I don't know the " + obj.toString() + ".\nPlease teach me with examples";
+    	    return "I don't know the " + obj.toString() + ". Please teach me with examples";
     	else
-    	    return "I don't see " + obj.toString() + ".\nPlease teach me to recognize one";
+    	    return "I don't see " + obj.toString() + ". Please teach me to recognize one";
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){
@@ -101,6 +116,92 @@ public class AgentMessageParser
         String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
         return String.format("What kind of attribute is %s?", word);
     }
+
+    private static String translateCategoryPropertyQuestion(Identifier id){
+        String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+        return String.format("What type of property is %s?", word);
+    }
+    
+    private static String translateAmbiguousCategory(Identifier id){
+    	Set<String> cats = WorkingMemoryUtil.getAllValuesOfAttribute(id, "result");
+    	String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+    	String s = "By " + word + " do you mean ";
+    	int i = 0;
+    	for(String cat : cats){
+    		if((++i) == cats.size()){
+    			s += "or " + cat + "?";
+    		} else {
+    			s += cat + ", ";
+    		}
+    	}
+    	return s;
+    }
+    
+    private static String translateSceneObjectsQuestion(Identifier id){
+        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        
+        Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
+        String message = "The objects in the scene are";
+        Iterator<LingObject> it = object.iterator();
+        if (object.isEmpty())
+            return "There are no objects in the scene.";
+        while(it.hasNext())
+        {
+            String obj = it.next().toString();
+            if (!it.hasNext() && object.size() > 1)
+                message+= " and";
+            if (obj.startsWith(" a") || obj.startsWith(" e") || obj.startsWith(" i") || 
+                    obj.startsWith(" o") || obj.startsWith(" u"))
+            {
+                message += " an";
+            }
+            else
+            {
+                message += " a";
+            }
+            message += obj;
+            if (it.hasNext() && object.size() > 2)
+                message+= ",";
+        }
+        return message;
+    }
+    
+    private static String translateObjectsQuestion(Identifier id){
+        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        
+        Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
+        String message = "";
+        
+        Iterator<LingObject> it = object.iterator();
+        if (object.isEmpty())
+            return "Nothing.";
+        while(it.hasNext())
+        {
+            String obj = it.next().toString();
+            if (!it.hasNext() && object.size() > 1)
+                message+= " and";
+            if (obj.startsWith(" a") || obj.startsWith(" e") || obj.startsWith(" i") || 
+                    obj.startsWith(" o") || obj.startsWith(" u"))
+            {
+                message += " an";
+            }
+            else
+            {
+                message += " a";
+            }
+            message += obj;
+            if (it.hasNext() && object.size() > 2)
+                message+= ",";
+        }
+        return message;
+    }
+    private static String translateSceneQuestion(Identifier id){
+      String prep = WorkingMemoryUtil.getValueOfAttribute(id, "prep");
+      String prep2 = prep.replaceAll("-", " ");
+      String object1 = LingObject.createFromSoarSpeak(id, "object1").toString();
+      String object2 = LingObject.createFromSoarSpeak(id, "object2").toString();
+      return "The" + object1 + " is " + prep2 + " the" + object2;
+  }
     
     private static String translateValueQuestion(Identifier id){
         Identifier attRelationId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "attribute-relation");
@@ -138,6 +239,7 @@ public class AgentMessageParser
         return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
     }
     
+    
     private static String translateWhichQuestion(Identifier id){
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "description");
     	if (objectId == null)
@@ -145,4 +247,10 @@ public class AgentMessageParser
     	
         return "Which " + LingObject.createFromSoarSpeak(id, "description") + "?";
     }
+
+    private static String translateRequestIndexConfirmation(Identifier id){
+    	LingObject obj = LingObject.createFromSoarSpeak(id, "object");
+    	return "Is this " + obj.toString() + "?";
+    }
+    
 }

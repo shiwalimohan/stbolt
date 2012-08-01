@@ -2381,6 +2381,10 @@ or (Wj- & Qd+) or [Wq- & PF+];
 under beneath:
 ({Yd-} & {JQ+} & J+ & (<prep-main-a> or FM-)) or (MVp- & B-);
 below above behind.p: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-);
+
+# SBW added for BOLT
+diagonal_with aligned_with diagonal_to aligned_to diagonal_from far_from close_to known_by: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-);
+
 within: ({JQ+} & J+ & <prep-main-a>) or (MVp- & B-);
 during: ({JQ+} & J+ & (<prep-main-a> or UN-)) or (MVp- & B-);
 from:
@@ -3309,8 +3313,19 @@ or (YS+ & {D*u-}) or (GN+ & (DD- or [()])) or U-));
 <generic-adjective>: {EA- or EF+} & (({[[@Ec-]]} & {Xc+} & A+) or ((Pa- or AF+ or
  Ma-)  & {@MV+}) or AA+ or <adj-op>);
 
+<verb-with-nothing>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-);
+
+<verb-with-preposition>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & @MV+;
+
+<verb-with-direct-object>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & (B- or O+);
+
+<verb-with-direct-object-and-preposition>: {@E-} & (Sp- or (RS- & Bp-) or I- or Wi-) & (B- or O+) & @MV+;
+
+<generic-preposition>: ({Yd-} & {{JQ+} & J+} & (<prep-main-a> or FM-)) or (MVp- & B-); # "above" def
+
 UNKNOWN-WORD.n 
 *noun
+*noun0
 *noun1
 *noun2
 *noun3
@@ -3324,21 +3339,179 @@ UNKNOWN-WORD.n
 : <generic-noun>;
 
 UNKNOWN-WORD.v 
-*verb
-*verb1
-*verb2
-*verb3
-*verb4
-*verb5
-*verb6
-*verb7
-*verb8
-*verb9
-*verb10
+*verb+generic
+*verb+generic0
+*verb+generic1
+*verb+generic2
+*verb+generic3
+*verb+generic4
+*verb+generic5
+*verb+generic6
+*verb+generic7
+*verb+generic8
+*verb+generic9
+*verb+generic10
+*verb+generic11
+*verb+generic12
+*verb+generic13
+*verb+generic14
+*verb+generic15
+*verb+generic16
+*verb+generic17
+*verb+generic18
+*verb+generic19
+*verb+generic20
+*verb+generic21
+*verb+generic22
+*verb+generic23
+*verb+generic24
+*verb+generic25
+*verb+generic26
+*verb+generic27
+*verb+generic28
+*verb+generic29
+*verb+generic30
 : <generic-verb>;
+
+*verb+with+nothing
+*verb+with+nothing0
+*verb+with+nothing1
+*verb+with+nothing2
+*verb+with+nothing3
+*verb+with+nothing4
+*verb+with+nothing5
+*verb+with+nothing6
+*verb+with+nothing7
+*verb+with+nothing8
+*verb+with+nothing9
+*verb+with+nothing10
+*verb+with+nothing11
+*verb+with+nothing12
+*verb+with+nothing13
+*verb+with+nothing14
+*verb+with+nothing15
+*verb+with+nothing16
+*verb+with+nothing17
+*verb+with+nothing18
+*verb+with+nothing19
+*verb+with+nothing20
+*verb+with+nothing21
+*verb+with+nothing22
+*verb+with+nothing23
+*verb+with+nothing24
+*verb+with+nothing25
+*verb+with+nothing26
+*verb+with+nothing27
+*verb+with+nothing28
+*verb+with+nothing29
+*verb+with+nothing30
+: <verb-with-nothing>;
+
+*verb+with+preposition
+*verb+with+preposition0
+*verb+with+preposition1
+*verb+with+preposition2
+*verb+with+preposition3
+*verb+with+preposition4
+*verb+with+preposition5
+*verb+with+preposition6
+*verb+with+preposition7
+*verb+with+preposition8
+*verb+with+preposition9
+*verb+with+preposition10
+*verb+with+preposition11
+*verb+with+preposition12
+*verb+with+preposition13
+*verb+with+preposition14
+*verb+with+preposition15
+*verb+with+preposition16
+*verb+with+preposition17
+*verb+with+preposition18
+*verb+with+preposition19
+*verb+with+preposition20
+*verb+with+preposition21
+*verb+with+preposition22
+*verb+with+preposition23
+*verb+with+preposition24
+*verb+with+preposition25
+*verb+with+preposition26
+*verb+with+preposition27
+*verb+with+preposition28
+*verb+with+preposition29
+*verb+with+preposition30
+: <verb-with-preposition>;
+
+*verb+with+direct+object
+*verb+with+direct+object0
+*verb+with+direct+object1
+*verb+with+direct+object2
+*verb+with+direct+object3
+*verb+with+direct+object4
+*verb+with+direct+object5
+*verb+with+direct+object6
+*verb+with+direct+object7
+*verb+with+direct+object8
+*verb+with+direct+object9
+*verb+with+direct+object10
+*verb+with+direct+object11
+*verb+with+direct+object12
+*verb+with+direct+object13
+*verb+with+direct+object14
+*verb+with+direct+object15
+*verb+with+direct+object16
+*verb+with+direct+object17
+*verb+with+direct+object18
+*verb+with+direct+object19
+*verb+with+direct+object20
+*verb+with+direct+object21
+*verb+with+direct+object22
+*verb+with+direct+object23
+*verb+with+direct+object24
+*verb+with+direct+object25
+*verb+with+direct+object26
+*verb+with+direct+object27
+*verb+with+direct+object28
+*verb+with+direct+object29
+*verb+with+direct+object30
+: <verb-with-direct-object>;
+
+*verb+with+direct+object+and+preposition
+*verb+with+direct+object+and+preposition0
+*verb+with+direct+object+and+preposition1
+*verb+with+direct+object+and+preposition2
+*verb+with+direct+object+and+preposition3
+*verb+with+direct+object+and+preposition4
+*verb+with+direct+object+and+preposition5
+*verb+with+direct+object+and+preposition6
+*verb+with+direct+object+and+preposition7
+*verb+with+direct+object+and+preposition8
+*verb+with+direct+object+and+preposition9
+*verb+with+direct+object+and+preposition10
+*verb+with+direct+object+and+preposition11
+*verb+with+direct+object+and+preposition12
+*verb+with+direct+object+and+preposition13
+*verb+with+direct+object+and+preposition14
+*verb+with+direct+object+and+preposition15
+*verb+with+direct+object+and+preposition16
+*verb+with+direct+object+and+preposition17
+*verb+with+direct+object+and+preposition18
+*verb+with+direct+object+and+preposition19
+*verb+with+direct+object+and+preposition20
+*verb+with+direct+object+and+preposition21
+*verb+with+direct+object+and+preposition22
+*verb+with+direct+object+and+preposition23
+*verb+with+direct+object+and+preposition24
+*verb+with+direct+object+and+preposition25
+*verb+with+direct+object+and+preposition26
+*verb+with+direct+object+and+preposition27
+*verb+with+direct+object+and+preposition28
+*verb+with+direct+object+and+preposition29
+*verb+with+direct+object+and+preposition30
+: <verb-with-direct-object-and-preposition>;
 
 UNKNOWN-WORD.a
 *adjective
+*adjective0
 *adjective1
 *adjective2
 *adjective3
@@ -3352,6 +3525,7 @@ UNKNOWN-WORD.a
 : <generic-adjective>;
 
 *nounjective
+*nounjective0
 *nounjective1
 *nounjective2
 *nounjective3
@@ -3362,7 +3536,61 @@ UNKNOWN-WORD.a
 *nounjective8
 *nounjective9
 *nounjective10
+*nounjective11
+*nounjective12
+*nounjective13
+*nounjective14
+*nounjective15
+*nounjective16
+*nounjective17
+*nounjective18
+*nounjective19
+*nounjective20
+*nounjective21
+*nounjective22
+*nounjective23
+*nounjective24
+*nounjective25
+*nounjective26
+*nounjective27
+*nounjective28
+*nounjective29
+*nounjective30
 : <generic-noun> or <generic-adjective>;
+
+*preposition
+*preposition0
+*preposition1
+*preposition2
+*preposition3
+*preposition4
+*preposition5
+*preposition6
+*preposition7
+*preposition8
+*preposition9
+*preposition10
+*preposition11
+*preposition12
+*preposition13
+*preposition14
+*preposition15
+*preposition16
+*preposition17
+*preposition18
+*preposition19
+*preposition20
+*preposition21
+*preposition22
+*preposition23
+*preposition24
+*preposition25
+*preposition26
+*preposition27
+*preposition28
+*preposition29
+*preposition30
+: <generic-preposition>;
 
 LEFT-WALL: (Wd+ or Wq+ or Ws+ or Wj+ or Wc+ or Wi+ or Qd+) & 
 {CP+} & {Xx+} & {RW+ or Xp+};       

@@ -1,3 +1,4 @@
+.project
 .classpath
 .settings
 bin/
@@ -6,7 +7,6 @@ lgsoar/.classpath
 sbolt.jar
 lgsoar/lgsoar.jar
 sbolt-log.txt
-backups/
 
 
 #### emacs 

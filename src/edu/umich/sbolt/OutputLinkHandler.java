@@ -3,6 +3,8 @@ package edu.umich.sbolt;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soartech.bolt.testing.ActionType;
+
 import sml.*;
 import sml.Agent.OutputEventInterface;
 import sml.Agent.RunEventInterface;
@@ -18,22 +20,19 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 {
 	
     private List<training_label_t> newLabels;
-    
-    private Agent agent;
 
-    public OutputLinkHandler(Agent agent)
+    public OutputLinkHandler(BoltAgent boltAgent)
     {
-
-    	this.agent = agent;
         String[] outputHandlerStrings = { "message", "action", "pick-up", "push-segment", "pop-segment",
-                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", "report-interaction"};
+                "put-down", "point", "send-message","remove-message","send-training-label", "set-state", 
+                "report-interaction", "home"};
 
         for (String outputHandlerString : outputHandlerStrings)
         {
-           agent.AddOutputHandler(outputHandlerString, this, null);
+        	boltAgent.getSoarAgent().AddOutputHandler(outputHandlerString, this, null);
         }
         
-        agent.RegisterForRunEvent(
+        boltAgent.getSoarAgent().RegisterForRunEvent(
                 smlRunEventId.smlEVENT_AFTER_OUTPUT_PHASE, this, null);
         
         newLabels = new ArrayList<training_label_t>();
@@ -118,12 +117,10 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	            }
 	            else if(wme.GetAttribute().equals("report-interaction")){
 	            	processReportInteraction(id);
+	            } else if(wme.GetAttribute().equals("home")){
+	            	processHomeCommand(id);
 	            }
-	
-	            if (agent.IsCommitRequired())
-	            {
-	            	agent.Commit();
-	            }
+	            SBolt.Singleton().getBoltAgent().commitChanges();
             } catch (IllegalStateException e){
             	System.out.println(e.getMessage());
             }
@@ -135,14 +132,16 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         String msg = "";
         while(cur != null) {
         	String word = WorkingMemoryUtil.getValueOfAttribute(cur, "value");
-        	if(word.equals(".") || word.equals("?") || word.equals("!"))
+        	if(word.equals(".") || word.equals("?") || word.equals("!") || word.equals(")"))
+        		msg += word;
+        	else if(msg.equals(""))
         		msg += word;
         	else
         		msg += " "+word;
         	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
         }
         
-        ChatFrame.Singleton().addMessage("Agent: "+msg);
+        ChatFrame.Singleton().addMessage(msg, ActionType.Agent);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
@@ -178,7 +177,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
         if(!message.equals("")){
-            ChatFrame.Singleton().addMessage("Agent: "+message);
+            ChatFrame.Singleton().addMessage(message, ActionType.Agent);
         }
         messageId.CreateStringWME("status", "complete");
     }
@@ -222,8 +221,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         }
 
         message += ".";
-        ChatFrame.Singleton().addMessage("Agent: "+
-                message.substring(0, message.length() - 1));
+        ChatFrame.Singleton().addMessage(message.substring(0, message.length() - 1), ActionType.Agent);
 
         messageId.CreateStringWME("status", "complete");
     }
@@ -321,7 +319,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", 
     			"Error (send-training-label): No ^category attribute");
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = VisualProperty.getCategoryType(category);
+    	Integer catNum = PerceptualProperty.getCategoryID(category);
     	if(catNum == null){
     		return;
     	}
@@ -338,13 +336,23 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     private void processPushSegmentCommand(Identifier id){
     	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type", "Error (push-segment): No ^type attribute");
     	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator", "Error (push-segment): No ^originator attribute");
-    	ChatFrame.Singleton().getStack().pushSegment(type, originator);
+    	SBolt.Singleton().getBoltAgent().getStack().pushSegment(type, originator);
     	id.CreateStringWME("status", "complete");
     }
     
     private void processPopSegmentCommand(Identifier id){
-    	ChatFrame.Singleton().getStack().popSegment();
+    	SBolt.Singleton().getBoltAgent().getStack().popSegment();
     	id.CreateStringWME("status", "complete");
+    }
+    
+    private void processHomeCommand(Identifier id){
+    	robot_command_t command = new robot_command_t();
+        command.utime = TimeUtil.utime();
+        command.dest = new double[6];
+    	command.action = "HOME";
+    	SBolt.broadcastRobotCommand(command);
+        
+        id.CreateStringWME("status", "complete");
     }
     
     private void processReportInteraction(Identifier id){
@@ -352,7 +360,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator");
     	Identifier sat = WorkingMemoryUtil.getIdentifierOfAttribute(id, "satisfaction");
     	String eventType = sat.GetChild(0).GetAttribute();
-    	String eventName = sat.GetChild(0).GetValueAsString();
+    	String eventName = sat.GetChild(0).ConvertToIdentifier().FindByAttribute("type", 0).GetValueAsString();
     	Identifier context = WorkingMemoryUtil.getIdentifierOfAttribute(id, "context");
     	
     	String message = "";
@@ -362,16 +370,16 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		message = "I cannot continue further with the current action and I need the next step";
     	} else if(type.equals("category-of-word")){
     		String word = WorkingMemoryUtil.getValueOfAttribute(context, "word");
-    		message = "I do not know the category of " + word + ".\n" + 
+    		message = "I do not know the category of " + word + ". " + 
     		"You can say something like 'a shape' or 'blue is a color'";
     	} else if(type.equals("which-question")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
     		message = "I see multiple examples of '" + objStr + "' and I need clarification";
     	} else if(type.equals("teaching-request")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
-    		message = "I do not know '" + objStr + "'\n" + 
+    		message = "I do not know '" + objStr + "' " + 
     		"Please give more teaching examples and tell me 'finished' when you are done";
     	}
-    	ChatFrame.Singleton().addMessage("Agent: " + message);
+    	ChatFrame.Singleton().addMessage(message, ActionType.Agent);
     }
 }
