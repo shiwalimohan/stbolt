@@ -2,7 +2,8 @@
 sp {propose*point-to*object
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	       ^topstate <ts>)
+	       ^topstate <ts>
+	       -^grabbed <any>)
    (<ts> -^self-pointing-at <obj>)
  -->
    (<s> ^operator <op> +)
