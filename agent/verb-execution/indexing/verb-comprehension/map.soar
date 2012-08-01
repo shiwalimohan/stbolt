@@ -3,8 +3,7 @@
 ### results in a mapped operator 
 sp {propose*map*verb
    (state <s> ^interaction.stack.segment <top>)
-   (<top> ^originator instructor
-   	  ^purpose <p>)
+   (<top>    	  ^purpose <p>)
    (<p> ^type external-action
    	^satisfaction <ps>
 	-^indexed-operator <map-op>)  
