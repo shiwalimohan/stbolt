@@ -12,6 +12,7 @@ backups/
 #### emacs 
 *~
 #*
+.#*
 
 
 ### java log files
