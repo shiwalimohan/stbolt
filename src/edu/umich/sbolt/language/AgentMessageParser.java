@@ -63,6 +63,8 @@ public class AgentMessageParser
             message = translateSceneObjectsQuestion(fieldsId);
         } else if(type.equals("list-objects")){
             message = translateObjectsQuestion(fieldsId);
+        } else if(type.equals("location-unknown")){
+            message = "Relative location of object unknown";
         }
         return message;
     }
