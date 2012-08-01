@@ -1,0 +1,27 @@
+### map the preposition to a long-term id in semantic memory.
+### mapping failure should result in preposition learning
+
+
+### occurs in the index-argument substate
+
+sp {index*preposition
+   (state <s> ^name index-argument
+   	      ^superstate.operator <sop>)
+   (<sop> ^name index-argument
+   	  ^preposition <p>)
+-->
+   (<s> ^superoperator <sop>
+   	^preposition <p>)
+}
+
+sp {propose*index-preposition*lookup-preposition
+   (state <s> ^name index-argument
+   	      ^preposition <p>
+	      -^found-prep <fprep>)
+ -->
+    (<s> ^operator <op> + >)
+    (<op> ^name lookup-preposition
+    	  ^type <p>
+	  ^category <svs>)
+}
+
