@@ -12,7 +12,10 @@
 @ point square
 > this is a red square
 < Okay.
+< I do not know 'a red square' Please give more teaching examples and tell me 'finished' when you are done
 > finished
+< What is the goal of the action?
+> The goal is the red square in the pantry
 < What action should I take next?
 > pick up the red square
 < What action should I take next?
@@ -25,8 +28,10 @@
 @ point triangle
 > this is a red triangle
 < Okay.
+< I do not know 'a red triangle' Please give more teaching examples and tell me 'finished' when you are done
 > finished
 < Okay.
+< I do not know 'preposition in' Please give more teaching examples and tell me 'finished' when you are done
 > finished
 < What action should I take next?
 > You are done.

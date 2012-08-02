@@ -194,7 +194,7 @@ public class ChatFrame extends JFrame
 		});
 		menuBar.add(btnLoadScript);
 		
-		JButton btnNext = new JButton("Next");
+		JButton btnNext = new JButton("Next Script Action");
 		btnNext.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -232,6 +232,7 @@ public class ChatFrame extends JFrame
         Style mentorActionStyle = chatDoc.addStyle(ActionType.MentorAction.toString(), defaultStyle);
         Style correctStyle = chatDoc.addStyle(ActionType.Correct.toString(), defaultStyle);
         Style incorrectStyle = chatDoc.addStyle(ActionType.Incorrect.toString(), defaultStyle);
+        Style uiActionStyle = chatDoc.addStyle(ActionType.UiAction.toString(), defaultStyle);
         
         StyleConstants.setForeground(defaultStyle, Color.BLACK);
         StyleConstants.setFontSize(defaultStyle, 18);
@@ -245,7 +246,9 @@ public class ChatFrame extends JFrame
         StyleConstants.setForeground(mentorStyle, Color.BLACK);
         StyleConstants.setForeground(mentorActionStyle, new Color(205, 0, 0));
         StyleConstants.setForeground(correctStyle, new Color(0, 200, 0));
-        StyleConstants.setForeground(incorrectStyle, new Color(205, 0, 0));   
+        StyleConstants.setForeground(incorrectStyle, new Color(205, 0, 0));
+        StyleConstants.setItalic(uiActionStyle, true);
+        StyleConstants.setForeground(uiActionStyle, new Color(205, 0, 205));
     }    
 
     public void showFrame()

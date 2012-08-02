@@ -1,6 +1,7 @@
 #!BechtelFormat
 < Waiting for next command...
-# Simulator should have all data cleared, a blue sphere in the pantry, red cube in the stove, red triangle in the garbage, and green tee in the table.
+} Clear simulator data.
+# Simulator should have a blue sphere in the pantry, a red cube in the stove, a red triangle in the garbage, and a green tee in the table.
 > move the red square to the pantry
 < What kind of attribute is red?
 > red is a color
@@ -10,7 +11,10 @@
 } point at the red square
 > this is a red square
 < Okay.
+< I do not know 'a red square' Please give more teaching examples and tell me 'finished' when you are done
 > finished
+< What is the goal of the action?
+> The goal is the red square in the pantry
 < What action should I take next?
 > pick up the red square
 < What action should I take next?
@@ -23,8 +27,10 @@
 } point at the red triangle
 > this is a red triangle
 < Okay.
+< I do not know 'a red triangle' Please give more teaching examples and tell me 'finished' when you are done
 > finished
 < Okay.
+< I do not know 'preposition in' Please give more teaching examples and tell me 'finished' when you are done
 > finished
 < What action should I take next?
 > You are done.
