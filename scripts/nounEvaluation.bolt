@@ -1,0 +1,365 @@
+#!BechtelFormat
+# Start color trial 1
+} select the small yellow circle
+> What is this?
+> This is a yellow object
+} select the large yellow triangle
+> What is this?
+> This is a yellow object
+} select the large red rectangle
+> What is this?
+> This is a red object
+} select the large green arche
+> What is this?
+> This is a green object
+} select the medium red square
+> What is this?
+> This is a red object
+} select the small red arch
+> What is this?
+> This is a red object
+} select the medium yellow triangle
+> What is this?
+> This is a yellow object
+} select the small green rectangle
+> What is this?
+> This is a green object
+} select the medium green triangle
+> What is this?
+> This is a green object
+# Start color trial 2
+} select the medium red square
+> What is this?
+> This is a red object
+} select the small red arch
+> What is this?
+> This is a red object
+} select the small green rectangle
+> What is this?
+> This is a green object
+} select the medium yellow triangle
+> What is this?
+> This is a yellow object
+} select the small yellow circle
+> What is this?
+> This is a yellow object
+} select the large green arche
+> What is this?
+> This is a green object
+} select the large red rectangle
+> What is this?
+> This is a red object
+} select the medium green triangle
+> What is this?
+> This is a green object
+} select the large yellow triangle
+> What is this?
+> This is a yellow object
+# Start color trial 3
+} select the large yellow triangle
+> What is this?
+> This is a yellow object
+} select the small red arch
+> What is this?
+> This is a red object
+} select the medium red square
+> What is this?
+> This is a red object
+} select the medium green triangle
+> What is this?
+> This is a green object
+} select the small yellow circle
+> What is this?
+> This is a yellow object
+} select the small green rectangle
+> What is this?
+> This is a green object
+} select the medium yellow triangle
+> What is this?
+> This is a yellow object
+} select the large red rectangle
+> What is this?
+> This is a red object
+} select the large green arche
+> What is this?
+> This is a green object
+# Start size trial 1
+} select the large yellow triangle
+> What is this?
+> This is a large object
+} select the small green rectangle
+> What is this?
+> This is a small object
+} select the large green arche
+> What is this?
+> This is a large object
+} select the medium red square
+> What is this?
+> This is a medium object
+} select the medium green triangle
+> What is this?
+> This is a medium object
+} select the medium yellow triangle
+> What is this?
+> This is a medium object
+} select the small yellow circle
+> What is this?
+> This is a small object
+} select the small red arch
+> What is this?
+> This is a small object
+} select the large red rectangle
+> What is this?
+> This is a large object
+# Start size trial 2
+} select the small red arch
+> What is this?
+> This is a small object
+} select the small yellow circle
+> What is this?
+> This is a small object
+} select the medium green triangle
+> What is this?
+> This is a medium object
+} select the large yellow triangle
+> What is this?
+> This is a large object
+} select the small green rectangle
+> What is this?
+> This is a small object
+} select the medium red square
+> What is this?
+> This is a medium object
+} select the large red rectangle
+> What is this?
+> This is a large object
+} select the large green arche
+> What is this?
+> This is a large object
+} select the medium yellow triangle
+> What is this?
+> This is a medium object
+# Start size trial 3
+} select the medium yellow triangle
+> What is this?
+> This is a medium object
+} select the large red rectangle
+> What is this?
+> This is a large object
+} select the large green arche
+> What is this?
+> This is a large object
+} select the small yellow circle
+> What is this?
+> This is a small object
+} select the medium red square
+> What is this?
+> This is a medium object
+} select the small green rectangle
+> What is this?
+> This is a small object
+} select the small red arch
+> What is this?
+> This is a small object
+} select the large yellow triangle
+> What is this?
+> This is a large object
+} select the medium green triangle
+> What is this?
+> This is a medium object
+# Start size trial 4
+} select the small yellow circle
+> What is this?
+> This is a small object
+} select the medium red square
+> What is this?
+> This is a medium object
+} select the large red rectangle
+> What is this?
+> This is a large object
+} select the large yellow triangle
+> What is this?
+> This is a large object
+} select the small green rectangle
+> What is this?
+> This is a small object
+} select the large green arche
+> What is this?
+> This is a large object
+} select the small red arch
+> What is this?
+> This is a small object
+} select the medium green triangle
+> What is this?
+> This is a medium object
+} select the medium yellow triangle
+> What is this?
+> This is a medium object
+# Start size trial 5
+} select the large green arche
+> What is this?
+> This is a large object
+} select the large yellow triangle
+> What is this?
+> This is a large object
+} select the large red rectangle
+> What is this?
+> This is a large object
+} select the medium yellow triangle
+> What is this?
+> This is a medium object
+} select the small red arch
+> What is this?
+> This is a small object
+} select the medium green triangle
+> What is this?
+> This is a medium object
+} select the medium red square
+> What is this?
+> This is a medium object
+} select the small yellow circle
+> What is this?
+> This is a small object
+} select the small green rectangle
+> What is this?
+> This is a small object
+# Start shape trial 1
+} select the medium green triangle
+> What is this?
+> This is a triangle
+} select the medium red square
+> What is this?
+> This is a square
+} select the large yellow triangle
+> What is this?
+> This is a triangle
+} select the small yellow circle
+> What is this?
+> This is a circle
+} select the small green rectangle
+> What is this?
+> This is a rectangle
+} select the large green arche
+> What is this?
+> This is a arche
+} select the medium yellow triangle
+> What is this?
+> This is a triangle
+} select the large red rectangle
+> What is this?
+> This is a rectangle
+} select the small red arch
+> What is this?
+> This is a arch
+# Start shape trial 2
+} select the small yellow circle
+> What is this?
+> This is a circle
+} select the large yellow triangle
+> What is this?
+> This is a triangle
+} select the small green rectangle
+> What is this?
+> This is a rectangle
+} select the medium red square
+> What is this?
+> This is a square
+} select the small red arch
+> What is this?
+> This is a arch
+} select the medium green triangle
+> What is this?
+> This is a triangle
+} select the large red rectangle
+> What is this?
+> This is a rectangle
+} select the large green arche
+> What is this?
+> This is a arche
+} select the medium yellow triangle
+> What is this?
+> This is a triangle
+# Start shape trial 3
+} select the medium green triangle
+> What is this?
+> This is a triangle
+} select the small yellow circle
+> What is this?
+> This is a circle
+} select the small red arch
+> What is this?
+> This is a arch
+} select the large green arche
+> What is this?
+> This is a arche
+} select the small green rectangle
+> What is this?
+> This is a rectangle
+} select the large red rectangle
+> What is this?
+> This is a rectangle
+} select the medium yellow triangle
+> What is this?
+> This is a triangle
+} select the large yellow triangle
+> What is this?
+> This is a triangle
+} select the medium red square
+> What is this?
+> This is a square
+# Start shape trial 4
+} select the small green rectangle
+> What is this?
+> This is a rectangle
+} select the large red rectangle
+> What is this?
+> This is a rectangle
+} select the large green arche
+> What is this?
+> This is a arche
+} select the medium yellow triangle
+> What is this?
+> This is a triangle
+} select the medium green triangle
+> What is this?
+> This is a triangle
+} select the medium red square
+> What is this?
+> This is a square
+} select the large yellow triangle
+> What is this?
+> This is a triangle
+} select the small red arch
+> What is this?
+> This is a arch
+} select the small yellow circle
+> What is this?
+> This is a circle
+# Start shape trial 5
+} select the small yellow circle
+> What is this?
+> This is a circle
+} select the large red rectangle
+> What is this?
+> This is a rectangle
+} select the large green arche
+> What is this?
+> This is a arche
+} select the medium green triangle
+> What is this?
+> This is a triangle
+} select the large yellow triangle
+> What is this?
+> This is a triangle
+} select the medium red square
+> What is this?
+> This is a square
+} select the medium yellow triangle
+> What is this?
+> This is a triangle
+} select the small red arch
+> What is this?
+> This is a arch
+} select the small green rectangle
+> What is this?
+> This is a rectangle
