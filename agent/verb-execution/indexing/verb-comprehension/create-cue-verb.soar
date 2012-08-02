@@ -43,7 +43,7 @@ sp {propose*index-argument*direct-object
 -->
    (<s> ^operator <op> + =)
    (<op> ^name index-argument
-   	 ^verb-cue <cue>
+   	 ^cue <cue>
 	 ^connector direct-object
 	 ^argument <do>
 	 ^category indexing)
@@ -62,7 +62,7 @@ sp {propose*index-argument*preposition-object
 -->
    (<s> ^operator <op> + =)
    (<op> ^name index-argument
-   	 ^verb-cue <cue>
+   	 ^cue <cue>
 	 ^argument <obj>
 	 ^connector <pword>
 	 ^category indexing)

@@ -83,7 +83,8 @@ public class LingObject extends LinguisticEntity {
         lingObject.determiner = WorkingMemoryUtil.getValueOfAttribute(id, "determiner");
         //use "an" instead of "a" if the following word begins with a vowel
         //should this be in soar rules instead?
-        if(lingObject.determiner.equals("a")) {
+        //JK Need to check if there is a determiner first or will get NPE
+        if(lingObject.determiner != null && lingObject.determiner.equals("a")) {
         	String adj;
         	try{
         		adj = lingObject.adjective.iterator().next();

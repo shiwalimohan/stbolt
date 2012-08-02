@@ -90,6 +90,7 @@ sp {propose*generate-operator
    (state <s> ^name index-verb
    	      ^procedural <pid>
 	      ^linguistic <lid>
+	      ^map-id <map>
 	      ^cue <cue>
 	      -^indexed-operator <any>)
 -->
@@ -98,6 +99,7 @@ sp {propose*generate-operator
   	^procedural-id <pid>
 	^linguistic-id <lid>
 	^cue <cue>
+	^map-id <map>
 	^category indexing)
 }
   

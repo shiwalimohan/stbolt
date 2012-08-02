@@ -42,7 +42,8 @@ public class AgentMessageParser
         } else if(type.equals("no-object")){
         	message = "I do not see the object you are talking about";
         } else if(type.equals("count-response")){
-        	message = String.format("There are %d", Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count")));
+        	int count = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count"));
+        	message = "There " + (count == 1 ? "is" : "are") + " " + count;
         } else if(type.equals("unknown-message")){
         	message = "I was not able to understand your last message";
         } else if(type.equals("teaching-request")){
@@ -55,6 +56,8 @@ public class AgentMessageParser
         	message = "What action should I take next?";
         } else if(type.equals("confirmation")){
         	message = "Okay.";
+        } else if (type.equals("get-goal")){
+        	message = "What is the goal of the action?";
         } else if(type.equals("request-index-confirmation")){
         	message = translateRequestIndexConfirmation(fieldsId);
         } else if(type.equals("describe-scene")){
@@ -63,6 +66,8 @@ public class AgentMessageParser
             message = translateSceneObjectsQuestion(fieldsId);
         } else if(type.equals("list-objects")){
             message = translateObjectsQuestion(fieldsId);
+        } else if(type.equals("location-unknown")){
+            message = "Relative location of object unknown";
         }
         return message;
     }
