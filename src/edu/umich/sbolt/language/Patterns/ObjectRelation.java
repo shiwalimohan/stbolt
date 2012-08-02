@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.umich.sbolt.language.LinguisticEntity;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 
 import sml.Agent;
 import sml.Identifier;
@@ -69,12 +69,12 @@ public class ObjectRelation extends LinguisticEntity{
         if(id == null){
             return null;
         }
-        Identifier relationId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        Identifier relationId = WMUtil.getIdentifierOfAttribute(id, name);
         if(relationId == null){
             return null;
         }
         ObjectRelation objectRelation = new ObjectRelation();
-        objectRelation.preposition = WorkingMemoryUtil.getValueOfAttribute(relationId, "word");
+        objectRelation.preposition = WMUtil.getValueOfAttribute(relationId, "word");
         
         objectRelation.object1 = LingObject.createFromSoarSpeak(relationId, "object1");
         objectRelation.object2 = LingObject.createFromSoarSpeak(relationId, "object2");
