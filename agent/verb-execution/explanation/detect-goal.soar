@@ -5,11 +5,11 @@ sp {new-operator*detect*track-relation*success
    (<d> ^track-relation <dtr>)
    (<dtr> ^p1 <val1>
    	  ^p2 <val2>
-	  ^prep <prep>)
+	  ^spatial-relationship <prep>)
    (<tr> ^complete success
    	 ^object1 <val3>
 	 ^object2 <val4>
-	 ^prep <prep>)
+	 ^found-prep <prep>)
    (<val1> ^focus <fval1>)
    (<val2> ^focus <fval2>)
    (<val3> ^focus <fval1>)

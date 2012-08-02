@@ -15,6 +15,8 @@
 #   (<scomm> ^retrieve <gid>)
 #}
 
+
+
 #### create state
 sp {elaborate*create-goal-predicate
    (state <s> ^name create-goal-predicate
@@ -35,6 +37,7 @@ sp {elaborate*create-goal-predicate
 	^goal-id <gid>)
 }	
 
+
 ### elaborate preposition-id
 sp {elaborate*preposition-id
    (state <s> ^preposition-id <id>
@@ -42,6 +45,25 @@ sp {elaborate*preposition-id
    (<info> ^word <prep-word>)
 -->
    (<id> ^word <prep-word>)
+   (<s> ^spatial-relationship <rel>)
+   (<rel> ^preposition <prep-word>)
+}
+
+### elaborate concept-id on index-argument operator
+sp {elaborate*concept-id*create-goal-predicate
+   (state <s> ^name create-goal-predicate
+   	      ^spatial-relationship <rel>
+	      ^operator <op>
+	      ^information <info>)
+   (<op> ^name index-argument
+   	 ^preposition <p>
+	 ^argument <arg>)
+   (<rel> ^preposition <p>
+   	  ^concept-id <cid>)
+   (<info> ^{<argattr> <> word} <obj>)
+   (<obj> ^object <arg>)
+-->
+   (<op> ^connector <argattr>)
 }
 
 #### index arguments
@@ -52,15 +74,17 @@ sp {propose*index*argument
 	      ^preposition-id <id>)
    (<info> ^{<argattr> <> word} <obj>)
    (<obj> ^object <arg>)
-   (<id> -^<argattr> <anything>)
+   (<id> -^<argattr> <anything>
+   	 ^word <prep>)
 -->
    (<s> ^operator <op> + =)
    (<op> ^name index-argument
    	 ^category indexing
-	 ^connector <argattr>
+	 ^preposition <prep>
 	 ^cue <id>
 	 ^argument <arg>)
 }
+
 
 #### using dialog context, resolve the referent
 #### improper dialog context
@@ -112,7 +136,10 @@ sp {create*relation*semantic-object*substructure
 sp {write*superstate
    (state <s> ^superstate <ss>
    	      ^impasse no-change
-	      ^attribute state)
+	      ^attribute state
+	      ^spatial-relationship <rel>)
+   (<rel> ^preposition <pword>
+   	  ^concept-id <cid>)
    (<ss> ^name create-goal-predicate
    	      ^relation <rel>
 	      ^goal-id <gid>
@@ -120,7 +147,7 @@ sp {write*superstate
 	      ^preposition-id.word <pword>)
    (<rel> ^<sub> <structure>)
 -->
-   (<gid> ^<pword> <rel>)
+   (<gid> ^<cid> <rel>)
    (<sss> ^bit flip)
 }
 

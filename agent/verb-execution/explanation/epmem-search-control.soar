@@ -93,12 +93,12 @@ sp {prefer*match*epmem*elaborate*spatial-rel
    (<o> -^not-matched <any>
    	^superoperator <sop>)
    (<des> ^track-relation <tr>)
-   (<tr> ^prep <prep>
+   (<tr> ^spatial-relationship <prep>
    	 ^p1 <val3>
 	 ^p2 <val4>)
    (<sop> ^<arg1> <val1>
    	  ^<arg2> <val2>)
- (<val1> ^focus <fval1>)
+   (<val1> ^focus <fval1>)
    (<val2> ^focus <fval2>)
    (<val3> ^focus <fval1>)
    (<val4> ^focus <fval2>)

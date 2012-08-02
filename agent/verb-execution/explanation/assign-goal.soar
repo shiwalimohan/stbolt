@@ -46,7 +46,7 @@ sp {assign-goal*elaborate*desired*state
    (<glid> ^<prep> <p1>)
 -->
    (<d> ^track-relation <rel>)
-   (<rel> ^prep <prep>)
+   (<rel> ^spatial-relationship <prep>)
 }
 
 ### connect desired to the objects in the indexed-operator
