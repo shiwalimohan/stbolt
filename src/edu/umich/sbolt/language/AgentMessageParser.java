@@ -244,7 +244,6 @@ public class AgentMessageParser
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "description");
     	if (objectId == null)
     		return "Which one?";
-    	
         return "Which " + LingObject.createFromSoarSpeak(id, "description") + "?";
     }
 

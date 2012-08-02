@@ -28,16 +28,19 @@ sp {generate*operator*arguments
 	      ^linguistic-id <lid>
 	      ^cue <cue>
 	      ^index-operator <op>
-	      ^_metadata <met>)
+	      ^topstate.interaction.stack.segment.info.index-object-context <context>)
+   (<op> ^_metadata <met>)
    (<cue> ^<connect> <obj>)
    (<lid> ^<connect> <lobj>)
    (<pid> ^{<arg> <> spatial-relationship} <lobj>)
+   (<context> ^context-id <connect>)
 -->
    (<op> ^<arg> <obj>)
    (<met> ^arg-data <a1>)
    (<a1> ^argument <arg>
    	 ^description <connect>
-	 ^context-id <connect>)
+	 ^context-id <connect>
+	 ^arg-context <context>)
 }
 
 #### associate spatial-relationships
@@ -57,9 +60,9 @@ sp {associate*spatial*relations
 sp {copy*map-id*metadata
    (state <s> ^name generate-operator
    	      ^index-operator <op>
-	      ^map-id <map>
-	      ^_metadata <met>)
+	      ^map-id <map>)
 -->
+   (<op> ^_metadata <met>)
    (<met> ^map-id <map>)
 }
 
@@ -67,7 +70,7 @@ sp {generate*operator*arguments*write-to-superstate
    (state <s> ^name generate-operator
    	      ^index-operator <op>
 	      ^superstate <ss>)
-   (<op> ^<> name <any>)
+   (<op> ^_metadata.arg-data <any>)
 -->
    (<ss> ^indexed-operator <op>)
 }
