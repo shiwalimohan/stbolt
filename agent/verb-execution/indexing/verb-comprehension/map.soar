@@ -3,13 +3,10 @@
 ### results in a mapped operator 
 sp {propose*map*verb
    (state <s> ^interaction.stack.segment <top>)
-   (<top> ^originator instructor
-   	  ^purpose <p>)
+   (<top>    	  ^purpose <p>)
    (<p> ^type external-action
    	^satisfaction <ps>
 	-^indexed-operator <map-op>)  
-	# AM: Moved satisfaction info to inside the event
-   #(<ps> ^action-event <info>)
    (<ps> ^action-event.type <info>)
    (<info> -^verb.word describe) #JK for describe the scene-shouldn't be handled as a verb
 -->
@@ -20,7 +17,9 @@ sp {propose*map*verb
 }
 
 sp {elaborate*indexed-operator
-   (state <s> ^interaction.stack.segment.purpose.indexed-operator <map-op>)
+   (state <s> ^interaction.stack.segment.purpose <p>)
+   (<p> ^indexed-operator <map-op>
+   	-^type goal-acquisition)
 -->
    (<s> ^indexed-operator <map-op>)
 }
@@ -41,7 +40,7 @@ sp {elaborate*attribute*match
 sp {elaborate*operator*match
    (state <s> ^operator <op> + 
    	      ^indexed-operator <map-op> <> <op>)
-   (<map-op> ^{<attr> <> applied <> information <> spatial-relationship} <val>)
+   (<map-op> ^{<attr> <> applied <> information <> spatial-relationship <> _metadata} <val>)
    (<op> -^matched <attr>
    	 ^category << primitive-action composite-action >>)
 -->
@@ -54,7 +53,6 @@ sp {elaborate*operator*match
 sp {prefer*match
    (state <s> ^indexed-operator <map-op> <> <op>
    	      ^operator <op> +
-          # AM: Moved satisfaction info inside the event
 	      ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>
 	      ^topstate <s>)
    (<op> -^op-matched no
@@ -73,8 +71,7 @@ sp {propose*indexed-operator*if*no-choices
 	      ^attribute state)
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
-          # AM: Moved satisfaction info inside the event
-	  ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
+	 ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
  -->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
@@ -95,7 +92,8 @@ sp {augment*spatial-relationship
 ### set indexed-operator as applied
 sp {mark*indexed-operator*applied
    (state <s> ^indexed-operator <map-op>
-   	      ^operator <op>)
+   	      ^operator <op>
+	      ^topstate <s>)
    (<op> ^indexed-operator <map-op>
    	 ^information <info>)
 -->
@@ -132,14 +130,10 @@ sp {write*primitive-action*status*topstate
    	      ^topstate.status <status>)
    (<op> ^name delete-indexed-operator
    	 ^indexed-operator <map-op>)
-   (<map-op> ^information <info>)
+   (<map-op> ^information <info>
+   	     ^applied true)
  -->
-   #(<status> ^performed.action-event <info>)
-   # AM: Changed performed structure
+   (<map-op> ^applied true -)
    (<status> ^performed.action-event <e>)
    (<e> ^type <info>)
 }
-
-
-
-
