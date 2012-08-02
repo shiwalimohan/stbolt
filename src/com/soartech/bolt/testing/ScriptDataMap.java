@@ -65,6 +65,13 @@ public class ScriptDataMap {
 		throw new UiCommandNotFoundException("Could not find UiCommand for: "+startString);
 	}
 	
+	public Character getChar(ActionType type) throws UiCommandNotFoundException {
+		Character res = charMap.getLeft(type);
+		if(res != null)
+			return res;
+		throw new UiCommandNotFoundException("Could not find character for: "+type);
+	}
+	
 	/**
 	 * Get the string associated with an ActionType.
 	 * @param type
