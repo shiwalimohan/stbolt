@@ -25,6 +25,7 @@ public class ScriptRunner extends Thread {
     		return;
     	}
     	
+    	
     	String observed;
     	if(chatMessages.size() > 0) {
     		observed = chatMessages.get(chatMessages.size()-1);
@@ -63,6 +64,7 @@ public class ScriptRunner extends Thread {
     			ChatFrame.Singleton().addMessage("- Correct -", ActionType.Correct);
     		}
     		if(observed.contains("Okay") && Settings.getInstance().isAutomated()) {
+    			// wait 1 second for the simulator values to update
     			synchronized(this) {
     				try {
     					ChatFrame.Singleton().setWaiting(true);
@@ -88,12 +90,12 @@ public class ScriptRunner extends Thread {
     		String a = next.getAction();
 			Util.executeUiAction(a);
 			ChatFrame.Singleton().addMessage(a, ActionType.UiAction);
-
     	}
-    	if(!script.actionRequiresMentorAttention(next))
+    	if(!script.actionRequiresMentorAttention(next)) {
     		Util.handleNextScriptAction(script, chatMessages);
-    	else
+    	} else {
     		ChatFrame.Singleton().setWaitingForScript(true);
+    	}
 	}
 
 }

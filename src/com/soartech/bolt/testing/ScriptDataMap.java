@@ -58,8 +58,11 @@ public class ScriptDataMap {
 		throw new UiCommandNotFoundException("Could not find UiCommand for: "+commandString);
 	}
 	
-	public Character getChar(String startString) {
-		return charMap.getLeft(stringMap.getRight(startString));
+	public Character getChar(String startString) throws UiCommandNotFoundException {
+		Character res = charMap.getLeft(stringMap.getRight(startString));
+		if(res != null)
+			return res;
+		throw new UiCommandNotFoundException("Could not find UiCommand for: "+startString);
 	}
 	
 	/**

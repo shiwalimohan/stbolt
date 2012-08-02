@@ -1,8 +1,8 @@
 #!BechtelFormat
 < Waiting for next command...
-# Simulator should have all data cleared, a blue sphere in the pantry, red cube in the stove, red triangle in the garbage, and green tee in the table.
-# Currently (7/13/2012) not all properties are learned with one example, so tests at the end may fail.
-} Click on the sphere (upper left)
+@ automated true
+@ classifier clear
+@ point circle
 > This is a medium blue sphere.
 < What kind of attribute is blue?
 > Blue is a color.
@@ -12,7 +12,7 @@
 > A sphere is a shape.
 < Okay.
 < I am idle and waiting for you to initiate a new interaction
-} Click on the cube (upper right).
+@ point square
 > This is a small red cube.
 < What kind of attribute is cube?
 > A cube is a shape.
@@ -22,7 +22,7 @@
 > Small is a size.
 < Okay.
 < I am idle and waiting for you to initiate a new interaction
-} Click on the triangle (lower left).
+@ point triangle
 > This is a large red triangle.
 < What kind of attribute is large?
 > Large is a size.
@@ -30,7 +30,7 @@
 > A triangle is a shape.
 < Okay.
 < I am idle and waiting for you to initiate a new interaction
-} Click on the tee (lower right).
+@ point tee
 > This is a large green tee.
 < What kind of attribute is green?
 > A color.
@@ -41,15 +41,15 @@
 > What is this?
 < A green large tee
 < I am idle and waiting for you to initiate a new interaction
-} Click on the triangle.
+@ point triangle
 > What is this?
 < A red large triangle
 < I am idle and waiting for you to initiate a new interaction
-} Click on the cube.
+@ point square
 > What is this?
 < A red small cube
 < I am idle and waiting for you to initiate a new interaction
-} Click on the sphere.
+@ point circle
 > What is this?
 < A blue medium sphere
 < I am idle and waiting for you to initiate a new interaction
