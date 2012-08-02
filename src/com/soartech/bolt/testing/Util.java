@@ -33,8 +33,14 @@ public class Util {
 			for(String str : history) {
 				String[] res = str.split(":");
 				if(res.length > 1 && res[0] != null && res[1] != null) {
-					String charString = ScriptDataMap.getInstance().getChar(res[0]+":").toString();
-					output.write(charString+" "+res[1].trim()+"\n");
+					String charString;
+					try {
+						charString = ScriptDataMap.getInstance().getChar(res[0]+":").toString();
+						output.write(charString+" "+res[1].trim()+"\n");
+					} catch (UiCommandNotFoundException e) {
+						System.out.println("Ignoring line: "+str);
+						//ignore unrecognized lines
+					}
 				}
 			}
 			output.close();

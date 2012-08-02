@@ -66,6 +66,8 @@ public class AgentMessageParser
             message = translateSceneObjectsQuestion(fieldsId);
         } else if(type.equals("list-objects")){
             message = translateObjectsQuestion(fieldsId);
+        } else if(type.equals("location-unknown")){
+            message = "Relative location of object unknown";
         }
         return message;
     }
@@ -235,8 +237,14 @@ public class AgentMessageParser
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "object");
     	if (objectId == null)
     		return "nothing";
-    	
-        return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
+    	// CK: choose a/an correctly
+    	String ret = LingObject.createFromSoarSpeak(id, "object").toString();
+    	if(ret.matches("^ [aeiouAEIOU].*")) {
+    		ret = "An"+ret;
+    	} else {
+    		ret = "A"+ret;
+    	}
+        return ret;
     }
     
     
