@@ -3,16 +3,16 @@ package edu.umich.sbolt.language;
 import java.util.*;
 
 import edu.umich.sbolt.language.Patterns.LingObject;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 import sml.Identifier;
 
 public class AgentMessageParser
 {
     public static String translateAgentMessage(Identifier id){
         String message = null;
-        String type = WorkingMemoryUtil.getValueOfAttribute(id, "type");
+        String type = WMUtil.getValueOfAttribute(id, "type");
         System.out.println(type);
-        Identifier fieldsId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "fields");
+        Identifier fieldsId = WMUtil.getIdentifierOfAttribute(id, "fields");
         if(type == null){
             return null;
         } else if(type.equals("different-attribute-question")){
@@ -28,7 +28,7 @@ public class AgentMessageParser
         } else if(type.equals("category-of-property")){
             message = translateCategoryPropertyQuestion(fieldsId);
         } else if(type.equals("how-to-measure")){
-        	message = String.format("How do I measure %s?", WorkingMemoryUtil.getValueOfAttribute(fieldsId, "property"));
+        	message = String.format("How do I measure %s?", WMUtil.getValueOfAttribute(fieldsId, "property"));
         } else if(type.equals("ambiguous-category")){
         	message = translateAmbiguousCategory(fieldsId);
         } else if(type.equals("describe-object")){
@@ -38,11 +38,11 @@ public class AgentMessageParser
         } else if(type.equals("no-prep")){
             message = "I don't know that preposition.";
         } else if(type.equals("single-word-response")){
-        	message = WorkingMemoryUtil.getValueOfAttribute(fieldsId, "word");
+        	message = WMUtil.getValueOfAttribute(fieldsId, "word");
         } else if(type.equals("no-object")){
         	message = "I do not see the object you are talking about";
         } else if(type.equals("count-response")){
-        	int count = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(fieldsId, "count"));
+        	int count = Integer.parseInt(WMUtil.getValueOfAttribute(fieldsId, "count"));
         	message = "There " + (count == 1 ? "is" : "are") + " " + count;
         } else if(type.equals("unknown-message")){
         	message = "I was not able to understand your last message";
@@ -82,7 +82,7 @@ public class AgentMessageParser
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){
-        Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(id, "exception");
+        Set<String> exceptions = WMUtil.getAllValuesOfAttribute(id, "exception");
         String exceptionStr = getExceptionString(exceptions);
         LingObject differentObject = LingObject.createFromSoarSpeak(id, "different-object");
         Set<LingObject> similarObjects = LingObject.createAllFromSoarSpeak(id, "similar-object");
@@ -94,7 +94,7 @@ public class AgentMessageParser
     }
     
     private static String translateCommonAttributeQuestion(Identifier id){
-        Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(id, "exception");
+        Set<String> exceptions = WMUtil.getAllValuesOfAttribute(id, "exception");
         String exceptionStr = getExceptionString(exceptions);
         Set<LingObject> similarObjects = LingObject.createAllFromSoarSpeak(id, "object");
         String message = "What do ";
@@ -106,7 +106,7 @@ public class AgentMessageParser
     }
     
     private static String translateAttributePresenceQuestion(Identifier id){
-        Set<String> exceptions = WorkingMemoryUtil.getAllValuesOfAttribute(id, "exception");
+        Set<String> exceptions = WMUtil.getAllValuesOfAttribute(id, "exception");
         String exceptionStr = getExceptionString(exceptions);
         LingObject object = LingObject.createFromSoarSpeak(id, "object");
         String message = String.format("What attribute does %s have?", object.toString());
@@ -115,18 +115,18 @@ public class AgentMessageParser
     }
     
     private static String translateCategoryQuestion(Identifier id){
-        String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+        String word = WMUtil.getValueOfAttribute(id, "word");
         return String.format("What kind of attribute is %s?", word);
     }
 
     private static String translateCategoryPropertyQuestion(Identifier id){
-        String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+        String word = WMUtil.getValueOfAttribute(id, "word");
         return String.format("What type of property is %s?", word);
     }
     
     private static String translateAmbiguousCategory(Identifier id){
-    	Set<String> cats = WorkingMemoryUtil.getAllValuesOfAttribute(id, "result");
-    	String word = WorkingMemoryUtil.getValueOfAttribute(id, "word");
+    	Set<String> cats = WMUtil.getAllValuesOfAttribute(id, "result");
+    	String word = WMUtil.getValueOfAttribute(id, "word");
     	String s = "By " + word + " do you mean ";
     	int i = 0;
     	for(String cat : cats){
@@ -140,7 +140,7 @@ public class AgentMessageParser
     }
     
     private static String translateSceneObjectsQuestion(Identifier id){
-        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        Identifier objects = WMUtil.getIdentifierOfAttribute(id, "objects");
         
         Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
         String message = "The objects in the scene are";
@@ -169,7 +169,7 @@ public class AgentMessageParser
     }
     
     private static String translateObjectsQuestion(Identifier id){
-        Identifier objects = WorkingMemoryUtil.getIdentifierOfAttribute(id, "objects");
+        Identifier objects = WMUtil.getIdentifierOfAttribute(id, "objects");
         
         Set<LingObject> object = LingObject.createAllFromSoarSpeak(objects, "object");
         String message = "";
@@ -198,7 +198,7 @@ public class AgentMessageParser
         return message;
     }
     private static String translateSceneQuestion(Identifier id){
-      String prep = WorkingMemoryUtil.getValueOfAttribute(id, "prep");
+      String prep = WMUtil.getValueOfAttribute(id, "prep");
       String prep2 = prep.replaceAll("-", " ");
       String object1 = LingObject.createFromSoarSpeak(id, "object1").toString();
       String object2 = LingObject.createFromSoarSpeak(id, "object2").toString();
@@ -206,9 +206,9 @@ public class AgentMessageParser
   }
     
     private static String translateValueQuestion(Identifier id){
-        Identifier attRelationId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "attribute-relation");
+        Identifier attRelationId = WMUtil.getIdentifierOfAttribute(id, "attribute-relation");
         String objString = LingObject.createFromSoarSpeak(attRelationId, "object1").toString();
-        String attribute = WorkingMemoryUtil.getValueOfAttribute(attRelationId, "word");
+        String attribute = WMUtil.getValueOfAttribute(attRelationId, "word");
         
         return String.format("What %s is %s?", attribute, objString);
     }
@@ -234,7 +234,7 @@ public class AgentMessageParser
         }
     	
     	//kind of a hack :(
-    	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "object");
+    	Identifier objectId = WMUtil.getIdentifierOfAttribute(id, "object");
     	if (objectId == null)
     		return "nothing";
     	
@@ -243,7 +243,7 @@ public class AgentMessageParser
     
     
     private static String translateWhichQuestion(Identifier id){
-    	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "description");
+    	Identifier objectId = WMUtil.getIdentifierOfAttribute(id, "description");
     	if (objectId == null)
     		return "Which one?";
     	

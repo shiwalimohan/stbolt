@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import sml.Identifier;
 import sml.WMElement;
 import edu.umich.sbolt.language.LinguisticEntity;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 
 public class LingObject extends LinguisticEntity {
     public static String TYPE = "LingObject";
@@ -78,9 +78,9 @@ public class LingObject extends LinguisticEntity {
             return null;
         }
 	    LingObject lingObject = new LingObject();
-        lingObject.noun = WorkingMemoryUtil.getValueOfAttribute(id, "word");
-        lingObject.adjective = WorkingMemoryUtil.getAllValuesOfAttribute(id, "adjective");
-        lingObject.determiner = WorkingMemoryUtil.getValueOfAttribute(id, "determiner");
+        lingObject.noun = WMUtil.getValueOfAttribute(id, "word");
+        lingObject.adjective = WMUtil.getAllValuesOfAttribute(id, "adjective");
+        lingObject.determiner = WMUtil.getValueOfAttribute(id, "determiner");
         //use "an" instead of "a" if the following word begins with a vowel
         //should this be in soar rules instead?
         //JK Need to check if there is a determiner first or will get NPE
@@ -110,7 +110,7 @@ public class LingObject extends LinguisticEntity {
         if(id == null){
             return null;
         }
-        Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        Identifier objectId = WMUtil.getIdentifierOfAttribute(id, name);
         return LingObject.createFromSoarSpeak(objectId);
 	}
 	

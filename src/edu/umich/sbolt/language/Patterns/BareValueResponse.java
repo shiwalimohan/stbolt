@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.umich.sbolt.language.LinguisticEntity;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 
 import sml.Agent;
 import sml.Identifier;
