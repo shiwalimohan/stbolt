@@ -233,8 +233,14 @@ public class AgentMessageParser
     	Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, "object");
     	if (objectId == null)
     		return "nothing";
-    	
-        return "A" + LingObject.createFromSoarSpeak(id, "object").toString();
+    	// CK: choose a/an correctly
+    	String ret = LingObject.createFromSoarSpeak(id, "object").toString();
+    	if(ret.matches("^ [aeiouAEIOU].*")) {
+    		ret = "An"+ret;
+    	} else {
+    		ret = "A"+ret;
+    	}
+        return ret;
     }
     
     
