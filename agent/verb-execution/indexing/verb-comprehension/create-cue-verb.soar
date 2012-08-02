@@ -24,6 +24,15 @@ sp {elaborate*arguments*direct-object
    (<s> ^argument <do>)
 }
 
+sp {elaborate*preposition
+   (state <s> ^name create-cue
+   	      ^information.verb <info>) 
+   (<info> ^preposition.word <prep>)
+-->
+   (<s> ^spatial-relationship <rel>)
+   (<rel> ^preposition <prep>)
+}
+
 sp {elaborate*arguments*pp-object
    (state <s> ^name create-cue
    	      ^information.verb <info>)
@@ -57,12 +66,9 @@ sp {propose*index-argument*preposition-object
 	      -^matched <obj>
 	      ^bit flip
 	      ^spatial-relationship <rel>)
-   (<rel> ^preposition <p>
-   	  ^concept-id <cid>)
-   (<info> ^preposition <p>)
-   (<p> ^word <pword>
-   	^object <obj>)
-   (<cue> -^<pword> <any>)
+   (<info> ^preposition.object <obj>)
+   (<rel> ^preposition <p>)
+   (<cue> -^<p> <any>)
 -->
    (<s> ^operator <op> + =)
    (<op> ^name index-argument
@@ -71,6 +77,20 @@ sp {propose*index-argument*preposition-object
 	 ^preposition <p>
 	 ^category indexing)
 }
+
+### elaborate concept-id on index-argument operator
+sp {elaborate*concept-id*index-arguments
+   (state <s> ^name create-cue
+   	      ^spatial-relationship <rel>
+	      ^operator <op>)
+   (<op> ^name index-argument
+   	 ^preposition <p>)
+   (<rel> ^preposition <p>
+   	  ^concept-id <cid>)
+-->
+   (<op> ^connector <p>)
+}
+   
 
 ### mark success if only verb
 sp {elaborate*verb*copy-success
@@ -103,6 +123,17 @@ sp {write-to-superstate*copy-success*match-complete
 	      ^information.verb <info>)
 -->
    (<ss> ^cue <cue>)
+}
+
+sp {write-to-superstate*copy-success*match-complete*spatial-relationship
+   (state <s> ^name create-cue
+   	      -^match not-complete
+	      ^spatial-relationship <rel>
+	      ^matched <arg>
+	      ^superstate <ss>
+	      ^information.verb <info>)
+-->
+   (<ss> ^spatial-relationship <rel>)
 }
    
    

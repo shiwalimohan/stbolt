@@ -1,4 +1,4 @@
-### propose resolve-multiple-matches-dialog
+### propose resolve-multiple-matches-dialog for op ties even after procedural constraints
 sp {topstate*propose*resolve-multiple-matches-dialog
    (state <s> ^impasse tie
    	      ^superstate <ss>)
@@ -9,6 +9,21 @@ sp {topstate*propose*resolve-multiple-matches-dialog
    (<op> ^name resolve-multiple-matches-dialog
    	 ^indexed-operator <iop>)
 }
+
+### propose resolve-multiple-matches-dialog for multiple same arguments in composite verbs
+sp {composite-verb*propose*resolve-multiple-matches-dialog
+   (state <s> ^superstate <ss>)
+   (<ss> ^operator <op>
+   	 ^indexed-operator <iop>)
+   (<op> ^<arg> <val1> {<> <val1> <val2>}
+   	 ^category composite-action)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name resolve-multiple-matches-dialog
+   	 ^indexed-operator <iop>)
+}
+   
+
 
 #### process multiple matches to one argument, rely on interaction
 sp {multiple*argument*matches*elaborate*name
@@ -23,12 +38,13 @@ sp {multiple*argument*matches*elaborate*name
    (<con> ^object <obj>)
 -->
    (<s> ^name complete-index-object
-   	^object-desc <obj>)
+   	^object-desc <obj>
+	^indexed-operator <iop>)
 }
 
 sp {multiple*argument*match*propose*which-question
    (state <s> ^name complete-index-object
-   	      ^superstate.indexed-operator <iop>
+   	      ^indexed-operator <iop>
 	      ^object-desc <obj>)
 -->
    (<s> ^operator <op> + =)
@@ -37,7 +53,7 @@ sp {multiple*argument*match*propose*which-question
 }
 
 ### delete the indexed operator 
-sp {multiple*argument*matche*delete*indexed-operator
+sp {multiple*argument*match*delete*indexed-operator
    (state <s> ^operator.name which-question
    	      ^topstate.interaction.stack.segment.purpose <p>)
    (<p> ^indexed-operator <op>)

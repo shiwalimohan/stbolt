@@ -1,5 +1,6 @@
 ### map the preposition to a long-term id in semantic memory.
 ### mapping failure should result in preposition learning
+### preposition 'to' is not a spatial-relationship, hence special handling.
 
 
 ### occurs in the index-argument substate
@@ -16,12 +17,33 @@ sp {index*preposition
 
 sp {propose*index-preposition*lookup-preposition
    (state <s> ^name index-argument
-   	      ^preposition <p>
+   	      ^preposition <p> <> to
 	      -^found-prep <fprep>)
  -->
     (<s> ^operator <op> + >)
     (<op> ^name lookup-preposition
     	  ^type <p>
-	  ^category <svs>)
+	  ^category <svs>
+	  ^interaction true)
 }
+
+sp {write*concept-id*superstate
+   (state <s> ^name index-argument
+   	      ^found-prep <cid>
+	      ^preposition <p>
+	      ^superstate.spatial-relationship <rel>)
+   (<rel> ^preposition <p>)
+ -->
+   (<rel> ^concept-id <cid>)
+}
+
+sp {write*concept-id*superstate*to
+   (state <s> ^name index-argument
+	      ^preposition to
+	      ^superstate.spatial-relationship <rel>)
+   (<rel> ^preposition to)
+ -->
+   (<rel> ^concept-id to)
+}
+
 
