@@ -10,7 +10,6 @@ sp {topstate*propose*resolve-multiple-matches-dialog
    	 ^indexed-operator <iop>)
 }
 
-
 #### process multiple matches to one argument, rely on interaction
 sp {multiple*argument*matches*elaborate*name
    (state <s> ^name resolve-multiple-matches-dialog
@@ -36,6 +35,27 @@ sp {multiple*argument*match*propose*which-question
    (<op> ^name which-question
    	 ^object <obj>)
 }
+
+### delete the indexed operator 
+sp {multiple*argument*matche*delete*indexed-operator
+   (state <s> ^operator.name which-question
+   	      ^topstate.interaction.stack.segment.purpose <p>)
+   (<p> ^indexed-operator <op>)
+-->
+   (<op> ^clear true)
+}
+
+sp {multiple*argument*match*clear*indexed-operator
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment.purpose <p>
+	      ^operator.name push-segment)
+   (<p> ^indexed-operator <op>)
+   (<op> ^clear true)
+-->
+   (<p> ^indexed-operator <op> -)
+}
+
+
 
 ## prefer which-question to primitives
 sp {prefer*which-question*primitive-actions
