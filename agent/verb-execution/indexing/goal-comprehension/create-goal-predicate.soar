@@ -45,33 +45,28 @@ sp {elaborate*preposition-id
    (<info> ^word <prep-word>)
 -->
    (<id> ^word <prep-word>)
-   (<s> ^spatial-relationship <rel>)
-   (<rel> ^preposition <prep-word>)
 }
 
-### elaborate concept-id on index-argument operator
-sp {elaborate*concept-id*create-goal-predicate
+### index preposition
+sp {propose*index-preposition*goal-predicate
    (state <s> ^name create-goal-predicate
-   	      ^spatial-relationship <rel>
-	      ^operator <op>
-	      ^information <info>)
-   (<op> ^name index-argument
+   	      ^preposition-id.word <prep>
+	      -^_relation.preposition <prep>)
+ -->
+   (<s> ^operator <op> +)
+   (<op> ^name index-preposition
    	 ^preposition <p>
-	 ^argument <arg>)
-   (<rel> ^preposition <p>
-   	  ^concept-id <cid>)
-   (<info> ^{<argattr> <> word} <obj>)
-   (<obj> ^object <arg>)
--->
-   (<op> ^connector <argattr>)
+	 ^category indexing)
 }
+
 
 #### index arguments
 sp {propose*index*argument
    (state <s> ^name create-goal-predicate
    	      ^information <info>
 	      ^bit flip
-	      ^preposition-id <id>)
+	      ^preposition-id <id>
+	      ^_relation.preposition)
    (<info> ^{<argattr> <> word} <obj>)
    (<obj> ^object <arg>)
    (<id> -^<argattr> <anything>
@@ -79,8 +74,8 @@ sp {propose*index*argument
 -->
    (<s> ^operator <op> + =)
    (<op> ^name index-argument
-   	 ^category indexing
-	 ^preposition <prep>
+   	 ^category indexing	
+	 ^connector <argattr>
 	 ^cue <id>
 	 ^argument <arg>)
 }
@@ -136,15 +131,15 @@ sp {create*relation*semantic-object*substructure
 sp {write*superstate
    (state <s> ^superstate <ss>
    	      ^impasse no-change
-	      ^attribute state
-	      ^spatial-relationship <rel>)
-   (<rel> ^preposition <pword>
-   	  ^concept-id <cid>)
+	      ^attribute state)
    (<ss> ^name create-goal-predicate
-   	      ^relation <rel>
-	      ^goal-id <gid>
-	      ^superstate <sss>
-	      ^preposition-id.word <pword>)
+   	 ^relation <rel>
+	 ^goal-id <gid>
+	 ^superstate <sss>
+	 ^preposition-id.word <pword>
+	 ^_relation <rel>)
+   (<rel> ^preposition <pword>
+   	  ^_ltid <cid>)
    (<rel> ^<sub> <structure>)
 -->
    (<gid> ^<cid> <rel>)

@@ -24,15 +24,6 @@ sp {elaborate*arguments*direct-object
    (<s> ^argument <do>)
 }
 
-sp {elaborate*preposition
-   (state <s> ^name create-cue
-   	      ^information.verb <info>) 
-   (<info> ^preposition.word <prep>)
--->
-   (<s> ^spatial-relationship <rel>)
-   (<rel> ^preposition <prep>)
-}
-
 sp {elaborate*arguments*pp-object
    (state <s> ^name create-cue
    	      ^information.verb <info>)
@@ -59,13 +50,26 @@ sp {propose*index-argument*direct-object
 }
 
 
-sp {propose*index-argument*preposition-object
+sp {propose*index-argument*preposition
+   (state <s> ^name create-cue
+   	      ^information.verb <info>
+	      ^bit flip
+	      -^_relation.preposition <prep>)
+   (<info> ^preposition.word <prep>)
+  -->
+   (<s> ^operator <op> + =)
+   (<op> ^name index-preposition
+	 ^preposition <prep>
+	 ^category indexing)
+}
+
+sp {propose*index-argument*preposition*object
    (state <s> ^name create-cue
    	      ^information.verb <info>
 	      ^cue <cue>
 	      -^matched <obj>
 	      ^bit flip
-	      ^spatial-relationship <rel>)
+	      ^_relation <rel>)
    (<info> ^preposition.object <obj>)
    (<rel> ^preposition <p>)
    (<cue> -^<p> <any>)
@@ -74,23 +78,9 @@ sp {propose*index-argument*preposition-object
    (<op> ^name index-argument
    	 ^cue <cue>
 	 ^argument <obj>
-	 ^preposition <p>
+	 ^connector <p>
 	 ^category indexing)
 }
-
-### elaborate concept-id on index-argument operator
-sp {elaborate*concept-id*index-arguments
-   (state <s> ^name create-cue
-   	      ^spatial-relationship <rel>
-	      ^operator <op>)
-   (<op> ^name index-argument
-   	 ^preposition <p>)
-   (<rel> ^preposition <p>
-   	  ^concept-id <cid>)
--->
-   (<op> ^connector <p>)
-}
-   
 
 ### mark success if only verb
 sp {elaborate*verb*copy-success
@@ -128,12 +118,12 @@ sp {write-to-superstate*copy-success*match-complete
 sp {write-to-superstate*copy-success*match-complete*spatial-relationship
    (state <s> ^name create-cue
    	      -^match not-complete
-	      ^spatial-relationship <rel>
+	      ^_relation <rel>
 	      ^matched <arg>
 	      ^superstate <ss>
 	      ^information.verb <info>)
 -->
-   (<ss> ^spatial-relationship <rel>)
+   (<ss> ^_relation <rel>)
 }
    
    

@@ -3,22 +3,20 @@
 ### preposition 'to' is not a spatial-relationship, hence special handling.
 
 
-### occurs in the index-argument substate
-
-sp {index*preposition
-   (state <s> ^name index-argument
+sp {index*preposition*elaborate*state
+   (state <s> ^name index-preposition
    	      ^superstate.operator <sop>)
-   (<sop> ^name index-argument
+   (<sop> ^name index-preposition
    	  ^preposition <p>)
 -->
-   (<s> ^superoperator <sop>
-   	^preposition <p>)
+   (<s> ^preposition <p>)
 }
 
+
 sp {propose*index-preposition*lookup-preposition
-   (state <s> ^name index-argument
-   	      ^preposition <p> <> to
-	      -^found-prep <fprep>)
+   (state <s> ^name index-preposition
+   	      ^preposition {<p> <> to}
+	      -^found-prep <any>)
  -->
     (<s> ^operator <op> + >)
     (<op> ^name lookup-preposition
@@ -27,23 +25,33 @@ sp {propose*index-preposition*lookup-preposition
 	  ^interaction true)
 }
 
-sp {write*concept-id*superstate
-   (state <s> ^name index-argument
+sp {create*_relation*structure
+   (state <s> ^name index-preposition
    	      ^found-prep <cid>
-	      ^preposition <p>
-	      ^superstate.spatial-relationship <rel>)
-   (<rel> ^preposition <p>)
+	      ^preposition <p>)
  -->
-   (<rel> ^concept-id <cid>)
+   (<s> ^_relation <rel>)
+   (<rel> ^preposition <p>
+   	  ^_ltid <cid>
+	  ^type spatial)
 }
 
-sp {write*concept-id*superstate*to
-   (state <s> ^name index-argument
-	      ^preposition to
-	      ^superstate.spatial-relationship <rel>)
-   (<rel> ^preposition to)
+sp {create*_relation*structure*to
+   (state <s> ^name index-preposition
+	      ^preposition to)
  -->
-   (<rel> ^concept-id to)
+   (<s> ^_relation <rel>)
+   (<rel> ^preposition to
+   	  ^_ltid to
+	  ^type duration)
+}
+
+sp {write*_relation*superstate
+   (state <s> ^name index-preposition
+   	      ^superstate <ss>
+	      ^_relation <rel>)
+-->
+   (<ss> ^_relation <rel>)
 }
 
 
