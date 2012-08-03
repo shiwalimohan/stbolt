@@ -79,6 +79,20 @@ sp {preprocess-sentence*propose*cleanup
         ^sentence-count <sc>)
 }
 
+# guessed words and skipped words and others that don't get to the UM stuff
+# should set invalid true on the original-sentence
+sp {preprocess-sentence*propose*cleanup
+   (state <s> ^name preprocess-sentence
+              ^io.input-link.lg.original-sentence <sent>)
+   (<sent> ^sentence-count <sc>
+           ^invalid true)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name clean-old-input
+        ^kind interpretation
+        ^sentence-count <sc>)
+}
+
 sp {preprocess-sentence*apply*clean-old-input
    (state <s> ^name preprocess-sentence
               ^operator <o>

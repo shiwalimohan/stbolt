@@ -78,6 +78,16 @@ sp {global*propose*handle-skipped-word
        ^sent <sent>
        ^added-word-num 0)
 }
+
+sp {global*apply*handle-skipped-word*mark-original-sentence-invalid
+   (state <s> ^operator <o>
+              ^io.input-link.lg.original-sentence <os>)
+   (<o> ^name handle-skipped-word
+        ^sent.sentence-count <sc>)
+   (<os> ^sentence-count <sc>)
+-->
+   (<os> ^invalid true)
+}
    
 
 sp {top-state*propose*interpret-sentences
@@ -116,7 +126,7 @@ sp {top-state*lgsoar-predicate-set*to-state
    (state <s> ^superstate nil
               ^language <l>
               ^language.parsed-sentence <lgs>)
-   (<lgs> ^final-predicates <fp>
+   (<lgs> ^final-predicates {<> not-applicable <fp>}
           ^sentence-count <sc>)
 -->
    (<l> ^lgsoar-predicate-set <fp>)
@@ -253,6 +263,17 @@ sp {global*apply*handle-guessed-word
          ^next <w5>)
    (<w5> ^value <wval>)
    (<w> ^handled true)
+}
+
+sp {global*apply*handle-guessed-word*mark-original-sentence-invalid
+   (state <s> ^operator <o>
+              ^io.input-link.lg.original-sentence <os>)
+   (<o> ^name handle-guessed-word
+        ^sentence.sentence-count <sc>
+        ^word <w>)
+   (<os> ^sentence-count <sc>)
+-->
+   (<os> ^invalid true)
 }
 
 sp {elaborate*lgsoar-message-count
@@ -479,4 +500,13 @@ sp {elaborate*finish-before-starting
    (<o2> ^name finish-interpretation)
 -->
    (<s> ^operator <o2> > <o1>)
+}
+
+sp {prefer*handle-skipped-word*indifferent-to-self
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name handle-skipped-word)
+   (<o2> ^name handle-skipped-word)
+-->
+   (<s> ^operator <o1> = <o2>)
 }

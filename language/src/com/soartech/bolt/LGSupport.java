@@ -81,8 +81,6 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 	
 	
 	private void originalSentenceToWM(String sentence) {
-		//clearAllInputWMEs();
-		
 		Identifier root = agent.CreateIdWME(lgInputRoot, "original-sentence");
         agent.CreateIntWME(root, "sentence-count", sentenceCount);
         
