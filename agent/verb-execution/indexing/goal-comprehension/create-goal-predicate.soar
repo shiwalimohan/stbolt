@@ -55,10 +55,19 @@ sp {propose*index-preposition*goal-predicate
  -->
    (<s> ^operator <op> +)
    (<op> ^name index-preposition
-   	 ^preposition <p>
+   	 ^preposition <prep>
 	 ^category indexing)
 }
 
+sp {index-preposition*goal-predicate*write-to-superstate
+   (state <s> ^name create-goal-predicate
+   	      ^preposition-id.word <prep>
+	      ^_relation <rel>
+	      ^superstate <ss>)
+   (<rel> ^preposition <prep>)
+-->
+   (<ss> ^_relation <rel>)
+}
 
 #### index arguments
 sp {propose*index*argument
@@ -131,18 +140,23 @@ sp {create*relation*semantic-object*substructure
 sp {write*superstate
    (state <s> ^superstate <ss>
    	      ^impasse no-change
-	      ^attribute state)
+	      ^attribute state
+	      ^smem.command <scomm>)
    (<ss> ^name create-goal-predicate
    	 ^relation <rel>
 	 ^goal-id <gid>
 	 ^superstate <sss>
 	 ^preposition-id.word <pword>
-	 ^_relation <rel>)
-   (<rel> ^preposition <pword>
+	 ^_relation <trel>)
+   (<trel> ^preposition <pword>
    	  ^_ltid <cid>)
    (<rel> ^<sub> <structure>)
 -->
-   (<gid> ^<cid> <rel>)
+   (<gid> ^predicate <rel>)
+   (<rel> ^type <cid>)
+   (<scomm> ^store <gid>
+   	    ^store <rel>
+	    ^store <cid>)
    (<sss> ^bit flip)
 }
 

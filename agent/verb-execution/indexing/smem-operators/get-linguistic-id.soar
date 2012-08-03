@@ -5,7 +5,8 @@ sp {get-linguistic-id*elaborate*state
    	  ^cue <cue>
 	  -^failure specific-relation)
 -->
-   (<s> ^cue <cue>)
+   (<s> ^cue <cue>
+   	^original-cue <cue>)
 }
 
 sp {get-linguistic-id*elaborate*smem*command
@@ -14,6 +15,14 @@ sp {get-linguistic-id*elaborate*smem*command
 	      ^cue <cue>)
  -->
    (<scom> ^query <cue>)
+}
+
+
+sp {get-linguistic-id*copy*original*cue
+   (state <s> ^name get-linguistic-id
+   	      ^superstate.original-cue <oc>)
+ -->
+   (<s> ^original-cue <oc>)
 }
 
 sp {get-linguistic-id*write*to*superstate*no-failure
@@ -121,7 +130,7 @@ sp {get-linguistic-id*rewrite-cue
 sp {get-linguistic-id*failure
    (state <s> ^name get-linguistic-id
    	      ^smem.result <res>
-	      ^cue <cue>)
+	      ^original-cue <cue>)
    (<res> ^failure <any>)
 -->
    (<s> ^operator <op> +)

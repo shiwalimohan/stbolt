@@ -1,9 +1,11 @@
 ### propose resolve-multiple-matches-dialog for op ties even after procedural constraints
 sp {topstate*propose*resolve-multiple-matches-dialog
    (state <s> ^impasse tie
-   	      ^superstate <ss>)
+   	      ^superstate <ss>
+	      -^learning-operator <any>)
    (<ss> ^indexed-operator <iop>
-   	 -^status.type which-question)
+   	 -^status.type which-question
+	 ^topstate <ss>)
 -->
    (<ss> ^operator <op> + >)
    (<op> ^name resolve-multiple-matches-dialog
@@ -12,7 +14,8 @@ sp {topstate*propose*resolve-multiple-matches-dialog
 
 ### propose resolve-multiple-matches-dialog for multiple same arguments in composite verbs
 sp {composite-verb*propose*resolve-multiple-matches-dialog
-   (state <s> ^superstate <ss>)
+   (state <s> ^superstate <ss>
+	      -^learning-operator <any>)
    (<ss> ^operator <op>
    	 ^indexed-operator <iop>)
    (<op> ^<arg> <val1> {<> <val1> <val2>}

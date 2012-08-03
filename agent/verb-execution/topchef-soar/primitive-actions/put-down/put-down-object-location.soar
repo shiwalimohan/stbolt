@@ -35,7 +35,8 @@ sp {retract*put-down-object-location
 sp {elaborate*op_put-down-object-location
    (state <s> ^name  << op_put-down-object-location op_put-down-object-object >>
    	      ^superstate <ss>
-	      ^io)
+	      ^io
+	      ^smem.command <scomm>)
    (<ss> ^operator <sop>)
    (<sop> ^name << op_put-down-object-location op_put-down-object-object >>
    	  ^argument1 <obj>
@@ -45,6 +46,7 @@ sp {elaborate*op_put-down-object-location
    (<s> ^argument1 <obj>
    	^argument2 <loc>
 	^spatial-relationship <rel>)
+   (<scomm> ^retrieve <rel>)
 }
 
 ## determine the location x,y,z using SVS
@@ -123,8 +125,8 @@ sp {apply*put-down*location*action-model
 	 ^spatial-relationship <rel>)
 -->
    (<s> ^grabbed <obj> -
-   	^track-relation <rel>)
-   (<rel> ^object1 <obj>
+   	^track-relation <trel>)
+   (<trel> ^object1 <obj>
           ^object2 <loc>
           ^found-prep <rel>
           ^complete success)
