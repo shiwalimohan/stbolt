@@ -25,3 +25,9 @@ popd
 pushd ./smem-operators
 source all_source.soar
 popd
+
+sp {create*resolve-operator*state*augmentation
+   (state <s> ^topstate <s>)
+-->
+   (<s> ^resolve-operator <ro>)
+}
