@@ -128,24 +128,24 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     }
     
     private void processMessage(Identifier messageId) {
-        Identifier cur = WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first");
+        Identifier cur = WMUtil.getIdentifierOfAttribute(messageId, "first");
         String msg = "";
         while(cur != null) {
-        	String word = WorkingMemoryUtil.getValueOfAttribute(cur, "value");
+        	String word = WMUtil.getValueOfAttribute(cur, "value");
         	if(word.equals(".") || word.equals("?") || word.equals("!") || word.equals(")"))
         		msg += word;
         	else if(msg.equals(""))
         		msg += word;
         	else
         		msg += " "+word;
-        	cur = WorkingMemoryUtil.getIdentifierOfAttribute(cur, "next");
+        	cur = WMUtil.getIdentifierOfAttribute(cur, "next");
         }
         
         ChatFrame.Singleton().addMessage(msg, ActionType.Agent);
     }
 
 	private void processRemoveMesageCommand(Identifier messageId) {
-		int id = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(messageId, "id", "Error (remove-message): No id"));
+		int id = Integer.parseInt(WMUtil.getValueOfAttribute(messageId, "id", "Error (remove-message): No id"));
 		World.Singleton().destroyMessage(id);
 		messageId.CreateStringWME("status", "complete");
 	}
@@ -163,7 +163,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
             throw new IllegalStateException("Message has no children");
         }
         
-        if(WorkingMemoryUtil.getIdentifierOfAttribute(messageId, "first") == null){
+        if(WMUtil.getIdentifierOfAttribute(messageId, "first") == null){
         	processAgentMessageStructureCommand(messageId);
         } else {
         	processAgentMessageStringCommand(messageId);
@@ -172,7 +172,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 	
     private void processAgentMessageStructureCommand(Identifier messageId)
     {
-        String type = WorkingMemoryUtil.getValueOfAttribute(messageId, "type",
+        String type = WMUtil.getValueOfAttribute(messageId, "type",
                 "Message does not have ^type");
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
@@ -233,7 +233,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
      */
     private void processPickUpCommand(Identifier pickUpId)
     {
-        String objectIdStr = WorkingMemoryUtil.getValueOfAttribute(pickUpId,
+        String objectIdStr = WMUtil.getValueOfAttribute(pickUpId,
                 "object-id", "pick-up does not have an ^object-id attribute");
         
         robot_command_t command = new robot_command_t();
@@ -251,14 +251,14 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
      */
     private void processPutDownCommand(Identifier putDownId)
     {
-        Identifier locationId = WorkingMemoryUtil.getIdentifierOfAttribute(
+        Identifier locationId = WMUtil.getIdentifierOfAttribute(
                 putDownId, "location",
                 "Error (put-down): No ^location identifier");
-        double x = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+        double x = Double.parseDouble(WMUtil.getValueOfAttribute(
                 locationId, "x", "Error (put-down): No ^location.x attribute"));
-        double y = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+        double y = Double.parseDouble(WMUtil.getValueOfAttribute(
                 locationId, "y", "Error (put-down): No ^location.y attribute"));
-        double z = Double.parseDouble(WorkingMemoryUtil.getValueOfAttribute(
+        double z = Double.parseDouble(WMUtil.getValueOfAttribute(
                 locationId, "z", "Error (put-down): No ^location.z attribute"));
         robot_command_t command = new robot_command_t();
         command.utime = TimeUtil.utime();
@@ -274,11 +274,11 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
      */
     private void processSetCommand(Identifier id)
     {
-        String objId = WorkingMemoryUtil.getValueOfAttribute(id, "id",
+        String objId = WMUtil.getValueOfAttribute(id, "id",
                 "Error (set-state): No ^id attribute");
-        String name = WorkingMemoryUtil.getValueOfAttribute(id,
+        String name = WMUtil.getValueOfAttribute(id,
                 "name", "Error (set-state): No ^name attribute");
-        String value = WorkingMemoryUtil.getValueOfAttribute(id, "value",
+        String value = WMUtil.getValueOfAttribute(id, "value",
                 "Error (set-state): No ^value attribute");
 
         String action = String.format("ID=%s,%s=%s", objId, name, value);
@@ -293,13 +293,13 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 
     private void processPointCommand(Identifier pointId)
     {
-        Identifier poseId = WorkingMemoryUtil.getIdentifierOfAttribute(pointId, "pose",
+        Identifier poseId = WMUtil.getIdentifierOfAttribute(pointId, "pose",
         		"Error (point): No ^pose identifier");
-        String x = WorkingMemoryUtil.getValueOfAttribute(poseId, "x",
+        String x = WMUtil.getValueOfAttribute(poseId, "x",
         		"Error (point): No ^pose.x identifier");
-        String y = WorkingMemoryUtil.getValueOfAttribute(poseId, "y",
+        String y = WMUtil.getValueOfAttribute(poseId, "y",
         		"Error (point): No ^pose.y identifier");
-        String z = WorkingMemoryUtil.getValueOfAttribute(poseId, "z",
+        String z = WMUtil.getValueOfAttribute(poseId, "z",
         		"Error (point): No ^pose.z identifier");
         
         robot_command_t command = new robot_command_t();
@@ -312,11 +312,11 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     }
     
     private void processSendTrainingLabelCommand(Identifier id){
-    	Integer objId = Integer.parseInt(WorkingMemoryUtil.getValueOfAttribute(id, "id", 
+    	Integer objId = Integer.parseInt(WMUtil.getValueOfAttribute(id, "id", 
     			"Error (send-training-label): No ^id attribute"));
-    	String label = WorkingMemoryUtil.getValueOfAttribute(id, "label", 
+    	String label = WMUtil.getValueOfAttribute(id, "label", 
     			"Error (send-training-label): No ^label attribute");
-    	String category = WorkingMemoryUtil.getValueOfAttribute(id, "category", 
+    	String category = WMUtil.getValueOfAttribute(id, "category", 
     			"Error (send-training-label): No ^category attribute");
     	training_label_t newLabel = new training_label_t();
     	Integer catNum = PerceptualProperty.getCategoryID(category);
@@ -334,8 +334,8 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     }
     
     private void processPushSegmentCommand(Identifier id){
-    	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type", "Error (push-segment): No ^type attribute");
-    	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator", "Error (push-segment): No ^originator attribute");
+    	String type = WMUtil.getValueOfAttribute(id, "type", "Error (push-segment): No ^type attribute");
+    	String originator = WMUtil.getValueOfAttribute(id, "originator", "Error (push-segment): No ^originator attribute");
     	SBolt.Singleton().getBoltAgent().getStack().pushSegment(type, originator);
     	id.CreateStringWME("status", "complete");
     }
@@ -356,20 +356,21 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     }
     
     private void processReportInteraction(Identifier id){
-    	String type = WorkingMemoryUtil.getValueOfAttribute(id, "type");
-    	String originator = WorkingMemoryUtil.getValueOfAttribute(id, "originator");
-    	Identifier sat = WorkingMemoryUtil.getIdentifierOfAttribute(id, "satisfaction");
-    	String eventType = sat.GetChild(0).GetAttribute();
-    	String eventName = sat.GetChild(0).ConvertToIdentifier().FindByAttribute("type", 0).GetValueAsString();
-    	Identifier context = WorkingMemoryUtil.getIdentifierOfAttribute(id, "context");
+    	String type = WMUtil.getValueOfAttribute(id, "type");
+    	String originator = WMUtil.getValueOfAttribute(id, "originator");
+    	Identifier sat = WMUtil.getIdentifierOfAttribute(id, "satisfaction");
+    	String eventName = sat.GetChild(0).GetAttribute();
+    	WMElement eventTypeWME = sat.GetChild(0).ConvertToIdentifier().FindByAttribute("type", 0);
+    	Identifier context = WMUtil.getIdentifierOfAttribute(id, "context");
     	
     	String message = "";
     	if(type.equals("get-next-task")){
     		message = "I am idle and waiting for you to initiate a new interaction";
     	} else if(type.equals("get-next-subaction")){
-    		message = "I cannot continue further with the current action and I need the next step";
+    		String verb = WMUtil.getValueOfAttribute(context, "verb");
+    		message = "What is the next step in performing '" + verb + "'?";
     	} else if(type.equals("category-of-word")){
-    		String word = WorkingMemoryUtil.getValueOfAttribute(context, "word");
+    		String word = WMUtil.getValueOfAttribute(context, "word");
     		message = "I do not know the category of " + word + ". " + 
     		"You can say something like 'a shape' or 'blue is a color'";
     	} else if(type.equals("which-question")){
@@ -377,9 +378,12 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		message = "I see multiple examples of '" + objStr + "' and I need clarification";
     	} else if(type.equals("teaching-request")){
     		String objStr = LingObject.createFromSoarSpeak(context, "description").toString();
-    		message = "I do not know '" + objStr + "' " + 
-    		"Please give more teaching examples and tell me 'finished' when you are done";
+    		message = "Please give me teaching examples of '" + objStr + "' and tell me 'finished' when you are done.";
+    	} else if(type.equals("get-goal")){
+    		String verb = WMUtil.getValueOfAttribute(context, "verb");
+    		message = "Please tell me what the goal of '" + verb + "'is.";
     	}
     	ChatFrame.Singleton().addMessage(message, ActionType.Agent);
+        id.CreateStringWME("status", "complete");
     }
 }

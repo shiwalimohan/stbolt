@@ -25,9 +25,9 @@ public class WorldTime implements IInputLinkElement
         }
         
         stepNumber++;
-        WorkingMemoryUtil.updateIntWME(timeId, "steps", getSteps());
-        WorkingMemoryUtil.updateIntWME(timeId, "seconds", (int)getSeconds());
-        WorkingMemoryUtil.updateIntWME(timeId, "microseconds", (int)getMicroseconds());
+        WMUtil.updateIntWME(timeId, "steps", getSteps());
+        WMUtil.updateIntWME(timeId, "seconds", (int)getSeconds());
+        WMUtil.updateIntWME(timeId, "microseconds", (int)getMicroseconds());
     }
     
     public synchronized void newObservation(observations_t observation){
