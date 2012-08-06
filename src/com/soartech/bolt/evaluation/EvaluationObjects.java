@@ -11,6 +11,7 @@ public class EvaluationObjects {
 	private HashSet<String> colors;
 	private HashSet<String> sizes;
 	private HashSet<String> shapes;
+	private HashSet<String> definedLabels;
 	private HashMap<Integer, EvaluationObject> objects;
 	private final static Random rnd = new Random(System.currentTimeMillis());
 	private final static EvaluationObjects instance = new EvaluationObjects();
@@ -19,6 +20,7 @@ public class EvaluationObjects {
 		colors = new HashSet<String>();
 		sizes = new HashSet<String>();
 		shapes = new HashSet<String>();
+		definedLabels = new HashSet<String>();
 		objects = new HashMap<Integer, EvaluationObject>();
 		setupObjects();
 //		setupCommands();
@@ -56,6 +58,22 @@ public class EvaluationObjects {
 	
 	public void addObject(Integer id, EvaluationObject eo) {
 		objects.put(id, eo);
+	}
+	
+	public boolean isDefined(String label) {
+		return definedLabels.contains(label);
+	}
+	
+	public String define(String label) {
+		definedLabels.add(label);
+		if(colors.contains(label)) {
+			return label + " is a color";
+		} else if(sizes.contains(label)) {
+			return label + " is a size";
+		} else if(shapes.contains(label)) {
+			return label + " is a shape";
+		}
+		return null;
 	}
 	
 	public List<EvaluationObject> randomObjectOrdering() {

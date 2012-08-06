@@ -89,13 +89,22 @@ public class GenerateEvalScript {
 				output.write(dm.getChar(ActionType.Mentor)+ " What is this?"+"\n");
 				switch(cat) {
 				case color:
-					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+o.getColor()+" object"+"\n");
+					String color = o.getColor();
+					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+color+" object"+"\n");
+					if(!eos.isDefined(color))
+						output.write(dm.getChar(ActionType.Mentor)+ " "+eos.define(color)+"\n");
 					break;
 				case size:
-					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+o.getSize()+" object"+"\n");
+					String size = o.getSize();
+					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+size+" object"+"\n");
+					if(!eos.isDefined(size))
+						output.write(dm.getChar(ActionType.Mentor)+ " "+eos.define(size)+"\n");
 					break;
 				case shape:
-					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+o.getShape()+"\n");
+					String shape = o.getShape();
+					output.write(dm.getChar(ActionType.Mentor)+ " This is a "+shape+"\n");
+					if(!eos.isDefined(shape))
+						output.write(dm.getChar(ActionType.Mentor)+ " "+eos.define(shape)+"\n");
 					break;
 				}
 			} catch (IOException e) {
