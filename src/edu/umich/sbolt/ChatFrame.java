@@ -81,6 +81,9 @@ public class ChatFrame extends JFrame
     private boolean waitingForAdvanceScript = false;
     // True if the system is waiting for the script to be advanced
     
+    private boolean waitingForMentor = false;
+    // True if the script system expects the mentor to respond
+    
     private boolean ready = false;
     // True if the agent is ready for a new message from the user
     
@@ -198,6 +201,8 @@ public class ChatFrame extends JFrame
 		btnNext.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ChatFrame.Singleton().setWaitingForMentor(false);
+				ChatFrame.Singleton().preSetMentorMessage("");
 				Util.handleNextScriptAction(script, chatMessages);
 			}
 		});
@@ -270,6 +275,14 @@ public class ChatFrame extends JFrame
     public void setWaiting(boolean isWaiting) {
     	waitingForAgentResponse = isWaiting;
     	updateSendButtonStatus();
+    }
+    
+    public void setWaitingForMentor(boolean waiting) {
+    	waitingForMentor = waiting;
+    }
+    
+    public boolean isWaitingForMentor() {
+    	return waitingForMentor;
     }
     
     public void setWaitingForScript(boolean waiting) {
@@ -356,6 +369,7 @@ public class ChatFrame extends JFrame
     	if(!ready || waitingForAgentResponse){
     		return;
     	}
+    	setWaitingForMentor(false);
     	String msg = chatField.getText();
     	history.add(msg);
     	historyIndex = history.size();

@@ -24,7 +24,9 @@ public class ScriptRunner extends Thread {
     		ChatFrame.Singleton().addMessage("Script finished.");
     		return;
     	}
-    	
+    	if(ChatFrame.Singleton().isWaitingForMentor()) {
+    		return;
+    	}
     	
     	String observed;
     	if(chatMessages.size() > 0) {
@@ -36,7 +38,9 @@ public class ScriptRunner extends Thread {
     	Action next = script.getNextAction();
     	
     	if(next.getType() == ActionType.Mentor) {
+    		ChatFrame.Singleton().setWaitingForMentor(true);
     		if(Settings.getInstance().isAutomated()) {
+    			ChatFrame.Singleton().setWaitingForMentor(false);
     			ChatFrame.Singleton().addMessage(next.getAction(), ActionType.Mentor);
     	        ChatFrame.Singleton().sendSoarMessage(next.getAction());
     			Util.handleNextScriptAction(script, chatMessages);
@@ -63,7 +67,7 @@ public class ScriptRunner extends Thread {
     		} else {
     			ChatFrame.Singleton().addMessage("- Correct -", ActionType.Correct);
     		}
-    		if(observed.contains("Okay") && Settings.getInstance().isAutomated()) {
+    		if(observed.contains("Please") && Settings.getInstance().isAutomated()) {
     			// wait 1 second for the simulator values to update
     			synchronized(this) {
     				try {

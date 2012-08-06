@@ -23,7 +23,7 @@ public class GenerateEvalScript {
 		Writer output = new BufferedWriter(new FileWriter(
 				new File("evalScript")));
 		output.write("#!BechtelFormat\n");
-		
+		output.write("@ classifier clear\n");
 		for (int i = 1; i <= 3; i++) {
 			try {
 				output.write(dm.getChar(ActionType.Comment)
@@ -61,6 +61,28 @@ public class GenerateEvalScript {
 	
 	public static void generateTrial(Writer output, Cat cat) {
 		List<EvaluationObject> obs = eos.randomObjectOrdering();
+		int i = 1;
+		try {
+			output.write(dm.getChar(ActionType.Comment)+" The random ordering for this trial is:\n");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UiCommandNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(EvaluationObject o: obs) {
+			try {
+				output.write(dm.getChar(ActionType.Comment)+" Object "+i+": "+o.toString()+"\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UiCommandNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			i++;
+		}
 		for(EvaluationObject o : obs) {
 			try {
 				output.write(dm.getChar(ActionType.MentorAction)+ " select the "+o.toString()+"\n");

@@ -1,5 +1,6 @@
 #!BechtelFormat
 # Start color trial 1
+@ classifier clear
 } select the small yellow circle
 > What is this?
 > This is a yellow object
