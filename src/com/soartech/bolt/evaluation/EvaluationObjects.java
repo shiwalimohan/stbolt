@@ -33,7 +33,7 @@ public class EvaluationObjects {
 		addObject(6, "large", "red", "rectangle");
 		addObject(7, "medium", "green", "triangle");
 		addObject(8, "small", "green", "rectangle");
-		addObject(9, "large", "green", "arche");
+		addObject(9, "large", "green", "arch");
 	}
 	
 //	private void setupCommands() {
