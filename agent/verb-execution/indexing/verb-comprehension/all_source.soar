@@ -9,3 +9,10 @@ source generate-operator.soar
 ### handle multiple matches to argument
 source multiple-argument-matches.soar
 
+
+
+sp {initiate*resolve*operator
+   (state <s> ^topstate <s>)
+-->
+   (<s> ^resolve-operator <rop>)
+}

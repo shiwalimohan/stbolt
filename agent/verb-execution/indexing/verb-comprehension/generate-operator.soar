@@ -34,15 +34,26 @@ sp {generate*operator*arguments
    	      ^procedural-id <pid>
 	      ^linguistic-id <lid>
 	      ^cue <cue>
+	      ^index-operator <op>)
+   (<cue> ^<connect> <obj>)
+   (<lid> ^<connect> <lobj>)
+   (<pid> ^<arg> <lobj>)
+-->
+   (<op> ^<arg> <obj>)
+}
+
+sp {generate*operator*arguments*metadata
+   (state <s> ^name generate-operator
+   	      ^procedural-id <pid>
+	      ^linguistic-id <lid>
+	      ^cue <cue>
 	      ^index-operator <op>
 	      ^topstate.interaction.stack.segment.info.index-object-context <context>)
    (<op> ^_metadata <met>)
-   (<cue> ^<connect> <obj>)
    (<lid> ^<connect> <lobj>)
    (<pid> ^<arg> <lobj>)
    (<context> ^context-id <connect>)
 -->
-   (<op> ^<arg> <obj>)
    (<met> ^arg-data <a1>)
    (<a1> ^argument <arg>
    	 ^description <connect>

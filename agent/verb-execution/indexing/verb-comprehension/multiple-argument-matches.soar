@@ -15,14 +15,13 @@ sp {multiple*argument*matches*create*operator
    	 ^argument <arg>)
    (<con> ^object <obj>)
 -->
-   (<ss> ^resolve-operator <op>)
    (<op> ^name resolve-multiple-matches-dialog 
    	 ^object-desc <obj>
 	 ^indexed-operator <iop>
 	 ^category indexing)
 }
 
-sp {multiple*argument*matches*create*operator*composit-operator
+sp {multiple*argument*matches*create*operator*composite-operator
    (state <s> ^superstate <ss>
    	     -^learning-operator <any>
              -^status.type which-question)
@@ -37,11 +36,11 @@ sp {multiple*argument*matches*create*operator*composit-operator
    	 ^argument <arg>)
    (<con> ^object <obj>)
 -->
-   (<ss> ^resolve-operator <op>)
    (<rop> ^name resolve-multiple-matches-dialog 
-   	 ^object-desc <obj>
-	 ^indexed-operator <iop>
-	 ^category indexing)
+   	  ^object-desc <obj>
+	  ^indexed-operator <iop>
+	  ^category indexing)
+   (<ss> ^operator <iop> -)
 }
 
 sp {propose*resolve-multiple-matches-dialog
@@ -115,7 +114,7 @@ sp {prefer*multiple-matches*primitive-actions
    (state <s> ^operator <op1> +
    	      ^operator <op2> +)
    (<op1> ^name resolve-multiple-matches-dialog)
-   (<op2> ^category primitive-action)
+   (<op2> ^category << primitive-action composite-action >>)
 -->
    (<s> ^operator <op1> > <op2>)
 }
@@ -127,6 +126,17 @@ sp {prefer*resolve-multiple-matches-dialog*indicate-unresolved-tie
    (<op2> ^name  indicate-unresolved-tie)
 -->
    (<s> ^operator <op1> > <op2>)
+}
+
+### remove resolve-operator during push-segment
+sp {remove*resolve-operator
+   (state <s> ^resolve-operator <rop>
+   	      ^operator <op>)
+   (<op> ^category << communication interaction-stack >>)
+   (<rop> ^category indexing)
+-->
+   (<s> ^resolve-operator <rop> -
+   	^resolve-operator <nrop>)
 }
    	  
 
