@@ -2,13 +2,13 @@
 #### process multiple matches to one argument, rely on interaction
 sp {multiple*argument*matches*create*operator
    (state <s> ^impasse tie
-   	      ^superstate <ss>
-   	      ^superstate.indexed-operator <iop>
-	      ^superstate.resolve-operator <op>
 	      ^item.<arg> <val1>
 	      ^item.<arg> {<> <val2> <val1>}
 	      -^learning-operator <any>
-	      -^status.type which-question)
+	      -^status.type which-question
+	      ^superstate <ss>)
+   (<ss> ^indexed-operator <iop>
+	 ^resolve-operator <op>)
    (<iop> ^_metadata <met>)   
    (<met> ^arg-data <a1>)
    (<a1> ^arg-context <con>
@@ -17,6 +17,28 @@ sp {multiple*argument*matches*create*operator
 -->
    (<ss> ^resolve-operator <op>)
    (<op> ^name resolve-multiple-matches-dialog 
+   	 ^object-desc <obj>
+	 ^indexed-operator <iop>
+	 ^category indexing)
+}
+
+sp {multiple*argument*matches*create*operator*composit-operator
+   (state <s> ^superstate <ss>
+   	     -^learning-operator <any>
+             -^status.type which-question)
+   (<ss> ^indexed-operator <iop>
+	 ^resolve-operator <rop>
+	 ^operator.category composite-action)
+   (<iop> ^<arg> <val1>
+	  ^<arg> {<val2> <> <val1>}
+	  ^_metadata <met>)	
+   (<met> ^arg-data <a1>)
+   (<a1> ^arg-context <con>
+   	 ^argument <arg>)
+   (<con> ^object <obj>)
+-->
+   (<ss> ^resolve-operator <op>)
+   (<rop> ^name resolve-multiple-matches-dialog 
    	 ^object-desc <obj>
 	 ^indexed-operator <iop>
 	 ^category indexing)
