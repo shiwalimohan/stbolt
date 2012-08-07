@@ -12,12 +12,14 @@ sp {multiple*argument*matches*create*operator
    (<iop> ^_metadata <met>)   
    (<met> ^arg-data <a1>)
    (<a1> ^arg-context <con>
-   	 ^argument <arg>)
+   	 ^argument <arg>
+	 ^context-id <conid>)
    (<con> ^object <obj>)
 -->
    (<op> ^name resolve-multiple-matches-dialog 
    	 ^object-desc <obj>
 	 ^indexed-operator <iop>
+	 ^context-id <conid>
 	 ^category indexing)
 }
 
@@ -33,13 +35,15 @@ sp {multiple*argument*matches*create*operator*composite-operator
 	  ^_metadata <met>)	
    (<met> ^arg-data <a1>)
    (<a1> ^arg-context <con>
-   	 ^argument <arg>)
+   	 ^argument <arg>
+	 ^context-id <conid>)
    (<con> ^object <obj>)
 -->
    (<rop> ^name resolve-multiple-matches-dialog 
    	  ^object-desc <obj>
 	  ^indexed-operator <iop>
-	  ^category indexing)
+	  ^category indexing
+	 ^context-id <conid>)
    (<ss> ^operator <iop> -)
 }
 
@@ -53,22 +57,41 @@ sp {propose*resolve-multiple-matches-dialog
 sp {elaborate*state*resolve-multiple-matches-dialog
    (state <s> ^superstate.operator <sop>) 
    (<sop> ^object-desc <obj>
-   	  ^indexed-operator <iop>)
+   	  ^indexed-operator <iop>
+	  ^context-id <conid>)
 -->
    (<s> ^object-desc <obj>
    	^indexed-operator <iop>
-	^name complete-index-object)
+	^name complete-index-object
+	^context-id <conid>)
 }
 
 sp {multiple*argument*match*propose*which-question
    (state <s> ^name complete-index-object
    	      ^indexed-operator <iop>
-	      ^object-desc <obj>)
+	      ^object-desc <obj>
+	      ^context-id <conid>)
 -->
    (<s> ^operator <op> + =)
    (<op> ^name which-question
-   	 ^object <obj>)
+   	 ^object <obj>
+	 ^context-id <conid>)
 }
+
+#### delete the context-id not related to the which-question
+sp {which-question*unrelated*context-id
+   (state <s> ^topstate.interaction.stack.segment.info <info>
+   	      ^operator <op>)
+   (<op> ^name which-question
+   	 ^context-id <conid>)
+   (<info> ^index-object-context <object-context>)
+   (<object-context> ^context-id <id> {<> <id> <conid>})
+-->
+   (<info> ^index-object-context <object-context> -)
+}
+
+
+##### cleanup
 
 ### delete the indexed operator 
 sp {multiple*argument*match*delete*indexed-operator
@@ -89,7 +112,20 @@ sp {multiple*argument*match*clear*indexed-operator
    (<p> ^indexed-operator <op> -)
 }
 
+### remove resolve-operator during push-segment
+sp {remove*resolve-operator
+   (state <s> ^resolve-operator <rop>
+   	      ^operator <op>)
+   (<op> ^category << communication interaction-stack >>)
+   (<rop> ^category indexing)
+-->
+   (<s> ^resolve-operator <rop> -
+   	^resolve-operator <nrop>)
+}
+   	  
 
+
+### preferences
 
 ## prefer which-question to primitives
 sp {prefer*which-question*primitive-actions
@@ -128,16 +164,5 @@ sp {prefer*resolve-multiple-matches-dialog*indicate-unresolved-tie
    (<s> ^operator <op1> > <op2>)
 }
 
-### remove resolve-operator during push-segment
-sp {remove*resolve-operator
-   (state <s> ^resolve-operator <rop>
-   	      ^operator <op>)
-   (<op> ^category << communication interaction-stack >>)
-   (<rop> ^category indexing)
--->
-   (<s> ^resolve-operator <rop> -
-   	^resolve-operator <nrop>)
-}
-   	  
 
 

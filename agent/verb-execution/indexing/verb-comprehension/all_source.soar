@@ -11,8 +11,3 @@ source multiple-argument-matches.soar
 
 
 
-sp {initiate*resolve*operator
-   (state <s> ^topstate <s>)
--->
-   (<s> ^resolve-operator <rop>)
-}
