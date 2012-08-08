@@ -14,10 +14,9 @@ sp {complete*index-object*mark-finished
 
 # Removes the context from the topstate when the operator finishes
 sp {complete*index-object*destroy-context
-   (state <s> ^operator <o>
+   (state <s> ^name index-object
+              ^operator.name << index-object-failure complete-index-object >>
               ^topstate <top>)
-   (<o> ^name index-object
-        ^finished true)
    (<top> ^interaction.stack.segment.info <info>)
    (<info> ^index-object-context <context>)
 -->
