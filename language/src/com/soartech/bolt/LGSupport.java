@@ -318,110 +318,109 @@ public class LGSupport implements OutputEventInterface, RunEventInterface {
 			// this ideally should be injected into the Soar print stream,
 			// but that doesn't seem possible. Echo command doesn't seem to do it.
 			
-			if (agent == null) {
-				// valid if run to print the parse alone
-				return;
-			}
+			if (agent != null) {
+				// null agent valid if run to print the parse alone
 			
-	        int numLinks = thisLinkage.linkage_get_num_links();
-	        
-	       // make a root for this sentence
-	        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
-	        inputWMEs.get(currentOutputSentenceCount).add(sentenceRoot);
-	        
-	        // make a wme for the count
-	        agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
-	       
-	        agent.CreateIntWME(sentenceRoot, "parse-count", parseCount);
-	        	
-	        // make a wme for the words
-	        Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
-	        
-	        // now load the words
-					
-			int globalOffset = 0;
-			if (phraseMode) {
-				globalOffset--;
-			}
-
-			if (sent.sentence_get_word(0).equals("LEFT-WALL")) {
-				// this may push LEFT-WALL to index -1, but nothing is looking for
-				// that anyway so its OK if rules think the sentence starts at 0
-				globalOffset--;
-			}
+		        int numLinks = thisLinkage.linkage_get_num_links();
+		        
+		        // make a root for this sentence
+		        Identifier sentenceRoot = agent.CreateIdWME(lgInputRoot, "parsed-sentence");
+		        inputWMEs.get(currentOutputSentenceCount).add(sentenceRoot);
+		        
+		        // make a wme for the count
+		        agent.CreateIntWME(sentenceRoot, "sentence-count", currentOutputSentenceCount);
+		       
+		        agent.CreateIntWME(sentenceRoot, "parse-count", parseCount);
+		        	
+		        // make a wme for the words
+		        Identifier wordsWME = agent.CreateIdWME(sentenceRoot, "words");
+		        
+		        // now load the words
+						
+				int globalOffset = 0;
+				if (phraseMode) {
+					globalOffset--;
+				}
 	
-	        for (int wordx = 0; wordx < numWords; wordx++) {
-	            // add ^word information for this link
-	            String wordval = sent.sentence_get_word(wordx);
-	 
-	            Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
-	
-	            agent.CreateIntWME(wordWME, "wcount", wordx);
-	            agent.CreateStringWME(wordWME, "wvalue", wordval);
-	            
-	            if (isGuess[wordx]) {
-	            	agent.CreateStringWME(wordWME, "guessed", "true");
-	            }
-	            if(isSkip[wordx]) {
-	            	agent.CreateStringWME(wordWME, "skipped", "true");
-	            }
-	            
-	            // if parsing as a phrase, we have added an extra word at the beginning
-	            // Soar needs to know which words are equivalent across parses, so the
-	            // phraseMode flag allows this to start phrases at index 0 rather than 1
-	            // so word indices are equivalent
-	            
-	            // don't change the wcount, though, since LGSoar wants that to always start at 0
-							agent.CreateIntWME(wordWME, "global-wcount", wordx + globalOffset);
-	        }
-	            
-	        // make a wme for the links
-	        Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
-	        agent.CreateIntWME(sentenceRoot, "unused-word-cost", unusedCost);
-	        agent.CreateIntWME(sentenceRoot, "expensive-link-cost", disCost);
-	        agent.CreateIntWME(sentenceRoot, "unknown-word-cost", numGuesses);
-	        
-	        String noStarsPattern = "\\*";
-	        String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
-	        String idiomPattern = "ID.*";
-	        String pattern = "([A-Z]+)([a-z]*)";
-	        
-	        // now load the links
-	        for (int linkIndex = 0; linkIndex < numLinks; linkIndex++) {
-	            rWordIndex = thisLinkage.linkage_get_link_rword(linkIndex);
-	            lWordIndex = thisLinkage.linkage_get_link_lword(linkIndex);
-	            linkLabel = thisLinkage.linkage_get_link_label(linkIndex);
-	           
-	            // SBW 3/8/12
-	            // remove all *'s from the link names
-	            // these indicate "any subtype in this position"
-	            // not sure what to do with them, but they definitely shouldn't be stuck to the main type
-	            linkLabel = linkLabel.replaceAll(noStarsPattern, "");
-	            linkLabel = linkLabel.replaceAll(noCaratPattern, "");
-	            
-	            String ltype = linkLabel;
-	            ltype = ltype.replaceAll(pattern, "$1");
-	            ltype = ltype.replaceAll(idiomPattern, "ID");
-	            String lsubtype = linkLabel;
-	            lsubtype = lsubtype.replaceAll(pattern, "$2");
-	            
-	            // add ^link information for this link
-	            Identifier linkWME = agent.CreateIdWME(linksWME, "link");
-	                        
-	            agent.CreateStringWME(linkWME, "lvalue", linkLabel);
-	            
-	            agent.CreateIntWME(linkWME, "lwleft", lWordIndex);
-	            agent.CreateIntWME(linkWME, "lwright", rWordIndex);	
-	            
-	            agent.CreateStringWME(linkWME, "ltype", ltype);
-	           
-	            // make a separate WME for each subtype
-	            // assumption: subtype ordering doesn't matter
-	        	for (int i=0; i< lsubtype.length(); i++) {
-	        		agent.CreateStringWME(linkWME, "ltypesub", lsubtype.substring(i, i+1));
-	        	}
-	          
-	        }		
+				if (sent.sentence_get_word(0).equals("LEFT-WALL")) {
+					// this may push LEFT-WALL to index -1, but nothing is looking for
+					// that anyway so its OK if rules think the sentence starts at 0
+					globalOffset--;
+				}
+		
+		        for (int wordx = 0; wordx < numWords; wordx++) {
+		            // add ^word information for this link
+		            String wordval = sent.sentence_get_word(wordx);
+		 
+		            Identifier wordWME = agent.CreateIdWME(wordsWME, "word");
+		
+		            agent.CreateIntWME(wordWME, "wcount", wordx);
+		            agent.CreateStringWME(wordWME, "wvalue", wordval);
+		            
+		            if (isGuess[wordx]) {
+		            	agent.CreateStringWME(wordWME, "guessed", "true");
+		            }
+		            if(isSkip[wordx]) {
+		            	agent.CreateStringWME(wordWME, "skipped", "true");
+		            }
+		            
+		            // if parsing as a phrase, we have added an extra word at the beginning
+		            // Soar needs to know which words are equivalent across parses, so the
+		            // phraseMode flag allows this to start phrases at index 0 rather than 1
+		            // so word indices are equivalent
+		            
+		            // don't change the wcount, though, since LGSoar wants that to always start at 0
+								agent.CreateIntWME(wordWME, "global-wcount", wordx + globalOffset);
+		        }
+		            
+		        // make a wme for the links
+		        Identifier linksWME = agent.CreateIdWME(sentenceRoot, "links");
+		        agent.CreateIntWME(sentenceRoot, "unused-word-cost", unusedCost);
+		        agent.CreateIntWME(sentenceRoot, "expensive-link-cost", disCost);
+		        agent.CreateIntWME(sentenceRoot, "unknown-word-cost", numGuesses);
+		        
+		        String noStarsPattern = "\\*";
+		        String noCaratPattern = "\\^"; // carat is apparently "match nothing except *". occurs for lots of conjunctions.
+		        String idiomPattern = "ID.*";
+		        String pattern = "([A-Z]+)([a-z]*)";
+		        
+		        // now load the links
+		        for (int linkIndex = 0; linkIndex < numLinks; linkIndex++) {
+		            rWordIndex = thisLinkage.linkage_get_link_rword(linkIndex);
+		            lWordIndex = thisLinkage.linkage_get_link_lword(linkIndex);
+		            linkLabel = thisLinkage.linkage_get_link_label(linkIndex);
+		           
+		            // SBW 3/8/12
+		            // remove all *'s from the link names
+		            // these indicate "any subtype in this position"
+		            // not sure what to do with them, but they definitely shouldn't be stuck to the main type
+		            linkLabel = linkLabel.replaceAll(noStarsPattern, "");
+		            linkLabel = linkLabel.replaceAll(noCaratPattern, "");
+		            
+		            String ltype = linkLabel;
+		            ltype = ltype.replaceAll(pattern, "$1");
+		            ltype = ltype.replaceAll(idiomPattern, "ID");
+		            String lsubtype = linkLabel;
+		            lsubtype = lsubtype.replaceAll(pattern, "$2");
+		            
+		            // add ^link information for this link
+		            Identifier linkWME = agent.CreateIdWME(linksWME, "link");
+		                        
+		            agent.CreateStringWME(linkWME, "lvalue", linkLabel);
+		            
+		            agent.CreateIntWME(linkWME, "lwleft", lWordIndex);
+		            agent.CreateIntWME(linkWME, "lwright", rWordIndex);	
+		            
+		            agent.CreateStringWME(linkWME, "ltype", ltype);
+		           
+		            // make a separate WME for each subtype
+		            // assumption: subtype ordering doesn't matter
+		        	for (int i=0; i< lsubtype.length(); i++) {
+		        		agent.CreateStringWME(linkWME, "ltypesub", lsubtype.substring(i, i+1));
+		        	}
+		          
+		        }
+			}
 	   }
 	}
 	
