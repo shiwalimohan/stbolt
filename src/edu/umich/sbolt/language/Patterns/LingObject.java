@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.regex.*;
 
 import edu.umich.sbolt.language.LinguisticEntity;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 
 import sml.*;
 
@@ -79,29 +79,27 @@ public class LingObject extends LinguisticEntity {
             return null;
         }
 	    LingObject lingObject = new LingObject();
-        lingObject.noun = WorkingMemoryUtil.getValueOfAttribute(id, "word");
-        lingObject.adjective = WorkingMemoryUtil.getAllValuesOfAttribute(id, "adjective");
-        lingObject.determiner = WorkingMemoryUtil.getValueOfAttribute(id, "determiner");
-
+        lingObject.noun = WMUtil.getValueOfAttribute(id, "word");
+        lingObject.adjective = WMUtil.getAllValuesOfAttribute(id, "adjective");
+        lingObject.determiner = WMUtil.getValueOfAttribute(id, "determiner");
         //use "an" instead of "a" if the following word begins with a vowel
         //should this be in soar rules instead?
-        if(lingObject.determiner != null){
-        	if(lingObject.determiner.equals("a")) {
-        		String adj;
-        		try{
-        			adj = lingObject.adjective.iterator().next();
-        		} catch (Exception e) {
-        			adj = null;
+        //JK Need to check if there is a determiner first or will get NPE
+        if(lingObject.determiner != null && lingObject.determiner.equals("a")) {
+        	String adj;
+        	try{
+        		adj = lingObject.adjective.iterator().next();
+        	} catch (Exception e) {
+        		adj = null;
+        	}
+        	String n = lingObject.noun;
+        	if(adj != null && adj.length() > 0) {
+        		if(adj.matches("^[aeiouAEIOU].*")) {
+        			lingObject.determiner = "an";
         		}
-        		String n = lingObject.noun;
-        		if(adj != null && adj.length() > 0) {
-        			if(adj.matches("^[aeiouAEIOU].*")) {
-        				lingObject.determiner = "an";
-        			}
-        		} else if(n != null) {
-        			if(n.matches("^[aeiouAEIOU].*")) {
-        				lingObject.determiner = "an";
-        			}
+        	} else if(n != null) {
+        		if(n.matches("^[aeiouAEIOU].*")) {
+        			lingObject.determiner = "an";
         		}
         	}
         }
@@ -113,7 +111,7 @@ public class LingObject extends LinguisticEntity {
         if(id == null){
             return null;
         }
-        Identifier objectId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        Identifier objectId = WMUtil.getIdentifierOfAttribute(id, name);
         return LingObject.createFromSoarSpeak(objectId);
 	}
 	

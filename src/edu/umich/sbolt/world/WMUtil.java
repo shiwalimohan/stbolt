@@ -11,7 +11,7 @@ import sml.*;
  * @author mininger
  * 
  */
-public class WorkingMemoryUtil
+public class WMUtil
 {
 
     // These are the three types that a WME can be, conform to Soar

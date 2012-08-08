@@ -51,7 +51,7 @@ public class StateProperty implements IInputLinkElement{
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
     	if(propertyID == null){
-    		propertyID = parentIdentifier.CreateIdWME("state-property");
+    		propertyID = parentIdentifier.CreateIdWME("state-prop");
     		typeWME = propertyID.CreateStringWME("type", type);
     		nameWME = propertyID.CreateStringWME("name", name);
     		valueWME = propertyID.CreateStringWME("value", value);

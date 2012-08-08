@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.umich.sbolt.language.LinguisticEntity;
-import edu.umich.sbolt.world.WorkingMemoryUtil;
+import edu.umich.sbolt.world.WMUtil;
 
 import sml.Agent;
 import sml.Identifier;
@@ -93,16 +93,16 @@ public class VerbCommand extends LinguisticEntity{
         if(id == null){
             return null;
         }
-        Identifier verbId = WorkingMemoryUtil.getIdentifierOfAttribute(id, name);
+        Identifier verbId = WMUtil.getIdentifierOfAttribute(id, name);
         if(verbId == null){
             return null;
         }
 	    VerbCommand verbCommand = new VerbCommand();
-	    verbCommand.verb = WorkingMemoryUtil.getValueOfAttribute(verbId, "word");
+	    verbCommand.verb = WMUtil.getValueOfAttribute(verbId, "word");
         verbCommand.directObject = LingObject.createFromSoarSpeak(verbId, "direct-object");
-        Identifier prepositionId = WorkingMemoryUtil.getIdentifierOfAttribute(verbId, "preposition");
+        Identifier prepositionId = WMUtil.getIdentifierOfAttribute(verbId, "preposition");
         if(prepositionId != null){
-            verbCommand.preposition = WorkingMemoryUtil.getValueOfAttribute(prepositionId, "word");
+            verbCommand.preposition = WMUtil.getValueOfAttribute(prepositionId, "word");
             verbCommand.secondObject = LingObject.createFromSoarSpeak(prepositionId, "object");
         }
 	    return verbCommand;
