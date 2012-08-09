@@ -39,6 +39,11 @@ public class RobotArm implements IInputLinkElement
     public int getGrabbedId(){
     	return curGrab;
     }
+    
+    public boolean isReady(){
+    	return robotAction == null || robotAction.action.toLowerCase().equals("wait") ||
+    			robotAction.action.toLowerCase().equals("failure");
+    }
 
 
     @Override
