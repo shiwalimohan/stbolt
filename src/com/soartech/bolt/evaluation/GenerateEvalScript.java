@@ -192,7 +192,7 @@ public class GenerateEvalScript {
 		output.write("@ classifier clear\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " select the "+ed.getPrimaryObjectString().toString()+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " this is a "+ed.getPrimaryObjectString()+"\n");
-		output.write(dm.getChar(ActionType.Mentor) + " a color");
+		output.write(dm.getChar(ActionType.Mentor) + " a color"+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " this is a "+ed.getPrimaryObjectString()+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " this is a "+ed.getPrimaryObjectString()+"\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " select the "+ed.getReferenceObjectString().toString()+"\n");
