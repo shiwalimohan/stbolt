@@ -44,7 +44,7 @@ sp {preprocess-sentence*elaborate*real-wvalue*fixed
    (state <s> ^name preprocess-sentence
               ^sentence.word <wd>)
    (<wd> ^real-wvalue { <wv> << what which where is a an the this that those these and are done
-                                color shape size of one object you your me my I yes no goal 
+                                color shape size of one object you your me my I yes no goal should must be 
                                 pick up put pantry stove garbage table |.| |?| >>}) # fixed words
 -->
    (<wd> ^parser-wvalue <wv>)
