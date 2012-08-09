@@ -26,12 +26,12 @@ public class FiveByFiveBoard {
 		for(int r=0; r<=2; r++)
 			locToConfig.put(new BoardLocation(r, 4), new ThreeByThreeConfig(2,2,r,2));
 		for(int r=3; r<=4; r++)
-			locToConfig.put(new BoardLocation(r, 4), new ThreeByThreeConfig(0,0,r,2));
+			locToConfig.put(new BoardLocation(r, 4), new ThreeByThreeConfig(0,0,r-2,2));
 		locToConfig.put(new BoardLocation(4, 3), new ThreeByThreeConfig(0,1,2,2));
 		locToConfig.put(new BoardLocation(4, 2), new ThreeByThreeConfig(0,0,2,0));
 		locToConfig.put(new BoardLocation(4, 1), new ThreeByThreeConfig(0,1,2,0));
 		for(int r=3; r<=4; r++)
-			locToConfig.put(new BoardLocation(r, 0), new ThreeByThreeConfig(0,2,r,0));
+			locToConfig.put(new BoardLocation(r, 0), new ThreeByThreeConfig(0,2,r-2,0));
 		
 	}
 	
