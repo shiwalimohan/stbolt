@@ -92,6 +92,8 @@ public class ChatFrame extends JFrame
     private boolean ready = false;
     // True if the agent is ready for a new message from the user
     
+    private Object outputLock = new Object();
+    
     private Script script;
 
     public ChatFrame(BOLTLGSupport lg, BoltAgent agent) {
@@ -325,27 +327,29 @@ public class ChatFrame extends JFrame
     	World.Singleton().destroyMessage();
     }
     
-    public synchronized void addMessage(String message, ActionType type) {
-    	message = ScriptDataMap.getInstance().getString(type)+" "+message.trim();
-    	if(chatDoc.getStyle(type.toString()) == null) {
-    		type = ActionType.Default;
+    public void addMessage(String message, ActionType type) {
+    	synchronized(outputLock) {
+    		message = ScriptDataMap.getInstance().getString(type)+" "+message.trim();
+    		if(chatDoc.getStyle(type.toString()) == null) {
+    			type = ActionType.Default;
+    		}
+    		chatMessages.add(message);
+    		try {
+    			DateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+    			Date d = new Date();
+    			chatDoc.insertString(chatDoc.getLength(), dateFormat.format(d)+" ", chatDoc.getStyle(ActionType.Default.toString()));
+    			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
+    			// AM: Will make it auto scroll to bottom
+    			int end = chatDoc.getLength();
+    			tPane.select(end, end);
+    		} catch (BadLocationException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
     	}
-    	chatMessages.add(message);
-        try {
-        	DateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
-        	Date d = new Date();
-        	chatDoc.insertString(chatDoc.getLength(), dateFormat.format(d)+" ", chatDoc.getStyle(ActionType.Default.toString()));
-			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
-			// AM: Will make it auto scroll to bottom
-			int end = chatDoc.getLength();
-			tPane.select(end, end);
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        if(type == ActionType.Agent && script != null && script.hasNextAction()) {
-        	Util.handleNextScriptAction(script, chatMessages);
-        }
+    	if(type == ActionType.Agent && script != null && script.hasNextAction()) {
+    		Util.handleNextScriptAction(script, chatMessages);
+    	}
     }
 
     public void addMessage(String message)
