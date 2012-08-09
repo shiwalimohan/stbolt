@@ -1,0 +1,34 @@
+#!BechtelFormat
+# excise preprocess-sentence*elaborate*no-learning
+< Waiting for next command...
+> this is blue
+< What kind of attribute is blue?
+> Blue is a color
+< Okay.
+< I am idle and waiting for you to initiate a new interaction
+> this is a sphere
+< What kind of attribute is sphere?
+> sphere is a shape
+< Okay.
+< I am idle and waiting for you to initiate a new interaction
+> move the blue sphere to the stove
+< What is the goal of the action?
+> the blue sphere should be in the stove
+< I don't know the preposition in. Please teach me with examples
+> the red triangle is in the garbage
+< What kind of attribute is red?
+> red is a color
+< What kind of attribute is triangle?
+> triangle is a shape
+< Is this a red triangle?
+> yes
+< Okay.
+< Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
+> finished
+< What action should I take next?
+> pick up the blue sphere
+< What action should I take next?
+> put the blue sphere in the stove
+< What action should I take next?
+> you are done
+< Waiting for next command...
