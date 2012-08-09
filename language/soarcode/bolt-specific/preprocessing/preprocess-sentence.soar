@@ -124,6 +124,7 @@ sp {preprocess-sentence*apply*substitute*new
         ^new-value <new>)
 -->
    (<wd> ^parser-wvalue <new>)
+   (<s> ^substituted <wd>)
 }
 
 sp {preprocess-sentence*apply*substitute*old
@@ -229,14 +230,14 @@ sp {preprocess-sentence*iqw
 sp {preprocess-sentence*propose*implicit-quote
    (state <s> ^name preprocess-sentence
               ^implicitly-quoted-word <wd>
+             -^substituted <wrd>
               ^sentence.word <wrd>)
    (<wrd> ^wcount <wc>
-          ^parser-wvalue <wd>)
+          ^real-wvalue <wd>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name substitute
         ^word <wrd>
-        ^old-value <wd>
         ^new-value (concat |*noun| <wc>))
 }
 
@@ -365,6 +366,16 @@ sp {preprocess-sentence*prefer*lookup-word*over*handle-unlearned-word
    (<o2> ^name handle-unlearned-word)
 -->
    (<s> ^operator <o1> > <o2>)
+}
+
+sp {preprocess-sentence*prefer*substitute*over*lookup-word
+   (state <s> ^name preprocess-sentence
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name lookup-word)
+   (<o2> ^name substitute)
+-->
+   (<s> ^operator <o1> <  <o2>)
 }
 
 sp {preprocess-sentence*prefer*lower-wc
