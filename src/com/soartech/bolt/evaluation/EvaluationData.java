@@ -7,19 +7,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-public class EvaluationObjects {
+public class EvaluationData {
 	private HashSet<String> colors;
 	private HashSet<String> sizes;
 	private HashSet<String> shapes;
 	private HashSet<String> definedLabels;
+	private HashSet<String> prepositions;
 	private HashMap<Integer, EvaluationObject> objects;
+	private EvaluationObject primaryObject;
+	private EvaluationObject referenceObject;
 	private final Random rnd;
 	private int maxId;
 	
-	public EvaluationObjects() {
+	public EvaluationData() {
 		colors = new HashSet<String>();
 		sizes = new HashSet<String>();
 		shapes = new HashSet<String>();
+		prepositions = new HashSet<String>();
 		definedLabels = new HashSet<String>();
 		objects = new HashMap<Integer, EvaluationObject>();
 		rnd = new Random(System.currentTimeMillis());
@@ -46,6 +50,9 @@ public class EvaluationObjects {
 //			dm.addUiCommand("check color "+color, new CheckColor(color));
 //		}
 //	}
+	public void addPreposition(String prep) {
+		prepositions.add(prep);
+	}
 	
 	public void addObject(int id, String size, String color, String shape) {
 		sizes.add(size);
@@ -97,5 +104,40 @@ public class EvaluationObjects {
 		}
 		Collections.shuffle(random, rnd);
 		return random;
+	}
+	
+	public List<String> randomPrepositionOrdering() {
+		ArrayList<String> random = new ArrayList<String>();
+		for(String s : prepositions) {
+			random.add(s);
+		}
+		Collections.shuffle(random, rnd);
+		return random;
+	}
+	
+	public String getPrimaryObjectString() {
+		return primaryObject.getColor()+" object";
+	}
+
+	public void setPrimaryObject(EvaluationObject primaryObject) {
+		if((referenceObject == null || this.primaryObject == null) ||
+				!referenceObject.getColor().equals(primaryObject.getColor())) {
+			this.primaryObject = primaryObject;
+		} else {
+			throw new RuntimeException("Reference and primary objects must have different colors.");
+		}
+	}
+
+	public String getReferenceObjectString() {
+		return referenceObject.getColor()+" object";
+	}
+
+	public void setReferenceObject(EvaluationObject referenceObject) {
+		if((this.referenceObject == null || primaryObject == null) ||
+				!referenceObject.getColor().equals(primaryObject.getColor())) {
+			this.referenceObject = referenceObject;
+		} else {
+			throw new RuntimeException("Reference and primary objects must have different colors.");
+		}
 	}
 }

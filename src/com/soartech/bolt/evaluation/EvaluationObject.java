@@ -10,6 +10,12 @@ public class EvaluationObject {
 		this.color = color;
 		this.shape = shape;
 	}
+	
+	public EvaluationObject(Size size, Color color, Shape shape) {
+		this.size = size.toString();
+		this.color = color.toString();
+		this.shape = shape.toString();
+	}
 
 	public String getSize() {
 		return size;

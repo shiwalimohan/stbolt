@@ -70,7 +70,11 @@ public class Util {
 	}
 	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
-    	new ScriptRunner(script, chatMessages).start();
+    	if(Settings.getInstance().isAutomated()) {
+    		new ScriptRunner(script, chatMessages).start();
+    	} else {
+    		ScriptRunner.nextScriptAction(script, chatMessages);
+    	}
     	if(script != null && script.peekType() == ActionType.Agent && Settings.getInstance().isAutomated()) {
     		ChatFrame.Singleton().setWaiting(true);
         }

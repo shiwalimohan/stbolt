@@ -8,7 +8,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -320,13 +325,16 @@ public class ChatFrame extends JFrame
     	World.Singleton().destroyMessage();
     }
     
-    public void addMessage(String message, ActionType type) {
+    public synchronized void addMessage(String message, ActionType type) {
     	message = ScriptDataMap.getInstance().getString(type)+" "+message.trim();
     	if(chatDoc.getStyle(type.toString()) == null) {
     		type = ActionType.Default;
     	}
     	chatMessages.add(message);
         try {
+        	DateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+        	Date d = new Date();
+        	chatDoc.insertString(chatDoc.getLength(), dateFormat.format(d)+" ", chatDoc.getStyle(ActionType.Default.toString()));
 			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
 			// AM: Will make it auto scroll to bottom
 			int end = chatDoc.getLength();
