@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.soartech.bolt.testing.ActionType;
@@ -23,6 +24,7 @@ public class GenerateEvalScript {
 		generateSizeTrial();
 		generateShapeTrial();
 		generatePrepositionTrial();
+		generateObjectDescriminationTrial();
 	}
 	
 	public static void generateColorTrial() throws IOException {
@@ -217,6 +219,63 @@ public class GenerateEvalScript {
 				output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
 			}
 		}
+		output.close();
+	}
+	
+	public static void generateObjectDescriminationTrial() throws IOException, UiCommandNotFoundException {
+		List<EvaluationObject> objects = new LinkedList<EvaluationObject>();
+		EvaluationObject one = new EvaluationObject(Size.large, Color.blue, Shape.arch);
+		EvaluationObject two = new EvaluationObject(Size.small, Color.blue, Shape.circle);
+		EvaluationObject three = new EvaluationObject(Size.small, Color.red, Shape.arch);
+		objects.add(one);
+		objects.add(two);
+		objects.add(three);
+		
+		Writer output = new BufferedWriter(new FileWriter(
+				new File("scripts/objectDiscriminationEvaluation.bolt")));
+		output.write("#!BechtelFormat\n");
+		output.write("@ classifier clear\n");
+		for(EvaluationObject eo : objects) {
+			output.write(dm.getChar(ActionType.MentorAction) + " place a " + eo.toString()+" on the board\n");
+		}
+		
+
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + one.getSize()+" object\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + one.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + one.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the large one\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + one.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + one.getShape()+"\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the blue one\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + one.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getSize()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the blue one\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + two.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the circle\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + two.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getShape()+"\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + two.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getSize()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the red one\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getShape()+"\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the small one\n");
+		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
+		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
+
 		output.close();
 	}
 }

@@ -1,6 +1,6 @@
 package com.soartech.bolt.evaluation;
 
-public class EvaluationObject {
+public class EvaluationObject implements Comparable<EvaluationObject> {
 	final private String size;
 	final private String color;
 	final private String shape;
@@ -32,5 +32,15 @@ public class EvaluationObject {
 	@Override
 	public String toString() {
 		return size+" "+color+" "+shape;
+	}
+
+	@Override
+	public int compareTo(EvaluationObject o) {
+		return o.toString().compareTo(toString());
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return o.toString().equals(toString());
 	}
 }
