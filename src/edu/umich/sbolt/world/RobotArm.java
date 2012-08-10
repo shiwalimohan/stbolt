@@ -61,8 +61,12 @@ public class RobotArm implements IInputLinkElement
         	pose.updateInputLink(selfId);
         }
         if(robotAction != null){
-        	if(robotAction.obj_id != grabbedId.GetValue()){
-            	grabbedId.Update(robotAction.obj_id);
+        	int gId = robotAction.obj_id;
+        	if(robotAction.action.toLowerCase().equals("grab")){
+        		gId = -1;
+        	}
+        	if(gId != grabbedId.GetValue()){
+            	grabbedId.Update(gId);
         	}
         	if(!actionId.GetValue().equals(robotAction.action.toLowerCase())){
             	actionId.Update(robotAction.action.toLowerCase());

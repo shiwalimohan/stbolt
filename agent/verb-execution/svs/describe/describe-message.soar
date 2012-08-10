@@ -21,9 +21,11 @@ sp {describe-message*propose*lookup-preposition
 sp {describe-message*propose*find-relations
    (state <s> ^name describe-message
               ^topstate.svs.spatial-scene <sc>
+              ^topstate.object <obj>
               ^found-prep <fprep>)
    (<fprep> ^predicate.name <prep>)
    (<sc> ^child <C>)
+   (<obj> ^id <id> ^category block)
    (<C> ^id <obja> ^id-int <id>)
    -{(<s> ^relationships <rels>)
    (<rels> ^with <id> ^preposition <prep>)}
