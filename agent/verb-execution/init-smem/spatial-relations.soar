@@ -2,11 +2,11 @@
 # loads in basic definitions of left,right,behind,in front, in, and near
 
 #
-# smem --add {
-#(<preps> ^list prepositions) #DO NOT comment out this smem intialization- it is necessary
-#
-#
-## Comment out this section to remove all built in prepositions
+ smem --add {
+(<preps> ^list prepositions) #DO NOT comment out this smem intialization- it is necessary
+
+
+# Comment out this section to remove all built in prepositions
 # (<preps> ^prep left-of ^prep right-of ^prep behind ^prep in-front-of ^prep near ^prep in)
 # (<P345> ^all-aligned false ^name left-of ^relation <R209> <R210> <R211> )
 # (<P502> ^all-aligned false ^name right-of ^relation <R325> <R326> <R327> )
@@ -32,5 +32,5 @@
 # (<R2298> ^avg 0 ^axis 0 ^bottom 0 ^count 0 ^squaredsum 0 ^sum 0 ^top 0 ^type x-aligned )
 # (<R2299> ^avg 0 ^axis 2 ^bottom 0 ^count 0 ^squaredsum 0 ^sum 0 ^top 0 ^type z-aligned )
 # (<R2300> ^avg 0 ^axis 1 ^bottom 0 ^count 0 ^squaredsum 0 ^sum 0 ^top 0 ^type y-aligned )
-#
-# }
+
+ }
