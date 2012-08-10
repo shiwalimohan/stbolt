@@ -1,32 +1,32 @@
 package com.soartech.bolt.evaluation;
 
 public class ThreeByThreeConfig {
-	private BoardLocation referenceObjLoc;
-	private BoardLocation primaryObjLoc;
+	private BoardLocation primeObjLoc;
+	private BoardLocation refObjLoc;
 	
-	public ThreeByThreeConfig(BoardLocation primary, BoardLocation reference) {
-		primaryObjLoc = primary;
-		referenceObjLoc = reference;
+	public ThreeByThreeConfig(BoardLocation reference, BoardLocation primary) {
+		refObjLoc = reference;
+		primeObjLoc = primary;
 	}
 	
-	public ThreeByThreeConfig(int pr, int pc, int rr, int rc) {
-		primaryObjLoc = new BoardLocation(pr, pc);
-		referenceObjLoc = new BoardLocation(rr, rc);
+	public ThreeByThreeConfig(int rr, int rc, int pr, int pc) {
+		refObjLoc = new BoardLocation(rr, rc);
+		primeObjLoc = new BoardLocation(pr, pc);
 	}
 
-	public BoardLocation getReferenceObjLoc() {
-		return referenceObjLoc;
+	public BoardLocation getPrimeObjLoc() {
+		return primeObjLoc;
 	}
 
-	public void setReferenceObjLoc(BoardLocation referenceObjLoc) {
-		this.referenceObjLoc = referenceObjLoc;
+	public void setPrimeObjLoc(BoardLocation referenceObjLoc) {
+		this.primeObjLoc = referenceObjLoc;
 	}
 
-	public BoardLocation getPrimaryObjLoc() {
-		return primaryObjLoc;
+	public BoardLocation getRefObjLoc() {
+		return refObjLoc;
 	}
 
-	public void setPrimaryObjLoc(BoardLocation primaryObjLoc) {
-		this.primaryObjLoc = primaryObjLoc;
+	public void setRefObjLoc(BoardLocation primaryObjLoc) {
+		this.refObjLoc = primaryObjLoc;
 	}
 }

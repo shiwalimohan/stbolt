@@ -207,11 +207,11 @@ public class GenerateEvalScript {
 				ThreeByThreeConfig conf = board.getRandomLocation(prep);
 				output.write(dm.getChar(ActionType.Comment) + " Testing "+prep+"\n");
 				output.write(dm.getChar(ActionType.MentorAction) + " place the "
-						+ed.getPrimaryObjectString()+" at "+conf.getPrimaryObjLoc().getDescription() 
+						+ed.getPrimaryObjectString()+" at "+conf.getPrimeObjLoc().getDescription() 
 						+" place the "
-						+ed.getReferenceObjectString()+" at "+conf.getReferenceObjLoc().getDescription()+"\n");
+						+ed.getReferenceObjectString()+" at "+conf.getRefObjLoc().getDescription()+"\n");
 				output.write(dm.getChar(ActionType.Mentor)+ " describe the scene"+"\n");
-				String relation = "the "+ed.getReferenceObjectString()+" is "+prep+" the "+ed.getPrimaryObjectString();
+				String relation = "the "+ed.getPrimaryObjectString()+" is "+prep+" the "+ed.getReferenceObjectString();
 				output.write(dm.getChar(ActionType.MentorAction)+ " check for: "+relation+"\n");
 				output.write(dm.getChar(ActionType.Comment)+" if the relation is not in the agent's response correct the agent\n");
 				output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
