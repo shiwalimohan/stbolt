@@ -273,6 +273,7 @@ public class ChatFrame extends JFrame
         StyleConstants.setForeground(defaultStyle, Color.BLACK);
         StyleConstants.setFontSize(defaultStyle, 18);
         StyleConstants.setFontFamily(defaultStyle, "SansSerif");
+        StyleConstants.setLineSpacing(defaultStyle, 1f);
         
         StyleConstants.setForeground(agentActionStyle, new Color(225, 225, 0));
         StyleConstants.setForeground(agentStyle, Color.BLACK);
