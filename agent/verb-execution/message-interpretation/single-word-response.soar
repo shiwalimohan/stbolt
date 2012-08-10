@@ -98,7 +98,7 @@ sp {apply*push-single-word-response*request-index-confirmation*index-confirmatio
         ^message <msg>)
    (<msg> ^context <context>)
    (<context> ^cause request-index-confirmation
-              ^object.id <id>
+              ^object-id <id>
               ^index-object <i-obj>)
 -->
    (<msg> ^purpose <p>)
@@ -120,10 +120,10 @@ sp {apply*push-single-word-response*request-index-confirmation*yes
         ^message <msg>)
    (<msg> ^context <context>)
    (<context> ^cause request-index-confirmation
-              ^object <obj>
+              ^object-id <id>
               ^index-object <i-obj>)
 -->
-   (<i-obj> ^match <obj>)
+   (<i-obj> ^match-id <id>)
 }
 
 sp {apply*push-single-word-response*request-index-confirmation*no

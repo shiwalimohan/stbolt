@@ -14,6 +14,7 @@ sp {object-is-question*propose*index-object1
 		^allow-ties true
         ^infer-match true
         ^obj 1
+        ^context-id 1
         ^category object-processing
 	    ^object <obj1>)
 }
@@ -33,6 +34,7 @@ sp {object-is-question*propose*index-object2
 		^allow-ties true
         ^infer-match true
         ^obj 2
+        ^context-id 2
         ^category object-processing
 	    ^object <obj2>)
 }

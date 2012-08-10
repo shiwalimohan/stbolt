@@ -139,7 +139,7 @@ public class BoltAgent implements RunEventInterface{
 	/* IMPORTANT: Do not call if the agent is running */
 	public void backup(String sessionName){
     	System.out.println("Performing backup: " + sessionName);
-    	//System.out.println("  epmem: " + agent.ExecuteCommandLine(String.format("epmem --backup backups/%s_epmem.db", sessionName)));
+    	System.out.println("  epmem: " + agent.ExecuteCommandLine(String.format("epmem --backup backups/%s_epmem.db", sessionName)));
     	System.out.println("  smem: " + agent.ExecuteCommandLine(String.format("smem --backup backups/%s_smem.db", sessionName)));
     	System.out.println("  chunks: " + agent.ExecuteCommandLine(String.format("command-to-file backups/%s_chunks.soar pc -f", sessionName)));
     	System.out.println("Completed Backup");
@@ -151,8 +151,8 @@ public class BoltAgent implements RunEventInterface{
     	ChatFrame.Singleton().clear();
     	sourceAgent(false);
     	agent.ExecuteCommandLine("smem --set database file");
-    	//agent.ExecuteCommandLine("epmem --set database file");
-    	//System.out.println("  epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", sessionName)));
+    	agent.ExecuteCommandLine("epmem --set database file");
+    	System.out.println("  epmem:" + agent.ExecuteCommandLine(String.format("epmem --set path backups/%s_epmem.db", sessionName)));
     	System.out.println("  smem:" + agent.ExecuteCommandLine(String.format("smem --set path backups/%s_smem.db", sessionName)));
     	agent.LoadProductions(String.format("backups/%s_chunks.soar", sessionName));
     	System.out.println("  source: " + String.format("backups/%s_chunks.soar", sessionName));

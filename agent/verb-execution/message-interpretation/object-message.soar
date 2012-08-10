@@ -66,7 +66,7 @@ sp {apply*push-object-message*learn-word2cat
    (state <s> ^operator <o>)
    (<o> ^name push-object-message
         ^message <msg>
-        ^specifier INDEF
+        ^specifier INDEF#<< none INDEF >>
         ^object.word {<category> <> <word> <> property <> one}
        -^relation)
    (<msg> ^context <context>)
@@ -134,7 +134,6 @@ sp {apply*push-object-message*which-question-response*relation
         # AM: Changed satisfaction structure
    (<sat> ^internal-event.type indexing)
 }
-
 
 
 sp {apply*push-object-message*mark*processed
