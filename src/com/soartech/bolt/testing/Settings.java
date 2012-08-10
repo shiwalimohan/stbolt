@@ -5,11 +5,15 @@ import java.io.IOException;
 
 public class Settings {
 	final static private Settings instance = new Settings();
-	// final static private String scriptDirectory = "/script";
+	// final static private String scriptDirectory = "/scripts";
 
 	private File sboltDirectory;
 	
+	private Object automatedLock = new Object();
 	private boolean automated;
+	
+	private Object scriptRunningLock = new Object();
+	private boolean scriptRunning;
 
 	private Settings() {
 		File dir;
@@ -26,6 +30,7 @@ public class Settings {
 		sboltDirectory = dir;
 		
 		automated = false;
+		scriptRunning = false;
 	}
 
 	public static Settings getInstance() {
@@ -41,10 +46,26 @@ public class Settings {
 	}
 
 	public boolean isAutomated() {
-		return automated;
+		synchronized(automatedLock) {
+			return automated;
+		}
 	}
 
 	public void setAutomated(boolean automated) {
-		this.automated = automated;
+		synchronized(automatedLock) {
+			this.automated = automated;
+		}
+	}
+
+	public boolean isScriptRunning() {
+		synchronized(scriptRunningLock) {
+			return scriptRunning;
+		}
+	}
+
+	public void setScriptRunning(boolean scriptRunning) {
+		synchronized(scriptRunningLock) {
+			this.scriptRunning = scriptRunning;
+		}
 	}
 }

@@ -70,6 +70,10 @@ public class Util {
 	}
 	
     public static void handleNextScriptAction(Script script, List<String> chatMessages) {
+    	System.out.println(Settings.getInstance().isScriptRunning());
+    	if(!Settings.getInstance().isScriptRunning()) {
+    		return;
+    	}
     	if(Settings.getInstance().isAutomated()) {
     		new ScriptRunner(script, chatMessages).start();
     	} else {

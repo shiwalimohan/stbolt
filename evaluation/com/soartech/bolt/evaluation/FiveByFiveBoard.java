@@ -1,6 +1,9 @@
 package com.soartech.bolt.evaluation;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class FiveByFiveBoard {
 	private HashMap<String, BoardLocation> lastLocation = new HashMap<String, BoardLocation>();
@@ -32,7 +35,15 @@ public class FiveByFiveBoard {
 		locToConfig.put(new BoardLocation(4, 1), new ThreeByThreeConfig(0,1,2,0));
 		for(int r=3; r<=4; r++)
 			locToConfig.put(new BoardLocation(r, 0), new ThreeByThreeConfig(0,2,r-2,0));
-		
+	}
+	
+	public List<BoardLocation> getRandom5x5LocationOrder() {
+		ArrayList<BoardLocation> locs = new ArrayList<BoardLocation>();
+		for(BoardLocation bl : locToConfig.keySet()) {
+			locs.add(bl);
+		}
+		Collections.shuffle(locs);
+		return locs;
 	}
 	
 	public ThreeByThreeConfig getRandomLocation(String prep) {

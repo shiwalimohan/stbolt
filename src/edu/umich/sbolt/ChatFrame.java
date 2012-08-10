@@ -35,6 +35,7 @@ import com.soartech.bolt.script.ui.command.ResetRobotArm;
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.Script;
 import com.soartech.bolt.testing.ScriptDataMap;
+import com.soartech.bolt.testing.Settings;
 import com.soartech.bolt.testing.Util;
 
 import edu.umich.sbolt.world.World;
@@ -62,6 +63,9 @@ public class ChatFrame extends JFrame
     
     private JButton startStopButton;
     // The button that you can use to start and stop the agent (toggles between them)
+    
+    private JButton btnStartStopScript;
+    // The button to start and stop scripts
     
     // CHAT MESSAGES AND HISTORY
 
@@ -102,14 +106,6 @@ public class ChatFrame extends JFrame
         World.Singleton().setPointedObjectID(0);
         instance = this;
         lgSupport = lg;
- 
-        /*
-        chatArea = new JTextArea();
-        chatArea.setFont(new Font("Serif",Font.PLAIN,18));
-        chatArea.setLineWrap(true);
-        chatArea.setWrapStyleWord(true);
-        JScrollPane pane = new JScrollPane(chatArea);
-        */
         
         tPane = new JTextPane();
         tPane.setEditable(false);
@@ -199,21 +195,49 @@ public class ChatFrame extends JFrame
 		btnLoadScript.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Settings.getInstance().setAutomated(false);
+				setWaiting(false);
+				setWaitingForMentor(false);
+				setWaitingForScript(false);
 				script = Util.loadScript();
 			}
 		});
 		menuBar.add(btnLoadScript);
 		
-		JButton btnNext = new JButton("Next Script Action");
+		JButton btnNext = new JButton("Next Action");
 		btnNext.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				btnStartStopScript.setText("Stop Script");
 				ChatFrame.Singleton().setWaitingForMentor(false);
 				ChatFrame.Singleton().preSetMentorMessage("");
+				Settings.getInstance().setScriptRunning(true);
 				Util.handleNextScriptAction(script, chatMessages);
 			}
 		});
 		menuBar.add(btnNext);
+		
+		btnStartStopScript = new JButton("Start Script");
+		btnStartStopScript.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(Settings.getInstance().isScriptRunning()) {
+					btnStartStopScript.setText("Start Script");
+					Settings.getInstance().setScriptRunning(false);
+					setWaitingForMentor(false);
+					setWaiting(false);
+					setWaitingForScript(false);
+					preSetMentorMessage("");
+				} else {
+					btnStartStopScript.setText("Stop Script");
+					ChatFrame.Singleton().setWaitingForMentor(false);
+					ChatFrame.Singleton().preSetMentorMessage("");
+					Settings.getInstance().setScriptRunning(true);
+					Util.handleNextScriptAction(script, chatMessages);
+				}
+			}
+		});
+		menuBar.add(btnStartStopScript);
 		
 		JButton btnSaveScript = new JButton("Save Script");
 		btnSaveScript.addActionListener(new ActionListener() {
@@ -280,6 +304,9 @@ public class ChatFrame extends JFrame
     }
     
     public void setWaiting(boolean isWaiting) {
+    	if(isWaiting == true && Settings.getInstance().isScriptRunning() == false) {
+    		return;
+    	}
     	waitingForAgentResponse = isWaiting;
     	updateSendButtonStatus();
     }
@@ -293,6 +320,9 @@ public class ChatFrame extends JFrame
     }
     
     public void setWaitingForScript(boolean waiting) {
+    	if(waiting == true && Settings.getInstance().isScriptRunning() == false) {
+    		return;
+    	}
     	waitingForAdvanceScript = waiting;
     	updateSendButtonStatus();
     }
@@ -337,8 +367,10 @@ public class ChatFrame extends JFrame
     		try {
     			DateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
     			Date d = new Date();
-    			chatDoc.insertString(chatDoc.getLength(), dateFormat.format(d)+" ", chatDoc.getStyle(ActionType.Default.toString()));
-    			chatDoc.insertString(chatDoc.getLength(), message+"\n", chatDoc.getStyle(type.toString()));
+    			int origLength = chatDoc.getLength();
+    			chatDoc.insertString(origLength, dateFormat.format(d)+" ", chatDoc.getStyle(ActionType.Default.toString()));
+    			int nextLength = chatDoc.getLength();
+    			chatDoc.insertString(nextLength, message+"\n", chatDoc.getStyle(type.toString()));
     			// AM: Will make it auto scroll to bottom
     			int end = chatDoc.getLength();
     			tPane.select(end, end);

@@ -16,24 +16,20 @@
 < Please give me teaching examples of 'a red square' and tell me 'finished' when you are done.
 > finished
 < What is the goal of the action?
-> The goal is the red square in the pantry
-< What action should I take next?
-> pick up the red square
-< What action should I take next?
-> put the red square in the pantry
+> the red square should be in the pantry
 < I don't know the preposition in. Please teach me with examples
 > the red triangle is in the garbage
 < What kind of attribute is triangle?
 > triangle is a shape
-< I don't see a red triangle. Please teach me to recognize one
-@ point triangle
-> this is a red triangle
-< Okay.
-< Please give me teaching examples of 'a red triangle' and tell me 'finished' when you are done.
-> finished
+< Is this a red triangle?
+> yes
 < Okay.
 < Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
 > finished
+< What action should I take next?
+> pick up the red square
+< What action should I take next?
+> put the red square in the pantry
 < What action should I take next?
 > You are done.
 < Waiting for next command...
