@@ -1,0 +1,73 @@
+#!BechtelFormat
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object

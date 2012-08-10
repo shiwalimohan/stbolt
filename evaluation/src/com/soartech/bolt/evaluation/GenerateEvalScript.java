@@ -23,8 +23,9 @@ public class GenerateEvalScript {
 		generateColorTrial();
 		generateSizeTrial();
 		generateShapeTrial();
-		generatePrepositionTrial();
 		generateObjectDescriminationTrial();
+		generatePrepositionTrial();
+		generatePrepositionSelectivenessTrial();
 	}
 	
 	public static void generateColorTrial() throws IOException {
@@ -218,6 +219,31 @@ public class GenerateEvalScript {
 				output.write(dm.getChar(ActionType.Comment)+" if the relation is not in the agent's response correct the agent\n");
 				output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
 			}
+		}
+		output.close();
+	}
+	
+	public static void generatePrepositionSelectivenessTrial() throws IOException, UiCommandNotFoundException {
+		EvaluationData ed = new EvaluationData();
+		ed.setPrimaryObject(new EvaluationObject(Size.small, Color.blue, Shape.circle));
+		ed.setReferenceObject(new EvaluationObject(Size.small, Color.red, Shape.circle));
+		
+		for(Preposition p : Preposition.values()) {
+			ed.addPreposition(p.toString());
+		}
+		
+		FiveByFiveBoard board = new FiveByFiveBoard();
+		
+		Writer output = new BufferedWriter(new FileWriter(
+				new File("scripts/prepositionSelectivenessEvaluation.bolt")));
+		output.write("#!BechtelFormat\n");
+		for(ThreeByThreeConfig conf : board.getLocationList()) {
+			output.write(dm.getChar(ActionType.MentorAction) + " place the "
+					+ed.getPrimaryObjectString()+" at "+conf.getPrimeObjLoc().getDescription() 
+					+" place the "
+					+ed.getReferenceObjectString()+" at "+conf.getRefObjLoc().getDescription()+"\n");
+			output.write(dm.getChar(ActionType.Mentor)+ " describe the scene"+"\n");
+			output.write(dm.getChar(ActionType.MentorAction)+ " check the relations starting with "+ed.getPrimaryObjectString()+"\n");
 		}
 		output.close();
 	}

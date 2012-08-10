@@ -3,11 +3,13 @@ package com.soartech.bolt.evaluation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FiveByFiveBoard {
 	private HashMap<String, BoardLocation> lastLocation = new HashMap<String, BoardLocation>();
-	private HashMap<BoardLocation, ThreeByThreeConfig> locToConfig = new HashMap<BoardLocation, ThreeByThreeConfig>();
+	private LinkedHashMap<BoardLocation, ThreeByThreeConfig> locToConfig = new LinkedHashMap<BoardLocation, ThreeByThreeConfig>();
 	
 	public FiveByFiveBoard() {
 		for(Preposition p : Preposition.values()) {
@@ -35,6 +37,14 @@ public class FiveByFiveBoard {
 		locToConfig.put(new BoardLocation(4, 1), new ThreeByThreeConfig(0,1,2,0));
 		for(int r=3; r<=4; r++)
 			locToConfig.put(new BoardLocation(r, 0), new ThreeByThreeConfig(0,2,r-2,0));
+	}
+	
+	public List<ThreeByThreeConfig> getLocationList() {
+		List<ThreeByThreeConfig> locs = new LinkedList<ThreeByThreeConfig>();
+		for(ThreeByThreeConfig conf : locToConfig.values()) {
+			locs.add(conf);
+		}
+		return locs;
 	}
 	
 	public List<BoardLocation> getRandom5x5LocationOrder() {
