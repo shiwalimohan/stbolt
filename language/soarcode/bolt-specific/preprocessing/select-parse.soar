@@ -466,6 +466,7 @@ sp {select-parse*apply*resolve-ambiguous-preposition-attachment*m
    (<o> ^name resolve-ambiguous-preposition-attachment
         ^info <paa>)
    (<paa> -^right << to >>
+          -^mv-left << put >>
          ^right <right>
         ^mv-parse <parse>
         ^mv-parse.parse-count <rc>
@@ -481,6 +482,22 @@ sp {select-parse*apply*resolve-ambiguous-preposition-attachment*mv
    (<o> ^name resolve-ambiguous-preposition-attachment
         ^info <paa>)
    (<paa> ^right << to >>
+        ^right <right>
+        ^m-parse <parse>
+        ^m-parse.parse-count <rc>
+        ^mv-parse.parse-count <gc>)
+-->
+   (<parse> ^rejected true)
+   (write (crlf) |rejected parse | <rc> | in favor of | <gc> | due to |
+         <right> | link|)
+}
+
+sp {select-parse*apply*resolve-ambiguous-preposition-attachment*mv*put
+   (state <s> ^name select-parse
+              ^operator <o>)`
+   (<o> ^name resolve-ambiguous-preposition-attachment
+        ^info <paa>)
+   (<paa> ^mv-left << put >>
         ^right <right>
         ^m-parse <parse>
         ^m-parse.parse-count <rc>
