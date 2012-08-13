@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.ScriptDataMap;
 import com.soartech.bolt.testing.UiCommandNotFoundException;
@@ -333,9 +335,105 @@ public class GenerateEvalScript {
 		output.close();
 	}
 	
-	public static void generateVerbTrial() throws IOException {
+	public static void generateVerbTrial() throws IOException, UiCommandNotFoundException {
+		List<EvaluationObject> objects = new ArrayList<EvaluationObject>();
+		// these shapes will be distinguished based on color only
+		EvaluationObject one = new EvaluationObject(Size.small, Color.blue, Shape.rectangle);
+		EvaluationObject two = new EvaluationObject(Size.small, Color.green, Shape.rectangle);
+		EvaluationObject three = new EvaluationObject(Size.small, Color.red, Shape.arch);
+		EvaluationObject four = new EvaluationObject(Size.small, Color.orange, Shape.rectangle);
+		objects.add(one);
+		objects.add(two);
+		objects.add(three);
+		objects.add(four);
+		
 		Writer output = new BufferedWriter(new FileWriter(
 				new File("scripts/verbEvaluation.bolt")));
 		output.write("#!BechtelFormat\n");
+		output.write("@ classifier clear\n");
+		for(EvaluationObject eo : objects) {
+			output.write(dm.getChar(ActionType.MentorAction) + " place the " + eo.toString()+" on the board\n");
+			output.write(dm.getChar(ActionType.MentorAction) + " point at the " + eo.toString()+"\n");
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.getColor() + " object \n");
+			output.write(dm.getChar(ActionType.Mentor) + " a color\n");
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.getColor() + " object \n");
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.getColor() + " object \n");
+		}
+		
+		output.write(dm.getChar(ActionType.MentorAction) + " place the " + one.getColor() + " left of the "+two.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the "+one.getColor()+" object is left of the "+two.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the "+two.getColor()+" object is right of the "+one.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.MentorAction)+ " place the "+three.getColor()+" object in the pantry\n");
+		output.write(dm.getChar(ActionType.Mentor) + " the "+three.getColor()+" object is in the pantry\n");
+		
+		for(Verb verb : Verb.values()) {
+			Collections.shuffle(objects);
+			output.write(dm.getChar(ActionType.MentorAction) 
+					+ " place the four objects such that none of them are " 
+					+ getVerbLocation(verb));
+			boolean first = true;
+			for(EvaluationObject eo : objects) {
+				String objectString = eo.getColor()+" object";
+				output.write(dm.getChar(ActionType.Mentor) + " "+getVerbCommand(verb, objectString));
+				if(first) {
+					output.write(dm.getChar(ActionType.Mentor) + " " + getVerbGoal(verb, objectString));
+					output.write(dm.getChar(ActionType.Mentor) + " pick up the " + objectString + "\n");
+					output.write(dm.getChar(ActionType.Mentor) + " put the " + objectString + " " + getVerbLocation(verb));
+					first = false;
+				}
+				output.write(dm.getChar(ActionType.MentorAction) + " record the result and return "
+						+ objectString + " to its original position\n");
+			}
+		}
+		
+		output.close();
+	}
+	
+	public static String getVerbCommand(Verb v, String objectString) {
+		switch(v) {
+		case DISCARD:
+			return "discard the " + objectString + "\n";
+		case MOVE_TO:
+			return "move the " + objectString + " to the table\n";
+		case MOVE_TO_THE_LEFT_OF:
+			return "move the " + objectString + " left of the stove\n";
+		case MOVE_TO_THE_RIGHT_OF:
+			return "move the " + objectString + " right of the table\n";
+		case STORE:
+			return "store the " + objectString + "\n";
+		}
+		throw new RuntimeException("Verb "+v.toString()+" unhandled.");
+	}
+	
+	public static String getVerbGoal(Verb v, String objectString) {
+		switch(v) {
+		case DISCARD:
+			return "the " + objectString + " should be in the trash\n";
+		case MOVE_TO:
+			return "the " + objectString + " should be in the table\n";
+		case MOVE_TO_THE_LEFT_OF:
+			return "the " + objectString + " should be left of the stove\n";
+		case MOVE_TO_THE_RIGHT_OF:
+			return "the " + objectString + " should be right of the table\n";
+		case STORE:
+			return "the " + objectString + " should be in the pantry\n";
+		}
+		throw new RuntimeException("Verb "+v.toString()+" unhandled.");
+	}
+	
+	public static String getVerbLocation(Verb v) {
+		switch(v) {
+		case DISCARD:
+			return "in the trash\n";
+		case MOVE_TO:
+			return "in the table\n";
+		case MOVE_TO_THE_LEFT_OF:
+			return "left of the stove\n";
+		case MOVE_TO_THE_RIGHT_OF:
+			return "right of the table\n";
+		case STORE:
+			return "in the pantry\n";
+		}
+		throw new RuntimeException("Verb "+v.toString()+" unhandled.");
 	}
 }
