@@ -379,6 +379,7 @@ public class GenerateEvalScript {
 					output.write(dm.getChar(ActionType.Mentor) + " " + getVerbGoal(verb, objectString));
 					output.write(dm.getChar(ActionType.Mentor) + " pick up the " + objectString + "\n");
 					output.write(dm.getChar(ActionType.Mentor) + " put the " + objectString + " " + getVerbLocation(verb));
+					output.write(dm.getChar(ActionType.Mentor) + " you are done\n");
 					first = false;
 				}
 				output.write(dm.getChar(ActionType.MentorAction) + " record the result and return "
