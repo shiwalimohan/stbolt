@@ -235,7 +235,7 @@ public class GenerateEvalScript {
 		FiveByFiveBoard board = new FiveByFiveBoard();
 		
 		Writer output = new BufferedWriter(new FileWriter(
-				new File("scripts/prepositionSelectivenessEvaluation.bolt")));
+				new File("scripts/prepositionEvaluationPart2.bolt")));
 		output.write("#!BechtelFormat\n");
 		for(ThreeByThreeConfig conf : board.getLocationList()) {
 			output.write(dm.getChar(ActionType.MentorAction) + " place the "
@@ -244,6 +244,15 @@ public class GenerateEvalScript {
 					+ed.getReferenceObjectString()+" at "+conf.getRefObjLoc().getDescription()+"\n");
 			output.write(dm.getChar(ActionType.Mentor)+ " describe the scene"+"\n");
 			output.write(dm.getChar(ActionType.MentorAction)+ " check the relations starting with "+ed.getPrimaryObjectString()+"\n");
+		}
+		output.write(dm.getChar(ActionType.Comment) + " starting final preposition test using pick up/put\n");
+		for(Preposition prep : Preposition.values()) {
+			output.write(dm.getChar(ActionType.MentorAction) + " place the "
+					+ ed.getPrimaryObjectString() + " such that it is not "+prep.toString()+" the "
+					+ ed.getReferenceObjectString()+"\n");
+			output.write(dm.getChar(ActionType.Mentor) + " pick up the "+ed.getPrimaryObjectString()+"\n");
+			output.write(dm.getChar(ActionType.Mentor) + " put the "+ed.getPrimaryObjectString() + " "
+					+ prep.toString() + " the "+ed.getReferenceObjectString()+"\n");
 		}
 		output.close();
 	}
