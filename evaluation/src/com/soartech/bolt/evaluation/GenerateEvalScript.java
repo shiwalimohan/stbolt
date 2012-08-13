@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class GenerateEvalScript {
 		generateObjectDescriminationTrial();
 		generatePrepositionTrial();
 		generatePrepositionSelectivenessTrial();
+		generateVerbTrial();
 	}
 	
 	public static void generateColorTrial() throws IOException {
@@ -272,8 +276,23 @@ public class GenerateEvalScript {
 		output.write("@ classifier clear\n");
 		for(EvaluationObject eo : objects) {
 			output.write(dm.getChar(ActionType.MentorAction) + " place a " + eo.toString()+" on the board\n");
+			output.write(dm.getChar(ActionType.MentorAction) + " point at the " + eo.toString()+"\n");
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.toString()+"\n");
+			ArrayList<String> attr = new ArrayList<String>();
+			attr.add(eo.getColor());
+			attr.add(eo.getSize());
+			attr.add(eo.getShape());
+			Collections.sort(attr);
+			HashMap<String, String> nameAttrMap = new HashMap<String, String>();
+			nameAttrMap.put(eo.getColor(), "color");
+			nameAttrMap.put(eo.getSize(), "size");
+			nameAttrMap.put(eo.getShape(), "shape");
+			for(String att : attr) {
+				output.write(dm.getChar(ActionType.Mentor) + " " + att + " is a " +nameAttrMap.get(att)+"\n");
+			}
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.toString()+"\n");
+			output.write(dm.getChar(ActionType.Mentor) + " this is a " + eo.toString()+"\n");
 		}
-		
 
 		output.write(dm.getChar(ActionType.Mentor) + " point to the " + one.getSize()+" object\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + one.toString()+"\n");
@@ -312,5 +331,11 @@ public class GenerateEvalScript {
 		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
 
 		output.close();
+	}
+	
+	public static void generateVerbTrial() throws IOException {
+		Writer output = new BufferedWriter(new FileWriter(
+				new File("scripts/verbEvaluation.bolt")));
+		output.write("#!BechtelFormat\n");
 	}
 }
