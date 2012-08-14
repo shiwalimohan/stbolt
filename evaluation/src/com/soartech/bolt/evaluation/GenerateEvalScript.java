@@ -407,7 +407,7 @@ public class GenerateEvalScript {
 	public static String getVerbGoal(Verb v, String objectString) {
 		switch(v) {
 		case DISCARD:
-			return "the " + objectString + " should be in the trash\n";
+			return "the " + objectString + " should be in the garbage\n";
 		case MOVE_TO:
 			return "the " + objectString + " should be in the table\n";
 		case MOVE_TO_THE_LEFT_OF:
@@ -423,7 +423,7 @@ public class GenerateEvalScript {
 	public static String getVerbLocation(Verb v) {
 		switch(v) {
 		case DISCARD:
-			return "in the trash\n";
+			return "in the garbage\n";
 		case MOVE_TO:
 			return "in the table\n";
 		case MOVE_TO_THE_LEFT_OF:
