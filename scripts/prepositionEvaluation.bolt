@@ -11,14 +11,180 @@
 > this is a red object
 > this is a red object
 # Start preposition trial 1
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
 # Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
 > describe the scene
 } check for: the blue object is in front of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is in front of the red object
-# Testing left of
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing far from
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 2
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing in front of
 } place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing near
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Start preposition trial 3
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 4
+# Testing far from
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Start preposition trial 5
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
 > describe the scene
 } check for: the blue object is left of the red object
 # if the relation is not in the agent's response correct the agent
@@ -29,6 +195,377 @@
 } check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is far from the red object
+# Start preposition trial 6
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Start preposition trial 7
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 8
+# Testing far from
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing in front of
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Start preposition trial 9
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 10
+# Testing far from
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Start preposition trial 11
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Start preposition trial 12
+# Testing near
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Start preposition trial 13
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 14
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing in front of
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Start preposition trial 15
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing far from
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is far from the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is far from the red object
+# Start preposition trial 16
 # Testing near
 } place the blue object at row 0 column 2 place the red object at row 0 column 1
 > describe the scene
@@ -36,252 +573,122 @@
 # if the relation is not in the agent's response correct the agent
 > the blue object is near the red object
 # Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 0
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
 > describe the scene
 } check for: the blue object is right of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
 # Testing behind
 } place the blue object at row 1 column 2 place the red object at row 0 column 2
 > describe the scene
 } check for: the blue object is behind the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is behind the red object
-# Start preposition trial 2
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
 > describe the scene
-} check for: the blue object is behind the red object
+} check for: the blue object is left of the red object
 # if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
+> the blue object is left of the red object
+# Testing far from
 } place the blue object at row 0 column 0 place the red object at row 2 column 2
 > describe the scene
-} check for: the blue object is in front of the red object
+} check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing far from
+> the blue object is far from the red object
+# Start preposition trial 17
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Testing in front of
 } place the blue object at row 0 column 2 place the red object at row 2 column 2
 > describe the scene
-} check for: the blue object is far from the red object
+} check for: the blue object is in front of the red object
 # if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check for: the blue object is behind the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is behind the red object
 # Testing left of
 } place the blue object at row 0 column 0 place the red object at row 0 column 1
 > describe the scene
 } check for: the blue object is left of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is left of the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Start preposition trial 3
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
 # Testing far from
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
 > describe the scene
 } check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is far from the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Start preposition trial 18
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
 # Testing behind
 } place the blue object at row 1 column 2 place the red object at row 0 column 2
 > describe the scene
 } check for: the blue object is behind the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is behind the red object
-# Testing left of
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is right of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is right of the red object
+# Testing far from
 } place the blue object at row 1 column 0 place the red object at row 2 column 2
 > describe the scene
-} check for: the blue object is left of the red object
+} check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing near
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
+> the blue object is far from the red object
 # Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
 > describe the scene
 } check for: the blue object is in front of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is in front of the red object
-# Start preposition trial 4
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is near the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is near the red object
+# Start preposition trial 19
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> describe the scene
+} check for: the blue object is left of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is left of the red object
 # Testing right of
 } place the blue object at row 1 column 2 place the red object at row 0 column 1
 > describe the scene
 } check for: the blue object is right of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is right of the red object
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Start preposition trial 5
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing near
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Start preposition trial 6
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing right of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing behind
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Start preposition trial 7
-# Testing behind
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing near
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing left of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Start preposition trial 8
-# Testing far from
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
 # Testing behind
 } place the blue object at row 2 column 0 place the red object at row 0 column 0
 > describe the scene
@@ -289,464 +696,57 @@
 # if the relation is not in the agent's response correct the agent
 > the blue object is behind the red object
 # Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
 > describe the scene
 } check for: the blue object is near the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is near the red object
-# Testing right of
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check for: the blue object is in front of the red object
+# if the relation is not in the agent's response correct the agent
+> the blue object is in front of the red object
+# Testing far from
 } place the blue object at row 2 column 2 place the red object at row 0 column 1
 > describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Start preposition trial 9
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
 } check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is far from the red object
-# Testing right of
-} place the blue object at row 2 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing near
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Start preposition trial 10
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
+# Start preposition trial 20
 # Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing near
 } place the blue object at row 0 column 2 place the red object at row 1 column 2
 > describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Start preposition trial 11
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
 } check for: the blue object is in front of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is in front of the red object
 # Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
 > describe the scene
 } check for: the blue object is left of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is left of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
 # Testing right of
-} place the blue object at row 2 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Start preposition trial 12
-# Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Start preposition trial 13
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Start preposition trial 14
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing behind
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing right of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Start preposition trial 15
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing near
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Start preposition trial 16
-# Testing far from
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing behind
 } place the blue object at row 2 column 2 place the red object at row 0 column 0
 > describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Start preposition trial 17
-# Testing behind
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> describe the scene
 } check for: the blue object is right of the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Start preposition trial 18
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing behind
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
 # Testing far from
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing in front of
 } place the blue object at row 0 column 2 place the red object at row 2 column 2
 > describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Start preposition trial 19
-# Testing behind
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> describe the scene
-} check for: the blue object is behind the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is behind the red object
-# Testing near
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is near the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
 } check for: the blue object is far from the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is far from the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object
-# Start preposition trial 20
-# Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is right of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is right of the red object
 # Testing near
 } place the blue object at row 0 column 1 place the red object at row 1 column 0
 > describe the scene
 } check for: the blue object is near the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is near the red object
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is far from the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is far from the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> describe the scene
-} check for: the blue object is left of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is left of the red object
 # Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
 > describe the scene
 } check for: the blue object is behind the red object
 # if the relation is not in the agent's response correct the agent
 > the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> describe the scene
-} check for: the blue object is in front of the red object
-# if the relation is not in the agent's response correct the agent
-> the blue object is in front of the red object

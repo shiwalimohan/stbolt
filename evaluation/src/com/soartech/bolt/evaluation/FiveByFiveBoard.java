@@ -63,6 +63,13 @@ public class FiveByFiveBoard {
 		while(!valid) {
 			loc = BoardLocation.getRandomLocation();
 			valid = checkLocation(prep, loc);
+			// no column constraint on behind since all squares are in column 2
+			if( prep.equals(Preposition.BEHIND.toString()) ) {
+				if( lastLoc.getRow() == loc.getRow() ) {
+					valid = false;
+				}
+				continue;
+			}
 			if(lastLoc.getColumn() == loc.getColumn() || lastLoc.getRow() == loc.getRow()) {
 				valid = false;
 			}
@@ -76,7 +83,7 @@ public class FiveByFiveBoard {
 			return false;
 		}
 		if(prep.equals(Preposition.BEHIND.toString())) {
-			if(loc.getRow() > 2) {
+			if(loc.getRow() > 2 && loc.getColumn() == 2) {
 				return true;
 			}
 		} else if ( prep.equals(Preposition.FAR_FROM.toString())) {
