@@ -219,10 +219,9 @@ public class GenerateEvalScript {
 						+ed.getPrimaryObjectString()+" at "+conf.getPrimeObjLoc().getDescription() 
 						+" place the "
 						+ed.getReferenceObjectString()+" at "+conf.getRefObjLoc().getDescription()+"\n");
-				output.write(dm.getChar(ActionType.Mentor)+ " describe the scene"+"\n");
+				output.write(dm.getChar(ActionType.Mentor)+ " is the "+ed.getPrimaryObjectString()+" "+prep+" the "+ed.getReferenceObjectString()+"?\n");
 				String relation = "the "+ed.getPrimaryObjectString()+" is "+prep+" the "+ed.getReferenceObjectString();
-				output.write(dm.getChar(ActionType.MentorAction)+ " check for: "+relation+"\n");
-				output.write(dm.getChar(ActionType.Comment)+" if the relation is not in the agent's response correct the agent\n");
+				output.write(dm.getChar(ActionType.Comment)+" if the agent responded no, give it the correct relation, otherwise skip the next interaction\n");
 				output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
 			}
 		}
