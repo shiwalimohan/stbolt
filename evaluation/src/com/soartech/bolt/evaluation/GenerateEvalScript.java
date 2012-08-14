@@ -209,6 +209,7 @@ public class GenerateEvalScript {
 		output.write(dm.getChar(ActionType.Mentor) + " a color"+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " this is a "+ed.getReferenceObjectString()+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " this is a "+ed.getReferenceObjectString()+"\n");
+		boolean first = true;
 		for (int i = 1; i <= 20; i++) {
 			output.write(dm.getChar(ActionType.Comment) + " Start preposition trial "+i+"\n");
 			List<String> preps = ed.randomPrepositionOrdering();
@@ -221,8 +222,14 @@ public class GenerateEvalScript {
 						+ed.getReferenceObjectString()+" at "+conf.getRefObjLoc().getDescription()+"\n");
 				output.write(dm.getChar(ActionType.Mentor)+ " is the "+ed.getPrimaryObjectString()+" "+prep+" the "+ed.getReferenceObjectString()+"?\n");
 				String relation = "the "+ed.getPrimaryObjectString()+" is "+prep+" the "+ed.getReferenceObjectString();
-				output.write(dm.getChar(ActionType.Comment)+" if the agent responded no, give it the correct relation, otherwise skip the next interaction\n");
-				output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
+				if(first) {
+					output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
+					output.write(dm.getChar(ActionType.Mentor)+" finished\n");
+					first = false;
+				} else {
+					output.write(dm.getChar(ActionType.Comment)+" if the agent responded no, give it the correct relation, otherwise skip the next interaction\n");
+					output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
+				}
 			}
 		}
 		output.close();
