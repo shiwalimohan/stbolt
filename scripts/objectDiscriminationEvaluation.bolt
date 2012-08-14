@@ -50,10 +50,10 @@
 > the red one
 } check that the arm is pointing at the small red arch
 @ arm reset
-> point to the blue object
+> point to the red object
 } check that the arm is pointing at the small red arch
 @ arm reset
-> point to the circle
+> point to the arch
 > the small one
 } check that the arm is pointing at the small red arch
 @ arm reset

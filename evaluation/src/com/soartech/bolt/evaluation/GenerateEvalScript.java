@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import com.soartech.bolt.testing.ActionType;
 import com.soartech.bolt.testing.ScriptDataMap;
 import com.soartech.bolt.testing.UiCommandNotFoundException;
@@ -320,14 +318,14 @@ public class GenerateEvalScript {
 		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + two.toString()+"\n");
 		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
 		
-		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getSize()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + three.getSize()+" object\n");
 		output.write(dm.getChar(ActionType.Mentor) + " the red one\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
 		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
-		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getColor()+" object\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + three.getColor()+" object\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
 		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
-		output.write(dm.getChar(ActionType.Mentor) + " point to the " + two.getShape()+"\n");
+		output.write(dm.getChar(ActionType.Mentor) + " point to the " + three.getShape()+"\n");
 		output.write(dm.getChar(ActionType.Mentor) + " the small one\n");
 		output.write(dm.getChar(ActionType.MentorAction) + " check that the arm is pointing at the " + three.toString()+"\n");
 		output.write(dm.getChar(ActionType.UiAction) + " arm reset\n");
