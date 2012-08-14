@@ -225,12 +225,12 @@ public class GenerateEvalScript {
 				if(first) {
 					output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
 					output.write(dm.getChar(ActionType.Mentor)+" finished\n");
-					first = false;
 				} else {
 					output.write(dm.getChar(ActionType.Comment)+" if the agent responded no, give it the correct relation, otherwise skip the next interaction\n");
 					output.write(dm.getChar(ActionType.Mentor)+" "+relation+"\n");
 				}
 			}
+			first = false;
 		}
 		output.close();
 	}
