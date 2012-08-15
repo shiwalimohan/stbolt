@@ -11,178 +11,101 @@
 > this is a red object
 > this is a red object
 # Start preposition trial 1
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> is the blue object far from the red object?
+> the blue object is far from the red object
+> finished
 # Testing right of
 } place the blue object at row 2 column 2 place the red object at row 0 column 0
 > is the blue object right of the red object?
 > the blue object is right of the red object
 > finished
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object near the red object?
-> the blue object is near the red object
-> finished
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object far from the red object?
-> the blue object is far from the red object
-> finished
 # Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
 > is the blue object left of the red object?
 > the blue object is left of the red object
 > finished
 # Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
 > is the blue object behind the red object?
 > the blue object is behind the red object
 > finished
 # Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
 > is the blue object in front of the red object?
 > the blue object is in front of the red object
+> finished
+# Testing near
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+> the blue object is near the red object
 > finished
 # Start preposition trial 2
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
 # Testing right of
 } place the blue object at row 0 column 2 place the red object at row 0 column 1
 > is the blue object right of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is right of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
 # Start preposition trial 3
-# Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing far from
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
 # Testing left of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
+# Testing far from
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
 # Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
 > is the blue object behind the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is behind the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
 # Start preposition trial 4
-# Testing right of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
 # Testing far from
-} place the blue object at row 2 column 0 place the red object at row 0 column 1
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Start preposition trial 5
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Start preposition trial 6
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing left of
 } place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 2 column 0
 > is the blue object far from the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is far from the red object
@@ -191,17 +114,16 @@
 > is the blue object right of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is right of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
 # Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 0
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
 > is the blue object in front of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is in front of the red object
-# Start preposition trial 7
-# Testing far from
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
 # Testing behind
 } place the blue object at row 1 column 2 place the red object at row 0 column 2
 > is the blue object behind the red object?
@@ -212,55 +134,329 @@
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
-# Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing near
-} place the blue object at row 0 column 1 place the red object at row 1 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Start preposition trial 8
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 0 column 0
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing in front of
-} place the blue object at row 0 column 2 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
+# Start preposition trial 5
 # Testing behind
 } place the blue object at row 2 column 0 place the red object at row 0 column 0
 > is the blue object behind the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is behind the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
 # Testing left of
 } place the blue object at row 0 column 0 place the red object at row 0 column 1
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
-# Testing right of
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing in front of
 } place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing near
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Start preposition trial 6
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing far from
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
 > is the blue object right of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is right of the red object
+# Start preposition trial 7
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
 # Testing near
 } place the blue object at row 0 column 2 place the red object at row 0 column 1
 > is the blue object near the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is near the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Start preposition trial 8
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing far from
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 2 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
 # Start preposition trial 9
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Start preposition trial 10
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
 # Testing left of
 } place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing far from
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Start preposition trial 11
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Start preposition trial 12
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing far from
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Start preposition trial 13
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing near
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Start preposition trial 14
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing in front of
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Start preposition trial 15
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
@@ -269,80 +465,39 @@
 > is the blue object near the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is near the red object
+# Testing far from
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Start preposition trial 16
 # Testing behind
 } place the blue object at row 1 column 2 place the red object at row 0 column 2
 > is the blue object behind the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is behind the red object
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Start preposition trial 10
 # Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
 > is the blue object near the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is near the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
 # Testing in front of
 } place the blue object at row 0 column 0 place the red object at row 2 column 2
 > is the blue object in front of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is in front of the red object
-# Start preposition trial 11
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
 # Testing right of
-} place the blue object at row 2 column 2 place the red object at row 0 column 0
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
 > is the blue object right of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is right of the red object
 # Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
 > is the blue object far from the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is far from the red object
@@ -351,282 +506,127 @@
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
-# Start preposition trial 12
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing left of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Start preposition trial 13
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing in front of
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 1 column 0 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Start preposition trial 14
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing right of
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 2 column 0
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing in front of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Start preposition trial 15
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing far from
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Start preposition trial 16
-# Testing far from
-} place the blue object at row 2 column 2 place the red object at row 0 column 1
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 1 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing in front of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing right of
-} place the blue object at row 0 column 1 place the red object at row 2 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
 # Start preposition trial 17
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
 # Testing far from
-} place the blue object at row 1 column 0 place the red object at row 0 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 1 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing left of
-} place the blue object at row 2 column 0 place the red object at row 0 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Start preposition trial 18
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing near
-} place the blue object at row 0 column 2 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing left of
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing right of
 } place the blue object at row 2 column 2 place the red object at row 0 column 1
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing far from
-} place the blue object at row 0 column 2 place the red object at row 2 column 2
 > is the blue object far from the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is far from the red object
-# Start preposition trial 19
-# Testing left of
-} place the blue object at row 0 column 0 place the red object at row 2 column 2
-> is the blue object left of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is left of the red object
-# Testing far from
-} place the blue object at row 1 column 2 place the red object at row 2 column 0
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing behind
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 1 column 2 place the red object at row 0 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
-# Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 1 column 0
-> is the blue object in front of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is in front of the red object
-# Testing near
-} place the blue object at row 1 column 2 place the red object at row 0 column 2
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Start preposition trial 20
-# Testing far from
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
-> is the blue object far from the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is far from the red object
-# Testing near
-} place the blue object at row 0 column 0 place the red object at row 0 column 1
-> is the blue object near the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is near the red object
-# Testing behind
-} place the blue object at row 2 column 0 place the red object at row 0 column 0
-> is the blue object behind the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is behind the red object
-# Testing right of
-} place the blue object at row 0 column 1 place the red object at row 2 column 0
-> is the blue object right of the red object?
-# if the agent responded no, give it the correct relation, otherwise skip the next interaction
-> the blue object is right of the red object
 # Testing left of
 } place the blue object at row 0 column 1 place the red object at row 1 column 2
 > is the blue object left of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is left of the red object
+# Testing right of
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing near
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Start preposition trial 18
 # Testing in front of
-} place the blue object at row 0 column 1 place the red object at row 2 column 2
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
 > is the blue object in front of the red object?
 # if the agent responded no, give it the correct relation, otherwise skip the next interaction
 > the blue object is in front of the red object
+# Testing near
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing far from
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing left of
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing right of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Start preposition trial 19
+# Testing in front of
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object
+# Testing near
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing left of
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing behind
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Start preposition trial 20
+# Testing near
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> is the blue object near the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is near the red object
+# Testing behind
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> is the blue object behind the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is behind the red object
+# Testing right of
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> is the blue object right of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is right of the red object
+# Testing left of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object left of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is left of the red object
+# Testing in front of
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> is the blue object in front of the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is in front of the red object
+# Testing far from
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> is the blue object far from the red object?
+# if the agent responded no, give it the correct relation, otherwise skip the next interaction
+> the blue object is far from the red object

@@ -90,7 +90,7 @@ public class FiveByFiveBoard {
 			int r = loc.getRow();
 			int c = loc.getColumn();
 			if(c == 0 || c == 4 || r == 0 || r == 4) {
-				if( (r == 2 && c == 0) || (r == 0 && c == 2) && 
+				if( (r == 2 && c == 0) || (r == 0 && c == 2) || 
 						(r == 2 && c == 4) || (r == 4 && c == 2) ) {
 					return false;
 				}
