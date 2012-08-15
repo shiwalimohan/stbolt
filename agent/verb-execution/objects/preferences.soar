@@ -3,7 +3,8 @@
 sp {elaborate*pref-rank*delete-object
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name delete-object)
+   (<o> ^name delete-object
+        ^category object-processing)
 -->
    (<o> ^pref-rank 0)
 }
@@ -11,7 +12,8 @@ sp {elaborate*pref-rank*delete-object
 sp {elaborate*pref-rank*lookup-object
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name lookup-object)
+   (<o> ^name lookup-object
+        ^category object-processing)
 -->
    (<o> ^pref-rank 1)
 }
@@ -19,7 +21,8 @@ sp {elaborate*pref-rank*lookup-object
 sp {elaborate*pref-rank*delete-value
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name delete-visual-value)
+   (<o> ^name delete-visual-value
+        ^category object-processing)
 -->
    (<o> ^pref-rank 2)
 }
@@ -27,7 +30,8 @@ sp {elaborate*pref-rank*delete-value
 sp {elaborate*pref-rank*create-value
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name create-visual-value)
+   (<o> ^name create-visual-value
+        ^category object-processing)
 -->
    (<o> ^pref-rank 3)
 }
@@ -35,7 +39,8 @@ sp {elaborate*pref-rank*create-value
 sp {elaborate*pref-rank*message-responses
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name << this-object-message >>)
+   (<o> ^name << this-object-message >>
+        ^category object-processing)
 -->
    (<o> ^pref-rank 5)
 }
@@ -43,7 +48,8 @@ sp {elaborate*pref-rank*message-responses
 sp {elaborate*pref-rank*object-tools
    (state <s> ^topstate <s>
               ^operator <o> +)
-   (<o> ^name << find-object count-objects describe-object index-object >>)
+   (<o> ^name << find-object count-objects describe-object index-object >>
+        ^category object-processing)
 -->
    (<o> ^pref-rank 6)
 }
