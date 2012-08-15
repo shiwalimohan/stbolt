@@ -1,8 +1,29 @@
 #!BechtelFormat
 @ classifier clear
 } place a large blue arch on the board
+} point at the large blue arch
+> this is a large blue arch
+> arch is a shape
+> blue is a color
+> large is a size
+> this is a large blue arch
+> this is a large blue arch
 } place a small blue circle on the board
+} point at the small blue circle
+> this is a small blue circle
+> blue is a color
+> circle is a shape
+> small is a size
+> this is a small blue circle
+> this is a small blue circle
 } place a small red arch on the board
+} point at the small red arch
+> this is a small red arch
+> arch is a shape
+> red is a color
+> small is a size
+> this is a small red arch
+> this is a small red arch
 > point to the large object
 } check that the arm is pointing at the large blue arch
 @ arm reset
@@ -29,10 +50,10 @@
 > the red one
 } check that the arm is pointing at the small red arch
 @ arm reset
-> point to the blue object
+> point to the red object
 } check that the arm is pointing at the small red arch
 @ arm reset
-> point to the circle
+> point to the arch
 > the small one
 } check that the arm is pointing at the small red arch
 @ arm reset

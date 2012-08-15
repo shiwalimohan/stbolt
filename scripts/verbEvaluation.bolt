@@ -1,0 +1,96 @@
+#!BechtelFormat
+@ classifier clear
+} place the small blue rectangle on the board
+} point at the small blue rectangle
+> this is a blue object 
+> a color
+> this is a blue object 
+> this is a blue object 
+} place the small green rectangle on the board
+} point at the small green rectangle
+> this is a green object 
+> a color
+> this is a green object 
+> this is a green object 
+} place the small red arch on the board
+} point at the small red arch
+> this is a red object 
+> a color
+> this is a red object 
+> this is a red object 
+} place the small orange rectangle on the board
+} point at the small orange rectangle
+> this is a orange object 
+> a color
+> this is a orange object 
+> this is a orange object 
+} place the blue left of the green object
+> the blue object is left of the green object
+> the green object is right of the blue object
+} place the red object in the pantry
+> the red object is in the pantry
+} place the four objects such that none of them are in the table
+> move the orange object to the table
+> the orange object should be in the table
+> pick up the orange object
+> put the orange object in the table
+> you are done
+} record the result and return orange object to its original position
+> move the blue object to the table
+} record the result and return blue object to its original position
+> move the green object to the table
+} record the result and return green object to its original position
+> move the red object to the table
+} record the result and return red object to its original position
+} place the four objects such that none of them are left of the stove
+> move the green object left of the stove
+> the green object should be left of the stove
+> pick up the green object
+> put the green object left of the stove
+> you are done
+} record the result and return green object to its original position
+> move the red object left of the stove
+} record the result and return red object to its original position
+> move the orange object left of the stove
+} record the result and return orange object to its original position
+> move the blue object left of the stove
+} record the result and return blue object to its original position
+} place the four objects such that none of them are right of the table
+> move the orange object right of the table
+> the orange object should be right of the table
+> pick up the orange object
+> put the orange object right of the table
+> you are done
+} record the result and return orange object to its original position
+> move the red object right of the table
+} record the result and return red object to its original position
+> move the blue object right of the table
+} record the result and return blue object to its original position
+> move the green object right of the table
+} record the result and return green object to its original position
+} place the four objects such that none of them are in the garbage
+> discard the green object
+> the green object should be in the garbage
+> pick up the green object
+> put the green object in the garbage
+> you are done
+} record the result and return green object to its original position
+> discard the blue object
+} record the result and return blue object to its original position
+> discard the orange object
+} record the result and return orange object to its original position
+> discard the red object
+} record the result and return red object to its original position
+} place the four objects such that none of them are in the pantry
+> store the blue object
+> the blue object should be in the pantry
+> pick up the blue object
+> put the blue object in the pantry
+> you are done
+} record the result and return blue object to its original position
+> store the green object
+} record the result and return green object to its original position
+> store the red object
+} record the result and return red object to its original position
+> store the orange object
+} record the result and return orange object to its original position

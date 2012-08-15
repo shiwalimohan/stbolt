@@ -3,11 +3,13 @@ package com.soartech.bolt.evaluation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FiveByFiveBoard {
 	private HashMap<String, BoardLocation> lastLocation = new HashMap<String, BoardLocation>();
-	private HashMap<BoardLocation, ThreeByThreeConfig> locToConfig = new HashMap<BoardLocation, ThreeByThreeConfig>();
+	private LinkedHashMap<BoardLocation, ThreeByThreeConfig> locToConfig = new LinkedHashMap<BoardLocation, ThreeByThreeConfig>();
 	
 	public FiveByFiveBoard() {
 		for(Preposition p : Preposition.values()) {
@@ -37,6 +39,14 @@ public class FiveByFiveBoard {
 			locToConfig.put(new BoardLocation(r, 0), new ThreeByThreeConfig(0,2,r-2,0));
 	}
 	
+	public List<ThreeByThreeConfig> getLocationList() {
+		List<ThreeByThreeConfig> locs = new LinkedList<ThreeByThreeConfig>();
+		for(ThreeByThreeConfig conf : locToConfig.values()) {
+			locs.add(conf);
+		}
+		return locs;
+	}
+	
 	public List<BoardLocation> getRandom5x5LocationOrder() {
 		ArrayList<BoardLocation> locs = new ArrayList<BoardLocation>();
 		for(BoardLocation bl : locToConfig.keySet()) {
@@ -53,6 +63,13 @@ public class FiveByFiveBoard {
 		while(!valid) {
 			loc = BoardLocation.getRandomLocation();
 			valid = checkLocation(prep, loc);
+			// no column constraint on behind since all squares are in column 2
+			if( prep.equals(Preposition.BEHIND.toString()) ) {
+				if( lastLoc.getRow() == loc.getRow() ) {
+					valid = false;
+				}
+				continue;
+			}
 			if(lastLoc.getColumn() == loc.getColumn() || lastLoc.getRow() == loc.getRow()) {
 				valid = false;
 			}
@@ -66,13 +83,17 @@ public class FiveByFiveBoard {
 			return false;
 		}
 		if(prep.equals(Preposition.BEHIND.toString())) {
-			if(loc.getRow() > 2) {
+			if(loc.getRow() > 2 && loc.getColumn() == 2) {
 				return true;
 			}
 		} else if ( prep.equals(Preposition.FAR_FROM.toString())) {
 			int r = loc.getRow();
 			int c = loc.getColumn();
 			if(c == 0 || c == 4 || r == 0 || r == 4) {
+				if( (r == 2 && c == 0) || (r == 0 && c == 2) || 
+						(r == 2 && c == 4) || (r == 4 && c == 2) ) {
+					return false;
+				}
 				return true;
 			} 
 		} else if (prep.equals(Preposition.IN_FRONT_OF.toString())) {

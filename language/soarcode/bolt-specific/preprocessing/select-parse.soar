@@ -189,6 +189,22 @@ sp {select-parse*propose*adjust-extra-cost*idiom
         ^type ID)
 }
 
+# fix "is the red block in front of the blue block?" (not asking if it is "of
+# the blue block")
+sp {select-parse*propose*adjust-extra-cost*OF
+   (state <s> ^name select-parse
+              ^minimal-acceptable-parse <map>)
+   (<map> ^sentence.links.link <lk>
+         -^extra-cost-adjusted OF)
+   (<lk> ^ltype OF)
+-->
+   (<s> ^operator <o> + >)
+   (<o> ^name adjust-extra-cost
+        ^parse <map>
+        ^amount .1
+        ^type OF)
+}
+
 sp {select-parse*adjust-extra-cost*indifferent
    (state <s> ^operator <o1> +
               ^operator {<> <o1> <o2>} +)
@@ -205,11 +221,13 @@ sp {select-parse*apply*adjust-extra-cost
          ^parse <p>
          ^amount <a>
          ^type <ty>)
-   (<p> ^extra-cost <old>)
+   (<p> ^extra-cost <old>
+        ^parse-count <pc>)
 -->
    (<p> ^extra-cost <old> - 
         ^extra-cost (+ <old> <a>)
         ^extra-cost-adjusted <ty>)
+   (write (crlf) |Adjusted cost of parse | <pc> | by | <a> | due to | <ty>)
 }
 
 

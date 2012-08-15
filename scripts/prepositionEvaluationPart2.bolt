@@ -1,0 +1,92 @@
+#!BechtelFormat
+} place the blue object at row 0 column 1 place the red object at row 1 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 1 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 1 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 2 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 1 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 0 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 2 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 2 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 2 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 0
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 1
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 1 column 0 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object
+} place the blue object at row 2 column 0 place the red object at row 0 column 2
+> describe the scene
+} check the relations starting with blue object
+# starting final preposition test using pick up/put
+} place the blue object such that it is not right of the red object
+> pick up the blue object
+> put the blue object right of the red object
+} place the blue object such that it is not left of the red object
+> pick up the blue object
+> put the blue object left of the red object
+} place the blue object such that it is not in front of the red object
+> pick up the blue object
+> put the blue object in front of the red object
+} place the blue object such that it is not behind the red object
+> pick up the blue object
+> put the blue object behind the red object
+} place the blue object such that it is not far from the red object
+> pick up the blue object
+> put the blue object far from the red object
+} place the blue object such that it is not near the red object
+> pick up the blue object
+> put the blue object near the red object
