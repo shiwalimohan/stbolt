@@ -176,7 +176,7 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
                 "Message does not have ^type");
         String message = "";
         message = AgentMessageParser.translateAgentMessage(messageId);
-        if(!message.equals("")){
+        if(message != null && !message.equals("")){
             ChatFrame.Singleton().addMessage(message, ActionType.Agent);
         }
         messageId.CreateStringWME("status", "complete");
