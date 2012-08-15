@@ -26,7 +26,6 @@ sp {describe-message*propose*find-relations
    (<fprep> ^predicate.name <prep>)
    (<obj> ^id <id> ^category block) # pull this out for DEMO only for testing
    (<sc> ^child <C>)
-   (<obj> ^id <id> ^category block)
    (<C> ^id <obja> ^id-int <id>)
    -{(<s> ^relationships <rels>)
    (<rels> ^with <id> ^preposition <prep>)}

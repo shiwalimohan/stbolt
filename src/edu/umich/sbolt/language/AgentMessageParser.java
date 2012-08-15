@@ -70,6 +70,10 @@ public class AgentMessageParser
             message = translateObjectsQuestion(fieldsId);
         } else if(type.equals("location-unknown")){
             message = "Relative location of object unknown";
+        } else if(type.equals("play-game")){
+            message = "Shall we play a game?";
+        } else if(type.equals("game-start")){
+            message = "Ok I know that game.  Tell me \"your turn\" when it's my turn.";
         }
         return message;
     }
