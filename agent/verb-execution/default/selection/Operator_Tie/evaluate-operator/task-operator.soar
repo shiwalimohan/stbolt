@@ -16,20 +16,48 @@ sp {evaluate-operator*propose*look-ahead*reject-all-others
 
 ### Detect that the operator has been tried.
 
-sp {evaluate-operator*elaborate*state*tried-tied-operator
+## SM 2012/01: allow composite-operators to finish application
+
+sp {evaluate-operator*elaborate*state*tried-tied-operator*primitive-action
    :default
    (state <s> ^operator <o> 
               ^look-ahead-operator <o>)
+   (<o> ^category primitive-action)
    -->
    (<s> ^tried-tied-operator <o>)}
 
+sp {evaluate-operator*elaborate*state*tried-tied-operator*composite-action
+   :default
+   (state <s> ^superstate <ss>
+	      ^operator.name mark-success)
+   (<ss> ^operator <o> 
+         ^look-ahead-operator <o>)
+   (<o> -^category primitive-action)
+   -->
+   (<ss> ^tried-tied-operator <o>)}
+
+
 # SBW 5/07: replaced all occurences of -^tried-tied-operator with ^untried-tied-operator
 # this takes care of lots of local negations
-sp {evaluate-operator*elaborate*state*remove*untried-tied-operator
+sp {evaluate-operator*elaborate*state*remove*untried-tied-operator*primitive-action
    :default
    (state <s> ^look-ahead-operator <o> 
               ^operator <o>
               ^untried-tied-operator <o>)
+   (<o> ^category primitive-action)
 -->
    (<s> ^untried-tied-operator <o> -)
+}
+
+sp {evaluate-operator*elaborate*state*remove*untried-tied-operator*composite-action
+   :default
+   (state <s> ^superstate <ss>
+   	      ^desired <d>
+	      ^success <d>)
+   (<ss> ^look-ahead-operator <o> 
+              ^operator <o>
+              ^untried-tied-operator <o>)
+   (<o> ^category composite-action)
+-->
+   (<ss> ^untried-tied-operator <o> -)
 }

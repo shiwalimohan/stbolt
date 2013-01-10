@@ -9,3 +9,6 @@ source epmem-search-control.soar
 source find-next-episode.soar
 
 source focus.soar
+
+## learning operator-specific proposal rules
+#source explain-proposal.soar

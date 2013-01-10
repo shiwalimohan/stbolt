@@ -17,6 +17,27 @@ sp {new-operator*detect*track-relation*success
 -->
    (<s> ^success <d>)
 }
+
+sp {new-operator*detect*track-relation*success*propose
+   (state <s> ^desired <d>
+   	      ^track-relation <tr>
+	      ^duplicate-of <ss>
+	      ^superstate.operator.superoperator <spo>)
+   (<d> ^track-relation <dtr>)
+   (<dtr> ^p1 <val1>
+   	  ^p2 <val2>
+	  ^spatial-relationship <prep>)
+   (<tr> ^complete success
+   	 ^object1 <val3>
+	 ^object2 <val4>
+	 ^vpredicate <prep>)
+   (<val1> ^focus <fval1>)
+   (<val2> ^focus <fval2>)
+   (<val3> ^focus <fval1>)
+   (<val4> ^focus <fval2>)
+-->
+   (<ss> ^operator <spo> + >)
+}
    
 
 #### if the retrived episode is the recent learning episode, implies that the agent was not given more instructions and the desired goal was not achieved. Clear the interaction stack, prompt the instructor to restart
