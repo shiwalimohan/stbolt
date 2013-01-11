@@ -1,7 +1,6 @@
 ## create the ^desired attribute in the composite operator state
 ## if the operator is associated with a long-term id corresponding to the goal, retrieve the children.
 ## if no children are retrieved, pose a 'goal-query'
-## SM: will not work! The goal has to be grounded before this stage. Possibly comprehension.
 
 ### elaborate assign-goal
 sp {assign-goal*elaborate*state

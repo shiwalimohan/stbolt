@@ -63,7 +63,7 @@ sp {explain*copy*retrieved*episode*self
 
 
 
-## in the explanation state, generate the desired state//
+## in the composite-operator state, generate the desired state//
 sp {explain*propose*assign-goal
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
@@ -75,6 +75,29 @@ sp {explain*propose*assign-goal
    	 ^long-term-id <glid>
 	 ^category explanation
 	 ^superoperator <sop>)
+}
+
+## in the composite-operator state, generate the problem-space//
+sp {composite*operator*propose*assign-problem-space
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>
+	      ^desired <any>
+	      -^generated
+	      ^learning-operator <sname>)
+   (<sop> ^_metadata.map-id.problem-space <pid>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name assign-problem-space
+   	 ^problem-space-id <pid>)
+}
+
+sp {prefer*assign-goal*over*assign-problem-space
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name assign-goal)
+   (<op2> ^name assign-problem-space)
+-->
+   (<s> ^operator <op1> > <op2>)
 }
 
 ### in the generated state, propose the verb on the segment

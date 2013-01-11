@@ -1,6 +1,8 @@
 source explanation.soar
 
 source assign-goal.soar
+source assign-problem-space.soar
+source generate-problem-space-operator.soar
 
 source detect-goal.soar
 source elaboration.soar
@@ -9,6 +11,7 @@ source epmem-search-control.soar
 source find-next-episode.soar
 
 source focus.soar
+
 
 ## learning operator-specific proposal rules
 ## source explain-proposal.soar

@@ -1,0 +1,31 @@
+
+sp {elaborate*generate-problem-space-operator
+   (state <s> ^name generate-problem-space-operator	
+   	      ^superstate.operator.problem-space-operator-id <id>
+	      ^smem.command <scomm>)
+ -->
+   (<s> ^operator-id <id>)
+   (<scomm> ^retrieve <id>)
+}
+
+sp {instantiate*problem-space*operator*arguments*2
+   (state <s> ^operator-id <op-temp>
+	      ^superstate.superstate <ss>
+	      ^superstate <supers>)
+   (<op-temp> ^op_name <name>
+   	      ^{<arg1> <> op_name}
+	      ^{<arg2> <> <arg1> <> op_name})
+   (<ss> ^object <obj1>
+   	 ^object {<obj2> <> <obj1>})
+   (<obj1> ^focus)
+   (<obj2> ^focus)
+-->
+   (<ss> ^operator <sop> +)
+   (<sop> ^name <name>
+   	  ^<arg1> <obj1>
+	  ^<arg2> <obj2>)
+   (<supers> ^completed <op-temp>)
+}
+
+	
+  
