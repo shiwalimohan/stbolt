@@ -7,10 +7,12 @@ sp {assign-problem-space*elaborate*state
    	      ^superstate.operator <sop>
 	      ^smem.command <scomm>)
    (<sop> ^name assign-problem-space
-   	  ^problem-space-id <pid>)
+   	  ^problem-space-id <pid>
+	  ^map-id <map>)
 -->
    (<s> ^problem-space-id <pid>
-   	^bit flip)
+   	^bit flip
+	^map-id <map>)
    (<scomm> ^retrieve <pid>)
    (force-learn <s>)
 }
@@ -21,8 +23,10 @@ sp {assign-problem-space*elaborate*state
 sp {generate*composite-operator*problem-space*operator*template
    (state <s> ##^name assign-problem-space  SM: not needed because of certain perks 
    	      ^superstate <ss>
-	      -^completed <pop>)
-   (<ss> ^superstate.operator._metadata.map-id.problem-space <pid>)
+	      -^completed <pop>
+	      -^name assign-goal)
+   (<ss> ^superstate.operator._metadata.map-id <map>)
+   (<map> ^problem-space <pid>)
    (<pid> ^operator <pop>)
 -->
    (<s> ^operator <op> +)

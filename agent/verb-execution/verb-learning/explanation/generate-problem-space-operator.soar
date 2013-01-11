@@ -1,19 +1,48 @@
 
 sp {elaborate*generate-problem-space-operator
    (state <s> ^name generate-problem-space-operator	
-   	      ^superstate.operator.problem-space-operator-id <id>
+   	      ^superstate.operator <sop>
 	      ^smem.command <scomm>)
+   (<sop> ^problem-space-operator-id <id>)
  -->
    (<s> ^operator-id <id>)
    (<scomm> ^retrieve <id>)
 }
 
+sp {get*map-id*problem-space-operator
+   (state <s> ^name generate-problem-space-operator
+   	      ^operator-id <id>
+	      -^map-id)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name get-map-id-ps
+   	 ^id <id>)
+}
+
+sp {query*semantic-memory*get-map-id-ps
+   (state <s> ^name get-map-id-ps
+   	      ^superstate.operator.id <id>
+	      ^smem.command <scomm>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <id>)
+}
+
+sp {write*map-id*superstate*get-map-id-ps
+   (state <s> ^name get-map-id-ps
+   	      ^smem.result.retrieved <mapid>
+	      ^superstate <ss>)
+-->
+  (<ss> ^map-id <mapid>)
+}
+
 sp {instantiate*problem-space*operator*arguments*2
    (state <s> ^operator-id <op-temp>
-	      ^superstate.superstate <ss>)
-   (<op-temp> ^op_name <name>
-   	      ^{<arg1> <> op_name}
-	      ^{<arg2> <> <arg1> <> op_name})
+	      ^superstate.superstate <ss>
+	      ^map-id <map>)
+   (<op-temp> ^op_name <name>)
+   	    #  ^{<arg1> <> op_name}
+	     # ^{<arg2> <> <arg1> <> op_name})
    (<ss> ^object <obj1>
    	 ^object {<obj2> <> <obj1>})
    (<obj1> ^focus)
@@ -21,8 +50,12 @@ sp {instantiate*problem-space*operator*arguments*2
 -->
    (<ss> ^operator <sop> +)
    (<sop> ^name <name>
-   	  ^<arg1> <obj1>
-	  ^<arg2> <obj2>)
+   	  ^argument5 <obj1>
+	  ^argument6 <obj2>
+	  ^_metadata.map-id <map>
+	  ^category composite-action)
+  # (<obj1> ^focus (concat <name> argument5))
+  # (<obj2> ^focus (concat <name> argument6))
    (<s> ^wait-for-completion <operator-id>)
 }
 

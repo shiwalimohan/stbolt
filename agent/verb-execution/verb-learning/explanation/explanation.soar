@@ -84,11 +84,13 @@ sp {composite*operator*propose*assign-problem-space
 	      ^desired <any>
 	      -^generated
 	      ^learning-operator <sname>)
-   (<sop> ^_metadata.map-id.problem-space <pid>)
+   (<sop> ^_metadata.map-id <map>)
+   (<map> ^problem-space <pid>)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-problem-space
-   	 ^problem-space-id <pid>)
+   	 ^problem-space-id <pid>
+	 ^map-id <map>)
 }
 
 sp {prefer*assign-goal*over*assign-problem-space
@@ -128,6 +130,18 @@ sp {explain*propose*segment-verb*elaborate
    -->
    (<op> ^<arg> <obj>)
    (<obj> ^focus (concat <name> <arg>))
+}
+
+### elaborate focus
+sp {elaborate*focus*argument*composite-operator
+   (state <s> ^operator <op>
+   	      ^object <obj>)
+   (<op> ^category composite-action
+   	 ^<arg> <obj>
+	 ^name <op_name>)
+   (<obj> ^id)
+-->
+   (<obj> ^focus (concat <op_name> <arg>))
 }
 
 sp {explain*propose*segment-verb*elaborate*goal
