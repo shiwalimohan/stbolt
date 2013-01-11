@@ -134,16 +134,3 @@ sp {apply*put-down*location*action-model
 	  ^vpredicate <rel>)
 }
 
-### action model composite action
-# sp {copy*track-relation*to*superstate
-#    (state <s> ^name <sname>
-#    	      -^io 
-# 	      ^track-relation <trel>
-# 	      ^superstate <ss>)
-#    (<ss> ^operator <sop>)
-#    (<sop> ^category composite-action
-#    	  ^name <sname>)
-#    (<sop> ^category composite-action)
-# -->
-#    (<ss> ^track-relation <trel>)
-# }

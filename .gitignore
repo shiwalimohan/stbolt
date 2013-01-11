@@ -2,6 +2,7 @@
 .classpath
 .settings
 bin/
+bin1/
 sbolt.properties
 lgsoar/.classpath
 sbolt.jar

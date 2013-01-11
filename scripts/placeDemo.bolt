@@ -1,0 +1,28 @@
+#!BechtelFormat
+< Waiting for next command...
+> move the blue cylinder to the garbage.
+< What kind of attribute is blue?
+> a color
+< What kind of attribute is cylinder?
+> a shape.
+< What is the goal of the action?
+> the goal is the blue cylinder in the garbage.
+< I don't know the preposition in. Please teach me with examples
+> the blue cylinder is in the pantry.
+< Okay.
+< Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
+> finished.
+< What action should I take next?
+> pick up the blue cylinder.
+< What action should I take next?
+> put the cylinder in the garbage.
+< What action should I take next?
+> you are done.
+< Waiting for next command...
+> place the blue cylinder in the stove.
+< What is the goal of the action?
+> the goal is the blue cylinder in the stove.
+< What action should I take next?
+> move the blue cylinder to the stove.
+< What action should I take next?
+> you are done.
