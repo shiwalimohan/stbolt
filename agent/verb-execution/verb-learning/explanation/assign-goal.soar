@@ -13,6 +13,7 @@ sp {assign-goal*elaborate*state
   (<s> ^long-term-id <glid>
        ^desired <d>
        ^superoperator <iop>)
+##  (force-learn <s>) SM: turn this on; fix issues.
 }
 
 ### retrieve the long-term-id corresponding to the goal of the indexed-operator

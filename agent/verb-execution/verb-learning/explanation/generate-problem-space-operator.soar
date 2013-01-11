@@ -10,8 +10,7 @@ sp {elaborate*generate-problem-space-operator
 
 sp {instantiate*problem-space*operator*arguments*2
    (state <s> ^operator-id <op-temp>
-	      ^superstate.superstate <ss>
-	      ^superstate <supers>)
+	      ^superstate.superstate <ss>)
    (<op-temp> ^op_name <name>
    	      ^{<arg1> <> op_name}
 	      ^{<arg2> <> <arg1> <> op_name})
@@ -24,7 +23,16 @@ sp {instantiate*problem-space*operator*arguments*2
    (<sop> ^name <name>
    	  ^<arg1> <obj1>
 	  ^<arg2> <obj2>)
-   (<supers> ^completed <op-temp>)
+   (<s> ^wait-for-completion <operator-id>)
+}
+
+sp {mark*as*generation*complete
+   (state <s> ^operator-id <op-temp>
+   	      ^wait-for-completion <operator-id>
+   	      ^superstate <ss>
+	      ^name generate-problem-space-operator)
+-->
+   (<ss> ^completed <op-temp>)
 }
 
 	
