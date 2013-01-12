@@ -1,5 +1,3 @@
-
-
 ### source problem-space learning rules
 pushd ./problem-space
 source all_source.soar

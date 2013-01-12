@@ -6,6 +6,4 @@ pushd search-control
 source all_source.soar
 popd 
 
-
-source focus.soar
-
+source explanation-failure.soar

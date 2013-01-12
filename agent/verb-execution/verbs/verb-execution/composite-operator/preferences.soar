@@ -8,6 +8,16 @@ sp {prefer*assign-goal*over*assign-problem-space
 }
 
 ## prefer mark success to primitive actions
+sp {prefer*assign-problem-space
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name assign-problem-space)
+   (<op2> ^category primitive-action)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+## prefer mark success to primitive actions
 sp {prefer*mark*success
    (state <s> ^operator <op1> +
    	      ^operator <op2> +)

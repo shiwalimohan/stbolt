@@ -27,8 +27,7 @@ sp {composite-operator*propose*assign-problem-space
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
 	      ^desired <any>
-	      -^generated
-	      ^learning-operator <sname>)
+	      -^generated)
    (<sop> ^_metadata.map-id <map>)
    (<map> ^problem-space <pid>)
 -->
