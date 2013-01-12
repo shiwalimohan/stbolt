@@ -1,4 +1,0 @@
-## Looks up the problem-space of a composite operator in the semantic memory, and instantiates operators in the problem space with objects in the present scene, and proposes these operators in the superstate
-
-source assign-problem-space.soar
-source generate-problem-space-operator.soar

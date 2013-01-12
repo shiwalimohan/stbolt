@@ -1,5 +1,0 @@
-
-## Looks up the goal of a composite operator in semantic memory, and instantiates it with the object present in the current scene. The result is put on the superstate under ^desired attribute 
-
-
-source assign-goal.soar

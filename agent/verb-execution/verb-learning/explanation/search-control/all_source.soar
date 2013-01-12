@@ -1,4 +1,0 @@
-## during forward projection using default rules, the forward search is guided by what instructions were provided during instructed execution of the task. uses episodic memory of the trace of instructed trial.
-
-source epmem-search-control.soar
-source find-next-episode.soar
