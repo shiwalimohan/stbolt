@@ -139,7 +139,6 @@ sp {elaborate*focus*argument*composite-operator
    (<op> ^category composite-action
    	 ^<arg> <obj>
 	 ^name <op_name>)
-   (<obj> ^id)
 -->
    (<obj> ^focus (concat <op_name> <arg>))
 }

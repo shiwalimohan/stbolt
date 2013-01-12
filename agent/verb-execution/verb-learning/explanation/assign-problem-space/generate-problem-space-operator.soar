@@ -32,7 +32,7 @@ sp {instantiate*problem-space*operator*arguments*2
    	      ^{<arg1> <> op_name}
 	      ^{<arg2> > <arg1> <> op_name})
 -->
-   (<ps> ^operator <sop> +)
+   (<ps> ^operator <sop> + )
    (<sop> ^name <name>
    	  ^<arg1> <obj1>
 	  ^<arg2> <obj2>
