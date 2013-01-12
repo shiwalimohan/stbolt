@@ -26,14 +26,27 @@ sp {query*semantic-memory*get-map-id-ps
 -->
    (<scomm> ^query <cue>)
    (<cue> ^procedural <id>)
+
 }
 
 sp {write*map-id*superstate*get-map-id-ps
    (state <s> ^name get-map-id-ps
    	      ^smem.result.retrieved <mapid>
 	      ^superstate <ss>)
+   (<ss> ^smem.command <sscomm>)
+   (<sscomm> ^retrieve <any>)
 -->
   (<ss> ^map-id <mapid>)
+  (<sscomm> ^retrieve <any> -)
+}
+
+sp {retrieve*goal*predicate*assign-problem-space
+   (state <s> ^name generate-problem-space-operator
+   	      ^map-id <map-id>
+	      ^smem.command <scomm>)
+   (<map-id> ^goal <g>)
+-->
+   (<scomm> ^retrieve <g>)
 }
 
 sp {instantiate*problem-space*operator*arguments*2
@@ -54,8 +67,6 @@ sp {instantiate*problem-space*operator*arguments*2
 	  ^argument6 <obj2>
 	  ^_metadata.map-id <map>
 	  ^category composite-action)
-  # (<obj1> ^focus (concat <name> argument5))
-  # (<obj2> ^focus (concat <name> argument6))
    (<s> ^wait-for-completion <operator-id>)
 }
 

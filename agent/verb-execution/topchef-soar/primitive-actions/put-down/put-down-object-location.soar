@@ -119,7 +119,8 @@ sp {delete*track-result
 sp {apply*put-down*location*action-model
    (state <s> ^operator <op>	
 	     -^io
-	     ^grabbed <obj>)
+	     ^grabbed <obj>
+	     ^superstate <ss>)
    (<op> ^name << op_put-down-object-location op_put-down-object-object >>
    	 ^argument1 <obj>
 	 ^argument2 <loc>
@@ -132,6 +133,7 @@ sp {apply*put-down*location*action-model
           ^predicate <rel>
           ^complete success
 	  ^vpredicate <rel>)
+   (<ss> ^track-relation <trel>)
 }
 
 
