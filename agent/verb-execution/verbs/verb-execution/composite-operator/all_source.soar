@@ -1,0 +1,19 @@
+source composite-operator.soar
+source focus.soar
+source elaboration.soar
+source preferences.soar
+
+## assign goal of a composite operator
+pushd assign-goal
+source all_source.soar
+popd
+
+## assign problem space of a composite operator
+pushd assign-problem-space
+source all_source.soar
+popd
+
+### detects if the goal has been achieved
+pushd detect-goal-success
+source all_source.soar
+popd 

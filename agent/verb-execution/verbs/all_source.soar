@@ -1,0 +1,10 @@
+
+## rules for composite-operator execution
+pushd ./verb-execution
+source all_source.soar
+popd
+
+## rules for learning new verbs and composite operators
+pushd ./verb-learning
+source all_source.soar
+popd

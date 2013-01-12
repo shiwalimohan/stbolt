@@ -1,0 +1,26 @@
+sp {prefer*assign-goal*over*assign-problem-space
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name assign-goal)
+   (<op2> ^name assign-problem-space)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+## prefer mark success to primitive actions
+sp {prefer*mark*success
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name mark-success)
+   (<op2> ^category primitive-action)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+   	 
+sp {composite*operator*retract
+   (state <s> ^composite-success <op>
+   	      ^operator <op>
+	      ^indexed-operator <op>)
+-->
+   (<s> ^operator <op> -)
+}

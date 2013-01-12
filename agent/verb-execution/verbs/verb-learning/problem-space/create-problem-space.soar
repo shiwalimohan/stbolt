@@ -1,0 +1,26 @@
+## if the agent is learning a composite-operator (l) and is provided with an instruction consisting of a composite operator (u), add u to l's problem-space definition in semantic memory. Use interaction stack for guiding this storage.
+
+
+### create problem-space, if the current indexed operator is a composite-action (u) and the next segment in a stack is an external action (l)
+
+
+sp {create-problem-space*semantic-memory
+   (state <s> ^topstate <s>
+   	      ^indexed-operator <iop>
+	      ^interaction.stack.segment.next.purpose <super-action>
+	      ^smem.command <scomm>)
+   (<super-action> ^type external-action
+   		   ^indexed-operator._metadata.map-id <map-id>)
+   (<map-id> ^problem-space <p>)
+   (<iop> ^_metadata.map-id {<nmap> <> <map-id>}
+   	  -^name op_pick-up-object
+	  -^name op_point-to-object
+	  -^name op_put-down-object-location
+	  -^name op_put-down-object-object)
+   (<nmap> ^procedural <procedural>)
+-->
+   (<p> ^operator <procedural>)
+   (<scomm> ^store <p>)
+   (interrupt)
+}
+

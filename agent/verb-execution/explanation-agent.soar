@@ -20,11 +20,7 @@ pushd ./topchef-soar
 source all_source.soar
 popd
 
-pushd ./verb-learning
-source all_source.soar
-popd
-
-pushd ./verb-execution
+pushd ./verbs
 source all_source.soar
 popd
 

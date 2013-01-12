@@ -1,0 +1,11 @@
+source explanation.soar
+source elaboration.soar
+
+### control forward projection
+pushd search-control
+source all_source.soar
+popd 
+
+
+source focus.soar
+

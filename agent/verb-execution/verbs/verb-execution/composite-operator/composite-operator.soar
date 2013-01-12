@@ -1,0 +1,90 @@
+### composite operator has the following argumentation
+### object arguments
+### _metadata
+### 
+##
+##
+## General application rules for composite operators
+##
+
+### retrieve and assign goal to composite-operators
+sp {composite-operator*propose*assign-goal
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>
+	      -^desired <any>)
+   (<sop> ^_metadata.map-id.goal <glid>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name assign-goal
+   	 ^long-term-id <glid>
+	 ^category explanation
+	 ^superoperator <sop>)
+}
+
+
+## retrieve and assign the problem-space for composite-operators
+sp {composite-operator*propose*assign-problem-space
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>
+	      ^desired <any>
+	      -^generated
+	      ^learning-operator <sname>)
+   (<sop> ^_metadata.map-id <map>)
+   (<map> ^problem-space <pid>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name assign-problem-space
+   	 ^problem-space-id <pid>
+	 ^map-id <map>)
+}
+
+
+## mark successful application of a composite-operator
+
+
+## retract a composite-operator if its desired state is reached
+sp {composite-operator*reject
+   (state <s> ^name <sname>
+   	      ^superstate <ss> 
+	      ^learning-operator <sname>
+	      ^desired <d>
+	      ^success <d>)
+   (<sop> ^name <sname>)
+   (<ss> ^name explain
+   	 ^operator <sop>)
+-->
+   (<ss> ^operator <sop>
+   	 ^successful-explanation <sname>
+	  ^category explanation)
+}
+
+
+sp {propose*composite*operator*elaborate*success
+   (state <s> ^name <sname>
+   	      ^superstate <ss>
+	      -^learning-operator <any>)
+   (<ss> ^operator <sop>
+   	 ^indexed-operator <iop>)
+   (<sop> ^category composite-action)
+   (<sop> ^name <sname>)
+   (<s> ^desired <d>
+   	^success <d>)
+-->
+   (<s> ^operator <op> + > !)
+   (<op> ^name mark-success
+	 ^indexed-operator <iop>
+	  ^category explanation)
+}
+
+sp {apply*composite*operator*elaborate*success
+   (state <s> ^operator <op>
+   	      ^superstate <ss>
+	      ^topstate.status <status>)
+   (<op> ^name mark-success
+	 ^indexed-operator <iop>)
+   (<iop> ^information <info>)
+ -->
+   (<ss> ^indexed-operator <iop> -)
+   (<status> ^performed.action-event <e>)
+   (<e> ^type <info>)
+}

@@ -1,0 +1,14 @@
+source initialize-verb-learning.soar
+source preferences.soar
+
+
+
+pushd ./operator-tie
+source all_source.soar
+popd
+
+
+## applying composite operators
+pushd ./composite-operator
+source all_source.soar
+popd

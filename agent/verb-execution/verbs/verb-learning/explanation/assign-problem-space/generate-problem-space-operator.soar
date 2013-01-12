@@ -1,0 +1,96 @@
+sp {elaborate*generate-problem-space-operator
+   (state <s> ^name generate-problem-space-operator	
+   	      ^superstate.operator <sop>
+	      ^smem.command <scomm>)
+   (<sop> ^problem-space-operator-id <temp>
+   	  ^proposal-state <ps>)
+ -->
+   (<s> ^operator-template <temp>
+   	^proposal-state <ps>)
+   (<scomm> ^retrieve <temp>)
+}
+
+
+sp {elaborate*focus-objects*generate-problem-space-operator
+   (state <s> ^name generate-problem-space-operator
+   	      ^proposal-state <ps>)
+   (<ps> ^object <obj>)
+   (<obj> ^focus)
+-->
+   (<s> ^candidate-object <obj>)
+}
+
+
+## create instantiation of operators with two arguments
+sp {instantiate*problem-space*operator*arguments*2
+   (state <s> ^operator-template <op-temp>
+	      ^proposal-state <ps>
+	      ^map-id <map>
+	      ^candidate-object <obj1>
+	      ^candidate-object {<obj2> <> <obj1>})
+   (<op-temp> ^op_name <name>
+   	      ^{<arg1> <> op_name}
+	      ^{<arg2> > <arg1> <> op_name})
+-->
+   (<ps> ^operator <sop> + )
+   (<sop> ^name <name>
+   	  ^<arg1> <obj1>
+	  ^<arg2> <obj2>
+	  ^_metadata.map-id <map>
+	  ^category composite-action)
+   (<s> ^wait-for-completion <op-temp>)
+}
+
+sp {mark*as*generation*complete
+   (state <s> ^operator-template <op-temp>
+   	      ^wait-for-completion <op-temp>
+   	      ^superstate <ss>
+	      ^name generate-problem-space-operator)
+-->
+   (<ss> ^completed <op-temp>)
+}
+
+	
+### return map-id 
+sp {get*map-id*problem-space-operator
+   (state <s> ^name generate-problem-space-operator
+   	      ^operator-template <id>
+	      -^map-id)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name get-map-id-ps
+   	 ^id <id>)
+}
+
+sp {query*semantic-memory*get-map-id-ps
+   (state <s> ^name get-map-id-ps
+   	      ^superstate.operator.id <id>
+	      ^smem.command <scomm>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <id>)
+
+}
+
+sp {write*map-id*superstate*get-map-id-ps
+   (state <s> ^name get-map-id-ps
+   	      ^smem.result.retrieved <mapid>
+	      ^superstate <ss>)
+   (<ss> ^smem.command <sscomm>)
+   (<sscomm> ^retrieve <any>)
+-->
+  (<ss> ^map-id <mapid>)
+  (<sscomm> ^retrieve <any> -)
+}
+
+
+## retrieve goal
+sp {retrieve*goal*predicate*assign-problem-space
+   (state <s> ^name generate-problem-space-operator
+   	      ^map-id <map-id>
+	      ^smem.command <scomm>)
+   (<map-id> ^goal <g>)
+-->
+   (<scomm> ^retrieve <g>)
+}
+
