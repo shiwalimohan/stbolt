@@ -1,17 +1,29 @@
 source explanation.soar
-
-source assign-goal.soar
-source assign-problem-space.soar
-source generate-problem-space-operator.soar
-
-source detect-goal.soar
 source elaboration.soar
 
-source epmem-search-control.soar
-source find-next-episode.soar
+## assign goal of a composite operator
+pushd assign-goal
+source all_source.soar
+popd
+
+
+## assign problem space of a composite operator
+pushd assign-problem-space
+source all_source.soar
+popd
+
+
+### detects if the goal has been achieved
+pushd detect-goal-success
+source all_source.soar
+popd 
+
+
+### control forward projection
+pushd search-control
+source all_source.soar
+popd 
+
 
 source focus.soar
 
-
-## learning operator-specific proposal rules
-## source explain-proposal.soar
