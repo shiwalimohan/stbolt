@@ -15,7 +15,9 @@ sp {composite*operator*elaborate*focus
 sp {composite*operator*elaborate*goal*focus
    (state <s> ^name <sname>
    	      ^superstate <ss>
-	      ^object <val1>)
+	      ^object <val1>
+	      ^goal-id <gid>)
+   (<gid> ^<prep> <arg>)
    (<ss> ^operator <sop>)
    (<sop> ^name <sname>
    	  ^category << composite-action explanation >>

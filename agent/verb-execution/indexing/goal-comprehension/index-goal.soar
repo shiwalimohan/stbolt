@@ -4,12 +4,10 @@ sp {elaborate*state*index-goal
    (<sop> ^name index-goal
    	  ^information <info>
 	  ^indexed-operator <iop>)
-   (<iop> ^_metadata.map-id <met>)
-   (<met> ^goal <gid>)
+   (<iop> ^_metadata.procedural-id <proc>)
    -->
    (<s> ^information <info>
-   	^map-id <met>
-	^goal-id <gid>
+   	^proc-id <proc>
 	^indexed-operator <iop>
 	^bit flip)
 }
@@ -25,6 +23,27 @@ sp {elaborate*state*index-goal
 #   (<scomm> ^store <gid>
 #   	    ^store <met>)
 #}
+
+### query semantic-memory to retrieve map-id
+sp {query*semantic-memory*for*map-id*index-goal
+   (state <s> ^name index-goal
+   	      ^smem.command <scomm>
+	      ^proc-id <pid>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <proc>)
+}
+
+### elaborate map-id index-goal
+sp {elaborate*map-id*index-goal
+   (state <s> ^smem.result.retrieved <ret>
+   	      ^name index-goal)
+   (<ret> ^goal <goal-id>
+   	  ^problem-space <ps-id>)
+-->
+   (<s> ^map-id <ret>
+   	^goal-id <goal-id>)
+}
 
 
 ### create goal predicates for all relations in the goal statement

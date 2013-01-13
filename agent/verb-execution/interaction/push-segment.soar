@@ -6,7 +6,7 @@
 sp {push-segment*dont-learn
    (state <s> ^name push-segment)
 -->
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
    
 sp {push-segment*create-segment

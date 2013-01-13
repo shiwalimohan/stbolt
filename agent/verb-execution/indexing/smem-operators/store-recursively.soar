@@ -14,7 +14,7 @@ sp {definition*store-smem-recursively
 -->
    (<scomm> ^store <id>)
    (<s> ^identifier <id>)
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
 
 

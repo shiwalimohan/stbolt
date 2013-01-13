@@ -9,5 +9,5 @@ sp {topstate*apply*init*instruction
    (<op> ^name init-agent)
 -->
    (<s> ^status <stat>)
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }

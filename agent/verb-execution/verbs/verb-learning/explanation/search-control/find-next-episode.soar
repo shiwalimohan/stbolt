@@ -7,7 +7,7 @@ sp {find-next-episode*elaborate*segment-id
    	  ^action-id <seg-id>)
 -->
    (<s> ^action-id (+ 1 <seg-id>))
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
 
 ### find an episode such that the segment on the top is segment-id + 1 and it has in indexed operator

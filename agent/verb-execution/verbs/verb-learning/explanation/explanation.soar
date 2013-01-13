@@ -28,6 +28,7 @@ sp {elaborate*explain*query
 
 } 
 
+
 ## in the explain operator, query episodic memory for the time when segment top was first seen on the top of the stack
 
 sp {explain*retrieve*episode*episodic*memory*2
@@ -90,23 +91,46 @@ sp {explain*propose*segment-verb*elaborate
    (<op> ^<arg> <obj>)
    (<obj> ^focus (concat <name> <arg>))
 }
+### query semantic-memory to retrieve map-id
+sp {query*semantic-memory*for*map-id*explain
+   (state <s> ^name explain
+   	      ^smem.command <scomm>
+   	      ^segment.purpose.indexed-operator <map-op>)
+   (<map-op> ^name <name>
+	     ^_metadata.procedural-id <proc-id>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <proc>)
+}
+
+### elaborate map-id index-goal
+sp {elaborate*map-id*explain
+   (state <s> ^smem.result.retrieved <ret>
+   	      ^name explain)
+   (<ret> ^goal <goal-id>)
+-->
+   (<s> ^map-id <ret>
+   	^goal-id <goal-id>)
+}
 
 ### elaborate focus for objects in explanation
 sp {explain*propose*segment-verb*elaborate*goal
    (state <s> ^name explain
    	      ^segment.purpose.indexed-operator <map-op>
 	      ^operator <op> +
-	      ^object <obj>)
+	      ^object <obj>
+	      ^goal-id <gid>)
+   (<gid> ^<pred>.<arg> <val>)
    (<op> ^name <name>)
    (<map-op> ^name <name>
-	     ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+   	     ^<arg> <sobj>)
    (<sobj> ^id <id>)
    (<obj> ^id <id>)
    -->
    (<obj> ^focus (concat <name> <arg>))
 }
 
-### --- mark that the desired state of the operator is reached
+### mark that the desired state of the operator is reached, and therefore explanation is successful
 sp {composite-operator*mark-success
    (state <s> ^name <sname>
    	      ^superstate <ss> 
@@ -134,4 +158,44 @@ sp {explain*success
    (<e> ^type explanation)
 }
 	      
+
+### rules for cleanup during assign-problem space
+sp {composite-operator*propose*cleanup*explanation
+   (state <s> ^name <sname>
+	      ^superstate.name explain
+	      -^cleanup yes)
+ -->
+   (<s> ^operator <op> + >)
+   (<op> ^name cleanup)
+}
+
+sp {composite-operator*apply*cleanup*explanation
+   (state <s> ^name <sname>
+	      ^superstate.name explain
+	      ^operator.name cleanup
+	      ^superstate.operator <sop>
+	      ^map-id.problem-space <pid>)
+   (<pid> ^operator <any>)
+-->
+   (<pid> ^operator <any> -)
+}
+
+sp {composite-operator*cleanup*flag*explanation
+   (state <s> ^name <sname>
+	      ^superstate.name explain
+	      ^operator.name cleanup)
+-->
+   (<s> ^cleanup yes)
+}
+
+## prefer cleanup to assign-goal
+sp {explain*prefer*clean-up
+   (state <s> ^superstate.name explain
+   	      ^operator <op1> +
+	      ^operator <op2> +)
+   (<op1> ^name assign-goal)
+   (<op2> ^name cleanup)
+-->
+   (<s> ^operator <op1> < <op2>)
+}
 

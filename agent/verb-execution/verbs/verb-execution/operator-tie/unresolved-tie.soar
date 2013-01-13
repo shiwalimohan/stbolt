@@ -10,7 +10,7 @@ sp {topstate*operator-tie*propose*write-unresolved-tie-topstate
 -->
    (<s> ^operator <op> + >)
    (<op> ^name indicate-unresolved-tie)
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
 
 

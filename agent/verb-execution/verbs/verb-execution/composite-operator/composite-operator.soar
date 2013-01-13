@@ -1,18 +1,64 @@
 ### composite operator has the following argumentation
 ### object arguments
 ### _metadata
-### 
+
+### information stored in semantic memory
+### problem-space
+### goal
+### linguistic-mapping
+### operator template
+
+
 ##
 ##
 ## General application rules for composite operators
 ##
 
+### elaborate composite-operator
+sp {elaborate*composite-operators
+   (state <s> ^superstate.operator <sop>
+   	      ^name <sname>)
+   (<sop> ^_metadata <met>
+	  ^name <sname>)
+   (<met> ^procedural-id <map>)
+-->
+   (<s> ^procedural-id <map>)
+}
+
+### query semantic-memory to retrieve map-id
+sp {query*semantic-memory*for*map-id*composite-operator*application
+   (state <s> ^procedural-id <proc>
+   	      ^smem.command <scomm>
+	      ^superstate.operator <sop>
+   	      ^name <sname>)
+   (<sop> ^name <sname>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <proc>)
+}
+
+### elaborate map-id composite-operator
+sp {elaborate*map-id*composite-operator
+   (state <s> ^smem.result.retrieved <ret>
+   	      ^procedural-id <proc>
+   	      ^superstate.operator <sop>
+   	      ^name <sname>)
+   (<sop> ^name <sname>)
+   (<ret> ^goal <goal-id>
+   	  ^problem-space <ps-id>)
+-->
+   (<s> ^map-id <ret>
+   	^goal-id <goal-id>
+	^problem-space-id <ps-id>)
+}
+
 ### retrieve and assign goal to composite-operators
 sp {composite-operator*propose*assign-goal
    (state <s> ^name <sname>
-   	      ^superstate.operator <sop>
-	      -^desired <any>)
-   (<sop> ^_metadata.map-id.goal <glid>)
+	      -^desired <any>
+	      ^goal-id <glid>
+	      ^superstate.operator <sop>
+	      -^name explain)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
@@ -25,11 +71,11 @@ sp {composite-operator*propose*assign-goal
 ## retrieve and assign the problem-space for composite-operators
 sp {composite-operator*propose*assign-problem-space
    (state <s> ^name <sname>
-   	      ^superstate.operator <sop>
 	      ^desired <any>
-	      -^generated)
-   (<sop> ^_metadata.map-id <map>)
-   (<map> ^problem-space <pid>)
+	      -^generated
+	      ^map-id <map>
+	      ^problem-space-id <pid>
+	      ^learning-operator <sname>) ## we want this step to occur only in the deliberate explanation
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-problem-space
@@ -38,26 +84,10 @@ sp {composite-operator*propose*assign-problem-space
 }
 
 
-## mark successful application of a composite-operator
+### after a problem-space is assigned, the learned selection chunks will fire and apply the composite-operator. 
 
 
-## retract a composite-operator if its desired state is reached
-sp {composite-operator*reject
-   (state <s> ^name <sname>
-   	      ^superstate <ss> 
-	      ^learning-operator <sname>
-	      ^desired <d>
-	      ^success <d>)
-   (<sop> ^name <sname>)
-   (<ss> ^name explain
-   	 ^operator <sop>)
--->
-   (<ss> ^operator <sop>
-   	 ^successful-explanation <sname>
-	  ^category explanation)
-}
-
-
+## mark successful application of a composite-operator;
 sp {propose*composite*operator*elaborate*success
    (state <s> ^name <sname>
    	      ^superstate <ss>
@@ -75,6 +105,7 @@ sp {propose*composite*operator*elaborate*success
 	  ^category explanation)
 }
 
+### plugin into the interaction stack; this will cause retraction of the composite-operator once its goal/desired state is reached.
 sp {apply*composite*operator*elaborate*success
    (state <s> ^operator <op>
    	      ^superstate <ss>
@@ -87,3 +118,9 @@ sp {apply*composite*operator*elaborate*success
    (<status> ^performed.action-event <e>)
    (<e> ^type <info>)
 }
+
+
+
+
+
+

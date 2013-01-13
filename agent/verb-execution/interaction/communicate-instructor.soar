@@ -77,7 +77,7 @@ sp {communicate*apply*put-on-nl-oplink*message
 -->
    (<ol> ^message <msg>)
    (<s> ^communicated <msg>)
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
 	
 sp {communicate*set*status*success

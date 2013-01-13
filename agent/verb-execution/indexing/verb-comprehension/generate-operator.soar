@@ -76,13 +76,13 @@ sp {associate*spatial*relations
    (<op> ^_relation <rel>)
 }
 
-sp {copy*map-id*metadata
+sp {copy*procedural-id*metadata
    (state <s> ^name generate-operator
    	      ^index-operator <op>
-	      ^map-id <map>)
+	      ^procedural-id <map>)
 -->
    (<op> ^_metadata <met>)
-   (<met> ^map-id <map>)
+   (<met> ^procedural-id <map>)
 }
 
 sp {generate*operator*arguments*write-to-superstate

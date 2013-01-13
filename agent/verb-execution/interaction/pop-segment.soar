@@ -3,7 +3,7 @@
 sp {pop-segment*dont-learn
    (state <s> ^name pop-segment)
 -->
-   (dont-learn <s>)
+#   (dont-learn <s>)
 }
 
 sp {apply*pop-segment
