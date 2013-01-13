@@ -5,11 +5,13 @@ sp {elaborate*generate*operator
    (<sop> ^procedural-id <pid>
    	  ^linguistic-id <lid>
 	  ^map-id <map>
+	  ^problem-space-id <psid>
 	  ^cue <cue>)
 -->
    (<s> ^procedural-id <pid>
    	^linguistic-id <lid>
 	^map-id <map>
+	^problem-space-id <psid>
 	^cue <cue>)
 }
 
@@ -79,11 +81,15 @@ sp {associate*spatial*relations
 sp {copy*procedural-id*metadata
    (state <s> ^name generate-operator
    	      ^index-operator <op>
-	      ^procedural-id <map>)
+	      ^procedural-id <map>
+	      ^map-id <map-id>
+	      ^problem-space-id <psid>)
 -->
    (<op> ^_metadata <met>)
-   (<met> ^procedural-id <map>)
+   (<met> ^procedural-id <map>
+   	  ^problem-space-id <psid>)
 }
+
 
 sp {generate*operator*arguments*write-to-superstate
    (state <s> ^name generate-operator

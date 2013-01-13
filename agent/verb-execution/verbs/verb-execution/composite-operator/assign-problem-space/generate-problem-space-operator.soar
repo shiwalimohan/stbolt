@@ -8,7 +8,7 @@ sp {elaborate*generate-problem-space-operator
    (<s> ^operator-template <temp>
    	^proposal-state <ps>)
    (<scomm> ^retrieve <temp>)
-#   (force-learn <s>)
+   (force-learn <s>)
 }
 
 

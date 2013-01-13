@@ -12,21 +12,21 @@ sp {composite*operator*elaborate*focus
 }
 
 ### focus for operator goal
-sp {composite*operator*elaborate*goal*focus
-   (state <s> ^name <sname>
-   	      ^superstate <ss>
-	      ^object <val1>
-	      ^goal-id <gid>)
-   (<gid> ^<prep> <arg>)
-   (<ss> ^operator <sop>)
-   (<sop> ^name <sname>
-   	  ^category << composite-action explanation >>
-	  ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
-   (<sobj> ^id <id>)
-   (<val1> ^id <id>)
-   -->
-   (<val1> ^focus (concat <sname> <arg>))
-}
+# sp {composite*operator*elaborate*goal*focus
+#    (state <s> ^name <sname>
+#    	      ^superstate <ss>
+# 	      ^object <val1>
+# 	      ^goal-id <gid>)
+#    (<gid> ^<prep> <arg>)
+#    (<ss> ^operator <sop>)
+#    (<sop> ^name <sname>
+#    	  ^category << composite-action explanation >>
+# 	  ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+#    (<sobj> ^id <id>)
+#    (<val1> ^id <id>)
+#    -->
+#    (<val1> ^focus (concat <sname> <arg>))
+# }
 
 
 ### clean up focus

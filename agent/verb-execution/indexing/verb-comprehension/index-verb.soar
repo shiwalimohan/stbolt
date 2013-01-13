@@ -90,6 +90,7 @@ sp {propose*generate-operator
    	      ^procedural <pid>
 	      ^linguistic <lid>
 	      ^map-id <map>
+	      ^map-id.problem-space <ps>
 	      ^cue <cue>
 	      -^indexed-operator <any>)
 -->
@@ -97,6 +98,7 @@ sp {propose*generate-operator
   (<op> ^name generate-operator
   	^procedural-id <pid>
 	^linguistic-id <lid>
+	^problem-space-id <ps>
 	^cue <cue>
 	^map-id <map>
 	^category indexing)

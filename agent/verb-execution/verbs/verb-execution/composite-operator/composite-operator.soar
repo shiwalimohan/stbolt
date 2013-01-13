@@ -30,7 +30,8 @@ sp {query*semantic-memory*for*map-id*composite-operator*application
    (state <s> ^procedural-id <proc>
    	      ^smem.command <scomm>
 	      ^superstate.operator <sop>
-   	      ^name <sname>)
+   	      ^name <sname>
+	      -^name assign-goal)
    (<sop> ^name <sname>)
 -->
    (<scomm> ^query <cue>)
@@ -57,12 +58,14 @@ sp {composite-operator*propose*assign-goal
    (state <s> ^name <sname>
 	      -^desired <any>
 	      ^goal-id <glid>
+	      ^procedural-id <pid>
 	      ^superstate.operator <sop>
 	      -^name explain)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
    	 ^long-term-id <glid>
+	 ^procedural-id <pid>
 	 ^category explanation
 	 ^superoperator <sop>)
 }

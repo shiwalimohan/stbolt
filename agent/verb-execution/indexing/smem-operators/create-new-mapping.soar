@@ -55,7 +55,8 @@ sp {create-new-mapping*problem-space*mapping
 	      ^mapping <map>)
 -->
    (<map> ^problem-space <pro>)
-   (<scomm> ^store <pro>)
+   (<scomm> ^store <pro>
+   	    ^store <map>)
 }
    	    
 	      

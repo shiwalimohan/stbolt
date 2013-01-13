@@ -10,16 +10,16 @@ sp {create-problem-space*semantic-memory
 	      ^interaction.stack.segment.next.purpose <super-action>
 	      ^smem.command <scomm>)
    (<super-action> ^type external-action
-   		   ^indexed-operator._metadata.map-id <map-id>)
-   (<map-id> ^problem-space <p>)
-   (<iop> ^_metadata.map-id {<nmap> <> <map-id>}
+   		   ^indexed-operator._metadata <metadata>)
+   (<metadata> ^procedural-id <map-id>
+   	      ^problem-space-id <p>)
+   (<iop> ^_metadata.procedural-id {<nmap> <> <map-id>}
    	  -^name op_pick-up-object
 	  -^name op_point-to-object
 	  -^name op_put-down-object-location
 	  -^name op_put-down-object-object)
-   (<nmap> ^procedural <procedural>)
 -->
-   (<p> ^operator <procedural>)
+   (<p> ^operator <nmap>)
    (<scomm> ^store <p>)
    (interrupt)
 }
