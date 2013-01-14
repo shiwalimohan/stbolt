@@ -1,15 +1,21 @@
-sp {elaborate*generate-problem-space-operator
-   (state <s> ^name generate-problem-space-operator	
+sp {elaborate*generate-problem-space-operator*problem-space-id
+   (state <s> ^name generate-problem-space-operator
    	      ^superstate.operator <sop>
 	      ^smem.command <scomm>)
-   (<sop> ^problem-space-operator-id <temp>
-   	  ^proposal-state <ps>)
+   (<sop> ^problem-space-operator-id <pop>)
  -->
-   (<s> ^operator-template <temp>
-   	^proposal-state <ps>)
-   (<scomm> ^retrieve <temp>)
+   (<s> ^operator-template <pop>)
+   (<scomm> ^retrieve <pop>)
+  # (force-learn <s>)
 }
 
+sp {elaborate*generate-problem-space-operator*proposal-state
+   (state <s> ^name generate-problem-space-operator
+   	      ^superstate.operator <sop>)
+   (<sop> ^proposal-state <ps>)
+ -->
+   (<s> ^proposal-state <ps>)
+ }
 
 sp {elaborate*focus-objects*generate-problem-space-operator
    (state <s> ^name generate-problem-space-operator
@@ -19,7 +25,6 @@ sp {elaborate*focus-objects*generate-problem-space-operator
 -->
    (<s> ^candidate-object <obj>)
 }
-
 
 ## create instantiation of operators with two arguments
 sp {instantiate*problem-space*operator*arguments*2
@@ -32,7 +37,7 @@ sp {instantiate*problem-space*operator*arguments*2
    	      ^{<arg1> <> op_name}
 	      ^{<arg2> > <arg1> <> op_name})
 -->
-   (<ps> ^operator <sop> + )
+   (<ps> ^problem-space-operator <sop>)
    (<sop> ^name <name>
    	  ^<arg1> <obj1>
 	  ^<arg2> <obj2>
@@ -64,7 +69,7 @@ sp {get*map-id*problem-space-operator
 
 sp {query*semantic-memory*get-map-id-ps
    (state <s> ^name get-map-id-ps
-   	      ^superstate.operator.id <id>
+   	      ^superstate.operator-template <id>
 	      ^smem.command <scomm>)
 -->
    (<scomm> ^query <cue>)

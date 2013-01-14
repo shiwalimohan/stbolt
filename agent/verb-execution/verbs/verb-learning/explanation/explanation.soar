@@ -73,6 +73,7 @@ sp {explain*propose*segment-verb
    (<s> ^operator <new-op> + >)
    (<new-op> ^name <name>
    	     ^category explanation
+   	     ^category composite-action
 	     ^_metadata <met>)
 }
 

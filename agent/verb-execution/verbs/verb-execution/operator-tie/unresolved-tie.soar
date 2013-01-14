@@ -6,7 +6,8 @@ sp {topstate*operator-tie*propose*write-unresolved-tie-topstate
    	      ^name selection
 	      -^learning-operator <any>
 	      -^problem-space << lgsoar message-interpretation >>
-	      -^name preprocess-sentence)
+	      -^name preprocess-sentence
+	      ^quiescence t)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name indicate-unresolved-tie)

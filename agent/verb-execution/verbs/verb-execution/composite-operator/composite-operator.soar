@@ -7,13 +7,31 @@
 ## General application rules for composite operators
 ##
 
+### elaborate composite-operators
+sp {composite-operator*elaborate*state
+   (state <s> ^name <sname>
+   	      ^superstate.operator <sop>)
+   (<sop> ^_metadata.map-id <map-id>
+   	  ^category composite-action)
+   (<map-id> ^goal <goal-id>
+   	     ^problem-space <ps-id>
+	     ^procedural <proc-id>)
+-->
+   (<s> ^application-state composite-action
+   	^goal-id <goal-id>
+	^problem-space-id <ps-id>
+	^map-id <map-id>
+	^procedural-id <proc-id>)
+}
+
 ### retrieve and assign goal to composite-operators
 sp {composite-operator*propose*assign-goal
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
-	      -^desired <any>)
-   (<sop> ^_metadata.map-id.goal <glid>)
--->
+	      -^desired <any>
+	      ^goal-id <glid>
+	      ^application-state composite-action)
+ -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
    	 ^long-term-id <glid>
@@ -27,20 +45,30 @@ sp {composite-operator*propose*assign-problem-space
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
 	      ^desired <any>
-	      -^generated)
-   (<sop> ^_metadata.map-id <map>)
-   (<map> ^problem-space <pid>)
+	      -^generated
+	      ^problem-space-id <pid>
+	      ^procedural-id <proc-id>
+	      ^map-id <map>
+	      ^application-state composite-action)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-problem-space
    	 ^problem-space-id <pid>
-	 ^map-id <map>)
+	 ^map-id <map>
+	 ^procedural-id <proc-id>)
+}
+
+### propose problem-space-operators if any
+sp {composite-operator*propose*problem-space-operators
+   (state <s> ^name <sname>
+	      ^application-state composite-action
+	      ^problem-space-operator <op>)
+-->
+   (<s> ^operator <op> +)
 }
 
 
 ## mark successful application of a composite-operator
-
-
 ## retract a composite-operator if its desired state is reached
 sp {composite-operator*reject
    (state <s> ^name <sname>

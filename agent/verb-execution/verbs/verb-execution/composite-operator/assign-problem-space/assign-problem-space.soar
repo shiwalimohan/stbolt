@@ -4,15 +4,18 @@
 ## elaborate assign-problem-space
 sp {assign-problem-space*elaborate*state
    (state <s> ^name assign-problem-space
-   	      ^superstate.operator <sop>
-	      ^smem.command <scomm>)
-   (<sop> ^name assign-problem-space
-   	  ^problem-space-id <pid>
-	  ^map-id <map>)
+	      ^smem.command <scomm>
+	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^problem-space-id <pid>
+	 ^map-id <map>
+	 ^procedural-id <proc-id>)
 -->
    (<s> ^problem-space-id <pid>
-   	^bit flip
-	^map-id <map>)
+	^map-id <map>
+	^proposal-state <ss>
+	^procedural-id <proc-id>
+   	^bit flip)
    (<scomm> ^retrieve <pid>)
    (force-learn <s>) ## to learn proposal rule chunks
 }
@@ -21,27 +24,24 @@ sp {assign-problem-space*elaborate*state
 ### if there are operator templates in problem-space-id, generate operators based on them
 
 sp {generate*composite-operator*problem-space*operator*template
-   (state <s> ##^name assign-problem-space  SM: not needed because of certain perks 
-   	      ^superstate <ss>
+   (state <s> ^name assign-problem-space
 	      -^completed <pop>
-	      -^name assign-goal)
-   (<ss> ^superstate.operator._metadata.map-id <map>)
-   (<map> ^problem-space <pid>)
+	      ^problem-space-id <pid>
+	      ^proposal-state <ps>)
    (<pid> ^operator <pop>)
 -->
    (<s> ^operator <op> +)
    (<op> ^name generate-problem-space-operator
    	 ^problem-space-operator-id <pop>
-	 ^proposal-state <ss>)
+	 ^proposal-state <ps>)
 }
-
-
 
 ### if state-no-change, write desired to the superstate; occurs only if there are any composite operators in the problem-space
 sp {assign-problem-space*write*superstate*desired
    (state <s> ^impasse no-change
    	      ^attribute state
-	      ^superstate <ss>)
+	      ^superstate <ss>
+	      ^quiescence t)
    (<ss> ^name assign-problem-space
    	 ^superstate <sss>)
 -->
@@ -54,7 +54,8 @@ sp {generate*composite-operator*problem-space*operator*none
    (state <s> ^name assign-problem-space
    	      ^problem-space-id <pid>
 	      ^superstate <ss>
-	      ^smem.result.success <any>)
+	      ^smem.result.success <any>
+	      ^quiescence t)
    (<pid> -^operator <pop>)
 -->
    (<ss> ^generated none)
