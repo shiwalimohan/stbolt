@@ -49,7 +49,8 @@ sp {composite-operator*propose*assign-problem-space
 	      ^problem-space-id <pid>
 	      ^procedural-id <proc-id>
 	      ^map-id <map>
-	      ^application-state composite-action)
+	      ^application-state composite-action
+	      -^problem-space-operator)
 -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-problem-space
@@ -73,7 +74,6 @@ sp {composite-operator*propose*problem-space-operators
 sp {composite-operator*reject
    (state <s> ^name <sname>
    	      ^superstate <ss> 
-	      ^learning-operator <sname>
 	      ^desired <d>
 	      ^success <d>)
    (<sop> ^name <sname>)

@@ -134,8 +134,7 @@ sp {non-atomic*prefer*svs*wait
 
 ### learn in the selection space
 sp {chunk*in*selection*space	
-   (state <s> ^name selection
-   	      ^learning-operator <any>)
+   (state <s> ^name selection)
 -->
    (force-learn <s>)
 }

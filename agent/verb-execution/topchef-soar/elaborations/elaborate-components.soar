@@ -32,23 +32,25 @@ sp {copy*objects
       	  -^problem-space << lgsoar message-interpretation >>
 	  -^name explain 
 	  -^name assign-goal
-	  -^learning-operator <any>)
+	  -^name assign-problem-space
+	  -^name evaluate-operator
+	  -^name selection)
    (<ss> -^problem-space << lgsoar message-interpretation >>
    	 ^object <obj>)
 -->
   (<s> ^object <obj>)
 }
 
-sp {copy*objects*special*case
-   (state <s> ^superstate <ss>
-      	     -^problem-space << lgsoar message-interpretation >>
-	      ^learning-operator <any>)
-   (<ss> -^problem-space << lgsoar message-interpretation >>
-   	 ^object <obj>
-	 ^operator._metadata)
--->
-  (<s> ^object <obj>)
-}
+# sp {copy*objects*special*case
+#    (state <s> ^superstate <ss>
+#       	     -^problem-space << lgsoar message-interpretation >>
+# 	      ^learning-operator <any>)
+#    (<ss> -^problem-space << lgsoar message-interpretation >>
+#    	 ^object <obj>
+# 	 ^operator._metadata)
+# -->
+#   (<s> ^object <obj>)
+# }
 
 ## elaborate grabbed object from the id
 sp {elaborate*grabbed*object

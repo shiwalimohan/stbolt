@@ -111,7 +111,6 @@ sp {explain*propose*segment-verb*elaborate*goal
 sp {composite-operator*mark-success
    (state <s> ^name <sname>
    	      ^superstate <ss> 
-	      ^learning-operator <sname>
 	      ^desired <d>
 	      ^success <d>)
    (<sop> ^name <sname>)
