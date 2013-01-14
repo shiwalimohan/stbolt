@@ -122,9 +122,8 @@ sp {assign-goal*propose*retrieve-predicate
 	      ^smem.result <sres>)
    (<sres> ^success <glid>)
    (<glid> ^<prep> <p1>)
-   (<p1> -^<parg> <pval>)
 -->
-   (<s> ^operator <op> + >)
+   (<s> ^operator <op> +)
    (<op> ^name retrieve-predicate
    	 ^predicate <p1>)
 }
@@ -133,9 +132,30 @@ sp {assign-goal*propose*retrieve-predicate
 ### retrieve the predicate
 sp {retrieve-predicate*retrieve-predicate
    (state <s> ^name retrieve-predicate
-   	      ^superstate.operator.predicate <p1>
+   	      ^superstate <ss>
 	      ^smem.command <scomm>)
-  -->
-   (<scomm> ^retrieve <p1>)
+  (<ss> ^operator <op>)
+  (<op> ^predicate <p1>)
+-->
+  (<scomm> ^retrieve <p1>)
+}
+
+sp {retrieve-predicate*success*reject
+   (state <s> ^name retrieve-predicate
+   	      ^superstate <ss>
+	      ^smem.result.retrieved <any>
+	      	      ^quiescence t)
+   (<ss> ^operator <sop>)
+-->
+   (<ss> ^operator <sop> -)
 }
 	      
+
+sp {prefer*lookup-preposition*over*retrieve-predicate
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name lookup-preposition)
+   (<op2> ^name retrieve-predicate)
+-->
+   (<s> ^operator <op1> > <op2>)
+}

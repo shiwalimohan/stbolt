@@ -142,7 +142,8 @@ sp {apply*put-down*location*action-model
 sp {retrieve*relation*substructure*find-projection
    (state <s> ^name find-projection
    	      ^superstate.operator.predicate.relation <rel>
-	      ^bit flip)
+	      ^bit flip
+	       ^quiescence t)
    (<rel> -^<arg> <val>)
 -->
    (<s> ^operator <op> + =)
