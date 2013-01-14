@@ -5,22 +5,72 @@
 
 
 sp {create-problem-space*semantic-memory
-   (state <s> ^topstate <s>
-   	      ^indexed-operator <iop>
-	      ^interaction.stack.segment.next.purpose <super-action>
-	      ^smem.command <scomm>)
+   (state <s> ^topstate <ts> 
+	      ^smem.command <scomm>
+	      -^superaction-map-id <smap>
+	      ^name <name>)
+   (<ts> ^indexed-operator <iop>
+	 ^interaction.stack.segment.next.purpose <super-action>)
    (<super-action> ^type external-action
    		   ^indexed-operator._metadata <metadata>)
-   (<metadata> ^procedural-id <map-id>
-   	      ^problem-space-id <p>)
-   (<iop> ^_metadata.procedural-id {<nmap> <> <map-id>}
+   (<metadata> ^procedural-id <proc-id>)
+   (<iop> ^_metadata.procedural-id {<nmap> <> <proc-id>}
+   	  ^name <name>
    	  -^name op_pick-up-object
 	  -^name op_point-to-object
 	  -^name op_put-down-object-location
 	  -^name op_put-down-object-object)
 -->
-   (<p> ^operator <nmap>)
-   (<scomm> ^store <p>)
-   (interrupt)
+   (<s> ^operator <op> + >)
+   (<op> ^name query-superaction-map-id
+   	 ^procedural-id <proc-id>)
+
+ }
+
+sp {query*superaction-map-id
+   (state <s> ^name query-superaction-map-id
+   	      ^superstate.operator.procedural-id <proc-id>
+	      ^smem.command <scomm>)
+-->
+   (<scomm> ^query <cue>)
+   (<cue> ^procedural <proc-id>)
 }
+
+sp {write-to-superstate*superaction-map-id
+   (state <s> ^name query-superaction-map-id
+   	      ^smem.result.retrieved.problem-space <ret>
+	      ^superstate.operator.procedural-id <proc-id>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name update-problem-space
+   	 ^superaction-problem-space-id <ret>
+	 ^procedural-id <proc-id>)
+}
+
+sp {update-problem-space*superaction
+    (state <s> ^name update-problem-space
+    	       ^superstate.operator <sop>
+	       ^smem.command <scomm>
+	       ^superstate.superstate <ss>)
+    (<sop> ^superaction-problem-space-id <ret>
+    	   ^procedural-id <proc-id>)
+--> 
+    (<ret> ^operator <proc-id>)
+    (<scomm> ^store <ret>
+    	     ^store <proc-id>)
+    (<ss> ^superaction-map-id <ret>)
+}
+
+sp {prefer*query-superaction-map-id*assign-goal
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name assign-goal)
+   (<op2> ^name query-superaction-map-id)
+-->
+   (<s> ^operator <op2> > <op1>)
+}
+   
+
+
+
 
