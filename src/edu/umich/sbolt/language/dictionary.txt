@@ -3,4 +3,4 @@ ADJECTIVE: red orange yellow green blue purple gray large medium small
 VERB: put get go pick index cancel
 DETERMINER: a the that
 PREPOSITION: on in from to up down right
-ATTRIBUTE: color size shape name
+ATTRIBUTE: color size shape name open closed off

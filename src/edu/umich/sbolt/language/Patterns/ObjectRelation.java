@@ -75,7 +75,6 @@ public class ObjectRelation extends LinguisticEntity{
         }
         ObjectRelation objectRelation = new ObjectRelation();
         objectRelation.preposition = WMUtil.getValueOfAttribute(relationId, "word");
-        
         objectRelation.object1 = LingObject.createFromSoarSpeak(relationId, "object1");
         objectRelation.object2 = LingObject.createFromSoarSpeak(relationId, "object2");
         

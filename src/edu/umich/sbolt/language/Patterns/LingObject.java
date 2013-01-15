@@ -54,10 +54,10 @@ public class LingObject extends LinguisticEntity {
 	
 	@Override
 	public void translateToSoarSpeak(Identifier id, String connectingString) {
-		id.CreateStringWME("type", "object-message");
+//		id.CreateStringWME("type", "object-message");
 	    id.CreateStringWME("originator", "instructor");
-	    Identifier fieldsId = id.CreateIdWME("information");
-		Identifier objectId = fieldsId.CreateIdWME("object");
+	  //  Identifier fieldsId = id.CreateIdWME("information");
+		Identifier objectId = id.CreateIdWME(connectingString);
 	    objectId.CreateStringWME("word", noun);
 		if (determiner != null){
 			if(determiner.equals("the")){
@@ -74,6 +74,13 @@ public class LingObject extends LinguisticEntity {
 	}
 	
 	public static LingObject createFromSoarSpeak(Identifier id){
+		
+		/*
+		 * SM: Had to change this to work correctly with goal definitions with multiple predicates (ObjectRelation, ObjectState)
+		 * It is likely that this will produce incorrect parse for ObjectResponse
+		 * 
+		 */
+		
 	    // Assumes id is the root of the object
         if(id == null){
             return null;

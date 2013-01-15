@@ -92,9 +92,11 @@ public class Parser {
 	
     public boolean getSoarSpeak(String latestMessage, Identifier messageId) {
         this.languageSentence = latestMessage;
+    //    System.out.println("The message is " + this.languageSentence);
         tagsToWords = new LinkedHashMap();
         mapTagToWord();
         this.tagString = getPOSTagString();
+     //   System.out.println("Tag string is " + this.tagString);
         return traslateToSoarSpeak(messageId, getParse());
     }
 	
@@ -126,6 +128,7 @@ public class Parser {
 		for(EntityPattern pattern : entityPatterns){
 		    tagString = util.extractPattern(pattern, tagString, tagsToWords);
 		}
+//		System.out.println("the tag string is " + tagString);
 		return tagString;
 	}
 	

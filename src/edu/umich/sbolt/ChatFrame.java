@@ -454,6 +454,7 @@ public class ChatFrame extends JFrame
 
     public void sendSoarMessage(String message)
     {
+ //   	System.out.println("here");
     	if (lgSupport == null) {
     		World.Singleton().newMessage(message);
     	} else if(message.length() > 0){
