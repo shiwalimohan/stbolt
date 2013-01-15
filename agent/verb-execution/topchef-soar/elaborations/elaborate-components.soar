@@ -84,7 +84,9 @@ sp {copy*track-relations
 sp {elaborate*state*property*open*close
    (state <s> ^object <obj>
    	      ^topstate <s>)
-   (<obj> ^state-prop.door.value <val>)
+   (<obj> ^property <statprop>)
+   (<statprop> ^name door
+   	       ^value <val>)
 -->
    (<s> ^<val> <obj>)
 }
@@ -106,3 +108,29 @@ sp {copy*state-prop*close
    (<s> ^close <obj>)
 }
    
+## elaborate state-properties (heat)
+sp {elaborate*state*property*heat
+   (state <s> ^object <obj>
+   	      ^topstate <s>)
+   (<obj> ^property <sprop>)
+   (<sprop> ^name heat
+   	    ^value <val>)
+-->
+   (<s> ^<val> <obj>)
+}
+
+sp {copy*state-prop*off
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^on <obj>)
+-->
+   (<s> ^on <obj>)
+}
+
+sp {copy*state-prop*on
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^off <obj>)
+-->
+   (<s> ^off <obj>)
+}

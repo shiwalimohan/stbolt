@@ -11,7 +11,7 @@ sp {apply*operator*remove*successful*command
    (state <s> ^operator <op>
    	      ^io.output-link <ol>)
    (<ol> ^<command> <com>)
-   (<com> ^status complete)
+   (<com> ^staetus complete)
 -->
    (<ol> ^<command> <com> -)
 }
