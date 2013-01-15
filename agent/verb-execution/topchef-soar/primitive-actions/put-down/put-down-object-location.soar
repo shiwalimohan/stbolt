@@ -138,28 +138,28 @@ sp {apply*put-down*location*action-model
 
 
 
-### if relations in find-projection do not have substructure; retrieve it
-sp {retrieve*relation*substructure*find-projection
-   (state <s> ^name find-projection
-   	      ^superstate.operator.predicate.relation <rel>
-	      ^bit flip
-	       ^quiescence t)
-   (<rel> -^<arg> <val>)
--->
-   (<s> ^operator <op> + =)
-   (<op> ^name retrieve-predicate
-   	 ^predicate <rel>)
-}
+# ### if relations in find-projection do not have substructure; retrieve it
+# sp {retrieve*relation*substructure*find-projection
+#    (state <s> ^name find-projection
+#    	      ^superstate.operator.predicate.relation <rel>
+# 	      ^bit flip
+# 	       ^quiescence t)
+#    (<rel> -^<arg> <val>)
+# -->
+#    (<s> ^operator <op> + =)
+#    (<op> ^name retrieve-predicate
+#    	 ^predicate <rel>)
+# }
 
-sp {retrieve-predicate*better-than*primitve-action
-   (state <s> ^name find-projection
-   	      ^operator <op1> +
-	      ^operator <op2> +)
-   (<op1> ^category primitive-action)
-   (<op2> ^name retrieve-predicate)
--->
-  (<s> ^operator <op2> > <op1>)
-}
+# sp {retrieve-predicate*better-than*primitve-action
+#    (state <s> ^name find-projection
+#    	      ^operator <op1> +
+# 	      ^operator <op2> +)
+#    (<op1> ^category primitive-action)
+#    (<op2> ^name retrieve-predicate)
+# -->
+#   (<s> ^operator <op2> > <op1>)
+# }
    
 
 ## add bit flip to find projection

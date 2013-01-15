@@ -17,7 +17,7 @@ sp {assign-problem-space*elaborate*state
 	^procedural-id <proc-id>
    	^bit flip)
    (<scomm> ^retrieve <pid>)
-   (force-learn <s>) ## to learn proposal rule chunks
+#   (force-learn <s>) ## to learn proposal rule chunks 
 }
 	  
 
@@ -37,16 +37,16 @@ sp {generate*composite-operator*problem-space*operator*template
 }
 
 ### if state-no-change, write desired to the superstate; occurs only if there are any composite operators in the problem-space
-sp {assign-problem-space*write*superstate*desired
-   (state <s> ^impasse no-change
-   	      ^attribute state
-	      ^superstate <ss>
-	      ^quiescence t)
-   (<ss> ^name assign-problem-space
-   	 ^superstate <sss>)
--->
-   (<sss> ^generated yes)
-}
+# sp {assign-problem-space*write*superstate*desired
+#    (state <s> ^impasse no-change
+#    	      ^attribute state
+# 	      ^superstate <ss>
+# 	      ^quiescence t)
+#    (<ss> ^name assign-problem-space
+#    	 ^superstate <sss>)
+# -->
+#    (<sss> ^generated yes)
+# }
 
 
 ## if there are no operators in the problem-space, 

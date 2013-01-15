@@ -13,7 +13,7 @@ sp {assign-goal*elaborate*state
   (<s> ^long-term-id <glid>
        ^desired <d>
        ^superoperator <iop>)
-##  (force-learn <s>) SM: turn this on; fix issues.
+#  (force-learn <s>) 
 }
 
 ### retrieve the long-term-id corresponding to the goal of the indexed-operator
@@ -30,7 +30,8 @@ sp {assign-goal*unknown-goal
    (state <s> ^name assign-goal
    	      ^long-term-id <glid>
 	      ^smem.result <sres>
-	      ^topstate <ts>)
+	      ^topstate <ts>
+	      ^quiescence t)
    (<sres> ^success <glid>) ## correctly retrieved
    (<glid> -^<predicate> <any>) ## no predicates in goal
    (<ts> ^status <stat>)
@@ -143,11 +144,12 @@ sp {retrieve-predicate*retrieve-predicate
 
 sp {retrieve-predicate*success*reject
    (state <s> ^name retrieve-predicate
-   	      ^superstate <ss>
-	      ^smem.result.retrieved <any>
-	      ^quiescence t)
+   	      ^superstate <ss> 
+	      ^quiescence t) 
+   (<ss> ^operator.predicate <p1>)
+   (<p1> ^<any> <val>)
 -->
-   (<ss> ^retrieved-success <any>)
+   (<ss> ^retrieved-success <p1>)
 }
 	      
 

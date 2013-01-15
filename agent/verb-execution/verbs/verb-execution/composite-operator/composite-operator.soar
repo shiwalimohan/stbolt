@@ -47,7 +47,7 @@ sp {composite-operator*propose*assign-problem-space
    (state <s> ^name <sname>
    	      ^superstate.operator <sop>
 	      ^desired <any>
-	      -^generated
+	      -^generated none
 	      ^problem-space-id <pid>
 	      ^procedural-id <proc-id>
 	      ^map-id <map>
@@ -68,6 +68,24 @@ sp {composite-operator*propose*problem-space-operators
 	      ^problem-space-operator <op>)
 -->
    (<s> ^operator <op> +)
+}
+
+
+### elaborate goal predicates
+sp {composite-operator*elaborate*goal*predicates
+   (state <s> ^goal-id.predicate <grep>)
+-->
+   (<s> ^_goal_predicate <grep>)
+}
+
+### elaborate underthinsg
+sp {composite-operator*elaborate*goal*predicates
+   (state <s> ^goal-id.predicate <grep>
+   	      ^_goal_predicate <grep>)
+   (<grep> ^<any> <val>)
+   
+-->
+   (<s> ^_goal_predicate_vals <val>)
 }
 
 ## mark successful application of a composite-operator
