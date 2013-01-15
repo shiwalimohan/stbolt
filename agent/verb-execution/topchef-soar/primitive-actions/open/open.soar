@@ -3,49 +3,25 @@ sp {propose*open*location
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
 	       ^topstate <ts>
-	       -^grabbed <any>)
-   (<ts> -^self-pointing-at <obj>)
-   (<obj> ^pose)
+	       ^closed <obj>)
  -->
    (<s> ^operator <op> +)
-   (<op> ^name op_point-to-object
+   (<op> ^name op_open-location
    	 ^argument1 <obj>)
 }
 
-sp {elaborate*pointto*object*action
+sp {elaborate*open*location*action
    (state <s> ^operator <op> +)
    (<op> ^argument1 <obj>
-   	 ^name op_point-to-object)
-   (<obj> ^id <id>
-   	  ^pose <pose>)
+   	 ^name op_open-location)
+   (<obj> ^id <id>)
   -->
-   (<op> ^actions.point <point>
+   (<op> ^actions.set-state <point>
  	 ^category primitive-action)
    (<point> ^id <id>
-   	    ^pose <pose>)
-   (<op> ^kind atomic)
+   	    ^name door
+   	    ^value open)
+   (<op> ^kind non-atomic)
 }
-
-sp {apply*pointto*object*action
-   (state <s> ^name op_point-to-object
-   	      ^superstate.operator <op>
-   	      ^topstate <ts>)
-   (<op> ^argument1 <obj>
-   	 ^name op_point-to-object)
--->
-   (<ts> ^self-pointing-at <obj>)
-}
-   
-## clear self-pointing-at from the topstate after the primitive action
-sp {clear*self-pointing-at
-   (state <s> ^operator <op>
-   	      ^self-pointing-at <obj>
-	      ^topstate <s>)
-   (<op> ^category << interaction-stack indexing communication >>)
--->
-   (<s> ^self-pointing-at <obj> -)
-}
-
 
 ### action model
-## not required because it is not used in learning
