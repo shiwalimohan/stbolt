@@ -21,5 +21,5 @@ sp {elaborate*close*location-action
    (<point> ^id <id>
    	    ^name door
    	    ^value closed)
-   (<op> ^kind atomic)
+   (<op> ^kind non-atomic)
 }

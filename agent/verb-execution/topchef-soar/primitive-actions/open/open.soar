@@ -21,7 +21,7 @@ sp {elaborate*open*location*action
    (<point> ^id <id>
    	    ^name door
    	    ^value open)
-   (<op> ^kind atomic)
+   (<op> ^kind non-atomic)
 }
 
 ### action model
