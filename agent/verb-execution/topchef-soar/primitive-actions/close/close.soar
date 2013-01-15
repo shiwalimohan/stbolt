@@ -20,6 +20,6 @@ sp {elaborate*close*location-action
  	 ^category primitive-action)
    (<point> ^id <id>
    	    ^name door
-   	    ^value close)
+   	    ^value closed)
    (<op> ^kind atomic)
 }
