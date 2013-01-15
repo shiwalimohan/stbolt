@@ -1,1 +1,2 @@
-source turn.soar
+source activate.soar
+source stop.soar
