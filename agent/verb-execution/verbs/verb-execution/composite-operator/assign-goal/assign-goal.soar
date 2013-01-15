@@ -119,7 +119,8 @@ sp {assign-goal*write*superstate*desired
 sp {assign-goal*propose*retrieve-predicate
    (state <s> ^name assign-goal
    	      ^long-term-id <glid>
-	      ^smem.result <sres>)
+	      ^smem.result <sres>
+	      -^retrieved-success <p1>)
    (<sres> ^success <glid>)
    (<glid> ^<prep> <p1>)
 -->
@@ -144,10 +145,9 @@ sp {retrieve-predicate*success*reject
    (state <s> ^name retrieve-predicate
    	      ^superstate <ss>
 	      ^smem.result.retrieved <any>
-	      	      ^quiescence t)
-   (<ss> ^operator <sop>)
+	      ^quiescence t)
 -->
-   (<ss> ^operator <sop> -)
+   (<ss> ^retrieved-success <any>)
 }
 	      
 

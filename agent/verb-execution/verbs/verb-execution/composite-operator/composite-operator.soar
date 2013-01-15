@@ -24,6 +24,8 @@ sp {composite-operator*elaborate*state
 	^procedural-id <proc-id>)
 }
 
+
+
 ### retrieve and assign goal to composite-operators
 sp {composite-operator*propose*assign-goal
    (state <s> ^name <sname>
@@ -67,7 +69,6 @@ sp {composite-operator*propose*problem-space-operators
 -->
    (<s> ^operator <op> +)
 }
-
 
 ## mark successful application of a composite-operator
 ## retract a composite-operator if its desired state is reached

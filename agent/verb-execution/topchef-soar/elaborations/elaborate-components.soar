@@ -78,4 +78,31 @@ sp {copy*track-relations
 -->
    (<s> ^track-relation <rel>)
 }
+
+
+## elaborate state-properties (open/close)
+sp {elaborate*state*property*open*close
+   (state <s> ^object <obj>
+   	      ^topstate <s>)
+   (<obj> ^state-prop.door.value <val>)
+-->
+   (<s> ^<val> <obj>)
+}
+
+## copy state-prop (open/close)
+sp {copy*state-prop*open
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^open <obj>)
+-->
+   (<s> ^open <obj>)
+}
+
+sp {copy*state-prop*close
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^close <obj>)
+-->
+   (<s> ^close <obj>)
+}
    

@@ -11,6 +11,18 @@ pushd ./put-down
 source all_source.soar
 popd
 
+# pushd ./open
+# source all_source.soar
+# popd
+
+# pushd ./close
+# source all_source.soar
+# popd
+
+# pushd ./turn
+# source all_source.soar
+# popd
+
 #pushd ./weigh
 #source all_source.soar
 #popd
