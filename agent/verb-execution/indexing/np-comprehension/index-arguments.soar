@@ -7,11 +7,13 @@ sp {elaborate*index-arguments
    (<sop> ^name index-argument
    	  ^cue <cue>
 	  ^connector <con>
-	  ^argument <obj>)
+	  ^argument <obj>
+	  ^context-id <con-id>)
 -->
   (<s> ^cue <cue>
        ^connector <con>
-       ^argument <obj>)
+       ^argument <obj>
+       ^context-id <con-id>)
 }
 
 #### propose index-object (../objects/index-objects/)
@@ -19,7 +21,8 @@ sp {propose*index-object
    (state <s> ^name index-argument
    	      ^argument <arg>
 	      -^match <any>
-	      ^connector <con>)
+	      ^connector <con>
+	      ^context-id <con-id>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name index-object
@@ -28,15 +31,14 @@ sp {propose*index-object
   	^infer-match true # AM: Allows index-object to guess a match if there is only one partial match
 	^return-all true
 	^object <arg>
-	^context-id <con>)
+	^context-id <con-id>)
 }
 
 ### copy the correct object if find-object is successful
 sp {copy*matched*object
    (state <s> ^name index-argument
    	      ^operator <op>
-	      ^argument <arg>
-	      ^connector <con>) 
+	      ^argument <arg>) 
    (<op> ^match <obj>
    	 ^name index-object)
  -->   

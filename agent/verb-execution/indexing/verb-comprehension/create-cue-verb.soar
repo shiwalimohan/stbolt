@@ -46,7 +46,8 @@ sp {propose*index-argument*direct-object
    	 ^cue <cue>
 	 ^connector direct-object
 	 ^argument <do>
-	 ^category indexing)
+	 ^category indexing
+	 ^context-id direct-object)
 }
 
 
@@ -79,7 +80,8 @@ sp {propose*index-argument*preposition*object
    	 ^cue <cue>
 	 ^argument <obj>
 	 ^connector <p>
-	 ^category indexing)
+	 ^category indexing
+	 ^context-id <p>)
 }
 
 ### mark success if only verb

@@ -27,7 +27,8 @@ sp {propose*map*goal
    (<op> ^name index-goal
    	 ^information <info>
 	 ^indexed-operator <iop>
-	 ^category indexing)
+	 ^category indexing
+	 ^learning-event <le>)
 }
 
 ### plug in to the interaction stack
@@ -41,4 +42,21 @@ sp {write*goal-comprehension*status*topstate
    (<status> ^performed.learning-event <le>)
    (<le> ^type verb-semantic-learning
    	 ^information <info>)
+}
+
+sp {elaborate*goal-comprehension*status*topstate
+   (state <s> ^operator <op>
+   	      ^interaction.stack.segment.purpose <p>
+	      ^topstate.status <status>
+	      ^information <info>)
+   (<p> ^indexed-operator <iop>
+   	^satisfaction.learning-event <ple>)
+   (<ple> ^completed <com>)
+   (<iop> ^goal <goal>)
+   (<op> ^name index-goal)   
+   (<status> ^performed.learning-event <le>)
+   (<le> ^type verb-semantic-learning
+   	 ^information <info>)
+-->
+  (<le> ^completed <com>)
 }

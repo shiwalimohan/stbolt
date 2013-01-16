@@ -1,22 +1,3 @@
-#### retrieve goal-id, this state will retract if this knowledge already exists, no need to re-learn this knowledge
-# sp {retrieve*goal-id
-#    (state <s> ^name create-goal-predicate
-#    	      ^smem.command <scomm>
-# 	      ^superstate.operator.goal-id <gid>)
-# -->
-#    (<scomm> ^retrieve <gid>)
-# }
-
-### delete retrieve command
-#sp {delete*retrieve
-#   (state ^name create-goal-predicate
-#   	  ^smem.command <scomm>	  ^superstate.operator.goal-id <gid>)
-#-->
-#   (<scomm> ^retrieve <gid>)
-#}
-
-
-
 #### create state
 sp {elaborate*create-goal-predicate
    (state <s> ^name create-goal-predicate-relation
@@ -87,7 +68,8 @@ sp {propose*index*argument*relation
    	 ^category indexing	
 	 ^connector <argattr>
 	 ^cue <id>
-	 ^argument <arg>)
+	 ^argument <arg>
+	 ^context-id (concat <info> <argattr>))
 }
 
 
@@ -148,10 +130,13 @@ sp {write*superstate*relation
 	 ^goal-id <gid>
 	 ^superstate <sss>
 	 ^preposition-id.word <pword>
-	 ^_relation <trel>)
+	 ^_relation <trel>
+	 ^information <info>)
    (<trel> ^preposition <pword>
    	  ^_ltid <cid>)
    (<rel> ^<sub> <structure>)
+   (<sss> ^name index-goal
+   	  ^learning-event <le>)
 -->
    (<gid> ^predicate <rel>)
    (<rel> ^type <cid>
@@ -161,5 +146,6 @@ sp {write*superstate*relation
    	    ^store <rel>
 	    ^store <cid>)
    (<sss> ^bit flip)
+   (<le> ^completed <info>)
 }
 

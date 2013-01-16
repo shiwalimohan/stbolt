@@ -42,7 +42,8 @@ sp {propose*index*argument*state
    	 ^category indexing
 	 ^connector <argattr>
 	 ^cue <sprep>
-	 ^argument <arg>)
+	 ^argument <arg>
+	 ^context-id (concat <info> <argattr>))
 }
 
 ## using the dialog context, resolve the referent
@@ -101,6 +102,8 @@ sp {write*superstate*state-predicate
 	 ^state-predicate-collect.word <sword>
 	 ^information <statp>)
   (<rel> ^<sub> <structure>)
+  (<sss> ^name index-goal 
+  	^learning-event <le>)
 -->
   (<gid> ^predicate <rel>)
   (<rel> ^category state-predicate
@@ -110,7 +113,9 @@ sp {write*superstate*state-predicate
   (<scomm> ^store <gid>
   	   ^store <rel>
 	   ^store <structure>)
-  (<sss> ^success <statp>)
+  (<sss> ^success <statp>
+  	 ^bit flip)
+  (<le> ^completed <statp>)
 }
 	   
 	 

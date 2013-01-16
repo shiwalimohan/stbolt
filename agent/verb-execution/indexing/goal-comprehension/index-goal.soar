@@ -3,7 +3,8 @@ sp {elaborate*state*index-goal
    	      ^superstate.operator <sop>)
    (<sop> ^name index-goal
    	  ^information <info>
-	  ^indexed-operator <iop>)
+	  ^indexed-operator <iop>
+	 ^learning-event <le>)
    (<iop> ^_metadata.map-id <met>)
    (<met> ^goal <gid>)
    -->
@@ -11,7 +12,8 @@ sp {elaborate*state*index-goal
    	^map-id <met>
 	^goal-id <gid>
 	^indexed-operator <iop>
-	^bit flip)
+	^bit flip
+	^learning-event <le>)
 }
 
 ### store goal-id with the verb schema
@@ -34,7 +36,9 @@ sp {propose*create-goal-predicate*relation
 	      ^information.relation <rel>
 	      ^bit flip
 	      ^indexed-operator <iop>
-	      ^map-id <map>)
+	      ^map-id <map>
+	      ^learning-event <le>)
+   (<le> -^completed <rel>)
    (<rel> ^word <pword>)
   -{(<s> ^_relation <trel>)
     (<trel> ^preposition <pword>
@@ -57,7 +61,9 @@ sp {propose*create-goal-predicate
 	      ^bit flip
 	      ^indexed-operator <iop>
 	      ^map-id <map>
-	      -^success <statp>)
+	      -^success <statp>
+	      ^learning-event <le>)
+   (<le> -^completed <statp>)
    (<statp> ^word <sword>)
 -->
    (<s> ^operator <op> + =)
@@ -85,13 +91,11 @@ sp {store*goal-predicate
 sp {write*status*topstate
    (state <s> ^name index-goal
    	      ^goal-id <gid>
-	      ^information.relation <rel>
+	      ^information <info>
 	      ^indexed-operator <iop>
-	      ^_relation <trel>)
-  (<trel> ^preposition <pword>
-   	   ^_ltid <lid>)
- -{(<rel> ^word <pword>)
-   (<gid> -^predicate.type <lid>)}
+	      ^learning-event <le>)
+  -{(<le> -^completed <val>)
+    (<info> ^<any> <val>)}
 -->
    (<iop> ^goal <gid>)
 }
