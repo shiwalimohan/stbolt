@@ -1,0 +1,48 @@
+### elaborate desired
+sp {assign-goal*elaborate*desired*state*state-predicate
+   (state <s> ^name assign-goal
+   	      ^desired <d>
+	      ^long-term-id <glid>)
+   (<glid> ^<prep> <p1>)
+   (<p1> ^category state-predicate)
+   (<p1> ^type <state-type>)
+-->
+   (<d> ^achieve-state-predicate <asp>)
+   (<asp> ^state <state-type>
+   	  ^_instantiation-of <p1>)
+}
+
+### connect desired to the objects in the indexed-operator
+sp {assign-goal*elaborate*objects*state-predicate
+   (state <s> ^name assign-goal
+   	      ^desired.achieve-state-predicate <asp>
+	      ^long-term-id <glid>
+	      ^superoperator <iop>)
+   (<glid> ^<prep> <p1>)
+   (<asp> ^state <type>
+   	  ^_instantiation-of <p1>)
+   (<p1> ^{<parg> <> type <> category} <sobj>
+   	 ^type <type>)
+   (<iop> ^_metadata.map-id.procedural.<varg> <sobj>
+   	  ^<varg> <obj>)
+-->
+   (<asp> ^object <obj>)
+  
+}
+
+sp {assign-goal*elaborate*semantic-objects*state-predicate
+   (state <s> ^name assign-goal
+   	      ^desired.achieve-state-predicate <tr>
+	      ^long-term-id <glid>
+	      ^superoperator <iop>)
+   (<glid> ^<prep> <p1>)
+   (<asp> ^state <type>
+   	  ^_instantiation-of <p1>)
+   (<p1> ^{<parg> <> type <> category} <sobj>
+   	 ^type <type>)
+   (<iop> -^_metadata.map-id.procedural.<varg> <sobj>
+   	  ^name <opname>)
+-->
+   (<asp> ^object <sobj>)
+   (<sobj> ^focus (concat <opname> <parg>))
+}

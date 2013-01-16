@@ -16,7 +16,11 @@ sp {create-problem-space*semantic-memory
    	  -^name op_pick-up-object
 	  -^name op_point-to-object
 	  -^name op_put-down-object-location
-	  -^name op_put-down-object-object)
+	  -^name op_put-down-object-object
+	  -^name op_open-location
+	  -^name op_close-location
+	  -^name op_activate
+	  -^name op_stop)
    (<nmap> ^procedural <procedural>)
 -->
    (<p> ^operator <procedural>)

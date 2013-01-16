@@ -1,10 +1,11 @@
 ### put down an object in a location
-sp {propose*put-down-object-location
+sp {propose*put-down-object-location*without-door
    (state <s>  ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
 	     ^name {<any> <> evaluate-operator})
-   (<loc> ^category location)
+   (<loc> ^category location
+   	  -^door)
 -->
    (<s> ^operator <op> +)
    (<op> ^name op_put-down-object-location
@@ -12,6 +13,23 @@ sp {propose*put-down-object-location
 	 ^argument2 <loc>
 	 ^category primitive-action)
 }
+
+### 
+sp {propose*put-down-object-location*with-door
+   (state <s>  ^grabbed <obj>
+	      ^object <loc>
+	     -^problem-space << lgsoar message-interpretation >>
+	     ^name {<any> <> evaluate-operator})
+   (<loc> ^category location
+   	  ^door open)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name op_put-down-object-location
+   	 ^argument1 <obj>
+	 ^argument2 <loc>
+	 ^category primitive-action)
+}
+
 
 ### if an operator is trying to achieve what track-relation has tracked to be success
 sp {retract*put-down-object-location

@@ -1,0 +1,21 @@
+### retrieve the predicate
+sp {retrieve-predicate*retrieve-predicate
+   (state <s> ^name retrieve-predicate
+   	      ^superstate <ss>
+	      ^smem.command <scomm>)
+  (<ss> ^operator <op>)
+  (<op> ^predicate <p1>)
+-->
+  (<scomm> ^retrieve <p1>)
+}
+
+sp {retrieve-predicate*success*reject
+   (state <s> ^name retrieve-predicate
+   	      ^superstate <ss> 
+	      ^quiescence t) 
+   (<ss> ^operator.predicate <p1>)
+   (<p1> ^<any> <val>)
+-->
+   (<ss> ^retrieved-success <p1>
+   	 ^bit flip)
+}

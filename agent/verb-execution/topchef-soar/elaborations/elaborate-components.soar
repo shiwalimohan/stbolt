@@ -17,6 +17,14 @@ sp {elaborate*objects*locations
    (<obj> ^category location)
 }
 
+sp {elaborate*objects*locations-with-door
+   (state <s> ^topstate <s>)
+   (<s> ^object <obj>)
+   (<obj> ^property.word << table garbage pantry stove scale >>)
+-->
+   (<obj> ^category location)
+}
+
 ### as blocks
 sp {elaborate*objects*blocks
    (state <s> ^topstate <s>)
@@ -88,26 +96,9 @@ sp {elaborate*state*property*open*close
    (<statprop> ^name door
    	       ^value <val>)
 -->
-   (<s> ^<val> <obj>)
+   (<obj> ^door <val>)
 }
 
-## copy state-prop (open/close)
-sp {copy*state-prop*open
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> ^open <obj>)
--->
-   (<s> ^open <obj>)
-}
-
-sp {copy*state-prop*close
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> ^close <obj>)
--->
-   (<s> ^close <obj>)
-}
-   
 ## elaborate state-properties (heat)
 sp {elaborate*state*property*heat
    (state <s> ^object <obj>
@@ -116,21 +107,6 @@ sp {elaborate*state*property*heat
    (<sprop> ^name heat
    	    ^value <val>)
 -->
-   (<s> ^<val> <obj>)
+   (<obj> ^heat <val>)
 }
 
-sp {copy*state-prop*off
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> ^on <obj>)
--->
-   (<s> ^on <obj>)
-}
-
-sp {copy*state-prop*on
-   (state <s> ^superstate <ss>
-   	      ^io)
-   (<ss> ^off <obj>)
--->
-   (<s> ^off <obj>)
-}

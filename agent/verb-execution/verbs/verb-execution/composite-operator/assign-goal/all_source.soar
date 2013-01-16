@@ -3,3 +3,7 @@
 
 
 source assign-goal.soar
+source preferences.soar
+source relation-predicate.soar
+source state-predicate.soar
+source retrieve-predicate.soar

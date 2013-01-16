@@ -1,0 +1,8 @@
+sp {prefer*lookup-preposition*over*retrieve-predicate
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name lookup-preposition)
+   (<op2> ^name retrieve-predicate)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
