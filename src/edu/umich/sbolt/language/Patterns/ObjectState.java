@@ -50,11 +50,10 @@ public class ObjectState extends LinguisticEntity{
 
 	@Override
 	public void translateToSoarSpeak(Identifier id, String connectingString) {
-		Identifier sttId = id.CreateIdWME("object-state-info");
-	//	System.out.println("in object state translate to SoarSpeak");
-		sttId.CreateStringWME("type", "object-state");
-		sttId.CreateStringWME("state", attribute);
-		object.translateToSoarSpeak(sttId, "object");
+		Identifier sttId = id.CreateIdWME(connectingString);
+		sttId.CreateStringWME("word", attribute);
+		Identifier objId = sttId.CreateIdWME("p1");
+		object.translateToSoarSpeak(objId, "object");
 	}
 	
     public static ObjectState createFromSoarSpeak(Identifier id, String name)

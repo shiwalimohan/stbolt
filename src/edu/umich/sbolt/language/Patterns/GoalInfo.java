@@ -38,16 +38,18 @@ public class GoalInfo extends LinguisticEntity{
 	}
 	@Override
 	public void translateToSoarSpeak(Identifier id, String connectingString) {
-		Identifier goalId = id.CreateIdWME(connectingString);
+		Identifier messageId = id;
+		messageId.CreateStringWME("type", "goal-relation-message");
+		Identifier goalId = messageId.CreateIdWME("information");
 		Iterator<ObjectRelation> itr = objectRelation.iterator();
 		while(itr.hasNext()){
 			ObjectRelation rel = itr.next();
-			rel.translateToSoarSpeak(goalId, "object-relation");
+			rel.translateToSoarSpeak(goalId, "relation");
 		}
 		Iterator<ObjectState> itro = objectState.iterator();
 		while(itro.hasNext()){
 			ObjectState state = itro.next();
-			state.translateToSoarSpeak(goalId, "object-state");
+			state.translateToSoarSpeak(goalId, "state-predicate");
 		}
 		
 	}

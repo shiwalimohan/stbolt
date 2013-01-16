@@ -28,7 +28,7 @@ sp {elaborate*state*index-goal
 
 
 ### create goal predicates for all relations in the goal statement
-sp {propose*create-goal-predicate
+sp {propose*create-goal-predicate*relation
    (state <s> ^name index-goal
    	      ^goal-id <gid>
 	      ^information.relation <rel>
@@ -41,13 +41,35 @@ sp {propose*create-goal-predicate
      	   ^_ltid <lid>)
     (<gid> ^<lid> <any>)}
 -->
-   (<s> ^operator <op> +)
-   (<op> ^name create-goal-predicate
+   (<s> ^operator <op> + =)
+   (<op> ^name create-goal-predicate-relation
    	 ^goal-id <gid>
 	 ^information <rel>
 	 ^map-id <map>
-	 ^indexed-operator <iop>)
+	 ^indexed-operator <iop>
+	 ^predicate-type relation)
 }
+
+sp {propose*create-goal-predicate
+   (state <s> ^name index-goal
+   	      ^goal-id <gid>
+	      ^information.state-predicate <statp>
+	      ^bit flip
+	      ^indexed-operator <iop>
+	      ^map-id <map>
+	      -^success <statp>)
+   (<statp> ^word <sword>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name create-goal-predicate-state
+   	 ^goal-id <gid>
+	 ^information <statp>
+	 ^map-id <map>
+	 ^indexed-operator <iop>
+	 ^predicate-type state)
+}
+   
+   
 
 ### store goal predicates
 sp {store*goal-predicate

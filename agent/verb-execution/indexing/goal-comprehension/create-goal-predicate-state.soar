@@ -1,0 +1,115 @@
+sp {elaborate*create-goal-predicate*state
+   (state <s> ^name create-goal-predicate-state
+   	      ^superstate <ss>)
+   (<ss> ^operator <sop>)
+   (<sop> ^name create-goal-predicate-state
+   	  ^goal-id <gid>
+	  ^information <pred>
+	  ^map-id <map>
+	  ^indexed-operator <iop>
+	  ^predicate-type state)
+-->
+   (<s> ^information <pred>
+   	^map-id <map>
+	^indexed-operator <iop>
+	^goal-id <gid>
+	^state-predicate-collect <sprep>
+	^state-predicate <sprep>)
+}
+
+### elaborate preposition-id
+sp {elaborate*state-predicate
+   (state <s> ^state-predicate-collect <id>
+   	      ^information <info>)
+   (<info> ^word <attr-word>)
+-->
+   (<id> ^word <attr-word>)
+}
+
+
+## index arguments
+sp {propose*index*argument*state
+   (state <s> ^name create-goal-predicate-state
+   	      ^information <info>
+	      ^state-predicate-collect <sprep>)
+   (<info> ^{<argattr> <> word} <obj>)
+   (<obj> ^object <arg>)
+   (<sprep> -^<argattr> <any>
+   	    ^word <attr>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name index-argument
+   	 ^category indexing
+	 ^connector <argattr>
+	 ^cue <sprep>
+	 ^argument <arg>)
+}
+
+## using the dialog context, resolve the referent
+sp {create*state-predicate*visual-objects
+   (state <s> ^name create-goal-predicate-relation
+   	      ^state-predicate-collect <spc>
+	      ^state-predicate <sprep>
+	      ^indexed-operator <iop>
+	      ^map-id.procedural <map>)
+   (<spc> ^{<arg> <> word} <obj>)
+   (<iop> ^<op-arg> <obj>)
+   (<map> ^<op-arg> <sobj>)
+-->
+   (<sprep> ^<arg> <sobj>)
+}
+
+## semantic object
+sp {create*state-predicate*semantic-objects
+   (state <s> ^name create-goal-predicate-relation
+   	      ^state-predicate-collect <spc>
+	      ^state-predicate <sprep>
+	      ^indexed-operator <iop>
+	      ^map-id.procedural <map>
+	      ^smem.command <scomm>)
+   (<spc> ^{<arg> <> word} <obj>)
+   (<iop> -^<op-arg> <obj>)
+-->
+   (<sprep> ^<arg> <obj>)
+   (<scomm> ^store <obj>)
+}
+
+sp {create*state-predicate*semantic-object*substructure
+   (state <s> ^name create-goal-predicate-state
+	      ^state-predicate <rel>
+	      ^smem.command <scomm>)   
+   (<rel> ^<arg> <obj>)
+   (<scomm> ^store <obj>)
+   (<obj> ^<oarg> <oval>)
+   (<oval> ^<oval-arg> <ovval>)
+-->
+   (<scomm> ^store <oval>
+   	    ^store <ovval>)
+}
+
+## write to the superstate
+
+sp {write*superstate*state-predicate
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state
+	      ^smem.command <scomm>)
+   (<ss> ^name create-goal-predicate-state
+   	 ^state-predicate <rel>
+	 ^goal-id <gid>
+	 ^superstate <sss>
+	 ^state-predicate-collect.word <sword>
+	 ^information <statp>)
+  (<rel> ^<sub> <structure>)
+-->
+  (<gid> ^predicate <rel>)
+  (<rel> ^category state-predicate
+  	 ^type <sword>
+	 ^g_state-pred_name <sword>
+	 ^category state-predicate)
+  (<scomm> ^store <gid>
+  	   ^store <rel>)
+  (<sss> ^success <statp>)
+}
+	   
+	 

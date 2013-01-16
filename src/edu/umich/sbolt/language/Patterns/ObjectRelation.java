@@ -60,8 +60,10 @@ public class ObjectRelation extends LinguisticEntity{
 	public void translateToSoarSpeak(Identifier id, String connectingString) {
 		Identifier relId = id.CreateIdWME(connectingString);
 		relId.CreateStringWME("word", preposition);
-		object1.translateToSoarSpeak(relId, "object1");
-		object2.translateToSoarSpeak(relId, "object2");
+		Identifier objId1 = relId.CreateIdWME("p1");
+		Identifier objId2 = relId.CreateIdWME("p1");
+		object1.translateToSoarSpeak(objId1, "object");
+		object2.translateToSoarSpeak(objId2, "object");
 	}
 	
     public static ObjectRelation createFromSoarSpeak(Identifier id, String name)

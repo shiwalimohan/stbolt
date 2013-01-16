@@ -1,3 +1,4 @@
 source map-goal.soar
 source index-goal.soar
-source create-goal-predicate.soar
+source create-goal-predicate-relation.soar
+source create-goal-predicate-state.soar
