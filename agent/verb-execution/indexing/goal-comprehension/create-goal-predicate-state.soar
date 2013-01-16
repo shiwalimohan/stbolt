@@ -13,7 +13,7 @@ sp {elaborate*create-goal-predicate*state
    	^map-id <map>
 	^indexed-operator <iop>
 	^goal-id <gid>
-	^state-predicate-collect <sprep>
+	^state-predicate-collect <spc>
 	^state-predicate <sprep>)
 }
 
@@ -47,7 +47,7 @@ sp {propose*index*argument*state
 
 ## using the dialog context, resolve the referent
 sp {create*state-predicate*visual-objects
-   (state <s> ^name create-goal-predicate-relation
+   (state <s> ^name create-goal-predicate-state
    	      ^state-predicate-collect <spc>
 	      ^state-predicate <sprep>
 	      ^indexed-operator <iop>
@@ -61,7 +61,7 @@ sp {create*state-predicate*visual-objects
 
 ## semantic object
 sp {create*state-predicate*semantic-objects
-   (state <s> ^name create-goal-predicate-relation
+   (state <s> ^name create-goal-predicate-state
    	      ^state-predicate-collect <spc>
 	      ^state-predicate <sprep>
 	      ^indexed-operator <iop>
@@ -108,7 +108,8 @@ sp {write*superstate*state-predicate
 	 ^g_state-pred_name <sword>
 	 ^category state-predicate)
   (<scomm> ^store <gid>
-  	   ^store <rel>)
+  	   ^store <rel>
+	   ^store <structure>)
   (<sss> ^success <statp>)
 }
 	   
