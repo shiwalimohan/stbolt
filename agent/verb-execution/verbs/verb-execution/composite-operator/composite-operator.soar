@@ -80,23 +80,6 @@ sp {composite-operator*prefer*assign-problem-space
    (<s> ^operator <op1> > <op2>)
 }
 
-### elaborate goal predicates
-sp {composite-operator*elaborate*goal*predicates
-   (state <s> ^goal-id.predicate <grep>)
--->
-   (<s> ^_goal_predicate <grep>)
-}
-
-### elaborate underthinsg
-sp {composite-operator*elaborate*goal*predicates
-   (state <s> ^goal-id.predicate <grep>
-   	      ^_goal_predicate <grep>)
-   (<grep> ^<any> <val>)
-   
--->
-   (<s> ^_goal_predicate_vals <val>)
-}
-
 ## mark successful application of a composite-operator
 ## retract a composite-operator if its desired state is reached
 sp {composite-operator*reject

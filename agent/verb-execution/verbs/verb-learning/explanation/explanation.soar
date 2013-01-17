@@ -41,36 +41,53 @@ sp {explain*retrieve*episode*episodic*memory*2
 
 ### if the retrieval is successful; copy all the relevant attributes from the retrieved episode to this state
 
+sp {explain*copy*retrieved*episode*object*open
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^object <obj>)
+   (<obj> ^id <id>
+   	  ^door open
+	  ^category <cat>)
+   -->
+   (<s> ^object <nobj>)
+   (<nobj>	^door open
+	^id <id>
+	  ^category <cat>)
+}
+
 sp {explain*copy*retrieved*episode*object
    (state <s> ^name explain
    	      ^epmem.result <res>)
    (<res> ^retrieved <ret>
    	  ^memory-id <mem-id>)
    (<ret> ^object <obj>)
+   (<obj> ^id <id>
+   	  -^door
+	  ^category <cat>)
    -->
-   (<s> ^object <obj>)
+   (<s> ^object <nobj>)
+   (<nobj> ^id <id>
+	  ^category <cat>)
 }
 
-## elaborate state-properties (open/close)
-sp {elaborate*state*property*open*close*explain
-   (state <s> ^object <obj>
-   	      ^name explain)
-   (<obj> ^property <statprop>)
-   (<statprop> ^name door
-   	       ^value <val>)
--->
-   (<s> ^<val> <obj>)
+sp {explain*copy*retrieved*episode*object*closed
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^object <obj>)
+   (<obj> ^id <id>
+   	  ^door closed
+	  ^category <cat>)
+   -->
+   (<s> ^object <nobj>)
+   (<nobj>	^door closed
+	^id <id>
+	  ^category <cat>)
 }
 
-sp {elaborate*state*property*heat*explain
-   (state <s> ^object <obj>
-   	      ^name explain)
-   (<obj> ^property <sprop>)
-   (<sprop> ^name heat
-   	    ^value <val>)
--->
-   (<s> ^<val> <obj>)
-}
 
 
 sp {explain*copy*retrieved*episode*self

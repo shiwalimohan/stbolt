@@ -18,5 +18,7 @@
 > open the pantry.
 > put the cylinder in the pantry.
 < What action should I take next?
+> close the pantry.
+< What action should I take next?
 > you are done.
 < Waiting for next command...

@@ -78,14 +78,14 @@ sp {new-operator*state*success*3
    (<s> ^success <d>)
 }
 
-sp {new-operator*detect*track-relation*success*propose
-   (state <s> ^desired <d>
-	      ^duplicate-of <ss>
-	      ^superstate.operator.superoperator <spo>)
-   (<s> ^success <d>)
--->
-   (<ss> ^operator <spo> + >)
-}
+# sp {new-operator*detect*track-relation*success*propose
+#    (state <s> ^desired <d>
+# 	      ^duplicate-of <ss>
+# 	      ^superstate.operator.superoperator <spo>)
+#    (<s> ^success <d>)
+# -->
+#    (<ss> ^operator <spo> + >)
+# }
    
 
 #### if the retrived episode is the recent learning episode, implies that the agent was not given more instructions and the desired goal was not achieved. Clear the interaction stack, prompt the instructor to restart

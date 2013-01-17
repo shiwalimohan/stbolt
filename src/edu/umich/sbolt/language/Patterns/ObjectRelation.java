@@ -61,7 +61,7 @@ public class ObjectRelation extends LinguisticEntity{
 		Identifier relId = id.CreateIdWME(connectingString);
 		relId.CreateStringWME("word", preposition);
 		Identifier objId1 = relId.CreateIdWME("p1");
-		Identifier objId2 = relId.CreateIdWME("p1");
+		Identifier objId2 = relId.CreateIdWME("p2");
 		object1.translateToSoarSpeak(objId1, "object");
 		object2.translateToSoarSpeak(objId2, "object");
 	}

@@ -22,39 +22,6 @@ sp {explain*copy*superstate*objects
    (<s> ^object <m>)
 }
 
-sp {explain*copy*superstate*open
-   (state <s> ^superstate <ss>)
-   (<ss> ^name explain
-   	 ^open <m>)
--->
-   (<s> ^open <m>)
-}
-
-sp {explain*copy*superstate*close
-   (state <s> ^superstate <ss>)
-   (<ss> ^name explain
-   	 ^closed <m>)
--->
-   (<s> ^closed <m>)
-}
-
-sp {explain*copy*superstate*on
-   (state <s> ^superstate <ss>)
-   (<ss> ^name explain
-   	 ^on <m>)
--->
-   (<s> ^on <m>)
-}
-
-sp {explain*copy*superstate*off
-   (state <s> ^superstate <ss>)
-   (<ss> ^name explain
-   	 ^off <m>)
--->
-   (<s> ^off <m>)
-}
-
-
 sp {explain*copy*superstate*relevant*structures*self
    (state <s> ^superstate <ss>)
    (<ss> ^name explain
@@ -72,7 +39,7 @@ sp {new-operator*elaborate*problem-space
    	^default-state-copy yes
 	^two-level-attributes object
 	^two-level-attributes self
-	^one-level-attributes grabbed open closed on off
+	^one-level-attributes grabbed
 	^dont-copy vpredicates)
 }
    	      
