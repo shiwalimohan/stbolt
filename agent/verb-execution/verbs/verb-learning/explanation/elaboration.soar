@@ -19,7 +19,7 @@ sp {explain*copy*superstate*objects
    (<ss> ^name explain
    	 ^object <m>)
 -->
-   (<s> ^object <m>)
+   (<s> ^object <nm>)
 }
 
 sp {explain*copy*superstate*relevant*structures*self
