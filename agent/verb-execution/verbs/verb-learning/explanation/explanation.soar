@@ -51,28 +51,6 @@ sp {explain*copy*retrieved*episode*object
    (<s> ^object <obj>)
 }
 
-## elaborate state-properties (open/close)
-sp {elaborate*state*property*open*close*explain
-   (state <s> ^object <obj>
-   	      ^name explain)
-   (<obj> ^property <statprop>)
-   (<statprop> ^name door
-   	       ^value <val>)
--->
-   (<s> ^<val> <obj>)
-}
-
-sp {elaborate*state*property*heat*explain
-   (state <s> ^object <obj>
-   	      ^name explain)
-   (<obj> ^property <sprop>)
-   (<sprop> ^name heat
-   	    ^value <val>)
--->
-   (<s> ^<val> <obj>)
-}
-
-
 sp {explain*copy*retrieved*episode*self
    (state <s> ^name explain
    	      ^epmem.result <res>)
