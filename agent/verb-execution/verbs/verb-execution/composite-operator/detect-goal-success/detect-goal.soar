@@ -1,7 +1,14 @@
 ### detect track-relation success (based on the action-model) ### HACKY, only one track relation
+sp {new-operator*elaborate*track-desired
+   (state <s> ^desired <d>)
+-->
+   (<s> ^track-desired <dt>)
+}
+ 
 sp {new-operator*detect*track-relation*success
    (state <s> ^desired <d>
-   	      ^track-relation <tr>)
+   	      ^track-relation <tr>
+	      ^track-desired <track-desired>)
    (<d> ^track-relation <dtr>)
    (<dtr> ^p1 <val1>
    	  ^p2 <val2>
@@ -15,26 +22,67 @@ sp {new-operator*detect*track-relation*success
    (<val3> ^focus <fval1>)
    (<val4> ^focus <fval2>)
 -->
+   (<track-desired> ^success <dtr>)
+}
+
+sp {new-operator*detect*achieve-state-predicate*success
+   (state <s> ^desired <d>
+   	      ^<state> <sobj>
+	      ^track-desired <track>)
+   (<d> ^achieve-state-predicate <asp>)
+   (<asp> ^object <obj>
+   	  ^state <state>)
+   (<sobj> ^focus <f1>)
+   (<obj> ^focus <f1>)
+-->
+   (<track> ^success <asp>)
+}
+
+### detect success one predicate on desired 
+sp {new-operator*state*success*1
+   (state <s> ^desired <d>
+   	      ^track-desired <track>)
+   (<d> ^<arg> <val>
+   	^count 1)
+   (<track> ^success <val>)
+-->
+   (<s> ^success <d>)
+}
+
+### detect success two predicate on desired 
+sp {new-operator*state*success*2
+   (state <s> ^desired <d>
+   	      ^track-desired <track>)
+   (<d> ^<arg1> <val1>
+   	^<arg2> {<val2> > <val1>}
+   	^count 2)
+   (<track> ^success <val1>
+   	    ^success <val2>)
+-->
+   (<s> ^success <d>)
+}
+
+
+### detect success three predicate on desired 
+sp {new-operator*state*success*3
+   (state <s> ^desired <d>
+   	      ^track-desired <track>)
+   (<d> ^<arg1> <val1>
+   	^<arg2> {<val2> > <val1>}
+	^<arg3> {<val3> > <val2>}
+   	^count 3)
+   (<track> ^success <val1>
+   	    ^success <val2>
+	    ^success <val3>)
+-->
    (<s> ^success <d>)
 }
 
 sp {new-operator*detect*track-relation*success*propose
    (state <s> ^desired <d>
-   	      ^track-relation <tr>
 	      ^duplicate-of <ss>
 	      ^superstate.operator.superoperator <spo>)
-   (<d> ^track-relation <dtr>)
-   (<dtr> ^p1 <val1>
-   	  ^p2 <val2>
-	  ^spatial-relationship <prep>)
-   (<tr> ^complete success
-   	 ^object1 <val3>
-	 ^object2 <val4>
-	 ^vpredicate <prep>)
-   (<val1> ^focus <fval1>)
-   (<val2> ^focus <fval2>)
-   (<val3> ^focus <fval1>)
-   (<val4> ^focus <fval2>)
+   (<s> ^success <d>)
 -->
    (<ss> ^operator <spo> + >)
 }

@@ -2,16 +2,18 @@
 sp {propose*open*location
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	       ^topstate <ts>)
-   (<obj> ^door closed)
+	       ^topstate <ts>
+	       ^closed <obj>)
  -->
    (<s> ^operator <op> +)
    (<op> ^name op_open-location
-   	 ^argument1 <obj>)
+   	 ^argument1 <obj>
+	 ^category primitive-action)
 }
 
 sp {elaborate*open*location*action
-   (state <s> ^operator <op> +)
+   (state <s> ^operator <op> +
+   	      ^io)
    (<op> ^argument1 <obj>
    	 ^name op_open-location)
    (<obj> ^id <id>)
@@ -30,11 +32,11 @@ sp {apply*open*action-model
    (state <s> ^operator <op>	
 	     -^io
 	     ^object <obj>
-	     ^superstate <ss>)
+	     ^superstate <ss>
+	     ^closed <obj>)
    (<op> ^name op_open-location
    	 ^argument1 <obj>)
-   (<obj> ^door closed)
 -->
-   (<obj> ^door closed -
-   	  ^door open)
+   (<s> ^closed <obj> -
+   	^open <obj>)
 }

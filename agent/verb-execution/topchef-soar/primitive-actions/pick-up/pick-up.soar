@@ -8,11 +8,13 @@ sp {propose*pickup*object
  -->
    (<s> ^operator <op> +)
    (<op> ^name op_pick-up-object
-   	 ^argument1 <obj>)
+   	 ^argument1 <obj>
+	 ^category primitive-action)
 }
 
 sp {elaborate*pickup*object*action
-   (state <s> ^operator <op> +)
+   (state <s> ^operator <op> +
+   	      ^io)
    (<op> ^argument1 <obj>
    	 ^name op_pick-up-object)
    (<obj> ^id <id>)

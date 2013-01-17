@@ -2,8 +2,8 @@
 sp {propose*turn*location*on
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	       ^topstate <ts>)
-   (<obj> ^heat off)
+	       ^topstate <ts>
+	       ^off <obj>)
  -->
    (<s> ^operator <op> +)
    (<op> ^name op_activate
@@ -23,4 +23,7 @@ sp {elaborate*turn*location-action*on
    	    ^value on)
    (<op> ^kind non-atomic)
 }
+
+
+## action model
 

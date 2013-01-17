@@ -42,7 +42,8 @@ sp {copy*objects
 	  -^name assign-goal
 	  -^name assign-problem-space
 	  -^name evaluate-operator
-	  -^name selection)
+	  -^name selection
+	  -^name find-next-episode)
    (<ss> -^problem-space << lgsoar message-interpretation >>
    	 ^object <obj>)
 -->
@@ -96,7 +97,39 @@ sp {elaborate*state*property*open*close
    (<statprop> ^name door
    	       ^value <val>)
 -->
-   (<obj> ^door <val>)
+   (<s> ^<val> <obj>)
+}
+
+sp {copy*state*on
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^on <obj>)
+-->
+   (<s> ^on <obj>)
+}
+
+sp {copy*state*off
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^off <obj>)
+-->
+   (<s> ^off <obj>)
+}
+
+sp {copy*state*open
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^open <obj>)
+-->
+   (<s> ^open <obj>)
+}
+
+sp {copy*state*closed
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^closed <obj>)
+-->
+   (<s> ^closed <obj>)
 }
 
 ## elaborate state-properties (heat)
@@ -107,6 +140,7 @@ sp {elaborate*state*property*heat
    (<sprop> ^name heat
    	    ^value <val>)
 -->
-   (<obj> ^heat <val>)
+   (<s> ^<val> <obj>)
 }
+
 

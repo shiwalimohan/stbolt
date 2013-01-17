@@ -1,8 +1,8 @@
 sp {propose*turn*location*off
    (state <s> ^object <obj>
    	       -^problem-space << lgsoar message-interpretation >>
-	       ^topstate <ts>)
-   (<obj> ^heat on)
+	       ^topstate <ts>
+	       ^on <obj>)
  -->
    (<s> ^operator <op> +)
    (<op> ^name op_stop

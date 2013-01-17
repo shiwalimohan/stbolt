@@ -13,7 +13,8 @@ sp {propose*point-to*object
 }
 
 sp {elaborate*pointto*object*action
-   (state <s> ^operator <op> +)
+   (state <s> ^operator <op> +
+   	      ^io)
    (<op> ^argument1 <obj>
    	 ^name op_point-to-object)
    (<obj> ^id <id>
@@ -29,7 +30,8 @@ sp {elaborate*pointto*object*action
 sp {apply*pointto*object*action
    (state <s> ^name op_point-to-object
    	      ^superstate.operator <op>
-   	      ^topstate <ts>)
+   	      ^topstate <ts>
+	      ^io)
    (<op> ^argument1 <obj>
    	 ^name op_point-to-object)
 -->
@@ -40,7 +42,8 @@ sp {apply*pointto*object*action
 sp {clear*self-pointing-at
    (state <s> ^operator <op>
    	      ^self-pointing-at <obj>
-	      ^topstate <s>)
+	      ^topstate <s>
+	      ^io)
    (<op> ^category << interaction-stack indexing communication >>)
 -->
    (<s> ^self-pointing-at <obj> -)
