@@ -13,10 +13,13 @@
 < Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
 > finished.
 < What action should I take next?
+> open the pantry.
+< What action should I take next?
 > pick up the blue cylinder.
 < What action should I take next?
-> open the pantry.
 > put the cylinder in the pantry.
+< What action should I take next?
+> close the pantry.
 < What action should I take next?
 > you are done.
 < Waiting for next command...
