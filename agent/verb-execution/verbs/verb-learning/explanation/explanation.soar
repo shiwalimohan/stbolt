@@ -51,6 +51,47 @@ sp {explain*copy*retrieved*episode*object
    (<s> ^object <obj>)
 }
 
+sp {explain*copy*retrieved*episode*open*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^open <obj>)
+   -->
+   (<s> ^open <obj>)
+}
+
+sp {explain*copy*retrieved*episode*closed*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^closed <obj>)
+   -->
+   (<s> ^closed <obj>)
+}
+
+sp {explain*copy*retrieved*episode*on*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^on <obj>)
+   -->
+   (<s> ^on <obj>)
+}
+
+sp {explain*copy*retrieved*episode*off*object
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>
+   	  ^memory-id <mem-id>)
+   (<ret> ^off <obj>)
+   -->
+   (<s> ^off <obj>)
+}
+
+
 sp {explain*copy*retrieved*episode*self
    (state <s> ^name explain
    	      ^epmem.result <res>)

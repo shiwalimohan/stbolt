@@ -81,13 +81,23 @@ sp {elaborate*object*property*open*close
    	       ^value <val>)
 -->
    (<obj> ^door <val>)
+   (<s> ^<val> <obj>)
 }
 
-sp {elaborate*state*property*open*close
-   (state <s> ^object <obj>)
-   (<obj> ^door <val>)
+sp {elaborate*state*property*open
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^open <val>)
 -->
-   (<s> ^<val> <obj>)
+   (<s> ^open <val>)
+}
+
+sp {elaborate*state*property*closed
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^closed <val>)
+-->
+   (<s> ^closed <val>)
 }
 
 
@@ -100,13 +110,23 @@ sp {elaborate*object*property*heat
    	    ^value <val>)
 -->
    (<obj> ^heat <val>)
+   (<s> ^<val> <obj>)
 }
 
-sp {elaborate*state*property*heat
-   (state <s> ^object <obj>)
-   (<obj> ^heat <val>)
+sp {elaborate*state*property*heat*on
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^on <val>)
 -->
-   (<s> ^<val> <obj>)
+   (<s> ^on <val>)
+}
+
+sp {elaborate*state*property*heat*off
+   (state <s> ^superstate <ss>
+   	      ^io)
+   (<ss> ^off <val>)
+-->
+   (<s> ^off <val>)
 }
 
 

@@ -48,6 +48,25 @@ sp {retract*put-down-object-location
   (<s> ^operator <op> -)
 }
 
+### prefer other operators if put-down-object-location is success
+sp {retract*put-down-object-location
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name << op_put-down-object-location op_put-down-object-object >>
+   	 ^argument1 <obj>
+	 ^argument2 <loc>
+	 ^spatial-relationship <rel>
+	 ^category primitive-action)  
+   (<op2> ^category primitive-action)
+   (<s> ^track-relation <tr>)
+   (<tr> ^object1 <obj>
+     	 ^object2 <loc>
+	 ^complete success
+	 ^vpredicate <rel>)
+-->
+  (<s> ^operator <op1> < <op2>)
+}
+
 
 ### control in close loop with SVS
 ## elaborate the operator state
