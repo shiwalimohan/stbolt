@@ -30,18 +30,18 @@ sp {elaborate*focus-objects*generate-problem-space-operator
 sp {instantiate*problem-space*operator*arguments*2
    (state <s> ^operator-template <op-temp>
 	      ^proposal-state <ps>
-	      ^map-id <map>
-	      ^candidate-object <obj1>
-	      ^candidate-object {<obj2> <> <obj1>})
+	      ^map-id <map>)
+#	      ^candidate-object <obj1>
+#	      ^candidate-object {<obj2> <> <obj1>})
    (<op-temp> ^op_name <name>
    	      ^{<arg1> <> op_name}
 	      ^{<arg2> > <arg1> <> op_name})
 -->
    (<ps> ^problem-space-operator <sop>)
    (<sop> ^name <name>
-   	  ^<arg1> <obj1>
-	  ^<arg2> <obj2>
-	  ^_metadata.map-id <map>
+   	  ^<arg1> (make-constant-symbol)
+	  ^<arg2> (make-constant-symbol)
+	  ^map-id <map>
 	  ^category composite-action)
    (<s> ^wait-for-completion <op-temp>)
 }

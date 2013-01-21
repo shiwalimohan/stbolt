@@ -1,0 +1,71 @@
+###
+sp {propose*wait-until*state
+   (state <s> -^problem-space << lgsoar message-interpretation >>
+   	      ^object <obj>
+	      ^topstate <ts>
+	      -^cooked <obj>)
+   -->
+   (<s> ^operator <op> +)
+   (<op> ^name op_wait
+   	 ^count 10
+	 ^category primitive-action
+	 ^type internal-action)
+}
+
+sp {elaborate*wait-for*time
+   (state <s> ^name op_wait
+   	      ^superstate.operator <sop>) 
+   (<sop> ^name op_wait
+   	  ^count 10
+	  ^object <obj>)
+-->
+   (<s> ^count-till 10
+   	^object <obj>)
+}
+
+sp {propose*initiate*count*wait-for-time
+   (state <s> ^name op_wait
+   	      ^count-till <any>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name initiate-count)
+}
+
+sp {apply*initiate*count
+   (state <s> ^name op_wait
+   	      ^operator.name initiate-count)
+-->
+   (<s> ^count 0)
+}
+
+sp {propose*increment*count*wait-for-time
+   (state <s> ^name op_wait
+	      ^count <any>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name increment-count
+   	 ^count <any>)
+}
+
+sp {apply*initiate*count
+   (state <s> ^name op_wait
+   	      ^operator.name increment-count
+	      ^count <any>)
+-->
+   (<s> ^count <any> -
+   	^count (+ 1 <any>))
+}
+
+sp {retract*count*till*count*reached
+   (state <s> ^name op_wait
+   	      ^count-till <any>
+	      ^count <any>
+	      ^superstate <ss>
+	      ^object <obj>)
+   (<ss> ^operator <op>)
+   (<op> ^name op_wait)
+-->
+   (<ss> ^operator <op> -)
+}
+	      		  
+  

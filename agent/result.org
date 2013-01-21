@@ -1,0 +1,30 @@
+* AAAI 2013
+** Verbs
+*** Move
+- pick-up, put-down
+*** Store
+- pick-up, open, put-down, close
+- open, move, close
+*** Shift
+- move
+- pick-up, put-down
+*** Cook
+- move, turn-on, wait-untill, turn-off
+*** Serve
+- cook, put on the table.
+*** Discard
+- move to the garbage
+*** Close
+- turn off stove, close pantry, close stove.
+** Active learning
+- meaningful queries
+- learning + performance
+- queries depend on what the agent knows
+** Generality of 
+*** Arguments
+*** Instruction sequence
+*** Situation
+** Policy-level generalization
+*** Hierarchical verb execution scheme
+
+

@@ -3,7 +3,8 @@ sp {propose*put-down-object-location*without-door
    (state <s>  ^grabbed <obj>
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
-	     ^name {<any> <> evaluate-operator})
+	     ^name {<any> <> evaluate-operator}
+	     ^not-tracking-relations true)
    (<loc> ^category location
    	  -^door)
 -->
@@ -20,7 +21,8 @@ sp {propose*put-down-object-location*with-door
 	      ^object <loc>
 	     -^problem-space << lgsoar message-interpretation >>
 	     ^name {<any> <> evaluate-operator}
-	     ^open <loc>)
+	     ^open <loc>
+	     ^not-tracking-relations true)
    (<loc> ^category location
    	  ^door)
 -->
@@ -166,7 +168,8 @@ sp {apply*put-down*location*action-model
 	 ^spatial-relationship <rel>)
 -->
    (<s> ^grabbed <obj> -
-   	^track-relation <trel>)
+   	^track-relation <trel>
+	^not-tracking-relations true -)
    (<trel> ^object1 <obj>
           ^object2 <loc>
           ^predicate <rel>
@@ -174,6 +177,15 @@ sp {apply*put-down*location*action-model
 	  ^vpredicate <rel>)
    (<ss> ^track-relation <trel>)
 }
+
+# sp {apply*put-down*location*action-model*composite-action
+#    (state <s> ^application-state composite-action
+#    	      ^superstate <ss>
+# 	      ^operator.name << op_put-down-object-location op_put-down-object-object >>)
+#    (<ss> ^not-tracking-relations true)
+# -->
+#    (<ss> ^not-tracking-relations true -)
+# }
 
 
 sp {find-projection*elaborate*bit-flip

@@ -3,7 +3,8 @@ sp {new-operator*detect*goal-failure
    (state <s> ^learning-operator <oname>
 	      ^name selection
 	      ^epmem.result.retrieved.interaction.stack.segment.purpose <p>
-	      ^topstate <ts>)
+	      ^topstate <ts>
+	      ^quiescence t)
    (<p> -^indexed-operator <any>
    	^satisfaction.learning-event.type explanation)
    (<ts> ^status <status>)

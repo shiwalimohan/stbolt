@@ -130,3 +130,15 @@ sp {elaborate*state*property*heat*off
 }
 
 
+
+#### elaborate no-track-relation, assumes that at a time only one relation will be tracked !!!! this might not work more generally!!! 
+sp {elaborate*no-track*relation
+   (state <s> ^name
+   	      ^object
+	      ^io)
+ -{(<s> ^track-relation <any>)
+   (<any> ^complete success)}
+-->
+   (<s> ^not-tracking-relations true)
+}
+
