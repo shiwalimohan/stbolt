@@ -74,4 +74,28 @@ sp {new-operator*elaborate*problem-space
 	^one-level-attributes grabbed on open off closed
 	^dont-copy vpredicates)
 }
+
+### copy track-relation
+sp {new-operator*copy*track-relation
+   (state <s> ^object <obj1>
+	      ^object <obj2>
+	      ^duplicate-of <ss>)
+   (<ss> ^object <sobj1>
+	 ^object <sobj2>
+	 ^track-relation <tr>)
+   (<tr> ^complete success
+   	 ^object1 <sobj1>
+	 ^object2 <sobj2>
+	 ^vpredicate <prep>)
+   (<obj1> ^focus <f1>)
+   (<sobj1> ^focus <f1>)
+   (<obj2> ^focus <f2>)
+   (<sobj2> ^focus <f2>)
+-->
+   (<s> ^track-relation <ntr>)
+   (<ntr> ^object1 <obj1>
+   	  ^object2 <obj2>
+	  ^complete success
+	  ^vpredicate <prep>)
+}
    	      

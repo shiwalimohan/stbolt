@@ -65,7 +65,8 @@ sp {copy*grabbed
 
 ## copy track-relations to substates
 sp {copy*track-relations
-   (state <s> ^superstate.track-relation <rel>)
+   (state <s> ^superstate.track-relation <rel>
+   	      ^io)
 -->
    (<s> ^track-relation <rel>)
 }

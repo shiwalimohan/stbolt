@@ -14,7 +14,6 @@ sp {assign-goal*elaborate*state
        ^desired <d>
        ^superoperator <iop>
        ^bit flip
-       ^predicate-count 0
        ^nbit flip)
 #  (force-learn <s>) 
 }
@@ -55,61 +54,6 @@ sp {assign-goal*propose*retrieve-predicate
    (<op> ^name retrieve-predicate
    	 ^predicate <p1>)
 }
-
-# sp {assign-goal*elaborate*retrieve-predicate*count
-#    (state <s> ^name assign-goal
-#    	      ^operator <op> +
-# 	      ^predicate-count <count>)
-#    (<op> ^name retrieve-predicate)
-# -->
-#    (<op> ^predicate-count <count>)
-# }
-
-
-# sp {assign-goal*count*predicates
-#    (state <s> ^name assign-goal
-# 	      ^operator <op>)
-#    (<op> ^name retrieve-predicate
-#     	 ^predicate-count <count>)
-# -->
-#    (<s> ^predicate-count (+ 1 <count>)
-# )
-# }
-
-sp {assign-goal*propose*count-predicates
-   (state <s> ^name assign-goal
-   	      ^retrieved-success <p>
-	      ^predicate-count <pcount>
-	      ^nbit flip
-	      -^counted <p>)
--->
-   (<s> ^operator <op> + =)
-   (<op> ^name update-count
-	 ^predicate <p>)
-}
-
-sp {assign-goal*apply*count-predicate
-   (state <s> ^name assign-goal
-   	      ^operator <op>
-	      ^predicate-count <count>)
-   (<op> ^name update-count
-   	 ^predicate <p>)
--->
-  (<s> ^predicate-count <count> -
-       ^predicate-count (+ <count> 1)
-       ^counted <p>)
-}
-
-
-
-sp {elaborate*desired*predicate*count
-   (state <s> ^name assign-goal
-   	      ^predicate-count <count>
-	      ^desired <d>)
- -->
-   (<d> ^count <count>)
-}
-
 
 ### if state-no-change, write desired to the superstate
 sp {assign-goal*write*superstate*desired
