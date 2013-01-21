@@ -36,8 +36,7 @@ sp {copy*objects
 	  -^name assign-problem-space
 	  -^name evaluate-operator
 	  -^name selection
-	  -^name find-next-episode
-	  ^io)
+	  -^name find-next-episode)
    (<ss> -^problem-space << lgsoar message-interpretation >>
    	 ^object <obj>)
 -->

@@ -29,7 +29,8 @@ sp {evaluate-operator*elaborate*state*tried-tied-operator*primitive-action
 sp {evaluate-operator*elaborate*state*tried-tied-operator*composite-action
    :default
    (state <s> ^superstate <ss>
-	      ^operator.name mark-success)
+	      ^desired <d>
+	      ^success <d>)
    (<ss> ^operator <o> 
          ^look-ahead-operator <o>)
    (<o> -^category primitive-action)
@@ -55,8 +56,8 @@ sp {evaluate-operator*elaborate*state*remove*untried-tied-operator*composite-act
    	      ^desired <d>
 	      ^success <d>)
    (<ss> ^look-ahead-operator <o> 
-              ^operator <o>
-              ^untried-tied-operator <o>)
+         ^operator <o>
+         ^untried-tied-operator <o>)
    (<o> ^category composite-action)
 -->
    (<ss> ^untried-tied-operator <o> -)
