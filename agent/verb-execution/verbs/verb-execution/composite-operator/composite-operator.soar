@@ -33,6 +33,7 @@ sp {composite-operator*propose*assign-goal
 	      -^desired <any>
 	      ^goal-id <glid>
 	      ^application-state composite-action)
+	     
  -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
