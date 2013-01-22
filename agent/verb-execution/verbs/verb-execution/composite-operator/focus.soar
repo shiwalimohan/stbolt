@@ -15,11 +15,13 @@ sp {composite*operator*elaborate*focus
 sp {composite*operator*elaborate*goal*focus
    (state <s> ^name <sname>
    	      ^superstate <ss>
-	      ^object <val1>)
+	      ^object <val1>
+	      ^map-id.goal.<predicate> <pred>)
+   (<pred> ^<arg> <sobj>
+   	   ^category relation)
    (<ss> ^operator <sop>)
    (<sop> ^name <sname>
-   	  ^category << composite-action explanation >>
-	  ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+   	  ^category << composite-action explanation >>)
    (<sobj> ^id <id>)
    (<val1> ^id <id>)
    -->

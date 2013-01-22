@@ -54,7 +54,7 @@ sp {assign-goal*elaborate*semantic-objects*relation
    	      ^desired.track-relation <tr>
 	      ^long-term-id <glid>
 	      ^superoperator <iop>
-	      ^procedural-id.<varg> <sobj>)
+	      -^procedural-id.<varg> <sobj>)
    (<glid> ^<prep> <p1>)
    (<tr> ^spatial-relationship <type>)
    (<p1> ^{<parg> <> type} <sobj>

@@ -112,7 +112,7 @@ sp {new-operator*copy*open
 
 
 sp {new-operator*copy*problem-space-operator*evaluate-operator
-   (state <s> ^object <obj1>
+   (state <s> ^object {<obj1> <> <obj2>}
 	      ^object <obj2>
 	      ^duplicate-of <ss>)
    (<ss> ^problem-space-operator <psop>)
@@ -143,8 +143,7 @@ sp {evaluate-operator*copy*superstate*on*object
 }
 
 sp {evaluate-operator*copy*superstate*off*object
-   (state <s> ^superstate <ss>
-   	      ^application-state composite-action)
+   (state <s> ^superstate <ss>)
    (<ss> ^name evaluate-operator
    	 ^off <m>)
 -->

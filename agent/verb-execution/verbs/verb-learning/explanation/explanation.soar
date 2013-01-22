@@ -134,19 +134,19 @@ sp {explain*propose*segment-verb*elaborate
 }
 
 ### elaborate focus for objects in explanation
-sp {explain*propose*segment-verb*elaborate*goal
-   (state <s> ^name explain
-   	      ^segment.purpose.indexed-operator <map-op>
-	      ^operator <op> +
-	      ^object <obj>)
-   (<op> ^name <name>)
-   (<map-op> ^name <name>
-	     ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
-   (<sobj> ^id <id>)
-   (<obj> ^id <id>)
-   -->
-   (<obj> ^focus (concat <name> <arg>))
-}
+# sp {explain*propose*segment-verb*elaborate*goal
+#    (state <s> ^name explain
+#    	      ^segment.purpose.indexed-operator <map-op>
+# 	      ^operator <op> +
+# 	      ^object <obj>)
+#    (<op> ^name <name>)
+#    (<map-op> ^name <name>
+# 	     ^_metadata.map-id.goal.<prep>.<arg> <sobj>)
+#    (<sobj> ^id <id>)
+#    (<obj> ^id <id>)
+#    -->
+#    (<obj> ^focus (concat <name> <arg>))
+# }
 
 ### --- mark that the desired state of the operator is reached
 sp {composite-operator*mark-success
