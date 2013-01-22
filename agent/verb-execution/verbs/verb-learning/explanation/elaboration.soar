@@ -118,13 +118,11 @@ sp {new-operator*copy*track-relation
 sp {new-operator*copy*problem-space-operator*evaluate-operator
    (state <s> ^object <obj1>
 	      ^object <obj2>
-	      ^duplicate-of <ss>
-	      ^quiescence t)
+	      ^duplicate-of <ss>)
    (<ss> ^problem-space-operator <psop>)
    (<psop> ^name <op-name>
    	   ^<arg1> <sobj1>
 	   ^{<arg2> > <arg1>} <sobj2>
-	   ^_metadata.map-id <map>
 	   ^category composite-action)
    (<obj1> ^focus <f1>)
    (<sobj1> ^focus <f1>)
@@ -135,8 +133,7 @@ sp {new-operator*copy*problem-space-operator*evaluate-operator
    (<nop> ^category composite-action
    	  ^name <op-name>
 	  ^<arg1> <obj1>
-	  ^<arg2> <obj2>
-	  ^_metadata.map-id <map>)
+	  ^<arg2> <obj2>)
 }
    	      
 

@@ -8,22 +8,94 @@
 ##
 
 ### elaborate composite-operators
-sp {composite-operator*elaborate*state
+
+sp {composite-operator*elaborate*state*application-state
    (state <s> ^name <sname>
+   	      ^superstate.operator <sop>)
+   (<sop> ^category composite-action)
+-->
+   (<s> ^application-state composite-action)
+}
+
+sp {composite-operator*elaborate*state*map-id 
+   (state <s> ^application-state composite-action
    	      ^superstate.operator <sop>)
    (<sop> ^_metadata.map-id <map-id>
    	  ^category composite-action)
-   (<map-id> ^goal <goal-id>
-   	     ^problem-space <ps-id>
-	     ^procedural <proc-id>)
 -->
-   (<s> ^application-state composite-action
-   	^goal-id <goal-id>
-	^problem-space-id <ps-id>
-	^map-id <map-id>
-	^procedural-id <proc-id>)
+   (<s> ^map-id <map-id>)
 }
 
+sp {composite-operator*elaborate*other-ids
+   (state <s> ^application-state composite-action
+   	      ^map-id <map-id>)
+   (<map-id> ^procedural <proc-id>
+   	     ^problem-space <ps-id>
+	     ^goal <gid>)
+-->
+   (<s> ^procedural-id <proc-id>
+   	^problem-space-id <ps-id>
+	^goal-id <gid>)
+}
+
+sp {composite-operator*propose*query*procedural-id
+   (state <s> ^application-state composite-action
+   	      ^superstate.operator <sop>
+	      -^map-id <any>
+   	      -^name evaluate-operator)
+   (<sop> ^name <op-name>
+   	  ^{<arg1> <> name <> category <> duplicate-of <> spatial-relationship} 
+	  ^{<arg2> > <arg1> <> name <> category <> duplicate-of <> spatial-relationship})
+   
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name query-procedural-id
+   	 ^cue <cue>)
+   (<cue> ^op_name <op-name>
+   	  ^<arg1> <any1>
+	  ^<arg2> <any2>)
+}
+
+sp {query-procedural-id*query*cue
+   (state <s> ^name query-procedural-id
+   	      ^superstate <ss>
+	      ^smem.command <scomm>)
+   (<ss> ^operator.cue <cue>)
+-->
+   (<scomm> ^query <cue>)
+   (<s> ^at-state <ss>)
+}
+
+sp {query-procedural-id*propose*query*mapid
+   (state <s> ^smem.result.retrieved <ret>
+   	      ^at-state <ss>
+	      ^name query-procedural-id)
+ -->
+   (<s> ^operator <op> + >)
+   (<op> ^name query-map-id
+   	 ^cue <cue>
+	 ^at-state <ss>)
+   (<cue> ^procedural <ret>)
+}
+
+sp {query-map-id*query*cue
+   (state <s> ^superstate.operator <sop>
+   	      ^name query-map-id
+	      ^smem.command <scomm>)
+   (<sop> ^cue <cue>	
+   	  ^at-state <as>)
+-->
+   (<scomm> ^query <cue>)	
+   (<s> ^at-state <as>)
+}
+
+sp {query-map-id*write*superstate
+   (state <s> ^name query-map-id
+   	      ^smem.result.retrieved <ret>
+	      ^at-state <as>)
+-->
+   (<as> ^map-id <ret>)
+}
 
 
 ### retrieve and assign goal to composite-operators
@@ -32,14 +104,16 @@ sp {composite-operator*propose*assign-goal
    	      ^superstate.operator <sop>
 	      -^desired <any>
 	      ^goal-id <glid>
-	      ^application-state composite-action)
+	      ^application-state composite-action
+	      ^procedural-id <proc-id>)
 	     
  -->
    (<s> ^operator <op> + >)
    (<op> ^name assign-goal
    	 ^long-term-id <glid>
 	 ^category explanation
-	 ^superoperator <sop>)
+	 ^superoperator <sop>
+	      ^procedural-id <proc-id>)
 }
 
 
@@ -63,8 +137,7 @@ sp {composite-operator*propose*assign-problem-space
 
 ### propose problem-space-operators if any
 sp {composite-operator*propose*problem-space-operators
-   (state <s> ^name <sname>
-	      ^application-state composite-action
+   (state <s> ^application-state composite-action
 	      ^problem-space-operator <op>)
 -->
    (<s> ^operator <op> +)

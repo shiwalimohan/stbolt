@@ -1,4 +1,3 @@
-
 sp {evaluate-operator*propose*look-ahead
    :default
    (state <s> ^look-ahead-operator <o>

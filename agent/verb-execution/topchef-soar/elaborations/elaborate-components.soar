@@ -30,6 +30,7 @@ sp {elaborate*objects*blocks
 ### copy objects to substate, if not in language problem-space
 sp {copy*objects
    (state <s> ^superstate <ss>
+   	  -^superstate.operator.name assign-goal
       	  -^problem-space << lgsoar message-interpretation >>
 	  -^name explain 
 	  -^name assign-goal

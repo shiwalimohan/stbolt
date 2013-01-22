@@ -8,13 +8,15 @@ sp {assign-goal*elaborate*state
    	      ^superstate.operator <sop>)
    (<sop> ^name assign-goal
    	  ^long-term-id <glid>
-	  ^superoperator <iop>) 
+	  ^superoperator <iop>
+	  ^procedural-id <pid>) 
 -->
   (<s> ^long-term-id <glid>
        ^desired <d>
        ^superoperator <iop>
        ^bit flip
-       ^nbit flip)
+       ^nbit flip
+       ^procedural-id <pid>)
 #  (force-learn <s>) 
 }
 
