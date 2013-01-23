@@ -128,7 +128,7 @@ public class Parser {
 		for(EntityPattern pattern : entityPatterns){
 		    tagString = util.extractPattern(pattern, tagString, tagsToWords);
 		}
-//		System.out.println("the tag string is " + tagString);
+	//	System.out.println("the tag string is " + tagString);
 		return tagString;
 	}
 	

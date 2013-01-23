@@ -23,6 +23,10 @@ pushd ./turn
 source all_source.soar
 popd
 
+pushd ./wait-for-state
+source all_source.soar
+popd
+
 #pushd ./weigh
 #source all_source.soar
 #popd

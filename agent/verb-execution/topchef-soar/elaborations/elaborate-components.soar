@@ -131,8 +131,6 @@ sp {elaborate*state*property*heat*off
 }
 
 
-
-
 #### elaborate not-track-relation, assumes that at a time only one relation will be tracked !!! this might not work more generally !!
 
 sp {elaborate*no-track*relation
@@ -151,5 +149,23 @@ sp {elaborate*no-track*relation*superstate
    	 ^io)
 -->
    (<s> ^not-tracking-relations true)
+}
+
+
+### elaborate cooked object
+sp {elaborate*cooked*object
+   (state <s> ^topstate <s>
+   	      ^object <obj>)
+   (<obj> ^state cooked)
+-->
+   (<s> ^cooked <obj>)
+}
+
+### copy cooked object
+sp {copy*cooked*object
+   (state <s> ^superstate.cooked <obj>
+   	      ^io)
+-->
+   (<s> ^cooked <obj>)
 }
    	      
