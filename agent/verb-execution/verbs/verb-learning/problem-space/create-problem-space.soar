@@ -25,6 +25,4 @@ sp {create-problem-space*semantic-memory
 -->
    (<p> ^operator <procedural>)
    (<scomm> ^store <p>)
-   (interrupt)
 }
-

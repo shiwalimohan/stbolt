@@ -47,7 +47,7 @@ sp {create*_relation*structure*to
 	  ^type duration)
 }
 
-sp {create*_relation*structure*to
+sp {create*_relation*structure*for
    (state <s> ^name index-preposition
 	      ^preposition for)
  -->

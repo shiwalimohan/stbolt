@@ -136,12 +136,12 @@ sp {composite-operator*propose*assign-problem-space
 }
 
 ### propose problem-space-operators if any
-sp {composite-operator*propose*problem-space-operators
-   (state <s> ^application-state composite-action
-	      ^problem-space-operator <op>)
--->
-   (<s> ^operator <op> +)
-}
+# sp {composite-operator*propose*problem-space-operators
+#    (state <s> ^application-state composite-action
+# 	      ^problem-space-operator <op>)
+# -->
+#    (<s> ^operator <op> +)
+# }
 
 
 ### assign-problem-space is better than composite-action
