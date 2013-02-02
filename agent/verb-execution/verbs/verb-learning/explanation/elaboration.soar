@@ -71,7 +71,7 @@ sp {new-operator*elaborate*problem-space
    	^default-state-copy yes
 	^two-level-attributes object
 	^two-level-attributes self
-	^one-level-attributes grabbed on open off closed problem-space-operator application-state not-tracking-relations
+	^one-level-attributes grabbed on open off closed application-state not-tracking-relations
 	^dont-copy vpredicates)
 }
 

@@ -29,12 +29,15 @@ sp {evaluate-operator*elaborate*state*tried-tied-operator*primitive-action
 sp {evaluate-operator*elaborate*state*tried-tied-operator*composite-action
    :default
    (state <s> ^superstate <ss>
-	      ^operator.name mark-success)
+	      ^application-state composite-action
+	      ^desired <d>
+	      ^success <d>)
    (<ss> ^operator <o> 
          ^look-ahead-operator <o>)
    (<o> -^category primitive-action)
    -->
-   (<ss> ^tried-tied-operator <o>)}
+   (<ss> ^tried-tied-operator <o>)
+}
 
 
 # SBW 5/07: replaced all occurences of -^tried-tied-operator with ^untried-tied-operator

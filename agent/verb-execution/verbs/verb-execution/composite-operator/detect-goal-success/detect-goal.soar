@@ -80,8 +80,8 @@ sp {new-operator*state*success*3
 
 # sp {new-operator*detect*track-relation*success*propose
 #    (state <s> ^desired <d>
-# 	      ^duplicate-of <ss>
-# 	      ^superstate.operator.superoperator <spo>)
+# 	        ^duplicate-of <ss>
+# 	        ^superstate.operator.superoperator <spo>)
 #    (<s> ^success <d>)
 # -->
 #    (<ss> ^operator <spo> + >)

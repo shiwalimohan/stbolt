@@ -16,7 +16,6 @@ sp {assign-goal*elaborate*state
        ^bit flip
        ^predicate-count 0
        ^nbit flip)
-#  (force-learn <s>) 
 }
 
 ### retrieve the long-term-id corresponding to the goal of the indexed-operator

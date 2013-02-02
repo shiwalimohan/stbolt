@@ -36,8 +36,7 @@ sp {copy*objects
 	  -^name assign-problem-space
 	  -^name evaluate-operator
 	  -^name selection
-	  -^name find-next-episode
-	  ^io)
+	  -^name find-next-episode)
    (<ss> -^problem-space << lgsoar message-interpretation >>
    	 ^object <obj>)
 -->
@@ -138,6 +137,15 @@ sp {elaborate*no-track*relation
 	      ^io)
  -{(<s> ^track-relation <any>)
    (<any> ^complete success)}
+-->
+   (<s> ^not-tracking-relations true)
+}
+
+sp {elaborate*no-track*relation*superstate
+   (state <s> ^superstate <ss>
+   	      ^applicatios)
+   (<ss> ^not-tracking-relations true
+ 	      ^io)
 -->
    (<s> ^not-tracking-relations true)
 }

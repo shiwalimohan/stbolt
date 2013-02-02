@@ -178,11 +178,14 @@ sp {apply*put-down*location*action-model
    (<ss> ^track-relation <trel>)
 }
 
+
+### this whole thing is quite hacky!
 # sp {apply*put-down*location*action-model*composite-action
 #    (state <s> ^application-state composite-action
 #    	      ^superstate <ss>
 # 	      ^operator.name << op_put-down-object-location op_put-down-object-object >>)
-#    (<ss> ^not-tracking-relations true)
+#    (<ss> ^not-tracking-relations true
+#    	 ^name evaluate-operator)
 # -->
 #    (<ss> ^not-tracking-relations true -)
 # }

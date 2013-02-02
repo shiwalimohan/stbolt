@@ -61,27 +61,34 @@ sp {composite-operator*propose*assign-problem-space
 }
 
 ### propose problem-space-operators if any
+# sp {composite-operator*propose*problem-space-operators
+#    (state <s> #^name <sname>
+# 	      ^application-state composite-action
+# 	      ^problem-space-operator <psop>
+# 	      ^object <obj1>
+# 	      ^object {<obj2> <> <obj1>})
+#    (<psop> ^name <name>
+#    	   ^{<arg1> <> name <> map-id <> category}
+# 	   ^{<arg2> > <arg1> <> name <> map-id <> category}
+# 	   ^map-id <map>
+# 	   ^category composite-action)
+#    (<obj1> ^focus)
+#    (<obj2> ^focus) 
+# -->
+#    (<s> ^operator <op> +)
+#    (<op> ^name <name>
+#    	 ^<arg1> <obj1>
+# 	 ^<arg2> <obj2>
+# 	 ^_metadata.map-id <map>
+# 	 ^category composite-action)
+# }
+
 sp {composite-operator*propose*problem-space-operators
    (state <s> #^name <sname>
 	      ^application-state composite-action
-	      ^problem-space-operator <psop>
-	      ^object <obj1>
-	      ^object {<obj2> <> <obj1>}
-	      ^quiescence t)
-   (<psop> ^name <name>
-   	   ^{<arg1> <> name <> map-id <> category}
-	   ^{<arg2> > <arg1> <> name <> map-id <> category}
-	   ^map-id <map>
-	   ^category composite-action)
-   (<obj1> ^focus)
-   (<obj2> ^focus) 
+	      ^problem-space-operator <psop>)
 -->
-   (<s> ^operator <op> +)
-   (<op> ^name <name>
-   	 ^<arg1> <obj1>
-	 ^<arg2> <obj2>
-	 ^_metadata.map-id <map>
-	 ^category composite-action)
+   (<s> ^operator <psop> +)
 }
 
 
