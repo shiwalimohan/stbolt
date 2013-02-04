@@ -1,3 +1,16 @@
 ## elaborate object referents
 
-sp {elaborate*object-referents* 
+sp {elaborate*object-referents*from*indexed-operator
+   (state <s> ^topstate <s> 
+   	      ^interaction <int>)
+   (<int> ^referents.objects <robj>
+   	  ^segments.segment <seg>)
+   (<seg> ^purpose.indexed-operator <iop>)
+   (<iop> ^{<arg1> <> name <> _relation <> _metadata} <obj1>)
+-->
+   (<robj> ^ref <ref1>
+   	   ^object <obj1>)
+   (<ref1> ^object <obj1>
+   	   ^segment <seg>)
+}
+   
