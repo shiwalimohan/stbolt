@@ -1,0 +1,57 @@
+sp {propose*write*matched*objects*perceptual*superstate
+   (state <s> ^name index-argument
+   	      ^match <obj>
+	      -^topstate.interaction.referents.objects.object <obj>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name perceptual-referents
+   	    	 ^category indexing)
+}
+
+   
+### write matched object to the superstate 
+sp {write*matched*object*superstate
+   (state <s> ^name index-argument
+   	      ^match <obj>
+	      ^superstate <ss>
+	      ^operator.name perceptual-referents
+	      ^cue <cue>
+	      ^connector <con>
+	      ^argument <arg>
+	      -^topstate.interaction.referents.objects.object <obj>) ## object not in the focus stack
+-->
+  (<cue> ^<con> <obj>)
+  (<ss> ^matched <arg>
+  	^bit flip)
+}
+
+## prefer focus-referents to perceptual-referents
+sp {preferent*focus-referents*perceptual-referents
+   (state <s> ^name index-argument
+   	      ^operator <op1> +
+	      ^operator <op2> +)
+   (<op1> ^name focus-referents)
+   (<op2> ^name perceptual-referents)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+sp {preferent*activated-referents*perceptual-referents
+   (state <s> ^name index-argument
+   	      ^operator <op1> +
+	      ^operator <op2> +)
+   (<op1> ^name activated-referents)
+   (<op2> ^name perceptual-referents)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+   	  
+sp {preferent*perceptual-referents*equal
+   (state <s> ^name index-argument
+   	      ^operator <op1> +
+	      ^operator <op2> +)
+   (<op1> ^name perceptual-referents)
+   (<op2> ^name perceptual-referents)
+-->
+   (<s> ^operator <op1> = <op2>)
+}
