@@ -1,0 +1,12 @@
+### initialize referent sets for the interaction
+
+sp {initialize*referents*interaction
+   (state <s> ^topstate <s>
+   	      ^interaction <int>)
+-->
+   (<int> ^referents <ref>)
+   (<ref> ^objects <obj>
+   	  ^actions <act>
+	  ^spatial-relationships <srel>)
+}
+

@@ -18,6 +18,16 @@ sp {apply*pop-segment
    (<cs> ^segment <next-segment>)
 }
 
+sp {remove*segment*from*segments*set
+   (state <s> ^interaction.segments <segs>
+   	      ^operator <op>)
+   (<op> ^name pop-segment
+   	 ^segment <segment>)
+   (<segs> ^segment <segment>)
+-->
+   (<segs> ^segment <segment> -)
+}
+
 # AM: putting stack information on the OL link
 sp {apply*pop-segment*output-link
    (state <s> ^interaction.stack <stack>

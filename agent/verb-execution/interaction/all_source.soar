@@ -19,6 +19,11 @@ source copy-instructor-message.soar
 source nl.soar
 source wait-for-instructor.soar
 
+### referents (objects, actions, spatial-relationships) in the intreaction stack
+pushd ./referents
+source all_source.soar
+popd
+
 # AM: Tells the user about the current state of the interaction
 source report-interaction.soar
 
