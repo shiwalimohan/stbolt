@@ -114,6 +114,17 @@ sp {preferent*focus-referents*perceptual-referents
    (<s> ^operator <op1> > <op2>)
 }
    	  
+sp {preferent*perceptual-referents*equal
+   (state <s> ^name index-argument
+   	      ^operator <op1> +
+	      ^operator <op2> +)
+   (<op1> ^name perceptual-referents)
+   (<op2> ^name perceptual-referents)
+-->
+   (<s> ^operator <op1> = <op2>)
+}
+   	  
+
    
 ### write matched object to the superstate 
 sp {write*matched*object*superstate
