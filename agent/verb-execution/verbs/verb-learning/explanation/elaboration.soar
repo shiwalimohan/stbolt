@@ -64,7 +64,7 @@ sp {explain*copy*superstate*relevant*structures*self
 
 ### --- elaborate problem-space
 sp {new-operator*elaborate*problem-space
-   (state <s> ^name {<sname> <> evaluate-operator <> operator-tie <> selection <> explain})
+   (state <s> ^name {<sname> <> evaluate-operator <> operator-tie <> selection <> explain <> bolt-agent})
 -->  
    (<s> ^problem-space <p>)
    (<p> ^name <sname>

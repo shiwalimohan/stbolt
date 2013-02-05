@@ -1,14 +1,31 @@
-sp {propose*write*matched*objects*perceptual*superstate
+sp {propose*write*matched*objects*activated*superstate
    (state <s> ^name index-argument
    	      ^match <obj>
-	      -^topstate.interaction.referents.objects.object <obj>)
+	      -^topstate.interaction.referents.objects.object <obj>
+	      ^highest-activation <obj>)
 -->
    (<s> ^operator <op> +)
    (<op> ^name activated-referents
    	 ^category indexing)
 }
 
-sp {preference*focus-referents*activated-referents
+sp {apply*write*matched*object*activated-set*superstate
+   (state <s> ^name index-argument
+   	      ^operator.name activated-referents
+   	      ^match <obj>
+	      ^superstate <ss>
+	      ^cue <cue>
+	      ^connector <con>
+	      ^argument <arg>
+	      ^topstate <ts>
+	      ^highest-activation <obj>)
+-->
+   (<cue> ^<con> <obj>)
+   (<ss> ^matched <arg>
+   	 ^bit flip)
+}
+
+sp {preference*activated-referents*activated-referents
    (state <s> ^name index-argument
    	      ^operator <op1> +
 	      ^operator <op2> +)
@@ -19,4 +36,45 @@ sp {preference*focus-referents*activated-referents
 }
 
 
-sp {
+sp {find-object*create-cue*look-up*object*smem
+   (state <s> ^name index-object)
+-->
+   (<s> ^description <cue>)
+}
+
+sp {find-object*populate*cue*description
+   (state <s> ^name index-object
+   	      ^description <cue>
+	      ^index-object-context.object.property <n>)
+   (<n> ^category <arg>
+   	^label <val>)
+-->
+   (<cue> ^<arg> <val>)
+}
+
+sp {cue*semantic-memory*object*activation
+   (state <s> ^name index-object
+   	      ^description <desc>
+	      ^smem.command <scomm>
+	      ^operator.name identify-object)
+-->
+   (<scomm> ^query <desc>)
+}
+
+sp {smem*object*object*found
+   (state <s> ^name index-object
+   	      ^smem.result.retrieved <act-obj>
+	      ^superstate <ss>)
+-->
+   (<ss> ^highest-activation <act-obj>)
+}
+
+# sp {smem*object*not-found
+#    (state <s> ^name index-object
+#    	      ^smem.result.failure
+# 	      ^superstate <ss>)
+# -->
+#    (<ss> ^activated none)
+# }
+   
+	      

@@ -13,10 +13,19 @@ sp {elaborate*object-referents*from*indexed-operator
    	   ^object <obj1>)
    (<ref1> ^object <obj1>
    	   ^segment <seg>)
-   (<smem> ^store <obj1>) ### store all referents in the focus in semantic memory
+#   (<scomm> ^store <obj1>) ### store all referents in the focus in semantic memory
 }
 
-### semantic memory commands
+sp {store*objects*for*activation
+   (state <s> ^interaction.referents.objects.object <obj>
+   	      ^operator <op>
+	      ^smem.command <scomm>)
+   (<op> ^<arg> <obj>)
+-->
+   (<scomm> ^store <obj>)
+}
+
+##semantic memory commands
 sp {topstate*operator*clear*smem*buffer
    (state <s> ^topstate <s>
    	      ^smem.command <scomm>

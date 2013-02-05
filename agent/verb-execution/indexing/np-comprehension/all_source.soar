@@ -12,4 +12,4 @@ source perceptual-referents.soar
 source focus-referents.soar
 
 ### architectural context (recency/frequency)
-##source activated-referents.soar
+source activated-referents.soar
