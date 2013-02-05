@@ -16,11 +16,12 @@ sp {apply*write*matched*object*activated-set*superstate
 	      ^superstate <ss>
 	      ^cue <cue>
 	      ^connector <con>
-	      ^argument <arg>
-	      ^topstate <ts>
-	      ^highest-activation <obj>)
+	      ^highest-activation <obj>
+	      ^status <stat>
+	      ^argument <arg>)
 -->
    (<cue> ^<con> <obj>)
+   (<stat> ^<con> <obj>)
    (<ss> ^matched <arg>
    	 ^bit flip)
 }

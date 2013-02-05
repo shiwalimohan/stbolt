@@ -31,11 +31,11 @@ sp {push-segment*create-segment
 	  ^id ( + <id> 1)
 	  ^next <prev-segment>
 	  ^epmem-id <eid>
-	  ^action-id <count>)
+	  ^action-id <count>
+	  ^indexing-status <stat>)
    (<np>  ^type <type>
           ^parameters <params>
    	  ^satisfaction <new-sat>)
-#   (<segs> ^segment <seg>)
 }
 
 sp {push-segment*add*segment*segments

@@ -17,10 +17,10 @@ sp {write*matched*object*superstate
 	      ^operator.name perceptual-referents
 	      ^cue <cue>
 	      ^connector <con>
-	      ^argument <arg>
-	      -^topstate.interaction.referents.objects.object <obj>) ## object not in the focus stack
+	      ^status <stat>)
 -->
   (<cue> ^<con> <obj>)
+  (<stat> ^<con> <obj>)
   (<ss> ^matched <arg>
   	^bit flip)
 }

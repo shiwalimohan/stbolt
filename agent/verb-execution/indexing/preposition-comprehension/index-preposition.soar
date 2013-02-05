@@ -7,9 +7,11 @@ sp {index*preposition*elaborate*state
    (state <s> ^name index-preposition
    	      ^superstate.operator <sop>)
    (<sop> ^name index-preposition
-   	  ^preposition <p>)
+   	  ^preposition <p>
+	  ^status <stat>)
 -->
-   (<s> ^preposition <p>)
+   (<s> ^preposition <p>
+   	^status <stat>)
 }
 
 
@@ -60,9 +62,12 @@ sp {create*_relation*structure*for
 sp {write*_relation*superstate
    (state <s> ^name index-preposition
    	      ^superstate <ss>
-	      ^_relation <rel>)
+	      ^_relation <rel>
+	      ^preposition <p>
+	      ^status <stat>)
 -->
    (<ss> ^_relation <rel>)
+   (<stat> ^_relation <rel>)
 }
 
 

@@ -1,10 +1,12 @@
 ### 
 sp {create*cue*verb
    (state <s> ^name create-cue
-   	      ^superstate.information <info>)
+   	      ^superstate.information <info>
+	      ^topstate.interaction.stack.segment.indexing-status <stat>)
 -->
    (<s> ^information <info>
-   	^bit flip)
+   	^bit flip
+	^status <stat>)
 }
 
 sp {elaborate*verb
@@ -37,7 +39,9 @@ sp {propose*index-argument*direct-object
    	      ^information.verb <info>
 	      ^cue <cue>
 	      -^matched <do>
-	      ^bit flip)
+	      ^bit flip
+	      ^status <stat>)
+   (<stat> -^direct-object <any>)
    (<info> ^direct-object.object <do>)
    (<cue> -^direct-object <any>)
 -->
@@ -47,7 +51,8 @@ sp {propose*index-argument*direct-object
 	 ^connector direct-object
 	 ^argument <do>
 	 ^category indexing
-	 ^context-id direct-object)
+	 ^context-id direct-object
+	 ^status <stat>)
 }
 
 
@@ -55,13 +60,16 @@ sp {propose*index-argument*preposition
    (state <s> ^name create-cue
    	      ^information.verb <info>
 	      ^bit flip
-	      -^_relation.preposition <prep>)
+	      -^_relation.preposition <prep>
+	      ^status <stat>)
+   (<stat> -^_relation <any>)
    (<info> ^preposition.word <prep>)
   -->
    (<s> ^operator <op> + =)
    (<op> ^name index-preposition
 	 ^preposition <prep>
-	 ^category indexing)
+	 ^category indexing
+	 ^status <stat>)
 }
 
 sp {propose*index-argument*preposition*object
@@ -70,7 +78,9 @@ sp {propose*index-argument*preposition*object
 	      ^cue <cue>
 	      -^matched <obj>
 	      ^bit flip
-	      ^_relation <rel>)
+	      ^_relation <rel>
+	      ^status <stat>)
+   (<stat> -^<p> <any>)
    (<info> ^preposition.object <obj>)
    (<rel> ^preposition <p>)
    (<cue> -^<p> <any>)
@@ -81,7 +91,41 @@ sp {propose*index-argument*preposition*object
 	 ^argument <obj>
 	 ^connector <p>
 	 ^category indexing
-	 ^context-id <p>)
+	 ^context-id <p>
+	 ^status <stat>)
+}
+
+### elaborate previously matched structures
+sp {elaborate*cue*arguments*previous*indices*direct-object
+   (state <s> ^name create-cue
+   	      ^status <stat>
+	      ^cue <cue>
+	      ^information.verb.direct-object.object <obj>)
+   (<stat> ^direct-object <val>)
+-->
+   (<cue> ^direct-object <val>)
+   (<s> ^matched <obj>)
+}
+
+sp {elaborate*cue*argument*previous*indices*preposition-object
+   (state <s> ^name create-cue
+   	      ^status <stat>
+	      ^cue <cue>
+	      ^information.verb.preposition <prep>)
+   (<prep> ^word <p>
+   	   ^object <obj>)
+   (<stat> ^<p> <val>)
+-->
+   (<cue> ^<p> <val>)
+   (<s> ^matched <obj>)
+}
+
+sp {elaborate*cue*argument*previous*indices*relation
+   (state <s> ^name create-cue
+   	      ^status <stat>)
+   (<stat> ^_relation <val>)
+-->
+   (<s> ^_relation <val>)
 }
 
 ### mark success if only verb

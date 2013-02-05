@@ -12,16 +12,17 @@ sp {propose*write*matched*objects*referent-set*superstate
 
 sp {apply*write*matched*object*referent-set*superstate
    (state <s> ^name index-argument
-   	      ^operator.name  focus-referents
+   	      ^operator.name focus-referents
    	      ^match <obj>
 	      ^superstate <ss>
 	      ^cue <cue>
 	      ^connector <con>
 	      ^argument <arg>
-	      ^topstate <ts>)
-   (<ts> ^interaction.referents.objects.object <obj>)
+	      ^topstate <ts>
+	      ^status <stat>)
 -->
    (<cue> ^<con> <obj>)
+   (<stat> ^<con> <obj>)
    (<ss> ^matched <arg>
    	 ^bit flip)
 }
