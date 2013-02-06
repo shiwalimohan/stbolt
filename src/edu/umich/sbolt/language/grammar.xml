@@ -10,7 +10,7 @@
 -->
 <Grammar>
 	<Pattern name="LingObject">
-		<Regex>(DT\d* )?(JJ\d* )*(NN\d*)</Regex>
+		<Regex>((DT\d* )?(JJ\d* )*(NN\d*)|(PR\d*))</Regex>
 		<Tag>OBJ</Tag>
 		<EntityType>LingObject</EntityType>
 	</Pattern>	

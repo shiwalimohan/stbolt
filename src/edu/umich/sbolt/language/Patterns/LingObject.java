@@ -17,6 +17,7 @@ public class LingObject extends LinguisticEntity {
     public static String TYPE = "LingObject";
 	private String determiner = null;
 	private Set<String> adjective;
+	private String pronoun = null;
 	private String noun;
 	
 	public String getDeterminer(){
@@ -29,6 +30,10 @@ public class LingObject extends LinguisticEntity {
 	
 	public String getNoun(){
 	    return noun;
+	}
+	
+	public String getPronoun(){
+		return pronoun;
 	}
 	
 	public void extractLinguisticComponents(String string, Map tagsToWords){
@@ -50,6 +55,12 @@ public class LingObject extends LinguisticEntity {
 		while(m.find()){
 			noun = tagsToWords.get(m.group()).toString();
 		}
+		
+		p = Pattern.compile("PR\\d*");
+		m = p.matcher(string);
+		while(m.find()){
+			pronoun = tagsToWords.get(m.group()).toString();
+		}
 	}
 	
 	@Override
@@ -58,7 +69,9 @@ public class LingObject extends LinguisticEntity {
 	    // id.CreateStringWME("originator", "instructor");
 	  //  Identifier fieldsId = id.CreateIdWME("information");
 		Identifier objectId = id.CreateIdWME(connectingString);
-	    objectId.CreateStringWME("word", noun);
+		if (noun != null){
+			objectId.CreateStringWME("word", noun);
+		}
 		if (determiner != null){
 			if(determiner.equals("the")){
 				determiner = "DEF";
@@ -70,6 +83,9 @@ public class LingObject extends LinguisticEntity {
 			while (itr.hasNext()){
 				objectId.CreateStringWME("word", itr.next().toString());
 			}
+		}
+		if (pronoun != null){
+			objectId.CreateStringWME("specifier", pronoun);
 		}
 	}
 	
