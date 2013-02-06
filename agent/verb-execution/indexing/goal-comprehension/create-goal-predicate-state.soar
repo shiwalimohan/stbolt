@@ -1,6 +1,7 @@
 sp {elaborate*create-goal-predicate*state
    (state <s> ^name create-goal-predicate-state
-   	      ^superstate <ss>)
+   	      ^superstate <ss>
+	      ^topstate.interaction.stack.segment.indexing-status <stat>)
    (<ss> ^operator <sop>)
    (<sop> ^name create-goal-predicate-state
    	  ^goal-id <gid>
@@ -43,7 +44,8 @@ sp {propose*index*argument*state
 	 ^connector <argattr>
 	 ^cue <sprep>
 	 ^argument <arg>
-	 ^context-id (concat <info> <argattr>))
+	 ^context-id (concat <info> <argattr>)
+	 ^status <stat>)
 }
 
 ## using the dialog context, resolve the referent

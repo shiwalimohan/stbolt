@@ -36,6 +36,21 @@ sp {propose*index-object*perceptual
 	^context-id <con-id>)
 }
 
+sp {write*matched*object*superstate
+   (state <s> ^name index-argument
+   	      ^match <obj>
+	      ^superstate <ss>
+	      ^cue <cue>
+	      ^connector <con>
+	      ^status <stat>
+	      ^argument <arg>) 
+-->
+  (<cue> ^<con> <obj>)
+  (<stat> ^<con> <obj>)
+  (<ss> ^matched <arg>
+  	^bit flip)
+}
+
 ### copy the correct object if find-object is successful
 sp {copy*matched*object
    (state <s> ^name index-argument

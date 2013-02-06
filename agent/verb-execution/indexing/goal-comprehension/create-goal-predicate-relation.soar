@@ -1,7 +1,8 @@
 #### create state
 sp {elaborate*create-goal-predicate
    (state <s> ^name create-goal-predicate-relation
-   	      ^superstate <ss>)
+   	      ^superstate <ss>
+	      ^topstate.interaction.stack.segment.indexing-status <stat>)
    (<ss> ^operator <sop>)
    (<sop> ^name create-goal-predicate-relation
    	  ^goal-id <gid>
@@ -16,7 +17,8 @@ sp {elaborate*create-goal-predicate
 	^bit flip
 	^indexed-operator <iop>
 	^relation <rel>
-	^goal-id <gid>)
+	^goal-id <gid>
+	^status <stat>)
 }	
 
 
@@ -33,12 +35,14 @@ sp {elaborate*preposition-id
 sp {propose*index-preposition*goal-predicate
    (state <s> ^name create-goal-predicate-relation
    	      ^preposition-id.word <prep>
-	      -^_relation.preposition <prep>)
+	      -^_relation.preposition <prep>
+	      ^status <stat>)
  -->
    (<s> ^operator <op> +)
    (<op> ^name index-preposition
    	 ^preposition <prep>
-	 ^category indexing)
+	 ^category indexing	
+	 ^status <stat>)
 }
 
 sp {index-preposition*goal-predicate*write-to-superstate
@@ -69,7 +73,8 @@ sp {propose*index*argument*relation
 	 ^connector <argattr>
 	 ^cue <id>
 	 ^argument <arg>
-	 ^context-id (concat <info> <argattr>))
+	 ^context-id (concat <info> <argattr>)
+	 ^status <stat>)
 }
 
 

@@ -1,0 +1,25 @@
+### set up configuration for indexing
+
+sp {indexing-configuration*objects
+   (state <s> ^topstate <s>)
+-->
+   (<s> ^configuration <con>)
+   (<con> ^indexing <con-in>)
+   (<con-in> ^objects <obj>)
+   (<obj> ^perceptual-resolution-only false
+   	  ^activation-based-resolution true
+	  ^focus-based-resolution true)
+}
+
+
+### default behavior
+# sp {indexing-configuration*objects
+#    (state <s> ^topstate <s>)
+# -->
+#    (<s> ^configuration <con>)
+#    (<con> ^indexing <con-in>)
+#    (<con-in> ^objects <obj>)
+#    (<obj> ^perceptual-resolution-only true
+#    	  ^activation-based-resolution false
+# 	  ^focus-based-resolution false)
+# }

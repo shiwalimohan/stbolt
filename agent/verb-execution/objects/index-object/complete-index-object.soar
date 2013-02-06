@@ -80,7 +80,7 @@ sp {index-object*propose*complete-index-object
 # If allow-ties=false, then just one of the matches will randomly be returned
 sp {index-object*elaborate*complete-index-object*allow-ties*false
    (state <s> ^name index-object
-              ^allow-ties false
+ #             ^allow-ties false
               ^operator <o> +)
    (<o> ^name complete-index-object)
 -->
@@ -91,9 +91,11 @@ sp {index-object*elaborate*complete-index-object*allow-ties*false
 sp {index-object*elaborate*complete-index-object*return-all*true
    (state <s> ^name index-object
               ^return-all true
-              ^operator <o> +
-              ^final-matches.match {<m> <> failure})
-   (<o> ^name complete-index-object)
+              ^operator <o>
+              ^final-matches.match {<m> <> <obj> <> failure})
+   (<o> ^name complete-index-object
+   	^match <obj>
+	-^match-type)
 -->
    (<o> ^match <m>)
 }
@@ -108,3 +110,5 @@ sp {index-object*apply*complete-index-object*copy-match
 -->
    (<ss-op> ^match <m>)
 }
+
+

@@ -1,3 +1,4 @@
+
 #### set learning
 smem --set learning on
 ### requires new SMem
@@ -7,13 +8,15 @@ smem --set learning on
 epmem --set learning on
 epmem --set trigger dc
 #epmem --set database file
-#epmem --set path /home/shiwali/BOLT/bolt.db
 epmem --set phase output
 
 
 #### set chunking paramenter
 learn --only
 
+
+### load configuration for indexing
+source indexing-configuration.soar
 
 ##### source all relevant files
 pushd ./topchef-soar

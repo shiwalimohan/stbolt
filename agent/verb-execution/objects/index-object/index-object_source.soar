@@ -116,3 +116,7 @@ source preferences.soar
 #   index-object-failure > all others
 #   identify-object > teaching-request
 #   all others > complete-index-object
+
+
+source complete-index-object-focus.soar
+source complete-index-object-activation.soar
