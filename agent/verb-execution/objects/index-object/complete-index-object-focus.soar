@@ -13,27 +13,26 @@ sp {index-object*elaborate*focus-based-resolution
 }
 
 ### if allow-ties=false, then return one match on the interaction stack
-sp {index-object*elaborate*focus-based-resolution*all-ties*false
-   (state <s> ^name index-object
-              ^allow-ties false
-              ^operator <o> +
-	      ^topstate.indexing.objects.focus-based-resolution true)
-   (<o> ^name complete-index-object
-   	^match-type focus)
--->
-   (<s> ^operator <o> =)
-}
+# sp {index-object*elaborate*focus-based-resolution*all-ties*false
+#    (state <s> ^name index-object
+#               ^allow-ties false
+#               ^operator <o> +
+# 	      ^topstate.indexing.objects.focus-based-resolution true)
+#    (<o> ^name complete-index-object
+#    	^match-type focus)
+# -->
+#    (<s> ^operator <o> =)
+# }
 
 ### if allow-ties=false, then return one match on the interaction stack
 sp {index-object*elaborate*focus-based-resolution*all-ties*false
    (state <s> ^name index-object
-#              ^allow-ties false
-              ^operator <o> +
-	      ^topstate.indexing.objects.focus-based-resolution true)
-   (<o> ^name complete-index-object
-   	^match-type focus)
+              ^operator <o1> +
+	      ^operator <o2> +)
+   (<o1> ^match-type focus)
+   (<o2> ^match-type focus)
 -->
-   (<s> ^operator <o> =)
+   (<s> ^operator <o1> = <o2>)
 }
 
 ### if return-all=true, then return all matches
@@ -42,7 +41,7 @@ sp {index-object*elaborate*focus-based-resolution*return-all*true
               ^return-all true
               ^operator <o>
               ^final-matches.match {<m> <> <obj> <> failure}
-	      ^topstate.indexing.objects.focus-based-resolution true
+	      ^topstate.configuration.indexing.objects.focus-based-resolution true
 	      ^topstate.interaction.referents.objects.object <m>)
    (<o> ^name complete-index-object
    	^match-type focus

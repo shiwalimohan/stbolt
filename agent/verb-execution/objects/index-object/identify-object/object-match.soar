@@ -4,9 +4,18 @@ sp {identify-object*elaborate*match-info
    (<s> ^match-info <i>)
 }
 
+sp {identify-object*elaborate*context
+   (state <s> ^name identify-object
+   	      ^superstate.operator <sop>)
+   (<sop> ^name identify-object
+   	  ^set <con>)
+-->
+   (<s> ^set <con>)
+}
+
 sp {identify-object*elaborate*potential-match
    (state <s> ^name identify-object
-              ^topstate.object <obj>
+              ^set.object <obj>
              -^object-matches.match <obj>
               ^match-info <info>)
 -->
@@ -58,7 +67,7 @@ sp {identify-object*elaborate*not-match*not-candidate
 sp {identify-object*elaborate*not-match*category
    (state <s> ^name identify-object
               ^match-info <info>
-              ^operator <o> +
+#              ^operator <o> +
               ^object-matches.object.property.category <cat-name>)
    (<info> ^potential-match <obj>)   
    (<obj> -^property.name <cat-name>)

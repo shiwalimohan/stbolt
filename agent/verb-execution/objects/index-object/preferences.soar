@@ -47,3 +47,28 @@ sp {index-object*prefer*index-object-failure*over*all
 -->
    (<s> ^operator <o1> > <o2>)
 }
+
+
+
+### SM
+sp {index-object*prefer*find-highest-activated*over*complete-index-object
+   (state <s> ^name index-object
+   	      ^operator <o1> +
+	      ^operator <o2> +)
+   (<o1> ^name find-highest-activated)
+   (<o2> ^name complete-index-object)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {index-object*prefer*lookup-smem*over*find-highest-activated
+   (state <s> ^name index-object
+   	      ^operator <o1> +
+	      ^operator <o2> +)
+   (<o1> ^name lookup-smem)
+   (<o2> ^name find-highest-activated)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+   	 

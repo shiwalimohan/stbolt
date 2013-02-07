@@ -118,5 +118,7 @@ source preferences.soar
 #   all others > complete-index-object
 
 
+source elaborate-set.soar
+source activated-object.soar
 source complete-index-object-focus.soar
 source complete-index-object-activation.soar
