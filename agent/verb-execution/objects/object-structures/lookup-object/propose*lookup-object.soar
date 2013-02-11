@@ -41,7 +41,8 @@ sp {apply*lookup-object*id
         ^object <obj>
         ^id <id>)
 -->
-   (<obj> ^id <id>)
+   (<obj> ^id <id>
+          ^wme-type object)
 }
 
 # Adds the object structure to the topstate

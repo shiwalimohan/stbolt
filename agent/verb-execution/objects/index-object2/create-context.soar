@@ -1,24 +1,20 @@
-# init-index-object
-# This operator sets up the index-object substate including:
-#	Restoring an existing index-object-context or creating a new one
 
-sp {index-object*propose*init-index-object
+
+sp {index-object*propose*create-context
    (state <s> ^name index-object
              -^index-object-context)
 -->
    (<s> ^operator <o> +)
-   (<o> ^name init-index-object
-        ^category indexing)
+   (<o> ^name create-context
+        ^category object-processing)
 }
 
-
 # index-object-context: If there is an existing one on the topstate then copy it
-sp {index-object*apply*init-index-object*existing*context
+sp {index-object*apply*create-context*copy*existing
    (state <s> ^name index-object
-              ^operator <o>
+              ^operator.name create-context
               ^context-id <id>
               ^topstate <top>)
-   (<o> ^name init-index-object)
    (<top> ^interaction.stack.segment.info <info>)
    (<info> ^index-object-context <context>)
    (<context> ^context-id <id>)
@@ -28,9 +24,9 @@ sp {index-object*apply*init-index-object*existing*context
 
 #--------- Create new context ----------#
 
-sp {index-object*apply*init-index-object*new*context
+sp {index-object*apply*create-context*new*context
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^context-id <id>
               ^topstate <top>)
    (<top> ^interaction.stack.segment.info <info>)
@@ -42,18 +38,18 @@ sp {index-object*apply*init-index-object*new*context
 
 #----------- Copy Parameters ----------------#
 
-sp {index-object*apply*init-index-object*mark*parameters*copied
+sp {index-object*apply*create-context*mark*parameters*copied
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> -^copied-parameters)
 -->
    (<cc> ^copied-parameters true)
 }
 
-sp {index-object*apply*init-index-object*copy*parameters
+sp {index-object*apply*create-context*copy*parameters
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> ^context <context>
         -^copied-parameters)
@@ -64,18 +60,18 @@ sp {index-object*apply*init-index-object*copy*parameters
 
 #------- Copy Objects/Relations Depth1 ----------#
 
-sp {index-object*apply*init-index-object*mark*depth1*copied
+sp {index-object*apply*create-context*mark*depth1*copied
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> -^copied-depth1)
 -->
    (<cc> ^copied-depth1 true)
 }
 
-sp {index-object*apply*init-index-object*copy*objects*relations*depth1
+sp {index-object*apply*create-context*copy*objects*relations*depth1
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^superstate.operator <o>
               ^copy-context <cc>)
    (<cc> ^context <context>
@@ -90,9 +86,9 @@ sp {index-object*apply*init-index-object*copy*objects*relations*depth1
 
 #------- Copy Objects/Relations Depth2 ----------#
 
-sp {index-object*apply*init-index-object*mark*depth2*copied
+sp {index-object*apply*create-context*mark*depth2*copied
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> ^copied-depth1 true
         -^copied-depth2)
@@ -100,9 +96,25 @@ sp {index-object*apply*init-index-object*mark*depth2*copied
    (<cc> ^copied-depth2 true)
 }
 
-sp {index-object*apply*init-index-object*copy*words*depth2
+sp {index-object*apply*create-context*copy*words*depth2*specifier
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
+              ^copy-context <cc>)
+   (<cc> ^context <context>
+         ^copied-depth1 true
+        -^copied-depth2
+         ^map <map>)
+   (<map> ^original <val>
+          ^copy <val-copy>)
+   (<val> ^specifier <specifier>)
+-->
+   (<val-copy> ^specifier <specifier>)
+}
+
+
+sp {index-object*apply*create-context*copy*words*depth2
+   (state <s> ^name index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> ^context <context>
          ^copied-depth1 true
@@ -116,24 +128,9 @@ sp {index-object*apply*init-index-object*copy*words*depth2
    (<val-copy> ^property.word <word>)
 }
 
-sp {index-object*apply*init-index-object*copy*specifier*depth2
+sp {index-object*apply*create-context*copy*objects*relations*depth2*resolve*references
    (state <s> ^name index-object
-              ^operator.name init-index-object
-              ^copy-context <cc>)
-   (<cc> ^context <context>
-         ^copied-depth1 true
-        -^copied-depth2
-         ^map <map>)
-   (<map> ^original <val>
-          ^copy <val-copy>)
-   (<val> ^specifier <specifier>)
--->
-   (<val-copy> ^specifier <specifier>)
-}
-
-sp {index-object*apply*init-index-object*copy*objects*relations*depth2*resolve*references
-   (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> ^context <context>
          ^copied-depth1 true
@@ -150,9 +147,9 @@ sp {index-object*apply*init-index-object*copy*objects*relations*depth2*resolve*r
 }
               
 #------ Finished -----#
-sp {index-object*apply*init-index-object*copy*created*context
+sp {index-object*apply*create-context*copy*created*context
    (state <s> ^name index-object
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>)
    (<cc> ^copied-depth2 true
          ^context <context>)
@@ -160,10 +157,10 @@ sp {index-object*apply*init-index-object*copy*created*context
    (<s> ^index-object-context <context>)
 }
 
-sp {index-object*apply*init-index-object*copy*created*context*topstate
+sp {index-object*apply*create-context*copy*created*context*topstate
    (state <s> ^name index-object
               ^use-interaction true
-              ^operator.name init-index-object
+              ^operator.name create-context
               ^copy-context <cc>
               ^topstate <top>)
    (<top> ^interaction.stack.segment.info <info>)

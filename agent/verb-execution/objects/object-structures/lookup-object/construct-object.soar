@@ -17,6 +17,7 @@ sp {lookup-object*apply*construct-object*create-object
 -->
    (<s> ^obj-copy <copy>)
    (<copy> ^id <id>
+           ^wme-type object
            ^property <prop>)
    (<prop> ^name name
            ^type linguistic)

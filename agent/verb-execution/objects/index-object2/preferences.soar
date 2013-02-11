@@ -1,0 +1,9 @@
+sp {index-object*prefer*lookup*over*choose-candidates
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name lookup-smem)
+   (<o2> ^name choose-candidates)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

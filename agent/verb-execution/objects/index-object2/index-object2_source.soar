@@ -1,0 +1,27 @@
+
+
+# Souce file "parameters.soar"
+source parameters.soar
+
+# Souce file "create-context.soar"
+source create-context.soar
+
+# Souce file "lookup-words.soar"
+source lookup-words.soar
+
+# Souce file "elaborations.soar"
+source elaborations.soar
+
+# Souce file "choose-candidates.soar"
+source choose-candidates.soar
+
+# Souce file "preferences.soar"
+source preferences.soar
+
+# Souce file "activated-object.soar"
+source activated-object.soar
+
+# Source child problem space "match-object"
+pushd match-object
+source match-object_source.soar
+popd

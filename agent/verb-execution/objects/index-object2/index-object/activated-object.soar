@@ -19,13 +19,6 @@ sp {index-object*populate*cue*description
    (<cue> ^<arg> <val>)
 }
 
-sp {index-object*populate*cue*description
-   (state <s> ^name index-object
-   	      ^description <cue>)
--->
-   (<cue> ^wme-type object)
-}
-
 sp {propose*find*object*activation
    (state <s> ^name index-object
    	      ^description <desc>

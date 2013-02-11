@@ -1,0 +1,103 @@
+sp {index-object*apply*choose-candidates*create*list
+   (state <s> ^name index-object
+              ^operator <o>)
+   (<o> ^name choose-candidates
+        ^object <obj>)
+-->
+   (<s> ^candidate-set.object <obj>)
+}
+
+sp {index-object*apply*choose-candidates*mark*chosen
+   (state <s> ^name index-object
+              ^operator <o>
+              ^candidate-set <cs>)
+   (<o> ^name choose-candidates
+        ^object <obj>)
+   (<cs> ^object <obj>)
+-->
+   (<cs> ^chosen true)
+}
+
+# Choose all candidates - all objects are possible
+sp {index-object*propose*choose-candidates*all
+   (state <s> ^name index-object
+              ^index-object-context.object <obj>)
+   -{(<s> ^candidate-set <cs>)
+     (<cs> ^object <obj>
+           ^chosen)}
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name choose-candidates
+        ^category object-processing
+        ^candidate-type all
+        ^object <obj>)
+}
+
+sp {index-object*apply*choose-candidates*all
+   (state <s> ^name index-object
+              ^operator <o>
+              ^topstate.object <obj>
+              ^candidate-set <cs>)
+   (<o> ^name choose-candidates
+        ^candidate-type all)
+-->
+   (<cs> ^candidate <obj>)
+}
+
+# Choose activation candidate - only use the one with the highest activation
+sp {index-object*propose*choose-candidates*activation
+   (state <s> ^name index-object
+              ^index-object-context.object <obj>)
+   (<obj> ^specifier << this that >>)
+   -{(<s> ^candidate-set <cs>)
+     (<cs> ^object <obj>
+           ^chosen)}
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name choose-candidates
+        ^category object-processing
+        ^candidate-type activation
+        ^object <obj>)
+}
+
+sp {index-object*apply*choose-candidates*activation
+   (state <s> ^name index-object
+              ^operator <o>
+              ^io.input-link.pointed-object <id>
+              ^topstate.object <obj>
+              ^candidate-set <cs>)
+   (<o> ^name choose-candidates
+        ^candidate-type activation)
+   (<obj> ^id <id>)
+-->
+   (<cs> ^candidate <obj>)
+}
+
+# Choose focus candidates - Only use the ones in the current discourse
+sp {index-object*propose*choose-candidates*focus
+   (state <s> ^name index-object
+              ^index-object-context.object <obj>)
+   (<obj> ^specifier it)
+   -{(<s> ^candidate-set <cs>)
+     (<cs> ^object <obj>
+           ^chosen)}
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name choose-candidates
+        ^category object-processing
+        ^candidate-type focus
+        ^object <obj>)
+}
+
+sp {index-object*apply*choose-candidates*focus
+   (state <s> ^name index-object
+              ^operator <o>
+              ^topstate.interaction.referents.objects.ref.object <obj>
+              ^candidate-set <cs>)
+   (<o> ^name choose-candidates
+        ^candidate-type focus)
+-->
+   (<cs> ^candidate <obj>)
+}
+
+        
