@@ -7,6 +7,19 @@ sp {elaborate*state*index-verb
    (<s> ^information <info>)
 }
 
+sp {elaborate*index-verb*self
+   (state <s> ^name index-verb)
+-->
+   (<s> ^index-verb-state <s>)
+}
+   	      
+sp {copy*index-verb*substate
+   (state <s> ^superstate.index-verb-state <is>)
+-->
+   (<s> ^index-verb-state <is>)
+}
+   	      
+
 ### create cue
 sp {propose*create*cue
    (state <s> ^name index-verb

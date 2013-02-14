@@ -85,6 +85,16 @@ sp {copy*map-id*metadata
    (<met> ^map-id <map>)
 }
 
+#### 
+sp {elaborate*if*new*mapping
+   (state <s> ^name generate-operator
+   	      ^index-operator <o>
+	      ^index-verb-state.mapping new)
+-->
+   (<o> ^mapping new)
+}
+####
+
 sp {generate*operator*arguments*write-to-superstate
    (state <s> ^name generate-operator
    	      ^index-operator <op>

@@ -32,7 +32,7 @@ sp {write*match
    (state <s> ^name find-object
    	      ^smem-match <ret>
 	      ^superstate.operator <sso>)
--->
+--> 
    (<sso> ^match <ret>)
 }
 ### lookup semantic memory for objects

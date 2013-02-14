@@ -46,8 +46,8 @@ smem --add {
      (<ap9> ^op_name op_stop ^argument1 <obj9>)
 ## wait for the yellow block.
      (<a10> ^linguistic <al10> ^procedural <ap10> ^type action)
-     (<al10> ^verb wait ^for <object>) 
-     (<ap10> ^op_name op_wait ^argument1 <object>)
+     (<al10> ^verb wait ^for <obj10>) 
+     (<ap10> ^op_name op_wait ^argument1 <obj10>)
 #### weigh the yellow block.
 #     (<a6> ^linguistic <al6> ^procedural <ap6> ^type action)
 #     (<al6> ^verb weigh ^direct-object <obj6>) 

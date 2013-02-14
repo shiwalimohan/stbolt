@@ -116,21 +116,21 @@ sp {index-object*apply*init-index-object*copy*words*depth2
    (<val-copy> ^property.word <word>)
 }
 
-sp {index-object*apply*init-index-object*copy*this*depth2
-   (state <s> ^name index-object
-              ^operator.name init-index-object
-              ^io.input-link.pointed-object <obj-id>
-              ^copy-context <cc>)
-   (<cc> ^context <context>
-         ^copied-depth1 true
-        -^copied-depth2
-         ^map <map>)
-   (<map> ^original <val>
-          ^copy <val-copy>)
-   (<val> ^specifier << this that >>)
--->
-   (<val-copy> ^candidate-id <obj-id>)
-}
+# sp {index-object*apply*init-index-object*copy*this*depth2
+#    (state <s> ^name index-object
+#               ^operator.name init-index-object
+#               ^io.input-link.pointed-object <obj-id>
+#               ^copy-context <cc>)
+#    (<cc> ^context <context>
+#          ^copied-depth1 true
+#         -^copied-depth2
+#          ^map <map>)
+#    (<map> ^original <val>
+#           ^copy <val-copy>)
+#    (<val> ^specifier << this that >>)
+# -->
+#    (<val-copy> ^candidate-id <obj-id>)
+# }
 
 sp {index-object*apply*init-index-object*copy*objects*relations*depth2*resolve*references
    (state <s> ^name index-object

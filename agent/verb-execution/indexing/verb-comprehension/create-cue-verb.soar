@@ -45,7 +45,7 @@ sp {propose*index-argument*direct-object
    (<info> ^direct-object.object <do>)
    (<cue> -^direct-object <any>)
 -->
-   (<s> ^operator <op> + =)
+   (<s> ^operator <op> + >)
    (<op> ^name index-argument
    	 ^cue <cue>
 	 ^connector direct-object
