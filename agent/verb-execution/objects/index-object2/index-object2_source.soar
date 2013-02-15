@@ -36,3 +36,6 @@ source object-message.soar
 pushd find-matches
 source find-matches_source.soar
 popd
+
+# Souce file "choose-candidate-sets.soar"
+source choose-candidate-sets.soar
