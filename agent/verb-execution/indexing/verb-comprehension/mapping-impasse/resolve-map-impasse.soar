@@ -1,0 +1,35 @@
+sp {propose*resolve-map-impasse
+   (state <s> ^resolve-operator <op>)
+   (<op> ^category)
+-->
+   (<s> ^operator <op> +)
+}
+
+sp {elaborate*state*resolve-map-impasse
+   (state <s> ^superstate.operator <sop>
+   	      ^name resolve-map-impasse) 
+   (<sop> ^object-desc <obj>
+   	  ^indexed-operator <iop>
+	  ^context-id <conid>
+	  ^argument <arg>
+	  ^name resolve-map-impasse
+	  ^map-impasse-type <type>)
+-->
+   (<s> ^object-desc <obj>
+   	^indexed-operator <iop>
+	^context-id <conid>
+	^argument <arg>
+	^map-impasse-type <type>)
+}
+
+# sp {multiple*argument*match*propose*which-question
+#    (state <s> ^name complete-index-object
+#    	      ^indexed-operator <iop>
+# 	      ^object-desc <obj>
+# 	      ^context-id <conid>)
+# -->
+#    (<s> ^operator <op> + =)
+#    (<op> ^name which-question
+#    	 ^object <obj>
+# 	 ^context-id <conid>)
+# }

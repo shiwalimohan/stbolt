@@ -1,0 +1,25 @@
+sp {multiple*argument*matches*create*operator*composite-operator
+   (state <s> ^superstate <ss>
+   	     -^learning-operator <any>
+             -^status.type which-question)
+   (<ss> ^indexed-operator <iop>
+	 ^resolve-operator <rop>
+	 ^operator.category composite-action)
+   (<iop> ^<arg> <val1>
+	  ^<arg> {<val2> <> <val1>}
+	  ^_metadata <met>)	
+   (<met> ^arg-data <a1>)
+   (<a1> ^arg-context <con>
+   	 ^argument <arg>
+	 ^context-id <conid>)
+   (<con> ^object <obj>)
+-->
+   (<rop> ^name resolve-map-impasse
+   	  ^object-desc <obj>
+	  ^indexed-operator <iop>
+	  ^category indexing
+	  ^context-id <conid>
+	  ^argument <arg>
+	  ^map-impasse-type multiple-argument-match)
+   (<ss> ^operator <iop> -)
+}

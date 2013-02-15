@@ -1,0 +1,44 @@
+### if the indexed-operator is a different version of what the agent already knows to be possile, gather more information to make the information more specific
+sp {propose*delete*status*no-argument*match
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <map-op>
+   	 ^resolve-operator <op>)
+   (<map-op> -^mapping new
+   	     ^_metadata <met>
+	     ^{<arg> <> applied <> information <> _relation <> _metadata} <val>
+	     -^matched <arg>)
+   (<met> ^arg-data <a1>)
+   (<a1> ^arg-context <con>
+   	 ^argument <arg>
+	 ^context-id <conid>)
+   (<con> ^object <obj>)
+-->
+   (<ss> ^operator <op> +)
+   (<op> ^name resolve-map-impasse
+   	 ^object-desc <obj>
+	 ^indexed-operator <map-op>
+	 ^context-id <conid>
+	 ^category indexing
+	 ^argument <arg>
+	 ^map-impasse-type state-no-change)
+}
+
+
+### resolve of map-impasse-type state-no-change, assume that the object provided by the instructor in the command was incorrect and ask questions to fix that
+
+sp {state-no-change*map-impasse*no-operator-match
+   (state <s> ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^map-impasse-type state-no-change
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>)
+   (<is> ^<cue-arg> <val>)
+   (<iop> ^_metadata.arg-data <arg-data>)
+   (<arg-data> ^argument <arg>
+   	       ^description <cue-arg>)
+-->
+   (<is> ^<cue-arg> <val> -)
+   (<s> ^name complete-index-object)
+}

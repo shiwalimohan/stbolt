@@ -93,33 +93,6 @@ sp {propose*indexed-operator*if*no-choices
 	     ^indexed-operator <map-op>)
 }
 
-### if the indexed-operator is a different version of what the agent already knows to be possile, gather more information to make the information more specific
-sp {propose*delete*status*no-argument*match
-   (state <s> ^superstate <ss>
-   	      ^impasse no-change
-	      ^attribute state)
-   (<ss> ^indexed-operator <map-op>
-   	 ^resolve-operator <op>)
-   (<map-op> -^mapping new
-   	     ^_metadata <met>
-	     ^{<arg> <> applied <> information <> _relation <> _metadata} <val>
-	     -^matched <arg>)
-   (<met> ^arg-data <a1>)
-   (<a1> ^arg-context <con>
-   	 ^argument <arg>
-	 ^context-id <conid>)
-   (<con> ^object <obj>)
--->
-   (<ss> ^operator <op> +)
-   (<op> ^name resolve-no-matches-dialog
-   	 ^object-desc <obj>
-	 ^indexed-operator <map-op>
-	 ^context-id <conid>
-	 ^category indexing
-	 ^argument <arg>)
-}
-
-
 ### augment spatial-relationship to the primitive operator
 sp {augment*spatial-relationship
    (state <s> ^indexed-operator <iop>

@@ -1,0 +1,39 @@
+### preferences
+
+## prefer which-question to primitives
+sp {prefer*which-question*primitive-actions
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name which-question)
+   (<op2> ^category primitive-action)
+-->
+   (<s> ^operator <op2> -)
+}
+
+sp {prefer*which-question*evaluate
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name which-question)
+   (<op2> ^name << evaluate-operator >>)
+-->
+   (<s> ^operator <op2> -)
+}
+
+sp {prefer*multiple-matches*primitive-actions
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name resolve-multiple-matches-dialog)
+   (<op2> ^category << primitive-action composite-action >>)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+sp {prefer*resolve-multiple-matches-dialog*indicate-unresolved-tie
+   (state <s> ^operator <op1> +
+   	      ^operator <op2> +)
+   (<op1> ^name resolve-multiple-matches-dialog)
+   (<op2> ^name  indicate-unresolved-tie)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+

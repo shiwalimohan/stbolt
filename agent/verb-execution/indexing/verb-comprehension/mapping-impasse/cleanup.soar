@@ -1,0 +1,56 @@
+sp {multiple*no*argument*match*cleanup*incorrect*status
+   (state <s> ^name complete-index-object
+   	      ^indexed-operator <iop>
+	      ^object-desc <obj>
+	      ^context-id <conid>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>)
+   (<is> ^<cue-arg> <val>)
+   (<iop> ^_metadata.arg-data <arg-data>)
+   (<arg-data> ^argument <arg>
+   	       ^description <cue-arg>)
+-->
+   (<is> ^<cue-arg> <val> -)
+}
+
+#### delete the context-id not related to the which-question
+sp {which-question*unrelated*context-id
+   (state <s> ^topstate.interaction.stack.segment.info <info>
+   	      ^operator <op>)
+   (<op> ^name which-question
+   	 ^context-id <conid>)
+   (<info> ^index-object-context <object-context>)
+   (<object-context> ^context-id <id> {<> <id> <conid>})
+-->
+   (<info> ^index-object-context <object-context> -)
+}
+
+### delete the indexed operator 
+sp {multiple*argument*match*delete*indexed-operator
+   (state <s> ^operator.name which-question
+   	      ^topstate.interaction.stack.segment.purpose <p>)
+   (<p> ^indexed-operator <op>)
+-->
+   (<op> ^clear true)
+}
+
+sp {multiple*argument*match*clear*indexed-operator
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment.purpose <p>
+	      ^operator.name push-segment)
+   (<p> ^indexed-operator <op>)
+   (<op> ^clear true)
+-->
+   (<p> ^indexed-operator <op> -)
+}
+
+### remove resolve-operator during push-segment
+sp {remove*resolve-operator
+   (state <s> ^resolve-operator <rop>
+   	      ^operator <op>)
+   (<op> ^category << communication interaction-stack >>)
+   (<rop> ^category indexing)
+-->
+   (<s> ^resolve-operator <rop> -
+   	^resolve-operator <nrop>)
+}

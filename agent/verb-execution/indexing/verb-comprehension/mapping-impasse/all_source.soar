@@ -1,0 +1,22 @@
+### impasses may arise in the topstate after operator mapping 
+### case 1: state-no-change, none of the operators proposed match the mapped operator
+### this may arise if
+###### case 1.1: the agent is learning a new verb, therefore the map operator is new
+###### in this case simply propose the map operator (in map.soar)
+###### case 1.2: the instructor suggested an action that is not applicable in the current situation
+###### ask the instructor to revise the structure of the action by asking a which question
+### case 2: operator-tie, many proposed operators match the mapped operator
+### this may arise if
+####### case 2.1: RE underspecifies the argument object (even after applying the task constaints)
+####### resolution: use object preferences for breaking ties, if the RE has 'a' equal preference between operators, if the RE has 'the' the highest preference object gets the best preference, if all this fails, ask a which-question
+#### case 3: the new map operator has multiple instantiations of the same argument
+####### this may arise if
+####### case 3.1: RE underspecifies the argument object 
+####### resolution: use object preferences for breaking ties, if the RE has 'a' equal preference between operators, if the RE has 'the' the highest preference object gets the best preference, if all this fails, ask a which-question
+
+source state-no-change.soar
+source operator-tie.soar
+source multiple-argument-matches.soar
+source resolve-map-impasse.soar
+source preferences.soar
+

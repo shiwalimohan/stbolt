@@ -1,0 +1,26 @@
+### propose resolve-multiple-matches-dialog for op ties even after procedural constraints
+#### process multiple matches to one argument, rely on interaction
+sp {multiple*argument*matches*create*operator
+   (state <s> ^impasse tie
+	      ^item.<arg> <val1>
+	      ^item.<arg> {<> <val2> <val1>}
+	      -^learning-operator <any>
+	      -^status.type which-question
+	      ^superstate <ss>)
+   (<ss> ^indexed-operator <iop>
+	 ^resolve-operator <op>)
+   (<iop> ^_metadata <met>)   
+   (<met> ^arg-data <a1>)
+   (<a1> ^arg-context <con>
+   	 ^argument <arg>
+	 ^context-id <conid>)
+   (<con> ^object <obj>)
+-->
+   (<op> ^name resolve-map-impasse
+   	 ^object-desc <obj>
+	 ^indexed-operator <iop>
+	 ^context-id <conid>
+	 ^category indexing
+	 ^argument <arg>
+	 ^map-impasse-type multiple-operator-match)
+}

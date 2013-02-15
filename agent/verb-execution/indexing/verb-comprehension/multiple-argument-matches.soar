@@ -49,27 +49,6 @@ sp {multiple*argument*matches*create*operator*composite-operator
    (<ss> ^operator <iop> -)
 }
 
-sp {propose*resolve-multiple-matches-dialog
-   (state <s> ^resolve-operator <op>)
-   (<op> ^category)
--->
-   (<s> ^operator <op> +)
-}
-
-sp {elaborate*state*resolve-multiple-matches-dialog
-   (state <s> ^superstate.operator <sop>) 
-   (<sop> ^object-desc <obj>
-   	  ^indexed-operator <iop>
-	  ^context-id <conid>
-	  ^argument <arg>)
--->
-   (<s> ^object-desc <obj>
-   	^indexed-operator <iop>
-	^name complete-index-object
-	^context-id <conid>
-	^argument <arg>)
-}
-
 sp {multiple*argument*match*propose*which-question
    (state <s> ^name complete-index-object
    	      ^indexed-operator <iop>
