@@ -17,9 +17,7 @@ sp {propose*delete*status*no-argument*match
 -->
    (<ss> ^operator <op> +)
    (<op> ^name resolve-map-impasse
-   	 ^object-desc <obj>
 	 ^indexed-operator <map-op>
-	 ^context-id <conid>
 	 ^category indexing
 	 ^argument <arg>
 	 ^map-impasse-type state-no-change)

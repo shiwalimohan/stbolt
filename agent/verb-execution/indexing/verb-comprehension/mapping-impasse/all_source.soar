@@ -14,9 +14,17 @@
 ####### case 3.1: RE underspecifies the argument object 
 ####### resolution: use object preferences for breaking ties, if the RE has 'a' equal preference between operators, if the RE has 'the' the highest preference object gets the best preference, if all this fails, ask a which-question
 
-source state-no-change.soar
+
+### impasse types
+## source state-no-change.soar
 source operator-tie.soar
-source multiple-argument-matches.soar
+### source multiple-argument-matches.soar
+
+
+### apply resolution
 source resolve-map-impasse.soar
+
+
 source preferences.soar
+source cleanup.soar
 

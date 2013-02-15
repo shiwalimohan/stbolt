@@ -1,18 +1,3 @@
-sp {multiple*no*argument*match*cleanup*incorrect*status
-   (state <s> ^name complete-index-object
-   	      ^indexed-operator <iop>
-	      ^object-desc <obj>
-	      ^context-id <conid>
-	      ^argument <arg>
-	      ^topstate.interaction.stack.segment.indexing-status <is>)
-   (<is> ^<cue-arg> <val>)
-   (<iop> ^_metadata.arg-data <arg-data>)
-   (<arg-data> ^argument <arg>
-   	       ^description <cue-arg>)
--->
-   (<is> ^<cue-arg> <val> -)
-}
-
 #### delete the context-id not related to the which-question
 sp {which-question*unrelated*context-id
    (state <s> ^topstate.interaction.stack.segment.info <info>
@@ -23,6 +8,26 @@ sp {which-question*unrelated*context-id
    (<object-context> ^context-id <id> {<> <id> <conid>})
 -->
    (<info> ^index-object-context <object-context> -)
+}
+
+### if asked a which question, clear the index verb status
+sp {which-question*status*verb
+   (state <s> ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>
+	      ^operator.name which-question)
+   (<is> ^<cue-arg> <val>
+   	 ^partial-order <po>)
+   (<iop> ^_metadata <met>)
+   (<met> ^arg-data <arg-data>
+   	  ^partial-order <po>)
+   (<arg-data> ^argument <arg>
+   	       ^description <cue-arg>)
+   (<po> ^verb-argument <cue-arg>)
+-->
+   (<is> ^<cue-arg> <val> -
+   	 ^partial-order <po> -)
 }
 
 ### delete the indexed operator 
@@ -54,3 +59,4 @@ sp {remove*resolve-operator
    (<s> ^resolve-operator <rop> -
    	^resolve-operator <nrop>)
 }
+
