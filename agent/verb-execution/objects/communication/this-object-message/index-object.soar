@@ -26,17 +26,12 @@ sp {this-object-message*apply*index-object*success
 sp {this-object-message*apply*index-object*success*store*referent
    (state <s> ^name this-object-message
               ^operator <o>
-              ^topstate.interaction <interaction>)
+              ^topstate.interaction.stack.segment.info <info>)
    (<o> ^name index-object
         ^finished true
         ^match {<obj> <> failure})
-   (<interaction> ^stack.segment <seg>
-                  ^referents.objects <ref-objs>)
 -->
-   (<ref-objs> ^ref <ref>
-   	   ^object <obj>)
-   (<ref> ^object <obj>
-   	   ^segment <seg>)
+   (<info> ^referent-object <obj>)
 }
 
 sp {this-object-message*apply*index-object*failure

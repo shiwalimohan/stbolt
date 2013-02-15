@@ -40,9 +40,9 @@ sp {apply*push-single-word-response*teaching-request*cancel
         ^response cancel
         ^message.context <context>)
    (<context> ^cause teaching-request
-              ^object <obj>)
+              ^object-to-index.description <desc>)
 -->
-   (<obj> ^no-teaching true)
+   (<desc> ^no-teaching true)
 }
 
 #JK for prepositions

@@ -1,10 +1,17 @@
+sp {index-object*elaborate*parameters*wme
+   (state <s> ^name index-object)
+-->
+   (<s> ^parameters <p>)
+}
+
 # Elaborations for copying parameters from the top state
 sp {index-object*elaborate*boolean*parameter*copy
    (state <s> ^name index-object
-              ^superstate.operator <ss-op>)
+              ^superstate.operator <ss-op>
+              ^parameters <p>)
    (<ss-op> ^{<par> << use-interaction allow-ties return-all context-id infer-match >>} <val>)
 -->
-   (<s> ^<par> <val>)
+   (<p> ^<par> <val>)
 }
 
 ### PARAMETER-DEFAULT ###
@@ -12,33 +19,37 @@ sp {index-object*elaborate*boolean*parameter*copy
 # use-interaction: false
 sp {index-object*elaborate*use-interaction*default
    (state <s> ^name index-object
-              -^superstate.operator.use-interaction)
+              -^superstate.operator.use-interaction
+              ^parameters <p>)
 -->
-   (<s> ^use-interaction false)
+   (<p> ^use-interaction false)
 }
 
 # allow-ties: false
 sp {index-object*elaborate*allow-ties*default
    (state <s> ^name index-object
-              -^superstate.operator.allow-ties)
+              -^superstate.operator.allow-ties
+              ^parameters <p>)
 -->
-   (<s> ^allow-ties false)
+   (<p> ^allow-ties false)
 }
 
 # return-all: false
 sp {index-object*elaborate*return-all*default
    (state <s> ^name index-object
-              -^superstate.operator.return-all)
+              -^superstate.operator.return-all
+              ^parameters <p>)
 -->
-   (<s> ^return-all false)
+   (<p> ^return-all false)
 }
 
 # infer-match: false
 sp {index-object*elaborate*infer-match*default
    (state <s> ^name index-object
-             -^superstate.operator.infer-match)
+             -^superstate.operator.infer-match
+              ^parameters <p>)
 -->
-   (<s> ^infer-match false)
+   (<p> ^infer-match false)
 }
 
 # context-id: default

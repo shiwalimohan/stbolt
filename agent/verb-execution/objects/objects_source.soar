@@ -45,8 +45,8 @@ popd
 
 # Given a description of an object, finds the object being referred to
 # You can also include a relation to help disambiguate the object (e.g. the red object in the pantry)
-pushd index-object
-source index-object_source.soar
+pushd index-object2
+source index-object2_source.soar
 popd
 
 ############-------- COMMUNICATION ------############

@@ -83,8 +83,11 @@ public class AgentMessageParser
     	//JK different syntax for prepositions
     	if (obj.toString().contains("preposition"))
     	    return "I don't know the " + obj.toString() + ". Please teach me with examples";
-    	else
+    	else {
     	    return "I don't see " + obj.toString() + ". Please teach me to recognize one";
+    		
+    		
+    	}
     }
     
     private static String translateDifferentAttributeQuestion(Identifier id){

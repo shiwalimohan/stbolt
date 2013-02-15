@@ -7,7 +7,7 @@
 sp {index-object*propose*lookup-smem*category
    (state <s> ^name index-object
               ^index-object-context.object.property <prop>
-              ^use-interaction <ask>)
+              ^parameters.use-interaction <ask>)
    (<prop> -^category
             ^word <word>)
 -->
@@ -56,11 +56,26 @@ sp {index-object*apply*lookup-smem*category*failure*remove*property
    (state <s> ^name index-object
               ^operator <o>
               ^index-object-context.object <obj>
-              ^use-interaction false)
+              ^parameters.use-interaction false)
    (<o> ^name lookup-smem
         ^lookup-type category
         ^query.word <word>
-        ^result << failure generic >>)
+        ^result failure)
+   (<obj> ^property <prop>)
+   (<prop> ^word <word>)
+-->
+   (<obj> ^property <prop> -)
+}
+
+# IF the retrieval was a generic word, then remove it
+sp {index-object*apply*lookup-smem*category*generic*remove
+   (state <s> ^name index-object
+              ^operator <o>
+              ^index-object-context.object <obj>)
+   (<o> ^name lookup-smem
+        ^lookup-type category
+        ^query.word <word>
+        ^result generic)
    (<obj> ^property <prop>)
    (<prop> ^word <word>)
 -->

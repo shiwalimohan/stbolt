@@ -6,14 +6,14 @@ sp {index-object*propose*create-context
 -->
    (<s> ^operator <o> +)
    (<o> ^name create-context
-        ^category object-processing)
+        ^category indexing)
 }
 
 # index-object-context: If there is an existing one on the topstate then copy it
 sp {index-object*apply*create-context*copy*existing
    (state <s> ^name index-object
               ^operator.name create-context
-              ^context-id <id>
+              ^parameters.context-id <id>
               ^topstate <top>)
    (<top> ^interaction.stack.segment.info <info>)
    (<info> ^index-object-context <context>)
@@ -22,12 +22,30 @@ sp {index-object*apply*create-context*copy*existing
    (<s> ^index-object-context <context>)
 }
 
+sp {index-object*apply*create-context*modify*new*word
+   (state <s> ^name index-object
+              ^operator.name create-context
+              ^parameters.context-id <id>
+              ^topstate <top>)
+   (<top> ^interaction.stack.segment.info <info>)
+   (<info> ^index-object-context <context>)
+   (<context> ^context-id <id>
+              ^object <obj>)
+   (<obj> ^word <word>
+         -^property.word <word>)
+-->
+   (<obj> ^property.word <word>
+          ^word <word> -)
+}
+
+
+
 #--------- Create new context ----------#
 
 sp {index-object*apply*create-context*new*context
    (state <s> ^name index-object
               ^operator.name create-context
-              ^context-id <id>
+              ^parameters.context-id <id>
               ^topstate <top>)
    (<top> ^interaction.stack.segment.info <info>)
    (<info> -^index-object-context.context-id <id>)
@@ -50,10 +68,11 @@ sp {index-object*apply*create-context*mark*parameters*copied
 sp {index-object*apply*create-context*copy*parameters
    (state <s> ^name index-object
               ^operator.name create-context
-              ^copy-context <cc>)
+              ^copy-context <cc>
+              ^parameters <p>)
    (<cc> ^context <context>
         -^copied-parameters)
-   (<s> ^{<arg> << use-interaction allow-ties return-all context-id infer-match >>} <val>)
+   (<p> ^{<arg> << use-interaction allow-ties return-all context-id infer-match >>} <val>)
 -->
    (<context> ^<arg> <val>)
 }
@@ -159,7 +178,7 @@ sp {index-object*apply*create-context*copy*created*context
 
 sp {index-object*apply*create-context*copy*created*context*topstate
    (state <s> ^name index-object
-              ^use-interaction true
+              ^parameters.use-interaction true
               ^operator.name create-context
               ^copy-context <cc>
               ^topstate <top>)

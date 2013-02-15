@@ -85,20 +85,7 @@ sp {apply*push-object-message*learn-word2cat
         ^word <word>)
 }
 
-# Result when answered with a further description ('the red object')
-sp {apply*push-object-message*which-question-response*copy-word
-   (state <s> ^operator <o>)
-   (<o> ^name push-object-message
-        ^message.context <context>
-        ^specifier << none DEF >>
-        ^object.word {<word> <> UNKNOWN}
-       -^relation)
-   (<context> ^cause which-question
-        		^object <context-obj>)
-   (<context-obj> -^property.word <word>)
--->
-   (<context-obj> ^property.word <word>)
-}
+
 
 #sp {apply*push-object-message*which-question-response*remove*message
 #   (state <s> ^operator <o>
@@ -112,27 +99,40 @@ sp {apply*push-object-message*which-question-response*copy-word
 #   (<s> ^instructor-message <msg> -)
 #}
 
+# Result when answered with a further description ('the red object')
+sp {apply*push-object-message*which-question-response*copy-word
+   (state <s> ^operator <o>)
+   (<o> ^name push-object-message
+        ^message.context <context>
+        ^specifier << none DEF >>
+        ^object.word {<word> <> UNKNOWN}
+       -^relation)
+   (<context> ^cause which-question
+        		^index-object-context.object <obj>)
+   (<obj> ^desired true
+          -^property.word <word>)
+-->
+   (<obj> ^property.word <word>)
+}
+
 # Result when responding to a which-question with a relation
 sp {apply*push-object-message*which-question-response*relation
    (state <s> ^operator <o>)
    (<o> ^name push-object-message
-        ^message <msg>
+        ^message.context <context>
         ^specifier << none DEF >>
         ^relation <rel>)
-   (<rel> ^p1.object <obja> ^p2.object <objb> ^word <prep>)
-   (<msg> ^context <context>)
-   (<context> ^cause which-question)
+   (<context> ^cause which-question
+              ^index-object-context <io-context>)
+   (<io-context> ^object <obj1>)
+   (<obj1> ^desired true)
+   (<rel> ^p2.object <obj2> ^word <prep>)
 -->
-   (<msg> ^purpose <p>)
-   (<p> ^type index-object
-        ^parameters <params>
-        ^satisfaction <sat>)
-   (<params> ^relation <rel2>)
-   (<rel2> ^object1 <obja>
-          ^object2 <objb>
-          ^word <prep>)
-        # AM: Changed satisfaction structure
-   (<sat> ^internal-event.type indexing)
+   (<io-context> ^object <obj2>
+                 ^relation <rel-copy>)
+   (<rel-copy> ^object1 <obj1>
+               ^object2 <obj2>
+               ^property.word <prep>)
 }
 
 

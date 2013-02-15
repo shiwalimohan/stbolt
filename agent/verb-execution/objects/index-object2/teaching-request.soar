@@ -5,16 +5,17 @@
 
 sp {index-object*propose*teaching-request
    (state <s> ^name index-object
-              ^index-object-context.use-interaction true
-              ^object-matches <matches>)
-   (<matches> ^object <obj>
-             -^match)
-   (<obj> -^no-teaching)
+              ^parameters.use-interaction true
+              ^object-to-index <obj>)
+   (<obj> ^matches <matches>
+         -^description.no-teaching)
+   (<matches> ^matched-visual.finished true
+             -^matched-visual.match)
 -->
    (<s> ^operator <o> + =)
    (<o> ^name teaching-request
         ^category indexing
-        ^object <obj>)
+        ^object-to-index <obj>)
 }
 
 # Creates a teaching-request context 
@@ -22,13 +23,33 @@ sp {index-object*apply*teaching-request*create*context
    (state <s> ^name index-object
               ^operator <o>)
    (<o> ^name teaching-request
-        ^object <obj>)
+        ^object-to-index <obj>)
 -->
    (<s> ^context <context>)
    (<context> ^cause teaching-request
-        		^description <desc>
+              ^description <desc>
         		^object <obj>)
-   (<desc> ^determiner a)
+}
+
+# Copies specifier to the description
+sp {index-object*apply*teaching-request*copy*finished
+   (state <s> ^name index-object
+              ^operator.name teaching-request
+              ^context.description <desc>)
+-->
+   (<desc> ^finished true)
+}
+
+
+# Copies specifier to the description
+sp {index-object*apply*teaching-request*copy*specifier
+   (state <s> ^name index-object
+              ^operator <o>
+              ^context.description <desc>)
+   (<o> ^name teaching-request
+        ^object-to-index.description.specifier <spec>)
+-->
+   (<desc> ^specifier <spec>)
 }
 
 # Copies adjectives to the description
@@ -37,7 +58,7 @@ sp {index-object*apply*teaching-request*copy*word
               ^operator <o>
               ^context.description <desc>)
    (<o> ^name teaching-request
-        ^object.property <prop>)
+        ^object-to-index.description.property <prop>)
    (<prop> ^category <> name <> shape
            ^word <word>)
 -->
@@ -50,22 +71,11 @@ sp {index-object*apply*teaching-request*copy*name
               ^operator <o>
               ^context.description <desc>)
    (<o> ^name teaching-request
-        ^object.property <prop>)
+        ^object-to-index.description.property <prop>)
    (<prop> ^category << name shape >>
            ^word <word>)
 -->
    (<desc> ^word <word>)
-}
-
-# If no names, then copies the word object as the name
-sp {index-object*apply*teaching-request*copy*name*object
-   (state <s> ^name index-object
-              ^operator <o>
-              ^context.description <desc>)
-   (<o> ^name teaching-request
-        -^object.property.category << name shape >>)
--->
-   (<desc> ^word object)
 }
 
 # Creates a status on the topstate to initiate a new segment
@@ -75,7 +85,7 @@ sp {index-object*apply*teaching-request*create*status
               ^topstate.status <status>
               ^context <context>)
    (<context> ^description <desc>)
-   (<desc> ^word)
+   (<desc> ^finished)
 -->
   (<status> ^type teaching-request
          ^state-name topstate
