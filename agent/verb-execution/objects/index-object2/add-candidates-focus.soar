@@ -1,10 +1,4 @@
 # FOCUS-STACK CANDIDATES
-sp {index-object*elaborate*object-to-index*use-focus
-   (state <s> ^name index-object
-              ^object-to-index <obj>)
--->
-   (<obj> ^use-focus true)
-}
 
 sp {index-object*propose*add-candidates*focus
    (state <s> ^name index-object

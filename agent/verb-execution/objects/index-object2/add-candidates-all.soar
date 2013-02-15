@@ -1,10 +1,5 @@
 # ALL CANDIDATES
-sp {index-object*elaborate*object-to-index*use-all
-   (state <s> ^name index-object
-              ^object-to-index <obj>)
--->
-   (<obj> ^use-all true)
-}
+
 
 sp {index-object*propose*add-candidates*all
    (state <s> ^name index-object
