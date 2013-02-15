@@ -96,6 +96,17 @@ sp {propose*index-argument*preposition*object
 }
 
 ### elaborate previously matched structures
+sp {elaborate*cue*arguments*previous*partial-order
+   (state <s> ^name create-cue
+   	      ^status <stat>
+	      ^cue <cue>
+	      ^information.verb.direct-object.object <obj>
+	      ^superstate <ss>)
+   (<stat> ^partial-order <po>)
+-->
+   (<ss> ^partial-order <po>)
+}
+
 sp {elaborate*cue*arguments*previous*indices*direct-object
    (state <s> ^name create-cue
    	      ^status <stat>
@@ -161,6 +172,14 @@ sp {write-to-superstate*copy-success*match-complete
    (<ss> ^cue <cue>)
 }
 
+sp {write-to-superstate*partial-order
+   (state <s> ^name create-cue
+	      ^partial-order <po>
+	      ^superstate <ss>)
+-->
+   (<ss> ^partial-order <po>)
+}
+
 sp {write-to-superstate*copy-success*match-complete*spatial-relationship
    (state <s> ^name create-cue
    	      -^match not-complete
@@ -171,6 +190,8 @@ sp {write-to-superstate*copy-success*match-complete*spatial-relationship
 -->
    (<ss> ^_relation <rel>)
 }
+
+
    
    
 

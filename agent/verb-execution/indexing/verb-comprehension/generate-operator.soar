@@ -48,19 +48,24 @@ sp {generate*operator*arguments*metadata
 	      ^linguistic-id <lid>
 	      ^cue <cue>
 	      ^index-operator <op>
-	      ^topstate.interaction.stack.segment.info.index-object-context <context>)
+	      ^topstate.interaction.stack.segment.info.index-object-context <context>
+	      ^superstate.partial-order <po>)
    (<op> ^_metadata <met>)
    (<lid> ^<connect> <lobj>)
    (<pid> ^<arg> <lobj>)
    (<context> ^context-id <connect>)
+   (<po> ^verb-argument <connect>)
 -->
-   (<met> ^arg-data <a1>)
+   (<met> ^arg-data <a1>
+   	  ^partial-order <po>)
    (<a1> ^argument <arg>
    	 ^description <connect>
 	 ^context-id <connect>
 	 ^arg-context <context>)
- 
-}
+   (<po> ^operator-argument <arg>)
+ }
+
+
 
 #### associate spatial-relationships
 sp {associate*spatial*relations

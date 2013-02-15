@@ -114,13 +114,24 @@ sp {propose*generate-operator
 	^map-id <map>
 	^category indexing)
 }
-  
 
+# ### copy partial-orderings in indexed-operator
+# sp {copy*partial-ordering*indexed-operator
+#    (state <s> ^name index-verb
+#    	      ^indexed-operator <any>
+# 	      ^partial-order <po>)
+#    (<any> ^_metadata <met>)
+# -->
+#    (<met> ^partial-order <po>)
+# }
+   
+  
 ### write to superstate
 sp {write*to*superstate
    (state <s> ^name index-verb
    	      ^superstate.interaction.stack.segment.purpose <sp>
 	      ^indexed-operator <map>)
+#   (<map> ^_metadata.partial-order <po>)
 -->
   (<sp> ^indexed-operator <map>)
 }
