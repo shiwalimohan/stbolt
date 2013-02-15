@@ -15,21 +15,22 @@ sp {this-object-message*copy*existing*nounjective
    (<s> ^nounjective <nj>)
 }
 
-sp {this-object-message*elaborate*object*pointed
-   	(state <s> ^name this-object-message
-               ^superstate.operator.object.specifier << this that >>
-               ^io.input-link.pointed-object <obj-id>
-               ^topstate.object <obj>)
-    (<obj> ^id <obj-id>)
--->
-   (<s> ^this-object <obj>)
-}
-
-sp {this-object-message*elaborate*object*only-one
-   	(state <s> ^name this-object-message
-               ^superstate.operator.object.specifier << this that >>
-               ^superstate.object <obj>
-              -^superstate.object <> <obj>)
--->
-    (<s> ^this-object <obj>)
-}
+# AM: Now going to do an explicit index-object to find 'this'
+#sp {this-object-message*elaborate*object*pointed
+#   	(state <s> ^name this-object-message
+#               ^superstate.operator.object.specifier << this that >>
+#               ^io.input-link.pointed-object <obj-id>
+#               ^topstate.object <obj>)
+#    (<obj> ^id <obj-id>)
+#-->
+#   (<s> ^this-object <obj>)
+#}
+#
+#sp {this-object-message*elaborate*object*only-one
+#   	(state <s> ^name this-object-message
+#               ^superstate.operator.object.specifier << this that >>
+#               ^superstate.object <obj>
+#              -^superstate.object <> <obj>)
+#-->
+#    (<s> ^this-object <obj>)
+#}

@@ -1,0 +1,37 @@
+# After the user has asked a which-question, these rules handle possible responses from the user
+#   this-object-message with 'this' specifier: you can just use the pointed-to object as the candidate 
+#   this-object-message with DEF specifier: add words to the object's description
+
+
+# Results when answered with an this-object-message with a 'this' used
+sp {this-object-message*apply*complete-this-object-message*resolve*which-question
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
+              ^topstate.interaction.stack.segment <seg>)
+   (<seg> ^context <context>)
+   (<context> ^cause which-question
+              ^index-object-context.object <obj>)
+   (<obj> ^desired true)
+-->
+   (<obj> ^specifier this)
+}
+
+sp {this-object-message*apply*complete-this-object-message*resolve*which-question*word
+   (state <s> ^name this-object-message
+              ^operator.name complete-this-object-message
+              ^topstate.interaction.stack.segment.context <context>
+              ^nounjective <nj>)
+   (<nj> ^word <word>
+         ^category <cat>
+         ^label <label>)
+   (<context> ^cause which-question
+              ^index-object-context.object <obj>)
+   (<obj> ^desired true
+         -^property.word <word>)
+-->
+   (<obj> ^property <prop>)
+   (<prop> ^word <word>
+           ^category <cat>
+           ^label <label>)
+}
+

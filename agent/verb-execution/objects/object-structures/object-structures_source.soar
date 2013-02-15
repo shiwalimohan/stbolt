@@ -28,3 +28,6 @@ source object-info.soar
 source preferences.soar
 
 source held-object.soar
+
+# Souce file "pointed-object.soar"
+source pointed-object.soar

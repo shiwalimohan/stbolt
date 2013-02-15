@@ -26,7 +26,7 @@ sp {elaborate*indexed-operator
 
 #### resolve verb arguments to objects in current perception (or from semantic memory)
 ### prefer the mapped operator
-sp {elaborate*attribute*match
+sp {elaborate*attribute*match*name
    (state <s> ^indexed-operator <map-op> <> <op>
    	      ^operator <op> +)
    (<op> ^name <val>
@@ -36,7 +36,7 @@ sp {elaborate*attribute*match
    (<op> ^matched name)
 }
 
-sp {elaborate*attribute*match
+sp {elaborate*attribute*match*other
    (state <s> ^indexed-operator <map-op> <> <op>
    	      ^operator <op> +)
    (<op> ^{<attr> <> name} <val>
