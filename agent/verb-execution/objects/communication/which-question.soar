@@ -108,6 +108,20 @@ sp {recogition-question*apply*index-object*point
             ^pose <pose>)
 }
 
+sp {recognition-question*apply*index-object*success*store*referent
+   (state <s> ^operator <o>
+              ^interaction.stack.segment <seg>
+              ^smem.command <cmd>)
+   (<o> ^name index-object
+        ^finished true
+        ^match {<obj> <> failure})
+   (<seg> ^info <info>
+          ^purpose.type which-question)
+-->
+   (<info> ^referent-object <obj>)
+   (<cmd> ^store <obj>)
+}
+
 sp {finish*index-object*test*print*match*failure
    (state <s> ^topstate <s>
               ^interaction.stack.segment.purpose.type which-question

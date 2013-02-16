@@ -56,6 +56,21 @@ sp {description-request*apply*describe-object*send-message
           ^fields.object <desc>)
 }
 
+sp {description-request*apply*describe-object*store*referent
+   (state <s> ^operator <o>
+              ^topstate.interaction.stack.segment <seg>
+              ^smem.command <cmd>)
+   (<seg> ^info <info>
+          ^purpose.type description-request)
+   (<o> ^name describe-object
+        ^description {<desc> <> failure}
+        ^object <obj>)
+-->
+   (<info> ^referent-object <obj>)
+   (<cmd> ^store <obj>)
+}
+
+
 sp {descriptoin-request*apply*describe-object*no-object
    (state <s> ^operator <o>
               ^interaction.stack.segment.purpose.type description-request

@@ -39,12 +39,14 @@ sp {category-question*apply*index-object*success
 sp {category-question*apply*index-object*success*store*referent
    (state <s> ^name category-question
               ^operator <o>
-              ^topstate.interaction.stack.segment.info <info>)
+              ^topstate.interaction.stack.segment.info <info>
+              ^smem.command <cmd>)
    (<o> ^name index-object
         ^finished true
         ^match {<obj> <> failure})
 -->
    (<info> ^referent-object <obj>)
+   (<cmd> ^store <obj>)
 }
 
 sp {category-question*apply*index-object*failure
