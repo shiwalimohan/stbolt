@@ -50,6 +50,7 @@ sp {apply*push-object-message*this-object-message
         ^specifier << this that >>
         ^object <obj>
        -^relation)
+   (<msg> -^context.cause which-question)
 -->
    (<msg> ^purpose <p>)
    (<p> ^type this-object-message
@@ -99,16 +100,25 @@ sp {apply*push-object-message*learn-word2cat
 #   (<s> ^instructor-message <msg> -)
 #}
 
+sp {apply*push-object-message*which-question-response*copy*specifier
+   (state <s> ^operator <o>)
+   (<o> ^name push-object-message
+        ^message.context <context>
+        ^specifier <spec>)
+   (<context> ^cause which-question
+        	  ^object <obj>)
+-->
+   (<obj> ^specifier <spec>)
+}
+
 # Result when answered with a further description ('the red object')
 sp {apply*push-object-message*which-question-response*copy-word
    (state <s> ^operator <o>)
    (<o> ^name push-object-message
         ^message.context <context>
-        ^specifier << none DEF >>
-        ^object.word {<word> <> UNKNOWN}
-       -^relation)
+        ^object.word {<word> <> UNKNOWN})
    (<context> ^cause which-question
-        		^index-object-context.object <obj>)
+        		^object <obj>)
    (<obj> ^desired true
           -^property.word <word>)
 -->
@@ -120,12 +130,10 @@ sp {apply*push-object-message*which-question-response*relation
    (state <s> ^operator <o>)
    (<o> ^name push-object-message
         ^message.context <context>
-        ^specifier << none DEF >>
         ^relation <rel>)
    (<context> ^cause which-question
-              ^index-object-context <io-context>)
-   (<io-context> ^object <obj1>)
-   (<obj1> ^desired true)
+              ^index-object-context <io-context>
+              ^object <obj1>)
    (<rel> ^p2.object <obj2> ^word <prep>)
 -->
    (<io-context> ^object <obj2>

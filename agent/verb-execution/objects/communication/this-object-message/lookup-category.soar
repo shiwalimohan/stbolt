@@ -21,8 +21,10 @@ sp {this-object-message*prefer*lookup-smem*category*lower-word
    (state <s> ^name this-object-message
               ^operator <o1> + <o2> +)
    (<o1> ^name lookup-smem
+         ^lookup-type category
          ^query.word <w1>)
    (<o2> ^name lookup-smem
+         ^lookup-type category
          ^query.word <w2> < <w1>)
    
 -->
