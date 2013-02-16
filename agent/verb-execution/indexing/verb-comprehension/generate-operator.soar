@@ -61,11 +61,9 @@ sp {generate*operator*arguments*metadata
    (<a1> ^argument <arg>
    	 ^description <connect>
 	 ^context-id <connect>
-	 ^arg-context <context>)
+	 ^index-object-context <context>)
    (<po> ^operator-argument <arg>)
  }
-
-
 
 #### associate spatial-relationships
 sp {associate*spatial*relations
@@ -98,7 +96,17 @@ sp {elaborate*if*new*mapping
 -->
    (<o> ^mapping new)
 }
-####
+
+sp {elaborate*new*mapping*status
+   (state <s> ^name generate-operator
+   	      ^index-operator <o>
+	      ^topstate.interaction.stack.segment.indexing-status <is>)
+   (<is> ^mapping new)
+-->
+   (<o> ^mapping new)
+}
+
+###
 
 sp {generate*operator*arguments*write-to-superstate
    (state <s> ^name generate-operator

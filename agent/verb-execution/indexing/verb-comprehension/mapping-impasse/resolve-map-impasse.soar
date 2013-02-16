@@ -2,7 +2,7 @@ sp {propose*resolve-map-impasse
    (state <s> ^resolve-operator <op>)
    (<op> ^category)
 -->
-   (<s> ^operator <op> +)
+   (<s> ^operator <op> + >)
 }
 
 sp {elaborate*state*resolve-map-impasse

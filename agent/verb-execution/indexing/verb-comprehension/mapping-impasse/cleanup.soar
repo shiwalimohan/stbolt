@@ -11,7 +11,7 @@ sp {which-question*unrelated*context-id
 }
 
 ### if asked a which question, clear the index verb status
-sp {which-question*status*verb
+sp {which-question*status*verb*cleanup
    (state <s> ^name resolve-map-impasse
    	      ^indexed-operator <iop>
 	      ^argument <arg>
@@ -28,6 +28,18 @@ sp {which-question*status*verb
 -->
    (<is> ^<cue-arg> <val> -
    	 ^partial-order <po> -)
+}
+
+### if asked a which question, write the mapping new attribute on status
+sp {which-question*status*verb
+   (state <s> ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>
+	      ^operator.name which-question)
+   (<iop> ^mapping new)
+-->
+   (<is> ^mapping new)
 }
 
 ### delete the indexed operator 
