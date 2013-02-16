@@ -26,21 +26,36 @@ sp {elaborate*indexed-operator
 
 #### resolve verb arguments to objects in current perception (or from semantic memory)
 ### prefer the mapped operator
-sp {elaborate*attribute*match
+sp {elaborate*attribute*match*name
    (state <s> ^indexed-operator <map-op> <> <op>
-   	      ^operator <op> +)
-   (<op> ^<attr> <val>
+   	      ^operator <op> +
+	      ^topstate <s>)
+   (<op> ^name <val>
    	 ^category << primitive-action composite-action >> )
-   (<map-op> ^<attr> <val>)
+   (<map-op> ^name <val>)
 -->
-   (<op> ^matched <attr>)
+   (<op> ^matched name)
 }
 
-#### operator match is not complete untill all arguments are matched
+sp {elaborate*attribute*match*other
+   (state <s> ^indexed-operator <map-op> <> <op>
+   	      ^operator <op> +
+	      ^topstate <s>)
+   (<op> ^{<attr> <> name} <val>
+   	 ^category << primitive-action composite-action >> 
+	 ^matched name)
+   (<map-op> ^{<attr> <> matched} <val>)
+-->
+   (<op> ^matched <attr>)
+   (<map-op> ^matched <attr>)
+}
+
+#### operator match is not complete until all arguments are matched
 sp {elaborate*operator*match
    (state <s> ^operator <op> + 
-   	      ^indexed-operator <map-op> <> <op>)
-   (<map-op> ^{<attr> <> applied <> information <> _relation <> _metadata} <val>)
+   	      ^indexed-operator <map-op> <> <op>
+	      ^topstate <s>)
+   (<map-op> ^{<attr> <> applied <> information <> _relation <> _metadata <> matched} <val>)
    (<op> -^matched <attr>
    	 ^category << primitive-action composite-action >>)
 -->
@@ -64,15 +79,16 @@ sp {prefer*match
    	 ^indexed-operator <map-op>)
 }
 
+### propose indexed-operator if it is for a new action
 
 sp {propose*indexed-operator*if*no-choices
-   (state <s> ^superstate <ss>
-   	      ^impasse no-change
-	      ^attribute state)
+   (state <s> ^name propose-indexed-operator
+   	      ^indexed-operator <iop>
+	      -^duplicate <any>)
    (<ss> ^indexed-operator <map-op>
    	 ^topstate <ss>
 	 ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
- -->
+-->
    (<ss> ^operator <map-op> +)
    (<map-op> ^category composite-action
    	     ^information <info>

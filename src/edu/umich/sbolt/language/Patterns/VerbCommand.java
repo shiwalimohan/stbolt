@@ -45,8 +45,10 @@ public class VerbCommand extends LinguisticEntity{
 		Identifier infoId = messageId.CreateIdWME("information");
 		Identifier verbId = infoId.CreateIdWME("verb");
 		verbId.CreateStringWME("word", verb);
-		if(directObject != null)
-			directObject.translateToSoarSpeak(verbId,"direct-object");
+		if(directObject != null){
+			Identifier firstObjectId = verbId.CreateIdWME("direct-object");
+			directObject.translateToSoarSpeak(firstObjectId,"object");
+		}
 		if(preposition != null){
 			Identifier prepId = verbId.CreateIdWME("preposition");
 			prepId.CreateStringWME("word", preposition);

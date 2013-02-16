@@ -7,6 +7,19 @@ sp {elaborate*state*index-verb
    (<s> ^information <info>)
 }
 
+sp {elaborate*index-verb*self
+   (state <s> ^name index-verb)
+-->
+   (<s> ^index-verb-state <s>)
+}
+   	      
+sp {copy*index-verb*substate
+   (state <s> ^superstate.index-verb-state <is>)
+-->
+   (<s> ^index-verb-state <is>)
+}
+   	      
+
 ### create cue
 sp {propose*create*cue
    (state <s> ^name index-verb
@@ -101,13 +114,24 @@ sp {propose*generate-operator
 	^map-id <map>
 	^category indexing)
 }
-  
 
+# ### copy partial-orderings in indexed-operator
+# sp {copy*partial-ordering*indexed-operator
+#    (state <s> ^name index-verb
+#    	      ^indexed-operator <any>
+# 	      ^partial-order <po>)
+#    (<any> ^_metadata <met>)
+# -->
+#    (<met> ^partial-order <po>)
+# }
+   
+  
 ### write to superstate
 sp {write*to*superstate
    (state <s> ^name index-verb
    	      ^superstate.interaction.stack.segment.purpose <sp>
 	      ^indexed-operator <map>)
+#   (<map> ^_metadata.partial-order <po>)
 -->
   (<sp> ^indexed-operator <map>)
 }

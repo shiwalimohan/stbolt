@@ -1,0 +1,65 @@
+sp {elaborate*indexed-operator*state-no-change
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <iop>)
+   (<iop> ^mapping <new>)
+-->
+   (<s> ^name propose-indexed-operator)
+ }
+
+sp {elaborate*duplicate*arguments*indexed-operator
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <iop>)
+   (<iop> ^<marg> <mval1>
+   	  ^<marg> {<mval2> <> <mval1>})
+-->
+   (<s> ^duplicate <marg>)
+}
+
+sp {elaborate*indexed-operator*propose-indexed-operator
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state)
+   (<ss> ^indexed-operator <iop>)
+-->
+   (<s> ^indexed-operator <iop>)
+}
+
+
+### propose resolve-operator if there are duplicates
+sp {multiple*argument*matches*create*operator*composite-operator
+   (state <s> ^superstate <ss>
+   	      ^impasse no-change
+	      ^attribute state
+	      ^duplicate <marg>)
+   (<ss> ^indexed-operator <map-op>
+   	 ^topstate <ss>
+	 ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>
+	 ^resolve-operator <rop>)
+-->
+   (<rop> ^name resolve-map-impasse
+	  ^indexed-operator <map-op>
+	  ^category indexing
+	  ^argument <marg>
+	  ^map-impasse-type multiple-argument-match)
+}
+
+
+### propose indexed-operator if it is for a new action and there are no duplicates
+sp {propose*indexed-operator*if*no-choices
+   (state <s> ^name propose-indexed-operator
+   	      ^indexed-operator <iop>
+	      -^duplicate <any>)
+   (<ss> ^indexed-operator <map-op>
+   	 ^topstate <ss>
+	 ^interaction.stack.segment.purpose.satisfaction.action-event.type <info>)
+-->
+   (<ss> ^operator <map-op> +)
+   (<map-op> ^category composite-action
+   	     ^information <info>
+	     ^indexed-operator <map-op>)
+}
+

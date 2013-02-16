@@ -15,7 +15,9 @@ sp {elaborate*index-arguments
        ^connector <con>
        ^argument <obj>
        ^context-id <con-id>
-       ^status <stat>)
+       ^status <stat>
+       ^partial-order <po>)
+  (<po> ^verb-argument <con>)
 }
 
 #### propose index-object (../objects/index-objects/)
@@ -39,28 +41,55 @@ sp {propose*index-object*perceptual
 sp {write*matched*object*superstate
    (state <s> ^name index-argument
    	      ^match <obj>
+	      ^partial-order <po>
 	      ^superstate <ss>
 	      ^cue <cue>
 	      ^connector <con>
 	      ^status <stat>
-	      ^argument <arg>) 
+	      ^argument <arg>)
+  (<po> ^ordered true)
 -->
   (<cue> ^<con> <obj>)
-  (<stat> ^<con> <obj>)
+  (<stat> ^<con> <obj>
+  	  ^partial-order <po>)
   (<ss> ^matched <arg>
-  	^bit flip)
+  	^bit flip
+	^partial-order <po>)
 }
 
-### copy the correct object if find-object is successful
-sp {copy*matched*object
+### copy the correct object if index-object is successful
+sp {copy*matched*object*match
    (state <s> ^name index-argument
    	      ^operator <op>
 	      ^argument <arg>) 
    (<op> ^match <obj>
+   	 ^candidate <can>
    	 ^name index-object)
+   (<can> ^object <obj>
+   	  ^pref <num>)
 -->   
-   (<s> ^match <obj>)
+   (<s> ^match <obj>
+   	^candidate <ncan>)
+   (<ncan> ^object <obj>
+   	   ^pref <num>)
 }
+
+### assign order
+sp {assign*partial*order*index-argument
+   (state <s> ^name index-argument	
+   	      ^partial-order <po>
+	      ^candidate <can>
+	      ^match <obj>)
+   (<can> ^object <obj>	
+   	  ^pref <num>)
+-->
+   (<po> ^<num> <obj>
+   	 ^ordered true)
+}
+   	  
+   	      
+
+
 
 
 

@@ -4,12 +4,3 @@ source index-arguments.soar
 #### displaced indexing
 ## source find-object-smem.soar
 
-
-### perceputal context
-## source perceptual-referents.soar
-
-### interaction context
-##source focus-referents.soar
-
-### architectural context (recency/frequency)
-### source activated-referents.soar

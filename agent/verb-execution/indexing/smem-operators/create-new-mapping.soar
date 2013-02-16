@@ -2,14 +2,17 @@
 
 sp {create-new-mapping*elaborate*state
    (state <s> ^name create-new-mapping	
-   	      ^superstate.operator <sop>)
+   	      ^superstate.operator <sop>
+	      ^index-verb-state <is>)
    (<sop> ^name create-new-mapping
    	  ^cue <cue>)
 -->
    (<s> ^cue <cue>
    	^op_name op_
 	^argument argument)
+   (<is> ^mapping new)
 }
+
 
 
 sp {create-new-mapping*store*mapping

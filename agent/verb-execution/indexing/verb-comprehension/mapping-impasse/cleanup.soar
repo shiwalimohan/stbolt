@@ -1,0 +1,74 @@
+#### delete the context-id not related to the which-question
+sp {which-question*unrelated*context-id
+   (state <s> ^topstate.interaction.stack.segment.info <info>
+   	      ^operator <op>)
+   (<op> ^name which-question
+   	 ^context-id <conid>)
+   (<info> ^index-object-context <object-context>)
+   (<object-context> ^context-id <id> {<> <id> <conid>})
+-->
+   (<info> ^index-object-context <object-context> -)
+}
+
+### if asked a which question, clear the index verb status
+sp {which-question*status*verb*cleanup
+   (state <s> ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>
+	      ^operator.name which-question)
+   (<is> ^<cue-arg> <val>
+   	 ^partial-order <po>)
+   (<iop> ^_metadata <met>)
+   (<met> ^arg-data <arg-data>
+   	  ^partial-order <po>)
+   (<arg-data> ^argument <arg>
+   	       ^description <cue-arg>)
+   (<po> ^verb-argument <cue-arg>)
+-->
+   (<is> ^<cue-arg> <val> -
+   	 ^partial-order <po> -)
+}
+
+### if asked a which question, write the mapping new attribute on status
+sp {which-question*status*verb
+   (state <s> ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>
+	      ^operator.name which-question)
+   (<iop> ^mapping new)
+-->
+   (<is> ^mapping new)
+}
+
+### delete the indexed operator 
+sp {multiple*argument*match*delete*indexed-operator
+   (state <s> ^operator.name which-question
+   	      ^topstate.interaction.stack.segment.purpose <p>)
+   (<p> ^indexed-operator <op>)
+-->
+   (<op> ^clear true)
+}
+
+sp {multiple*argument*match*clear*indexed-operator
+   (state <s> ^topstate <s>
+   	      ^interaction.stack.segment.purpose <p>
+	      ^operator.name push-segment)
+   (<p> ^indexed-operator <op>)
+   (<op> ^clear true)
+-->
+   (<p> ^indexed-operator <op> -)
+}
+
+### remove resolve-operator during push-segment
+sp {remove*resolve-operator
+   (state <s> ^resolve-operator <rop>
+   	      ^operator <op>)
+   (<op> ^category << communication interaction-stack >>)
+   (<rop> ^category indexing)
+-->
+   (<s> ^resolve-operator <rop> -
+   	^resolve-operator <nrop>)
+}
+

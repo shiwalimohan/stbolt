@@ -20,7 +20,8 @@ sp {multiple*argument*matches*create*operator
    	 ^object-desc <obj>
 	 ^indexed-operator <iop>
 	 ^context-id <conid>
-	 ^category indexing)
+	 ^category indexing
+	 ^argument <arg>)
 }
 
 sp {multiple*argument*matches*create*operator*composite-operator
@@ -43,27 +44,9 @@ sp {multiple*argument*matches*create*operator*composite-operator
    	  ^object-desc <obj>
 	  ^indexed-operator <iop>
 	  ^category indexing
-	 ^context-id <conid>)
+	 ^context-id <conid>
+	 ^argument <arg>)
    (<ss> ^operator <iop> -)
-}
-
-sp {propose*resolve-multiple-matches-dialog
-   (state <s> ^resolve-operator <op>)
-   (<op> ^category)
--->
-   (<s> ^operator <op> +)
-}
-
-sp {elaborate*state*resolve-multiple-matches-dialog
-   (state <s> ^superstate.operator <sop>) 
-   (<sop> ^object-desc <obj>
-   	  ^indexed-operator <iop>
-	  ^context-id <conid>)
--->
-   (<s> ^object-desc <obj>
-   	^indexed-operator <iop>
-	^name complete-index-object
-	^context-id <conid>)
 }
 
 sp {multiple*argument*match*propose*which-question
@@ -76,6 +59,21 @@ sp {multiple*argument*match*propose*which-question
    (<op> ^name which-question
    	 ^object <obj>
 	 ^context-id <conid>)
+}
+
+sp {multiple*no*argument*match*cleanup*incorrect*status
+   (state <s> ^name complete-index-object
+   	      ^indexed-operator <iop>
+	      ^object-desc <obj>
+	      ^context-id <conid>
+	      ^argument <arg>
+	      ^topstate.interaction.stack.segment.indexing-status <is>)
+   (<is> ^<cue-arg> <val>)
+   (<iop> ^_metadata.arg-data <arg-data>)
+   (<arg-data> ^argument <arg>
+   	       ^description <cue-arg>)
+-->
+   (<is> ^<cue-arg> <val> -)
 }
 
 #### delete the context-id not related to the which-question

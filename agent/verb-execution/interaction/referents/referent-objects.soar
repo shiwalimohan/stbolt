@@ -7,7 +7,7 @@ sp {elaborate*object-referents*from*indexed-operator
    (<int> ^referents.objects <robj>
    	  ^segments.segment <seg>)
    (<seg> ^purpose.indexed-operator <iop>)
-   (<iop> ^{<arg1> <> name <> _relation <> _metadata} <obj1>)
+   (<iop> ^{<arg1> <> name <> _relation <> _metadata <> goal <> applied <> category <> indexed-operator <> information} <obj1>)
 -->
    (<robj> ^ref <ref1>
    	   ^object <obj1>)
