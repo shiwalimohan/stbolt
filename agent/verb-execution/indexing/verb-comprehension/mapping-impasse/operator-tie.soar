@@ -23,7 +23,7 @@ sp {multiple-operator*match*map*create*operator
 sp {multiple-operator-match*revise*indexed-operator*object*preference
    (state <s> ^name resolve-map-impasse
    	      ^indexed-operator <iop>
-	      ^map-impasse-type multiple-operator-match
+	      ^map-impasse-type << multiple-operator-match multiple-argument-match >>
 	      ^argument <arg>)
    (<iop> ^<arg> <obj1>)
 -->
@@ -74,6 +74,7 @@ sp {apply*select-object*multiple-argument-matches
    	  ^<arg> {<obj1> <> <obj>})
 -->
    (<iop> ^<arg> <obj1> -)
+   (<s> ^deleted true)
 }
 
 
@@ -94,7 +95,7 @@ sp {break-op-tie*based*on*preference*DEF*no-prefrence
 sp {resolve*multiple-operator*match*complete
    (state <s> ^name resolve-map-impasse
    	      ^indexed-operator <iop>
-	      ^map-impasse-type multiple-operator-match
+	      ^map-impasse-type << multiple-operator-match multiple-argument-match >>
 	      ^argument <arg>
 	      ^superstate <ss>)
    (<iop> ^<arg> <obj1>

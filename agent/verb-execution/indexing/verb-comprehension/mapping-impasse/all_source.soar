@@ -18,7 +18,7 @@
 ### impasse types
 ## source state-no-change.soar
 source operator-tie.soar
-### source multiple-argument-matches.soar
+source multiple-argument-matches.soar
 
 
 ### apply resolution

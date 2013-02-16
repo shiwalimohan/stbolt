@@ -7,19 +7,26 @@ sp {multiple*argument*matches*create*operator*composite-operator
 	 ^operator.category composite-action)
    (<iop> ^<arg> <val1>
 	  ^<arg> {<val2> <> <val1>}
-	  ^_metadata <met>)	
-   (<met> ^arg-data <a1>)
-   (<a1> ^arg-context <con>
-   	 ^argument <arg>
-	 ^context-id <conid>)
-   (<con> ^object <obj>)
+	  ^_metadata.arg-data.argument <arg>)	
 -->
    (<rop> ^name resolve-map-impasse
-   	  ^object-desc <obj>
 	  ^indexed-operator <iop>
 	  ^category indexing
-	  ^context-id <conid>
 	  ^argument <arg>
 	  ^map-impasse-type multiple-argument-match)
    (<ss> ^operator <iop> -)
+}
+
+sp {multiple*argument*matches*apply*select-object
+   (state <s> ^name resolve-map-impasse
+   	      ^operator <op>
+	      ^argument <arg>
+	      ^indexed-operator <iop>
+	      ^map-impasse-type multiple-argument-match
+	      ^superstate <ss>)
+   (<op> ^name select-object)
+   (<ss> ^resolve-operator <rop>)
+-->
+   (<ss> ^resolve-operator <rop> -
+   	 ^resolve-operator <nrop>)  
 }
