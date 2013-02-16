@@ -74,7 +74,9 @@ sp {propose*index*argument*relation
 	 ^cue <id>
 	 ^argument <arg>
 	 ^context-id (concat <info> <argattr>)
-	 ^status <stat>)
+	 ^return-all false
+	 ^status <stat>
+	 ^category indexing)
 }
 
 
@@ -120,6 +122,14 @@ sp {create*relation*semantic-object*substructure
 -->
    (<scomm> ^store <oval>
    	    ^store <ovval>)
+}
+
+sp {remove*primitive-actions*assign-goal
+   (state <s> ^name << create-goal-predicate-relation create-goal-predicate-state >>
+   	      ^operator <op> +)
+   (<op> ^category << primitive-action composite-action >>)
+-->
+  (<s> ^operator <op> -)
 }
 
 

@@ -51,7 +51,8 @@ sp {propose*create-goal-predicate*relation
 	 ^information <rel>
 	 ^map-id <map>
 	 ^indexed-operator <iop>
-	 ^predicate-type relation)
+	 ^predicate-type relation
+	 ^category indexing)
 }
 
 sp {propose*create-goal-predicate
@@ -72,11 +73,10 @@ sp {propose*create-goal-predicate
 	 ^information <statp>
 	 ^map-id <map>
 	 ^indexed-operator <iop>
-	 ^predicate-type state)
+	 ^predicate-type state
+	 ^category indexing)
 }
    
-   
-
 ### store goal predicates
 sp {store*goal-predicate
    (state <s> ^name index-goal

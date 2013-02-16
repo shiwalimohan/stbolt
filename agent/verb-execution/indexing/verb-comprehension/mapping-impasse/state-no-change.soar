@@ -1,3 +1,15 @@
+#### works till proposal conditions for composite operators are acquired at an appropriate time
+sp {elaborate*mapping*new*indexed-operator*goal
+   (state <s> ^topstate <s>
+   	      ^indexed-operator <op>)
+   (<op> ^_metadata.map-id.goal <any>)
+-->
+   (<op> ^mapping new)
+}
+
+
+#######################
+
 sp {elaborate*no-argument-match*state-no-change
    (state <s> ^superstate <ss>
    	      ^impasse no-change

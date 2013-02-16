@@ -28,7 +28,6 @@ sp {elaborate*indexed-operator*propose-indexed-operator
    (<s> ^indexed-operator <iop>)
 }
 
-
 ### propose resolve-operator if there are duplicates
 sp {multiple*argument*matches*create*operator*composite-operator
    (state <s> ^superstate <ss>

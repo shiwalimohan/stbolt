@@ -44,6 +44,7 @@ sp {propose*index*argument*state
 	 ^connector <argattr>
 	 ^cue <sprep>
 	 ^argument <arg>
+	 ^return-all false
 	 ^context-id (concat <info> <argattr>)
 	 ^status <stat>)
 }

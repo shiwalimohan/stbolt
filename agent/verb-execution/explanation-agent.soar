@@ -146,7 +146,8 @@ sp {non-atomic*prefer*svs*wait
 
 ### learn in the selection space
 sp {chunk*in*selection*space	
-   (state <s> ^name selection)
+   (state <s> ^name selection
+   	      -^superstate.name resolve-map-impasse)
 -->
    (force-learn <s>)
 }

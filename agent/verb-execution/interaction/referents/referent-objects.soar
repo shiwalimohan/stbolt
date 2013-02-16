@@ -7,7 +7,7 @@ sp {elaborate*object-referents*from*indexed-operator
    (<int> ^referents.objects <robj>
    	  ^segments.segment <seg>)
    (<seg> ^purpose.indexed-operator <iop>)
-   (<iop> ^{<arg1> <> name <> _relation <> _metadata <> goal <> applied <> category <> indexed-operator <> information} <obj1>)
+   (<iop> ^{<arg1> <> name <> _relation <> _metadata <> goal <> applied <> category <> indexed-operator <> information <> mapping} <obj1>)
 -->
    (<robj> ^ref <ref1>
    	   ^object <obj1>)
@@ -32,8 +32,10 @@ sp {elaborate*referent-object*from*segment*info
 sp {store*objects*for*activation
    (state <s> ^interaction.referents.objects.object <obj>
    	      ^operator <op>
-	      ^smem.command <scomm>)
-   (<op> ^<arg> <obj>)
+	      ^smem.command <scomm>
+	      ^topstate <s>)
+   (<op> ^<arg> <obj>
+   	 ^category << primitive-action composite-action >>)
 -->
    (<scomm> ^store <obj>)
 }
@@ -43,6 +45,7 @@ sp {topstate*operator*clear*smem*buffer
    (state <s> ^topstate <s>
    	      ^smem.command <scomm>
 	      ^operator <op>)
+   (<op> -^category << primitive-action composite-action >>)
    (<scomm> ^store <any>)
 -->
    (<scomm> ^store <any> -)

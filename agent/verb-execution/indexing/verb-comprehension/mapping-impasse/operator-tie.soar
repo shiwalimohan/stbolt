@@ -42,7 +42,7 @@ sp {break-op-tie*based*on*preference*DEF
    (<op1> ^object <obj1>) 
    (<op2> ^object <obj2>)
    (<iop> ^_metadata.partial-order <po>)
-   (<desc> ^specifier DEF)
+   (<desc> ^specifier << DEF this that it >>)
    (<po> ^operator-argument <arg>
    	 ^<pref1> <obj1>
 	 ^{<pref2> > <pref1>} <obj2>)
