@@ -2,7 +2,7 @@ sp {propose*resolve-map-impasse
    (state <s> ^resolve-operator <op>)
    (<op> ^category)
 -->
-   (<s> ^operator <op> + >)
+   (<s> ^operator <op> + =)
 }
 
 sp {elaborate*state*resolve-map-impasse
@@ -37,6 +37,7 @@ sp {multiple*argument*match*elaborate*which-question*operator
    (state <s> ^superstate <ss>
    	      ^impasse tie)
    (<ss> ^name complete-index-object
+   	 ^name resolve-map-impasse
    	 ^indexed-operator <iop>
 	 ^object-description <obj>
 	 ^index-object-context <con>

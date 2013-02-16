@@ -3,7 +3,7 @@ sp {elaborate*indexed-operator*state-no-change
    	      ^impasse no-change
 	      ^attribute state)
    (<ss> ^indexed-operator <iop>)
-   (<iop> ^mapping <new>)
+   (<iop> ^mapping new)
 -->
    (<s> ^name propose-indexed-operator)
  }

@@ -1,21 +1,24 @@
-### if the indexed-operator is a different version of what the agent already knows to be possile, gather more information to make the information more specific
-sp {propose*delete*status*no-argument*match
+sp {elaborate*no-argument-match*state-no-change
    (state <s> ^superstate <ss>
    	      ^impasse no-change
 	      ^attribute state)
-   (<ss> ^indexed-operator <map-op>
-   	 ^resolve-operator <op>)
-   (<map-op> -^mapping new
-   	     ^_metadata <met>
-	     ^{<arg> <> applied <> information <> _relation <> _metadata} <val>
-	     -^matched <arg>)
-   (<met> ^arg-data <a1>)
-   (<a1> ^arg-context <con>
-   	 ^argument <arg>
-	 ^context-id <conid>)
-   (<con> ^object <obj>)
+   (<ss> ^indexed-operator <iop>)
+   (<iop> -^mapping new
+   	  -^matched <arg>
+	   ^{<arg> <> applied <> information <> _relation <> _metadata <> name} <val>)
 -->
-   (<ss> ^operator <op> +)
+   (<s> ^name incorrect-operator-argument)
+}
+
+sp {propose*no-argument*match
+   (state <s> ^name incorrect-operator-argument
+   	      ^superstate <ss>)
+   (<ss> ^resolve-operator <op>
+   	 ^indexed-operator <map-op>)
+   (<map-op> -^mapping new
+	     ^{<arg> <> applied <> information <> _relation <> _metadata <> name} <val>
+	     -^matched <arg>)
+-->
    (<op> ^name resolve-map-impasse
 	 ^indexed-operator <map-op>
 	 ^category indexing
@@ -30,6 +33,16 @@ sp {state-no-change*map-impasse*no-operator-match
    (state <s> ^name resolve-map-impasse
    	      ^indexed-operator <iop>
 	      ^map-impasse-type state-no-change
+	      ^argument <arg>)
+-->
+   (<s> ^name complete-index-object)
+}
+
+sp {state-no-change*map-impasse*no-operator-match*cleanup-status
+   (state <s> ^name complete-index-object
+   	      ^name resolve-map-impasse
+   	      ^indexed-operator <iop>
+	      ^map-impasse-type state-no-change
 	      ^argument <arg>
 	      ^topstate.interaction.stack.segment.indexing-status <is>)
    (<is> ^<cue-arg> <val>)
@@ -38,5 +51,4 @@ sp {state-no-change*map-impasse*no-operator-match
    	       ^description <cue-arg>)
 -->
    (<is> ^<cue-arg> <val> -)
-   (<s> ^name complete-index-object)
 }
