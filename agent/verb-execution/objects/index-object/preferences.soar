@@ -1,26 +1,45 @@
-# preferences
-# Ensure the following operator ordering:
-#   index-object-failure > all others
-#   identify-object > teaching-request
-#   identify-object > find-relations
-#   all others > complete-index-object
-
-sp {index-object*prefer*identify-object*over*teaching-request
+sp {index-object*prefer*lookup*over*add-candidates
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name identify-object)
-   (<o2> ^name teaching-request)
+   (<o1> ^name lookup-smem)
+   (<o2> ^name add-candidates)
 -->
    (<s> ^operator <o1> > <o2>)
 }
 
-sp {index-object*prefer*identify-object*over*find-relations
+sp {index-object*add-candidates*prefer*focus*others
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name identify-object)
-   (<o2> ^name find-relations)
+   (<o1> ^name add-candidates
+         ^candidate-type focus)
+   (<o2> ^name add-candidates
+         ^candidate-type <> focus)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {index-object*add-candidates*activation*over*all
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-candidates
+         ^candidate-type activation)
+   (<o2> ^name add-candidates
+         ^candidate-type all)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+sp {index-object*prefer*add-candidates*over*find-matches
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-candidates
+         ^object-to-index <obj>)
+   (<o2> ^name find-matches
+         ^object-to-index <obj>)
 -->
    (<s> ^operator <o1> > <o2>)
 }
@@ -29,46 +48,22 @@ sp {index-object*prefer*all*over*complete-index-object
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name <> complete-index-object <> index-object-wait
+   (<o1> ^name <> complete-index-object
          ^category indexing)
    (<o2> ^name complete-index-object)
 -->
    (<s> ^operator <o1> > <o2>)
 }
 
-
-sp {index-object*prefer*index-object-failure*over*all
+sp {index-object*prefer*all*over*index-object-failure
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name index-object-failure)
-   (<o2> ^name complete-index-object
+   (<o1> ^name <> index-object-failure
          ^category indexing)
+   (<o2> ^name index-object-failure)
 -->
    (<s> ^operator <o1> > <o2>)
 }
 
 
-
-### SM
-sp {index-object*prefer*find-highest-activated*over*complete-index-object
-   (state <s> ^name index-object
-   	      ^operator <o1> +
-	      ^operator <o2> +)
-   (<o1> ^name find-highest-activated)
-   (<o2> ^name complete-index-object)
--->
-   (<s> ^operator <o1> > <o2>)
-}
-
-sp {index-object*prefer*lookup-smem*over*find-highest-activated
-   (state <s> ^name index-object
-   	      ^operator <o1> +
-	      ^operator <o2> +)
-   (<o1> ^name lookup-smem)
-   (<o2> ^name find-highest-activated)
--->
-   (<s> ^operator <o1> > <o2>)
-}
-
-   	 

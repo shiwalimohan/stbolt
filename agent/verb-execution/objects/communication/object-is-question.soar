@@ -54,6 +54,21 @@ sp {object-is-question*apply*index-object
    (<info> ^object-match <match>)
 }
 
+sp {object-is-question*apply*index-object*success*store*referent
+   (state <s> ^operator <o>
+              ^interaction.stack.segment <seg>
+              ^smem.command <cmd>)
+   (<o> ^name index-object
+        ^finished true
+        ^match {<obj> <> failure})
+   (<seg> ^info <info>
+          ^purpose.type object-is-question)
+-->
+   (<info> ^referent-object <obj>)
+   (<cmd> ^store <obj>)
+}
+
+
 # Lookup the category of the questioned word
 sp {object-is-question*propose*lookup-category
    (state <s> ^topstate <s>
