@@ -158,10 +158,11 @@ sp {composite-operator*mark-success
    (<ss> ^name explain
    	 ^operator <sop>)
 -->
-   (<ss> ^operator <sop>
+   (<ss> ^operator <sop> +
    	 ^successful-explanation <sname>
 	 ^category explanation)
 }
+
 
 
 ### once successful explanation has been reached; pop the pupose; see resolve-stack in conversation-manager

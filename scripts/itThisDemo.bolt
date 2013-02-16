@@ -1,0 +1,21 @@
+#!BechtelFormat
+< Waiting for next command...
+> move the blue cylinder to the garbage.
+< What is the goal of the action?
+> the goal is this cylinder in the garbage.
+< I don't know the preposition in. Please teach me with examples
+> this cylinder is in the pantry.
+< Okay.
+< Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
+> finished.
+< What action should I take next?
+> 
+< What action should I take next?
+> 
+< What action should I take next?
+> you are done
+< Waiting for next command...
+> move this cylinder to the table
+< Waiting for next command...
+> move this to the garbage
+< Waiting for next command...
