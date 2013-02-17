@@ -6,7 +6,7 @@ sp {composite*operator*elaborate*focus
    (<ss> ^operator <sop>)
    (<sop> ^category << composite-action explanation >>
    	  ^name <sname>
-   	  ^{<arg1> <> name <> applied <> _metadata <> indexed-operator <> information <> category} <val1>)
+   	  ^{<arg1> <> name <> applied <> _metadata <> indexed-operator <> information <> category <> mapped} <val1>)
  -->
    (<val1> ^focus (concat <sname> <arg1>))
 }
