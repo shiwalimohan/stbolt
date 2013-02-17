@@ -23,8 +23,7 @@ sp {propose*put-down-object-location*with-door
 	     ^name {<any> <> evaluate-operator}
 	     ^open <loc>
 	     ^not-tracking-relations true)
-   (<loc> ^category location
-   	  ^door)
+   (<loc> ^category location)
 -->
    (<s> ^operator <op> +)
    (<op> ^name op_put-down-object-location
