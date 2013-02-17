@@ -174,7 +174,8 @@ sp {apply*put-down*location*action-model
           ^predicate <rel>
           ^complete success
 	  ^vpredicate <rel>)
-   (<ss> ^track-relation <trel>)
+   (<ss> ^track-relation <trel>
+   	 ^not-tracking-relations true -)
 }
 
 

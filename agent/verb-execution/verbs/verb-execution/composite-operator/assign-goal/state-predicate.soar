@@ -17,14 +17,14 @@ sp {assign-goal*elaborate*objects*state-predicate
    (state <s> ^name assign-goal
    	      ^desired.achieve-state-predicate <asp>
 	      ^long-term-id <glid>
-	      ^superoperator <iop>)
+	      ^superoperator <iop>
+	      ^procedural-id.<varg> <sobj>)
    (<glid> ^<prep> <p1>)
    (<asp> ^state <type>
    	  ^_instantiation-of <p1>)
    (<p1> ^{<parg> <> type <> category} <sobj>
    	 ^type <type>)
-   (<iop> ^_metadata.map-id.procedural.<varg> <sobj>
-   	  ^<varg> <obj>)
+   (<iop> ^<varg> <obj>)
 -->
    (<asp> ^object <obj>)
   
@@ -34,14 +34,14 @@ sp {assign-goal*elaborate*semantic-objects*state-predicate
    (state <s> ^name assign-goal
    	      ^desired.achieve-state-predicate <tr>
 	      ^long-term-id <glid>
-	      ^superoperator <iop>)
+	      ^superoperator <iop>
+	      -^procedural-id.<varg> <sobj>)
    (<glid> ^<prep> <p1>)
    (<asp> ^state <type>
    	  ^_instantiation-of <p1>)
    (<p1> ^{<parg> <> type <> category} <sobj>
    	 ^type <type>)
-   (<iop> -^_metadata.map-id.procedural.<varg> <sobj>
-   	  ^name <opname>)
+   (<iop> ^name <opname>)
 -->
    (<asp> ^object <sobj>)
    (<sobj> ^focus (concat <opname> <parg>))

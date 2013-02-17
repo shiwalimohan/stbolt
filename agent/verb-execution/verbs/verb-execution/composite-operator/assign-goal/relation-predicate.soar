@@ -35,13 +35,13 @@ sp {assign-goal*elaborate*objects*relation
    (state <s> ^name assign-goal
    	      ^desired.track-relation <tr>
 	      ^long-term-id <glid>
-	      ^superoperator <iop>)
+	      ^superoperator <iop>
+	      ^procedural-id.<varg> <sobj>)
    (<glid> ^<prep> <p1>)
    (<tr> ^spatial-relationship <type>)
    (<p1> ^{<parg> <> type} <sobj>
    	 ^type <type>)
-   (<iop> ^_metadata.map-id.procedural.<varg> <sobj>
-   	  ^<varg> <obj>)
+   (<iop> ^<varg> <obj>)
 -->
    (<tr> ^<parg> <obj>)
   
@@ -53,13 +53,13 @@ sp {assign-goal*elaborate*semantic-objects*relation
    (state <s> ^name assign-goal
    	      ^desired.track-relation <tr>
 	      ^long-term-id <glid>
-	      ^superoperator <iop>)
+	      ^superoperator <iop>
+	      -^procedural-id.<varg> <sobj>)
    (<glid> ^<prep> <p1>)
    (<tr> ^spatial-relationship <type>)
    (<p1> ^{<parg> <> type} <sobj>
    	 ^type <type>)
-   (<iop> -^_metadata.map-id.procedural.<varg> <sobj>
-   	  ^name <opname>)
+   (<iop> ^name <opname>)
 -->
    (<tr> ^<parg> <sobj>)
    (<sobj> ^focus (concat <opname> <parg>))

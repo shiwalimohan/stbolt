@@ -64,69 +64,109 @@ sp {explain*copy*superstate*relevant*structures*self
 
 ### --- elaborate problem-space
 sp {new-operator*elaborate*problem-space
-   (state <s> ^name {<sname> <> evaluate-operator <> operator-tie <> selection <> explain <> bolt-agent})
+   (state <s> ^name {<sname> <> evaluate-operator <> operator-tie <> selection <> explain})
 -->  
    (<s> ^problem-space <p>)
    (<p> ^name <sname>
    	^default-state-copy yes
 	^two-level-attributes object
 	^two-level-attributes self
-	^one-level-attributes grabbed on open off closed application-state not-tracking-relations
+	^one-level-attributes grabbed on off closed application-state not-tracking-relations
 	^dont-copy vpredicates)
 }
 
-
-### copy objects to composite operators if they are being elaborated
-sp {copy*objects*composite*operators
-   (state <s> ^application-state composite-action
-   	      -^io
-	      ^superstate <ss> )
-   (<ss> ^name evaluate-operator
-   	 ^object <obj>)
+### copy track-relation
+sp {new-operator*copy*track-relation
+   (state <s> ^object <obj1>
+	      ^object <obj2>
+	      ^duplicate-of <ss>)
+   (<ss> ^object <sobj1>
+	 ^object <sobj2>
+	 ^track-relation <tr>)
+   (<tr> ^complete success
+   	 ^object1 <sobj1>
+	 ^object2 <sobj2>
+	 ^vpredicate <prep>)
+   (<obj1> ^focus <f1>)
+   (<sobj1> ^focus <f1>)
+   (<obj2> ^focus <f2>)
+   (<sobj2> ^focus <f2>)
 -->
-   (<s> ^object <obj>)
-}
-   	 
-
-sp {copy*location*composite*operators*open
-   (state <s> ^application-state composite-action
-   	      -^io
-	      ^superstate <ss> )
-   (<ss> ^name evaluate-operator
-   	 ^open <obj>)
--->
-   (<s> ^open <obj>)
-}
-
-sp {copy*location*composite*operators*closed
-   (state <s> ^application-state composite-action
-   	      -^io
-	      ^superstate <ss> )
-   (<ss> ^name evaluate-operator
-   	 ^closed <obj>)
--->
-   (<s> ^closed <obj>)
+   (<s> ^track-relation <ntr>)
+   (<ntr> ^object1 <obj1>
+   	  ^object2 <obj2>
+	  ^complete success
+	  ^vpredicate <prep>)
 }
 
-sp {copy*location*composite*operators*on
-   (state <s> ^application-state composite-action
-   	      -^io
-	      ^superstate <ss> )
-   (<ss> ^name evaluate-operator
-   	 ^on <obj>)
+sp {new-operator*copy*open
+   (state <s> ^object <obj1>
+	      ^duplicate-of <ss>)
+   (<ss> ^object <sobj1>
+   	 ^open <sobj1>)
+   (<obj1> ^focus <f1>)
+   (<sobj1> ^focus <f1>)
 -->
-   (<s> ^on <obj>)
+   (<s> ^open <obj1>)
 }
-   	   
-sp {copy*location*composite*operators*off
-   (state <s> ^application-state composite-action
-   	      -^io
-	      ^superstate <ss> )
-   (<ss> ^name evaluate-operator
-   	 ^off <obj>)
+
+
+sp {new-operator*copy*problem-space-operator*evaluate-operator
+   (state <s> ^object {<obj1> <> <obj2>}
+	      ^object <obj2>
+	      ^duplicate-of <ss>)
+   (<ss> ^problem-space-operator <psop>)
+   (<psop> ^name <op-name>
+   	   ^<arg1> <sobj1>
+	   ^{<arg2> > <arg1>} <sobj2>
+	   ^category composite-action)
+   (<obj1> ^focus <f1>)
+   (<sobj1> ^focus <f1>)
+   (<obj2> ^focus <f2>)
+   (<sobj2> ^focus <f2>)
 -->
-   (<s> ^off <obj>)
-}   
+   (<s> ^problem-space-operator <nop>)
+   (<nop> ^category composite-action
+   	  ^name <op-name>
+	  ^<arg1> <obj1>
+	  ^<arg2> <obj2>)
+}
+   	      
+
+sp {evaluate-operator*copy*superstate*on*object
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
+   (<ss> ^name evaluate-operator
+   	 ^on <m>)
+-->
+   (<s> ^on <m>)
+}
+
+sp {evaluate-operator*copy*superstate*off*object
+   (state <s> ^superstate <ss>)
+   (<ss> ^name evaluate-operator
+   	 ^off <m>)
+-->
+   (<s> ^off <m>)
+}
+
+sp {evaluate-operator*copy*superstate*open*object
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
+   (<ss> ^name evaluate-operator
+   	 ^open <m>)
+-->
+   (<s> ^open <m>)
+}
+
+sp {evaluate-operator*copy*superstate*closed*object
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
+   (<ss> ^name evaluate-operator
+   	 ^closed <m>)
+-->
+   (<s> ^closed <m>)
+}
 
 sp {elaborate*no-track*relation*explain
    (state <s> ^name explain
@@ -139,7 +179,8 @@ sp {elaborate*no-track*relation*explain
 }
 
 sp {elaborate*no-track*relation*substate*explain
-   (state <s> ^superstate <ss>)
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
    (<ss> ^name explain
    	 ^not-tracking-relations true)
 -->
@@ -147,9 +188,28 @@ sp {elaborate*no-track*relation*substate*explain
 }
 
 sp {elaborate*no-track*relation*evaluate-operator*substate
-   (state <s> ^superstate <ss>)
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
    (<ss> ^name evaluate-operator
    	 ^not-tracking-relations true)
 -->
    (<s> ^not-tracking-relations true)
+}
+
+sp {elaborate*no-track*relation*composite-action*substate
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
+   (<ss> ^application-state composite-action
+   	 ^not-tracking-relations true)
+-->
+   (<s> ^not-tracking-relations true)
+}
+
+sp {elaborate*open*composite-action*substate
+   (state <s> ^superstate <ss>
+   	      ^application-state composite-action)
+   (<ss> ^application-state composite-action
+   	 ^open <obj>)
+-->
+   (<s> ^open <obj>)
 }

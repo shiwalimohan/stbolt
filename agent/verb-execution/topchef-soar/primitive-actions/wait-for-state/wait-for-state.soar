@@ -1,0 +1,77 @@
+## wait for the object till its cooked, simulates cooking object
+sp {propose*wait-for-cook*object
+   (state <s> ^object <obj>
+   	      -^cooked <obj>
+	      -^problem-space << lgsoar message-interpretation >>
+	      ^topstate <s>)
+-->
+  (<s> ^operator <op> +)
+  (<op> ^name op_wait-for
+  	^argument1 <obj>
+	^category primitive-action
+	^kind non-atomic)
+}
+
+sp {elaborate*wait-for*state
+   (state <s> ^operator <op> +
+   	      ^io)
+   (<op> ^argument1 <obj>
+   	 ^name op_wait-for)
+  -->
+   (<op> ^kind non-atomic)
+}
+
+
+sp {elaborate*wait-for*location*action
+   (state <s> ^name op_wait-for
+   	      ^superstate.operator <sop>)
+   (<sop> ^name op_wait-for
+   	 ^argument1 <obj>)
+-->
+   (<s> ^argument <obj>
+   	^time 10)
+}
+
+sp {wait-for*propose*initialize-count
+   (state <s> ^name op_wait-for
+   	      ^time <any>
+	      -^count)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name initiate-count)
+}
+
+sp {wait-for*apply*initialize-count
+   (state <s> ^name op_wait-for
+   	      ^operator.name initiate-count)
+-->
+   (<s> ^count 0)
+}
+ 
+sp {wait-for*propose*update-count
+   (state <s> ^name op_wait-for
+   	      ^count <any>)
+-->
+   (<s> ^operator <op> + >)
+   (<op> ^name update-count)
+}
+
+sp {wait-for*apply*update-count
+   (state <s> ^name op_wait-for
+   	      ^operator.name update-count
+	      ^count <c>)
+-->
+   (<s> ^count <c> -
+   	^count (+ <c> 1))
+}  	 
+
+sp {wait-for*change*argument*state
+   (state <s> ^count <c>
+   	      ^time <c>
+	      ^argument <obj>
+	      ^name op_wait-for)
+-->
+   (<obj> ^state cooked)
+}
+	 
+   

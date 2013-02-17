@@ -1,15 +1,98 @@
 ### detect track-relation success (based on the action-model) ### HACKY, only one track relation
-sp {new-operator*elaborate*track-desired
-   (state <s> ^desired <d>)
--->
-   (<s> ^track-desired <dt>)
-}
+# sp {new-operator*elaborate*track-desired
+#    (state <s> ^desired <d>)
+# -->
+#    (<s> ^track-desired <dt>)
+# }
  
+# sp {new-operator*detect*track-relation*success
+#    (state <s> ^desired <d>
+#    	      ^track-relation <tr>
+# 	      ^track-desired <track-desired>)
+#    (<d> ^track-relation <dtr>)
+#    (<dtr> ^p1 <val1>
+#    	  ^p2 <val2>
+# 	  ^spatial-relationship <prep>)
+#    (<tr> ^complete success
+#    	 ^object1 <val3>
+# 	 ^object2 <val4>
+# 	 ^vpredicate <prep>)
+#    (<val1> ^focus <fval1>)
+#    (<val2> ^focus <fval2>)
+#    (<val3> ^focus <fval1>)
+#    (<val4> ^focus <fval2>)
+# -->
+#    (<track-desired> ^success <dtr>)
+# }
+
+# sp {new-operator*detect*achieve-state-predicate*success
+#    (state <s> ^desired <d>
+#    	      ^<state> <sobj>
+# 	      ^track-desired <track>)
+#    (<d> ^achieve-state-predicate <asp>)
+#    (<asp> ^object <obj>
+#    	  ^state <state>)
+#    (<sobj> ^focus <f1>)
+#    (<obj> ^focus <f1>)
+# -->
+#    (<track> ^success <asp>)
+# }
+
+# ### detect success one predicate on desired 
+# sp {new-operator*state*success*1
+#    (state <s> ^desired <d>
+#    	      ^track-desired <track>)
+#    (<d> ^<arg> <val>
+#    	^count 1)
+#    (<track> ^success <val>)
+# -->
+#    (<s> ^success <d>)
+# }
+
+# ### detect success two predicate on desired 
+# sp {new-operator*state*success*2
+#    (state <s> ^desired <d>
+#    	      ^track-desired <track>)
+#    (<d> ^<arg1> <val1>
+#    	^<arg2> {<val2> > <val1>}
+#    	^count 2)
+#    (<track> ^success <val1>
+#    	    ^success <val2>)
+# -->
+#    (<s> ^success <d>)
+# }
+
+
+# ### detect success three predicate on desired 
+# sp {new-operator*state*success*3
+#    (state <s> ^desired <d>
+#    	      ^track-desired <track>)
+#    (<d> ^<arg1> <val1>
+#    	^<arg2> {<val2> > <val1>}
+# 	^<arg3> {<val3> > <val2>}
+#    	^count 3)
+#    (<track> ^success <val1>
+#    	    ^success <val2>
+# 	    ^success <val3>)
+# -->
+#    (<s> ^success <d>)
+# }
+
+# sp {new-operator*detect*track-relation*success*propose
+#    (state <s> ^desired <d>
+# 	      ^duplicate-of <ss>
+# 	      ^superstate.operator.superoperator <spo>)
+#    (<s> ^success <d>)
+# -->
+#    (<ss> ^operator <spo> + >)
+# }
+   
+
 sp {new-operator*detect*track-relation*success
    (state <s> ^desired <d>
-   	      ^track-relation <tr>
-	      ^track-desired <track-desired>)
-   (<d> ^track-relation <dtr>)
+   	      ^track-relation <tr>)
+   (<d> ^track-relation <dtr>
+   	-^achieve-state-predicate)
    (<dtr> ^p1 <val1>
    	  ^p2 <val2>
 	  ^spatial-relationship <prep>)
@@ -22,58 +105,44 @@ sp {new-operator*detect*track-relation*success
    (<val3> ^focus <fval1>)
    (<val4> ^focus <fval2>)
 -->
-   (<track-desired> ^success <dtr>)
+   (<s> ^success <d>)
 }
+
 
 sp {new-operator*detect*achieve-state-predicate*success
    (state <s> ^desired <d>
-   	      ^<state> <sobj>
-	      ^track-desired <track>)
-   (<d> ^achieve-state-predicate <asp>)
+   	      ^<state> <sobj>)
+   (<d> ^achieve-state-predicate <asp>
+   	-^track-relation)
    (<asp> ^object <obj>
    	  ^state <state>)
    (<sobj> ^focus <f1>)
    (<obj> ^focus <f1>)
 -->
-   (<track> ^success <asp>)
-}
-
-### detect success one predicate on desired 
-sp {new-operator*state*success*1
-   (state <s> ^desired <d>
-   	      ^track-desired <track>)
-   (<d> ^<arg> <val>
-   	^count 1)
-   (<track> ^success <val>)
--->
    (<s> ^success <d>)
 }
 
-### detect success two predicate on desired 
-sp {new-operator*state*success*2
+sp {new-operator*detect*achieve-state-predicate*track-relation-success
    (state <s> ^desired <d>
-   	      ^track-desired <track>)
-   (<d> ^<arg1> <val1>
-   	^<arg2> {<val2> > <val1>}
-   	^count 2)
-   (<track> ^success <val1>
-   	    ^success <val2>)
--->
-   (<s> ^success <d>)
-}
-
-
-### detect success three predicate on desired 
-sp {new-operator*state*success*3
-   (state <s> ^desired <d>
-   	      ^track-desired <track>)
-   (<d> ^<arg1> <val1>
-   	^<arg2> {<val2> > <val1>}
-	^<arg3> {<val3> > <val2>}
-   	^count 3)
-   (<track> ^success <val1>
-   	    ^success <val2>
-	    ^success <val3>)
+   	      ^<state> <sobj>
+	      ^track-relation <tr>)
+   (<d> ^achieve-state-predicate <asp>
+   	^track-relation <dtr>)
+   (<asp> ^object <obj>
+   	  ^state <state>)
+   (<sobj> ^focus <f1>)
+   (<obj> ^focus <f1>)
+   (<dtr> ^p1 <val1>
+   	  ^p2 <val2>
+	  ^spatial-relationship <prep>)
+   (<tr> ^complete success
+   	 ^object1 <val3>
+	 ^object2 <val4>
+	 ^vpredicate <prep>)
+   (<val1> ^focus <fval1>)
+   (<val2> ^focus <fval2>)
+   (<val3> ^focus <fval1>)
+   (<val4> ^focus <fval2>)
 -->
    (<s> ^success <d>)
 }
@@ -87,13 +156,13 @@ sp {new-operator*state*success*3
 #    (<ss> ^operator <spo> + >)
 # }
    
-
 #### if the retrived episode is the recent learning episode, implies that the agent was not given more instructions and the desired goal was not achieved. Clear the interaction stack, prompt the instructor to restart
 sp {new-operator*detect*goal-failure
    (state <s> ^learning-operator <oname>
 	      ^name selection
 	      ^epmem.result.retrieved.interaction.stack.segment.purpose <p>
-	      ^topstate <ts>)
+	      ^topstate <ts>
+	      ^quiescence t)
    (<p> -^indexed-operator <any>
    	^satisfaction.learning-event.type explanation)
    (<ts> ^status <status>)
@@ -107,7 +176,8 @@ sp {new-operator*detect*goal-failure
 sp {delete*failed*explanation*topstate
    (state <s> ^topstate <s>
    	      ^failed explanation
-	      ^operator.category communication)
+	      ^operator.category communication
+	      ^quiescence t)
 -->
    (<s> ^failed explanation -)
 }

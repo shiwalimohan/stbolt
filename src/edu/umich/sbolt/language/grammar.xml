@@ -84,7 +84,7 @@
 		<Tag>SEN</Tag>
 		<EntityType>Sentence</EntityType>
 	</Pattern>
-		<Pattern name="SimpleCommand">
+	<Pattern name="SimpleCommand">
 		<Regex>(VB\d*)</Regex>
 		<Tag>CMD</Tag>
 		<EntityType>SimpleCommand</EntityType>

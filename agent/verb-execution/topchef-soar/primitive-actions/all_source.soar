@@ -1,6 +1,6 @@
-pushd ./point
-source all_source.soar
-popd
+# pushd ./point
+# source all_source.soar
+# popd
 
 pushd ./pick-up
 source all_source.soar
@@ -23,7 +23,7 @@ pushd ./turn
 source all_source.soar
 popd
 
-pushd ./wait-until-state
+pushd ./wait-for-state
 source all_source.soar
 popd
 

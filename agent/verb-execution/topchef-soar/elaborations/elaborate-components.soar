@@ -27,21 +27,10 @@ sp {elaborate*objects*blocks
    (<obj> ^category block)
 }
 
-### SM: copy properties to a higher level
-sp {elaborate*copy*property
-   (state <s> ^topstate <s>)
-   (<s> ^object <obj>)
-   (<obj> ^property <prop>)
-   (<prop> ^type visual
-   	   ^name <cat>
-	   ^label <label>)
--->
-   (<obj> ^<cat> <label>)
-}
-
 ### copy objects to substate, if not in language problem-space
 sp {copy*objects
    (state <s> ^superstate <ss>
+   	  -^superstate.operator.name assign-goal
       	  -^problem-space << lgsoar message-interpretation >>
 	  -^name explain 
 	  -^name assign-goal
@@ -59,7 +48,7 @@ sp {copy*objects
 sp {elaborate*grabbed*object
    (state <s> ^self <self>
    	      ^object <obj>
-              ^topstate <s>)
+          ^topstate <s>)
    (<self> ^grabbed-object <id> <> -1)
    (<obj> ^id <id>
    	  ^category block)
@@ -77,7 +66,8 @@ sp {copy*grabbed
 
 ## copy track-relations to substates
 sp {copy*track-relations
-   (state <s> ^superstate.track-relation <rel>)
+   (state <s> ^superstate.track-relation <rel>
+   	      ^io)
 -->
    (<s> ^track-relation <rel>)
 }
@@ -141,24 +131,40 @@ sp {elaborate*state*property*heat*off
 }
 
 
+#### elaborate not-track-relation, assumes that at a time only one relation will be tracked !!! this might not work more generally !!
 
-#### elaborate no-track-relation, assumes that at a time only one relation will be tracked !!!! this might not work more generally!!! 
 sp {elaborate*no-track*relation
    (state <s> ^name
-   	      ^object
+   	      ^object 
 	      ^io)
- -{(<s> ^track-relation <any>)
-   (<any> ^complete success)}
+  -{(<s> ^track-relation <any>)
+    (<any> ^complete success)}
 -->
    (<s> ^not-tracking-relations true)
 }
 
 sp {elaborate*no-track*relation*superstate
-   (state <s> ^superstate <ss>
-   	      ^applicatios)
+   (state <s> ^superstate <ss>)
    (<ss> ^not-tracking-relations true
- 	      ^io)
+   	 ^io)
 -->
    (<s> ^not-tracking-relations true)
 }
 
+
+### elaborate cooked object
+sp {elaborate*cooked*object
+   (state <s> ^topstate <s>
+   	      ^object <obj>)
+   (<obj> ^state cooked)
+-->
+   (<s> ^cooked <obj>)
+}
+
+### copy cooked object
+sp {copy*cooked*object
+   (state <s> ^superstate.cooked <obj>
+   	      ^io)
+-->
+   (<s> ^cooked <obj>)
+}

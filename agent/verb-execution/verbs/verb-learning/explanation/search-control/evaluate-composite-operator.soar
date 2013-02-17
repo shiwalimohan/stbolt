@@ -1,0 +1,37 @@
+### if indexed-operator is of category composite-action, create evaluate-operator from the corresponding problem-space-operator
+
+
+
+### 
+sp {create*forward-project-operator*indexed-operator*composite-action
+   (state <s> ^name selection
+	      ^superstate <ss>)
+   (<ss> ^problem-space-operator <psop>
+   	 ^problem-space <ps>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name evaluate-operator
+   	 ^superoperator <psop>
+	 ^superstate <ss>
+	 ^superproblem-space <ps>)
+}
+
+### 
+
+sp {propose*operator*evaluate-success
+   (state <s> ^name selection
+   	      ^superstate <ss>
+	      ^evaluation <e1>)
+   (<ss> ^desired <eb>	  
+   	 ^problem-space-operator <psop>)
+   (<e1> ^symbolic-value success
+   	 ^desired <eb>
+	 ^superoperator <psop>)
+-->
+   (<ss> ^operator <psop> +)
+}
+   
+	      
+	      
+   	      
+   	      

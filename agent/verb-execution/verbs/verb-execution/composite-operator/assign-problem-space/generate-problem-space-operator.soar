@@ -43,7 +43,6 @@ sp {instantiate*problem-space*operator*arguments*2
 #	  ^<arg2> (make-constant-symbol)
 	  ^<arg1> <obj1>
 	  ^<arg2> <obj2>
-	  ^_metadata.map-id <map>
 	  ^category composite-action)
    (<s> ^wait-for-completion <op-temp>)
 }
