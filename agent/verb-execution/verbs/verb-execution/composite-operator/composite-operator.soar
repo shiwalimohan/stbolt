@@ -113,7 +113,7 @@ sp {composite-operator*propose*assign-goal
    	 ^long-term-id <glid>
 	 ^category explanation
 	 ^superoperator <sop>
-	      ^procedural-id <proc-id>)
+	 ^procedural-id <proc-id>)
 }
 
 

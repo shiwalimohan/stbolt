@@ -1,7 +1,5 @@
 ### if indexed-operator is of category composite-action, create evaluate-operator from the corresponding problem-space-operator
 
-
-
 ### 
 sp {create*forward-project-operator*indexed-operator*composite-action
    (state <s> ^name selection
@@ -30,8 +28,5 @@ sp {propose*operator*evaluate-success
 -->
    (<ss> ^operator <psop> +)
 }
-   
-	      
-	      
-   	      
-   	      
+
+

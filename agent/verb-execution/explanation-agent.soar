@@ -1,6 +1,8 @@
-
 #### set learning
 smem --set learning on
+#### set parameters
+## smem --set activation-mode base-level
+## smem --set base-decay 0.05
 ### requires new SMem
 #smem --set activation-mode maximal-constraint 
 
