@@ -25,6 +25,7 @@ sp {elaborate*explain*query
    	 ^segment <top>)
 -->
    (<s> ^segment <top>)
+
 } 
 
 ## in the explain operator, query episodic memory for the time when segment top was first seen on the top of the stack
@@ -40,29 +41,14 @@ sp {explain*retrieve*episode*episodic*memory*2
 
 ### if the retrieval is successful; copy all the relevant attributes from the retrieved episode to this state
 
-sp {explain*copy*retrieved*episode*objects
+sp {explain*copy*retrieved*episode*object
    (state <s> ^name explain
    	      ^epmem.result <res>)
    (<res> ^retrieved <ret>
-   	  ^memory-id <mem-id>) 
+   	  ^memory-id <mem-id>)
    (<ret> ^object <obj>)
    -->
    (<s> ^object <obj>)
-}
-
-
-sp {explain*copy*retrieved*episode*arguments
-   (state <s> ^name explain
-   	      ^epmem.result <res>
-	      ^segment.purpose.indexed-operator <iop>)
-   (<res> ^retrieved <ret>
-   	  ^memory-id <mem-id>) 
-   (<iop> ^<arg> <iobj>)
-   (<ret> ^object <obj>)
-   (<iobj> ^id <id>)
-   (<obj> ^id <id>)
-   -->
-   (<s> ^<arg> <obj>)
 }
 
 sp {explain*copy*retrieved*episode*open*object
@@ -118,7 +104,7 @@ sp {explain*copy*retrieved*episode*self
 
 ### in the generated state, propose the composite-operator being learned on the segment
 sp {explain*propose*segment-verb
-   (state <s> #^name explain
+   (state <s> ^name explain
    	      ^segment <seg>)
    (<seg> ^purpose <p>)
    (<p> ^indexed-operator <map-op>) 
@@ -132,27 +118,19 @@ sp {explain*propose*segment-verb
 	     ^_metadata <met>)
 }
 
-## copy objects to the new operator
-sp {explain*copy*objects
-   (state <s> ^segment <seg>	
-   	      ^{<arg> <> closed <> off <> object} <obj>
-	      ^operator <op>)
-   (<obj> ^bbox <b>)
--->
-   (<op> ^<arg> <obj>)
-}
- 
-### 
-sp {segment*verb*force-learn
-   (state <s> ^name <sname>
-   	      ^superstate <ss>)
-   (<ss> ^segment <seg>)
-   (<seg> ^purpose <p>)
-   (<p> ^indexed-operator <map-op>) 
+sp {explain*propose*segment-verb*elaborate
+   (state <s> ^name explain
+   	      ^segment.purpose.indexed-operator <map-op>	
+	      ^operator <op> +
+	      ^object <obj>)
+   (<op> ^name <name>)
    (<map-op> ^name <name>
-   	     ^_metadata <met>)
--->
-   (force-learn <s>)
+   	     ^<arg> <val>)
+   (<val> ^id <id>)
+   (<obj> ^id <id>)
+   -->
+   (<op> ^<arg> <obj>)
+   (<obj> ^focus (concat <name> <arg>))
 }
 
 
@@ -166,11 +144,9 @@ sp {composite-operator*mark-success
    (<ss> ^name explain
    	 ^operator <sop>)
 -->
-   (<ss> ^operator <sop> +
-   	 ^explain success)
-    #	 ^successful-explanation <sname>
-    #	 ^category explanation)
-  # (<ss> ^successful-explanation <sop>)
+   (<ss> ^operator <sop>
+   	 ^successful-explanation <sname>
+	 ^category explanation)
 }
 
 
