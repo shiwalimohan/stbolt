@@ -1,0 +1,64 @@
+###################################################
+# PARAMETERS 
+# Testing constraints
+######################################################
+sp {explanation-agent*elaborate*testing*constraints
+   (state <s> ^superstate nil
+              ^operator.name init-agent)
+-->
+   (<s> ^use-task-knowledge true)
+   (<s> ^use-activation-context true)
+   (<s> ^use-dialog-context false)
+}
+
+
+########################################################
+# Counters
+#    Collect Data!
+########################################################
+
+sp {explanation-agent*apply*init-agent*create*counters
+   (state <s> ^superstate nil
+              ^operator.name init-agent)
+-->
+   (<s> ^number-of-indexes 0
+        ^number-of-indexing-failures 0
+        ^counted-index-operator <o1>
+        ^counted-push-seg-operator <o2>)
+}
+
+sp {index-object*apply*increment*counter
+   (state <s> ^operator <o>
+              ^topstate <top>)
+   (<o> ^name index-object)
+   (<top> ^number-of-indexes <num>
+          ^counted-index-operator {<old-o> <> <o>})
+-->
+   (<top> ^number-of-indexes <num> -
+          ^number-of-indexes (+ <num> 1)
+          ^counted-index-operator <old-o> -
+          ^counted-index-operator <o>)
+}
+
+sp {push-segment*apply*increment*failure*counter
+   (state <s> ^topstate <s>
+              ^operator <o>
+              ^number-of-indexing-failures <num>
+              ^counted-push-seg-operator {<old-o> <> <o>})
+   (<o> ^name push-segment
+        ^purpose.context.cause which-question)
+-->
+   (<s> ^number-of-indexing-failures <num> -
+        ^number-of-indexing-failures (+ <num> 1)
+        ^counted-push-seg-operator <old-o> -
+        ^counted-push-seg-operator <o>)
+}
+
+sp {elaborate*report-interaction*counters
+   (state <s> ^io.output-link.report-interaction <rep>
+              ^number-of-indexing-failures <fails>
+              ^number-of-indexes <indexes>)
+-->
+   (<rep> ^num-indexes <indexes>
+          ^num-failures <fails>)
+}
