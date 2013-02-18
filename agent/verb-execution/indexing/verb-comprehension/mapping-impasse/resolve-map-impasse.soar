@@ -44,9 +44,10 @@ sp {multiple*argument*match*elaborate*which-question*operator
 	 ^which-operator <wop>)
 -->
    (<wop> ^name which-question
-   	 ^object <obj>
-	 ^index-object-context <con>
-	 ^category indexing)
+   	  ^object <obj>
+	  ^index-object-context <con>
+	  ^category indexing
+	  ^indexed-operator <iop>)
 }
 
 sp {multiple*argument*match*propose*which-question*operator

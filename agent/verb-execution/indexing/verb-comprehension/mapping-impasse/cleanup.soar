@@ -44,8 +44,10 @@ sp {which-question*status*verb
 
 ### delete the indexed operator 
 sp {multiple*argument*match*delete*indexed-operator
-   (state <s> ^operator.name which-question
+   (state <s> ^operator <o>
    	      ^topstate.interaction.stack.segment.purpose <p>)
+   (<o> ^name which-question
+   	^indexed-operator <op>)
    (<p> ^indexed-operator <op>)
 -->
    (<op> ^clear true)
