@@ -45,6 +45,7 @@ sp {propose*index*argument*state
 	 ^cue <sprep>
 	 ^argument <arg>
 	 ^return-all false
+	 ^allow-ties true
 	 ^context-id (concat <info> <argattr>)
 	 ^status <stat>)
 }

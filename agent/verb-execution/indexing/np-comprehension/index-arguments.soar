@@ -9,14 +9,18 @@ sp {elaborate*index-arguments
 	  ^connector <con>
 	  ^argument <obj>
 	  ^context-id <con-id>
-	  ^status <stat>)
+	  ^status <stat>
+	  ^return-all <rall>
+	  ^allow-ties <at>)
 -->
   (<s> ^cue <cue>
        ^connector <con>
        ^argument <obj>
        ^context-id <con-id>
        ^status <stat>
-       ^partial-order <po>)
+       ^partial-order <po>
+       ^return-all <rall>
+       ^allow-ties <at>)
   (<po> ^verb-argument <con>)
 }
 
@@ -26,14 +30,14 @@ sp {propose*index-object*perceptual
    	      ^argument <arg>
 	      -^match <any>
 	      ^connector <con>
-	      ^context-id <con-id>)
+	      ^context-id <con-id>
+	      ^return-all <rall>)
 -->
    (<s> ^operator <o> +)
    (<o> ^name index-object
 	^category indexing
 	^use-interaction true
   	^infer-match true # AM: Allows index-object to guess a match if there is only one partial match
-#	^return-all true
 	^object <arg>
 	^context-id <con-id>)
 }
@@ -42,7 +46,9 @@ sp {index-argument*preceptual*elaborate*index-object*return-all*true
    (state <s> ^name index-argument
               ^operator <o> +
               ^topstate.use-task-knowledge true
-              ^argument <arg>)
+              ^argument <arg>
+	      ^return-all true
+	      ^allow-tie false)
    (<o> ^object <arg>)
 -->
    (<o> ^return-all true
@@ -53,7 +59,21 @@ sp {index-argument*preceptual*elaborate*index-object*return-all*false
    (state <s> ^name index-argument
               ^operator <o> +
               ^topstate.use-task-knowledge false
-              ^argument <arg>)
+              ^argument <arg>
+	      ^return-all true
+	      ^allow-ties false)
+   (<o> ^object <arg>)
+-->
+   (<o> ^return-all false
+        ^allow-ties true)
+}
+
+sp {index-argument*preceptual*elaborate*index-object*goal
+   (state <s> ^name index-argument
+              ^operator <o> +
+              ^argument <arg>
+	      ^return-all false
+	      ^allow-tie true)
    (<o> ^object <arg>)
 -->
    (<o> ^return-all false

@@ -75,6 +75,7 @@ sp {propose*index*argument*relation
 	 ^argument <arg>
 	 ^context-id (concat <info> <argattr>)
 	 ^return-all false
+	 ^allow-ties true
 	 ^status <stat>
 	 ^category indexing)
 }

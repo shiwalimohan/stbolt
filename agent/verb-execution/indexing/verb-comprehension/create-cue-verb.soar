@@ -52,6 +52,8 @@ sp {propose*index-argument*direct-object
 	 ^argument <do>
 	 ^category indexing
 	 ^context-id direct-object
+	 ^return-all true
+	 ^allow-ties false
 	 ^status <stat>)
 }
 
@@ -91,6 +93,8 @@ sp {propose*index-argument*preposition*object
 	 ^argument <obj>
 	 ^connector <p>
 	 ^category indexing
+	 ^return-all true
+	 ^allow-ties false
 	 ^context-id <p>
 	 ^status <stat>)
 }
