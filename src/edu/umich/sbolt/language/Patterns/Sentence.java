@@ -30,7 +30,7 @@ public class Sentence extends LinguisticEntity{
 		p = Pattern.compile("REL\\d*");
 		m = p.matcher(string);
 		if(m.find()){
-			type = "object-relation-info";
+			type = null;
 			component = (ObjectRelation)tagsToWords.get(m.group());
 		}
 		
