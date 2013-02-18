@@ -1,5 +1,5 @@
 #!BechtelFormat
-} Click on #0
+} Click on #2 then click on #0
 > This is red
 > This triangle
 > The one in the stove
@@ -16,7 +16,7 @@
 > This is an arch
 > This green object
 > The one in the table
-> What color is this?
+> What color is this
 > That green object
 > The green arch
 > The one in the table
@@ -27,11 +27,11 @@
 > The red triangle in the stove
 > Point to that cylinder
 > The one in the pantry
-> :is it in the stove?
+> :is it in the stove
 > That blue object
 > The cylinder
 > The one in the pantry
-> :is it left-of that green arch?
+> :is it left-of that green arch
 > That blue object
 > The cylinder
 > The one in the pantry
@@ -40,7 +40,7 @@
 > The blue object
 > The cylinder
 > The one in the pantry
-> :the goal is it is in the garbage
+> :goal is it is in the garbage
 > The blue object
 > The cylinder
 > The one in the pantry
@@ -54,7 +54,8 @@
 > The cylinder
 > The one in the pantry
 > You are done
-> Pick up the green arch in the pantry
+> Pick up the green arch
+> The one in the pantry
 > :put it right-of the garbage 
 > The green object
 > The arch
