@@ -72,7 +72,7 @@ sp {apply*push-single-word-response*clear*start-clear-stack
 sp {apply*push-single-word-response*status*start-clear-stack
    (state <s> ^operator <o>)
    (<o> ^name push-single-word-response
-        ^response status
+        ^response report
         ^message <msg>)
 -->
    (<msg> ^purpose <p>)

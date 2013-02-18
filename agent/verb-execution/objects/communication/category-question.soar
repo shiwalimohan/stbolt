@@ -65,7 +65,8 @@ sp {category-question*apply*index-object*failure
 # Do category question
 sp {category-question*propose*lookup-smem
 	(state <s> ^name category-question
-            ^topstate.interaction.stack.segment.purpose <p>)
+            ^topstate.interaction.stack.segment.purpose <p>
+            ^this-object <obj>)
 	(<p> ^type category-question
       	 ^parameters.category <cat-name>)
 -->
@@ -73,31 +74,10 @@ sp {category-question*propose*lookup-smem
     (<o> ^name lookup-smem
          ^lookup-type word
          ^category smem
-         ^category <cat-name>)
+         ^category <cat-name>
+         ^object <obj>)
 }
 
-sp {category-question*elaborate*lookup-smem*object*pointed
-   	(state <s> ^name category-question
-               ^operator <o> +
-               ^topstate.interaction.stack.segment.purpose.type category-question
-               ^io.input-link.pointed-object <obj-id>
-               ^topstate.object <obj>)
-    (<o> ^name lookup-smem)
-    (<obj> ^id <obj-id>)
--->
-    (<o> ^object <obj>)
-}
-
-sp {category-question*elaborate*lookup-smem*object*only-one
-   	(state <s> ^name category-question
-               ^operator <o> +
-               ^topstate.interaction.stack.segment.purpose.type category-question
-               ^topstate.object <obj>
-              -^topstate.object <> <obj>)
-    (<o> ^name lookup-smem)
--->
-    (<o> ^object <obj>)
-}
 
 sp {category-question*elaborate*lookup-smem*query
    (state <s> ^name category-question

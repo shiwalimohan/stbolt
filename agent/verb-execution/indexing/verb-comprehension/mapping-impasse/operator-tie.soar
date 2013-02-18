@@ -83,7 +83,7 @@ sp {break-op-tie*based*on*preference*DEF*no-prefrence
 	      ^indexed-operator <iop>
 	      ^object-description <desc>)
    (<iop> ^_metadata.partial-order <po>)
-   (<desc> ^specifier DEF)
+   (<desc> ^specifier << it this that DEF the >>)
    (<po> ^operator-argument <arg>
    	 ^<pref1> <obj1>
 	 -^{<pref2> > <pref1>} {<obj2> <> <obj1>})

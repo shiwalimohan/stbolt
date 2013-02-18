@@ -33,9 +33,31 @@ sp {propose*index-object*perceptual
 	^category indexing
 	^use-interaction true
   	^infer-match true # AM: Allows index-object to guess a match if there is only one partial match
-	^return-all true
+#	^return-all true
 	^object <arg>
 	^context-id <con-id>)
+}
+
+sp {index-argument*preceptual*elaborate*index-object*return-all*true
+   (state <s> ^name index-argument
+              ^operator <o> +
+              ^topstate.use-task-knowledge true
+              ^argument <arg>)
+   (<o> ^object <arg>)
+-->
+   (<o> ^return-all true
+        ^allow-ties false)
+}
+
+sp {index-argument*preceptual*elaborate*index-object*return-all*false
+   (state <s> ^name index-argument
+              ^operator <o> +
+              ^topstate.use-task-knowledge false
+              ^argument <arg>)
+   (<o> ^object <arg>)
+-->
+   (<o> ^return-all false
+        ^allow-ties true)
 }
 
 sp {write*matched*object*superstate

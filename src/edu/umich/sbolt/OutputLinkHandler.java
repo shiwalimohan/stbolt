@@ -383,7 +383,20 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		String verb = WMUtil.getValueOfAttribute(context, "verb");
     		message = "Please tell me what the goal of '" + verb + "'is.";
     	}
+    	
     	ChatFrame.Singleton().addMessage(message, ActionType.Agent);
+    	
+    	// AM: Added for referents testing
+    	String numIndexes = WMUtil.getValueOfAttribute(id, "num-indexes");
+    	String numFailures = WMUtil.getValueOfAttribute(id, "num-failures");
+    	if(numIndexes != null && numFailures != null){
+    		Integer ni = Integer.parseInt(numIndexes);
+    		Integer nf = Integer.parseInt(numFailures);
+    		String report = "INDEXING SUCCESS: (" + (ni-nf) + "/" + ni + ")";
+    		ChatFrame.Singleton().addMessage(report, ActionType.UiAction);
+    	}
+    	
+    	
         id.CreateStringWME("status", "complete");
     }
 }

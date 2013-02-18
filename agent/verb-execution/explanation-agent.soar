@@ -56,7 +56,11 @@ popd
 
 source default.soar
 source preferences.soar
+source resolving-referents-testing.soar
 ##source chunking.soar
+
+
+
 
 
 sp {propose*init-agent

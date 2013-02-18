@@ -185,7 +185,8 @@ sp {complete-index-object*apply*which-question*create*status
    (state <s> ^name complete-index-object
               ^operator.name which-question
               ^topstate.status <status>
-              ^context <context>)
+              ^context <context>
+              ^quiescence t)
    (<context> ^description <desc>)
    (<desc> ^word)
 -->
