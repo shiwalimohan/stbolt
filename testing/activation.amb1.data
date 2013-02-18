@@ -1,0 +1,85 @@
+56:48:832 Agent: Waiting for next command...
+57:46:315 MentorAction: Click on #2 then click on #0
+57:57:130 Mentor: This is red
+57:58:864 Agent: Okay.
+57:58:894 Agent: I am idle and waiting for you to initiate a new interaction
+57:58:897 UiAction: INDEXING SUCCESS: (1/1)
+58:01:218 MentorAction: Click on #1
+58:04:498 Mentor: This is blue
+58:06:273 Agent: Okay.
+58:06:301 Agent: I am idle and waiting for you to initiate a new interaction
+58:06:303 UiAction: INDEXING SUCCESS: (2/2)
+58:08:498 Mentor: :it is left-of the red triangle
+58:09:144 Agent: Which  object?
+58:10:178 Mentor: This blue object
+58:13:241 Agent: Okay.
+58:13:268 Agent: I am idle and waiting for you to initiate a new interaction
+58:13:270 UiAction: INDEXING SUCCESS: (4/5)
+58:18:410 MentorAction: Click on #2
+58:21:370 Mentor: This is an arch
+58:23:177 Agent: Okay.
+58:23:207 Agent: I am idle and waiting for you to initiate a new interaction
+58:23:208 UiAction: INDEXING SUCCESS: (5/6)
+58:26:218 Mentor: What color is this
+58:27:829 Agent: blue
+58:27:858 Agent: I am idle and waiting for you to initiate a new interaction
+58:27:860 UiAction: INDEXING SUCCESS: (6/7)
+58:30:906 Mentor: :it is below the red triangle
+58:31:533 Agent: Which  object?
+58:33:426 Mentor: The green object
+58:36:310 Agent: Okay.
+58:36:339 Agent: I am idle and waiting for you to initiate a new interaction
+58:36:340 UiAction: INDEXING SUCCESS: (8/10)
+58:43:713 Mentor: Point to that cylinder
+58:46:255 Agent: Waiting for next command...
+58:49:377 Mentor: :is it in the stove
+58:50:892 Agent: No
+58:50:921 Agent: I am idle and waiting for you to initiate a new interaction
+58:50:922 UiAction: INDEXING SUCCESS: (11/13)
+58:54:689 Mentor: :is it left-of that green arch
+58:56:546 Agent: No
+58:56:575 Agent: I am idle and waiting for you to initiate a new interaction
+58:56:577 UiAction: INDEXING SUCCESS: (13/15)
+59:01:185 Mentor: :move it to the garbage
+59:02:999 Agent: Which  object?
+59:04:753 Mentor: The blue object
+59:07:188 Agent: What is the goal of the action?
+59:09:945 Mentor: :goal is it is in the garbage
+59:12:164 Agent: What action should I take next?
+59:16:665 Mentor: :pick it
+59:17:800 Agent: Which  object?
+59:19:073 Mentor: The blue object
+59:24:128 Agent: What action should I take next?
+59:26:585 Mentor: :put it in the garbage
+59:30:020 Agent: What action should I take next?
+59:36:937 Mentor: You are done
+59:39:442 Agent: Waiting for next command...
+59:40:785 Mentor: Pick up the green arch
+59:45:671 Agent: Waiting for next command...
+59:52:081 Mentor: :put it right-of the garbage
+59:55:303 Agent: Waiting for next command...
+00:00:033 Mentor: Close the pantry
+00:02:366 Agent: Which  pantry?
+00:02:368 MentorAction: Click on #0
+00:06:809 Mentor: Store that red triangle
+00:09:584 Agent: What is the goal of the action?
+00:11:913 Mentor: :goal is it is in the pantry and the pantry is closed
+00:14:872 Agent: What action should I take next?
+00:18:265 Mentor: :pick it
+00:19:409 Agent: Which  object?
+00:20:809 Mentor: That red one
+00:25:943 Agent: What action should I take next?
+00:29:369 Mentor: Open the pantry
+00:32:336 Agent: What action should I take next?
+00:37:817 Mentor: :put it in the pantry
+00:41:347 Agent: What action should I take next?
+00:46:449 Mentor: Close the pantry
+00:49:610 Agent: What action should I take next?
+00:51:113 Mentor: You are done
+00:53:948 Agent: I see multiple examples of ' pantry' and I need clarification
+00:53:949     Script finished.
+00:53:951 UiAction: INDEXING SUCCESS: (32/38)
+01:53:312 Mentor: report
+01:53:800 Agent: I see multiple examples of ' pantry' and I need clarification
+01:53:802 UiAction: INDEXING SUCCESS: (32/38)
+
