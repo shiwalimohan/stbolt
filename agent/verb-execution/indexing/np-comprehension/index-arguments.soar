@@ -48,7 +48,7 @@ sp {index-argument*preceptual*elaborate*index-object*return-all*true
               ^topstate.use-task-knowledge true
               ^argument <arg>
 	      ^return-all true
-	      ^allow-tie false)
+	      ^allow-ties false)
    (<o> ^object <arg>)
 -->
    (<o> ^return-all true
@@ -73,7 +73,7 @@ sp {index-argument*preceptual*elaborate*index-object*goal
               ^operator <o> +
               ^argument <arg>
 	      ^return-all false
-	      ^allow-tie true)
+	      ^allow-ties true)
    (<o> ^object <arg>)
 -->
    (<o> ^return-all false
