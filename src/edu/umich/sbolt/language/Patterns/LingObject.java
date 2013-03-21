@@ -19,6 +19,7 @@ public class LingObject extends LinguisticEntity {
 	private Set<String> adjective;
 	private String pronoun = null;
 	private String noun;
+	private Identifier rootId;
 	
 	public String getDeterminer(){
 	    return determiner;
@@ -34,6 +35,10 @@ public class LingObject extends LinguisticEntity {
 	
 	public String getPronoun(){
 		return pronoun;
+	}
+	
+	public Identifier getRoot(){
+		return rootId;
 	}
 	
 	public void extractLinguisticComponents(String string, Map tagsToWords){
@@ -68,7 +73,14 @@ public class LingObject extends LinguisticEntity {
 //		id.CreateStringWME("type", "object-message");
 	    // id.CreateStringWME("originator", "instructor");
 	  //  Identifier fieldsId = id.CreateIdWME("information");
-		Identifier objectId = id.CreateIdWME(connectingString);
+		Identifier objectId;
+		if(connectingString == null){
+			id.CreateStringWME("type", "object-message");
+			Identifier infoId = id.CreateIdWME("information");
+			objectId = infoId.CreateIdWME("object");
+		} else {
+			objectId = id.CreateIdWME(connectingString);
+		}
 		if (noun != null){
 			objectId.CreateStringWME("word", noun);
 		}
@@ -87,6 +99,7 @@ public class LingObject extends LinguisticEntity {
 		if (pronoun != null){
 			objectId.CreateStringWME("specifier", pronoun);
 		}
+		rootId = objectId;
 	}
 	
 	public static LingObject createFromSoarSpeak(Identifier id){

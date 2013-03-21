@@ -62,15 +62,14 @@ public class RelationQuestion extends LinguisticEntity{
 		messageId.CreateStringWME("type", "object-is-question");
 		Identifier infoId = messageId.CreateIdWME("information");
 		
-		Identifier objId1 = infoId.CreateIdWME("object");
-		object1.translateToSoarSpeak(objId1, null);
+		object1.translateToSoarSpeak(infoId, "object");
 		
 		Identifier relId = infoId.CreateIdWME("relation");
 		relId.CreateStringWME("word", preposition);
 		relId.CreateStringWME("questioned", "true");
 		// P1
 		Identifier p1Id = relId.CreateIdWME("p1");
-		p1Id.CreateSharedIdWME("object", objId1);
+		p1Id.CreateSharedIdWME("object", object1.getRoot());
 		// P2
 		Identifier objId2 = relId.CreateIdWME("p2");
 		object2.translateToSoarSpeak(objId2, "object");
