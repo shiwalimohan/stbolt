@@ -1,0 +1,161 @@
+49:27:356 Agent: Waiting for next command...
+10:56:180 MentorAction: Click on #2 then click on #0
+11:00:995 Mentor: This is red
+11:02:770 Agent: Which  object?
+11:03:675 Mentor: This triangle
+11:05:346 Agent: Which  triangle?
+11:06:579 Mentor: The one in the stove
+11:09:241 Agent: Okay.
+11:09:243 MentorAction: Click on #1
+11:09:272 Agent: I am idle and waiting for you to initiate a new interaction
+11:09:273 UiAction: INDEXING SUCCESS: (1/3)
+11:16:979 Mentor: This is blue
+11:18:765 Agent: Which  object?
+11:19:963 Mentor: This cylinder
+11:21:640 Agent: Which  cylinder?
+11:22:539 Mentor: The one in the pantry
+11:25:220 Agent: Okay.
+11:25:249 Agent: I am idle and waiting for you to initiate a new interaction
+11:25:251 UiAction: INDEXING SUCCESS: (2/6)
+11:26:563 Mentor: :it is left-of the red triangle
+11:27:327 Agent: Which  object?
+11:28:338 Mentor: This blue object
+11:30:225 Agent: Which  blue object?
+11:30:954 Mentor: The cylinder
+11:32:592 Agent: Which  blue cylinder?
+11:33:458 Mentor: The one in the pantry
+11:36:690 Agent: Which  red triangle?
+11:37:994 Mentor: The one in the stove
+11:40:826 Agent: Okay.
+11:40:827 MentorAction: Click on #2
+11:40:859 Agent: I am idle and waiting for you to initiate a new interaction
+11:40:861 UiAction: INDEXING SUCCESS: (4/12)
+11:44:738 Mentor: This is an arch
+11:46:551 Agent: Which  object?
+11:47:290 Mentor: This green object
+11:49:206 Agent: Which  green object?
+11:49:738 Mentor: The one in the table
+11:52:436 Agent: Okay.
+11:52:475 Agent: I am idle and waiting for you to initiate a new interaction
+11:52:476 UiAction: INDEXING SUCCESS: (5/15)
+11:54:754 Mentor: What color is this
+11:56:631 Agent: Which  object?
+11:57:482 Mentor: That green object
+11:59:424 Agent: Which  green object?
+12:00:194 Mentor: The green arch
+12:02:026 Agent: Which  green arch?
+12:03:170 Mentor: The one in the table
+12:05:628 Agent: green
+12:05:659 Agent: I am idle and waiting for you to initiate a new interaction
+12:05:661 UiAction: INDEXING SUCCESS: (6/19)
+12:07:570 Mentor: :it is below the red triangle
+12:08:351 Agent: Which  object?
+12:09:402 Mentor: The green object
+12:11:318 Agent: Which  green object?
+12:12:298 Mentor: The arch
+12:13:949 Agent: Which  green arch?
+12:14:874 Mentor: The one in the table
+12:18:154 Agent: Which  red triangle?
+12:19:234 Mentor: The red triangle in the stove
+12:21:941 Agent: Okay.
+12:21:975 Agent: I am idle and waiting for you to initiate a new interaction
+12:21:976 UiAction: INDEXING SUCCESS: (8/25)
+12:23:578 Mentor: Point to that cylinder
+12:26:040 Agent: Which  cylinder?
+12:27:090 Mentor: The one in the pantry
+12:30:224 Agent: Waiting for next command...
+12:32:066 Mentor: :is it in the stove
+12:32:832 Agent: Which  object?
+12:33:722 Mentor: That blue object
+12:35:608 Agent: Which  blue object?
+12:36:986 Mentor: The cylinder
+12:38:668 Agent: Which  blue cylinder?
+12:39:354 Mentor: The one in the pantry
+12:42:482 Agent: No
+12:42:512 Agent: I am idle and waiting for you to initiate a new interaction
+12:42:513 UiAction: INDEXING SUCCESS: (11/32)
+12:43:794 Mentor: :is it left-of that green arch
+12:44:573 Agent: Which  object?
+12:45:394 Mentor: That blue object
+12:47:291 Agent: Which  blue object?
+12:47:890 Mentor: The cylinder
+12:49:547 Agent: Which  blue cylinder?
+12:50:298 Mentor: The one in the pantry
+12:53:590 Agent: Which  green arch?
+12:54:346 Mentor: The green arch in the table
+12:57:315 Agent: No
+12:57:346 Agent: I am idle and waiting for you to initiate a new interaction
+12:57:348 UiAction: INDEXING SUCCESS: (13/38)
+12:59:058 Mentor: :move it to the garbage
+13:00:958 Agent: Which  object?
+13:01:914 Mentor: The blue object
+13:04:299 Agent: Which  blue object?
+13:05:187 Mentor: The cylinder
+13:07:334 Agent: Which  blue cylinder?
+13:08:730 Mentor: The one in the pantry
+13:11:983 Agent: What is the goal of the action?
+13:16:338 Mentor: :goal is it is in the garbage
+13:17:993 Agent: Which  object?
+13:18:882 Mentor: The blue object
+13:21:550 Agent: Which  blue object?
+13:22:098 Mentor: The cylinder
+13:24:516 Agent: Which  blue cylinder?
+13:26:002 Mentor: The one in the pantry
+13:30:025 Agent: What action should I take next?
+13:30:802 Mentor: Open the pantry
+13:33:591 Agent: What action should I take next?
+13:34:554 Mentor: :pick it
+13:35:934 Agent: Which  object?
+13:37:298 Mentor: The blue object
+13:39:718 Agent: Which  blue object?
+13:41:442 Mentor: The cylinder
+13:43:617 Agent: Which  blue cylinder?
+13:45:026 Mentor: The one in the pantry
+13:50:794 Agent: What action should I take next?
+13:51:890 Mentor: :put it in the garbage
+13:55:397 Agent: What action should I take next?
+14:00:098 Mentor: You are done
+14:03:759 Agent: Waiting for next command...
+14:04:697 Mentor: Pick up the green arch
+14:07:462 Agent: Which  green arch?
+14:08:209 Mentor: The one in the table
+14:13:559 Agent: Waiting for next command...
+14:15:097 Mentor: :put it right-of the garbage
+14:18:423 Agent: Waiting for next command...
+14:19:802 Mentor: The green object
+14:33:857 Mentor: Close the pantry
+14:36:422 Agent: Waiting for next command...
+14:36:424 MentorAction: Click on #0
+14:38:625 Mentor: Store that red triangle
+14:41:447 Agent: Which  red triangle?
+14:42:201 Mentor: The one in the stove
+14:45:368 Agent: What is the goal of the action?
+14:46:209 Mentor: :goal is it is in the pantry and the pantry is closed
+14:48:012 Agent: Which  object?
+14:48:601 Mentor: The red one
+14:51:011 Agent: Which  red object?
+14:51:689 Mentor: The triangle
+14:53:876 Agent: Which  red triangle?
+14:54:609 Mentor: The one in the stove
+14:58:854 Agent: What action should I take next?
+14:59:753 Mentor: :pick it
+15:01:172 Agent: Which  object?
+15:02:041 Mentor: That red one
+15:04:523 Agent: Which  red object?
+15:05:153 Mentor: The triangle
+15:07:379 Agent: Which  red triangle?
+15:08:425 Mentor: The one in the stove
+15:14:324 Agent: What action should I take next?
+15:15:497 Mentor: Open the pantry
+15:18:513 Agent: What action should I take next?
+15:19:377 Mentor: :put it in the pantry
+15:23:004 Agent: What action should I take next?
+15:26:305 Mentor: Close the pantry
+15:29:252 Agent: What action should I take next?
+15:30:009 Mentor: You are done
+15:34:992 Agent: Waiting for next command...
+15:34:993     Script finished.
+15:35:793 Mentor: report
+15:36:305 Agent: I am idle and waiting for you to initiate a new interaction
+15:36:306 UiAction: INDEXING SUCCESS: (37/79)
+
