@@ -43,65 +43,79 @@ public class PerceptualProperty implements IInputLinkElement
 	
 	public static String getCategoryType(String categoryName){
 		if(categoryName.equals("weight")){
-			return "measurable-prop";
+			return "measurable";
 		} else {
-			return "visual-prop";
+			return "visual";
 		}
 	}
     
-    // Root identifier for the category
+    // Root identifier for the property
     protected Identifier propertyID;
     
-    // Name of the category
-    protected Integer categoryType;
+    // Type (visual or measurable)
+    protected StringElement typeWME;
     
-    // String WME for the identifier
+    // Name
+    protected int nameID;
+    protected String name;
     protected StringElement nameWME;
     
-    // Labels and confidences
-    protected HashMap<String, Double> labels;
+    // Values
+    protected Identifier valuesID;
+    protected HashMap<String, Double> values;
+    protected HashMap<String, FloatElement> valueWMEs;
     
-    protected HashMap<String, FloatElement> labelWMEs;
-    
+    // Features
     protected Identifier featuresID;
-    
     protected ArrayList<Double> features;
-    
     protected ArrayList<FloatElement> featureWMEs;
 
     public PerceptualProperty(categorized_data_t category){
     	propertyID = null;
+    	
+    	typeWME = null;
+    	
+    	nameID = category.cat.cat;
+    	name = getCategoryName(category.cat.cat);
     	nameWME = null;
-    	categoryType = category.cat.cat;
-    	labels = new HashMap<String, Double>();
-    	labelWMEs = new HashMap<String, FloatElement>();
+    	
+    	valuesID = null;
+    	values = new HashMap<String, Double>();
+    	valueWMEs = new HashMap<String, FloatElement>();
+    	
     	featuresID = null;
     	features = new ArrayList<Double>();
     	featureWMEs = new ArrayList<FloatElement>();
+    	
     	updateCategoryInfo(category);
-    }
-    
-    public Integer getType(){
-    	return categoryType;
     }
     
     // Accessors
     public String getName(){
-        return getCategoryName(categoryType);
+        return name;
     }
     
-    public HashMap<String, Double> getLabels(){
-    	return labels;
+    public HashMap<String, Double> getValues(){
+    	return values;
     }
-
-    // Mutators
 
     @Override
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
     	if(propertyID == null){
-    		propertyID = parentIdentifier.CreateIdWME(getCategoryType(getName()));
-    		nameWME = propertyID.CreateStringWME("category", getName());
+    		// Root
+    		propertyID = parentIdentifier.CreateIdWME("property");
+    		
+    		// Type
+    		typeWME = propertyID.CreateStringWME("type", getCategoryType(name));
+    		
+    		// Name
+    		nameWME = propertyID.CreateStringWME("name", name);
+    		
+    		// Values
+    		valuesID = propertyID.CreateIdWME("values");
+    		
+    		// Features
     		if(features.size() > 0){
         		featuresID = propertyID.CreateIdWME("features");
         		for(int i = 0; i < features.size(); i++){
@@ -120,27 +134,27 @@ public class PerceptualProperty implements IInputLinkElement
     		}
     	}
     	
-    	Set<String> labelsToDestroy = new HashSet<String>();
-    	for(String label : labelWMEs.keySet()){
-    		labelsToDestroy.add(label);
+    	Set<String> valuesToDestroy = new HashSet<String>();
+    	for(String label : valueWMEs.keySet()){
+    		valuesToDestroy.add(label);
     	}
     	
-    	for(Map.Entry<String, Double> label : labels.entrySet()){
-    		if(labelsToDestroy.contains(label.getKey())){
+    	for(Map.Entry<String, Double> label : values.entrySet()){
+    		if(valuesToDestroy.contains(label.getKey())){
     			// That WME already exists, update it
-    			labelsToDestroy.remove(label.getKey());
-    			FloatElement labelWME = labelWMEs.get(label.getKey());
+    			valuesToDestroy.remove(label.getKey());
+    			FloatElement labelWME = valueWMEs.get(label.getKey());
     			if(labelWME.GetValue() != label.getValue()){
     				labelWME.Update(label.getValue());
     			}
     		} else {
-    			labelWMEs.put(label.getKey(), propertyID.CreateFloatWME(label.getKey(), label.getValue()));
+    			valueWMEs.put(label.getKey(), valuesID.CreateFloatWME(label.getKey(), label.getValue()));
     		}
     	}
     	
-    	for(String label : labelsToDestroy){
-    		labelWMEs.get(label).DestroyWME();
-    		labelWMEs.remove(label);
+    	for(String label : valuesToDestroy){
+    		valueWMEs.get(label).DestroyWME();
+    		valueWMEs.remove(label);
     	}
     }
 
@@ -148,37 +162,37 @@ public class PerceptualProperty implements IInputLinkElement
     public synchronized void destroy()
     {
     	if(propertyID != null){
-    		for(Map.Entry<String, FloatElement> wme : labelWMEs.entrySet()){
-    			//wme.getValue().DestroyWME();
-    		}
-    		labelWMEs.clear();
-    		//nameWME.DestroyWME();
-    		//nameWME = null;
+    		valueWMEs.clear();
+    		values.clear();
+    		featureWMEs.clear();
+    		features.clear();
     		propertyID.DestroyWME();
     		propertyID = null;
-    		//featuresID.DestroyWME();
-    		//featuresID = null;
     	}
     }
     
     public synchronized void updateCategoryInfo(categorized_data_t category){
-    	if(category.cat.cat != categoryType){
+    	if(category.cat.cat != nameID){
     		return;
     	}
-    	Set<String> labelsToRemove = new HashSet<String>();
-    	for(String label : labels.keySet()){
-    		labelsToRemove.add(label);
+    	Set<String> valuesToRemove = new HashSet<String>();
+    	for(String label : values.keySet()){
+    		valuesToRemove.add(label);
     	}
     	for(int i = 0; i < category.len; i++){
-    		if(labelsToRemove.contains(category.label[i].toLowerCase())){
-    			labelsToRemove.remove(category.label[i].toLowerCase());
+    		if(category.confidence[i] < .05){
+    			// Ignore values that are really low
+    			continue;
     		}
-			labels.put(category.label[i].toLowerCase(), category.confidence[i]);
+    		if(valuesToRemove.contains(category.label[i].toLowerCase())){
+    			valuesToRemove.remove(category.label[i].toLowerCase());
+    		}
+			values.put(category.label[i].toLowerCase(), category.confidence[i]);
 			// AM: only consider the first one
 			break;
     	}
-    	for(String label : labelsToRemove){
-    		labels.remove(label);
+    	for(String label : valuesToRemove){
+    		values.remove(label);
     	}
     	for(int i = 0; i < category.num_features; i++){
     		if(i >= features.size()){

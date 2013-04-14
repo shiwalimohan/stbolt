@@ -37,3 +37,6 @@ popd
 
 # Souce file "choose-candidate-sets.soar"
 source choose-candidate-sets.soar
+
+# Souce file "attend-to-scene.soar"
+source attend-to-scene.soar

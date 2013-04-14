@@ -1,9 +1,44 @@
+# 0: create-context
+sp {index-object*prefer*create-context*more
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name create-context)
+   (<o2> ^name << lookup-word add-candidates attend-to-scene find-matches >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# 1: lookup-word
 sp {index-object*prefer*lookup*over*add-candidates
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name lookup-smem)
-   (<o2> ^name add-candidates)
+   (<o1> ^name lookup-word)
+   (<o2> ^name << add-candidates attend-to-scene find-matches >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# 2: attend-to-scene (create-delete)
+sp {index-object*prefer*attend-to-scene*create-delete
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name attend-to-scene
+         ^type create-delete)
+   (<o2> ^name << add-candidates find-matches >>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}                  
+
+# 3: add-candidates (focus > activation > all)
+sp {index-object*prefer*add-candidates*over*find-matches
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-candidates)
+   (<o2> ^name find-matches)
 -->
    (<s> ^operator <o1> > <o2>)
 }
@@ -32,18 +67,32 @@ sp {index-object*add-candidates*activation*over*all
    (<s> ^operator <o1> > <o2>)
 }
 
-sp {index-object*prefer*add-candidates*over*find-matches
+# 4: attend-to-scene (candidates)
+sp {index-object*preferattend-to-scene*candidates*more
    (state <s> ^name index-object
               ^operator <o1> +
               ^operator <o2> +)
-   (<o1> ^name add-candidates
-         ^object-to-index <obj>)
-   (<o2> ^name find-matches
-         ^object-to-index <obj>)
+   (<o1> ^name attend-to-scene
+         ^type candidates)
+   (<o2> ^name find-matches)
 -->
    (<s> ^operator <o1> > <o2>)
 }
 
+sp {index-object*preferattend-to-scene*candidates*less
+   (state <s> ^name index-object
+              ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name add-candidates)
+   (<o2> ^name attend-to-scene
+         ^type candidates)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+
+# 5: find-matches
+
+# Last: complete-index-object
 sp {index-object*prefer*all*over*complete-index-object
    (state <s> ^name index-object
               ^operator <o1> +

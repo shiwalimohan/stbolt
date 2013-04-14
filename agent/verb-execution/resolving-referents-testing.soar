@@ -6,9 +6,9 @@ sp {explanation-agent*elaborate*testing*constraints
    (state <s> ^superstate nil
               ^operator.name init-agent)
 -->
-   (<s> ^use-task-knowledge false)
-   (<s> ^use-activation-context false)
-   (<s> ^use-dialog-context false)
+   (<s> ^use-task-knowledge true)
+   (<s> ^use-activation-context true)
+   (<s> ^use-dialog-context true)
 }
 
 

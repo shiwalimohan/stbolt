@@ -1,6 +1,4 @@
-
-# call: index-object
-sp {this-object-message*propose*index-object*this
+sp {this-object-message*propose*index-object
    (state <s> ^name this-object-message
              -^this-object)
 -->
@@ -13,12 +11,12 @@ sp {this-object-message*propose*index-object*this
         ^allow-ties true)
 }
 
-sp {this-object-message*apply*index-object*success
+sp {this-object-message*apply*index-object
    (state <s> ^name this-object-message
               ^operator <o>)
    (<o> ^name index-object
         ^finished true
-        ^match {<obj> <> failure})
+        ^match <obj>)
 -->
    (<s> ^this-object <obj>)
 }
@@ -26,20 +24,13 @@ sp {this-object-message*apply*index-object*success
 sp {this-object-message*apply*index-object*success*store*referent
    (state <s> ^name this-object-message
               ^operator <o>
-              ^topstate.interaction.stack.segment.info <info>)
+              ^topstate.interaction.stack.segment.info <info>
+              ^smem.command <cmd>)
    (<o> ^name index-object
         ^finished true
         ^match {<obj> <> failure})
+   (<obj> ^smem-rep <rep>)
 -->
    (<info> ^referent-object <obj>)
-}
-
-sp {this-object-message*apply*index-object*failure
-   (state <s> ^name this-object-message
-              ^operator <o>)
-   (<o> ^name index-object
-        ^finished true
-        ^match failure)
--->
-   (<s> ^this-object failure)
+   (<cmd> ^store <rep>)
 }

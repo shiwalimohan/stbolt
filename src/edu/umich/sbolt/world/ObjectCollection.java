@@ -83,27 +83,6 @@ public class ObjectCollection implements IInputLinkElement
             }   
         }
         
-        // update each object from the sensables
-        for(String sensable : observation.sensables){
-            sensable = sensable.toLowerCase();
-            
-            Integer id = Integer.parseInt(WorldObject.getSensableId(sensable));
-            if(id == null){
-                continue;
-            }
-            objectsToRemove.remove(id);
-            WorldObject object = objects.get(id);
-            if(object == null){
-                object = new WorldObject(sensable);
-                objects.put(id, object);
-                SVSConnector.Singleton().addObject(object);
-            } else {
-            	synchronized(object){
-                    object.newSensableString(sensable);
-            	}
-            }   
-        }
-        
         for(Integer id : objectsToRemove){
         	SVSConnector.Singleton().removeObject(objects.get(id));
             objects.get(id).destroy();

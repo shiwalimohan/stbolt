@@ -23,10 +23,10 @@ source elaborations.soar
 source preferences.soar
 
 # For each visual property we look up the english word associated with the internal label
-source lookup-word.soar
-
-# We also determine the 'name' or base noun for the object
-source lookup-name.soar
+source lookup-label.soar
 
 # Creates the result structure and copies it to the superoperator
 source complete-describe-object.soar
+
+# Souce file "attend-to-scene.soar"
+source attend-to-scene.soar

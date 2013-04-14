@@ -1,0 +1,13 @@
+
+
+# Souce file "create-state-prop.soar"
+source create-state-prop.soar
+
+# Souce file "create-state-value.soar"
+source create-state-value.soar
+
+# Souce file "delete-state-prop.soar"
+source delete-state-prop.soar
+
+# Souce file "delete-state-value.soar"
+source delete-state-value.soar

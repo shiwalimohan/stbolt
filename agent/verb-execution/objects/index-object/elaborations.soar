@@ -23,6 +23,7 @@ sp {index-object*elaborate*object*desired*no-relation
    (<obj> ^desired true)
 }
 
+
 sp {index-object*elaborate*object-to-index
    (state <s> ^name index-object
               ^index-object-context.object <obj>)
@@ -30,21 +31,9 @@ sp {index-object*elaborate*object-to-index
    (<s> ^object-to-index <oti>)
    (<oti> ^description <obj>
           ^candidates <c>
-          ^matches <m>
-          ^smem-cue <cue>)
-   (<cue> ^wme-type object)
+          ^matches <m>)
 }
 
-sp {index-object*elaborate*object-to-index*smem-cue*label
-   (state <s> ^name index-object
-              ^object-to-index <obj>)
-   (<obj> ^description.property <prop>
-          ^smem-cue <cue>)
-   (<prop> ^category <cat>
-           ^label <label>)
--->
-   (<cue> ^<cat> <label>)
-}
 
 # It's a match if it is a visual match and also
 # Matches all the relations

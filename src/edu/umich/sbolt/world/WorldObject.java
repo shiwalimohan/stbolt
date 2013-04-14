@@ -16,26 +16,7 @@ import sml.*;
  * 
  */
 public class WorldObject implements IInputLinkElement
-{
-    public static String getSensableId(String sensable){
-        // Matches against id=ID followed by a comma, whitespace, or end of string
-        // Assumes ID consists of numbers
-        sensable = sensable.toLowerCase();
-        Pattern p = Pattern.compile("id=(\\p{Digit})+(,|\\s|\\Z)");
-        Matcher m = p.matcher(sensable);
-        if(!m.find()){
-            return null;
-        }
-        // m.group() returns a string like "id=ID,"
-        // we trim, then split to get the actual ID
-        String[] id = m.group().trim().split("(id=)|,");
-        if(id.length < 2){
-            return null;
-        }
-        //Note that the first element will be the empty string, we want the second
-        return id[1];
-    }
-    
+{    
     
     // Root identifier for the object
     protected Identifier objectId;
@@ -62,18 +43,9 @@ public class WorldObject implements IInputLinkElement
     protected boolean isNew;
     protected boolean hasChanged;
     
-    public WorldObject(String sensable){
-        initMembers();
-        newSensableString(sensable);
-    }
     
     public WorldObject(object_data_t object){
-        initMembers();
-        newObjectData(object);
-    }
-    
-    private void initMembers(){
-        objectId = null;
+    	objectId = null;
         idWME = null;
         nameWME = null;
         
@@ -84,6 +56,8 @@ public class WorldObject implements IInputLinkElement
         stateProperties = new HashMap<String, StateProperty>();
         perceptualProperties = new HashMap<String, PerceptualProperty>();
         isNew = true;
+        
+        newObjectData(object);
     }
     
     // Accessors
@@ -158,66 +132,13 @@ public class WorldObject implements IInputLinkElement
         }
     }
     
-    public synchronized void newSensableString(String sensable){
-        sensable = sensable.toLowerCase();
-        String[] keyValPairs = sensable.split(",");
-        
-        for (String keyValPair : keyValPairs)
-        {
-            String[] keyVal = keyValPair.split("=");
-            if (keyVal.length < 2)
-            {
-                // Note a valid key-val pair, must be "key=value"
-                continue;
-            }
-
-            if (keyVal[0].equals("id"))
-            {
-                id = Integer.parseInt(keyVal[1]);
-            } else if(keyVal[0].equals("pose")){
-                if (!pose.equals(keyVal[1]))
-                {
-                    hasChanged = true;
-                }
-                
-                pose.updateWithString(keyVal[1]);
-                continue;
-            } else if(keyVal[0].equals("name")){
-            	name = keyVal[1].toLowerCase();
-            } else if(keyVal[0].equals("bbox")){
-            	bbox.updateWithString(keyVal[1]);
-            	continue;
-            } else {
-            	categorized_data_t category = new categorized_data_t();
-            	String categoryName = keyVal[0].toLowerCase();
-            	category.cat = new category_t();
-            	Integer catType = PerceptualProperty.getCategoryID(categoryName);
-            	if(catType == null){
-            		updateProperty(keyVal[0], keyVal[1]);
-            		continue;
-            	}
-            	category.cat.cat = catType;
-            	category.len = 1;
-            	category.label = new String[1];
-            	category.label[0] = keyVal[1].toLowerCase();
-            	category.confidence = new double[1];
-            	category.confidence[0] = 1;
-            	if(perceptualProperties.containsKey(categoryName)){
-            		perceptualProperties.get(categoryName).updateCategoryInfo(category);
-            	} else {
-            		perceptualProperties.put(categoryName, new PerceptualProperty(category));
-            	}
-            }        
-        }
-    }
-    
     public void updateProperty(String name, String value){
     	name = name.toLowerCase();
     	value = value.toLowerCase();
     	if(stateProperties.containsKey(name)){
     		stateProperties.get(name).update(value);
     	} else {
-    		stateProperties.put(name, new StateProperty("state", name, value));
+    		stateProperties.put(name, new StateProperty(name, value));
     	}
     }
 
@@ -242,6 +163,15 @@ public class WorldObject implements IInputLinkElement
         		propertiesToRemove.remove(propName);
         	} else {
         		perceptualProperties.put(propName, new PerceptualProperty(category));
+        	}
+        }
+        
+        for(String label : objectData.labels){
+        	String[] split = label.toLowerCase().split("=");
+        	if(split[0].equals("name")){
+        		name = split[1];
+        	} else {
+        		updateProperty(split[0], split[1]);
         	}
         }
         

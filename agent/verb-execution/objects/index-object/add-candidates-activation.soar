@@ -53,10 +53,10 @@ sp {index-object*apply*add-candidates*add*prohibit
    (<o> ^name add-candidates
         ^candidate-type activation
         ^object-to-index.candidates.candidate <cand>)
-   (<cand> ^object <obj>
+   (<cand> ^object.smem-rep <rep>
            ^pref > 0)
 -->
-   (<cmd> ^prohibit <obj>)
+   (<cmd> ^prohibit <rep>)
 }
 
 sp {index-object*apply*add-candidates*activation*failure*stop
@@ -114,6 +114,3 @@ sp {index-object*apply*add-candidates*activation*success
    (<candidate> ^object <obj>
                 ^pref (+ <num> 1))
 }
-
-
-

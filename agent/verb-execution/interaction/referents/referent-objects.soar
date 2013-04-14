@@ -36,8 +36,9 @@ sp {store*objects*for*activation
 	      ^topstate <s>)
    (<op> ^<arg> <obj>
    	 ^category << primitive-action composite-action >>)
+   (<obj> ^smem-rep <rep>)
 -->
-   (<scomm> ^store <obj>)
+   (<scomm> ^store <rep>)
 }
 
 ##semantic memory commands

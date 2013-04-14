@@ -12,10 +12,7 @@ sp {this-object-message*apply*complete-this-object-message
               ^operator.name complete-this-object-message
               ^topstate.status <status>)
 -->
-   #(<status> ^performed.learning-event object)
-   # AM: Changed performed structure
-   (<status> ^performed.learning-event <e>)
-   (<e> ^type object)
+   (<status> ^performed.learning-event.type object)
 }
 
 sp {this-object-message*apply*complete-this-object-message*confirmation

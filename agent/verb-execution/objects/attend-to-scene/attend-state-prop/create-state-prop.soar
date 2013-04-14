@@ -1,0 +1,43 @@
+sp {attend-to-scene*propose*create-state-prop
+   (state <s> ^name attend-to-scene
+              ^object-pair <op>
+              ^parameters.create-delete-only falses)
+   (<op> ^il <il-obj>
+         ^ts <ts-obj>)
+   (<il-obj> ^property <il-prop>)
+   (<il-prop> ^type state
+              ^name <prop-name>)
+   (<ts-obj> -^property.name <prop-name>)
+-->
+   (<s> ^operator <o> + =)
+   (<o> ^name create-state-prop
+        ^category object-processing
+        ^level property
+        ^property <il-prop>
+        ^object <ts-obj>)
+}
+
+sp {attend-to-scene*reject*create-state-prop*not-specified
+   (state <s> ^name attend-to-scene
+              ^parameters <p>
+              ^operator <o> +)
+   (<o> ^name create-state-prop
+        ^property.name <name>)
+   (<p> ^use-all-properties false
+       -^use-property <name>)
+-->
+   (<s> ^operator <o> -)
+}
+
+sp {attend-to-scene*apply*create-state-prop
+   (state <s> ^name attend-to-scene
+              ^operator <o>)
+   (<o> ^name create-state-prop
+        ^property <prop>
+        ^object <obj>)
+   (<prop> ^name <prop-name>)
+-->
+   (<obj> ^property <prop-copy>)
+   (<prop-copy> ^name <prop-name>
+                ^type state)
+}

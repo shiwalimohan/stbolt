@@ -178,6 +178,12 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
                 try {
                     obs = new observations_t(ins);
                     world.newObservation(obs);
+                    if(!obs.ack_nums.isEmpty()){
+                        String[] acks = obs.ack_nums.split(",");
+                        for(String ack : acks){
+                        	SBolt.Singleton().outputLink.getAcks(Integer.parseInt(ack));
+                        }
+                    }
                 }
                 catch (IOException e){
                     e.printStackTrace();
@@ -192,14 +198,8 @@ public class SBolt implements LCMSubscriber, PrintEventInterface, RunEventInterf
      */
     public static void broadcastTrainingData(List<training_label_t> newLabels)
     {
-    	if(newLabels != null){
-        	training_data_t trainingData = new training_data_t();
-        	trainingData.utime = TimeUtil.utime();
-        	trainingData.num_labels = newLabels.size();
-        	trainingData.labels = new training_label_t[newLabels.size()];
-        	for(int i = 0; i < newLabels.size(); i++){
-        		trainingData.labels[i] = newLabels.get(i);
-        	}
+    	training_data_t trainingData = SBolt.Singleton().outputLink.getTrainingData();
+    	if(trainingData != null){
         	LCM.getSingleton().publish("TRAINING_DATA", trainingData);
     	}
     }

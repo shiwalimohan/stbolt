@@ -42,26 +42,10 @@ sp {description-request*apply*index-object*success*store*referent
    (<o> ^name index-object
         ^finished true
         ^match {<obj> <> failure})
+   (<obj> ^smem-rep <rep>)
 -->
    (<info> ^referent-object <obj>)
-   (<cmd> ^store <obj>)
-}
-
-sp {description-request*apply*index-object*failure
-   (state <s> ^name description-request
-              ^operator <o>
-              ^io.output-link <out>
-              ^topstate.interaction.stack.segment.purpose.type description-request
-              ^topstate.status <status>)
-   (<o> ^name index-object
-        ^finished true
-        ^match failure)
--->
-   (<out> ^send-message <msg>)
-   (<msg> ^type no-object
-          ^fields <f>)
-   (<status> ^performed.action-event <e>)
-   (<e> ^type describe)
+   (<cmd> ^store <rep>)
 }
 
 

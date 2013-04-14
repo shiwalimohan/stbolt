@@ -1,10 +1,5 @@
-##############################################################
-# lookup-category
-#   For each property with a word, look up that word's category
-###############################################################
 
-# For each property, look up the category
-sp {index-object*propose*lookup-smem*category
+sp {index-object*propose*lookup-word
    (state <s> ^name index-object
               ^index-object-context.object.property <prop>
               ^parameters.use-interaction <ask>)
@@ -12,110 +7,91 @@ sp {index-object*propose*lookup-smem*category
             ^word <word>)
 -->
    (<s> ^operator <o> + =)
-   (<o> ^name lookup-smem
+   (<o> ^name lookup-word
         ^category smem
-        ^ask-user <ask>
-        ^lookup-type category
-        ^query <q>
-        ^desired.category true)
-   (<q> ^type word2cat ^word <word> ^category <cat>)
+        ^word <word>
+        ^use-interaction <ask>)
 }
 
 # go through words in alphabetical order
-sp {index-object*prefer*lookup-smem*category*lower-word
+sp {index-object*prefer*lookup-word*lower-word
    (state <s> ^name index-object
               ^operator <o1> + 
               ^operator <o2> +)
-   (<o1> ^name lookup-smem
-         ^lookup-type category
-         ^query.word <w1>)
-   (<o2> ^name lookup-smem
-         ^lookup-type category
-         ^query.word <w2> < <w1>)
+   (<o1> ^name lookup-word
+         ^word <w1>)
+   (<o2> ^name lookup-word
+         ^word <w2> < <w1>)
 -->
    (<s> ^operator <o1> < <o2>)
 }
 
-# lookup-category success: mark the property
-sp {index-object*apply*lookup-smem*category*success
+sp {index-object*apply*lookup-word*remove*result
    (state <s> ^name index-object
-              ^operator <o>
-              ^index-object-context.object.property <prop>)
-   (<o> ^name lookup-smem
-        ^lookup-type category
-        ^query.word <word>
-        ^result {<result> <> failure}
-       -^multiple-results)
-   (<prop> ^word <word>)
+              ^operator.name lookup-word
+              ^lookup-word-result <res>)
 -->
-   (<prop> ^category <result>)
+   (<s> ^lookup-word-result <res> -)
 }
 
-# Failed Retrieval and wont ask user, remove the property from the object
-sp {index-object*apply*lookup-smem*category*failure*remove*property
+# lookup-category success: mark the property
+sp {index-object*apply*lookup-word*success
+   (state <s> ^name index-object
+              ^operator.name lookup-word
+              ^lookup-word-result <res>
+              ^index-object-context.object.property <prop>)
+   (<res> ^word <word> ^sense <sense>)
+   (<sense> ^label <label>
+            ^property.name <prop-name>)
+   (<prop> ^word <word>)
+-->
+   (<prop> ^category <prop-name>
+           ^label <label>)
+}
+
+# If the word is a generic, remove it from the object
+sp {index-object*apply*lookup-word*remove*generic
    (state <s> ^name index-object
               ^operator <o>
               ^index-object-context.object <obj>
+              ^lookup-word-result <res>)
+   (<o> ^name lookup-word
+        ^word <word>)
+   (<obj> ^property <prop>)
+   (<prop> ^word <word>)
+   (<res> ^word <word>
+          ^sense.property.name generic)
+-->
+   (<obj> ^property <prop> -)
+}
+
+# Special case where the word is the name of the object
+sp {index-object*apply*lookup-word*copy*name
+   (state <s> ^name index-object
+              ^operator <o>
+              ^index-object-context.object <obj>
+              ^lookup-word-result <res>)
+   (<o> ^name lookup-word
+        ^word <word>)
+   (<obj> ^property <prop>)
+   (<prop> ^word <word>)
+   (<res> ^word <word>
+          ^sense.property.name name)
+-->
+   (<prop> ^category name)
+}
+
+# Failed Retrieval and wont ask user, remove the property from the object
+sp {index-object*apply*lookup-word*failure*remove*property
+   (state <s> ^name index-object
+              ^operator <o>
+              ^lookup-word-result failure
+              ^index-object-context.object <obj>
               ^parameters.use-interaction false)
-   (<o> ^name lookup-smem
-        ^lookup-type category
-        ^query.word <word>
-        ^result failure)
+   (<o> ^name lookup-word
+        ^word <word>)
    (<obj> ^property <prop>)
    (<prop> ^word <word>)
 -->
    (<obj> ^property <prop> -)
 }
-
-# IF the retrieval was a generic word, then remove it
-sp {index-object*apply*lookup-smem*category*generic*remove
-   (state <s> ^name index-object
-              ^operator <o>
-              ^index-object-context.object <obj>)
-   (<o> ^name lookup-smem
-        ^lookup-type category
-        ^query.word <word>
-        ^result generic)
-   (<obj> ^property <prop>)
-   (<prop> ^word <word>)
--->
-   (<obj> ^property <prop> -)
-}
-
-##############################################################
-# lookup-label
-#   For each word/category pair, look up the internal label
-###############################################################
-
-# Fetch the label for the category-word pair from memory
-sp {index-object*propose*lookup-smem*label
-   (state <s> ^name index-object
-              ^index-object-context.object.property <prop>)
-   (<prop> ^word <word>
-           ^category {<cat> <> name }
-          -^label)
--->
-   (<s> ^operator <o> + =)
-   (<o> ^name lookup-smem
-        ^category smem
-        ^lookup-type label
-        ^query <q>
-        ^desired.label true)
-   (<q> ^type label-map ^word <word> ^category <cat> ^label <label>)
-}
-
-# Successful retrieval - add the label to the object
-sp {index-object*apply*lookup-smem*label*success*add*to*object
-   (state <s> ^name index-object
-              ^operator <o>
-              ^index-object-context.object.property <prop>)
-   (<o> ^name lookup-smem
-        ^lookup-type label
-        ^query.word <word>
-        ^result {<label> <> failure})
-   (<prop> ^word <word>)
--->
-   (<prop> ^label <label>)
-}
-
-

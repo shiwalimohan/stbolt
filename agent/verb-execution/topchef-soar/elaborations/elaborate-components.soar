@@ -12,7 +12,9 @@ sp {elaborate*self
 sp {elaborate*objects*locations
    (state <s> ^topstate <s>)
    (<s> ^object <obj>)
-   (<obj> ^property.word << table garbage pantry stove scale >>)
+   (<obj> ^property <prop>)
+   (<prop> ^name name
+           ^word << table garbage pantry stove scale >>)
 -->
    (<obj> ^category location)
 }
@@ -22,7 +24,9 @@ sp {elaborate*objects*locations
 sp {elaborate*objects*blocks
    (state <s> ^topstate <s>)
    (<s> ^object <obj>)
-   (<obj> -^property.word << table garbage pantry stove scale >>)
+   (<obj> ^property <prop>)
+   (<prop> ^name name
+          -^word << table garbage pantry stove scale >>)
 -->
    (<obj> ^category block)
 }
@@ -89,7 +93,7 @@ sp {elaborate*object*property*open*close
    	      ^topstate <s>)
    (<obj> ^property <statprop>)
    (<statprop> ^name door
-   	       ^value <val>)
+   	       ^word <val>)
 -->
    (<obj> ^door <val>)
    (<s> ^<val> <obj>)
@@ -118,7 +122,7 @@ sp {elaborate*object*property*heat
    	      ^topstate <s>)
    (<obj> ^property <sprop>)
    (<sprop> ^name heat
-   	    ^value <val>)
+   	    ^word <val>)
 -->
    (<obj> ^heat <val>)
    (<s> ^<val> <obj>)

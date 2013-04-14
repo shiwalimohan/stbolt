@@ -23,10 +23,12 @@ public class AgentMessageParser
             message = translateCommonAttributeQuestion(fieldsId);
         } else if(type.equals("attribute-presence-question")){
             message = translateAttributePresenceQuestion(fieldsId);
-        } else if(type.equals("category-of-word")){
-            message = translateCategoryQuestion(fieldsId);
-        } else if(type.equals("category-of-property")){
-            message = translateCategoryPropertyQuestion(fieldsId);
+        } else if(type.equals("ask-property-name")){
+            message = translateAskPropertyName(fieldsId);
+        } else if(type.equals("ask-property-type")){
+            message = translateAskPropertyTypeQuestion(fieldsId);
+        } else if(type.equals("ask-comparison-type")){
+        	message = translateAskComparisonType(fieldsId);
         } else if(type.equals("how-to-measure")){
         	message = String.format("How do I measure %s?", WMUtil.getValueOfAttribute(fieldsId, "property"));
         } else if(type.equals("ambiguous-category")){
@@ -85,8 +87,6 @@ public class AgentMessageParser
     	    return "I don't know the " + obj.toString() + ". Please teach me with examples";
     	else {
     	    return "I don't see " + obj.toString() + ". Please teach me to recognize one";
-    		
-    		
     	}
     }
     
@@ -123,14 +123,19 @@ public class AgentMessageParser
         return exceptionStr + message;
     }
     
-    private static String translateCategoryQuestion(Identifier id){
+    private static String translateAskPropertyName(Identifier id){
         String word = WMUtil.getValueOfAttribute(id, "word");
         return String.format("What kind of attribute is %s?", word);
     }
 
-    private static String translateCategoryPropertyQuestion(Identifier id){
+    private static String translateAskPropertyTypeQuestion(Identifier id){
+        String property = WMUtil.getValueOfAttribute(id, "property");
+        return String.format("What type of property is %s?", property);
+    }
+
+    private static String translateAskComparisonType(Identifier id){
         String word = WMUtil.getValueOfAttribute(id, "word");
-        return String.format("What type of property is %s?", word);
+        return String.format("How do I determine what is %s?", word);
     }
     
     private static String translateAmbiguousCategory(Identifier id){

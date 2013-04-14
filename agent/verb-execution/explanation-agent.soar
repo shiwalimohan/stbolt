@@ -16,7 +16,7 @@ learn --only
 
 
 ### load configuration for indexing
-source indexing-configuration.soar
+#source indexing-configuration.soar
 
 ##### source all relevant files
 pushd ./topchef-soar

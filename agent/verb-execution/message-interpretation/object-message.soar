@@ -61,29 +61,39 @@ sp {apply*push-object-message*this-object-message
    (<sat> ^learning-event.type object)
 }
 
-# If the message is in response to a category-of-word question,
-#   learn the word2cat mapping
-sp {apply*push-object-message*learn-word2cat
-   (state <s> ^operator <o>)
+# If the message is in response to an ask-property-name question,
+#   store the result on the segment (see learning/learn-adjective)
+sp {apply*push-object-message*ask-property-name*response
+   (state <s> ^operator <o>
+              ^interaction.stack.segment.info <info>)
    (<o> ^name push-object-message
         ^message <msg>
-        ^specifier INDEF#<< none INDEF >>
-        ^object.word {<category> <> <word> <> property <> one}
+        ^specifier << none INDEF >>
+        ^object.word {<prop-name> <> <word>}
        -^relation)
    (<msg> ^context <context>)
-   (<context> ^cause category-of-word-query
+   (<context> ^cause ask-property-name
         	  ^word <word>)
 -->
-   (<msg> ^purpose <p>)
-   (<p> ^type learn-word2cat
-        ^parameters <params>
-        ^satisfaction <sat>)
-   (<params> ^category <category>
-             ^word <word>)
-        # AM: Changed satisfaction structure
-   (<sat> ^learning-event <e>)
-   (<e> ^type word2cat
-        ^word <word>)
+   (<info> ^property-name <prop-name>)
+}
+
+
+# If the message is in response to an ask-property-type question,
+#   store the result on the segment (see learning/learn-property)
+sp {apply*push-object-message*ask-property-type*response
+   (state <s> ^operator <o>
+              ^interaction.stack.segment.info <info>)
+   (<o> ^name push-object-message
+        ^message <msg>
+        ^specifier INDEF
+        ^object.word {<type> <> <property> <> property <> one}
+       -^relation)
+   (<msg> ^context <context>)
+   (<context> ^cause ask-property-type
+        	  ^property <property>)
+-->
+   (<info> ^property-type <type>)
 }
 
 

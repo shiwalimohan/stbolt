@@ -6,10 +6,10 @@ source copy-message.soar
 
 source description-request.soar
 
-source category-question.soar
-
 source which-question.soar
 
 source object-is-question.soar
+
+source property-question.soar
 
 source index-confirmation.soar

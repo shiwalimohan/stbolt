@@ -117,7 +117,7 @@ sp {apply*push-object-question*description-request
 }
 
 # Handles 'what color is this' questions
-sp {apply*push-object-question*category-question
+sp {apply*push-object-question*property-question
    (state <s> ^operator <o>)
    (<o> ^name push-object-question
         ^question-word what
@@ -127,12 +127,12 @@ sp {apply*push-object-question*category-question
 	(<obj> ^word {<word> <> UNKNOWN})
 -->
    (<msg> ^purpose <p>)
-   (<p> ^type category-question
+   (<p> ^type property-question
         ^parameters <params>
         ^satisfaction <sat>)
-   (<params> ^category <word>)
+   (<params> ^property <word>)
         # AM: Changed satisfaction structure
-   (<sat> ^dialog-event.type category-response)
+   (<sat> ^dialog-event.type property-response)
 }
 
 

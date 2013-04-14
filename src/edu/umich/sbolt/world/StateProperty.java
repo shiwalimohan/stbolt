@@ -20,10 +20,10 @@ public class StateProperty implements IInputLinkElement{
     protected String value;
     protected StringElement valueWME;
     
-    public StateProperty(String type, String name, String value){
+    public StateProperty(String name, String value){
     	propertyID = null;
     	
-    	this.type = type.toLowerCase();
+    	this.type = "state";
     	typeWME = null;
     	
     	this.name = name.toLowerCase();
@@ -51,7 +51,7 @@ public class StateProperty implements IInputLinkElement{
     public synchronized void updateInputLink(Identifier parentIdentifier)
     {
     	if(propertyID == null){
-    		propertyID = parentIdentifier.CreateIdWME("state-prop");
+    		propertyID = parentIdentifier.CreateIdWME("property");
     		typeWME = propertyID.CreateStringWME("type", type);
     		nameWME = propertyID.CreateStringWME("name", name);
     		valueWME = propertyID.CreateStringWME("value", value);

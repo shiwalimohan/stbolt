@@ -38,10 +38,11 @@ sp {index-confirmation*arm-finishes*mark-performed
               ^status <status>)
 -->
    (<status> ^performed.action-event.type home)
+   
    (<s> ^started-home true -)
 }
 
-sp {index-confirmation*arm-finishes*send-training
+sp {index-confirmation*arm-finishes*send-training*visual
    (state <s> ^topstate <s>
               ^operator.name wait-for-arm
               ^started-home true
@@ -55,8 +56,9 @@ sp {index-confirmation*arm-finishes*send-training
              ^object-desc.property <prop>
              ^response yes)
    (<prop> ^label <label>
-           ^category <cat>)
+           ^name <prop-name>
+           ^type visual)
 -->
    (<out> ^send-training-label <stl>)
-   (<stl> ^id <id> ^label <label> ^category <cat>)
+   (<stl> ^id <id> ^label <label> ^category <prop-name>)
 }

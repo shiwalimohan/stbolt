@@ -1,7 +1,6 @@
 package edu.umich.sbolt;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.soartech.bolt.testing.ActionType;
 
@@ -20,6 +19,14 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
 {
 	
     private List<training_label_t> newLabels;
+    
+    private HashMap<Integer, Identifier> waitingAcks = new HashMap<Integer, Identifier>();
+    
+    private List<Integer> newAcks = new ArrayList<Integer>();
+    
+    private List<Integer> receivedAcks = new ArrayList<Integer>();
+    
+    private int nextAckNum = 1;
 
     public OutputLinkHandler(BoltAgent boltAgent)
     {
@@ -49,6 +56,22 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
         	SBolt.broadcastTrainingData(newLabels);
         	newLabels.clear();
     	}
+    	synchronized(receivedAcks){
+        	for(Integer i : receivedAcks){
+        		if(waitingAcks.containsKey(i)){
+        			System.out.println("I GOT AN ACK!!!!" + i);
+        			waitingAcks.get(i).CreateStringWME("status", "complete");
+        			waitingAcks.remove(i);
+        		}
+        	}
+        	receivedAcks.clear();
+    	}
+    }
+    
+    public void getAcks(Integer i){
+    	synchronized(receivedAcks){
+    		receivedAcks.add(i);
+    	}
     }
     
     public List<training_label_t> extractNewLabels(){
@@ -59,6 +82,30 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     		newLabels = new ArrayList<training_label_t>();
     		return retVal;
     	}
+    }
+    
+    public training_data_t getTrainingData(){
+    	if(newLabels.size() == 0){
+    		return null;
+    	}
+    	training_data_t trainingData = new training_data_t();
+    	trainingData.utime = TimeUtil.utime();
+    	trainingData.num_labels = newLabels.size();
+    	trainingData.labels = new training_label_t[newLabels.size()];
+    	for(int i = 0; i < newLabels.size(); i++){
+    		trainingData.labels[i] = newLabels.get(i);
+    	}
+    	String acks = "";
+    	for(Integer i : newAcks){
+    		if(!acks.isEmpty()){
+    			acks += ",";
+    		}
+    		acks += i;
+    	}
+    	trainingData.ack_nums = acks;
+    	newLabels.clear();
+    	newAcks.clear();
+    	return trainingData;
     }
 
     @Override
@@ -312,25 +359,56 @@ public class OutputLinkHandler implements OutputEventInterface, RunEventInterfac
     }
     
     private void processSendTrainingLabelCommand(Identifier id){
-    	Integer objId = Integer.parseInt(WMUtil.getValueOfAttribute(id, "id", 
-    			"Error (send-training-label): No ^id attribute"));
     	String label = WMUtil.getValueOfAttribute(id, "label", 
     			"Error (send-training-label): No ^label attribute");
     	String category = WMUtil.getValueOfAttribute(id, "category", 
     			"Error (send-training-label): No ^category attribute");
+    	
+    	String objId = WMUtil.getValueOfAttribute(id, "id");
+    	Identifier fId = WMUtil.getIdentifierOfAttribute(id, "features");
+    	
     	training_label_t newLabel = new training_label_t();
-    	Integer catNum = PerceptualProperty.getCategoryID(category);
-    	if(catNum == null){
+    	newLabel.label = label;
+    	newLabel.cat = new category_t();
+    	Integer catID = PerceptualProperty.getCategoryID(category);
+    	if(catID == null){
+    		id.CreateStringWME("status", "error");
+    		return;
+    	} else {
+    		newLabel.cat.cat = catID;
+    	}
+    	
+    	if(objId != null){
+    		newLabel.id = Integer.parseInt(objId);
+    		newLabel.num_features = 0;
+    		newLabel.features = new double[0];
+    	} else if(fId != null){
+    		newLabel.id = -1;
+    		ArrayList<Double> features = new ArrayList<Double>();
+    		for(int i = 0; i < fId.GetNumberChildren(); i++){
+    			WMElement childWME = fId.GetChild(i);
+    			if(!childWME.IsIdentifier() || !childWME.GetAttribute().equals("feature")){
+    				continue;
+    			}
+    			Identifier childId = childWME.ConvertToIdentifier();
+    			Integer index = Integer.parseInt(childId.FindByAttribute("index", 0).GetValueAsString());
+    			double val = Double.parseDouble(childId.FindByAttribute("value", 0).GetValueAsString());
+    			features.add(index, val);
+    		}
+    		newLabel.num_features = features.size();
+    		newLabel.features = new double[newLabel.num_features];
+    		for(int i = 0; i < features.size(); i++){
+    			newLabel.features[i] = features.get(i);
+    		}
+    	} else {
+    		id.CreateStringWME("status", "error");
     		return;
     	}
     	
-    	newLabel.cat = new category_t();
-    	newLabel.cat.cat = catNum;
-    	newLabel.id = objId;
-    	newLabel.label = label;
-    	
     	newLabels.add(newLabel);
-    	id.CreateStringWME("status", "complete");
+    	newAcks.add(nextAckNum);
+    	waitingAcks.put(nextAckNum, id);
+    	nextAckNum++;
     }
     
     private void processPushSegmentCommand(Identifier id){
