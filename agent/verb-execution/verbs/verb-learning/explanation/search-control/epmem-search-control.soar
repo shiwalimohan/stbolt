@@ -40,7 +40,8 @@ sp {selection*elaborate*instructed*action
 }
 
 ### prefer the operator that matches the indexed operator
-sp {elaborate*attribute*match*epmem*arguments
+sp {elaborate*attribute*match*epmem*argumentssehkhar2008
+
    (state <s> ^name selection
    	      ^indexed-operator <map-op>
    	      ^operator <o> +)
@@ -51,7 +52,7 @@ sp {elaborate*attribute*match*epmem*arguments
    (<anyval> ^id <id>)
 -->
    (<o> ^matched <attr>)
-}
+} 
 
 sp {elaborate*attribute*match*epmem*name
    (state <s> ^name selection
