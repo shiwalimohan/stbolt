@@ -154,4 +154,12 @@ sp {copy*topstate*top-state
 # -->
 #    (<s> ^problem-space lgsoar)
 # }
-   
+
+
+### copy epmem id to state
+sp {copy*epmem-id
+   (state <s> ^epmem.present-id <id>)
+ -->
+   (<s> ^episodic-id <id>)
+}
+

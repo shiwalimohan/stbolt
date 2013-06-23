@@ -18,10 +18,24 @@ sp {find-next-episode*query*episodic*memory
 	      ^action-id <seg-id>)
 -->
    (<ecomm> ^query <q>)
+#   (<q> ^indexed-action-id <seg-id>)
    (<q> ^interaction.stack.segment <seg>)
    (<seg> ^action-id <seg-id>
    	  ^purpose.type external-action)
 }
+
+### print episode number on the terminal if the cue matches
+sp {write*episode*to*terminal
+   (state <s> ^interaction.stack.segment <seg>
+   	      ^epmem.present-id <pid>)
+   (<seg> ^action-id <seg-id>
+   	  ^purpose.type external-action)
+
+-->
+#   (write |detected cue: action-id | <seg-id>  |; episode number | <pid>)
+   (<s> ^indexed-action-id <seg-id>)
+}
+
 
 ### write the episode id to the superstate for retrieval
 sp {find-next-episode*write*superstate
