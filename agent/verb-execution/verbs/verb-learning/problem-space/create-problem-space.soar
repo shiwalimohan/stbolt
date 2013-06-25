@@ -23,6 +23,6 @@ sp {create-problem-space*semantic-memory
 	  -^name op_stop)
    (<nmap> ^procedural <procedural>)
 -->
-   (<p> ^operator <procedural>)
+   (<p> ^_operator <procedural>)
    (<scomm> ^store <p>)
 }
