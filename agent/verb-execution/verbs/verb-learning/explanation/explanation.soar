@@ -164,10 +164,9 @@ sp {explain*success
    (state <s> ^name explain
    	      ^successful-explanation <op-name>
 	      ^topstate.status <status>
-	      ^segment.next.purpose.satisfaction.action-event <ae>)
+	      ^segment.purpose.satisfaction.action-event <ae>)
 -->
    (<status> ^performed.learning-event <e>)
    (<e> ^type explanation
    	^information <ae>)
 }
-	      

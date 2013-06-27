@@ -26,7 +26,8 @@ sp {elaborate*instructor-message*purpose*case1
 
 sp {elaborate*instructor-message*purpose*case1*done
   (state <s> ^topstate <s>
-	       ^instructor-message <m>)
+	      ^instructor-methssage <m>
+   	      ^interaction.stack.segment.next.purpose.satisfaction.action-event <ae>)
    (<m> ^type verb-command
    	 ^information <info>)
    (<info> ^verb.word done)
@@ -37,7 +38,8 @@ sp {elaborate*instructor-message*purpose*case1*done
    	 ^satisfaction <sat>)
    # AM: Changed the satisfaction structure
    (<sat> ^learning-event <e>)
-   (<e> ^type explanation)
+   (<e> ^type explanation
+   	^information <ae>)
 }
 
 ### case 3 goal-message, purpose: to attach the concept of a goal to a verb

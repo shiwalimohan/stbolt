@@ -45,7 +45,7 @@ sp {apply*push-verb-command*normal-command
 # Result when the user says 'you are done'
 sp {apply*push-verb-command*done
    (state <s> ^operator <o>
-   	      ^interaction.stack.segment.next.purpose.satisfaction.action-event <ae>)
+   	      ^interaction.stack.segment.purpose.satisfaction.action-event <ae>)
    (<o> ^name push-verb-command
         ^message <msg>
         ^verb done)
