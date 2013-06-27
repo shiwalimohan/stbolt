@@ -1,0 +1,28 @@
+#!BechtelFormat
+< Waiting for next command...
+> Store the blue object.
+< What kind of attribute is blue?
+> a color
+< What is the goal of the action?
+> :goal is the blue object is in the pantry and the pantry is closed
+< I don't know the preposition in. Please teach me with examples
+> the blue object is in the garbage
+< Okay.
+< Please give me teaching examples of 'preposition in' and tell me 'finished' when you are done.
+> finished.
+< What action should I take next?
+> open the pantry
+< What action should I take next?
+> move the blue object to the pantry
+< What is the goal of the action?
+> the goal is the blue object in the pantry
+< What action should I take next?
+> pick up the blue object.
+< What action should I take next?
+> put the object in the pantry.
+< What action should I take next?
+> you are done.
+< What action should I take next?
+> close the pantry.
+< What action should I take next?
+> you are done
