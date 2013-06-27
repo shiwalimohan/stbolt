@@ -156,10 +156,3 @@ sp {copy*topstate*top-state
 # }
 
 
-### copy epmem id to state
-sp {copy*epmem-id
-   (state <s> ^epmem.present-id <id>)
- -->
-   (<s> ^episodic-id <id>)
-}
-

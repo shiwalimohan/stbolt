@@ -4,9 +4,9 @@ sp {find-next-episode*elaborate*segment-id
    (state <s> ^name find-next-episode
    	      ^superstate.operator <sop>)
    (<sop> ^name find-next-episode
-   	  ^action-id <seg-id>)
+   	  ^id <seg-id>)
 -->
-   (<s> ^action-id (+ 1 <seg-id>))
+   (<s> ^id (+ 1 <seg-id>))
    (dont-learn <s>)
 }
 
@@ -15,25 +15,13 @@ sp {find-next-episode*elaborate*segment-id
 sp {find-next-episode*query*episodic*memory
    (state <s> ^name find-next-episode
    	      ^epmem.command <ecomm>
-	      ^action-id <seg-id>)
+	      ^id <seg-id>)
 -->
    (<ecomm> ^query <q>)
    (<q> ^interaction.stack.segment <seg>)
-   (<seg> ^action-id <seg-id>
+   (<seg> ^id <seg-id>
    	  ^purpose.type external-action)
 }
-
-### print episode number on the terminal if the cue matches
-# sp {write*episode*to*terminal
-#    (state <s> ^interaction.stack.segment <seg>
-#    	      ^epmem.present-id <pid>)
-#    (<seg> ^action-id <seg-id>
-#    	  ^purpose.type external-action)
-
-# -->
-# #   (write |detected cue: action-id | <seg-id>  |; episode number | <pid>)
-#    (<s> ^indexed-action-id <seg-id>)
-# }
 
 
 ### write the episode id to the superstate for retrieval

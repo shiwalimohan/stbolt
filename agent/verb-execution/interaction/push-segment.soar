@@ -1,8 +1,6 @@
 #### apply push-segment on the interaction.stack
 ### substate to apply push-segment on the interaction.stack
 
-### add present-id from epmem to be able to do lookup during the explanation phase
-
 sp {push-segment*dont-learn
    (state <s> ^name push-segment)
 -->
@@ -15,9 +13,9 @@ sp {push-segment*create-segment
 	      ^epmem.present-id <eid>)
    (<ss> ^operator <sop>
    	 ^interaction <i>)
-   (<i> ^action-counter <count>
-   	^stack.segment <prev-segment>)
-   (<prev-segment> ^id <id>)
+   (<i> ^stack.segment <prev-segment>)
+   (<prev-segment> ^id <id>
+   		   ^counter <count>)
    (<sop> ^name push-segment
    	  ^originator <init>
 	  ^purpose <p>)
@@ -26,15 +24,15 @@ sp {push-segment*create-segment
    (<s> ^segment <seg>)
    (<seg> ^originator <init>
     	  ^purpose <np>
-       ^info <info>  #JK
-       ^context <context> #AM: Information about why the segment was initiated
-	  ^id ( + <id> 1)
+       	  ^info <info>  #JK
+       	  ^context <context> #AM: Information about why the segment was initiated
+	  ^id (int (concat <id> <count>))
 	  ^next <prev-segment>
 	  ^epmem-id <eid>
-	  ^action-id <count>)
+	  ^counter 1)
    (<np> ^type <type>
          ^parameters <params>
-   	^satisfaction <new-sat>)
+   	 ^satisfaction <new-sat>)
 }
 
 sp {push-segment*purpose*copy-parameters
@@ -111,6 +109,17 @@ sp {push-segment*apply*mark-as-success
    (<seg> ^next <prev-segment>)
 }
 
+sp {push-segment*increment*counter
+   (state <s> ^name push-segment
+   	      ^operator <op>
+	      ^segment <seg>
+	      ^superstate.interaction.stack.segment <prev>)
+   (<seg> ^purpose.type external-action)
+   (<prev> ^counter <count>)
+-->
+   (<prev> ^counter <count> -
+   		   ^counter (+ <count> 1))
+}
    
 # AM: Putting stack information on the output link
 sp {apply*mark-as-success*output-link

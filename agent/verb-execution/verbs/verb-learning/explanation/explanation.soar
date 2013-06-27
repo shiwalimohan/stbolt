@@ -38,6 +38,15 @@ sp {explain*retrieve*episode*episodic*memory*2
    (<epcom> ^retrieve <id>)
 } 
 
+sp {elaborate*correct*episode*segment*id*explain
+   (state <s> ^name explain
+   	      ^epmem.result <res>)
+   (<res> ^retrieved <ret>)
+   (<ret> ^interaction.stack.segment.id <id>)
+-->
+   (<s> ^relevant-segment-id (int (concat <id> 0)))
+}
+
 ### if the retrieval is successful; copy all the relevant attributes from the retrieved episode to this state
 
 sp {explain*copy*retrieved*episode*object
@@ -149,14 +158,16 @@ sp {composite-operator*mark-success
 }
 
 
-### once successful explanation has been reached; pop the pupose; see resolve-stack in conversation-manager
+### once successful explanation has been reached; pop the purpose; see resolve-stack in conversation-manager
 
 sp {explain*success
    (state <s> ^name explain
    	      ^successful-explanation <op-name>
-	      ^topstate.status <status>)
+	      ^topstate.status <status>
+	      ^segment.next.purpose.satisfaction.action-event <ae>)
 -->
    (<status> ^performed.learning-event <e>)
-   (<e> ^type explanation)
+   (<e> ^type explanation
+   	^information <ae>)
 }
 	      

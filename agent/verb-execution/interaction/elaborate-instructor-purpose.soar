@@ -17,8 +17,10 @@ sp {elaborate*instructor-message*purpose*case1
    	 ^satisfaction <sat>)
    # AM: Changed the satisfaction structure
    (<sat> ^action-event <e>
-   	   ^learning-event.type explanation)
-   (<e> ^type <info>)
+   	   ^learning-event <le>)
+    (<le> ^type explanation
+    	  ^information <e>)
+    (<e> ^type <info>)
 }
 
 
@@ -55,12 +57,16 @@ sp {elaborate*instructor-message*purpose*case3
 
 sp {elaborate*instructor-message*purpose*case2
     (state <s> ^topstate <s>
-	       ^instructor-message <m>)
+	       ^instructor-message <m>
+	       ^interaction.stack.segment.next <next>)
     (<m> ^event-type successful-completion)
+    (<next> ^purpose.satisfaction.action-event <ae>)
  -->
     (<m> ^purpose <p>)
     (<p> ^type explanation
     	 ^satisfaction <sat>)
          # AM: Changed the satisfaction structure
-    (<sat> ^learning-event.type explanation)
+    (<sat> ^learning-event <le>)
+    (<le> ^type explanation
+    	  ^information <ae>)
  }

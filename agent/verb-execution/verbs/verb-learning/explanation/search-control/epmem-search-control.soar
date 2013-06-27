@@ -2,14 +2,12 @@
 
 sp {selection*propose*find-next-sub-action
    (state <s> ^name selection
-   	      ^superstate.superstate.epmem.result <res>
+   	      ^superstate.superstate.relevant-segment-id <id>
 	      -^episode-id <eid>)
-   (<res> ^retrieved <episode>)
-   (<episode> ^interaction.stack.segment.action-id <id>)
--->
+`-->
    (<s> ^operator <op> + >)
    (<op> ^name find-next-episode
-   	 ^action-id <id>)
+   	 ^id <id>)
 }
 
 ### find-next-epiode is better than indicate-unresolved-tie
@@ -34,9 +32,12 @@ sp {selection*retrieve*next-episode
 sp {selection*elaborate*instructed*action
    (state <s> ^name selection
    	      ^epmem.result.retrieved <ret>)
-   (<ret> ^interaction.stack.segment.purpose.indexed-operator <iop>)
+   (<ret> ^interaction.stack.segment <seg>)
+   (<seg> ^purpose.indexed-operator <iop>
+   	  ^id <id>)
 -->
-   (<s> ^indexed-operator <iop>)
+   (<s> ^indexed-operator <iop>
+   	^relevant-segment-id <id>)
 }
 
 ### prefer the operator that matches the indexed operator

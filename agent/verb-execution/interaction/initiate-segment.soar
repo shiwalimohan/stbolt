@@ -3,8 +3,7 @@
 
 ### propose push-segment (purpose determined by the agent)
 sp {propose*push-segment*agent-purpose
-   (state <s> ^status <status>)
-   (<status> ^purpose <p>)
+   (state <s> ^status.purpose <p>)
 --> 
    (<s> ^operator <op> +)
    (<op> ^name push-segment

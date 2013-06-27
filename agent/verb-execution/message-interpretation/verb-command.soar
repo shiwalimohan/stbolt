@@ -35,13 +35,17 @@ sp {apply*push-verb-command*normal-command
    (<msg> ^purpose <p>)
     (<p> ^type external-action
     	 ^satisfaction <sat>)
-    (<sat> ^action-event.type <info>
-    	   ^learning-event.type explanation)
+    (<sat> ^action-event <ae>
+    	   ^learning-event <le>)
+    (<ae> ^type <info>)
+    (<le> ^type explanation
+    	  ^information <ae>) 
 }
 
 # Result when the user says 'you are done'
 sp {apply*push-verb-command*done
-   (state <s> ^operator <o>)
+   (state <s> ^operator <o>
+   	      ^interaction.stack.segment.next.purpose.satisfaction.action-event <ae>)
    (<o> ^name push-verb-command
         ^message <msg>
         ^verb done)
@@ -50,7 +54,9 @@ sp {apply*push-verb-command*done
    (<msg> ^purpose <p>)
    (<p> ^type explanation
         ^satisfaction <sat>)
-   (<sat> ^learning-event.type explanation)
+   (<sat> ^learning-event <le>)
+   (<le> ^type explanation
+   	 ^information <ae>)
 }
 
 # Result when the user issues a count command
