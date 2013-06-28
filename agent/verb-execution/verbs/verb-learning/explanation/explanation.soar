@@ -4,9 +4,9 @@
 
 sp {topstate*propose*explain*operator
    (state <s> ^topstate <s>
-   	      ^interaction.stack.segment <top>
-	      -^status.performed.learning-event.type explanation
-	      -^status.type unknown-goal)
+   	      ^interaction.stack.segment <top>)
+#	      -^status.performed.learning-event.type explanation
+#	      -^status.type unknown-goal)
    (<top> ^purpose <p>
    	  ^next <next>)
    (<p> ^type explanation)
